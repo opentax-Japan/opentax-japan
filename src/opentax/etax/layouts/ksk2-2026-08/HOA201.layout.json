@@ -1,0 +1,1208 @@
+{
+ "form_id": "HOA201",
+ "label": "別表二（同族会社等の判定）",
+ "version": "5.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOA201-5-0group",
+ "xsd": "19XMLスキーマ/hojin/HOA201-005.xsd",
+ "xsd_sha256": "caa10a7e82f9fe8fe3318de0955dbd73b76abec24d8680048bb9a068e7b8afd4",
+ "root": {
+  "tag": "HOA201",
+  "path": "HOA201",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "VAA00000",
+    "path": "HOA201/VAA00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "VAA00000-5-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "VAA00010",
+      "path": "HOA201/VAA00000/VAA00010",
+      "label": "事業年度",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "VAA00020",
+        "path": "HOA201/VAA00000/VAA00010/VAA00020",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_FROMref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_FROM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_FROM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "VAA00030",
+        "path": "HOA201/VAA00000/VAA00010/VAA00030",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_TOref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_TO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_TO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "VAA00040",
+      "path": "HOA201/VAA00000/VAA00040",
+      "label": "法人名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_NMref",
+      "kind": "idref",
+      "idref": "NOZEISHA_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "VAB00000",
+    "path": "HOA201/VAB00000",
+    "label": "同族会社の判定",
+    "min": 0,
+    "max": 1,
+    "type": "VAB00000-5-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "VAB00005",
+      "path": "HOA201/VAB00000/VAB00005",
+      "label": "期末現在の発行済株式の総数又は出資の総額　内書き",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VAB00010",
+      "path": "HOA201/VAB00000/VAB00010",
+      "label": "期末現在の発行済株式の総数又は出資の総額　本書き",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VAB00020",
+      "path": "HOA201/VAB00000/VAB00020",
+      "label": "(19)と(21)の上位3順位の株式数又は出資の金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VAB00030",
+      "path": "HOA201/VAB00000/VAB00030",
+      "label": "株式数等による判定",
+      "min": 0,
+      "max": 1,
+      "type": "VAB00030-5-0type",
+      "kind": "value",
+      "base": "xsd:decimal",
+      "derived_from": [
+       "gen:decimalType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VAB00040",
+      "path": "HOA201/VAB00000/VAB00040",
+      "label": "期末現在の議決権の総数",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "VAB00050",
+        "path": "HOA201/VAB00000/VAB00040/VAB00050",
+        "label": "内書き",
+        "min": 0,
+        "max": 1,
+        "type": "VAB00050-5-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VAB00060",
+        "path": "HOA201/VAB00000/VAB00040/VAB00060",
+        "label": "本書き",
+        "min": 0,
+        "max": 1,
+        "type": "VAB00060-5-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "VAB00070",
+      "path": "HOA201/VAB00000/VAB00070",
+      "label": "(20)と(22)の上位3順位の議決権の数",
+      "min": 0,
+      "max": 1,
+      "type": "VAB00070-5-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VAB00080",
+      "path": "HOA201/VAB00000/VAB00080",
+      "label": "議決権の数による判定",
+      "min": 0,
+      "max": 1,
+      "type": "VAB00080-5-0type",
+      "kind": "value",
+      "base": "xsd:decimal",
+      "derived_from": [
+       "gen:decimalType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VAB00090",
+      "path": "HOA201/VAB00000/VAB00090",
+      "label": "期末現在の社員の総数",
+      "min": 0,
+      "max": 1,
+      "type": "VAB00090-5-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VAB00100",
+      "path": "HOA201/VAB00000/VAB00100",
+      "label": "社員の3人以下及びこれらの同族関係者の合計人数のうち最も多い数",
+      "min": 0,
+      "max": 1,
+      "type": "VAB00100-5-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VAB00110",
+      "path": "HOA201/VAB00000/VAB00110",
+      "label": "社員の数による判定",
+      "min": 0,
+      "max": 1,
+      "type": "VAB00110-5-0type",
+      "kind": "value",
+      "base": "xsd:decimal",
+      "derived_from": [
+       "gen:decimalType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VAB00120",
+      "path": "HOA201/VAB00000/VAB00120",
+      "label": "同族会社の判定割合",
+      "min": 0,
+      "max": 1,
+      "type": "VAB00120-5-0type",
+      "kind": "value",
+      "base": "xsd:decimal",
+      "derived_from": [
+       "gen:decimalType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "VAC00000",
+    "path": "HOA201/VAC00000",
+    "label": "特定同族会社の判定",
+    "min": 0,
+    "max": 1,
+    "type": "VAC00000-5-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "VAC00010",
+      "path": "HOA201/VAC00000/VAC00010",
+      "label": "(21)の上位1順位の株式数又は出資の金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VAC00020",
+      "path": "HOA201/VAC00000/VAC00020",
+      "label": "株式数等による判定",
+      "min": 0,
+      "max": 1,
+      "type": "VAC00020-5-0type",
+      "kind": "value",
+      "base": "xsd:decimal",
+      "derived_from": [
+       "gen:decimalType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VAC00030",
+      "path": "HOA201/VAC00000/VAC00030",
+      "label": "(22)の上位1順位の議決権の数",
+      "min": 0,
+      "max": 1,
+      "type": "VAC00030-5-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VAC00040",
+      "path": "HOA201/VAC00000/VAC00040",
+      "label": "議決権の数による判定",
+      "min": 0,
+      "max": 1,
+      "type": "VAC00040-5-0type",
+      "kind": "value",
+      "base": "xsd:decimal",
+      "derived_from": [
+       "gen:decimalType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VAC00050",
+      "path": "HOA201/VAC00000/VAC00050",
+      "label": "(21)の社員の1人及びその同族関係者の合計人数のうち最も多い数",
+      "min": 0,
+      "max": 1,
+      "type": "VAC00050-5-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VAC00060",
+      "path": "HOA201/VAC00000/VAC00060",
+      "label": "社員の数による判定",
+      "min": 0,
+      "max": 1,
+      "type": "VAC00060-5-0type",
+      "kind": "value",
+      "base": "xsd:decimal",
+      "derived_from": [
+       "gen:decimalType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VAC00070",
+      "path": "HOA201/VAC00000/VAC00070",
+      "label": "特定同族会社の判定割合",
+      "min": 0,
+      "max": 1,
+      "type": "VAC00070-5-0type",
+      "kind": "value",
+      "base": "xsd:decimal",
+      "derived_from": [
+       "gen:decimalType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "VAD00000",
+    "path": "HOA201/VAD00000",
+    "label": "判定結果",
+    "min": 0,
+    "max": 1,
+    "type": "VAD00000-5-0Rtype",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "kubun_CD",
+      "path": "HOA201/VAD00000/kubun_CD",
+      "label": null,
+      "min": 1,
+      "max": 1,
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:kubun_CD"
+      ],
+      "enumeration": [
+       "1",
+       "2",
+       "3"
+      ]
+     },
+     {
+      "tag": "kubun_NM",
+      "path": "HOA201/VAD00000/kubun_NM",
+      "label": null,
+      "min": 0,
+      "max": 1,
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:kubun_NM",
+       "gen:str"
+      ],
+      "max_length": 30
+     }
+    ]
+   },
+   {
+    "tag": "VAE00000",
+    "path": "HOA201/VAE00000",
+    "label": "判定基準となる株主等の株式数等の明細",
+    "min": 0,
+    "max": 1,
+    "type": "VAE00000-5-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "VAE00010",
+      "path": "HOA201/VAE00000/VAE00010",
+      "label": "本人",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "VAE00020",
+        "path": "HOA201/VAE00000/VAE00010/VAE00020",
+        "label": "順位",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "VAE00030",
+          "path": "HOA201/VAE00000/VAE00010/VAE00020/VAE00030",
+          "label": "株式数等",
+          "min": 0,
+          "max": 1,
+          "type": "VAE00030-5-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "VAE00040",
+          "path": "HOA201/VAE00000/VAE00010/VAE00020/VAE00040",
+          "label": "議決権数",
+          "min": 0,
+          "max": 1,
+          "type": "VAE00040-5-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "VAE00050",
+        "path": "HOA201/VAE00000/VAE00010/VAE00050",
+        "label": "判定基準となる株主(社員)及び同族関係者",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "VAE00060",
+          "path": "HOA201/VAE00000/VAE00010/VAE00050/VAE00060",
+          "label": "住所又は所在地",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "VAE00070",
+          "path": "HOA201/VAE00000/VAE00010/VAE00050/VAE00070",
+          "label": "氏名又は法人名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "VAE00080",
+        "path": "HOA201/VAE00000/VAE00010/VAE00080",
+        "label": "株式数又は出資の金額等",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "VAE00090",
+          "path": "HOA201/VAE00000/VAE00010/VAE00080/VAE00090",
+          "label": "被支配会社でない法人株主等",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "VAE00100",
+            "path": "HOA201/VAE00000/VAE00010/VAE00080/VAE00090/VAE00100",
+            "label": "株式数又は出資の金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "VAE00103",
+            "path": "HOA201/VAE00000/VAE00010/VAE00080/VAE00090/VAE00103",
+            "label": "外書文字(外)",
+            "min": 0,
+            "max": 1,
+            "type": "VAE00103-5-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 2
+           },
+           {
+            "tag": "VAE00105",
+            "path": "HOA201/VAE00000/VAE00010/VAE00080/VAE00090/VAE00105",
+            "label": "議決権の数(外書き)",
+            "min": 0,
+            "max": 1,
+            "type": "VAE00105-5-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "VAE00110",
+            "path": "HOA201/VAE00000/VAE00010/VAE00080/VAE00090/VAE00110",
+            "label": "議決権の数(本書き)",
+            "min": 0,
+            "max": 1,
+            "type": "VAE00110-5-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "VAE00120",
+          "path": "HOA201/VAE00000/VAE00010/VAE00080/VAE00120",
+          "label": "その他の株主等",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "VAE00130",
+            "path": "HOA201/VAE00000/VAE00010/VAE00080/VAE00120/VAE00130",
+            "label": "株式数又は出資の金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "VAE00140",
+            "path": "HOA201/VAE00000/VAE00010/VAE00080/VAE00120/VAE00140",
+            "label": "議決権の数",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "VAE00145",
+              "path": "HOA201/VAE00000/VAE00010/VAE00080/VAE00120/VAE00140/VAE00145",
+              "label": "外書文字(外)",
+              "min": 0,
+              "max": 1,
+              "type": "VAE00145-5-0Rtype",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ],
+              "max_length": 2
+             },
+             {
+              "tag": "VAE00155",
+              "path": "HOA201/VAE00000/VAE00010/VAE00080/VAE00120/VAE00140/VAE00155",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "VAE00155-5-0type",
+              "kind": "value",
+              "base": "xsd:decimal",
+              "derived_from": [
+               "gen:decimalType"
+              ],
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "VAE00160",
+              "path": "HOA201/VAE00000/VAE00010/VAE00080/VAE00120/VAE00140/VAE00160",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "VAE00160-5-0type",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:nonNegativeType"
+              ],
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "VAE00170",
+      "path": "HOA201/VAE00000/VAE00170",
+      "label": "空白部　繰り返し",
+      "min": 0,
+      "max": 12,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "VAE00180",
+        "path": "HOA201/VAE00000/VAE00170/VAE00180",
+        "label": "順位",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "VAE00190",
+          "path": "HOA201/VAE00000/VAE00170/VAE00180/VAE00190",
+          "label": "株式数等",
+          "min": 0,
+          "max": 1,
+          "type": "VAE00190-5-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "VAE00200",
+          "path": "HOA201/VAE00000/VAE00170/VAE00180/VAE00200",
+          "label": "議決権数",
+          "min": 0,
+          "max": 1,
+          "type": "VAE00200-5-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "VAE00210",
+        "path": "HOA201/VAE00000/VAE00170/VAE00210",
+        "label": "判定基準となる株主(社員)及び同族関係者",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "VAE00220",
+          "path": "HOA201/VAE00000/VAE00170/VAE00210/VAE00220",
+          "label": "住所又は所在地",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "VAE00230",
+          "path": "HOA201/VAE00000/VAE00170/VAE00210/VAE00230",
+          "label": "氏名又は法人名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "VAE00235",
+        "path": "HOA201/VAE00000/VAE00170/VAE00235",
+        "label": "判定基準となる株主等との続柄",
+        "min": 0,
+        "max": 1,
+        "type": "VAE00235-5-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOA201/VAE00000/VAE00170/VAE00235/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun2_CD"
+          ],
+          "enumeration": [
+           "01",
+           "02",
+           "03",
+           "04",
+           "05",
+           "06",
+           "07",
+           "08",
+           "09",
+           "10",
+           "11",
+           "12",
+           "13",
+           "14",
+           "15",
+           "16",
+           "17",
+           "18",
+           "90"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOA201/VAE00000/VAE00170/VAE00235/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "VAE00250",
+        "path": "HOA201/VAE00000/VAE00170/VAE00250",
+        "label": "株式数又は出資の金額等",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "VAE00260",
+          "path": "HOA201/VAE00000/VAE00170/VAE00250/VAE00260",
+          "label": "被支配会社でない法人株主等",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "VAE00270",
+            "path": "HOA201/VAE00000/VAE00170/VAE00250/VAE00260/VAE00270",
+            "label": "株式数又は出資の金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "VAE00273",
+            "path": "HOA201/VAE00000/VAE00170/VAE00250/VAE00260/VAE00273",
+            "label": "外書文字(外)",
+            "min": 0,
+            "max": 1,
+            "type": "VAE00273-5-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 2
+           },
+           {
+            "tag": "VAE00275",
+            "path": "HOA201/VAE00000/VAE00170/VAE00250/VAE00260/VAE00275",
+            "label": "議決権の数(外書き)",
+            "min": 0,
+            "max": 1,
+            "type": "VAE00275-5-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "VAE00280",
+            "path": "HOA201/VAE00000/VAE00170/VAE00250/VAE00260/VAE00280",
+            "label": "議決権の数(本書き)",
+            "min": 0,
+            "max": 1,
+            "type": "VAE00280-5-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "VAE00290",
+          "path": "HOA201/VAE00000/VAE00170/VAE00250/VAE00290",
+          "label": "その他の株主等",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "VAE00300",
+            "path": "HOA201/VAE00000/VAE00170/VAE00250/VAE00290/VAE00300",
+            "label": "株式数又は出資の金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "VAE00310",
+            "path": "HOA201/VAE00000/VAE00170/VAE00250/VAE00290/VAE00310",
+            "label": "議決権の数",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "VAE00315",
+              "path": "HOA201/VAE00000/VAE00170/VAE00250/VAE00290/VAE00310/VAE00315",
+              "label": "外書文字(外)",
+              "min": 0,
+              "max": 1,
+              "type": "VAE00315-5-0Rtype",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ],
+              "max_length": 2
+             },
+             {
+              "tag": "VAE00325",
+              "path": "HOA201/VAE00000/VAE00170/VAE00250/VAE00290/VAE00310/VAE00325",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "VAE00325-5-0type",
+              "kind": "value",
+              "base": "xsd:decimal",
+              "derived_from": [
+               "gen:decimalType"
+              ],
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "VAE00330",
+              "path": "HOA201/VAE00000/VAE00170/VAE00250/VAE00290/VAE00310/VAE00330",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "VAE00330-5-0type",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:nonNegativeType"
+              ],
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "VAF00000",
+    "path": "HOA201/VAF00000",
+    "label": "適用事業年度等",
+    "min": 0,
+    "max": 1,
+    "type": "VAF00000-5-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 15
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOA201-5-0VRtype",
+    "fixed": "5.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

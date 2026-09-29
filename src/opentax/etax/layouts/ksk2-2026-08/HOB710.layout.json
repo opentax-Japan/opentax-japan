@@ -1,0 +1,1830 @@
+{
+ "form_id": "HOB710",
+ "label": "別表七(一)（欠損金）",
+ "version": "13.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOB710-13-0group",
+ "xsd": "19XMLスキーマ/hojin/HOB710-013.xsd",
+ "xsd_sha256": "e696c7a243e9c01e422ddf5ea5de55c0ba35f47b4c4667ebd4246a6d2207a44a",
+ "root": {
+  "tag": "HOB710",
+  "path": "HOB710",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "MCA00000",
+    "path": "HOB710/MCA00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "MCA00000-13-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "MCA00010",
+      "path": "HOB710/MCA00000/MCA00010",
+      "label": "事業年度",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "MCA00020",
+        "path": "HOB710/MCA00000/MCA00010/MCA00020",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_FROMref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_FROM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_FROM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "MCA00030",
+        "path": "HOB710/MCA00000/MCA00010/MCA00030",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_TOref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_TO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_TO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "MCA00040",
+      "path": "HOB710/MCA00000/MCA00040",
+      "label": "法人名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_NMref",
+      "kind": "idref",
+      "idref": "NOZEISHA_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "MCB00000",
+    "path": "HOB710/MCB00000",
+    "label": "明細",
+    "min": 0,
+    "max": 1,
+    "type": "MCB00000-13-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "MCB00002",
+      "path": "HOB710/MCB00000/MCB00002",
+      "label": "控除前所得金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "MCB00004",
+      "path": "HOB710/MCB00000/MCB00004",
+      "label": "損金算入限度額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "MCB00007",
+        "path": "HOB710/MCB00000/MCB00004/MCB00007",
+        "label": "区分",
+        "min": 0,
+        "max": 1,
+        "type": "MCB00007-13-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOB710/MCB00000/MCB00004/MCB00007/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "5"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOB710/MCB00000/MCB00004/MCB00007/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "MCB00008",
+        "path": "HOB710/MCB00000/MCB00004/MCB00008",
+        "label": "金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "MCB00010",
+      "path": "HOB710/MCB00000/MCB00010",
+      "label": "明細1",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "MCB00020",
+        "path": "HOB710/MCB00000/MCB00010/MCB00020",
+        "label": "事業年度",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "MCB00030",
+          "path": "HOB710/MCB00000/MCB00010/MCB00020/MCB00030",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB710/MCB00000/MCB00010/MCB00020/MCB00030/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB710/MCB00000/MCB00010/MCB00020/MCB00030/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB710/MCB00000/MCB00010/MCB00020/MCB00030/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB710/MCB00000/MCB00010/MCB00020/MCB00030/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "MCB00040",
+          "path": "HOB710/MCB00000/MCB00010/MCB00020/MCB00040",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB710/MCB00000/MCB00010/MCB00020/MCB00040/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB710/MCB00000/MCB00010/MCB00020/MCB00040/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB710/MCB00000/MCB00010/MCB00020/MCB00040/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB710/MCB00000/MCB00010/MCB00020/MCB00040/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "MCB00050",
+        "path": "HOB710/MCB00000/MCB00010/MCB00050",
+        "label": "区分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "MCB00060",
+          "path": "HOB710/MCB00000/MCB00010/MCB00050/MCB00060",
+          "label": "青色欠損",
+          "min": 0,
+          "max": 1,
+          "type": "MCB00060-13-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOB710/MCB00000/MCB00010/MCB00050/MCB00060/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOB710/MCB00000/MCB00010/MCB00050/MCB00060/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "MCB00070",
+          "path": "HOB710/MCB00000/MCB00010/MCB00050/MCB00070",
+          "label": "連結みなし欠損",
+          "min": 0,
+          "max": 1,
+          "type": "MCB00070-13-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOB710/MCB00000/MCB00010/MCB00050/MCB00070/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOB710/MCB00000/MCB00010/MCB00050/MCB00070/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "MCB00080",
+          "path": "HOB710/MCB00000/MCB00010/MCB00050/MCB00080",
+          "label": "災害損失",
+          "min": 0,
+          "max": 1,
+          "type": "MCB00080-13-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOB710/MCB00000/MCB00010/MCB00050/MCB00080/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOB710/MCB00000/MCB00010/MCB00050/MCB00080/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "MCB00090",
+        "path": "HOB710/MCB00000/MCB00010/MCB00090",
+        "label": "控除未済欠損金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "MCB00100",
+        "path": "HOB710/MCB00000/MCB00010/MCB00100",
+        "label": "当期控除額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "MCB00110",
+      "path": "HOB710/MCB00000/MCB00110",
+      "label": "明細　繰り返し",
+      "min": 0,
+      "max": 9,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "MCB00120",
+        "path": "HOB710/MCB00000/MCB00110/MCB00120",
+        "label": "事業年度",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "MCB00130",
+          "path": "HOB710/MCB00000/MCB00110/MCB00120/MCB00130",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB710/MCB00000/MCB00110/MCB00120/MCB00130/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB710/MCB00000/MCB00110/MCB00120/MCB00130/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB710/MCB00000/MCB00110/MCB00120/MCB00130/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB710/MCB00000/MCB00110/MCB00120/MCB00130/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "MCB00140",
+          "path": "HOB710/MCB00000/MCB00110/MCB00120/MCB00140",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB710/MCB00000/MCB00110/MCB00120/MCB00140/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB710/MCB00000/MCB00110/MCB00120/MCB00140/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB710/MCB00000/MCB00110/MCB00120/MCB00140/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB710/MCB00000/MCB00110/MCB00120/MCB00140/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "MCB00150",
+        "path": "HOB710/MCB00000/MCB00110/MCB00150",
+        "label": "区分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "MCB00160",
+          "path": "HOB710/MCB00000/MCB00110/MCB00150/MCB00160",
+          "label": "青色欠損",
+          "min": 0,
+          "max": 1,
+          "type": "MCB00160-13-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOB710/MCB00000/MCB00110/MCB00150/MCB00160/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOB710/MCB00000/MCB00110/MCB00150/MCB00160/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "MCB00170",
+          "path": "HOB710/MCB00000/MCB00110/MCB00150/MCB00170",
+          "label": "連結みなし欠損",
+          "min": 0,
+          "max": 1,
+          "type": "MCB00170-13-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOB710/MCB00000/MCB00110/MCB00150/MCB00170/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOB710/MCB00000/MCB00110/MCB00150/MCB00170/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "MCB00180",
+          "path": "HOB710/MCB00000/MCB00110/MCB00150/MCB00180",
+          "label": "災害損失",
+          "min": 0,
+          "max": 1,
+          "type": "MCB00180-13-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOB710/MCB00000/MCB00110/MCB00150/MCB00180/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOB710/MCB00000/MCB00110/MCB00150/MCB00180/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "MCB00190",
+        "path": "HOB710/MCB00000/MCB00110/MCB00190",
+        "label": "控除未済欠損金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "MCB00200",
+        "path": "HOB710/MCB00000/MCB00110/MCB00200",
+        "label": "当期控除額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "MCB00210",
+        "path": "HOB710/MCB00000/MCB00110/MCB00210",
+        "label": "翌期繰越額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "MCB00220",
+      "path": "HOB710/MCB00000/MCB00220",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "MCB00230",
+        "path": "HOB710/MCB00000/MCB00220/MCB00230",
+        "label": "控除未済欠損金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "MCB00240",
+        "path": "HOB710/MCB00000/MCB00220/MCB00240",
+        "label": "当期控除額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "MCB00250",
+        "path": "HOB710/MCB00000/MCB00220/MCB00250",
+        "label": "翌期繰越額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "MCB00260",
+      "path": "HOB710/MCB00000/MCB00260",
+      "label": "当期分",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "MCB00270",
+        "path": "HOB710/MCB00000/MCB00260/MCB00270",
+        "label": "欠損金額　控除未済欠損金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "MCB00280",
+        "path": "HOB710/MCB00000/MCB00260/MCB00280",
+        "label": "同上のうち",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "MCB00290",
+          "path": "HOB710/MCB00000/MCB00260/MCB00280/MCB00290",
+          "label": "災害損失欠損金額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "MCB00300",
+            "path": "HOB710/MCB00000/MCB00260/MCB00280/MCB00290/MCB00300",
+            "label": "控除未済欠損金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "MCB00315",
+            "path": "HOB710/MCB00000/MCB00260/MCB00280/MCB00290/MCB00315",
+            "label": "欠損金の繰戻し額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "MCB00320",
+            "path": "HOB710/MCB00000/MCB00260/MCB00280/MCB00290/MCB00320",
+            "label": "翌期繰越額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "MCB00330",
+          "path": "HOB710/MCB00000/MCB00260/MCB00280/MCB00330",
+          "label": "青色欠損金額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "MCB00340",
+            "path": "HOB710/MCB00000/MCB00260/MCB00280/MCB00330/MCB00340",
+            "label": "控除未済欠損金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "MCB00350",
+            "path": "HOB710/MCB00000/MCB00260/MCB00280/MCB00330/MCB00350",
+            "label": "欠損金の繰戻し額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "MCB00360",
+            "path": "HOB710/MCB00000/MCB00260/MCB00280/MCB00330/MCB00360",
+            "label": "翌期繰越額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "MCB00370",
+      "path": "HOB710/MCB00000/MCB00370",
+      "label": "合計　翌期繰越額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "MCC00000",
+    "path": "HOB710/MCC00000",
+    "label": "災害により生じた損失の額がある場合の繰越控除の対象となる欠損金額等の計算",
+    "min": 0,
+    "max": 1,
+    "type": "MCC00000-13-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "MCC00010",
+      "path": "HOB710/MCC00000/MCC00010",
+      "label": "災害の種類",
+      "min": 0,
+      "max": 1,
+      "type": "MCC00010-13-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 40
+     },
+     {
+      "tag": "MCC00020",
+      "path": "HOB710/MCC00000/MCC00020",
+      "label": "災害のやんだ日又はやむを得ない事情のやんだ日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "HOB710/MCC00000/MCC00020/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "HOB710/MCC00000/MCC00020/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "HOB710/MCC00000/MCC00020/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "HOB710/MCC00000/MCC00020/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "MCC00030",
+      "path": "HOB710/MCC00000/MCC00030",
+      "label": "災害を受けた資産の別",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "MCC00040",
+        "path": "HOB710/MCC00000/MCC00030/MCC00040",
+        "label": "当期の欠損金額　計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "MCC00050",
+        "path": "HOB710/MCC00000/MCC00030/MCC00050",
+        "label": "災害により生じた損失の額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "MCC00060",
+          "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00060",
+          "label": "資産の滅失等により生じた損失の額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "MCC00070",
+            "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00060/MCC00070",
+            "label": "棚卸資産",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "MCC00090",
+              "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00060/MCC00070/MCC00090",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "MCC00100",
+            "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00060/MCC00100",
+            "label": "固定資産",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "MCC00120",
+              "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00060/MCC00100/MCC00120",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "MCC00130",
+            "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00060/MCC00130",
+            "label": "計",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "MCC00150",
+              "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00060/MCC00130/MCC00150",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "MCC00160",
+          "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00160",
+          "label": "被害資産の原状回復のための費用等に係る損失の額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "MCC00170",
+            "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00160/MCC00170",
+            "label": "棚卸資産",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "MCC00190",
+              "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00160/MCC00170/MCC00190",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "MCC00200",
+            "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00160/MCC00200",
+            "label": "固定資産",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "MCC00220",
+              "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00160/MCC00200/MCC00220",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "MCC00230",
+            "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00160/MCC00230",
+            "label": "計",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "MCC00250",
+              "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00160/MCC00230/MCC00250",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "MCC00252",
+          "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00252",
+          "label": "被害の拡大又は発生の防止のための費用に係る損失の額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "MCC00254",
+            "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00252/MCC00254",
+            "label": "棚卸資産",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "MCC00256",
+            "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00252/MCC00256",
+            "label": "固定資産",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "MCC00258",
+            "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00252/MCC00258",
+            "label": "計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "MCC00260",
+          "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00260",
+          "label": "計",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "MCC00270",
+            "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00260/MCC00270",
+            "label": "棚卸資産",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "MCC00290",
+              "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00260/MCC00270/MCC00290",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "MCC00300",
+            "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00260/MCC00300",
+            "label": "固定資産",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "MCC00320",
+              "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00260/MCC00300/MCC00320",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "MCC00330",
+            "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00260/MCC00330",
+            "label": "計",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "MCC00350",
+              "path": "HOB710/MCC00000/MCC00030/MCC00050/MCC00260/MCC00330/MCC00350",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "MCC00360",
+        "path": "HOB710/MCC00000/MCC00030/MCC00360",
+        "label": "保険金又は損害賠償金等の額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "MCC00370",
+          "path": "HOB710/MCC00000/MCC00030/MCC00360/MCC00370",
+          "label": "棚卸資産",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "MCC00390",
+            "path": "HOB710/MCC00000/MCC00030/MCC00360/MCC00370/MCC00390",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "MCC00400",
+          "path": "HOB710/MCC00000/MCC00030/MCC00360/MCC00400",
+          "label": "固定資産",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "MCC00420",
+            "path": "HOB710/MCC00000/MCC00030/MCC00360/MCC00400/MCC00420",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "MCC00430",
+          "path": "HOB710/MCC00000/MCC00030/MCC00360/MCC00430",
+          "label": "計",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "MCC00450",
+            "path": "HOB710/MCC00000/MCC00030/MCC00360/MCC00430/MCC00450",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "MCC00460",
+        "path": "HOB710/MCC00000/MCC00030/MCC00460",
+        "label": "差引災害により生じた損失の額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "MCC00470",
+          "path": "HOB710/MCC00000/MCC00030/MCC00460/MCC00470",
+          "label": "棚卸資産",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "MCC00490",
+            "path": "HOB710/MCC00000/MCC00030/MCC00460/MCC00470/MCC00490",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "MCC00500",
+          "path": "HOB710/MCC00000/MCC00030/MCC00460/MCC00500",
+          "label": "固定資産",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "MCC00520",
+            "path": "HOB710/MCC00000/MCC00030/MCC00460/MCC00500/MCC00520",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "MCC00530",
+          "path": "HOB710/MCC00000/MCC00030/MCC00460/MCC00530",
+          "label": "計",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "MCC00550",
+            "path": "HOB710/MCC00000/MCC00030/MCC00460/MCC00530/MCC00550",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "MCC00590",
+        "path": "HOB710/MCC00000/MCC00030/MCC00590",
+        "label": "同上のうち所得税額の還付又は欠損金の繰戻しの対象となる災害損失金額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "MCC00600",
+          "path": "HOB710/MCC00000/MCC00030/MCC00590/MCC00600",
+          "label": "棚卸資産",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "MCC00610",
+          "path": "HOB710/MCC00000/MCC00030/MCC00590/MCC00610",
+          "label": "固定資産",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "MCC00620",
+          "path": "HOB710/MCC00000/MCC00030/MCC00590/MCC00620",
+          "label": "計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "MCC00630",
+        "path": "HOB710/MCC00000/MCC00030/MCC00630",
+        "label": "中間申告における災害損失欠損金の繰戻し額　計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "MCC00640",
+        "path": "HOB710/MCC00000/MCC00030/MCC00640",
+        "label": "繰戻しの対象となる災害損失欠損金額　計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "MCC00560",
+        "path": "HOB710/MCC00000/MCC00030/MCC00560",
+        "label": "繰越控除の対象となる欠損金額　計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "MCC00580",
+          "path": "HOB710/MCC00000/MCC00030/MCC00560/MCC00580",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "MCD00000",
+    "path": "HOB710/MCD00000",
+    "label": "適用事業年度等",
+    "min": 0,
+    "max": 1,
+    "type": "MCD00000-13-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 15
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOB710-13-0VRtype",
+    "fixed": "13.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

@@ -2556,6 +2556,18 @@
       "field_spec_sheet": "HOA112"
     },
     {
+      "form_id": "HOA201",
+      "label": "別表二（同族会社等の判定）",
+      "mvp": true,
+      "xsd": "19XMLスキーマ/hojin/HOA201-005.xsd",
+      "version": "5.0",
+      "xsd_documentation_date": "2023-04-11",
+      "group": "HOA201-5-0group",
+      "xsd_sha256": "caa10a7e82f9fe8fe3318de0955dbd73b76abec24d8680048bb9a068e7b8afd4",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver5x.xlsx",
+      "field_spec_sheet": "HOA201"
+    },
+    {
       "form_id": "HOA410",
       "label": "別表四（総括表）",
       "mvp": false,
@@ -2606,7 +2618,7 @@
     {
       "form_id": "HOE200",
       "label": "別表十五",
-      "mvp": true,
+      "mvp": false,
       "xsd": "19XMLスキーマ/hojin/HOE200-015.xsd",
       "version": "15.0",
       "xsd_documentation_date": "2025-04-10",
@@ -2614,6 +2626,18 @@
       "xsd_sha256": "bb46c6ccef919053cde4930225424a1f819c4e836050f955b1e3fcff3610eaeb",
       "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver15x.xlsx",
       "field_spec_sheet": "HOE200"
+    },
+    {
+      "form_id": "HOB710",
+      "label": "別表七(一)（欠損金）",
+      "mvp": true,
+      "xsd": "19XMLスキーマ/hojin/HOB710-013.xsd",
+      "version": "13.0",
+      "xsd_documentation_date": "2023-04-11",
+      "group": "HOB710-13-0group",
+      "xsd_sha256": "e696c7a243e9c01e422ddf5ea5de55c0ba35f47b4c4667ebd4246a6d2207a44a",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver13x.xlsx",
+      "field_spec_sheet": "HOB710"
     }
   ]
 }
