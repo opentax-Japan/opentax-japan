@@ -32,9 +32,18 @@ OUT_OF_SCOPE_KEYS = {
 
 _SCHEMA: dict[str, Any] = {
     "company": {
-        "name": str, "name_kana": str, "address": str, "tax_office": str, "representative": str,
-        "corporate_number": (str, type(None)), "capital": int, "capital_etc": int, "employees": int,
+        "name": str, "name_kana": str, "address": str, "tax_office": str, "tax_office_code": str,
+        "representative": str, "representative_kana": str, "representative_address": str,
+        "corporate_number": (str, type(None)), "user_id": str, "zip": str, "phone": str, "business": str,
+        "capital": int, "capital_etc": int, "employees": int,
         "blue_return": bool, "wholly_owned_by_large_corp": bool,
+    },
+    "filing": {
+        "settled_on": "date", "submitted_on": "date", "preparer": str,
+        "attachments": {"balance_sheet": bool, "profit_loss": bool, "equity_changes": bool,
+                        "account_details": bool, "business_overview": bool},
+        "tax_accountant_article30": bool, "tax_accountant_article33_2": bool,
+        "notify_penalty": bool, "notify_refund": bool,
     },
     "fiscal_period": {"start": "date", "end": "date"},
     "offices": [{"prefecture": str, "municipality": str, "ward": str, "pref_office": str, "city_office": str, "months": int}],
@@ -239,6 +248,13 @@ def _fill_defaults(data: dict) -> None:
         prior.setdefault(k, [])
     data.setdefault("capital_items", [{"item": "資本金又は出資金", "begin": data["company"]["capital"],
                                        "end": data["company"]["capital"]}])
+    filing = data.setdefault("filing", {})
+    # 財務諸表・内訳書・概況書は e-Taxソフトなどで別に添付する前提（README）なので、既定は「添付あり」
+    attachments = filing.setdefault("attachments", {})
+    for k in ("balance_sheet", "profit_loss", "equity_changes", "account_details", "business_overview"):
+        attachments.setdefault(k, True)
+    for k in ("tax_accountant_article30", "tax_accountant_article33_2", "notify_penalty", "notify_refund"):
+        filing.setdefault(k, False)
 
 
 def _check_values(data: dict) -> None:

@@ -57,13 +57,15 @@ opentax build-layout --set ksk2-2026-08     # XSD から帳票ごとの layout �
 opentax build-catalog --set ksk2-2026-08    # 帳票フィールド仕様書から field_catalog を作る
 opentax build-checks --set ksk2-2026-08     # 帳票の一致チェックを仕様書から作る
 opentax calculate company.json              # 均等割と別表の計算（JSON または CSV）。帳票の式・帳票間のチェックも通す
+opentax export-etax company.json -o out.xtx # e-Taxソフト（ダウンロード版）に組み込める .xtx を作り、公式XSD で検証する
 ```
 
 入力の見本（架空の法人）: [tests/cases/open-shoji/input.json](tests/cases/open-shoji/input.json)
 
+e-Taxソフトへの組み込み: [docs/etax/IMPORT_GUIDE.md](docs/etax/IMPORT_GUIDE.md)
+
 予定:
 ```
-opentax export-etax company.json            # .xtx の出力と公式XSDでの検証
 opentax local-tax company.json              # 地方税の一覧（HTML）
 ```
 

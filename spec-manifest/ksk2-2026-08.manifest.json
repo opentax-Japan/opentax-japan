@@ -2532,6 +2532,41 @@
           "sha256": "131936d72410b09c78f1f7048df9a426be5b75c2a5912082ade783a2004b0179"
         }
       ]
+    },
+    {
+      "name": "e-tax01",
+      "role": "データ形式等に関する仕様書（.xtx の全体構造・CATALOG）",
+      "url": "https://www.e-tax.nta.go.jp/shiyo/ksk2/download/e-tax01.CAB",
+      "published": "2026-01-30",
+      "extract": "all",
+      "sha256": "d0d89641e57e13480a542561170572e6a2ce2eeb7366a429f16140796e6cabc0",
+      "size_bytes": 791078,
+      "files": [
+        {
+          "path": "01データ形式/データ形式等仕様書.docx",
+          "sha256": "a3670f8aff366eaa458c4f2ee529ca3ef65190e33108694b1f8c84bd436faabd"
+        },
+        {
+          "path": "01データ形式/目次（データ形式）.docx",
+          "sha256": "579193cc2679b1850c9e57a02f37e6d7a5c88e0d362c9c779facb3648e9cf171"
+        },
+        {
+          "path": "01データ形式/表紙（データ形式）.docx",
+          "sha256": "3445dcbc24928e380f7f79e8fe69d94e01eb39016e7ff09e2b6eec2dc09436e0"
+        },
+        {
+          "path": "01データ形式/資料1_IT部要素一覧.xlsx",
+          "sha256": "70b0025654fac0a38bbb6a0aaed468a4f44c42138cba558768d3cb11c53cc537"
+        },
+        {
+          "path": "01データ形式/資料2_共通ボキャブラリ一覧.xlsx",
+          "sha256": "6607e0c3bf3ab3c6074d4c75751fb679ed3f38afcd979fd2b9ecc4ba5caf8559"
+        },
+        {
+          "path": "01データ形式/資料3_汎用申請書.xlsx",
+          "sha256": "9f68ed83780694e87da7d1e459d41bc9c7ae3bf584f293f510195aeea191a9c0"
+        }
+      ]
     }
   ],
   "procedures": [
@@ -2555,6 +2590,18 @@
       "xsd_sha256": "76857bf8af98a2cfb6ecfa5faf75a8e516933de976793faf8dd2df5af8eff3fe",
       "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver7x.xlsx",
       "field_spec_sheet": "HOA112"
+    },
+    {
+      "form_id": "HOA114",
+      "label": "別表一 次葉一（手続XSDで必須）",
+      "mvp": true,
+      "xsd": "19XMLスキーマ/hojin/HOA114-001.xsd",
+      "version": "1.0",
+      "xsd_documentation_date": "2025-12-04",
+      "group": "HOA114-1-0group",
+      "xsd_sha256": "0e375fd59321e6315a3b8d25587936e118ce31d8a51afbd9039e0e65b262bac0",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver1x.xlsx",
+      "field_spec_sheet": "HOA114"
     },
     {
       "form_id": "HOA201",

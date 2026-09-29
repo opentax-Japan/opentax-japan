@@ -1,0 +1,856 @@
+{
+ "form_id": "HOA114",
+ "label": "別表一 次葉一（手続XSDで必須）",
+ "version": "1.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOA114-1-0group",
+ "xsd": "19XMLスキーマ/hojin/HOA114-001.xsd",
+ "xsd_sha256": "0e375fd59321e6315a3b8d25587936e118ce31d8a51afbd9039e0e65b262bac0",
+ "root": {
+  "tag": "HOA114",
+  "path": "HOA114",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "KZA00000",
+    "path": "HOA114/KZA00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "KZA00000-1-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "KZA00010",
+      "path": "HOA114/KZA00000/KZA00010",
+      "label": "事業年度等",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "KZA00020",
+        "path": "HOA114/KZA00000/KZA00010/KZA00020",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_FROMref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_FROM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_FROM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "KZA00030",
+        "path": "HOA114/KZA00000/KZA00010/KZA00030",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_TOref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_TO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_TO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "KZA00040",
+      "path": "HOA114/KZA00000/KZA00040",
+      "label": "法人名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_NMref",
+      "kind": "idref",
+      "idref": "NOZEISHA_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "KZB00000",
+    "path": "HOA114/KZB00000",
+    "label": "この申告書による防衛特別法人税額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "KZB00000-1-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "KZB00010",
+      "path": "HOA114/KZB00000/KZB00010",
+      "label": "課税標準法人税額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "KZB00020",
+        "path": "HOA114/KZB00000/KZB00010/KZB00020",
+        "label": "基準法人税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "KZB00030",
+          "path": "HOA114/KZB00000/KZB00010/KZB00020/KZB00030",
+          "label": "所得の金額に対する法人税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "KZB00040",
+          "path": "HOA114/KZB00000/KZB00010/KZB00020/KZB00040",
+          "label": "課税留保金額に対する法人税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "KZB00050",
+        "path": "HOA114/KZB00000/KZB00010/KZB00050",
+        "label": "基礎控除額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "KZB00060",
+          "path": "HOA114/KZB00000/KZB00010/KZB00050/KZB00060",
+          "label": "区分",
+          "min": 0,
+          "max": 1,
+          "type": "KZB00060-1-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOA114/KZB00000/KZB00010/KZB00050/KZB00060/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOA114/KZB00000/KZB00010/KZB00050/KZB00060/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "KZB00070",
+          "path": "HOA114/KZB00000/KZB00010/KZB00050/KZB00070",
+          "label": "月数",
+          "min": 0,
+          "max": 1,
+          "type": "gen:mm",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "KZB00080",
+          "path": "HOA114/KZB00000/KZB00010/KZB00050/KZB00080",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "KZB00090",
+        "path": "HOA114/KZB00000/KZB00010/KZB00090",
+        "label": "基礎控除残額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "KZB00100",
+          "path": "HOA114/KZB00000/KZB00010/KZB00090/KZB00100",
+          "label": "区分",
+          "min": 0,
+          "max": 1,
+          "type": "KZB00100-1-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOA114/KZB00000/KZB00010/KZB00090/KZB00100/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOA114/KZB00000/KZB00010/KZB00090/KZB00100/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "KZB00110",
+          "path": "HOA114/KZB00000/KZB00010/KZB00090/KZB00110",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "KZB00120",
+        "path": "HOA114/KZB00000/KZB00010/KZB00120",
+        "label": "課税標準法人税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "KZB00130",
+      "path": "HOA114/KZB00000/KZB00130",
+      "label": "防衛特別法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "KZB00140",
+      "path": "HOA114/KZB00000/KZB00140",
+      "label": "税額控除超過額相当額の加算額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "KZB00150",
+      "path": "HOA114/KZB00000/KZB00150",
+      "label": "課税留保金額に係る防衛特別法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "KZB00160",
+      "path": "HOA114/KZB00000/KZB00160",
+      "label": "防衛特別法人税額計",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "KZB00170",
+      "path": "HOA114/KZB00000/KZB00170",
+      "label": "分配時調整外国税相当額及び外国関係会社等に係る控除対象所得税額等相当額の控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "KZB00180",
+      "path": "HOA114/KZB00000/KZB00180",
+      "label": "仮装経理に基づく過大申告の更正に伴う控除防衛特別法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "KZB00190",
+      "path": "HOA114/KZB00000/KZB00190",
+      "label": "外国税額の控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "KZB00200",
+      "path": "HOA114/KZB00000/KZB00200",
+      "label": "差引防衛特別法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "KZB00210",
+      "path": "HOA114/KZB00000/KZB00210",
+      "label": "中間申告分の防衛特別法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "KZB00220",
+      "path": "HOA114/KZB00000/KZB00220",
+      "label": "差引確定防衛特別法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "KZB00230",
+      "path": "HOA114/KZB00000/KZB00230",
+      "label": "この申告による還付金額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "KZB00240",
+        "path": "HOA114/KZB00000/KZB00230/KZB00240",
+        "label": "外国税額の還付金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "KZB00250",
+        "path": "HOA114/KZB00000/KZB00230/KZB00250",
+        "label": "中間納付額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "KZB00260",
+        "path": "HOA114/KZB00000/KZB00230/KZB00260",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "KZB00270",
+          "path": "HOA114/KZB00000/KZB00230/KZB00260/KZB00270",
+          "label": "外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "KZB00280",
+          "path": "HOA114/KZB00000/KZB00230/KZB00260/KZB00280",
+          "label": "本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "KZB00290",
+      "path": "HOA114/KZB00000/KZB00290",
+      "label": "この申告が修正申告である場合",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "KZB00300",
+        "path": "HOA114/KZB00000/KZB00290/KZB00300",
+        "label": "この申告前の",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "KZB00310",
+          "path": "HOA114/KZB00000/KZB00290/KZB00300/KZB00310",
+          "label": "確定防衛特別法人税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "KZB00320",
+          "path": "HOA114/KZB00000/KZB00290/KZB00300/KZB00320",
+          "label": "還付金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "KZB00330",
+          "path": "HOA114/KZB00000/KZB00290/KZB00300/KZB00330",
+          "label": "欠損金の繰戻しによる還付金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "KZB00340",
+        "path": "HOA114/KZB00000/KZB00290/KZB00340",
+        "label": "この申告により納付すべき防衛特別法人税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "KZB00350",
+      "path": "HOA114/KZB00000/KZB00350",
+      "label": "防衛特別法人税額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "KZB00360",
+        "path": "HOA114/KZB00000/KZB00350/KZB00360",
+        "label": "所得の金額に対する法人税額に係る課税標準法人税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "KZB00370",
+        "path": "HOA114/KZB00000/KZB00350/KZB00370",
+        "label": "(68)同上の４％相当額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "KZB00380",
+        "path": "HOA114/KZB00000/KZB00350/KZB00380",
+        "label": "課税留保金額に対する法人税額に係る課税標準法人税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "KZB00390",
+        "path": "HOA114/KZB00000/KZB00350/KZB00390",
+        "label": "(70)同上の４％相当額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "KZB00400",
+      "path": "HOA114/KZB00000/KZB00400",
+      "label": "外国税額の控除額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "KZB00410",
+        "path": "HOA114/KZB00000/KZB00400/KZB00410",
+        "label": "外国税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "KZB00420",
+        "path": "HOA114/KZB00000/KZB00400/KZB00420",
+        "label": "控除した金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "KZB00430",
+        "path": "HOA114/KZB00000/KZB00400/KZB00430",
+        "label": "控除しきれなかった金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "KZC00000",
+    "path": "HOA114/KZC00000",
+    "label": "適用事業年度等",
+    "min": 0,
+    "max": 1,
+    "type": "KZC00000-1-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 15
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOA114-1-0VRtype",
+    "fixed": "1.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

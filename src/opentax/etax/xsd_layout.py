@@ -62,10 +62,11 @@ class SchemaSet:
     def __init__(self, root_dir: Path, entry: str):
         self.root_dir = root_dir
         self.defs: dict[tuple[str, str, str], _Def] = {}
-        self._loaded: set[str] = set()
+        self._loaded: set[tuple[str, str | None]] = set()
         self.entry = self._load(entry)
 
-    def _load(self, path: str) -> _File:
+    def _load(self, path: str, chameleon_tns: str | None = None) -> _File:
+        """chameleon_tns: targetNamespace のない XSD を include したとき、取り込む側の名前空間に合わせる。"""
         path = posixpath.normpath(path)
         file_path = self.root_dir / Path(*path.split("/"))
         if not file_path.exists():
@@ -75,8 +76,8 @@ class SchemaSet:
         for _event, (prefix, uri) in parser:
             nsmap.setdefault(prefix, uri)
         root = parser.root
-        info = _File(path, root.get("targetNamespace", ""), nsmap)
-        self._loaded.add(path)
+        info = _File(path, root.get("targetNamespace") or chameleon_tns or "", nsmap)
+        self._loaded.add((path, info.tns))
         for el in root:
             kind = el.tag.rsplit("}", 1)[-1]
             name = el.get("name")
@@ -87,8 +88,9 @@ class SchemaSet:
             loc = el.get("schemaLocation")
             if kind in ("include", "import") and loc:
                 ref = posixpath.normpath(posixpath.join(posixpath.dirname(path), loc))
-                if ref not in self._loaded:
-                    self._load(ref)
+                tns = info.tns if kind == "include" else None
+                if (ref, tns) not in self._loaded and (ref, el.get("namespace")) not in self._loaded:
+                    self._load(ref, tns)
         return info
 
     def resolve(self, qname: str, file: _File) -> tuple[str, str]:
@@ -139,6 +141,10 @@ class _Builder:
         name = el.get("name")
         path = f"{parent_path}/{name}" if parent_path else name
         node: dict[str, Any] = {"tag": name, "path": path, "label": _label(el), "min": lo, "max": hi}
+        # 要素の名前空間（宣言した XSD の targetNamespace）。帳票と違うもの（gen: など）だけ書く
+        prefix = _PREFIXES.get(file.tns)
+        if prefix:
+            node["ns"] = prefix
 
         if el.get("type"):
             qname = el.get("type")
@@ -200,6 +206,14 @@ class _Builder:
                 base_q = deriv.get("base")
                 if self.s.resolve(base_q, file)[0] == XSD_NS:
                     simple = {"base": self.s.display(base_q, file)}
+                elif self.s.lookup("complexType", base_q, file) is not None:
+                    # 単純内容の複合型（gen:kingaku など）をさらに拡張している
+                    base = self.s.lookup("complexType", base_q, file)
+                    inherited = self.complex_type(base.el, base.file, path, depth, self.s.display(base_q, file))
+                    simple = {k: v for k, v in inherited.items() if k not in ("kind", "attributes")}
+                    attrs += inherited.get("attributes", [])
+                    if inherited["kind"] == "amount":
+                        type_name = _KINGAKU
                 else:
                     base = self.s.lookup("simpleType", base_q, file)
                     if base is None:
@@ -348,6 +362,36 @@ def build_layout(schema_root: Path, form: Mapping[str, Any]) -> dict:
         "root": root,
     }
 
+
+def build_it_layout(schema_root: Path, procedure_xsd: str, names: list[str]) -> dict:
+    """手続XSD の IT部（ITtype）のうち、names の要素だけの layout を作る（並びは XSD のとおり）。"""
+    schemas = SchemaSet(schema_root, procedure_xsd)
+    d = schemas.lookup("complexType", "ITtype", schemas.entry)
+    if d is None:
+        raise LayoutError(f"ITtype がありません: {procedure_xsd}")
+    builder = _Builder(schemas)
+    seq = d.el.find(_x("sequence"))
+    children, found = [], set()
+    for el in seq:
+        name = el.get("name")
+        if name in names:
+            children.append(builder.element(el, d.file, "IT", 1))
+            found.add(name)
+        elif el.get("minOccurs", "1") != "0":
+            raise LayoutError(f"IT部の必須の要素が names にありません: {name}")
+    missing = set(names) - found
+    if missing:
+        raise LayoutError(f"IT部にない要素です: {sorted(missing)}")
+    attrs = builder.attributes([a for a in d.el if a.tag in (_x("attribute"), _x("attributeGroup"))], d.file)
+    return {"form_id": "IT", "namespace": schemas.entry.tns, "xsd": procedure_xsd,
+            "root": {"tag": "IT", "path": "IT", "label": "IT部", "min": 1, "max": 1, "kind": "group",
+                     "attributes": attrs, "children": children}}
+
+
+# RED で使う IT部の要素（別表から IDREF で参照するもの）
+IT_ELEMENTS = ["ZEIMUSHO", "TEISYUTSU_DAY", "NOZEISHA_ID", "NOZEISHA_NM_KN", "NOZEISHA_NM", "NOZEISHA_ZIP",
+               "NOZEISHA_ADR", "NOZEISHA_TEL", "SHIHON_KIN", "JIGYO_NAIYO", "DAIHYO_NM_KN", "DAIHYO_NM",
+               "DAIHYO_ADR", "TETSUZUKI", "JIGYO_NENDO_FROM", "JIGYO_NENDO_TO", "SHINKOKU_KBN"]
 
 LAYOUT_DIR = Path(__file__).parent / "layouts"
 

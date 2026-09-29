@@ -502,6 +502,159 @@
    "source": "e-tax10 HOA112 項番118"
   },
   {
+   "id": "HOA114-17",
+   "form_id": "HOA114",
+   "tag": "KZB00120",
+   "line_no": "49",
+   "name": "課税標準法人税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "KZB00360",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "KZB00380",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": 3,
+   "check_only": false,
+   "source": "e-tax10 HOA114 項番17"
+  },
+  {
+   "id": "HOA114-21",
+   "form_id": "HOA114",
+   "tag": "KZB00160",
+   "line_no": "53",
+   "name": null,
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "KZB00130",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "KZB00140",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "KZB00150",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA114 項番21"
+  },
+  {
+   "id": "HOA114-25",
+   "form_id": "HOA114",
+   "tag": "KZB00200",
+   "line_no": "57",
+   "name": null,
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "KZB00160",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "KZB00170",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "KZB00180",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "KZB00190",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": true,
+   "round_digits": 2,
+   "check_only": false,
+   "source": "e-tax10 HOA114 項番25"
+  },
+  {
+   "id": "HOA114-27",
+   "form_id": "HOA114",
+   "tag": "KZB00220",
+   "line_no": "59",
+   "name": null,
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "KZB00200",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "KZB00210",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": true,
+   "round_digits": 2,
+   "check_only": false,
+   "source": "e-tax10 HOA114 項番27"
+  },
+  {
+   "id": "HOA114-29",
+   "form_id": "HOA114",
+   "tag": "KZB00250",
+   "line_no": "61",
+   "name": "中間納付額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "KZB00210",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "KZB00200",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": true,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA114 項番29"
+  },
+  {
+   "id": "HOA114-31",
+   "form_id": "HOA114",
+   "tag": "KZB00280",
+   "line_no": "62",
+   "name": "計 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "KZB00240",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "KZB00250",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA114 項番31"
+  },
+  {
    "id": "HOA420-15",
    "form_id": "HOA420",
    "tag": "ARC00030",
@@ -4782,6 +4935,18 @@
    "tag": "BGC00090",
    "reason": "条件つき・読み取れない式",
    "text": "チェックのみ\nBGC00090 = (DEB00230 + EEB00050)とBGC00080のうち少ない金額\nただし、HOB045、HOE548のいずれもない場合はチェックしない"
+  },
+  {
+   "id": "e-tax08-15",
+   "tag": "KZB00040",
+   "reason": "条件つき・読み取れない式",
+   "text": "事業年度（自）(西暦変換)≦20260331の場合、自動転記及びチェックしない"
+  },
+  {
+   "id": "e-tax08-16",
+   "tag": "KZB00170",
+   "reason": "条件つき・読み取れない式",
+   "text": "チェックのみKZB00170 = (DEB00230 + EEB00050-BGC00090)とKZB00160のうち少ない金額\nただし、以下の場合はチェックしないHOB045、HOE548のいずれもない場合or事業年度（自）(西暦変換)≦20260331の場合"
   },
   {
    "id": "HOA112-83",

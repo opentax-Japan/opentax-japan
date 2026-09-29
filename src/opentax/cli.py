@@ -10,7 +10,8 @@ from pathlib import Path
 from .etax.checks import LINKAGE_RE, CheckError, cross_form_checks, find_linkage_workbook, in_form_checks
 from .etax.fetch_spec import SpecError, SpecSet
 from .etax.field_catalog import WORKBOOK_RE, CatalogError, build_form_catalog, dump_catalog, find_sheet
-from .etax.xsd_layout import LAYOUT_DIR, LayoutError, build_layout, dump_layout, load_layout
+from .etax.xsd_layout import (IT_ELEMENTS, LAYOUT_DIR, LayoutError, build_it_layout, build_layout, dump_layout,
+                              load_layout)
 
 EXIT_OK = 0
 EXIT_CHANGED = 1
@@ -62,6 +63,17 @@ def _build_layout(args: argparse.Namespace) -> int:
         with open(dest, "w", encoding="utf-8", newline="\n") as f:
             f.write(text)
         print(f"{form['form_id']} {form['version']}: {dest}")
+    if not args.form:
+        proc = spec.manifest["procedures"][0]
+        text = dump_layout(build_it_layout(spec.schema_root(), proc["xsd"], IT_ELEMENTS))
+        dest = out_dir / "IT.layout.json"
+        if args.check:
+            if not dest.exists() or dest.read_text(encoding="utf-8") != text:
+                drift.append(dest)
+        else:
+            with open(dest, "w", encoding="utf-8", newline="\n") as f:
+                f.write(text)
+            print(f"IT部（{proc['procedure_id']}）: {dest}")
     if args.check:
         if drift:
             print(f"変更あり（{len(drift)} 件）: XSD から作り直した layout がコミット済みのものと違います")
@@ -163,18 +175,39 @@ def _build_checks(args: argparse.Namespace) -> int:
 
 
 def run_red(path: Path) -> dict:
-    """入力を読み、均等割・別表を計算し、帳票の式とチェックで突き合わせる。"""
+    """入力ファイルを読み、api.calculate を呼ぶ（Web 画面・API と同じ計算）。"""
+    from . import api
     from .red import model
-    from .red.calculate import calculate
-    from .red.etax_ksk2_2026_08 import form_values
-    from .red.local_tax import local_tax
 
-    data = model.validate(model.load(path))
-    local = local_tax(data)
-    per_capita = {"道府県民税": local["prefecture"]["amount"], "市町村民税": local["municipality"]["amount"]}
-    result = calculate(data, per_capita)
-    values, problems = form_values(result)
-    return {"input": data, "local_tax": local, "result": result, "form_values": values, "problems": problems}
+    return api.calculate(model.load(path))
+
+
+def _export_etax(args: argparse.Namespace) -> int:
+    from . import api
+    from .red.model import OutOfScope
+
+    try:
+        calculated = run_red(Path(args.input))
+    except OutOfScope as e:
+        print(f"エラー: {e}", file=sys.stderr)
+        return EXIT_ERROR
+    schema_root = Path(args.cache_dir) / "ksk2-2026-08" / "files" / "e-tax19"
+    if args.cab:
+        schema_root = api.schema_from_cab(Path(args.cab).read_bytes())
+    if not schema_root.exists():
+        raise SpecError("公式XSD がありません。opentax fetch-spec --set ksk2-2026-08 を実行するか、--cab で e-tax19.CAB を指定してください")
+    xml = api.export_etax(calculated, schema_root)
+    errors = api.validate_xtx(xml, schema_root)
+    if errors:
+        print(f"公式XSD の検証で誤りがあります（{len(errors)} 件）。.xtx は書き出しません")
+        for e in errors[:20]:
+            print(f"  {e}")
+        return EXIT_CHANGED
+    out = Path(args.output)
+    out.write_bytes(xml)
+    print(f"公式XSD（手続 RHO0012）の検証: 誤りなし")
+    print(f"書き出しました: {out}（{len(xml):,} バイト）")
+    return EXIT_OK
 
 
 def _calculate(args: argparse.Namespace) -> int:
@@ -241,15 +274,24 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("input")
     r.add_argument("--output", help="計算結果の JSON を書き出す先")
 
+    x = sub.add_parser("export-etax", help="OpenTax RED: e-Taxソフトに組み込める .xtx を作り、公式XSD で検証する")
+    x.add_argument("input")
+    x.add_argument("-o", "--output", required=True, help="書き出す .xtx")
+    x.add_argument("--cache-dir", default=".cache/etax")
+    x.add_argument("--cab", help="国税庁から取った e-tax19.CAB（キャッシュの代わりに使う）")
+
     args = parser.parse_args(argv)
     command = {"fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
-               "build-checks": _build_checks, "calculate": _calculate}[args.command]
+               "build-checks": _build_checks, "calculate": _calculate, "export-etax": _export_etax}[args.command]
+    from .etax.validate import ValidationUnavailable
+    from .etax.xtx import XtxError
     from .red.calculate import RuleError
     from .red.local_tax import LocalRuleError
     from .red.model import InputError
     try:
         return command(args)
-    except (SpecError, LayoutError, CatalogError, CheckError, InputError, RuleError, LocalRuleError, OSError) as e:
+    except (SpecError, LayoutError, CatalogError, CheckError, InputError, RuleError, LocalRuleError, XtxError,
+            ValidationUnavailable, OSError) as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
 
