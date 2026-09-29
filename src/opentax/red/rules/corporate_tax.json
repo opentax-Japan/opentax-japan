@@ -1,0 +1,24 @@
+{
+  "note": "OpenTax RED で使う法人税の設定。値ごとに出典と確認日を書く。確認できない値は null のままにし、計算を止める",
+  "loss_carryforward": [
+    {
+      "loss_period_start_from": "2018-04-01",
+      "loss_period_start_before": null,
+      "years": 10,
+      "source": "法人税法第57条第1項。国税庁タックスアンサー No.5762「青色申告書を提出した事業年度の欠損金の繰越控除」 https://www.nta.go.jp/taxes/shiraberu/taxanswer/hojin/5762.htm",
+      "checked": "2026-09-30"
+    },
+    {
+      "loss_period_start_from": null,
+      "loss_period_start_before": "2018-04-01",
+      "years": 9,
+      "source": "平成27年改正法附則第27条ほか（国税庁タックスアンサー No.5762 に記載の根拠条文による。附則本文は未読） https://www.nta.go.jp/taxes/shiraberu/taxanswer/hojin/5762.htm",
+      "checked": "2026-09-30"
+    }
+  ],
+  "family_company_ratio_display": {
+    "mode": null,
+    "source": null,
+    "note": "別表二の「株式数等による判定」（小数1桁）・「判定割合」（小数3桁）に書く割合の端数処理。国税庁の別表二の記載要領（https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2024/pdf/02-ki.pdf）に記載が見つからない。判定そのものは丸めずに行う。mode は truncate（切り捨て）か round_half_up（四捨五入）"
+  }
+}

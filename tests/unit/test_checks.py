@@ -6,7 +6,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from opentax.etax.checks import (CheckError, _parse_calc, cross_form_checks, evaluate, find_linkage_workbook,
+from opentax.etax.checks import (CheckError, _parse_calc, cross_form_checks, evaluate, fill, find_linkage_workbook,
                                  in_form_checks, load_checks, parse_expression)
 from opentax.etax.xsd_layout import LAYOUT_DIR
 from test_field_catalog import make_xlsx
@@ -52,10 +52,25 @@ class EvaluateTest(unittest.TestCase):
         self.assertEqual(evaluate(chk, {"T0000002": 12999, "T0000001": 12000}), [])
         self.assertEqual(evaluate(chk, {}), [])
 
-    def test_repeat_without_sum_stops(self):
-        chk = [{"id": "x", "tag": "T0000001", "terms": [{"sign": 1, "tag": "T0000002"}], "source": "s"}]
+    def test_rowwise_formula(self):
+        # 繰り返しの各行で ⑤＝③－④
+        chk = [{"id": "x", "tag": "T0000001", "terms": [{"sign": 1, "tag": "T0000002"}, {"sign": -1, "tag": "T0000003"}], "source": "s"}]
+        values = fill(chk, {"T0000002": [10, 20], "T0000003": [1, 2]})
+        self.assertEqual(values["T0000001"], [9, 18])
+        self.assertEqual(evaluate(chk, values), [])
+        values["T0000001"] = [9, 17]
+        self.assertEqual(len(evaluate(chk, values)), 1)
         with self.assertRaises(CheckError):
-            evaluate(chk, {"T0000002": [1, 2]})
+            evaluate(chk, {"T0000002": [1, 2], "T0000003": [1]})
+
+    def test_fill_order_and_cycle(self):
+        chks = [{"id": "b", "tag": "T0000003", "terms": [{"sign": 1, "tag": "T0000002"}], "source": "s"},
+                {"id": "a", "tag": "T0000002", "terms": [{"sign": 1, "tag": "T0000001"}], "source": "s"}]
+        self.assertEqual(fill(chks, {"T0000001": 5})["T0000003"], 5)
+        cyc = [{"id": "a", "tag": "T0000001", "terms": [{"sign": 1, "tag": "T0000002"}], "source": "s"},
+               {"id": "b", "tag": "T0000002", "terms": [{"sign": 1, "tag": "T0000001"}], "source": "s"}]
+        with self.assertRaises(CheckError):
+            fill(cyc, {})
 
 
 def linkage_rows(version: str) -> dict:

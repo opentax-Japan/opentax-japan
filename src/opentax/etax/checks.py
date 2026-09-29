@@ -174,17 +174,71 @@ def _round_down(value: int, digits: int | None) -> int:
     return (abs(value) // unit * unit) * (1 if value >= 0 else -1)
 
 
+def _rowwise_length(chk: dict, values: Mapping[str, Any]) -> int | None:
+    """繰り返しの行ごとの式（例: ⑤＝③－④ を各行で）なら行数を返す。そうでなければ None。"""
+    lengths = {len(values[t["tag"]]) for t in chk["terms"]
+               if not t.get("sum_repeats") and isinstance(values.get(t["tag"]), list)}
+    if isinstance(values.get(chk["tag"]), list):
+        lengths.add(len(values[chk["tag"]]))
+    if not lengths:
+        return None
+    if len(lengths) > 1:
+        raise CheckError(f"{chk['id']}: 繰り返しの行数がそろっていません")
+    return lengths.pop()
+
+
+def _compute(chk: dict, values: Mapping[str, Any], row: int | None = None) -> int:
+    total = 0
+    for t in chk["terms"]:
+        v = values.get(t["tag"], 0)
+        if row is not None and isinstance(v, list) and not t.get("sum_repeats"):
+            v = v[row] or 0
+        else:
+            v = _value(values, t["tag"], t.get("sum_repeats", False))
+        total += t["sign"] * v
+    if chk.get("floor_zero"):
+        total = max(total, 0)
+    return _round_down(total, chk.get("round_digits"))
+
+
+def expected_value(chk: dict, values: Mapping[str, Any]) -> int | list[int]:
+    rows = _rowwise_length(chk, values)
+    if rows is None:
+        return _compute(chk, values)
+    return [_compute(chk, values, i) for i in range(rows)]
+
+
+def fill(checks: list[dict], values: dict[str, Any]) -> dict[str, Any]:
+    """まだ値のないタグを、式から埋める（e-Taxソフトの自動計算と同じ）。式どうしの順番は依存関係から決める。
+    すでに値のあるタグは上書きしない（あとで evaluate で突き合わせる）。"""
+    out = dict(values)
+    pending = [c for c in checks if not c.get("check_only") and c["tag"] not in out]
+    targets = {c["tag"] for c in pending}
+    if len(targets) != len(pending):
+        raise CheckError("同じタグを埋める式が2つあります")
+    while pending:
+        ready = [c for c in pending if not any(t["tag"] in targets and t["tag"] not in out for t in c["terms"])]
+        if not ready:
+            raise CheckError("式が循環しています: " + ", ".join(c["tag"] for c in pending))
+        for c in ready:
+            out[c["tag"]] = expected_value(c, out)
+            pending.remove(c)
+    return out
+
+
 def evaluate(checks: list[dict], values: Mapping[str, Any]) -> list[str]:
     """values: タグ → 金額（繰り返しは金額のリスト）。合わないものを文で返す。空なら全部一致。"""
     problems = []
     for chk in checks:
-        expected = sum(t["sign"] * _value(values, t["tag"], t.get("sum_repeats", False)) for t in chk["terms"])
-        if chk.get("floor_zero"):
-            expected = max(expected, 0)
-        expected = _round_down(expected, chk.get("round_digits"))
-        actual = _value(values, chk["tag"], False)
+        expected = expected_value(chk, values)
+        actual = values.get(chk["tag"], 0)
+        if isinstance(expected, list):
+            actual = actual if isinstance(actual, list) else [actual] * len(expected)
+            actual = [a or 0 for a in actual]
+        else:
+            actual = _value(values, chk["tag"], False)
         if actual != expected:
-            problems.append(f"{chk['id']} {chk['tag']}（{chk.get('name') or ''}）: {actual:,} ≠ 式の値 {expected:,}（{chk['source']}）")
+            problems.append(f"{chk['id']} {chk['tag']}（{chk.get('name') or ''}）: {actual} ≠ 式の値 {expected}（{chk['source']}）")
     return problems
 
 

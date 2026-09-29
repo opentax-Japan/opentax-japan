@@ -1,0 +1,48 @@
+{
+  "company": {
+    "name": "オープン商事株式会社",
+    "name_kana": "オープンショウジ",
+    "address": "岡山県岡山市北区架空町1-1",
+    "tax_office": "岡山東",
+    "representative": "開発 太郎",
+    "corporate_number": null,
+    "capital": 10000000,
+    "capital_etc": 10000000,
+    "employees": 5,
+    "blue_return": true
+  },
+  "fiscal_period": { "start": "2025-10-01", "end": "2026-09-30" },
+  "offices": [
+    { "prefecture": "岡山県", "municipality": "岡山市", "ward": "北区",
+      "pref_office": "（PCdesk に登録した県の提出先）", "city_office": "（PCdesk に登録した市の提出先）", "months": 12 }
+  ],
+  "shareholders": [
+    { "name": "開発 太郎", "address": "岡山県岡山市北区架空町1-1", "relation": "本人", "group": 1, "shares": 150 },
+    { "name": "開発 花子", "address": "岡山県岡山市北区架空町1-1", "relation": "配偶者", "group": 1, "shares": 50 }
+  ],
+  "issued_shares": 200,
+  "accounting": {
+    "net_income": -1200000,
+    "tax_provision_charged": 71000,
+    "retained_earnings_end": -4200000
+  },
+  "tax_payments": [
+    { "tax": "道府県民税", "period_end": "2025-09-30", "method": "充当金取崩し", "amount": 21000 },
+    { "tax": "市町村民税", "period_end": "2025-09-30", "method": "充当金取崩し", "amount": 50000 }
+  ],
+  "prior": {
+    "schedule_05_01": [
+      { "item": "繰越損益金", "amount": -3000000 },
+      { "item": "納税充当金", "amount": 71000 },
+      { "item": "未納道府県民税", "amount": 21000 },
+      { "item": "未納市町村民税", "amount": 50000 }
+    ],
+    "schedule_05_02": [
+      { "tax": "道府県民税", "period_start": "2024-10-01", "period_end": "2025-09-30", "unpaid": 21000 },
+      { "tax": "市町村民税", "period_start": "2024-10-01", "period_end": "2025-09-30", "unpaid": 50000 }
+    ],
+    "losses": [
+      { "period_start": "2023-10-01", "period_end": "2024-09-30", "amount": 3000000 }
+    ]
+  }
+}

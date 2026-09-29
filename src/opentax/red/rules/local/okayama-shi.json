@@ -1,0 +1,37 @@
+{
+  "jurisdiction": "岡山市",
+  "prefecture": "岡山県",
+  "kind": "市町村民税",
+  "designated_city": true,
+  "designated_city_note": "政令指定都市。平成21年4月1日以後に開始する事業年度から均等割は区ごとに課税される。OpenTax RED は事務所等が1つの区にある法人だけを扱う",
+  "per_capita": {
+    "source": [
+      { "title": "岡山市市税条例（条番号は未確認：例規集がログイン方式のため本文を取得できない）", "url": "https://www.city.okayama.jp/shisei/0000015564.html", "checked": "2026-09-30" },
+      { "title": "岡山市 法人市民税（税率・月割り・100円未満切り捨て・区ごとの課税）", "url": "https://www.city.okayama.jp/kurashi/0000005632.html", "checked": "2026-09-30" }
+    ],
+    "periods": [
+      {
+        "from": null,
+        "to": null,
+        "note": "確認日時点の現行の規定。超過課税なし（地方税法第312条第1項の標準税率と同じ）。適用開始日は未確認",
+        "employees_threshold": 50,
+        "brackets": [
+          { "capital_etc_over": null, "capital_etc_upto": 10000000, "annual_over_threshold": 120000, "annual_upto_threshold": 50000 },
+          { "capital_etc_over": 10000000, "capital_etc_upto": 100000000, "annual_over_threshold": 150000, "annual_upto_threshold": 130000 },
+          { "capital_etc_over": 100000000, "capital_etc_upto": 1000000000, "annual_over_threshold": 400000, "annual_upto_threshold": 160000 },
+          { "capital_etc_over": 1000000000, "capital_etc_upto": 5000000000, "annual_over_threshold": 1750000, "annual_upto_threshold": 410000 },
+          { "capital_etc_over": 5000000000, "capital_etc_upto": null, "annual_over_threshold": 3000000, "annual_upto_threshold": 410000 }
+        ]
+      }
+    ]
+  },
+  "months": {
+    "rule": "暦に従って数え、1月に満たないときは1月、1月に満たない端数は切り捨て",
+    "source": [ { "title": "地方税法第312条第4項", "url": "https://laws.e-gov.go.jp/law/325AC0000000226", "checked": "2026-09-30" } ]
+  },
+  "rounding": {
+    "unit": 100,
+    "mode": "truncate",
+    "source": [ { "title": "岡山市 法人市民税「均等割額＝税率×事務所等を有していた月数÷12（100円未満切り捨て）」", "url": "https://www.city.okayama.jp/kurashi/0000005632.html", "checked": "2026-09-30" } ]
+  }
+}

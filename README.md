@@ -55,11 +55,14 @@
 opentax fetch-spec --set ksk2-2026-08       # 仕様書の取得と SHA256 照合（--check で国税庁の改訂を検知）
 opentax build-layout --set ksk2-2026-08     # XSD から帳票ごとの layout を作る
 opentax build-catalog --set ksk2-2026-08    # 帳票フィールド仕様書から field_catalog を作る
+opentax build-checks --set ksk2-2026-08     # 帳票の一致チェックを仕様書から作る
+opentax calculate company.json              # 均等割と別表の計算（JSON または CSV）。帳票の式・帳票間のチェックも通す
 ```
+
+入力の見本（架空の法人）: [tests/cases/open-shoji/input.json](tests/cases/open-shoji/input.json)
 
 予定:
 ```
-opentax calculate company.json              # 別表と均等割の計算
 opentax export-etax company.json            # .xtx の出力と公式XSDでの検証
 opentax local-tax company.json              # 地方税の一覧（HTML）
 ```

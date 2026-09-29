@@ -162,6 +162,48 @@ def _build_checks(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def run_red(path: Path) -> dict:
+    """入力を読み、均等割・別表を計算し、帳票の式とチェックで突き合わせる。"""
+    from .red import model
+    from .red.calculate import calculate
+    from .red.etax_ksk2_2026_08 import form_values
+    from .red.local_tax import local_tax
+
+    data = model.validate(model.load(path))
+    local = local_tax(data)
+    per_capita = {"道府県民税": local["prefecture"]["amount"], "市町村民税": local["municipality"]["amount"]}
+    result = calculate(data, per_capita)
+    values, problems = form_values(result)
+    return {"input": data, "local_tax": local, "result": result, "form_values": values, "problems": problems}
+
+
+def _calculate(args: argparse.Namespace) -> int:
+    from .red.model import OutOfScope
+
+    try:
+        out = run_red(Path(args.input))
+    except OutOfScope as e:
+        print(f"エラー: {e}", file=sys.stderr)
+        return EXIT_ERROR
+    text = json.dumps(out, ensure_ascii=False, indent=1, default=str) + "\n"
+    if args.output:
+        Path(args.output).write_text(text, encoding="utf-8")
+    r, local = out["result"], out["local_tax"]
+    print(f"所得金額（別表四 52）: {r['schedule_04']['income']:,}円")
+    print(f"翌期へ繰り越す欠損金（別表七(一)）: {r['schedule_07_01']['carry_total']:,}円")
+    print(f"均等割: {local['prefecture']['jurisdiction']} {local['prefecture']['amount']:,}円、"
+          f"{local['municipality']['jurisdiction']} {local['municipality']['amount']:,}円")
+    for w in r["warnings"]:
+        print(f"注意: {w}")
+    if out["problems"]:
+        print(f"一致しない項目があります（{len(out['problems'])} 件）")
+        for p in out["problems"]:
+            print(f"  {p}")
+        return EXIT_CHANGED
+    print("帳票の式・帳票間のチェック: すべて一致")
+    return EXIT_OK
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="opentax")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -195,12 +237,19 @@ def main(argv: list[str] | None = None) -> int:
     k.add_argument("--cache-dir", default=".cache/etax")
     k.add_argument("--check", action="store_true", help="作り直した checks がコミット済みのものと同じか確かめる")
 
+    r = sub.add_parser("calculate", help="OpenTax RED: 入力（JSON・CSV）から均等割と別表を計算する")
+    r.add_argument("input")
+    r.add_argument("--output", help="計算結果の JSON を書き出す先")
+
     args = parser.parse_args(argv)
     command = {"fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
-               "build-checks": _build_checks}[args.command]
+               "build-checks": _build_checks, "calculate": _calculate}[args.command]
+    from .red.calculate import RuleError
+    from .red.local_tax import LocalRuleError
+    from .red.model import InputError
     try:
         return command(args)
-    except (SpecError, LayoutError, CatalogError, CheckError, OSError) as e:
+    except (SpecError, LayoutError, CatalogError, CheckError, InputError, RuleError, LocalRuleError, OSError) as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
 

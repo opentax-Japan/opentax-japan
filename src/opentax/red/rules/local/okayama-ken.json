@@ -1,0 +1,44 @@
+{
+  "jurisdiction": "岡山県",
+  "kind": "道府県民税",
+  "per_capita": {
+    "source": [
+      { "title": "岡山県県税条例 第40条第1項（均等割の税率）・第2項（月割り）", "url": "https://www1.g-reiki.net/k_pref.okayama/reiki_honbun/o500RG00000280.html", "checked": "2026-09-30" },
+      { "title": "岡山県 法人県民税・法人事業税の税率表", "url": "https://www.pref.okayama.jp/uploaded/life/965349_9280926_misc.pdf", "checked": "2026-09-30" }
+    ],
+    "periods": [
+      {
+        "from": null,
+        "to": null,
+        "note": "確認日時点の現行の規定。適用開始日は未確認",
+        "brackets": [
+          { "capital_etc_over": null, "capital_etc_upto": 10000000, "annual": 20000 },
+          { "capital_etc_over": 10000000, "capital_etc_upto": 100000000, "annual": 50000 },
+          { "capital_etc_over": 100000000, "capital_etc_upto": 1000000000, "annual": 130000 },
+          { "capital_etc_over": 1000000000, "capital_etc_upto": 5000000000, "annual": 540000 },
+          { "capital_etc_over": 5000000000, "capital_etc_upto": null, "annual": 800000 }
+        ]
+      }
+    ]
+  },
+  "surcharge": {
+    "name": "おかやま森づくり県民税",
+    "rate_percent": 5,
+    "applies_to": "年額に加算してから月割りする",
+    "fiscal_year_start_from": "2004-04-01",
+    "fiscal_year_start_to": "2029-03-31",
+    "source": [
+      { "title": "森林の保全に係る県民税の特例に関する条例（平成15年岡山県条例第61号）第3条第1項・第2項（令和5年条例第46号で延長）", "url": "https://www.pref.okayama.jp/uploaded/attachment/360432.pdf", "checked": "2026-09-30" },
+      { "title": "岡山県 おかやま森づくり県民税", "url": "https://www.pref.okayama.jp/page/360893.html", "checked": "2026-09-30" }
+    ]
+  },
+  "months": {
+    "rule": "暦に従って数え、1月に満たないときは1月、1月に満たない端数は切り捨て",
+    "source": [ { "title": "地方税法第52条第3項、岡山県県税条例第40条第2項", "url": "https://laws.e-gov.go.jp/law/325AC0000000226", "checked": "2026-09-30" } ]
+  },
+  "rounding": {
+    "unit": 100,
+    "mode": "truncate",
+    "source": [ { "title": "地方税法第20条の4の2第3項（地方税の確定金額の100円未満の端数は切り捨て）。月割り後の切り捨てを県の資料で明記したものは未確認", "url": "https://laws.e-gov.go.jp/law/325AC0000000226", "checked": "2026-09-30" } ]
+  }
+}
