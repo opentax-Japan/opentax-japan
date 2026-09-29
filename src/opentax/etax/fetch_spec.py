@@ -113,7 +113,7 @@ def xsd_closure(read, roots: list[str]) -> dict[str, bytes]:
     return found
 
 
-_VERSION_RE = re.compile(r"version：\s*([0-9.]+)")
+_VERSION_RE = re.compile(r"version[：:]\s*([0-9.]+)")
 _DATE_RE = re.compile(r"Date：\s*(\d{4})年(\d{2})月(\d{2})日")
 
 
@@ -207,6 +207,10 @@ class SpecSet:
         for proc in self.manifest["procedures"]:
             data = files[proc["xsd"]]
             proc["xsd_sha256"] = sha256_bytes(data)
+            version = _VERSION_RE.search(data.decode("utf-8"))
+            if not version:
+                raise SpecError(f"手続XSD の版を読めません: {proc['xsd']}")
+            proc["version"] = version.group(1)
             included += xsd_references(data, proc["xsd"])
         for form in self.manifest["forms"]:
             hits = [p for p in included if posixpath.basename(p).startswith(form["form_id"] + "-")]

@@ -1,0 +1,4823 @@
+{
+ "spec_set": "ksk2-2026-08",
+ "generated_by": "opentax build-checks",
+ "note": "帳票間連動仕様書（e-tax08）と帳票フィールド仕様書（e-tax10）の【計算】から機械的に作成。対象は manifest の mvp の帳票",
+ "sources": {
+  "e-tax08": {
+   "workbook": "08帳票間連動/帳票間項目チェック（法人税申告）Ver260x.xlsx",
+   "sha256": "0a112216e6b739936bef4887a4050516d3297630fe79da9da87a03dd57d82ca6"
+  }
+ },
+ "cross_form": [
+  {
+   "id": "e-tax08-2",
+   "form_id": "HOA112",
+   "tag": "BGB00010",
+   "name": "[1]所得金額又は欠損金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARV00010",
+     "sum_repeats": false,
+     "form_id": "HOA420"
+    }
+   ],
+   "check_only": false,
+   "round_digits": null,
+   "source": "e-tax08 帳票間項目チェック（法人税申告）Ver260x.xlsx 項番2"
+  },
+  {
+   "id": "e-tax08-8",
+   "form_id": "HOA112",
+   "tag": "BGB00460",
+   "name": "[26]欠損金等の当期控除額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCB00240",
+     "sum_repeats": false,
+     "form_id": "HOB710"
+    },
+    {
+     "sign": 1,
+     "tag": "TYB00130",
+     "sum_repeats": false,
+     "form_id": null
+    },
+    {
+     "sign": 1,
+     "tag": "TYC00130",
+     "sum_repeats": false,
+     "form_id": null
+    },
+    {
+     "sign": 1,
+     "tag": "YCB00120",
+     "sum_repeats": false,
+     "form_id": null
+    }
+   ],
+   "check_only": true,
+   "round_digits": null,
+   "source": "e-tax08 帳票間項目チェック（法人税申告）Ver260x.xlsx 項番8"
+  },
+  {
+   "id": "e-tax08-9",
+   "form_id": "HOA112",
+   "tag": "BGB00470",
+   "name": "[27]翌期へ繰り越す欠損金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCB00370",
+     "sum_repeats": false,
+     "form_id": "HOB710"
+    }
+   ],
+   "check_only": false,
+   "round_digits": null,
+   "source": "e-tax08 帳票間項目チェック（法人税申告）Ver260x.xlsx 項番9"
+  },
+  {
+   "id": "e-tax08-29",
+   "form_id": "HOA420",
+   "tag": "ART00010",
+   "name": "[44](1)欠損金等の当期控除額(総額)",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCB00240",
+     "sum_repeats": false,
+     "form_id": "HOB710"
+    },
+    {
+     "sign": 1,
+     "tag": "YCB00120",
+     "sum_repeats": false,
+     "form_id": null
+    }
+   ],
+   "check_only": true,
+   "round_digits": null,
+   "source": "e-tax08 帳票間項目チェック（法人税申告）Ver260x.xlsx 項番29"
+  }
+ ],
+ "in_form": [
+  {
+   "id": "HOA112-80",
+   "form_id": "HOA112",
+   "tag": "BGB00150",
+   "line_no": "9",
+   "name": "本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "BGB00020",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "BGB00030",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "BGB00055",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "BGB00080",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "BGB00110",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA112 項番80"
+  },
+  {
+   "id": "HOA112-84",
+   "form_id": "HOA112",
+   "tag": "BGB00190",
+   "line_no": "13",
+   "name": null,
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "BGB00140",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "BGB00150",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "BGB00160",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "BGB00170",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "BGB00180",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": true,
+   "round_digits": 2,
+   "check_only": false,
+   "source": "e-tax10 HOA112 項番84"
+  },
+  {
+   "id": "HOA112-86",
+   "form_id": "HOA112",
+   "tag": "BGB00210",
+   "line_no": "15",
+   "name": null,
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "BGB00190",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "BGB00200",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": true,
+   "round_digits": 2,
+   "check_only": false,
+   "source": "e-tax10 HOA112 項番86"
+  },
+  {
+   "id": "HOA112-89",
+   "form_id": "HOA112",
+   "tag": "BGB00250",
+   "line_no": "18",
+   "name": "計",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "BGB00230",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "BGB00240",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA112 項番89"
+  },
+  {
+   "id": "HOA112-90",
+   "form_id": "HOA112",
+   "tag": "BGB00260",
+   "line_no": "19",
+   "name": "控除した金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "BGB00180",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA112 項番90"
+  },
+  {
+   "id": "HOA112-91",
+   "form_id": "HOA112",
+   "tag": "BGB00270",
+   "line_no": "20",
+   "name": "控除しきれなかった金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "BGB00250",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "BGB00260",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": true,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA112 項番91"
+  },
+  {
+   "id": "HOA112-92",
+   "form_id": "HOA112",
+   "tag": "BGB00330",
+   "line_no": "21",
+   "name": "所得税額等の還付金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "BGB00270",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA112 項番92"
+  },
+  {
+   "id": "HOA112-96",
+   "form_id": "HOA112",
+   "tag": "BGB00390",
+   "line_no": "24",
+   "name": "計(21)＋(22)＋(23) 外書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "BGB00360",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA112 項番96"
+  },
+  {
+   "id": "HOA112-97",
+   "form_id": "HOA112",
+   "tag": "BGB00400",
+   "line_no": "24",
+   "name": "計(21)＋(22)＋(23) 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "BGB00330",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "BGB00340",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "BGB00370",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA112 項番97"
+  },
+  {
+   "id": "HOA112-103",
+   "form_id": "HOA112",
+   "tag": "BGC00040",
+   "line_no": "29",
+   "name": "課税留保金額に対する法人税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "BGB00110",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA112 項番103"
+  },
+  {
+   "id": "HOA112-104",
+   "form_id": "HOA112",
+   "tag": "BGC00050",
+   "line_no": "30",
+   "name": "課税標準法人税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "BGC00030",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "BGC00040",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": 3,
+   "check_only": false,
+   "source": "e-tax10 HOA112 項番104"
+  },
+  {
+   "id": "HOA112-108",
+   "form_id": "HOA112",
+   "tag": "BGC00080",
+   "line_no": "34",
+   "name": null,
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "BGC00060",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "BGC00065",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "BGC00070",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA112 項番108"
+  },
+  {
+   "id": "HOA112-112",
+   "form_id": "HOA112",
+   "tag": "BGC00120",
+   "line_no": "38",
+   "name": null,
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "BGC00080",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "BGC00090",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "BGC00100",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "BGC00110",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": true,
+   "round_digits": 2,
+   "check_only": false,
+   "source": "e-tax10 HOA112 項番112"
+  },
+  {
+   "id": "HOA112-114",
+   "form_id": "HOA112",
+   "tag": "BGC00140",
+   "line_no": "40",
+   "name": null,
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "BGC00120",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "BGC00130",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": true,
+   "round_digits": 2,
+   "check_only": false,
+   "source": "e-tax10 HOA112 項番114"
+  },
+  {
+   "id": "HOA112-116",
+   "form_id": "HOA112",
+   "tag": "BGC00250",
+   "line_no": "42",
+   "name": "中間納付額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "BGC00130",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "BGC00120",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": true,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA112 項番116"
+  },
+  {
+   "id": "HOA112-118",
+   "form_id": "HOA112",
+   "tag": "BGC00280",
+   "line_no": "43",
+   "name": "計(41)＋(42) 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "BGC00240",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "BGC00250",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA112 項番118"
+  },
+  {
+   "id": "HOA420-15",
+   "form_id": "HOA420",
+   "tag": "ARC00030",
+   "line_no": "2",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARC00020",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番15"
+  },
+  {
+   "id": "HOA420-17",
+   "form_id": "HOA420",
+   "tag": "ARC00060",
+   "line_no": "3",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARC00050",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番17"
+  },
+  {
+   "id": "HOA420-19",
+   "form_id": "HOA420",
+   "tag": "ARC00120",
+   "line_no": "4",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARC00110",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番19"
+  },
+  {
+   "id": "HOA420-21",
+   "form_id": "HOA420",
+   "tag": "ARC00150",
+   "line_no": "5",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARC00140",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番21"
+  },
+  {
+   "id": "HOA420-23",
+   "form_id": "HOA420",
+   "tag": "ARC00180",
+   "line_no": "6",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARC00170",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番23"
+  },
+  {
+   "id": "HOA420-25",
+   "form_id": "HOA420",
+   "tag": "ARC00210",
+   "line_no": "7",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARC00200",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番25"
+  },
+  {
+   "id": "HOA420-27",
+   "form_id": "HOA420",
+   "tag": "ARC00218",
+   "line_no": "8",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARC00215",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番27"
+  },
+  {
+   "id": "HOA420-28",
+   "form_id": "HOA420",
+   "tag": "ARC00370",
+   "line_no": "9",
+   "name": "総額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARC00380",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00400",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00410",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番28"
+  },
+  {
+   "id": "HOA420-33",
+   "form_id": "HOA420",
+   "tag": "ARC00240",
+   "line_no": "10",
+   "name": "総額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARC00250",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00265",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00270",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番33"
+  },
+  {
+   "id": "HOA420-41",
+   "form_id": "HOA420",
+   "tag": "ARC00290",
+   "line_no": null,
+   "name": "総額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARC00300",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00315",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00320",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番41"
+  },
+  {
+   "id": "HOA420-47",
+   "form_id": "HOA420",
+   "tag": "ARC00330",
+   "line_no": "11",
+   "name": "総額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARC00020",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00050",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00110",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00140",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00170",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00200",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00215",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00370",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00240",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00290",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番47"
+  },
+  {
+   "id": "HOA420-48",
+   "form_id": "HOA420",
+   "tag": "ARC00340",
+   "line_no": "11",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARC00030",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00060",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00120",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00180",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00380",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00250",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00300",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番48"
+  },
+  {
+   "id": "HOA420-49",
+   "form_id": "HOA420",
+   "tag": "ARC00348",
+   "line_no": "11",
+   "name": "社外流出 金額 外書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARC00400",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00265",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00315",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番49"
+  },
+  {
+   "id": "HOA420-50",
+   "form_id": "HOA420",
+   "tag": "ARC00350",
+   "line_no": "11",
+   "name": "社外流出 金額 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARC00150",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00210",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00218",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00410",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00270",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00320",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番50"
+  },
+  {
+   "id": "HOA420-52",
+   "form_id": "HOA420",
+   "tag": "ARD00030",
+   "line_no": "12",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARD00020",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番52"
+  },
+  {
+   "id": "HOA420-54",
+   "form_id": "HOA420",
+   "tag": "ARD00060",
+   "line_no": "13",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARD00050",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番54"
+  },
+  {
+   "id": "HOA420-56",
+   "form_id": "HOA420",
+   "tag": "ARD00090",
+   "line_no": "14",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARD00080",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番56"
+  },
+  {
+   "id": "HOA420-58",
+   "form_id": "HOA420",
+   "tag": "ARD00097",
+   "line_no": "15",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARD00095",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番58"
+  },
+  {
+   "id": "HOA420-60",
+   "form_id": "HOA420",
+   "tag": "ARD00360",
+   "line_no": "16",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARD00350",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番60"
+  },
+  {
+   "id": "HOA420-62",
+   "form_id": "HOA420",
+   "tag": "ARD00390",
+   "line_no": "17",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARD00380",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番62"
+  },
+  {
+   "id": "HOA420-64",
+   "form_id": "HOA420",
+   "tag": "ARD00120",
+   "line_no": "18",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARD00110",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番64"
+  },
+  {
+   "id": "HOA420-66",
+   "form_id": "HOA420",
+   "tag": "ARD00150",
+   "line_no": "19",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARD00140",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番66"
+  },
+  {
+   "id": "HOA420-67",
+   "form_id": "HOA420",
+   "tag": "ARD00410",
+   "line_no": "20",
+   "name": "総額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARD00420",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00430",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番67"
+  },
+  {
+   "id": "HOA420-71",
+   "form_id": "HOA420",
+   "tag": "ARD00180",
+   "line_no": "21",
+   "name": "総額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARD00190",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00205",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00210",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番71"
+  },
+  {
+   "id": "HOA420-79",
+   "form_id": "HOA420",
+   "tag": "ARD00230",
+   "line_no": null,
+   "name": "総額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARD00240",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00255",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00260",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番79"
+  },
+  {
+   "id": "HOA420-85",
+   "form_id": "HOA420",
+   "tag": "ARD00290",
+   "line_no": "22",
+   "name": "総額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARD00020",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00050",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00080",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00095",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00350",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00380",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00110",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00140",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00410",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00180",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00230",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番85"
+  },
+  {
+   "id": "HOA420-86",
+   "form_id": "HOA420",
+   "tag": "ARD00300",
+   "line_no": "22",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARD00030",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00060",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00120",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00420",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00190",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00240",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番86"
+  },
+  {
+   "id": "HOA420-87",
+   "form_id": "HOA420",
+   "tag": "ARD00320",
+   "line_no": "22",
+   "name": "社外流出 金額 外書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARD00090",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00097",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00360",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00390",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00150",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00430",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00205",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00255",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番87"
+  },
+  {
+   "id": "HOA420-88",
+   "form_id": "HOA420",
+   "tag": "ARD00330",
+   "line_no": "22",
+   "name": "社外流出 金額 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARD00210",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARD00260",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番88"
+  },
+  {
+   "id": "HOA420-89",
+   "form_id": "HOA420",
+   "tag": "ARE00010",
+   "line_no": "23",
+   "name": "総額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARB00010",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00330",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ARD00290",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番89"
+  },
+  {
+   "id": "HOA420-90",
+   "form_id": "HOA420",
+   "tag": "ARE00020",
+   "line_no": "23",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARB00020",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00340",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ARD00300",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番90"
+  },
+  {
+   "id": "HOA420-91",
+   "form_id": "HOA420",
+   "tag": "ARE00040",
+   "line_no": "23",
+   "name": "社外流出 金額 外書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARC00348",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ARD00320",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番91"
+  },
+  {
+   "id": "HOA420-92",
+   "form_id": "HOA420",
+   "tag": "ARE00050",
+   "line_no": "23",
+   "name": "社外流出 金額 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARB00040",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARB00060",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARC00350",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ARD00330",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番92"
+  },
+  {
+   "id": "HOA420-94",
+   "form_id": "HOA420",
+   "tag": "ARY00020",
+   "line_no": "24",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARY00010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番94"
+  },
+  {
+   "id": "HOA420-96",
+   "form_id": "HOA420",
+   "tag": "ARZ00020",
+   "line_no": "25",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARZ00010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番96"
+  },
+  {
+   "id": "HOA420-97",
+   "form_id": "HOA420",
+   "tag": "ARZ10010",
+   "line_no": "26",
+   "name": "総額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARE00010",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARY00010",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ARZ00010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番97"
+  },
+  {
+   "id": "HOA420-98",
+   "form_id": "HOA420",
+   "tag": "ARZ10020",
+   "line_no": "26",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARE00020",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番98"
+  },
+  {
+   "id": "HOA420-99",
+   "form_id": "HOA420",
+   "tag": "ARZ10040",
+   "line_no": "26",
+   "name": "社外流出 金額 外書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARE00040",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ARZ00020",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番99"
+  },
+  {
+   "id": "HOA420-100",
+   "form_id": "HOA420",
+   "tag": "ARZ10050",
+   "line_no": "26",
+   "name": "社外流出 金額 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARE00050",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARY00020",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番100"
+  },
+  {
+   "id": "HOA420-102",
+   "form_id": "HOA420",
+   "tag": "ARF00020",
+   "line_no": "27",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARF00010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番102"
+  },
+  {
+   "id": "HOA420-104",
+   "form_id": "HOA420",
+   "tag": "ARI00020",
+   "line_no": "29",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARI00010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番104"
+  },
+  {
+   "id": "HOA420-106",
+   "form_id": "HOA420",
+   "tag": "ARJ00020",
+   "line_no": "30",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARJ00010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番106"
+  },
+  {
+   "id": "HOA420-108",
+   "form_id": "HOA420",
+   "tag": "ARJ10020",
+   "line_no": "31",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARJ10010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番108"
+  },
+  {
+   "id": "HOA420-110",
+   "form_id": "HOA420",
+   "tag": "ARJ20020",
+   "line_no": "32",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARJ20010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番110"
+  },
+  {
+   "id": "HOA420-111",
+   "form_id": "HOA420",
+   "tag": "ARK00010",
+   "line_no": "34",
+   "name": "総額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARZ10010",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARF00010",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARI00010",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARJ00010",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARJ10010",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARJ20010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番111"
+  },
+  {
+   "id": "HOA420-112",
+   "form_id": "HOA420",
+   "tag": "ARK00020",
+   "line_no": "34",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARZ10020",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARJ20020",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番112"
+  },
+  {
+   "id": "HOA420-113",
+   "form_id": "HOA420",
+   "tag": "ARK00040",
+   "line_no": "34",
+   "name": "社外流出 金額 外書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARZ10040",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番113"
+  },
+  {
+   "id": "HOA420-114",
+   "form_id": "HOA420",
+   "tag": "ARK00050",
+   "line_no": "34",
+   "name": "社外流出 金額 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARZ10050",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARF00020",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARI00020",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARJ00020",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARJ10020",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番114"
+  },
+  {
+   "id": "HOA420-115",
+   "form_id": "HOA420",
+   "tag": "ARM00010",
+   "line_no": "45",
+   "name": "総額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARS50010",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ART00010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番115"
+  },
+  {
+   "id": "HOA420-116",
+   "form_id": "HOA420",
+   "tag": "ARM00020",
+   "line_no": "45",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARS50020",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番116"
+  },
+  {
+   "id": "HOA420-117",
+   "form_id": "HOA420",
+   "tag": "ARM00040",
+   "line_no": "45",
+   "name": "社外流出 金額 外書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARS50040",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ART00020",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番117"
+  },
+  {
+   "id": "HOA420-118",
+   "form_id": "HOA420",
+   "tag": "ARM00050",
+   "line_no": "45",
+   "name": "社外流出 金額 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARS50050",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番118"
+  },
+  {
+   "id": "HOA420-120",
+   "form_id": "HOA420",
+   "tag": "ARN10030",
+   "line_no": "37",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARN10020",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番120"
+  },
+  {
+   "id": "HOA420-122",
+   "form_id": "HOA420",
+   "tag": "ARR00020",
+   "line_no": "38",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARR00010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番122"
+  },
+  {
+   "id": "HOA420-123",
+   "form_id": "HOA420",
+   "tag": "ARS00010",
+   "line_no": "39",
+   "name": "総額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARK00010",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARN10020",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARR00010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番123"
+  },
+  {
+   "id": "HOA420-124",
+   "form_id": "HOA420",
+   "tag": "ARS00020",
+   "line_no": "39",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARK00020",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番124"
+  },
+  {
+   "id": "HOA420-125",
+   "form_id": "HOA420",
+   "tag": "ARS00040",
+   "line_no": "39",
+   "name": "社外流出 金額 外書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARK00040",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARN10030",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ARR00020",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番125"
+  },
+  {
+   "id": "HOA420-126",
+   "form_id": "HOA420",
+   "tag": "ARS00050",
+   "line_no": "39",
+   "name": "社外流出 金額 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARK00050",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番126"
+  },
+  {
+   "id": "HOA420-128",
+   "form_id": "HOA420",
+   "tag": "ARS10020",
+   "line_no": "40",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARS10010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番128"
+  },
+  {
+   "id": "HOA420-131",
+   "form_id": "HOA420",
+   "tag": "ARS20020",
+   "line_no": "41",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARS20010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番131"
+  },
+  {
+   "id": "HOA420-133",
+   "form_id": "HOA420",
+   "tag": "ARS50020",
+   "line_no": "43",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARS00020",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番133"
+  },
+  {
+   "id": "HOA420-135",
+   "form_id": "HOA420",
+   "tag": "ARS50050",
+   "line_no": "43",
+   "name": "社外流出 金額 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARS00050",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番135"
+  },
+  {
+   "id": "HOA420-137",
+   "form_id": "HOA420",
+   "tag": "ART00020",
+   "line_no": "44",
+   "name": "社外流出 金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ART00010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番137"
+  },
+  {
+   "id": "HOA420-139",
+   "form_id": "HOA420",
+   "tag": "ARX00020",
+   "line_no": "51",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARX00010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番139"
+  },
+  {
+   "id": "HOA420-140",
+   "form_id": "HOA420",
+   "tag": "ARV00010",
+   "line_no": "52",
+   "name": "総額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARM00010",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ARX00010",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番140"
+  },
+  {
+   "id": "HOA420-141",
+   "form_id": "HOA420",
+   "tag": "ARV00020",
+   "line_no": "52",
+   "name": "留保",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARM00020",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ARX00020",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番141"
+  },
+  {
+   "id": "HOA420-142",
+   "form_id": "HOA420",
+   "tag": "ARV00040",
+   "line_no": "52",
+   "name": "社外流出 金額 外書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARM00040",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番142"
+  },
+  {
+   "id": "HOA420-143",
+   "form_id": "HOA420",
+   "tag": "ARV00050",
+   "line_no": "52",
+   "name": "社外流出 金額 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ARM00050",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA420 項番143"
+  },
+  {
+   "id": "HOA511-13",
+   "form_id": "HOA511",
+   "tag": "ICB00060",
+   "line_no": "1",
+   "name": "(4)差引翌期首現在利益積立金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICB00020",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00040",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00050",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番13"
+  },
+  {
+   "id": "HOA511-18",
+   "form_id": "HOA511",
+   "tag": "ICB00130",
+   "line_no": "2",
+   "name": "(4)差引翌期首現在利益積立金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICB00090",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00110",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00120",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番18"
+  },
+  {
+   "id": "HOA511-24",
+   "form_id": "HOA511",
+   "tag": "ICB00210",
+   "line_no": "3～21",
+   "name": "(4)差引翌期首現在利益積立金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICB00160",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00180",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00190",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00200",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番24"
+  },
+  {
+   "id": "HOA511-28",
+   "form_id": "HOA511",
+   "tag": "ICB00270",
+   "line_no": "22",
+   "name": "(4)差引翌期首現在利益積立金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICB00230",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00250",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00260",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番28"
+  },
+  {
+   "id": "HOA511-32",
+   "form_id": "HOA511",
+   "tag": "ICB00330",
+   "line_no": "23",
+   "name": "(4)差引翌期首現在利益積立金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICB00290",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00310",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00320",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番32"
+  },
+  {
+   "id": "HOA511-36",
+   "form_id": "HOA511",
+   "tag": "ICB00390",
+   "line_no": "24",
+   "name": "(4)差引翌期首現在利益積立金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICB00350",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00370",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00380",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番36"
+  },
+  {
+   "id": "HOA511-44",
+   "form_id": "HOA511",
+   "tag": "ICB00450",
+   "line_no": "25",
+   "name": "(4)差引翌期首現在利益積立金額 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICB00410",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00430",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00440",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番44"
+  },
+  {
+   "id": "HOA511-48",
+   "form_id": "HOA511",
+   "tag": "ICB00510",
+   "line_no": "26",
+   "name": "(4)差引翌期首現在利益積立金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICB00470",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00490",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00500",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番48"
+  },
+  {
+   "id": "HOA511-53",
+   "form_id": "HOA511",
+   "tag": "ICB00610",
+   "line_no": "27",
+   "name": "(4)差引翌期首現在利益積立金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICB00540",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00560",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00580",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00590",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番53"
+  },
+  {
+   "id": "HOA511-58",
+   "form_id": "HOA511",
+   "tag": "ICB00930",
+   "line_no": "28",
+   "name": "(4)差引翌期首現在利益積立金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICB00870",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00890",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00910",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00920",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番58"
+  },
+  {
+   "id": "HOA511-63",
+   "form_id": "HOA511",
+   "tag": "ICB00700",
+   "line_no": "29",
+   "name": "(4)差引翌期首現在利益積立金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICB00630",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00650",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00670",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00680",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番63"
+  },
+  {
+   "id": "HOA511-68",
+   "form_id": "HOA511",
+   "tag": "ICB00790",
+   "line_no": "30",
+   "name": "(4)差引翌期首現在利益積立金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICB00720",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00740",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00760",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00770",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番68"
+  },
+  {
+   "id": "HOA511-69",
+   "form_id": "HOA511",
+   "tag": "ICB00810",
+   "line_no": "31",
+   "name": "(1)期首現在利益積立金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICB00020",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00090",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00160",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00230",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00290",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00350",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00410",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00470",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00540",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00870",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00630",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00720",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番69"
+  },
+  {
+   "id": "HOA511-70",
+   "form_id": "HOA511",
+   "tag": "ICB00830",
+   "line_no": "31",
+   "name": "(2)当期の増減 減(31)",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICB00040",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00110",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00180",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00190",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00250",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00310",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00370",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00430",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00490",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00560",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00890",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00650",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00740",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番70"
+  },
+  {
+   "id": "HOA511-71",
+   "form_id": "HOA511",
+   "tag": "ICB00840",
+   "line_no": "31",
+   "name": "(3)当期の増減 増(31)",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICB00050",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00120",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00200",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00260",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00320",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00380",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00436",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00440",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00500",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00580",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00590",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00910",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00920",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00670",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00680",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00760",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00770",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番71"
+  },
+  {
+   "id": "HOA511-72",
+   "form_id": "HOA511",
+   "tag": "ICB00850",
+   "line_no": "31",
+   "name": "(4)差引翌期首現在利益積立金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICB00810",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICB00830",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICB00840",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番72"
+  },
+  {
+   "id": "HOA511-76",
+   "form_id": "HOA511",
+   "tag": "ICC00060",
+   "line_no": "32",
+   "name": "(4)差引翌期首現在資本金等の額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICC00020",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICC00040",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICC00050",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番76"
+  },
+  {
+   "id": "HOA511-80",
+   "form_id": "HOA511",
+   "tag": "ICC00120",
+   "line_no": "33",
+   "name": "(4)差引翌期首現在資本金等の額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICC00080",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICC00100",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICC00110",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番80"
+  },
+  {
+   "id": "HOA511-85",
+   "form_id": "HOA511",
+   "tag": "ICC00190",
+   "line_no": "34～35",
+   "name": "(4)差引翌期首現在資本金等の額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICC00150",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICC00170",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICC00180",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番85"
+  },
+  {
+   "id": "HOA511-86",
+   "form_id": "HOA511",
+   "tag": "ICC00210",
+   "line_no": "36",
+   "name": "(1)期首現在資本金等の額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICC00020",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICC00080",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICC00150",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番86"
+  },
+  {
+   "id": "HOA511-87",
+   "form_id": "HOA511",
+   "tag": "ICC00230",
+   "line_no": "36",
+   "name": "(2)当期の増減 減(36)",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICC00040",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICC00100",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICC00170",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番87"
+  },
+  {
+   "id": "HOA511-88",
+   "form_id": "HOA511",
+   "tag": "ICC00240",
+   "line_no": "36",
+   "name": "(3)当期の増減 増(36)",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICC00050",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICC00110",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICC00180",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番88"
+  },
+  {
+   "id": "HOA511-89",
+   "form_id": "HOA511",
+   "tag": "ICC00250",
+   "line_no": "36",
+   "name": "(4)差引翌期首現在資本金等の額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "ICC00210",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "ICC00230",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "ICC00240",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA511 項番89"
+  },
+  {
+   "id": "HOA522-26",
+   "form_id": "HOA522",
+   "tag": "IEB00160",
+   "line_no": "1～2",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEB00050",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEB00090",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEB00120",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEB00150",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番26"
+  },
+  {
+   "id": "HOA522-34",
+   "form_id": "HOA522",
+   "tag": "IEB00300",
+   "line_no": "3",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEB00190",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEB00230",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEB00260",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEB00290",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番34"
+  },
+  {
+   "id": "HOA522-39",
+   "form_id": "HOA522",
+   "tag": "IEB00380",
+   "line_no": "5",
+   "name": "(1)期首現在未納税額 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEB00050",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番39"
+  },
+  {
+   "id": "HOA522-40",
+   "form_id": "HOA522",
+   "tag": "IEB00390",
+   "line_no": "5",
+   "name": "(2)当期発生税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEB00190",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEB00320",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番40"
+  },
+  {
+   "id": "HOA522-42",
+   "form_id": "HOA522",
+   "tag": "IEB00430",
+   "line_no": "5",
+   "name": "(3)充当金取崩しによる納付 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEB00090",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IEB00230",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番42"
+  },
+  {
+   "id": "HOA522-44",
+   "form_id": "HOA522",
+   "tag": "IEB00460",
+   "line_no": "5",
+   "name": "(4)仮払経理による納付 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEB00120",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IEB00260",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番44"
+  },
+  {
+   "id": "HOA522-46",
+   "form_id": "HOA522",
+   "tag": "IEB00490",
+   "line_no": "5",
+   "name": "(5)損金経理による納付 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEB00150",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IEB00290",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番46"
+  },
+  {
+   "id": "HOA522-48",
+   "form_id": "HOA522",
+   "tag": "IEB00520",
+   "line_no": "5",
+   "name": "(6)期末現在未納税額 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEB00160",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IEB00300",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEB00350",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番48"
+  },
+  {
+   "id": "HOA522-65",
+   "form_id": "HOA522",
+   "tag": "IEC00160",
+   "line_no": "6～7",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEC00050",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEC00090",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEC00120",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEC00150",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番65"
+  },
+  {
+   "id": "HOA522-73",
+   "form_id": "HOA522",
+   "tag": "IEC00430",
+   "line_no": "8",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEC00320",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEC00360",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEC00390",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEC00420",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番73"
+  },
+  {
+   "id": "HOA522-78",
+   "form_id": "HOA522",
+   "tag": "IEC00510",
+   "line_no": "10",
+   "name": "(1)期首現在未納税額 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEC00050",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番78"
+  },
+  {
+   "id": "HOA522-79",
+   "form_id": "HOA522",
+   "tag": "IEC00520",
+   "line_no": "10",
+   "name": "(2)当期発生税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEC00320",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEC00450",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番79"
+  },
+  {
+   "id": "HOA522-81",
+   "form_id": "HOA522",
+   "tag": "IEC00560",
+   "line_no": "10",
+   "name": "(3)充当金取崩しによる納付 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEC00090",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IEC00360",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番81"
+  },
+  {
+   "id": "HOA522-83",
+   "form_id": "HOA522",
+   "tag": "IEC00590",
+   "line_no": "10",
+   "name": "(4)仮払経理による納付 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEC00120",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IEC00390",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番83"
+  },
+  {
+   "id": "HOA522-85",
+   "form_id": "HOA522",
+   "tag": "IEC00620",
+   "line_no": "10",
+   "name": "(5)損金経理による納付 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEC00150",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IEC00420",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番85"
+  },
+  {
+   "id": "HOA522-87",
+   "form_id": "HOA522",
+   "tag": "IEC00650",
+   "line_no": "10",
+   "name": "(6)期末現在未納税額 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEC00160",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IEC00430",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEC00480",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番87"
+  },
+  {
+   "id": "HOA522-104",
+   "form_id": "HOA522",
+   "tag": "IED00160",
+   "line_no": "11～12",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IED00050",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IED00090",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IED00120",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IED00150",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番104"
+  },
+  {
+   "id": "HOA522-112",
+   "form_id": "HOA522",
+   "tag": "IED00300",
+   "line_no": "13",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IED00190",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IED00230",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IED00260",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IED00290",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番112"
+  },
+  {
+   "id": "HOA522-117",
+   "form_id": "HOA522",
+   "tag": "IED00380",
+   "line_no": "15",
+   "name": "(1)期首現在未納税額 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IED00050",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番117"
+  },
+  {
+   "id": "HOA522-118",
+   "form_id": "HOA522",
+   "tag": "IED00390",
+   "line_no": "15",
+   "name": "(2)当期発生税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IED00190",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IED00320",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番118"
+  },
+  {
+   "id": "HOA522-120",
+   "form_id": "HOA522",
+   "tag": "IED00430",
+   "line_no": "15",
+   "name": "(3)充当金取崩しによる納付 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IED00090",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IED00230",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番120"
+  },
+  {
+   "id": "HOA522-122",
+   "form_id": "HOA522",
+   "tag": "IED00460",
+   "line_no": "15",
+   "name": "(4)仮払経理による納付 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IED00120",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IED00260",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番122"
+  },
+  {
+   "id": "HOA522-124",
+   "form_id": "HOA522",
+   "tag": "IED00490",
+   "line_no": "15",
+   "name": "(5)損金経理による納付 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IED00150",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IED00290",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番124"
+  },
+  {
+   "id": "HOA522-126",
+   "form_id": "HOA522",
+   "tag": "IED00520",
+   "line_no": "15",
+   "name": "(6)期末現在未納税額 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IED00160",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IED00300",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IED00350",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番126"
+  },
+  {
+   "id": "HOA522-143",
+   "form_id": "HOA522",
+   "tag": "IEE00160",
+   "line_no": "16～17",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEE00040",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEE00050",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEE00090",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEE00120",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEE00150",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番143"
+  },
+  {
+   "id": "HOA522-151",
+   "form_id": "HOA522",
+   "tag": "IEE00290",
+   "line_no": "18",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEE00180",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEE00220",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEE00250",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEE00280",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番151"
+  },
+  {
+   "id": "HOA522-152",
+   "form_id": "HOA522",
+   "tag": "IEE00310",
+   "line_no": "19",
+   "name": "(1)期首現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEE00040",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番152"
+  },
+  {
+   "id": "HOA522-153",
+   "form_id": "HOA522",
+   "tag": "IEE00320",
+   "line_no": "19",
+   "name": "(2)当期発生税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEE00050",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IEE00180",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番153"
+  },
+  {
+   "id": "HOA522-155",
+   "form_id": "HOA522",
+   "tag": "IEE00360",
+   "line_no": "19",
+   "name": "(3)充当金取崩しによる納付 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEE00090",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IEE00220",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番155"
+  },
+  {
+   "id": "HOA522-157",
+   "form_id": "HOA522",
+   "tag": "IEE00390",
+   "line_no": "19",
+   "name": "(4)仮払経理による納付 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEE00120",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IEE00250",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番157"
+  },
+  {
+   "id": "HOA522-159",
+   "form_id": "HOA522",
+   "tag": "IEE00420",
+   "line_no": "19",
+   "name": "(5)損金経理による納付 本書き",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEE00150",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IEE00280",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番159"
+  },
+  {
+   "id": "HOA522-160",
+   "form_id": "HOA522",
+   "tag": "IEE00430",
+   "line_no": "19",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEE00160",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IEE00290",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番160"
+  },
+  {
+   "id": "HOA522-169",
+   "form_id": "HOA522",
+   "tag": "IEF00150",
+   "line_no": "20",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEF00030",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEF00040",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00080",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00110",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00140",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番169"
+  },
+  {
+   "id": "HOA522-178",
+   "form_id": "HOA522",
+   "tag": "IEF00290",
+   "line_no": "21",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEF00170",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEF00180",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00220",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00250",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00280",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番178"
+  },
+  {
+   "id": "HOA522-188",
+   "form_id": "HOA522",
+   "tag": "IEF00440",
+   "line_no": "22～23",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEF00320",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEF00330",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00370",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00400",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00430",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番188"
+  },
+  {
+   "id": "HOA522-197",
+   "form_id": "HOA522",
+   "tag": "IEF00590",
+   "line_no": "24",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEF00470",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEF00480",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00520",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00550",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00580",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番197"
+  },
+  {
+   "id": "HOA522-206",
+   "form_id": "HOA522",
+   "tag": "IEF00730",
+   "line_no": "25",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEF00610",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEF00620",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00660",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00690",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00720",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番206"
+  },
+  {
+   "id": "HOA522-215",
+   "form_id": "HOA522",
+   "tag": "IEF00870",
+   "line_no": "26",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEF00750",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEF00760",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00800",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00830",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00860",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番215"
+  },
+  {
+   "id": "HOA522-224",
+   "form_id": "HOA522",
+   "tag": "IEF01010",
+   "line_no": "27",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEF00890",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEF00900",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00940",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF00970",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF01000",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番224"
+  },
+  {
+   "id": "HOA522-234",
+   "form_id": "HOA522",
+   "tag": "IEF01160",
+   "line_no": "28～29",
+   "name": "(6)期末現在未納税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEF01040",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEF01050",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF01090",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF01120",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEF01150",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番234"
+  },
+  {
+   "id": "HOA522-239",
+   "form_id": "HOA522",
+   "tag": "IEG00070",
+   "line_no": "33",
+   "name": "計",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEG00030",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEG00060",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番239"
+  },
+  {
+   "id": "HOA522-240",
+   "form_id": "HOA522",
+   "tag": "IEG00090",
+   "line_no": "34",
+   "name": "法人税額等",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEB00430",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEC00560",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IED00430",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番240"
+  },
+  {
+   "id": "HOA522-241",
+   "form_id": "HOA522",
+   "tag": "IEG00100",
+   "line_no": "35",
+   "name": "事業税及び特別法人事業税",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEE00360",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番241"
+  },
+  {
+   "id": "HOA522-247",
+   "form_id": "HOA522",
+   "tag": "IEG00180",
+   "line_no": "40",
+   "name": "取崩額 計",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEG00090",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEG00100",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEG00120",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEG00130",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEG00160",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEG00170",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番247"
+  },
+  {
+   "id": "HOA522-248",
+   "form_id": "HOA522",
+   "tag": "IEG00190",
+   "line_no": "41",
+   "name": null,
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEG00010",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEG00070",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEG00180",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番248"
+  },
+  {
+   "id": "HOA522-260",
+   "form_id": "HOA522",
+   "tag": "IEI00080",
+   "line_no": "42～43",
+   "name": "(5)期末現在未決済額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEI00040",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEI00060",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEI00070",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番260"
+  },
+  {
+   "id": "HOA522-267",
+   "form_id": "HOA522",
+   "tag": "IEI00200",
+   "line_no": "44",
+   "name": "(5)期末現在未決済額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEI00130",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEI00160",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "IEI00180",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEI00190",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番267"
+  },
+  {
+   "id": "HOA522-268",
+   "form_id": "HOA522",
+   "tag": "IEI00220",
+   "line_no": "45",
+   "name": "(1)期首現在未決済額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEI00040",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番268"
+  },
+  {
+   "id": "HOA522-269",
+   "form_id": "HOA522",
+   "tag": "IEI00230",
+   "line_no": "45",
+   "name": "(2)当期発生額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEI00130",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "IEI00160",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番269"
+  },
+  {
+   "id": "HOA522-270",
+   "form_id": "HOA522",
+   "tag": "IEI00250",
+   "line_no": "45",
+   "name": "(3)支払額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEI00060",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IEI00180",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番270"
+  },
+  {
+   "id": "HOA522-271",
+   "form_id": "HOA522",
+   "tag": "IEI00260",
+   "line_no": "45",
+   "name": "(4)受取額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEI00070",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IEI00190",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番271"
+  },
+  {
+   "id": "HOA522-272",
+   "form_id": "HOA522",
+   "tag": "IEI00270",
+   "line_no": "45",
+   "name": "(5)期末現在未決済額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "IEI00080",
+     "sum_repeats": true
+    },
+    {
+     "sign": 1,
+     "tag": "IEI00200",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOA522 項番272"
+  },
+  {
+   "id": "HOB710-39",
+   "form_id": "HOB710",
+   "tag": "MCB00210",
+   "line_no": "5",
+   "name": "翌期繰越額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCB00190",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "MCB00200",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOB710 項番39"
+  },
+  {
+   "id": "HOB710-40",
+   "form_id": "HOB710",
+   "tag": "MCB00230",
+   "line_no": "3",
+   "name": "控除未済欠損金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCB00090",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "MCB00190",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOB710 項番40"
+  },
+  {
+   "id": "HOB710-41",
+   "form_id": "HOB710",
+   "tag": "MCB00240",
+   "line_no": "4",
+   "name": "当期控除額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCB00100",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "MCB00200",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOB710 項番41"
+  },
+  {
+   "id": "HOB710-42",
+   "form_id": "HOB710",
+   "tag": "MCB00250",
+   "line_no": "5",
+   "name": "翌期繰越額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCB00210",
+     "sum_repeats": true
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOB710 項番42"
+  },
+  {
+   "id": "HOB710-50",
+   "form_id": "HOB710",
+   "tag": "MCB00370",
+   "line_no": "5",
+   "name": "翌期繰越額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCB00250",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "MCB00320",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "MCB00360",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOB710 項番50"
+  },
+  {
+   "id": "HOB710-59",
+   "form_id": "HOB710",
+   "tag": "MCC00150",
+   "line_no": "7",
+   "name": "計",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCC00090",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "MCC00120",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOB710 項番59"
+  },
+  {
+   "id": "HOB710-62",
+   "form_id": "HOB710",
+   "tag": "MCC00250",
+   "line_no": "8",
+   "name": "計",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCC00190",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "MCC00220",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOB710 項番62"
+  },
+  {
+   "id": "HOB710-65",
+   "form_id": "HOB710",
+   "tag": "MCC00258",
+   "line_no": "9",
+   "name": "計",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCC00254",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "MCC00256",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOB710 項番65"
+  },
+  {
+   "id": "HOB710-66",
+   "form_id": "HOB710",
+   "tag": "MCC00290",
+   "line_no": "10",
+   "name": "棚卸資産",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCC00090",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "MCC00190",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "MCC00254",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOB710 項番66"
+  },
+  {
+   "id": "HOB710-67",
+   "form_id": "HOB710",
+   "tag": "MCC00320",
+   "line_no": "10",
+   "name": "固定資産",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCC00120",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "MCC00220",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "MCC00256",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOB710 項番67"
+  },
+  {
+   "id": "HOB710-71",
+   "form_id": "HOB710",
+   "tag": "MCC00450",
+   "line_no": "11",
+   "name": "計",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCC00390",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "MCC00420",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOB710 項番71"
+  },
+  {
+   "id": "HOB710-72",
+   "form_id": "HOB710",
+   "tag": "MCC00490",
+   "line_no": "12",
+   "name": "棚卸資産",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCC00290",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "MCC00390",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": true,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOB710 項番72"
+  },
+  {
+   "id": "HOB710-73",
+   "form_id": "HOB710",
+   "tag": "MCC00520",
+   "line_no": "12",
+   "name": "固定資産",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCC00320",
+     "sum_repeats": false
+    },
+    {
+     "sign": -1,
+     "tag": "MCC00420",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": true,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOB710 項番73"
+  },
+  {
+   "id": "HOB710-74",
+   "form_id": "HOB710",
+   "tag": "MCC00550",
+   "line_no": "12",
+   "name": "計",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCC00490",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "MCC00520",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOB710 項番74"
+  },
+  {
+   "id": "HOB710-77",
+   "form_id": "HOB710",
+   "tag": "MCC00620",
+   "line_no": "13",
+   "name": "計",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "MCC00600",
+     "sum_repeats": false
+    },
+    {
+     "sign": 1,
+     "tag": "MCC00610",
+     "sum_repeats": false
+    }
+   ],
+   "floor_zero": false,
+   "round_digits": null,
+   "check_only": false,
+   "source": "e-tax10 HOB710 項番77"
+  }
+ ],
+ "skipped": [
+  {
+   "id": "e-tax08-12",
+   "tag": "BGC00090",
+   "reason": "条件つき・読み取れない式",
+   "text": "チェックのみ\nBGC00090 = (DEB00230 + EEB00050)とBGC00080のうち少ない金額\nただし、HOB045、HOE548のいずれもない場合はチェックしない"
+  },
+  {
+   "id": "HOA112-83",
+   "tag": "BGB00180",
+   "reason": "式を読み取れない",
+   "text": "【計算】 （BGB00140 ＋ BGB00150 － BGB00160 － BGB00170） と BGB00250 の少ない金額"
+  },
+  {
+   "id": "HOA112-93",
+   "tag": "BGB00340",
+   "reason": "式を読み取れない",
+   "text": "【計算】 BGB00200 － BGB00190\n（マイナスは０）\nただし、BGA00360が以下の場合は0\n\n「31:中間/中間」\n「34:修正中間/修正中間」\n「36:中間/(スペース)」\n「39:修正中間/(スペース)」\n「49:中間/確定」\n「50:中間/期限後確定」\n「51:中間/修正確定」\n「52:中間/修正中間」\n「61:修正中間/確定」\n「62:修正中間/中間」\n「63:修正中間/期限後確定」\n「64:修正中間/修正確定」"
+  },
+  {
+   "id": "HOA420-132",
+   "tag": "ARS50010",
+   "reason": "式を読み取れない",
+   "text": "【計算】 ※別表四(簡易様式) 計算補足資料を参照"
+  },
+  {
+   "id": "HOA420-134",
+   "tag": "ARS50040",
+   "reason": "式を読み取れない",
+   "text": "【計算】 ※別表四(簡易様式) 計算補足資料を参照"
+  },
+  {
+   "id": "HOB710-79",
+   "tag": "MCC00640",
+   "reason": "式を読み取れない",
+   "text": "【計算】MCC00040とMCC00620－MCC00630のうち少ない方"
+  },
+  {
+   "id": "HOB710-80",
+   "tag": "MCC00580",
+   "reason": "式を読み取れない",
+   "text": "【計算】MCC00040とMCC00550－MCC00630のうち少ない方"
+  }
+ ]
+}

@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
+from .etax.checks import LINKAGE_RE, CheckError, cross_form_checks, find_linkage_workbook, in_form_checks
 from .etax.fetch_spec import SpecError, SpecSet
 from .etax.field_catalog import WORKBOOK_RE, CatalogError, build_form_catalog, dump_catalog, find_sheet
 from .etax.xsd_layout import LAYOUT_DIR, LayoutError, build_layout, dump_layout, load_layout
@@ -116,6 +118,50 @@ def _build_catalog(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def _build_checks(args: argparse.Namespace) -> int:
+    manifest = Path(args.manifest_dir) / f"{args.spec_set}.manifest.json"
+    spec = SpecSet(manifest, Path(args.cache_dir))
+    proc = spec.manifest["procedures"][0]
+    if not proc.get("version"):
+        raise SpecError("manifest に手続XSD の版がありません。fetch-spec --init --force を実行してください")
+    pkg = next(p for p in spec.manifest["packages"] if p["name"] == "e-tax08")
+    workbooks = [spec.file_path(pkg, f["path"]) for f in pkg["files"] if LINKAGE_RE.search(f["path"])]
+    catalog = json.loads((LAYOUT_DIR / args.spec_set / "field_catalog.json").read_text(encoding="utf-8"))
+    forms = {f["form_id"] for f in spec.manifest["forms"] if f.get("mvp")}
+
+    tag_forms: dict[str, str] = {}
+    for form in catalog["forms"]:
+        for f in form["fields"]:
+            other = tag_forms.setdefault(f["xml_tag"], form["form_id"])
+            if other != form["form_id"]:
+                raise CheckError(f"XMLタグが2つの帳票にあります: {f['xml_tag']}（{other}・{form['form_id']}）")
+
+    workbook = find_linkage_workbook(workbooks, proc["version"])
+    cross, skipped_cross = cross_form_checks(workbook, proc["version"], tag_forms, forms)
+    inner, skipped_inner = in_form_checks(catalog, forms)
+    source = next(f for f in pkg["files"] if spec.file_path(pkg, f["path"]) == workbook)
+    out = {
+        "spec_set": args.spec_set,
+        "generated_by": "opentax build-checks",
+        "note": "帳票間連動仕様書（e-tax08）と帳票フィールド仕様書（e-tax10）の【計算】から機械的に作成。対象は manifest の mvp の帳票",
+        "sources": {"e-tax08": {"workbook": source["path"], "sha256": source["sha256"]}},
+        "cross_form": cross,
+        "in_form": inner,
+        "skipped": skipped_cross + skipped_inner,
+    }
+    text = json.dumps(out, ensure_ascii=False, indent=1) + "\n"
+    dest = LAYOUT_DIR / args.spec_set / "checks.json"
+    print(f"帳票間（e-tax08 {workbook.name}）: {len(cross)} 件、帳票内（【計算】）: {len(inner)} 件、読み取らなかったもの: {len(out['skipped'])} 件")
+    if args.check:
+        same = dest.exists() and dest.read_text(encoding="utf-8") == text
+        print("変更なし" if same else "変更あり: 仕様書から作り直した checks がコミット済みのものと違います")
+        return EXIT_OK if same else EXIT_CHANGED
+    with open(dest, "w", encoding="utf-8", newline="\n") as f:
+        f.write(text)
+    print(f"書き出しました: {dest}")
+    return EXIT_OK
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="opentax")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -143,11 +189,18 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("--cache-dir", default=".cache/etax")
     c.add_argument("--check", action="store_true", help="作り直した field_catalog がコミット済みのものと同じか確かめる")
 
+    k = sub.add_parser("build-checks", help="帳票の一致チェックを仕様書（e-tax08・e-tax10）から作る")
+    k.add_argument("--set", dest="spec_set", required=True)
+    k.add_argument("--manifest-dir", default="spec-manifest")
+    k.add_argument("--cache-dir", default=".cache/etax")
+    k.add_argument("--check", action="store_true", help="作り直した checks がコミット済みのものと同じか確かめる")
+
     args = parser.parse_args(argv)
-    command = {"fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog}[args.command]
+    command = {"fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
+               "build-checks": _build_checks}[args.command]
     try:
         return command(args)
-    except (SpecError, LayoutError, CatalogError, OSError) as e:
+    except (SpecError, LayoutError, CatalogError, CheckError, OSError) as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
 

@@ -63,6 +63,7 @@ GENERAL = "19XMLスキーマ/general/General.xsd"
 def schema_files(hoa420_note: str = "") -> dict[str, bytes]:
     return {
         RHO: xsd(
+            "<xsd:annotation><xsd:documentation>\nversion:26.0.1 Date: 2026年07月14日\n</xsd:documentation></xsd:annotation>\n"
             '<xsd:import namespace="g" schemaLocation="../general/General.xsd"/>\n'
             '<xsd:include schemaLocation="HOA420-025.xsd"/>'
         ),
@@ -145,6 +146,7 @@ class SpecSetTest(unittest.TestCase):
         self.assertEqual((form["xsd"], form["version"], form["group"]), (HOA420, "25.0", "HOA420-25-0group"))
         self.assertEqual(form["xsd_documentation_date"], "2026-04-11")
         self.assertEqual(len(m["procedures"][0]["xsd_sha256"]), 64)
+        self.assertEqual(m["procedures"][0]["version"], "26.0.1")
         # フォルダ構成のまま置かれ、相対参照が通る
         root = self.spec().schema_root()
         self.assertTrue((root / "19XMLスキーマ" / "hojin" / "RHO0012-260.xsd").exists())

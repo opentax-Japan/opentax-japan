@@ -2539,7 +2539,8 @@
       "procedure_id": "RHO0012",
       "label": "内国法人の確定申告（青色）",
       "xsd": "19XMLスキーマ/hojin/RHO0012-260.xsd",
-      "xsd_sha256": "fc85c3bc3e57aea650cf02a8269ff1781815b0fa3641d99141d61a4846bf21af"
+      "xsd_sha256": "fc85c3bc3e57aea650cf02a8269ff1781815b0fa3641d99141d61a4846bf21af",
+      "version": "26.0.1"
     }
   ],
   "forms": [
