@@ -1,0 +1,25 @@
+# 国税庁の仕様書（CAB・XSD・xlsx）のキャッシュ。リポジトリに入れない
+.cache/
+
+# 実在の会社のデータ。リポジトリに入れない
+private/
+
+# 生成した申告データ
+*.xtx
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+
+# OS / エディタ
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
