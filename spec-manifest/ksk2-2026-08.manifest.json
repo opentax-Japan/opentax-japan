@@ -1,0 +1,2607 @@
+{
+  "manifest_version": 1,
+  "spec_set": "ksk2-2026-08",
+  "acquired_at": "2026-09-30",
+  "source_index": {
+    "list": "https://www.e-tax.nta.go.jp/shiyo/ksk2/ksk2_shiyo3.htm",
+    "plan": "https://www.e-tax.nta.go.jp/shiyo/keikaku.htm",
+    "terms": "https://www.e-tax.nta.go.jp/shiyo/index.htm#anc04"
+  },
+  "redistribution": "国税庁の著作物のため原本はリポジトリに入れない。opentax fetch-spec で取得する",
+  "packages": [
+    {
+      "name": "e-tax19",
+      "role": "XMLスキーマ",
+      "url": "https://www.e-tax.nta.go.jp/shiyo/ksk2/download/e-tax19.CAB",
+      "published": "2026-08-28",
+      "extract": "closure",
+      "sha256": "48dc25a89a2b82a2b629f021e1779240cb2fe9f7e0c173e23239793feb4dfb55",
+      "size_bytes": 9924091,
+      "files": [
+        {
+          "path": "19XMLスキーマ/general/CATALOG.xsd",
+          "sha256": "539b3bf3528c6b351dacfe06332651d593924fc01911961d8e0c5040768cb84e"
+        },
+        {
+          "path": "19XMLスキーマ/general/General.xsd",
+          "sha256": "68cb274a169d69a43a2e111eefc5adfb67f24188f09c4e833e964b0f90d0a249"
+        },
+        {
+          "path": "19XMLスキーマ/general/ITdefinition.xsd",
+          "sha256": "b48b1afcacfc3623ad33bc0fc1c65ecf01ac9abf6587914bdde2aaaa60c30643"
+        },
+        {
+          "path": "19XMLスキーマ/general/ITreference.xsd",
+          "sha256": "09117f8c211ed60d1b86284da56593da55f1e0405c0bcd74d306ec2178e1c8d4"
+        },
+        {
+          "path": "19XMLスキーマ/general/XBRL060.xsd",
+          "sha256": "bcaa828fd9e3177ce50d39e136b6c1fcc3c16029fd8e7488456acd5c0c2daa2a"
+        },
+        {
+          "path": "19XMLスキーマ/general/XBRL190.xsd",
+          "sha256": "d34c7dec41e298b7c018287b2e8252c27f5755591b063b1afa85a31da1ca7fe9"
+        },
+        {
+          "path": "19XMLスキーマ/general/XMLDSIG050.xsd",
+          "sha256": "497f7af296b52b24dd96d12dfb4eea44d551085d63b02c3a64c2d3df56b0eccd"
+        },
+        {
+          "path": "19XMLスキーマ/general/zeimoku.xsd",
+          "sha256": "cfd89b7a6061417cffcc3c7c41964984b43a344c0011f47c76de85a397821e27"
+        },
+        {
+          "path": "19XMLスキーマ/general/zeimusho.xsd",
+          "sha256": "b84344b577cd9aa644b08aa4cfaf465b3070c9ba0cf74721ae5a22c19b0d0293"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA112-007.xsd",
+          "sha256": "76857bf8af98a2cfb6ecfa5faf75a8e516933de976793faf8dd2df5af8eff3fe"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA114-001.xsd",
+          "sha256": "0e375fd59321e6315a3b8d25587936e118ce31d8a51afbd9039e0e65b262bac0"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA116-006.xsd",
+          "sha256": "62c003b7fbf385fb1225d3106f483a54d8214c3eb2634ca37b4fbabaa5951cff"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA201-005.xsd",
+          "sha256": "caa10a7e82f9fe8fe3318de0955dbd73b76abec24d8680048bb9a068e7b8afd4"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA313-002.xsd",
+          "sha256": "6a5276be48cab55bbb589c95a786faf774dcec90b170cb6f727da9d4b9e6581d"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA318-008.xsd",
+          "sha256": "fedbbb80b77a1a473919869afa7d3935b2a189f5bfe6c6c7e9a6a775702fb7b3"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA319-011.xsd",
+          "sha256": "fd231b850cdbcf8d948a9e956f7fa071b3605cf3d375c379f75ea038589faf24"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA320-007.xsd",
+          "sha256": "fc92e4674ed72b470a0a58a9b32793d4363c992f0bb966ebe3a483769cd82b83"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA322-007.xsd",
+          "sha256": "b8590e16705d7498baa083930f9b25c7cc7b011c892dbfba926cc401a38da956"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA323-006.xsd",
+          "sha256": "e6b01a065ba33dbab87774d0c6a899af3a616a84946c9e591df67614f374e422"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA324-005.xsd",
+          "sha256": "d7e390c36dcafe82656c15ca24ca35f2471a2f078513188dcc55ef91e1e4e55e"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA330-007.xsd",
+          "sha256": "f9030625616e9cfdfa4a24f7cbb33b48f5441253462475862a023cc8344c9447"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA350-006.xsd",
+          "sha256": "fce8f29302e118c34b777d23d7979feac9e066d5d969f8ffa292542bb1e30c2b"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA360-006.xsd",
+          "sha256": "3f98ae9099ca3a09c612c87b796231ededb74588786b4d3bb8801e059451027b"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA370-005.xsd",
+          "sha256": "77e014d12a3c4f64dd8d9a0e8ef0959a6f46ffe41e52412a97be9aa7d35b740b"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA380-005.xsd",
+          "sha256": "85107e8437dc2a2e51f37ca828ab84977666234fd2239c2711ef6206804b8894"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA410-025.xsd",
+          "sha256": "7d1e168cbf6f6b7ca283f7da9c547c5428a2cb6f3194ae3b55812c64c8b0a3e3"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA420-025.xsd",
+          "sha256": "499809bfe068c96add148c0d4500bf5c8a9f9c06eab7c76944531da7f27ba154"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA430-025.xsd",
+          "sha256": "45cf4448076feb690c4c395d75a955bc86f9ac4a5c0bb0f516c853bc50883117"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA511-016.xsd",
+          "sha256": "24dbfd209339461ff77a69afa5aa0779434a4734b1caea68071b43efcff4dc8f"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA512-002.xsd",
+          "sha256": "cbff5f9889f63a30531c65bcd69f9d696290292d915a2ec3d7909396b6cf57e4"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOA522-010.xsd",
+          "sha256": "6303175bafd6168b7d430219ffa9f40ee57706f043e75b0983647b485b539d17"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB016-006.xsd",
+          "sha256": "0ad0a7eb4c996a9213711e9d5f2d286635384481235787d9882f6aadc2683ad0"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB021-019.xsd",
+          "sha256": "77ef267837b4ff71eb74aaa987467185cd924afa40d8f90e6afc2f2f41022889"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB022-010.xsd",
+          "sha256": "849b99076b413c10d09c3e4c27fa080c39f6d909095bd132a37d67ec77edfcd8"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB024-003.xsd",
+          "sha256": "1b0f72cf45f8f932854e2ef86163e4fa98bc328f8842f01310915e46a6371d7c"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB025-004.xsd",
+          "sha256": "2bb16770e35c9425ded3837599ceb2261408ade9a5e049832b26732f10fb94ac"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB026-003.xsd",
+          "sha256": "ddec5927ae6baf74e3a8d8b63e24b7a8b7037c51e227169bd722e998048443fa"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB027-004.xsd",
+          "sha256": "bfc5741d9c034781ec36247f14631b6204f61998c614bf5135ac687a15fe64a1"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB028-004.xsd",
+          "sha256": "67f3da554c51bb44c7230a4adeae6adafdfceb710f52a1330ffe245a48f95632"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB029-003.xsd",
+          "sha256": "9a785fbc7fec020be51fb6b611c92b159842ef71c3b1e84bc37d948962e15b27"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB031-009.xsd",
+          "sha256": "623274a11175b8ff82ce962e4aec032c466cf0c22398ce34e6e19d8a1be82019"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB032-007.xsd",
+          "sha256": "15e26d978e085335f2fbe88465249e301acffda9cba1657af77b0a53ca729a41"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB033-006.xsd",
+          "sha256": "a8398c224be7e0025f7e687228f8c9efbb8f5d4b8e859de5dcad125c92f7557a"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB035-006.xsd",
+          "sha256": "6a77d8796c24ac56d59c68cba9afd5e610c89659545ac8d609499f60244167f0"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB040-007.xsd",
+          "sha256": "4a8d4127a21bafa00f8230f8ef17fbda06b3442cf1c01d5c079d321943a24c6d"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB042-015.xsd",
+          "sha256": "f38908e0e0788cecdd78ef582e05395d6ae6b97f880a79d2f6d1ea91c312f3c9"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB043-005.xsd",
+          "sha256": "72fe126bb42e9c5460b2e2efa1febb4fad174de2647ad8c84d3ff87f6546ae9a"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB045-004.xsd",
+          "sha256": "1bd40727abf3055fb5867ac7c577ffbf5af51ea12bd54b816ca0be00aa3624a7"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB067-010.xsd",
+          "sha256": "6dcec7debf12abeac72f7817883a868c014770e1141d516a4616655c07cae4c8"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB068-011.xsd",
+          "sha256": "e0d4e0c6f010cbc7441ac621f64860ed3fc5b57f24e3ad524dac03386216ffec"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB069-009.xsd",
+          "sha256": "aad8506148cd71c62a88f20223c5b51c8cf55c4af79ac7d3f33828cca267af44"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB072-004.xsd",
+          "sha256": "9d7889db2c4c5ed99b305110179675a2d2430b0caa63a19a3234cab97f2863be"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB078-003.xsd",
+          "sha256": "20f0f2c31f4d264640e201fa2e9f95bb61edd0cfd1e6bdd0986082921da512f4"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB079-004.xsd",
+          "sha256": "14878660ed6600eca5c5a9a011ada486dacc49e5aa963000e07b4b95b4eaeb59"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB085-004.xsd",
+          "sha256": "97a2c7bb1bc9fd86b35d2f7a6f5fe5cb44c3b7789568ef9d0e86063e3d25003c"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB088-004.xsd",
+          "sha256": "c7f9956a81ee18718a64e7f261f8fd3b63d1b57bb5d3efeada675ad92b07f5ed"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB099-006.xsd",
+          "sha256": "5e5a6b3175b7a7bb01940040363fcdf7ae1b9ea86c3d0a507fcb83846abcbc42"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB161-018.xsd",
+          "sha256": "62e2147ea674095a50264dc99c152b0b367ef32df103e422298bf1c88271fb70"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB211-019.xsd",
+          "sha256": "d313d5e8c97fdf741b22af3f55e44307a00964b29cfb0099815c5e154c0f48e4"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB344-009.xsd",
+          "sha256": "503e08199f0d613d127401bb50c2c119078b130031fe1ec49bbea388225013d5"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB345-004.xsd",
+          "sha256": "9ca9bdceee70530e57f25fe94a0740d8f48b5385caa1001a91832d0a5d047353"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB346-001.xsd",
+          "sha256": "c161f98eb83a803247bd8fe9825f763621a16d9b91f27b1e6990e882d75a9179"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB348-001.xsd",
+          "sha256": "dd5ca0c7c9a15167c82dcf30750e07971f9608e85267c8f40fc057f0a4f3e5d6"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB630-017.xsd",
+          "sha256": "7b78c74b684a3f39036f9cb0b173c2a66a173688c5c52ba5913bb5c0485b9530"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB640-015.xsd",
+          "sha256": "b77db9e888c32c8160dd538360ab96680256bf0d621f77fe9826f7a1d22bb0b1"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB645-013.xsd",
+          "sha256": "1e00a6dbd88a25d0c37496fa17e9ac3c2f213909bcea90dca284e18f72f8ed4c"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB646-013.xsd",
+          "sha256": "aa38f4470a8ba9a7746907a47880c3aa58abea98a59818b6ad899c55c01c8551"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB647-011.xsd",
+          "sha256": "cf968b7885687bc42e31e598208aae8a11c0f6faea0ea4a3122e2eecab369a92"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB648-009.xsd",
+          "sha256": "0b0e2b1980d43f1446c13de04155fc7ac6ac88f2d0f71f076a0a6c813e220ae1"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB651-003.xsd",
+          "sha256": "a1e5e1485569f9e281089bb1dba2b11a5d7a7b0051e58a5bf6a228f12587b191"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB655-012.xsd",
+          "sha256": "d177a2b5a4d4c3ec5a5bad9010ccdc580bd50db7d40cf895996dc9af1f954da4"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB656-005.xsd",
+          "sha256": "86b4868b29dbee8569844ec1fdb49fe9122cdb2f8c625b5f517d47c32922e613"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB657-005.xsd",
+          "sha256": "8b1043116e2af789ad68e57040accf3ed29ffe1ca157f015e813a547d4a97f52"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB658-003.xsd",
+          "sha256": "ef7cef00290dba15716b9e00cb68223654eaa7155286e460f66e4ab8a1e1e689"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB660-012.xsd",
+          "sha256": "71a2b7fa6a4d44585ce2b2127bf87ed7d3cc866b4e23afc3fbd8ba84234829a0"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB665-011.xsd",
+          "sha256": "8c956dd0adae868bb29e57375b3216b1c0aff0390d1758222a0a5ac1f0752de1"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB666-010.xsd",
+          "sha256": "c2c602aeb02253f9cf62537a902ca1ac5d9da28275c9525f4f5e20028f2ee6a2"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB670-013.xsd",
+          "sha256": "f75c7279cc8b622f33ca65c324e320f2062656be342efe77a402aad6c36bd1af"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB680-011.xsd",
+          "sha256": "121008c0421feaea87b56013d5783740b3d2326a51aa05ab36ecd4524280bc88"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB681-009.xsd",
+          "sha256": "d0adf1a33e1ce6ba1f29aaf850041e8863aa70969e48880433f3ade6d256b936"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB682-009.xsd",
+          "sha256": "601c041896f23fd2a41490f78e1afaf079c4b3ffa63c3d9ec3935bae4989bf3d"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB701-009.xsd",
+          "sha256": "1561c8625252fb4aa436a24cc0f731d02ef7752a399bc9a8b49950f618f989d5"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB703-004.xsd",
+          "sha256": "d367bd4ae652ec8f322f413d63e52f31515248ded9f73a9a20b0707ee321da9e"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB704-002.xsd",
+          "sha256": "039f57591b764d5dff9c283089a5ae94c3b5be5a5b9649df4ab74754cd9d40d7"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB705-004.xsd",
+          "sha256": "58deae75fa4fa1b0912549cb0f5a2e1d6a572d447c700fec0796c3ae4484d209"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB710-013.xsd",
+          "sha256": "e696c7a243e9c01e422ddf5ea5de55c0ba35f47b4c4667ebd4246a6d2207a44a"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB711-003.xsd",
+          "sha256": "3ff90a94b307999c158b561bc2f91c576eae4518cd121237ca094388c9955e3f"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB725-010.xsd",
+          "sha256": "e39470783f29c28799b7112d5ceb6dcac8cfde8952ddc69f09c42a6abff3082f"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB726-002.xsd",
+          "sha256": "f9f325910a1be76773498c5ff0b96ebe537bb8bc11506007988bb6379d530238"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB727-001.xsd",
+          "sha256": "03d661251fca6f57905a158d7a6076e64bd6bbe7059cc0f74e0052358d53de5b"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB728-001.xsd",
+          "sha256": "a7e681841adb42142f2e2daf664ac40a93324e492a9c59dd6ef2e1841e653031"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB729-002.xsd",
+          "sha256": "a55ab34d6c32f212ddc96edc35672614a64f731331cdc387c6f14bbf61b05711"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB730-009.xsd",
+          "sha256": "8959a45b88d946ff536846e9f19a4c7f599d288afb150acc17c6c199a8c081a9"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB731-002.xsd",
+          "sha256": "93ea2f648ae2b95642feeb132fdd4e2db46bd27d7c11c0c04c5ab5023543832a"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB732-001.xsd",
+          "sha256": "fe0d3d5697b3a08e976a6b492de9cb7161adca4b0ae3723c7945f7fead4ed699"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB733-001.xsd",
+          "sha256": "c6470dc7f120d42b9ebe59ae0af6ccb09ec6a62cbda394dd131885b585edf200"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB734-001.xsd",
+          "sha256": "9e3cf2c2fafc6d2065d2d728f38a80f28387b1b8bdac8be2a7b40004b1340d37"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB740-002.xsd",
+          "sha256": "28e821a28fe7f8e7e52a148d1310eadd155b81a71332c02a5fac176d1161bc96"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB800-019.xsd",
+          "sha256": "b68669879508664418081746203a7e2b8dee4e576caa9dacd466c05ef4b8f0d8"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB810-008.xsd",
+          "sha256": "570a1789f884e76a15f40c8e4f5dea3045d0e7fa76b67bbd4f28ca019326b64f"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB820-004.xsd",
+          "sha256": "e76462423c89b2f285667e878c9674ce618db5d9be7aa67a56070be4c6b87095"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB825-002.xsd",
+          "sha256": "78b88233ca6d81bf7cca4bf4b29593690dae21ab4353bdbc052d2db28a2af788"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB900-014.xsd",
+          "sha256": "2af871890d13599f9fa272efe3cde4f4690984d1c4d1e90000d114643f95ab12"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB911-004.xsd",
+          "sha256": "f4a0db4bf2f45debeef07947dcb6712e31b9dbe26ee2e4901f5a1d8a493b0843"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB920-010.xsd",
+          "sha256": "d53c13765642cc6a2862c0a13ca66c835e58c6da02499718dfb87ab9e4943beb"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOB930-007.xsd",
+          "sha256": "48a7acf7bc6310fc7ac7c16de81fa6840213588ac066d3cb4076f8636959593e"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC010-010.xsd",
+          "sha256": "c21693944a5bfac3e275099dcfdec653c4a1ee761a4ce4f4da7f77afba5cb8b6"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC012-007.xsd",
+          "sha256": "3872f02aa4d034f974e5c809dabdc5a740a218ebd5dc8b7592fa4e08a38235a6"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC020-016.xsd",
+          "sha256": "049c10a1c4c5cccf602c5bfd62ea7b1d6c16e91b844e578465f3dccfdfbaa7ab"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC022-007.xsd",
+          "sha256": "415282d11578fa275c5c59a2ff4d30e445333810d1795c3a4eef6a6e5ed4ea41"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC024-005.xsd",
+          "sha256": "df85717e1cdbf8f41895c4619a415726bccacad71473af6a3af913fe4d64b649"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC026-004.xsd",
+          "sha256": "858fb761d1bc1e8548047dae112f73256264dfbedf8519bf2495fb662d8ebf98"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC050-010.xsd",
+          "sha256": "76367699961fad3c0f05e184fe43c90007a8727d061bc7f3a21b396f34052433"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC051-002.xsd",
+          "sha256": "eb592797bb4b039a9976318a46ba941ce6604b5f4cb92cb2677d7c2a6eb584e4"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC052-002.xsd",
+          "sha256": "13ab4c310cb556f2352d6b4266d453e58ed24d4d1750667a5bed779c7711cf2d"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC053-001.xsd",
+          "sha256": "fd4a51ed6e2b0b01776df90f08176a38c4425f8c5a12554bff16b68a30594271"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC054-001.xsd",
+          "sha256": "4053934aa9bf9f44ccdb5aa2e3775ad5cdd83927743a74709f5ed703036b210e"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC055-007.xsd",
+          "sha256": "8b7e74f7ad4bf345f972bd58bfeee314d5c446dcadc3ad18d2f708c62a635bf8"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC056-001.xsd",
+          "sha256": "9f4d3ce68c76ed55642a499842e5e225efe515815b11453e0dcaea6936041c78"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC057-005.xsd",
+          "sha256": "095e0bb95a12ee6c49e5f7a52dc5ceffaac20546951c1388ccfd1e047bb4fd68"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC061-003.xsd",
+          "sha256": "ff3eb8adf8536b68d6dd67e14cfb332b1d564a84125af726b7305e8453250ed6"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC065-011.xsd",
+          "sha256": "5c4742646ad569dae1f320a9a11358ab3b2a36e83ed6eddf785aedeaa07721cd"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC072-009.xsd",
+          "sha256": "d1e07aff5f40f76a11198553470411f2196a7be66c144165753de22cb999a1cd"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC080-012.xsd",
+          "sha256": "786f84e8a848fdd4c3be451548cce2f264fd126a361fee35cd88c27c7aff6afd"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC085-006.xsd",
+          "sha256": "48e23363aca2fb63a09142fa16d027ef4bfa016674f6c666fab81ff55fa08f23"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC086-006.xsd",
+          "sha256": "57b9bc72254185c9038a765ecb64e1444b9a3df0ddbe903d8f9bb12d02d579d8"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC110-010.xsd",
+          "sha256": "d35b8a595b26251c14ad5dd0262d8f890aa8759529ff868f451b37409eb274a0"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC112-018.xsd",
+          "sha256": "c3b811520d6b5765dc069bf2565f1cf394e9dcf1370046f62982a08f057bced6"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOC120-006.xsd",
+          "sha256": "f0b14ee9a0a1240ec98b5ae073114996127b7389c90663dc7200aa6e4e55a18f"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD010-013.xsd",
+          "sha256": "42317eb894ff45a2ddd55bbfc2dad451fa91e7edea359f02356b587d1f8a50e7"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD015-004.xsd",
+          "sha256": "5d2b4419158032246090921a1054997d9590ba60a4f090b5273c65d6a72cfa08"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD025-004.xsd",
+          "sha256": "dddb81b1bab4717303ca484bb5304e3f64cf80567e5234569ed639f84634cca2"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD035-006.xsd",
+          "sha256": "d25347bb351f7d51a24eac233951d3f1414967d760e6a7a567396c10cd81b882"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD040-010.xsd",
+          "sha256": "a71e3d107459fa268b8c53a95294bc65b1320154eb12441be769beb9e2b3dddd"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD065-007.xsd",
+          "sha256": "e4b1181eabd55e4d6d440e0545c316422b20771cd44bef981f74910aa452e0a5"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD070-011.xsd",
+          "sha256": "911516650e51c57987bbe8c9b31b677b294b37f8cbf6744c1f283ab97625e1a1"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD090-009.xsd",
+          "sha256": "5bb47079e229f8fe106cdf6f19d19bfa1652c301eb8377892c2abf858e45296d"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD165-009.xsd",
+          "sha256": "ffdd930477a2f005c8bac152ce1c936a20f41048b248ff9c0ff079aca616d1c8"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD175-006.xsd",
+          "sha256": "c8e31ebfa774f8d938392fada43c5ebf28c112aa0eeefab8a3c55f16deade666"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD180-013.xsd",
+          "sha256": "74c907f5628ffeff597e60d5c7239e015eed3d92198368f49b01ba5e932f1b17"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD185-011.xsd",
+          "sha256": "affde5978edec50a6ee2e313ba2705ff9227f131663c8bbd3ee5a868cf757195"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD188-010.xsd",
+          "sha256": "a75858cc97009b0ef871d3bd666751d13861c9da6775812739a6f85883230920"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD190-016.xsd",
+          "sha256": "955043d11ccb2121629101d011e649ab4e623592c0efd59cb88b243d1387a36b"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD201-016.xsd",
+          "sha256": "0d60bfc102c2bd1a50daceef35a4c8bd4d4acc15e9841ecdf40e82e0766534c1"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD205-015.xsd",
+          "sha256": "ef22e32712cef026c38bced5c656788357630857e804c3422cbff549696c160c"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD215-007.xsd",
+          "sha256": "70042ab568fc6bf9f2d11deca3d107506b8b9e0934349f7b0671f534e873dc22"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD225-006.xsd",
+          "sha256": "04808ac1258c1917a469815594be7a5b6455f3d16295a17af608b461240622b5"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD410-009.xsd",
+          "sha256": "65c0c176393a540bd1d6648a49f37f85a092d9457f204ee726f1078f12cfdf14"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD420-007.xsd",
+          "sha256": "685dfe6f2a8d669a3313bbab4cb7433024ef92ac88c19f345e807b7b8ddc1cbd"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD430-005.xsd",
+          "sha256": "339f262bb099bfe109d70883f6528827f7cc58b5b0b1ff09f1152aa9e26359ca"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD440-008.xsd",
+          "sha256": "26622be226c747fd59db17f3f922aecbbecf202380a45f538c814f77b06382e0"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD451-008.xsd",
+          "sha256": "4bb8fafcdf89b276dc21196f95adcc0684213480c95120fd0f5e7831ee5c8756"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD460-005.xsd",
+          "sha256": "c6e40456849e1deb95b769fa8b61f31c587d3ae1e3367995c61063997ff33d9a"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD491-007.xsd",
+          "sha256": "06c61694daeaf5e96c828b5f6a81560d5f533b6519dc32ebd0e19f91f92719ed"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD500-011.xsd",
+          "sha256": "b962046a0dfe52d3b1996d13211703b3d0dce0d6a4bfe88b5fe5169eb0960d01"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOD510-011.xsd",
+          "sha256": "5479b3e0b11beb9a5ebf0221609acc857b478ab751ad60fd97b518d58312291c"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE099-014.xsd",
+          "sha256": "ace0fae24522a22a97a51cedba235717a9db6016ee684ae5932f4934b6537bcd"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE101-006.xsd",
+          "sha256": "3fd658a4a9f260e6e9bb79f8b69da48d13dce5268efdf92fff586642972beec7"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE104-007.xsd",
+          "sha256": "210737e769e23d18bb12faf14d51a95282bee47763d45671f276bd233059a8b9"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE105-007.xsd",
+          "sha256": "1d477574509ef9a19052c37d69bcdce90c2486c1ddcd3398b70ce4df44203436"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE108-006.xsd",
+          "sha256": "29aaa1f43168a727e142949b0a74e3581cb7e6d9f530691cf77c9121eeea1bbd"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE109-005.xsd",
+          "sha256": "4bf1ebbeb1f5ff6b00c36b27124e6391ef42466fc9877b909da37fd296aa7194"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE110-007.xsd",
+          "sha256": "c0b14bba06f18dfd70c30d8b42a4e48807994c31dcca2e3cc0f5f0be32111188"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE111-006.xsd",
+          "sha256": "b59941e54501d829455b6d7c17c42624245773b47c5b0839c0b2b713cc35c015"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE112-004.xsd",
+          "sha256": "7de639da0ac6f71e0b781ba9e47167ca5776e94ef194c5ce7c1ccc47610ddd19"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE113-005.xsd",
+          "sha256": "f7c20a025777dad1b2ffa24f292c0bb6b417c72aceda175233a5b3b63df9addf"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE200-015.xsd",
+          "sha256": "bb46c6ccef919053cde4930225424a1f819c4e836050f955b1e3fcff3610eaeb"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE315-006.xsd",
+          "sha256": "9b92a1ed189d776c79a06c371426789e0ef9472140b3502e330077748f17f32b"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE325-006.xsd",
+          "sha256": "650dfa695455d1f4ce3c55f0c54e6c6244836714e1c7467c56111a8fa40556b8"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE330-012.xsd",
+          "sha256": "30796b97591d6b67175bf8a35aa4c62eb6a17a48b90531ffc2d024c75de516a1"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE340-011.xsd",
+          "sha256": "9700b4b0f13f258c380ed385321d1ae956023ba68577b6a680443a02f43c1531"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE341-007.xsd",
+          "sha256": "009c8fd7e3b632b8e085b74eacaa611081fd4a6d1db28aa35983c56a81442f30"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE351-004.xsd",
+          "sha256": "f92b4b2649e3c20e4fa6997faf4174c0b2e7b9ca1b43a407cc919beba4f9404a"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE352-004.xsd",
+          "sha256": "fa7cfe7d4370c97060fc87ea7f47710527f65b426bd412ad5e44ea27a3822327"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE360-007.xsd",
+          "sha256": "b68ba053056ba7c4fb7f30885f9b7ea3442694f4af6f5f5e575773c80217b44d"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE371-003.xsd",
+          "sha256": "3c069bb3a2f9d0f006840349e4c7304613d5e42ee155f3d128641a8b6678c323"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE381-003.xsd",
+          "sha256": "5ca99e22fcb6ffcfb56ad2c85242b7f18f63c5c04c807f750c1368a788e279bc"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE390-007.xsd",
+          "sha256": "8c952fb781653b8ac159a12091de558b9024b88a36bba736f3bae98365d1aa96"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE400-011.xsd",
+          "sha256": "861333d09a488524f30f4f142ac5797075d860a003dfd18d43a7f2d2a99dd97b"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE410-004.xsd",
+          "sha256": "b7608d395ab1e3ef42122a011a3c382e052daedba59a88ea2f5bdc6592f35cc5"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE434-008.xsd",
+          "sha256": "14ec7f00a9cc0a8ddb44b3f1a4d27f3dea20eb80b2f643fd7f1f00dd56e2b023"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE436-008.xsd",
+          "sha256": "f331e5afdf9ea0c767c2dad2dd5e3d9065c88d60e47f367186897592ca1d7ddc"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE440-010.xsd",
+          "sha256": "56db1fd3a2742a98a9ee6285bceacc65f00ce32494afdc4089bd28a76f5457b4"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE445-003.xsd",
+          "sha256": "abb6e55fe085aa39ed05799be7174a2002943f2a230a4394324d7ab94c507839"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE450-004.xsd",
+          "sha256": "f71294a85ea8736061c8cbb29252880040bc8f0302afe043faac2bbdae926606"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE455-004.xsd",
+          "sha256": "09e624dd07bbefb9757bb258e8b694f5f2f6456cb37d13658b96c56f21b358f1"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE460-002.xsd",
+          "sha256": "5b87646304cf498a966918a4ab7e0b96602a720fc9a582e977d2cb9f527a635d"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE532-005.xsd",
+          "sha256": "9c08290b46cba450029d586b631b9e68322e79288586294e89cd856d588ee34c"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE533-003.xsd",
+          "sha256": "2231bd1f9c81d6587fd695b9b4ac5ac5464fc49ba3101360dec304afc6e4a8db"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE534-005.xsd",
+          "sha256": "4d9e60afaba417f579b936f608678ffdb48a80457e5001285e53cf120212f738"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE535-003.xsd",
+          "sha256": "637aa5786060df7eecadcd64968b74b8aeaa71f345f115b133428aad9d9c4e74"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE536-005.xsd",
+          "sha256": "e71cf1a294bb1cf27265311156a6804c8757ee8b74050225f6b0905d33d82658"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE537-005.xsd",
+          "sha256": "ee3fa818505bac4ca9ce959e9fe76a0f3fab0518ff1d15d8c5a2a8d967804e98"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE538-004.xsd",
+          "sha256": "9f97454527b71ebdf650366384383a0236c5fcd46be16dada83375807d7b64bb"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE539-004.xsd",
+          "sha256": "472300208db085ce9644f3b8f94487471668e1d321d4aa5ffe58b0c37b0d3acc"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE541-003.xsd",
+          "sha256": "e4353167a237a8a2ab05c47d4477f37cbb822ac09e5efa0eaada832d3657fde0"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE543-003.xsd",
+          "sha256": "98ee28be404f085b1f8a11781a3e2b13dd2990f2fbe9d72494c3f564bcdd06d0"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE544-003.xsd",
+          "sha256": "33f52bc4e291f9d1ecca6d6dea453919eb3aa8d297fdb4c3d843d5d91726d5de"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE548-005.xsd",
+          "sha256": "f74bc67c74e2218ac3670d1f64943c01608ff62dfe7cb387adc508a59cbfc078"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE563-008.xsd",
+          "sha256": "6dcb610dcb23bc4d29566844313df4459dcd7c41acd594f0925e713581990ae9"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE570-006.xsd",
+          "sha256": "697a76af26e2370069079e1361a812be5ac93dc5c68b86fb074e6091c9c04fac"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE580-006.xsd",
+          "sha256": "7df792e8f8f154fd25ed0f0a59222c4dd591186c871673cb9e5a1e0694884dd3"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE585-005.xsd",
+          "sha256": "09f8c56fc0d299ff752dc80e84a866799eab657aed554199b9aafe511179c83e"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE605-003.xsd",
+          "sha256": "abceb87a27d3a784d526adadbc85251c6fabb181a4357e3c875b14370a81daaa"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOE990-007.xsd",
+          "sha256": "ea42ad1cb89a25a2f88fa21314e24ac53e6b565e236deca994d6695660764fc7"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOI010-004.xsd",
+          "sha256": "9b8e976cafc32e4a7e2faefb40f0d14ec7190c34811b5a9ed03b1252693980fe"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOI020-004.xsd",
+          "sha256": "615c44a1c88d8493d34ebce79933ee0208592117f6ed7ef33a3e802c045b1b51"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOI030-004.xsd",
+          "sha256": "71fed5d7d13291a4a898ed09e182cf46cd6394cc8b253791d29e3c3c2e43d591"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOI040-004.xsd",
+          "sha256": "b0e9ee1a8ed0cba9cc682e432c22c05b18d865e43a4b4815b8328bbd1addff14"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOI050-004.xsd",
+          "sha256": "91333e07bde8156a8919a61e5bccfb0c1d2ef91d246c6b917e02286f60397aab"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOI060-004.xsd",
+          "sha256": "4bef2e8065a9f5bda0cac0b575013f77e517558cd983cf74f374dcfcd8b89fb5"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOI070-005.xsd",
+          "sha256": "8570cfc1a5639ac1ff13bf9b7ae1ff0fa51e71fce59cd279c5821ab7f94ad6c1"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOI080-004.xsd",
+          "sha256": "af2e210a24c06809d0108f5488aeb2814f5b32f9ffa9e623e8bbe8f583498ed3"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOI090-005.xsd",
+          "sha256": "34640397109715d4ec2da3982663522d7d33b03529d739cfaff8bb7fe0a61cfd"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOI100-006.xsd",
+          "sha256": "fbf3d1429c8875fe87abe141c1fe54ad31c737f2dca608149ac719f2b644cb6e"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOI110-003.xsd",
+          "sha256": "6fd79ea5e5106b4a526d9c0c1d5674114ef7f6dcbeaee6b585cfef5fcde312a4"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOI120-005.xsd",
+          "sha256": "645131340d9ff838b806bcb8fdf7b4a3fbfd19b06a44b81e2ad892955bcece0c"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOI130-005.xsd",
+          "sha256": "a787793ec15c7a3f9815af318b594c78f1ef599b97b8d220353566e96fddefea"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOI141-005.xsd",
+          "sha256": "037d9d2ef853279f94fea29df6d07fa064fe65791b3a4ce8921541f773cc6f81"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOI150-004.xsd",
+          "sha256": "34deb4d850c5e6a83736bca6e82a68d6cc5aab264b7f6e224e82656130d429ab"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOI160-004.xsd",
+          "sha256": "238038e9ad19dfaaa2d46fd6a0a6f3a04a60e2c0b4d741fb7492a65d8b6ccf5b"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOK010-007.xsd",
+          "sha256": "65f49154b2c764b17e574d8ba526a027cfc23e9d3a4a0337160ae11de2bac5e3"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOK020-007.xsd",
+          "sha256": "b09a1132bc01e0c99ed2381e01ea41ce1ab941ad774f271e44e97cd18cfb26d7"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOK030-007.xsd",
+          "sha256": "27b3ece51d68f43f8b9e0fcafa4f22fb0e66a980b3708e1a5d9c02a0eead5008"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOK040-008.xsd",
+          "sha256": "043778a1835bab318acf0fde22725a64fcf99fde1a83451311af43defcd25b5d"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOK050-008.xsd",
+          "sha256": "7cbc17b18265988ca59f58dfe5d89e9713db38d8736ec769243978174d89d628"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOK060-006.xsd",
+          "sha256": "23df9d1dd337cc1e8ee066872c1cc16ee35114bdf3e38343c9bf3e45bad8438b"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOM080-005.xsd",
+          "sha256": "feec4a1ce0c6e86bd58636e92eac380b85c24b324dfb7de70f86a877521fcfa9"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/HOV999-001.xsd",
+          "sha256": "a0dc9c18d4106cae67c7066b77dd765de54e09cd2e749013eab74ca711cdecf8"
+        },
+        {
+          "path": "19XMLスキーマ/hojin/RHO0012-260.xsd",
+          "sha256": "fc85c3bc3e57aea650cf02a8269ff1781815b0fa3641d99141d61a4846bf21af"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/RHO0012a-260.xsd",
+          "sha256": "4c666d5eb7d167ab713d4d1c365a066a1f3bd9254dca2281a7f36788eed00bd9"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEA050-002.xsd",
+          "sha256": "d795c29e4a53719a5aee1dac9569585537408cebbbad79beb8d07cabdf4bb632"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEI010-001.xsd",
+          "sha256": "f4b42949eee989e412a64637993423c9ca6906d32aae9df4b833518a3a99bb5c"
+        },
+        {
+          "path": "19XMLスキーマ/somu/SOZ-001.xsd",
+          "sha256": "60b99927a323ed4cee2e869aaeb081bbdbfa157b46edcf361b133288ba60bcfc"
+        },
+        {
+          "path": "19XMLスキーマ/somu/SOZ040-001.xsd",
+          "sha256": "7d1f4a3d0c73304e2e5e6374dcd5a44ecf5e821239b2c04f5e534add4cab71c1"
+        },
+        {
+          "path": "19XMLスキーマ/somu/SOZ041-001.xsd",
+          "sha256": "f78383ec3c57106fd55f7a33649a598bf3f2430317159accdcd3fda115ef11bd"
+        },
+        {
+          "path": "19XMLスキーマ/somu/SOZ042-001.xsd",
+          "sha256": "e3477e966285d48ce1f845e7a8bcdc3def0b2761f9e81a2cc2a2c8d359fb1f4d"
+        },
+        {
+          "path": "19XMLスキーマ/somu/SOZ050-001.xsd",
+          "sha256": "9938dc6bd1eea5d5a964db28a8b58c13270bff3cfef0d6f66a63d8f5dbb41d9e"
+        },
+        {
+          "path": "19XMLスキーマ/somu/SOZ051-001.xsd",
+          "sha256": "68d656ddce0f3174976974485f554990872dbf38375cb8e66f8349cf9a42f4b6"
+        },
+        {
+          "path": "19XMLスキーマ/somu/SOZ052-001.xsd",
+          "sha256": "d19597c2ee0cf5212c03920a70f3d670567144bb0ce16f23e654b968a07b165e"
+        },
+        {
+          "path": "19XMLスキーマ/somu/SOZ070-001.xsd",
+          "sha256": "696db52792ecf1c88d3aa7f27854def18a89963bd98c1b40f353befa9f5f7627"
+        },
+        {
+          "path": "19XMLスキーマ/somu/SOZ071-001.xsd",
+          "sha256": "18b79abcc949b7c41bf15b096ed91cb078523c60df24d2966e12895118b6b860"
+        },
+        {
+          "path": "19XMLスキーマ/somu/SOZ072-001.xsd",
+          "sha256": "f9bde4033fe0f14d3cd0fc6654fc6d9b249ef14df36259a59ee92a65398ece50"
+        },
+        {
+          "path": "19XMLスキーマ/somu/SOZ074-001.xsd",
+          "sha256": "d7db2d61a125c620aa8d7c38708e901604ce7438c846db6a9e8059c6d146f18f"
+        },
+        {
+          "path": "19XMLスキーマ/somu/SOZ600-001.xsd",
+          "sha256": "97ff2d24a8606dc58211b1c7cc268504a4e3d6047fc915976bbecf9620626264"
+        },
+        {
+          "path": "19XMLスキーマ/somu/SOZ610-001.xsd",
+          "sha256": "bc1e730e7af4ab2ecabb02dacaa1a1014141fea38b447c3ab639e8456e3b6b15"
+        }
+      ]
+    },
+    {
+      "name": "e-tax10",
+      "role": "XML構造設計書・帳票フィールド仕様書【法人税関係】",
+      "url": "https://www.e-tax.nta.go.jp/shiyo/ksk2/download/e-tax10.CAB",
+      "published": "2026-08-12",
+      "extract": "all",
+      "sha256": "1a2b619fd47abfc22b366ba0444dbff9f1518c35ec87786f5e6eaa8a3b03ae1c",
+      "size_bytes": 36852863,
+      "files": [
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver10x.xlsx",
+          "sha256": "887e3a6644e443bed28ed7dbeba3ef4fedc4b7b236530dd709f3981b5b24ff6b"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver11x.xlsx",
+          "sha256": "d9076407653130bf1be6bad5492ff3aac2069b80e0309cc2d37ff1173d0f1e34"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver12x.xlsx",
+          "sha256": "e207ca4d788bf52aef68a0d9ed7482d53417ec82ae1c2caf758aa8087d120d1a"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver13x.xlsx",
+          "sha256": "7fb3f8d7a728b3b4db7a365b96adb367f5980bf92a50c2bd0c2492dc872a4e48"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver14x.xlsx",
+          "sha256": "0cdc75252c217dc0cc3014f1384128b57257379ade119d1b6614f52f9e643e04"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver15x.xlsx",
+          "sha256": "1164c8478722d4acdb4ad64f94f5bc29a2b3bd19ef08288538a9d954b6ce10d8"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver16x.xlsx",
+          "sha256": "608fba91a6d586f248b0c7aa0f2f815b5cc3f4ffc75ca143949fbd38674f85d4"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver17x.xlsx",
+          "sha256": "6d649cda2ed6a7c8f7dc8167a80404c31abfeadc886e21a59cb54e723f3b8733"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver18x.xlsx",
+          "sha256": "c30c3395ccb755aa8dd340133908c0f7ee276635fbe5ff226ad99ef145214534"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver19x.xlsx",
+          "sha256": "2545c9fac1c297aba06477d6c53c11e5e7aab380edc6034ea7142c3662982db0"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver1x.xlsx",
+          "sha256": "08010f765bb20ed517ef1ac77e6e11cff30e5a1b06bc1c31ec338043838010c5"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver20x.xlsx",
+          "sha256": "c1124d9b19a23b18b147e6e8236c799debc432a058cb8b2d108ecec9fcb90a51"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver21x.xlsx",
+          "sha256": "b6e9e93f9a127592d7c89f40a83cdf599a4be9bb498cd8c6ae5aa1602ffd4106"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver22x.xlsx",
+          "sha256": "20b6f307e1adf2b5fcbf9701862aa5e7966f2623a7ad28556c9b8f7720a2475e"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver23x.xlsx",
+          "sha256": "3da0bf7f440ee47fd90d2bad4b6b58534a7a3f7dcdcefa1acd2f9a544d7673d3"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver24x.xlsx",
+          "sha256": "f34edfce88a7c3d65b67e17e09624e813a62a7fdd2eb601530249fe7008d3120"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver25x.xlsx",
+          "sha256": "374a915ccf97dbc56deda82a0932380418df4c6ef0e48119c8b39313bc83cb37"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver2x.xlsx",
+          "sha256": "ec7c94fc6f9f7f10d7d017f4553bb1388da77d1baaf891ca5c69d2822584931f"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver3x.xlsx",
+          "sha256": "5c1d03e519134d6a5f743627f50933a078aba4587f6194d76d822809d0859471"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver4x.xlsx",
+          "sha256": "8550b2d49e2512fe637a43759e35668253732f0fc76923df2ee726e66ffd37bd"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver5x.xlsx",
+          "sha256": "9fef84b41c2c5c49e72184a5a6b5da602629c361d8192df21b9077125b0f389f"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver6x.xlsx",
+          "sha256": "98c2a8a699cadcc14869cb7770f4615c25ee5290c02ad6985cce41a72cde87bb"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver7x.xlsx",
+          "sha256": "21b55c4548d1e21cf491aead71ab62360bd47462951ddeb0a2ba631f3e8ed102"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver8x.xlsx",
+          "sha256": "091b0c3a78c1db3d595684328421abdf14a91dee42768168244d504595d902c8"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申告）Ver9x.xlsx",
+          "sha256": "9d9a9460840f14a05d5b543a3493c29bdf30bf6f4cfa8283d6c05357359a7590"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申請）Ver10x.xlsx",
+          "sha256": "bb736cf98f132aca682497da3998c5758adddc21fdc642c0ab8f10fd774170dd"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申請）Ver1x.xlsx",
+          "sha256": "f469ebb138ce0e1fca7847fd0e63572d8e18baa93c481d6ec38cec6d1ebc019f"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申請）Ver2x.xlsx",
+          "sha256": "2abb3454bebe417b573e62e035f026ad87e10d6f61badb347dfbab5f7cbeec8a"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申請）Ver3x.xlsx",
+          "sha256": "1838b6084da3de5149ee27e620f30340174942b688414b34b5af470c41c635fb"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申請）Ver4x.xlsx",
+          "sha256": "45c495aa6e9fbfd9bd1167222953918e9d91520b7ac68b6413fc626f68d272b9"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申請）Ver5x.xlsx",
+          "sha256": "fad5b643667b73ba1f6076662abd8f56d598274c8845df04c364458e0d4c9495"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申請）Ver6x.xlsx",
+          "sha256": "7d8632f5455931072ae6995a3f3232cb1d76bc6cbbd619400fe7dd72813105fe"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申請）Ver7x.xlsx",
+          "sha256": "5cde6947f1544b5943327c3cff306983505f10695e7fcf8b06c88bea1bfcb59e"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申請）Ver8x.xlsx",
+          "sha256": "91240e5583b7fd6f69020eed1acfb450a6fd7c4a80f6e586a403a2cd0b46cd02"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/XML構造設計書（法人-申請）Ver9x.xlsx",
+          "sha256": "980677199b12d95a7ea0a05e43d4f4a5526515c8df64c1b40a527cd6fefebfa7"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver10x.xlsx",
+          "sha256": "05e0c0b85c73352f7468004ec7e0c1d9ae346852dbf189b7490f6b7eb837cba6"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver11x.xlsx",
+          "sha256": "4d4c0327d27ffd5b760b21a2662598692eb76008b3e5a6047d1f07afc4875335"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver12x.xlsx",
+          "sha256": "f3841b462c766803b383f184324e4066e2913d6acabab5806c3e461e44d64921"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver13x.xlsx",
+          "sha256": "159e7ea76cbbb6273e837e88eb2743ccfc92608950bd80294abbc459a1e1f4a8"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver14x.xlsx",
+          "sha256": "a80011748780bbeeb8d61c73bf1e73ad737185c279b67421781b53673fd34c14"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver15x.xlsx",
+          "sha256": "45ef8af6112d62c4f7700e16b58406c511a45eab604aee63e243dfa79f79f4ff"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver16x.xlsx",
+          "sha256": "67d977522ede14f3cc8b95d31494e490c7238d719cce07635a42960d411de5b3"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver17x.xlsx",
+          "sha256": "b94617b6767c99d6c468cdca0c96f00e0743b24d5e9b0d66959c26cc8cf8a223"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver18x.xlsx",
+          "sha256": "0600fb3ab5e72b8e37fe0c087ed522d21bc3eef0fd79f092958e447b04219a6f"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver19x.xlsx",
+          "sha256": "4b0bae815e7c627d9479b8fbeecf085426a60d44233ad7290728d273eaf38909"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver1x.xlsx",
+          "sha256": "6a0efc73e0ee17f400ae2064ea16a133cce95748e0e6d40462828c7df8617a06"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver20x.xlsx",
+          "sha256": "9844d5d4c97f576aa478fa680e0b9d1d22c491ee0a06e064b21c582d07ac558c"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver21x.xlsx",
+          "sha256": "607ffeef6cb30118741d96aeea48b8f6bb3b5f4488f15868e3e4f41a8eeed349"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver22x.xlsx",
+          "sha256": "fc5432c830c932ce46ff0676916ae17683cc6bb27a0726561eff3517ed9bf03f"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver23x.xlsx",
+          "sha256": "c4492fb8cf2e08e415c96b41d11e028d5a9f16039a22b6365cc48746e6b3fe38"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver24x.xlsx",
+          "sha256": "a7373cfc9ab6be1687f996377738f86f74816b65e8c1f1f4284d199a2a6e819a"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver25x.xlsx",
+          "sha256": "2abef301ecacd16774956efd0cee8f5e9e93bce866d4dfe39fb0f8c63b42d6d4"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver2x.xlsx",
+          "sha256": "596d1b4e0ae32df69305dd03b4fc6e16ee7d988e930aef68cc7d0d2cf9f37c70"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver3x.xlsx",
+          "sha256": "0784e390094984a2599114cfc41c85b828a3843af6682bc221184bf55a4bc807"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver4x.xlsx",
+          "sha256": "73eb10737db7fc114c791e8bd3febdb115d77a99d36fc6b33102e65d180adc8e"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver5x.xlsx",
+          "sha256": "8408efabfe06015dbdcf9849f3b2c6ee93f9c1e8dbcb7fd1f69285893419d595"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver6x.xlsx",
+          "sha256": "ff7d99cff66a2bafbad23829e687f541151bf0b363b2b7bb278495701e219891"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver7x.xlsx",
+          "sha256": "225b7fd15afe50a7937564c042bc1b0f777911b17f31987f1079219f0d861596"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver8x.xlsx",
+          "sha256": "1b8952619a949083326420012cae6ef60af1139b18652f4140d9402278f175c7"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver9x.xlsx",
+          "sha256": "db3df9c65d326878960307e5ec9c59f8834963f8b4c6b55ccfb8ee02ed155c37"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申請）Ver10x.xlsx",
+          "sha256": "8a0d268fcd34308a1b64bc9539de84135bed4950ed0c0b2f87a70de44d0ce083"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申請）Ver1x.xlsx",
+          "sha256": "8f0b7e632f028fa33ec9fe546e338fa4f180089eb545201b6958ea27fac203f4"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申請）Ver2x.xlsx",
+          "sha256": "40edcbaef8ffa018ec9eaccafbfeed6bf6ca096264d044335e585d803961e99b"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申請）Ver3x.xlsx",
+          "sha256": "a426e003bfad14bd14b13650816ac89ff02fd1ba7598ed5229b04af9f29104bb"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申請）Ver4x.xlsx",
+          "sha256": "79f332e72f692f48a79c18b901bc62ef32f1e9d89bd4cf5a356035dd1c84f10b"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申請）Ver5x.xlsx",
+          "sha256": "580c1a5d429d1e9704e1c1a7ded1a8aa5915b2bd64776f72cf53d7d1485036a8"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申請）Ver6x.xlsx",
+          "sha256": "d6b2c5138b69a7e590b80f2656b95218b4beac6dbac6c7b575626287dc001656"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申請）Ver7x.xlsx",
+          "sha256": "9d4f5db443d52e4d55eeee4a7101b10a0c47fe9b96909577800b5d064dc542c3"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申請）Ver8x.xlsx",
+          "sha256": "ef827983b4a546987a77cbd21162171e90217395f8334ce253cbbe79862fbf24"
+        },
+        {
+          "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申請）Ver9x.xlsx",
+          "sha256": "824498bab5079f4af0fd674b44db071b85539939d0029e2c4823b5a6228cee82"
+        }
+      ]
+    },
+    {
+      "name": "e-tax08",
+      "role": "帳票間連動仕様書",
+      "url": "https://www.e-tax.nta.go.jp/shiyo/ksk2/download/e-tax08.CAB",
+      "published": "2026-08-12",
+      "extract": "all",
+      "sha256": "1cba3f10f4b7e2173facd23f3a913af2ed87c8264b81c2da833e665d995595c3",
+      "size_bytes": 1295395,
+      "files": [
+        {
+          "path": "08帳票間連動/帳票間項目チェック（復興特別法人税単体申告）Ver120x.xlsx",
+          "sha256": "b698251108792583e598049d69378f89a224b3fe5cf7d36d95c927ae5aa16234"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（復興特別法人税単体申告）Ver130x.xlsx",
+          "sha256": "e0844873d37d1b84fb8bc857b68bac19f9b352936b46385b4f2abc3eedf4cb9c"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（復興特別法人税単体申告）Ver140x.xlsx",
+          "sha256": "c8be9f8789206a0412fed5e76199cb97861ff79921e79e244fabb5d417cf7887"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（復興特別法人税単体申告）Ver150x.xlsx",
+          "sha256": "9629957c1aa8414337e02caec9a97558539181c2e947fe18005052b6692dc270"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（復興特別法人税連結申告）Ver120x.xlsx",
+          "sha256": "e7af9a1a202ad57fe0c9a1a5a88c350c166bd1ac96f875b89bacfab85510e896"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（復興特別法人税連結申告）Ver130x.xlsx",
+          "sha256": "74a7204bc9c919599d5bba8caf1a2dc8d5a4ef690bbf20a535f36e6e1c5fa715"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（復興特別法人税連結申告）Ver140x.xlsx",
+          "sha256": "d43b188c8f3f331931995733ba6c11fb5f57b28c263e6773308cd084609d7fdb"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（復興特別法人税連結申告）Ver150x.xlsx",
+          "sha256": "ced756b3ecb8beda14e5c662928a4770301a5eba42b0a880f97550d6852e1313"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告における留意事項）Ver190x.xlsx",
+          "sha256": "871f2e9778ddba21fed85c9b1ddac6c474fc7c203afd8a5216dab0db63e31ec5"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告における留意事項）Ver200x.xlsx",
+          "sha256": "c9d10c1a77a5508e0621a64c8cf04d014647ca5b82258802ca9c8290b134c704"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告における留意事項）Ver210x.xlsx",
+          "sha256": "9bfabf0c5847d733cf2f4d00d6328d0c2109522bcdb56d6e72a730da391472dd"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告における留意事項）Ver220x.xlsx",
+          "sha256": "f69a5fa2c78f42fb6de02c3e623045b4312e5df6cc15532639d392febabf3335"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告における留意事項）Ver230x.xlsx",
+          "sha256": "8c6ed46b32198292916ebb20d63c6d5e3d3d118a269a98edd5afa03dbe3082be"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告における留意事項）Ver231x.xlsx",
+          "sha256": "9eac5c62f6de044d5a8f4b3d2cf2dd962d834ae434f39d051f7fec7ef8a002e6"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告における留意事項）Ver240x.xlsx",
+          "sha256": "f1ab4b46198a7bd26c95db1b7f3adff8d375370d07fa3cc6ef1688dc68252bd0"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告における留意事項）Ver250x.xlsx",
+          "sha256": "b4a0b335560769b4960da475b07fbad86c8aea979bbc37660600dbc7f034c310"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver100x.xlsx",
+          "sha256": "643661cfab35339fafcf918402b0310bdbd4ecfe3835b82dc5e6a28745b14857"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver110x.xlsx",
+          "sha256": "0908ac8153a79fd9482ea72a9baee2652b72624b1730f9201d11c1f49603e208"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver120x.xlsx",
+          "sha256": "c0f41f9f32be22f9f036c2040000c906bca274056970c84674f0d5c1bfcc145e"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver130x.xlsx",
+          "sha256": "b4dcaf6f9a4b865653506da019112773f9b0fe0a884866184c19d92a9d067b7a"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver140x.xlsx",
+          "sha256": "6fa8a4fca680365ba15feb46c82275fe3a368867f5f418ac9e6c72f900036778"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver150x.xlsx",
+          "sha256": "f097f59d1fb71f8dfb7e2213ecdeda569984df744d7a1bad75d3cd75f66d57fe"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver160x.xlsx",
+          "sha256": "5fff86fcf05e0e6bb2dea29526ea966814b41e12b126004311c0c92658070525"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver170x.xlsx",
+          "sha256": "dd2071320aa185425f664bb23e9c1618012ee4441874a0d6213bfc8c0e7f1331"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver180x.xlsx",
+          "sha256": "2b6fc94f9a5538cd999cc31c684d790ea292b37d3ab912287e693fd901e4c272"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver190x.xlsx",
+          "sha256": "0f636a5d24619f5970ceee0097b5354759c9d165994dcf79312fc5602bb99996"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver200x.xlsx",
+          "sha256": "174d63f9fa363f7f05da45a7788ba795a5f31916a8f9683688834c3a86e5aedf"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver210x.xlsx",
+          "sha256": "048b0381c7f31f2b7a573cab72c52a085d4df373f1af90eb3eca8c9db484963b"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver220x.xlsx",
+          "sha256": "3d08ad91a0d19b5e11bc7569b7eceea53f5c046a13501e18d111c4d032d238af"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver230x.xlsx",
+          "sha256": "e75ac14990af72fe0a8390ff641760d83cba27f83dc0f6ea667b112d85ced8a3"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver231x.xlsx",
+          "sha256": "89186cd66c047672e0d69088aeadbf151debb1d8d93e5a8d72d92683640ce096"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver240x.xlsx",
+          "sha256": "3bc1faea9838eb388e51b5ceaa6c0049f23b5cdc8cc1f1512cfa9b386d55c8c8"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver250x.xlsx",
+          "sha256": "23d20927b66b998e09245d9c8b120ec8d83da720167231f1e1c359bc80db3172"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（所得税申告）Ver90x.xlsx",
+          "sha256": "70680ca8c6ec51b05938589a49d36557ec5b1a419d142dc9cbc7ee6a41a2e6b8"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver100x.xlsx",
+          "sha256": "3d585fba3a4d94afb3f0af0068e6fc7b1126a0cc47fe2d434f7de12820463367"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver110x.xlsx",
+          "sha256": "597046a67bcc27d17d7fab077ba8cd39f52e1b4be4dbb9b7c0a6878b3aeba0e7"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver111x.xlsx",
+          "sha256": "b156ef4dfa9451d483c1f036c7407db89dba9841e9938f6ec0a23365df3369c0"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver120x.xlsx",
+          "sha256": "7eb7d1e61420ae3093571249d9820b617081e5ed37eeffd4039f5b0c8d5e0c5a"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver130x.xlsx",
+          "sha256": "72f6b9b8e40c929d89ef6769adbadecd3490ef3b3efd27d7659f8bb2bb772e81"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver140x.xlsx",
+          "sha256": "0622fd5a0856e56b7af484e757e32a7358d2974b39e4fd069ae77621f25eef89"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver150x.xlsx",
+          "sha256": "aecf0cc085902ff68ea84f02f1ea40fa9076d9b65d5acab34ae29fe695ecf24f"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver151x.xlsx",
+          "sha256": "4bc1a3095e666204e1914a8762f4b191ee35a433af750b03f008225fbcf7f393"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver160x.xlsx",
+          "sha256": "5bcd0eda7ba5c093a2b8f02e63de92eb955966660832797efc2fdff49c76df41"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver161x.xlsx",
+          "sha256": "7916a60cc2df27b6332586f58e405fa65c0ca9fa32281fce723d8d8cd21268f3"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver170x.xlsx",
+          "sha256": "3ed4efc1cd1ff6d6299133a32c709d6c36ffd0cddaf25853d53ecd1299d5c7e9"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver180x.xlsx",
+          "sha256": "1a3c464737f1410e41c548e29ada8eac0a87018a74ffb21b13efd1f3013e1a26"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver181x.xlsx",
+          "sha256": "657b92c5fbf8f111e4bd25869661249101aafbf06f65ce3917a146d2df455140"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver190x.xlsx",
+          "sha256": "3ea0badc6250483021cba697f116abbddcba2bc36859db27a70fcb92690140f2"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver200x.xlsx",
+          "sha256": "191c71b289cc4a38189dff04df5d885383c3e0ec9167a4405e3a0bc1409465ca"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver210x.xlsx",
+          "sha256": "e9575312a300fcd0128433d75a6635c26166869171466eaf3b1f0b3f8ccf3f96"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver220x.xlsx",
+          "sha256": "7962b87e49abf44a9b83fb17b717978bd687ef3eece087eb68ab271737456e17"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver221x.xlsx",
+          "sha256": "4bb9c7233040de81be5f3b69a6098e630f0ec723a55da334c2709d24490bfd5d"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver230x.xlsx",
+          "sha256": "4a0ddcd25155fe44426e97c335197d9fd359be737b7527ad36c6960dff1fc6b3"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver231x.xlsx",
+          "sha256": "07747624133f6a2b41131c1666678bc98d584cc372f496b671060773b20c202a"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver232x.xlsx",
+          "sha256": "da43a568c787e6f5297674e38564e715cfcc6e41ef10169c9f7a0d82a219f5b3"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver240x.xlsx",
+          "sha256": "39718db7b06300c4457bb5e1cbeeefc93314606fff0988c32cfb8ee57565009b"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver250x.xlsx",
+          "sha256": "f8702df56f2d9669ea70696d403b9fae53c01f68355aab597a13f734676833eb"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver260x.xlsx",
+          "sha256": "0a112216e6b739936bef4887a4050516d3297630fe79da9da87a03dd57d82ca6"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver90x.xlsx",
+          "sha256": "9b5b23d96790f595a76481d38c071c95cb2aa9e6f8e51c007334b3e3d487dd46"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（法人税申告）Ver91x.xlsx",
+          "sha256": "2853c1604843cf3343c6218ae04c0fc1f6166855250b40b4b01b5040ecb77eb8"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費税申告）Ver110x.xlsx",
+          "sha256": "042babb48462b8a2f77ef9603288e3e9a1a9eb7c6102bcf8a814d4ef339ab052"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費税申告）Ver120x.xlsx",
+          "sha256": "bcbd65152d5bee733651e3d2f50b2d86d2b00f64f476b8935588b5c14b200888"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費税申告）Ver130x.xlsx",
+          "sha256": "23798f5f07e425b2f0dbd9071bbfa24761cb147531f41aace11d2646ca84420c"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費税申告）Ver131x.xlsx",
+          "sha256": "254c3d195d6145304a814ec46187905a564752b7a351225ae917ca22c93c0796"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費税申告）Ver140x.xlsx",
+          "sha256": "b7c1befb0561038b0f201604aa5352d754dfe1c4c7d800a04bc4b98919d50c87"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費税申告）Ver141x.xlsx",
+          "sha256": "1fbf4d4bb78bafe89a5bfdd06b2aad319a98f19d91d146b69b518e04463cbed0"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費税申告）Ver150x.xlsx",
+          "sha256": "f6709694bf75c8764938c964dcbf72ed55eba4458a7286bb46cd5fb271e01d7f"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費税申告）Ver151x.xlsx",
+          "sha256": "436c4f3ee749820f73058a4f891c8ac40c0e77e62d52e1263a5025f6bc81c3fd"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費税申告）Ver80x.xlsx",
+          "sha256": "83a40a2f1a9e597c6b2d411f71fa066e4bd37c3117953df1a79931fda5d7fe83"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver110x.xlsx",
+          "sha256": "f0b5a73ad2673238acba309e24def4fbfb1862f9ce03feff8906213d425fd8b9"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver120x.xlsx",
+          "sha256": "5f0eed5db0ae125fa4e1cf522a41c770f1bcf21c70a2778a5d112d513d02679d"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver130x.xlsx",
+          "sha256": "5d8b81294f0d4b8fb2fba6e67a3836487e146dee8f59ef9b89190494ceebe0ca"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver131x.xlsx",
+          "sha256": "360718d2ae56470281c8e82687e8be668e164ef2f6fd389e0ab303235223d408"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver140x.xlsx",
+          "sha256": "773f2421470de416528e2c1a29fa2e4adf9d6ee3f8cd50795b657f233614727b"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver141x.xlsx",
+          "sha256": "57be419adca09da9839366f8da8273f80b4b42e4ac2229d8e45cc59f18af7605"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver150x.xlsx",
+          "sha256": "cedb3026602366fc025ce742ce920923530ebb67750aa7627a3265d9a0205e0a"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver151x.xlsx",
+          "sha256": "c8a2f4e22e66faf276909adcc876363284ebc815968c1d8321d57b38c198a545"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver180x.xlsx",
+          "sha256": "050a088684aeecf9718d46ae50a7bb5c50f181d9b2454e6e248384aa8e4dc813"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver181x.xlsx",
+          "sha256": "9cf8e35fff765b73b74a3b39fdf939dbac13e074fc66b4186628e3372239adaa"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver200x.xlsx",
+          "sha256": "cc64c7f44b44494b5d876cc8afafbb73871b76d8c7908310ca2be98875862d15"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver210x.xlsx",
+          "sha256": "eb2be9a645ea0a0bd32e3a40c203508b0b1d53a6031463c72849d030e4edd02a"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver220x.xlsx",
+          "sha256": "bdb487a78c8b6edd4c5b96cafad8eb357ca1579f4398c12a8aa4f1af3aad63a0"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver230x.xlsx",
+          "sha256": "c8c23fe264f270c723e9045492746a4b579974e1f84d6cc96fb5edcd28c63064"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver231x.xlsx",
+          "sha256": "1c6de748c3b924b6952e4489109c4efbc1c7ffc4a16ad8005376df779ec43e93"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver232x.xlsx",
+          "sha256": "400adda3ef8b51f6fd51a5e6e508c05d4c0c81385062579c0f005b5a4779e63e"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver260x.xlsx",
+          "sha256": "2ec173d4e17db0054532309f6039e5268f1ab5668f97e9f5d93f8013fa1b44ee"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（消費経過措置）Ver80x.xlsx",
+          "sha256": "44345308d99b81f62871ce68f11e46bbe02b81db8f7057830fca087b4f80b37b"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（相続税申告）Ver190x.xlsx",
+          "sha256": "b36b8cee517520022a1aea387c30c567b1500978c2bf42ddb8a798c0640fbc05"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（相続税申告）Ver200x.xlsx",
+          "sha256": "1067dcd027d61ec78015122e32446cfd89ba89de7267fad09fd5ddc10be88e75"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（相続税申告）Ver210x.xlsx",
+          "sha256": "419490c9e8693bb671bec5588071de815b7be867d460d5b086dcfb7273054662"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（相続税申告）Ver220x.xlsx",
+          "sha256": "2568ab96ea2e22a6e5db4cbb3601f1b0dde0d16c7940fdb7347d1e4caa245a76"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（相続税申告）Ver230x.xlsx",
+          "sha256": "e655b5f2aefb446301524814bccbf4fa6bafc8834585f0e95383d556f65c1b68"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（相続税申告）Ver231x.xlsx",
+          "sha256": "1110443c99874e49bbcb7e4500e0c5c363c98bbc7f9501881ad0ff1ac24ee545"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（相続税申告）Ver232x.xlsx",
+          "sha256": "4d7f9380f81861b8883b0d2e3504d0ca3240485704d3c8023eccc37213ecdf88"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（相続税申告）Ver240x.xlsx",
+          "sha256": "ef71c16611ef6455f622dee0e51c88533b7ee89ec70268004ad173bcb3085221"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（相続税申告）Ver241x.xlsx",
+          "sha256": "ef4ba6ff9695f28daf026c81b2c65ba9bef5116bcfb037efedd34f59f260cc30"
+        },
+        {
+          "path": "08帳票間連動/帳票間項目チェック（相続税申告）Ver250x.xlsx",
+          "sha256": "3586809b5d53c461e33edb81e13adbceb9fc1fe37639d0e4b277df8d0ce6c834"
+        }
+      ]
+    },
+    {
+      "name": "e-tax07",
+      "role": "手続一覧・手続内帳票対応表・対象帳票一覧",
+      "url": "https://www.e-tax.nta.go.jp/shiyo/ksk2/download/e-tax07.CAB",
+      "published": "2026-08-28",
+      "extract": "all",
+      "sha256": "3190e9a936c58e75eae4dfe121b2d1b96314ffa90fdd29d92b2b8e9fd8411b9d",
+      "size_bytes": 9340285,
+      "files": [
+        {
+          "path": "07手続一覧等/01手続一覧/イメージ添付書類手続一覧（申告）Ver150x.xlsx",
+          "sha256": "9478af953a2d3ba2223f3ef46080d8a3a8119421c2c6be62bb897f52b2387c68"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/イメージ添付書類手続一覧（申告）Ver180x.xlsx",
+          "sha256": "1c46e7df67f6d5df57572b054d1b33992f78dfa02a79df10cdc8edf99c1ec481"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/イメージ添付書類手続一覧（申告）Ver181x.xlsx",
+          "sha256": "55e29828aaaec3d126cf31ae9241108c32c29bd6d1c1b3053e4d4a5d3b494fc2"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/イメージ添付書類手続一覧（申告）Ver190x.xlsx",
+          "sha256": "4ad13f7cc4780dfae59960fbd3c651bb86a50cede4feaf01ed18bcd53534e99a"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/イメージ添付書類手続一覧（申告）Ver220x.xlsx",
+          "sha256": "bf3b1353b31de85b31d00662cc07037cb9325d79b0377d1428a8fe5ef6ac4681"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/イメージ添付書類手続一覧（申告）Ver231x.xlsx",
+          "sha256": "617e3341866da28adc0fe2ea7b2b0bc5a9fee7de8c0bfc958597c006d307679b"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/イメージ添付書類手続一覧（申請）Ver150x.xlsx",
+          "sha256": "671044c2610f694cc217b08ffb0730d0be9564b0750203fe1df420b8155b2331"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/イメージ添付書類手続一覧（申請）Ver180x.xlsx",
+          "sha256": "59507c380b49d3fece812f319da6d2e35b22ca8c2cd1c527a5125ec8e4a35bf0"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/イメージ添付書類手続一覧（申請）Ver210x.xlsx",
+          "sha256": "fe89ad0f893af2d7c3b08c3555ec57deb8c25b43ec2a4fbef5e0e2c3e219c9d9"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/イメージ添付書類手続一覧（申請）Ver220x.xlsx",
+          "sha256": "83a5b2ad3849b3ff08e80179bc9a8b3d92a2bbba28d874db29a77c2acde637d0"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/イメージ添付書類手続一覧（申請）Ver231x.xlsx",
+          "sha256": "2d4fcc3fcd00b416460bfe49525349b61e8f9c90dc666c967ab07a62aff09ea6"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/イメージ添付書類手続一覧（申請）Ver240x.xlsx",
+          "sha256": "6af1e794b5afbcf185eac9ffc07370e37da573e9a30680c4ddb6989adc54f523"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver150x.xlsx",
+          "sha256": "6a42415e16faa9cf740022a451da75e5e4dc90ba85869c1616e6028d558759e9"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver151x.xlsx",
+          "sha256": "c6dfabc3a97220bf08723edaa018d9e2b9c7b358d87726311595d7a91440c43a"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver160x.xlsx",
+          "sha256": "00c2715b3848dff7cf3ad58131a868cd109be06566f261fd5b6ea8e8364f2dfe"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver161x.xlsx",
+          "sha256": "e6d141d5420d96d1a6dd7ed82efab61facbb24241baba5c1bb9a971e0a90d893"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver170x.xlsx",
+          "sha256": "4f1ed736373cfceb3c2881a68a3309e3c8d639630874e39941ec613fbcc6b476"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver180x.xlsx",
+          "sha256": "b685e14bad2b08a2f7866a9fe61254059ad1879137016613335b02b7da3f0aa4"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver181x.xlsx",
+          "sha256": "ddb858e98c0bbae791f14ed98c3e6f56bf48aa39ddef6004569a092c23186995"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver190x.xlsx",
+          "sha256": "9fc1272f868ff96bb5a4fd12eacabee10fe5517b97557661ac05ee7b045892c8"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver200x.xlsx",
+          "sha256": "ac6612479ecfc9c75262313b29b6ad1af41c5e96ab45944a9600defe7c7b3c9f"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver210x.xlsx",
+          "sha256": "2202857469f9fac29edebf06ab2ee76243e7df858ca883e837037c1b85ffda4c"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver220x.xlsx",
+          "sha256": "d8bdb8b20c6240c4818394f80f6be74f682a12680b760ad56a066252d446f0a9"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver221x.xlsx",
+          "sha256": "8eade669dd8b956ea5a5b153d0318bb1445540761d66c37897177b7ce284f544"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver230x.xlsx",
+          "sha256": "2b0af2fa51b0b5b79c176293f2109b220b3c2cf1045cc6681ef2612d7bb0f826"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver231x.xlsx",
+          "sha256": "5ee2775bf5a9bce786e3633b2dfda19a9ef1e1d6c0c042d42634040c12a0dc45"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver232x.xlsx",
+          "sha256": "228bdbdcca4839a26f4ccce006e27644ee4ed304e8d01b6064f8e35ccb3a58cc"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver240x.xlsx",
+          "sha256": "ebb07967eb01b48aef24d6756e98fc97951cba2c9429fc0ef3476e41e8c600ea"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver250x.xlsx",
+          "sha256": "6fd2eb51737efa9d68ac0dd55091b4a8696242671ff8beda597653070fccff88"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/受信通知追加送信手続一覧（申告）Ver260x.xlsx",
+          "sha256": "67ea9b1aef37df2497ebeef0e63fde3853a3389c2b6ec670e81e37f19d0dcc66"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver100x.xlsx",
+          "sha256": "9f78e2df57f2dcacdb032188c49ddd7d45c0fcc067826ae919b883d11d370977"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver120x.xlsx",
+          "sha256": "1fc6b19c4cc056216591413df9e3cfac3d998add18c5f9cc25bc2a7ceffc0942"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver130x.xlsx",
+          "sha256": "3f0facdddc3d83bcf3a9c7a78c7144f8038edff2cfad5253985f36979569a797"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver140x.xlsx",
+          "sha256": "e10b1c5d472273ffb19b7879e237a7ec7a60520a0d9f99897afc92200c5429c5"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver150x.xlsx",
+          "sha256": "bb3e3d845209203f14b17382c58854bbeac7c973342a54fdbb11069f6247fea1"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver160x.xlsx",
+          "sha256": "3134dbf685e0cec450657773d107564e1fc0632c5eac8326190a8529d4c3aa39"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver190x.xlsx",
+          "sha256": "6fb409defc7e9e0e66e5442a2138885de2bcaaa121d419c36191d3f12ac26dfa"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver191x.xlsx",
+          "sha256": "664e9a6310ac70e252bdc81b3f71a6c4f7f5dae190203694de68256602953292"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver193x.xlsx",
+          "sha256": "f2f6b547788f7465fe375fe771fe092443c54d71c4d68a3d16373eda56af33b1"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver200x.xlsx",
+          "sha256": "69d5ead7008015953bf7aa74d8ee443021926952796c4d629b16ac66b7fdbd61"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver210x.xlsx",
+          "sha256": "8574f89f4e3172954bec1796006d4835f581d8b653d03e2b8ec3fc413358b946"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver211x.xlsx",
+          "sha256": "ad6f2f286384f95b9f2bed5630ed4f788e91fd8ec6cd791cb854fd78ec8971ed"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver220x.xlsx",
+          "sha256": "34b4cb6c78f1415efc94cdf49565b681ec9d79d81ee560cc1994bc9df2640e2d"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver230x.xlsx",
+          "sha256": "59af18d256e786d7a246ac4a0cde4e7de510e45cc62e05bb1d7cedb3a19749d6"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver231x.xlsx",
+          "sha256": "c376dac502c8ba21d6cbac0a5637618f5841245a5df648a08c737bec6cb35d6a"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver240x.xlsx",
+          "sha256": "233070a21bf9764d0c29b7f20972ffe07fb63214101c6896afcaf8a71e4f45ac"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver250x.xlsx",
+          "sha256": "a7f5ea52f4b7be3428429abd17a8286875e6ed3f9101eaa6971f2e98d3c1ef97"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver260x.xlsx",
+          "sha256": "e307f13874e6bd3b9af4043fd282bc9b7ebfb5b7225816e04d5f5efb8175ba0b"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（受付発行）Ver60x.xlsx",
+          "sha256": "8832ecc69fe45bc57fa90e6a5f232dee4571c6c1bf8b3fc5567366a51861edc8"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver140x.xlsx",
+          "sha256": "db67720d8661b1f5cf2155280bc922de198be824065e1910e16f81e33a265a63"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver150x.xlsx",
+          "sha256": "952288433ba9b5426b103f55599ffbf864140e468c7d304b69bf06474eddd68b"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver151x.xlsx",
+          "sha256": "364261da97360c2362b3c4e00f22b8a433ec51351ec20e9e387ea31589fbe7cf"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver160x.xlsx",
+          "sha256": "323a3128930716b053abee847c5762536d69751d45fe04db16d31e888d5f452b"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver161x.xlsx",
+          "sha256": "70238fb43c9daed2732b675cabbb9f3bca8f232f2242eab0fb03c6643dea2e1d"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver170x.xlsx",
+          "sha256": "09d6adb7ffa217465ed606158adc849d366bab537fc464e502caba748cd2313e"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver180x.xlsx",
+          "sha256": "b1faee9ae017785341b1d0bce68c1028fde291b3549ea3daa084d0e0a104a473"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver181x.xlsx",
+          "sha256": "1e18f6645b36026cfaf6db408c1cfd2c91de361feac9946f052047ffa9d11181"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver190x.xlsx",
+          "sha256": "23be0bce94a9e36dfcf216000ca21fa4d78a0027b21b325368649029a8ce6282"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver200x.xlsx",
+          "sha256": "dac54d917e7f86763388f233adb4873d401722f93e6d94d1ebb70851f93f2456"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver210x.xlsx",
+          "sha256": "2ef78b25f8aaa4698d116360b6e73d86913840038fc65ac64b5de39e9e23daf9"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver220x.xlsx",
+          "sha256": "05bd99dfbeb1044c929aef16df5cd6c891b74271c8103d0dc7131bd9921ce343"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver230x.xlsx",
+          "sha256": "1bd62d97d0d05282eb9e50ce9cf2208df291a77fceebacbb856092be71ebad0e"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver231x.xlsx",
+          "sha256": "d435c63d0c4acec4545cd6e877f58aba107f188c93ca7dd0be755f5381a77342"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver232x.xlsx",
+          "sha256": "5944a1729594e31b3a6b8cf8c4e6c35633103451a6e40c80bb59a07096928ffe"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver240x.xlsx",
+          "sha256": "80e9ff9b4ae508c6efbc96d337cd40703c24e73b7304c925a7027b9cf29832d1"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver241x.xlsx",
+          "sha256": "01d818ae50b894142bd861ed8beb0492714020ecae90cee433e504bf8850498d"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver250x.xlsx",
+          "sha256": "e72fd50b33125c5b843d4da8cf8b4ef7e9a1c68c5a41de8dec567aad99fa1fc6"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申告）Ver260x.xlsx",
+          "sha256": "5cbb194b2ca09c2622db1880111f3fb260d57c6ca8a711c232391006ae543c13"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申請）Ver150x.xlsx",
+          "sha256": "d9a85ec714af8c01e00002e611b6e2893c4faffe8db815811ebd2d817ed7c2c3"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申請）Ver200x.xlsx",
+          "sha256": "9c5cf4f507cfafe9169e4b7aa602ba508be1ad933ad8c51b28cba69d41c261e6"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申請）Ver201x.xlsx",
+          "sha256": "78cd2e03611e72d4c2133b753e9f9916d9877d675a70867fc390bfed8c091553"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申請）Ver210x.xlsx",
+          "sha256": "ec3a89b9d08693afca0b40055095a4f110ef43f13df83fb6fbdfdde17b68dc6f"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申請）Ver211x.xlsx",
+          "sha256": "4a74ce024ce964e56fc1b8e0aa06d260f6c16abae5fa262163ddd93c7e2ac80a"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申請）Ver220x.xlsx",
+          "sha256": "ad5bf711155984119593b7cce6ab257b424b05332528b4286157df282843ed05"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申請）Ver231x.xlsx",
+          "sha256": "dbd0044a48808e841847f33140d20fc1dccf8ae33a3f0a34e8f9b34d3720ff0c"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申請）Ver232x.xlsx",
+          "sha256": "e0e4ad9c419a34f0f63e516ff98e38de1cde3d191f092c7bcdd5141ca1c37dae"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申請）Ver240x.xlsx",
+          "sha256": "ff775091551bc3ac9071d86e36dd8b9dce35ac377f786b3294ac3627214fd4d8"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申請）Ver250x.xlsx",
+          "sha256": "2b187e6cb74eca0489c71f00d74021fd9e6b1eef81f1b7d2c8952973d93f91d1"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申請）Ver251x.xlsx",
+          "sha256": "cf3338634e584067aa357435798a43c1b81dc4887a68112858f9a3879f978515"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申請）Ver260x.xlsx",
+          "sha256": "2bb73ecb57e6dc755e60ca23388b00c65cf38d3645253a11e51ce02241de5a9c"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（申請）Ver60x.xlsx",
+          "sha256": "0b1d2a9d2b63d53dc6ecf3ecea2dfda0de8260309e03b8feb132010e174c8f66"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/手続一覧（税務代理権限証書等の手続き作成における留意事項）.docx",
+          "sha256": "91eb6078cd22ac508a168e546d558cd1dd028da5eda19ffd0d57d0d2dbe49a78"
+        },
+        {
+          "path": "07手続一覧等/01手続一覧/汎用手続一覧（申請）.xlsx",
+          "sha256": "125a5b375f411da2cec8ea52c39071560a26b7cf7e812384ece0bfcdc3f7d9f9"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/イメージ添付書類手続内帳票対応表（申告）Ver150x.xlsx",
+          "sha256": "cbfc09fca49f37b23c4a71cfebf14938ee81c882fb280eb41a252282b0cea362"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/イメージ添付書類手続内帳票対応表（申告）Ver180x.xlsx",
+          "sha256": "9bf8384870165e5c220a16468798ce382d8326659c21fd4995a78880ca076e5f"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/イメージ添付書類手続内帳票対応表（申告）Ver181x.xlsx",
+          "sha256": "a3064af551c98f752396347317fa40a0b336ab2c682404af2b3a9b87d1b4d056"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/イメージ添付書類手続内帳票対応表（申告）Ver190x.xlsx",
+          "sha256": "b6c24d8afec92385372868d26678669a0af04dac30ae238b73157f2ba280506f"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/イメージ添付書類手続内帳票対応表（申告）Ver220x.xlsx",
+          "sha256": "310f74c059e9222c18985070a7a55a36515ed3738c3fc448e1e5e13c1d0efe14"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/イメージ添付書類手続内帳票対応表（申告）Ver231x.xlsx",
+          "sha256": "795c9c44fb9bca50b1b54cf731c45453f2065dda7dfe223744be74e9b9f1fe33"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/イメージ添付書類手続内帳票対応表（申請）Ver150x.xlsx",
+          "sha256": "2f012dee6ed3ad6d19ed30f0891644632cf0d1f05f7ea2b8fa524de790f474e7"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/イメージ添付書類手続内帳票対応表（申請）Ver180x.xlsx",
+          "sha256": "e806de96f39eb4a5a790f53a04b68907bf3a0355f295f896bb080fe613ed0ade"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/イメージ添付書類手続内帳票対応表（申請）Ver210x.xlsx",
+          "sha256": "3855b7f4ae7458b2f6f737128c98bc3b5a576a44a73a6a6172dc38884d621571"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/イメージ添付書類手続内帳票対応表（申請）Ver220x.xlsx",
+          "sha256": "8a160cd73049b6de6bfd377d80fc68504236d0e9a39e7254020738aaf7fd6630"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/イメージ添付書類手続内帳票対応表（申請）Ver231x.xlsx",
+          "sha256": "29d883e3060e25590678750e1ad686d18f44235e2fa7e3a5913fb9f76020c624"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/イメージ添付書類手続内帳票対応表（申請）Ver240x.xlsx",
+          "sha256": "c1b0da43f7559a39356dcba3f01f5458913acbc0b5fd9ed81df8b2ef4ac2cef5"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver100x.xlsx",
+          "sha256": "030590ebee5701ff6f55e80cd6863a691768f5eeaa8b64de476795f108eb6aab"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver120x.xlsx",
+          "sha256": "155714191cd1071efbc9b080385d25adf6548c025a66b942a631857d19b0f060"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver130x.xlsx",
+          "sha256": "cc6de5b9a4c49930d5afc6a867bf82c546ee8e0f1eec5a45623aaf55ec1d28d1"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver140x.xlsx",
+          "sha256": "3500da8a043dd662ffacc06bf84c843018f59d899a8795cff0c39830928a88e0"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver150x.xlsx",
+          "sha256": "7ed7971dcf5451da5c5602c2202c3f5bfbe553d0b242f8951aac66a1edf0ee1d"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver160x.xlsx",
+          "sha256": "b3065fcb925e960d4334a4c2c04cea76bbd8729d8e222e8dc14224a48a28e42d"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver190x.xlsx",
+          "sha256": "fdb98cc5065edffe4d7e9720f42b3dbd443b3ad6befb7a747fe133470c05a7a6"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver191x.xlsx",
+          "sha256": "7bd09d3cd97f6fe5ac84ad5758113a5cc9c4aacc1de3deb82a47eda8ae5dc44a"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver193x.xlsx",
+          "sha256": "151784dcda30b72526e6a2c583da7f9991416b9c71b5735efece0f54d78c3bde"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver200x.xlsx",
+          "sha256": "f7ffb941ff70b7735a907c75a482c732cf859af3cefc29bd11417aad1ed81ba1"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver210x.xlsx",
+          "sha256": "0bdd077853c3296be190b8dc567be80b1c4db27d2d57a525662f99ffcc3bfd66"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver211x.xlsx",
+          "sha256": "cd54cb8609e30d29682530d4098605a1fe83e61c82663338369518a83e82cdf0"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver220x.xlsx",
+          "sha256": "4037cb81a8f751fbd1074a126ca0339161f3ff7584b90efa5280662218259a2d"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver230x.xlsx",
+          "sha256": "90828f288275cd949bcf21d255618b355d47b4e142bd7aa92893d5da78c675fa"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver231x.xlsx",
+          "sha256": "638951e94438e46757900b61883844fea4dc3325227c6a565f6125edb27a42df"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver240x.xlsx",
+          "sha256": "28f96d3e61f4b1279da0a76cb0131d3cc90bb6c24d680f97a396d09d1a0bff25"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver250x.xlsx",
+          "sha256": "a30c6aaf2073eaa89c38cc5b52624eb3d60514af07921afd49cfb0795c646b4c"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver260x.xlsx",
+          "sha256": "bd24f09f07ae41f2384b0bb88e36e017f9ae86dd3186087a46fa34554e61b11b"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(受付発行）Ver60x.xlsx",
+          "sha256": "750d9a3820395658c6b2991cde5f202edb5177c76565e87621da6d0f1d10c238"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver130x.xlsx",
+          "sha256": "4bc6bc8ad3c0a89d8b5e203b2bd72398129486a0013c2324e9e432ce56fbaf91"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver131x.xlsx",
+          "sha256": "13f65ff82f7d9210106b1df0e1ffadd4be58a68380b1886fc3c7d0e0eadfd6c6"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver132x.xlsx",
+          "sha256": "5e08461d6bc996491a7b71adcc8ee9a1b36382ad40274203f88a304d92cfb0a3"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver140x.xlsx",
+          "sha256": "87b7bf51119f10df2b2a29af285a35fa16180cd92872d2575915634dc756b8cc"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver141x.xlsx",
+          "sha256": "46d425289fb862c56e502fc4fa2da1d61bdc785056d5512e5ca177a3eaf39c83"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver150x.xlsx",
+          "sha256": "dadb213097858b3345840df4e487abce4f1b3c55c762d70c638d7011cdb8a1af"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver151x.xlsx",
+          "sha256": "4f797781cbefc6d283da80be9bf042cac9ccf6655a6517d1cec04d1d54d322a8"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver160x.xlsx",
+          "sha256": "997a79b6b2089bffffc0e681eb0727db9ec39bc06dd7b77e0eccb1cb2e8f72be"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver161x.xlsx",
+          "sha256": "657b60ffc3b13c8f8648afe32f2cd7f23021360395bef6afa7ce2ee1f23fc67d"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver170x.xlsx",
+          "sha256": "c3bfc5a97514e4e037c7e6fc8faef6d833fa34e2aa1425b19b6927c4a8cfaa78"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver180x.xlsx",
+          "sha256": "fbd7376bf4cbaa535ac47fd6d3d36e2fd48b0e1638a1fccdcb4d246746524c43"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver181x.xlsx",
+          "sha256": "bb5cd27ac4e0a3625e2d76eb161905df742ca719a25b442bb797c902afa5eae7"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver190x.xlsx",
+          "sha256": "6430fbdaf6dce0553f63256a3d61537364b62fc58d4eea6f91c5a50034120fd9"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver200x.xlsx",
+          "sha256": "abb99005c033e2a538ea4cc354cd5135d1cf235bc88879aaeddf096aa91033c8"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver210x.xlsx",
+          "sha256": "06b815d0abd7783bf70ff6dcb8d82e748a80555989586a9b9b424d662f8ac4ab"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver220x.xlsx",
+          "sha256": "1f7e3544fb26cafb73ab9e4e5d17a8a0337d1dbda2333d7fb3dd0b2a219dfb9f"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver221x.xlsx",
+          "sha256": "1ed08914aaed2ec1991cb8dfb34a7da2abe32993a74fd9c4ec8b360cf5372659"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver230x.xlsx",
+          "sha256": "1c7e0c7ad90a4c4769669d033aebd72519394c012e8dbd8e2afcf2907b165e82"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver231x.xlsx",
+          "sha256": "54c8b6d6e00f73ce2f35bca8bf115530a60a8e0c5f8f27d736d27613ea9fba41"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver232x.xlsx",
+          "sha256": "f67f4d2874f3cceed39bf26d1c007087120e7bb7e04faa422273a8d94f764729"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver240x.xlsx",
+          "sha256": "f8102592a2a9fba7505c513001b50c10c706809ce5e2d80fd5bb2a8ce0973ee6"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver241x.xlsx",
+          "sha256": "67480e961a6b3ee5383e18ee103ed885093fa84f7e81a8233f41219b62b763f7"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver250x.xlsx",
+          "sha256": "969432fd23097ec28b3ccdfdc2f96f6c95bff8717fc098ff03bf0ce7e9b9a5fa"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申告）Ver260x.xlsx",
+          "sha256": "6f2bcf00900c42fc6ee749f72a55b3e43790b65d5acbcee6eb5381a5d782c32f"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申請）Ver150x.xlsx",
+          "sha256": "e372e767df4ca45343c235515f3074d51da5cb4568655b4baf6989ca55550ed8"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申請）Ver200x.xlsx",
+          "sha256": "eb1e643a5c87b8e9f4730862bb7f88a3937869e193f6ab3bef9f31cb2a03275c"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申請）Ver201x.xlsx",
+          "sha256": "d4b2402b6b3770b90d99186e8ef1465d8184ea612282f588a4acf7f3e3d7dd05"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申請）Ver210x.xlsx",
+          "sha256": "3363725c26550d80059c414c4463dc74af900816b5dc792af2bbd9f31811d96d"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申請）Ver211x.xlsx",
+          "sha256": "9c9405a93be514f09d46590ecd914ed143ee287c5c1242a9d7d8dcae6032c5e5"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申請）Ver220x.xlsx",
+          "sha256": "85f5148e5ca0520bf4ced19a4f0a6adce554c3472a12e297c50291408d9ec9b7"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申請）Ver231x.xlsx",
+          "sha256": "3eb8536a621c79db27c6648150e500e95e29bd7a96f81b47c55c680ec372f629"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申請）Ver232x.xlsx",
+          "sha256": "93da34c521653bd4e2bb62be4e7abf0e68fb4c6f7c9cab7fc6c52d4f36d4a88b"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申請）Ver240x.xlsx",
+          "sha256": "705371ff33c4b19b5e2e070ae855d435e3d76881ff5a58549d3dc2f6a9aa26e1"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申請）Ver250x.xlsx",
+          "sha256": "81d440756728d38de4d5c4b81f77c68926540c36feb21404b0ba98921f825cde"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申請）Ver251x.xlsx",
+          "sha256": "906bfb002807e05a9734dfd467a7f981e9ad50315af04c085b5e280d5da0e55e"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申請）Ver260x.xlsx",
+          "sha256": "2e92d9a129de0672b7fc96a605dd8cd8876f2f7599b9b47fad9958c61794b9d2"
+        },
+        {
+          "path": "07手続一覧等/02手続内帳票対応表/手続内帳票対応表(申請）Ver60x.xlsx",
+          "sha256": "c58ee76d2d8a4a8f745a5a666449540a804c88f53480c1bb2088cd2bdcf0b45f"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（受付発行）Ver10x.xlsx",
+          "sha256": "53558917ad93ea4286ddacf2d9956894ffa536e7d93f714ee2d206353b7afe28"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（受付発行）Ver1x.xlsx",
+          "sha256": "ea436a8eb4446196a4bbbd79027f6787647de5152cf0f927ef7bc609f63df183"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（受付発行）Ver2x.xlsx",
+          "sha256": "5b409799e29deaab0478d184de1dea58f2b91de7c5bfa6ccd9f28125ad1835b9"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（受付発行）Ver3x.xlsx",
+          "sha256": "14031d9b0b9798ccfbd7bd068192d129056c1d6d2fd51cbd4618573fcb85b4d1"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（受付発行）Ver4x.xlsx",
+          "sha256": "a796f3066ee5e2443d8d3c48bdd5b17052a684a4c7ef8e485848a060b9f8b162"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（受付発行）Ver5x.xlsx",
+          "sha256": "08c0296e572720e4a8ff18f1373882a62edba70531cc194ed65bd68354977bac"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（受付発行）Ver6x.xlsx",
+          "sha256": "f62e129e2c28773e6b2ef911c5a8977b4422569aba8b73d0b902615db222a659"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（受付発行）Ver7x.xlsx",
+          "sha256": "be450f32b4b2400cd885bcb069470b20d6f8e1bbd6722dfec8db40fc83d29375"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（受付発行）Ver8x.xlsx",
+          "sha256": "e881fafc9363d063addf30ddfd084ad73f0657b83997e4e0e593e42929dfc29d"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver10x.xlsx",
+          "sha256": "679b3f53c9c6ca3f8f667992aef283e836fb6cb0c92670fda93031ba162efe34"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver11x.xlsx",
+          "sha256": "8b5a5aade7988f7d9fec3f84be10e18aa413be8c21332a3e3e5aad32653717f8"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver12x.xlsx",
+          "sha256": "7f474fec0f240c94fa2138694f67414ab86962e8d8c366c99a4913f22834ad4c"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver13x.xlsx",
+          "sha256": "f24963cf8a319dfc35b16f541b19cfe91738e4d25446ef6b8bef58ce972372eb"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver14x.xlsx",
+          "sha256": "cf9d5fdf7072650a4f187626a67e666c46017d9910dabf7ec4e8d0706000d9f5"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver15x.xlsx",
+          "sha256": "6cb966900a60d6e7dc8a9497df731fd5436e3f72b7cecdfd7d84776074dde3e2"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver16x.xlsx",
+          "sha256": "d3ea22755122f64bb7a79741fa292d5d43d89ca51530aa3d30a221cee754903a"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver17x.xlsx",
+          "sha256": "7efc4451b84a77aaac9750cc25c2cbf2517c6a5ef9ef11c569c358a91bb11c83"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver18x.xlsx",
+          "sha256": "fce92c8cbb4feca5d9dabbf32d7aa52f7cd813e00851c5d7a999ba7175fa8b69"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver19x.xlsx",
+          "sha256": "b7175eb22d54b84188a476571a15e8ccdbb76fd26546c0bd469891e52315d131"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver1x.xlsx",
+          "sha256": "4e373050b82939c754804fb3edf3e7a481b08f0efa340bdea8d645779dfd13fe"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver20x.xlsx",
+          "sha256": "cbd47d0e041e8ec5fc2a4fc99a1c204755cc41df48f9710e915947bca8aefcce"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver21x.xlsx",
+          "sha256": "e17265f807868c7cc2542a44b7f773897b038773a89fa8c5ac5bfe6202ebc33c"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver22x.xlsx",
+          "sha256": "24823acb3a5fc0aa5df903eaff86f6dc86381f9b1307f86023ed7fc149da004a"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver23x.xlsx",
+          "sha256": "5054086f5ed5111d4d0e3fb063374fe93a733192456370c05184ba26808480c7"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver24x.xlsx",
+          "sha256": "82cd885cc4c2a54ab78b29db0bec3d4c4dad2a7fc055a30ea48e4de8a5243ccd"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver25x.xlsx",
+          "sha256": "f344e9a28c9d5e7fa03cfe5e8a261cbc6d5da2542ff3c941ce3e58304ed78d44"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver2x.xlsx",
+          "sha256": "16068c8b2d4b9c94143bad9dbebd274e9985380662735707efb8597077e7f1d7"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver3x.xlsx",
+          "sha256": "ffe180b653bb442da81e9324fd3d4da92def5c112ab47edea2b8fcea309cb9e6"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver4x.xlsx",
+          "sha256": "750a65daa9eb31f11807535629ff38e50185f9083c306c925c3d674a328d8b52"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver5x.xlsx",
+          "sha256": "ec9e759fa0e51ca63228c5775635ce9607ee863657c82b90a8b1f75753800d7b"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver6x.xlsx",
+          "sha256": "20c3742c54bab4e58181ed62bb6325fe233c409d6b26b6063a3d7a58d222171a"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver7x.xlsx",
+          "sha256": "f0bb69eb7440dad6cdf42ba449fe56dc31f7fad318c0b333c0a0ecf18be9785d"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver8x.xlsx",
+          "sha256": "66e4dc14398e3f29900973131c28c8bf3ef49f2b1b849bf56034db31732ec77d"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申告）Ver9x.xlsx",
+          "sha256": "d16e910e91fbae90beb030eb5df4d6d93be051051928f480c0c3480d3a22011c"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver10x.xlsx",
+          "sha256": "d5c82b0d08d9160daf29c45e23f669b92652b7c189809359d6eeb2688fb49374"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver11x.xlsx",
+          "sha256": "9a8e85342bfc37a09f5258ce77daa163d3e60437e1ba5e59af1fb28c1b78d083"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver12x.xlsx",
+          "sha256": "254477d0b94fd0684b3040f7209b14b8f8c0520486fd6f1881b9a2993494febe"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver13x.xlsx",
+          "sha256": "6c321bc348f0bfbd1991a4456781c763caaa73d05c82628c223de9164d21f402"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver14x.xlsx",
+          "sha256": "a2d3d2f15684698594773faf4b842afd8babff2463ca3a7ddb3be8c0310f63c4"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver15x.xlsx",
+          "sha256": "4f9d987fadb10a5dcfd988c86fefef2bde777c810a31be4685bd039a6736b6dd"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver16x.xlsx",
+          "sha256": "033fdb33260e03841a7870a9c5a7eed94336f23b3f0e367b0c9904c4cf2c0ad8"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver17x.xlsx",
+          "sha256": "32d67bd4297de35e3cefeba386b0d0ae249ecb14f7f9940fa76073179cfbb74d"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver18x.xlsx",
+          "sha256": "056a4f70b082a2cec018df35c99409bba3d4dbb311dfa0c8011cbc5eba7d968b"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver1x.xlsx",
+          "sha256": "8e585184dd46cc57986564df471e85162b8f83820d8bdcba3a9ad466cd4d7938"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver21x.xlsx",
+          "sha256": "a60078fd7c1f637199a432e2826d6f17df7befacdcbba889c53d14d10fd2251a"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver2x.xlsx",
+          "sha256": "44e3eb48c217fb161834604c24133f38905e85392ae3513be06f376d2ca59a7a"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver3x.xlsx",
+          "sha256": "5fe04208d00341e602ed063c1397ac71bacd51c2d33fcf34c3d6f55003eed70b"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver4x.xlsx",
+          "sha256": "069830956d9312b4fd6b4aa00f698de73c4086474bafd472448c0bc19520ee4c"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver5x.xlsx",
+          "sha256": "0b6697e61582d4b02c9123e50e6921859e447db5c624b9a5950429ca8e27cb4d"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver6x.xlsx",
+          "sha256": "c5f91329810b3e0926333e0b2d65e97be21d3eb3f623a31df1c60b6e95787696"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver7x.xlsx",
+          "sha256": "b2e2dd4cf85ffca628785e78bac8637f9da602348caaafada8a9bcba580a699f"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver8x.xlsx",
+          "sha256": "febac46ef9c988679610762478e27a6f6c50919cf1f1c055da84173723cef197"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（申請）Ver9x.xlsx",
+          "sha256": "122385148cf9756fff845027941778ad05a76a3dd6fd45b8141509800ae05c48"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（開始届出）Ver2x.xlsx",
+          "sha256": "668627a65a4413bd98f17c2ba22baad1ab024c89d68aa3c421f0578f741d006a"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（開始届出）Ver3x.xlsx",
+          "sha256": "6a8fa3be28cfce839dad28baaed7b9ba948dab835ab1f718deb76b1a0ea62a30"
+        },
+        {
+          "path": "07手続一覧等/03対象帳票一覧/対象帳票一覧（開始届出）Ver4x.xlsx",
+          "sha256": "131936d72410b09c78f1f7048df9a426be5b75c2a5912082ade783a2004b0179"
+        }
+      ]
+    }
+  ],
+  "procedures": [
+    {
+      "procedure_id": "RHO0012",
+      "label": "内国法人の確定申告（青色）",
+      "xsd": "19XMLスキーマ/hojin/RHO0012-260.xsd",
+      "xsd_sha256": "fc85c3bc3e57aea650cf02a8269ff1781815b0fa3641d99141d61a4846bf21af"
+    }
+  ],
+  "forms": [
+    {
+      "form_id": "HOA112",
+      "label": "別表一",
+      "mvp": true,
+      "xsd": "19XMLスキーマ/hojin/HOA112-007.xsd",
+      "version": "7.0",
+      "xsd_documentation_date": "2025-12-04",
+      "group": "HOA112-7-0group",
+      "xsd_sha256": "76857bf8af98a2cfb6ecfa5faf75a8e516933de976793faf8dd2df5af8eff3fe"
+    },
+    {
+      "form_id": "HOA410",
+      "label": "別表四（総括表）",
+      "mvp": false,
+      "xsd": "19XMLスキーマ/hojin/HOA410-025.xsd",
+      "version": "25.0",
+      "xsd_documentation_date": "2026-04-11",
+      "group": "HOA410-25-0group",
+      "xsd_sha256": "7d1e168cbf6f6b7ca283f7da9c547c5428a2cb6f3194ae3b55812c64c8b0a3e3"
+    },
+    {
+      "form_id": "HOA420",
+      "label": "別表四（簡易様式）",
+      "mvp": true,
+      "xsd": "19XMLスキーマ/hojin/HOA420-025.xsd",
+      "version": "25.0",
+      "xsd_documentation_date": "2026-04-11",
+      "group": "HOA420-25-0group",
+      "xsd_sha256": "499809bfe068c96add148c0d4500bf5c8a9f9c06eab7c76944531da7f27ba154"
+    },
+    {
+      "form_id": "HOA511",
+      "label": "別表五(一)",
+      "mvp": true,
+      "xsd": "19XMLスキーマ/hojin/HOA511-016.xsd",
+      "version": "16.1",
+      "xsd_documentation_date": "2026-07-16",
+      "group": "HOA511-16-1group",
+      "xsd_sha256": "24dbfd209339461ff77a69afa5aa0779434a4734b1caea68071b43efcff4dc8f"
+    },
+    {
+      "form_id": "HOA522",
+      "label": "別表五(二)",
+      "mvp": true,
+      "xsd": "19XMLスキーマ/hojin/HOA522-010.xsd",
+      "version": "10.0",
+      "xsd_documentation_date": "2025-12-04",
+      "group": "HOA522-10-0group",
+      "xsd_sha256": "6303175bafd6168b7d430219ffa9f40ee57706f043e75b0983647b485b539d17"
+    },
+    {
+      "form_id": "HOE200",
+      "label": "別表十五",
+      "mvp": true,
+      "xsd": "19XMLスキーマ/hojin/HOE200-015.xsd",
+      "version": "15.0",
+      "xsd_documentation_date": "2025-04-10",
+      "group": "HOE200-15-0group",
+      "xsd_sha256": "bb46c6ccef919053cde4930225424a1f819c4e836050f955b1e3fcff3610eaeb"
+    }
+  ]
+}
