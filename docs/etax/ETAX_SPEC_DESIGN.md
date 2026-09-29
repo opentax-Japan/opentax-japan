@@ -1,4 +1,6 @@
-# e-Tax 仕様取込み設計（法人税）— v0.1 案・承認待ち
+# e-Tax 仕様取込み設計（法人税）— v0.2
+
+> OpenTax RED（赤字の単純な法人）で使う帳票は HOA112・HOA201・HOA420・HOA511・HOA522・HOB710。範囲は [DESIGN.md](../../DESIGN.md) を正とする。
 
 作成 2026-09-30。DESIGN.md §1・§3 の `etax/` 部分の詳細設計。
 【確認】＝実ファイル・一次資料で確認／【未確認】＝実装前に確認。
@@ -138,7 +140,7 @@
 }
 ```
 - `null` は初回取得時に `fetch-spec --init` で埋め、人が差分を見てコミットする
-- forms の MVP 対象: HOA112, HOA420, HOA511, HOA522, HOE200（HOA410 は `mvp:false` で登録だけ）
+- forms の MVP 対象（OpenTax RED）: HOA112, HOA201, HOA420, HOA511, HOA522, HOB710。作成済みの HOA410・HOE200 は `mvp:false` にして残す
 - **手続XSDが include している全ファイル** の SHA256 を記録する（帳票XSDだけ記録すると、General.xsd だけが変わった改訂を見逃す）
 - manifest 自体の形式は `spec-manifest/manifest.schema.json`（JSON Schema）でチェックする
 
@@ -323,7 +325,7 @@ opentax fetch-spec --set ksk2-2026-08 --check   # 見張り：原本を取り直
 ### 5.3 XSD では見つからない誤り（出力後の点検 `opentax lint`）
 - linkage_catalog の連動ルール（別表四の所得＝別表一の所得 など）
 - field_catalog の桁数・符号・入力チェック○の項目
-- `gen:kingaku` の値が整数か。`AutoCalc` 属性は出さない【未確認：e-Tax WEB版での扱い】
+- `gen:kingaku` の値が整数か。`AutoCalc` 属性は出さない【未確認：e-Taxソフト（ダウンロード版）での扱い】
 - simpleContent 型の値が消えていないか（aoiko で起きた不具合）
 - 手続コードと CATALOG の整合
 
@@ -361,4 +363,4 @@ opentax fetch-spec --set ksk2-2026-08 --check   # 見張り：原本を取り直
 2. e-tax10・e-tax08 の xlsx の構成（未展開）
 3. ①で IDREF をどう扱うか
 4. 別表四の簡易様式（HOA420）と総括表（HOA410）のどちらで出すか（DESIGN.md §0-C）
-5. 財務諸表（XBRL060/190）を含めない RHO0012 が e-Tax WEB版で読めるか
+5. 財務諸表（XBRL060/190）を含めない RHO0012 が e-Taxソフト（ダウンロード版）で読めるか
