@@ -253,6 +253,29 @@ def _calculate(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def _local_tax(args: argparse.Namespace) -> int:
+    from . import api
+    from .red import calculate as calc
+    from .red.model import OutOfScope
+
+    try:
+        calculated = run_red(Path(args.input))
+    except OutOfScope as e:
+        print(f"エラー: {e}", file=sys.stderr)
+        return EXIT_ERROR
+    if calculated["problems"]:
+        print("一致しない項目があるため一覧を作りません:")
+        for p in calculated["problems"]:
+            print(f"  {p}")
+        return EXIT_CHANGED
+    Path(args.output).write_text(api.local_tax_sheet(calculated), encoding="utf-8")
+    local = calculated["local_tax"]
+    print(f"均等割: {local['prefecture']['jurisdiction']} {local['prefecture']['amount']:,}円、"
+          f"{local['municipality']['jurisdiction']} {local['municipality']['amount']:,}円")
+    print(f"書き出しました: {args.output}")
+    return EXIT_OK
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="opentax")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -298,18 +321,24 @@ def main(argv: list[str] | None = None) -> int:
     x.add_argument("--trial-ratio-rounding", choices=["truncate", "round_half_up"],
                    help="試し用: 別表二の割合の端数処理を仮に決める。書き出すファイル名に「試し用」か「trial」が必要")
 
+    lt = sub.add_parser("local-tax", help="OpenTax RED: 地方税の計算結果の一覧（第六号様式・第二十号様式）を HTML で作る")
+    lt.add_argument("input")
+    lt.add_argument("-o", "--output", required=True, help="書き出す HTML")
+
     args = parser.parse_args(argv)
     command = {"fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
-               "build-checks": _build_checks, "calculate": _calculate, "export-etax": _export_etax}[args.command]
+               "build-checks": _build_checks, "calculate": _calculate, "export-etax": _export_etax,
+               "local-tax": _local_tax}[args.command]
     from .etax.validate import ValidationUnavailable
     from .etax.xtx import XtxError
     from .red.calculate import RuleError
     from .red.local_tax import LocalRuleError
+    from .red.local_sheet import SheetError
     from .red.model import InputError
     try:
         return command(args)
     except (SpecError, LayoutError, CatalogError, CheckError, InputError, RuleError, LocalRuleError, XtxError,
-            ValidationUnavailable, OSError) as e:
+            ValidationUnavailable, SheetError, OSError) as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
 

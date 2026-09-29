@@ -216,8 +216,7 @@ def schedule_02(data: dict, rules: dict) -> dict:
     """株主グループごとに持株を合計し、上位3グループ・上位1グループの割合で判定する。
     判定は割合を丸めずに（分数で）行い、帳票に書く割合だけを設定ファイルの桁で丸める。"""
     rounding = rules["family_company_ratio_display"]
-    if rounding.get("mode") is None or not rounding.get("source"):
-        raise RuleError("別表二の割合の端数処理が確認できていません（rules/corporate_tax.json）")
+    confirmed = rounding.get("mode") is not None and bool(rounding.get("source"))
     holders = data["shareholders"]
     if len(holders) > 13:
         raise OutOfScope("株主等の明細が13人を超えています（別表二の欄の数）")
@@ -256,12 +255,19 @@ def schedule_02(data: dict, rules: dict) -> dict:
         "top1_votes": top1_votes, "ratio1_votes": _display(r1_votes, 1, rounding),
         "specific_ratio": _display(specific, 3, rounding),
         "result": result,
+        "ratio_display_confirmed": confirmed,
         "holders": [{**s, "rank": rank[s["group"]], "relation_code": RELATION_CODES[s["relation"]]}
                     for s in sorted(holders, key=lambda s: (rank[s["group"]], -s["shares"]))],
     }
 
 
-def _display(value: Fraction, digits: int, rounding: dict) -> str:
+RATIO_UNCONFIRMED = "別表二の割合の端数処理が確認できていません（rules/corporate_tax.json）。e-Tax 用の出力は止めます"
+
+
+def _display(value: Fraction, digits: int, rounding: dict) -> str | None:
+    """帳票に書く割合。端数処理が確認できていなければ None（判定には使わない）。"""
+    if rounding.get("mode") is None or not rounding.get("source"):
+        return None
     scale = 10 ** digits
     if rounding["mode"] == "truncate":
         n = value.numerator * scale // value.denominator
@@ -284,6 +290,8 @@ def calculate(data: dict, per_capita: dict[str, int]) -> dict:
     s2 = schedule_02(data, rules)
     warnings = [f"繰越期間を過ぎた欠損金を切り捨てました: {e['period_start']}〜{e['period_end']} {e['amount']:,}円（{e['years']}年）"
                 for e in s7["expired"]]
+    if not s2["ratio_display_confirmed"]:
+        warnings.append(RATIO_UNCONFIRMED)
     warnings += [f"当期で繰越期間が終わる欠損金は翌期へ繰り越しません: {i['period_start']}〜{i['period_end']} {i['balance']:,}円（{i['years']}年）"
                  for i in s7["items"] if i["last_year"]]
     return {"schedule_04": s4, "schedule_07_01": s7, "schedule_01": s1, "schedule_05_02": s52,

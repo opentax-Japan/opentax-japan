@@ -35,7 +35,7 @@ _SCHEMA: dict[str, Any] = {
         "name": str, "name_kana": str, "address": str, "tax_office": str, "tax_office_code": str,
         "representative": str, "representative_kana": str, "representative_address": str,
         "corporate_number": (str, type(None)), "user_id": str, "zip": str, "phone": str, "business": str,
-        "capital": int, "capital_etc": int, "employees": int,
+        "capital": int, "capital_etc": int, "capital_reserve": int, "capital_surplus": int, "employees": int,
         "blue_return": bool, "wholly_owned_by_large_corp": bool,
     },
     "filing": {

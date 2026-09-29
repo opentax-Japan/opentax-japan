@@ -43,6 +43,12 @@ def export_etax(calculated: dict, schema_root: Path, today: datetime.date | None
                      today or datetime.date.today())
 
 
+def local_tax_sheet(calculated: dict, today: datetime.date | None = None) -> str:
+    """地方税の一覧（第六号様式・第二十号様式）の HTML。"""
+    from .red.local_sheet import build
+    return build(calculated, today)
+
+
 def validate_xtx(xml: bytes, schema_root: Path) -> list[str]:
     procedure = _manifest()["procedures"][0]
     return _validate(xml, schema_root, procedure["xsd"])

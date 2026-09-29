@@ -121,8 +121,11 @@ def _kubun(flag: bool) -> str:
 
 
 def text_values(data: dict, result: dict) -> dict:
+    from .calculate import RATIO_UNCONFIRMED, RuleError
     fp, filing = data["fiscal_period"], data["filing"]
     s2, s7, s52, s51 = result["schedule_02"], result["schedule_07_01"], result["schedule_05_02"], result["schedule_05_01"]
+    if not s2["ratio_display_confirmed"]:
+        raise RuleError(RATIO_UNCONFIRMED)
     att = filing["attachments"]
     v: dict = {
         # 別表一

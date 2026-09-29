@@ -1,0 +1,109 @@
+{
+  "note": "地方税の一覧に載せる欄（法令の様式の欄番号・欄名）。eLTAX の開発者向け仕様書は使っていない。value は local_sheet.py の値の名前。欄番号のない欄は no を null にする",
+  "forms": [
+    {
+      "form": "第六号様式",
+      "title": "道府県民税・事業税・特別法人事業税 確定申告書",
+      "versions": [
+        {
+          "version": "令和7年版",
+          "fiscal_year_start_from": "2025-04-01",
+          "fiscal_year_start_to": "2026-03-31",
+          "source": [
+            { "title": "愛知県 第六号様式 記載の手引（令和7年版）", "url": "https://www.pref.aichi.jp/uploaded/attachment/628210.pdf", "checked": "2026-09-30" },
+            { "title": "愛知県 法人県民税・法人事業税の様式", "url": "https://www.pref.aichi.jp/soshiki/zeimu/0000055625.html", "checked": "2026-09-30" }
+          ],
+          "business_tax_lines": { "income_total": "㉘", "tax_total": "㊵", "tax_diff": "㊸", "tax_payable": "㊻",
+                                  "special_income": "53", "special_total": "55", "special_payable": "60",
+                                  "income_34": "63", "provisional": "68", "loss_deduction": "69", "income_52": "70" }
+        },
+        {
+          "version": "令和8年版",
+          "fiscal_year_start_from": "2026-04-01",
+          "fiscal_year_start_to": null,
+          "revised_from_filing_date": "2027-01-01",
+          "revised_note": "令和8年総務省令第89号附則第1条第2号により、第六号様式は令和9年1月1日から改正される（改正の中身は未確認）",
+          "source": [
+            { "title": "e-Gov 地方税法施行規則 第六号様式（令和8年7月21日 総務省令第89号までを反映）", "url": "https://laws.e-gov.go.jp/api/2/attachment/329M50000002023_20260721_508M60000008089?src=./pict/2FH00000079725.pdf", "checked": "2026-09-30" },
+            { "title": "愛知県 第六号様式 記載の手引（令和8年版）", "url": "https://www.pref.aichi.jp/uploaded/attachment/628258.pdf", "checked": "2026-09-30" }
+          ],
+          "business_tax_lines": { "income_total": "㉘", "tax_total": "㊵", "tax_diff": "㊹", "tax_payable": "㊼",
+                                  "special_income": "54", "special_total": "56", "special_payable": "61",
+                                  "income_34": "64", "provisional": "69", "loss_deduction": "70", "income_52": "71" }
+        }
+      ],
+      "resident_tax_lines": [
+        { "no": "①", "name": "法人税法の規定によって計算した法人税額", "value": "corporate_tax" },
+        { "no": "⑤", "name": "課税標準となる法人税額（①＋②－③＋④）", "value": "tax_base" },
+        { "no": "⑦", "name": "法人税割額", "value": "levy" },
+        { "no": "⑬", "name": "差引法人税割額", "value": "levy" },
+        { "no": "⑯", "name": "この申告により納付すべき法人税割額", "value": "levy" },
+        { "no": "⑰", "name": "算定期間中において事務所等を有していた月数", "value": "months" },
+        { "no": "⑱", "name": "均等割額", "value": "per_capita" },
+        { "no": "⑳", "name": "この申告により納付すべき均等割額（⑱－⑲）", "value": "per_capita" },
+        { "no": "㉑", "name": "この申告により納付すべき道府県民税額（⑯＋⑳）", "value": "resident_total" },
+        { "no": "㉓", "name": "差引（㉑－㉒）", "value": "resident_total" }
+      ],
+      "business_tax_items": [
+        { "key": "income_total", "name": "所得金額総額", "value": "business_income_total" },
+        { "key": "tax_total", "name": "合計事業税額", "value": "zero" },
+        { "key": "tax_diff", "name": "差引事業税額", "value": "zero" },
+        { "key": "tax_payable", "name": "この申告により納付すべき事業税額", "value": "zero" },
+        { "key": "special_income", "name": "所得割に係る特別法人事業税額", "value": "zero" },
+        { "key": "special_total", "name": "合計特別法人事業税額", "value": "zero" },
+        { "key": "special_payable", "name": "この申告により納付すべき特別法人事業税額", "value": "zero" },
+        { "key": "income_34", "name": "所得金額（法人税の明細書（別表4）の34）", "value": "income_34" },
+        { "key": "provisional", "name": "仮計", "value": "business_provisional" },
+        { "key": "loss_deduction", "name": "繰越欠損金額等若しくは災害損失金額又は債務免除等があった場合の欠損金額等の当期控除額", "value": "zero" },
+        { "key": "income_52", "name": "法人税の所得金額（法人税の明細書（別表4）の52）", "value": "income_52" }
+      ],
+      "unnumbered": [
+        { "name": "期末現在の資本金の額", "value": "capital" },
+        { "name": "期末現在の資本金の額及び資本剰余金の額の合算額", "value": "capital_and_surplus" },
+        { "name": "期末現在の資本金の額及び資本準備金の額の合算額", "value": "capital_and_reserve" },
+        { "name": "期末現在の資本金等の額", "value": "capital_etc" },
+        { "name": "法人税の期末現在の資本金等の額", "value": "capital_etc_corporate" }
+      ]
+    },
+    {
+      "form": "第二十号様式",
+      "title": "市町村民税 確定申告書",
+      "versions": [
+        {
+          "version": "現行",
+          "fiscal_year_start_from": null,
+          "fiscal_year_start_to": null,
+          "note": "事業年度による版の違いは未確認",
+          "source": [
+            { "title": "e-Gov 地方税法施行規則 第二十号様式（記載要領付き）", "url": "https://laws.e-gov.go.jp/api/2/attachment/329M50000002023_20260721_508M60000008089?src=./pict/2FH00000076714.pdf", "checked": "2026-09-30" }
+          ]
+        }
+      ],
+      "resident_tax_lines": [
+        { "no": "①", "name": "法人税法の規定によって計算した法人税額", "value": "corporate_tax" },
+        { "no": "⑤", "name": "課税標準となる法人税額及びその法人税割額（①＋②－③＋④）", "value": "tax_base" },
+        { "no": "⑫", "name": "差引法人税割額", "value": "levy" },
+        { "no": "⑮", "name": "この申告により納付すべき法人税割額", "value": "levy" },
+        { "no": "⑯", "name": "算定期間中において事務所等を有していた月数", "value": "months" },
+        { "no": "⑰", "name": "均等割額", "value": "per_capita" },
+        { "no": "⑲", "name": "この申告により納付すべき均等割額（⑰－⑱）", "value": "per_capita" },
+        { "no": "⑳", "name": "この申告により納付すべき市町村民税額（⑮＋⑲）", "value": "resident_total" },
+        { "no": "㉒", "name": "差引（⑳－㉑）", "value": "resident_total" },
+        { "no": "㉓", "name": "当該法人の全従業者数", "value": "employees" },
+        { "no": "㉔", "name": "左のうち当該市町村分の従業者数", "value": "employees" },
+        { "no": "㉕", "name": "当該市町村分の均等割の税率適用区分に用いる従業者数", "value": "employees" }
+      ],
+      "unnumbered": [
+        { "name": "期末現在の資本金の額又は出資金の額", "value": "capital" },
+        { "name": "期末現在の資本金の額及び資本準備金の額の合算額", "value": "capital_and_reserve" },
+        { "name": "期末現在の資本金等の額", "value": "capital_etc" },
+        { "name": "法人税の期末現在の資本金等の額", "value": "capital_etc_corporate" }
+      ]
+    }
+  ],
+  "local_guides": [
+    { "title": "岡山県 第6号様式・記載の手引き（令和8年版の内容）", "url": "https://www.pref.okayama.jp/page/detail-5242.html" },
+    { "title": "岡山市 法人市民税（第20号様式・記載の手引）", "url": "https://www.city.okayama.jp/kurashi/0000005632.html" },
+    { "title": "倉敷市 法人市民税の様式", "url": "https://www.city.kurashiki.okayama.jp/kurashi/tax/1001669/1001685/index.html" }
+  ]
+}

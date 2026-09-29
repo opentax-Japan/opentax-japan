@@ -73,11 +73,14 @@ class SampleTest(unittest.TestCase):
         path.write_text("\n".join(lines), encoding="utf-8")
         self.assertEqual(model.load(path), sample())
 
-    def test_unconfirmed_rounding_stops(self):
-        data = model.validate(sample())
-        with mock.patch.object(calc, "load_rules", rules_with_rounding(None)):
-            with self.assertRaises(calc.RuleError):
-                calc.schedule_02(data, calc.load_rules("corporate_tax.json"))
+    def test_unconfirmed_rounding_only_blocks_etax_output(self):
+        from opentax.red.etax_ksk2_2026_08 import text_values
+        out = run(sample(), rounding=None)          # 計算は進む（警告つき）
+        self.assertEqual(out["problems"], [])
+        self.assertIsNone(out["result"]["schedule_02"]["ratio_shares"])
+        self.assertTrue(any("端数処理" in w for w in out["result"]["warnings"]))
+        with self.assertRaises(calc.RuleError):     # e-Tax 用の出力だけ止まる
+            text_values(model.validate(sample()), out["result"])
 
 
 class TrialRoundingGuardTest(unittest.TestCase):
