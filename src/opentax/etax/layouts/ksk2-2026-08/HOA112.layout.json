@@ -1,0 +1,2384 @@
+{
+ "form_id": "HOA112",
+ "label": "別表一",
+ "version": "7.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOA112-7-0group",
+ "xsd": "19XMLスキーマ/hojin/HOA112-007.xsd",
+ "xsd_sha256": "76857bf8af98a2cfb6ecfa5faf75a8e516933de976793faf8dd2df5af8eff3fe",
+ "root": {
+  "tag": "HOA112",
+  "path": "HOA112",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "BGA00000",
+    "path": "HOA112/BGA00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "BGA00000-7-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "BGA00010",
+      "path": "HOA112/BGA00000/BGA00010",
+      "label": "提出年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:TEISYUTSU_DAYref",
+      "kind": "idref",
+      "idref": "TEISYUTSU_DAY",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "TEISYUTSU_DAY",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "BGA00020",
+      "path": "HOA112/BGA00000/BGA00020",
+      "label": "提出先税務署",
+      "min": 0,
+      "max": 1,
+      "type": "gen:ZEIMUSHOref",
+      "kind": "idref",
+      "idref": "ZEIMUSHO",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "ZEIMUSHO",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "BGA00030",
+      "path": "HOA112/BGA00000/BGA00030",
+      "label": "納税地",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_ADRref",
+      "kind": "idref",
+      "idref": "NOZEISHA_ADR",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_ADR",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "BGA00040",
+      "path": "HOA112/BGA00000/BGA00040",
+      "label": "電話",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_TELref",
+      "kind": "idref",
+      "idref": "NOZEISHA_TEL",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_TEL",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "BGA00050",
+      "path": "HOA112/BGA00000/BGA00050",
+      "label": "（フリガナ）法人名",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BGA00060",
+        "path": "HOA112/BGA00000/BGA00050/BGA00060",
+        "label": "フリガナ",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_NM_KNref",
+        "kind": "idref",
+        "idref": "NOZEISHA_NM_KN",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_NM_KN",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "BGA00070",
+        "path": "HOA112/BGA00000/BGA00050/BGA00070",
+        "label": "法人名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_NMref",
+        "kind": "idref",
+        "idref": "NOZEISHA_NM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_NM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BGA00080",
+      "path": "HOA112/BGA00000/BGA00080",
+      "label": "法人番号",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_BANGOref",
+      "kind": "idref",
+      "idref": "NOZEISHA_BANGO",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_BANGO",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "BGA00090",
+      "path": "HOA112/BGA00000/BGA00090",
+      "label": "（フリガナ）代表者",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BGA00100",
+        "path": "HOA112/BGA00000/BGA00090/BGA00100",
+        "label": "フリガナ",
+        "min": 0,
+        "max": 1,
+        "type": "gen:DAIHYO_NM_KNref",
+        "kind": "idref",
+        "idref": "DAIHYO_NM_KN",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "DAIHYO_NM_KN",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "BGA00110",
+        "path": "HOA112/BGA00000/BGA00090/BGA00110",
+        "label": "代表者",
+        "min": 0,
+        "max": 1,
+        "type": "gen:DAIHYO_NMref",
+        "kind": "idref",
+        "idref": "DAIHYO_NM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "DAIHYO_NM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BGA00120",
+      "path": "HOA112/BGA00000/BGA00120",
+      "label": "代表者住所",
+      "min": 0,
+      "max": 1,
+      "type": "gen:DAIHYO_ADRref",
+      "kind": "idref",
+      "idref": "DAIHYO_ADR",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "DAIHYO_ADR",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "BGA00130",
+      "path": "HOA112/BGA00000/BGA00130",
+      "label": "法人区分",
+      "min": 0,
+      "max": 1,
+      "type": "BGA00130-7-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HOA112/BGA00000/BGA00130/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HOA112/BGA00000/BGA00130/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "BGA00140",
+      "path": "HOA112/BGA00000/BGA00140",
+      "label": "事業種目",
+      "min": 0,
+      "max": 1,
+      "type": "gen:JIGYO_NAIYOref",
+      "kind": "idref",
+      "idref": "JIGYO_NAIYO",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "JIGYO_NAIYO",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "BGA00150",
+      "path": "HOA112/BGA00000/BGA00150",
+      "label": "期末現在の資本金の額又は出資金の額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:SHIHON_KINref",
+      "kind": "idref",
+      "idref": "SHIHON_KIN",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "SHIHON_KIN",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "BGA00160",
+      "path": "HOA112/BGA00000/BGA00160",
+      "label": "同上が１億円以下の普通法人のうち中小法人に該当しないもの",
+      "min": 0,
+      "max": 1,
+      "type": "BGA00160-7-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HOA112/BGA00000/BGA00160/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HOA112/BGA00000/BGA00160/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "BGA00170",
+      "path": "HOA112/BGA00000/BGA00170",
+      "label": "同非区分",
+      "min": 0,
+      "max": 1,
+      "type": "BGA00170-7-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HOA112/BGA00000/BGA00170/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "3",
+         "4"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HOA112/BGA00000/BGA00170/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "BGA00180",
+      "path": "HOA112/BGA00000/BGA00180",
+      "label": "旧納税地及び旧法人名等",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BGA00190",
+        "path": "HOA112/BGA00000/BGA00180/BGA00190",
+        "label": "旧納税地",
+        "min": 0,
+        "max": 1,
+        "type": "gen:address",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "BGA00200",
+        "path": "HOA112/BGA00000/BGA00180/BGA00200",
+        "label": "旧法人名等",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BGA00210",
+      "path": "HOA112/BGA00000/BGA00210",
+      "label": "添付書類",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BGA00220",
+        "path": "HOA112/BGA00000/BGA00210/BGA00220",
+        "label": "貸借対照表",
+        "min": 0,
+        "max": 1,
+        "type": "BGA00220-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOA112/BGA00000/BGA00210/BGA00220/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOA112/BGA00000/BGA00210/BGA00220/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "BGA00230",
+        "path": "HOA112/BGA00000/BGA00210/BGA00230",
+        "label": "損益計算書",
+        "min": 0,
+        "max": 1,
+        "type": "BGA00230-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOA112/BGA00000/BGA00210/BGA00230/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOA112/BGA00000/BGA00210/BGA00230/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "BGA00240",
+        "path": "HOA112/BGA00000/BGA00210/BGA00240",
+        "label": "株主（社員）資本等変動計算書又は損益金処分表",
+        "min": 0,
+        "max": 1,
+        "type": "BGA00240-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOA112/BGA00000/BGA00210/BGA00240/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOA112/BGA00000/BGA00210/BGA00240/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "BGA00250",
+        "path": "HOA112/BGA00000/BGA00210/BGA00250",
+        "label": "勘定科目内訳明細書",
+        "min": 0,
+        "max": 1,
+        "type": "BGA00250-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOA112/BGA00000/BGA00210/BGA00250/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOA112/BGA00000/BGA00210/BGA00250/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "BGA00260",
+        "path": "HOA112/BGA00000/BGA00210/BGA00260",
+        "label": "事業概況書",
+        "min": 0,
+        "max": 1,
+        "type": "BGA00260-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOA112/BGA00000/BGA00210/BGA00260/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOA112/BGA00000/BGA00210/BGA00260/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "BGA00270",
+        "path": "HOA112/BGA00000/BGA00210/BGA00270",
+        "label": "組織再編成に係る契約書等の写し",
+        "min": 0,
+        "max": 1,
+        "type": "BGA00270-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOA112/BGA00000/BGA00210/BGA00270/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOA112/BGA00000/BGA00210/BGA00270/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "BGA00280",
+        "path": "HOA112/BGA00000/BGA00210/BGA00280",
+        "label": "組織再編成に係る移転資産等の明細書",
+        "min": 0,
+        "max": 1,
+        "type": "BGA00280-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOA112/BGA00000/BGA00210/BGA00280/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOA112/BGA00000/BGA00210/BGA00280/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BGA00290",
+      "path": "HOA112/BGA00000/BGA00290",
+      "label": "売上金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGA00300",
+      "path": "HOA112/BGA00000/BGA00300",
+      "label": "適用額明細書提出の有無",
+      "min": 0,
+      "max": 1,
+      "type": "BGA00300-7-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HOA112/BGA00000/BGA00300/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HOA112/BGA00000/BGA00300/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "BGA00310",
+      "path": "HOA112/BGA00000/BGA00310",
+      "label": "税理士法第30条の書面提出有",
+      "min": 0,
+      "max": 1,
+      "type": "BGA00310-7-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HOA112/BGA00000/BGA00310/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HOA112/BGA00000/BGA00310/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "BGA00320",
+      "path": "HOA112/BGA00000/BGA00320",
+      "label": "税理士法第33条の２の書面提出有",
+      "min": 0,
+      "max": 1,
+      "type": "BGA00320-7-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HOA112/BGA00000/BGA00320/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HOA112/BGA00000/BGA00320/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "BGA00330",
+      "path": "HOA112/BGA00000/BGA00330",
+      "label": "事業年度",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BGA00340",
+        "path": "HOA112/BGA00000/BGA00330/BGA00340",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_FROMref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_FROM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_FROM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "BGA00350",
+        "path": "HOA112/BGA00000/BGA00330/BGA00350",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_TOref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_TO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_TO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BGA00360",
+      "path": "HOA112/BGA00000/BGA00360",
+      "label": "申告の種類",
+      "min": 0,
+      "max": 1,
+      "type": "gen:SHINKOKU_KBNref",
+      "kind": "idref",
+      "idref": "SHINKOKU_KBN",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "SHINKOKU_KBN",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "BGA00365",
+      "path": "HOA112/BGA00000/BGA00365",
+      "label": "申告の種類（防衛分）",
+      "min": 0,
+      "max": 1,
+      "type": "BGA00365-7-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HOA112/BGA00000/BGA00365/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2",
+         "3",
+         "4",
+         "5"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HOA112/BGA00000/BGA00365/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "BGA00370",
+      "path": "HOA112/BGA00000/BGA00370",
+      "label": "中間申告の場合の計算期間",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BGA00380",
+        "path": "HOA112/BGA00000/BGA00370/BGA00380",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOA112/BGA00000/BGA00370/BGA00380/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOA112/BGA00000/BGA00370/BGA00380/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOA112/BGA00000/BGA00370/BGA00380/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOA112/BGA00000/BGA00370/BGA00380/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "BGA00390",
+        "path": "HOA112/BGA00000/BGA00370/BGA00390",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOA112/BGA00000/BGA00370/BGA00390/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOA112/BGA00000/BGA00370/BGA00390/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOA112/BGA00000/BGA00370/BGA00390/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOA112/BGA00000/BGA00370/BGA00390/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BGA00400",
+      "path": "HOA112/BGA00000/BGA00400",
+      "label": "残余財産の最後の分配又は引渡しの日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "HOA112/BGA00000/BGA00400/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "HOA112/BGA00000/BGA00400/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "HOA112/BGA00000/BGA00400/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "HOA112/BGA00000/BGA00400/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "BGA00410",
+      "path": "HOA112/BGA00000/BGA00410",
+      "label": "決算確定の日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "HOA112/BGA00000/BGA00410/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "HOA112/BGA00000/BGA00410/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "HOA112/BGA00000/BGA00410/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "HOA112/BGA00000/BGA00410/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "BGA00420",
+      "path": "HOA112/BGA00000/BGA00420",
+      "label": "還付を受けようとする金融機関等",
+      "min": 0,
+      "max": 1,
+      "type": "gen:KANPU_KINYUKIKANref",
+      "kind": "idref",
+      "idref": "KANPU_KINYUKIKAN",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "KANPU_KINYUKIKAN",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "BGA00430",
+      "path": "HOA112/BGA00000/BGA00430",
+      "label": "税理士署名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:DAIRI_NMref",
+      "kind": "idref",
+      "idref": "DAIRI_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "DAIRI_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "BGB00000",
+    "path": "HOA112/BGB00000",
+    "label": "この申告書による法人税額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "BGB00000-7-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "BGB00010",
+      "path": "HOA112/BGB00000/BGB00010",
+      "label": "所得金額又は欠損金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGB00020",
+      "path": "HOA112/BGB00000/BGB00020",
+      "label": "法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGB00030",
+      "path": "HOA112/BGB00000/BGB00030",
+      "label": "法人税額の特別控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGB00055",
+      "path": "HOA112/BGB00000/BGB00055",
+      "label": "税額控除超過額相当額等の加算額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGB00060",
+      "path": "HOA112/BGB00000/BGB00060",
+      "label": "土地譲渡利益金",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BGB00070",
+        "path": "HOA112/BGB00000/BGB00060/BGB00070",
+        "label": "課税土地譲渡利益金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BGB00080",
+        "path": "HOA112/BGB00000/BGB00060/BGB00080",
+        "label": "同上に対する税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BGB00090",
+      "path": "HOA112/BGB00000/BGB00090",
+      "label": "留保金",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BGB00100",
+        "path": "HOA112/BGB00000/BGB00090/BGB00100",
+        "label": "課税留保金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BGB00110",
+        "path": "HOA112/BGB00000/BGB00090/BGB00110",
+        "label": "同上に対する税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BGB00120",
+      "path": "HOA112/BGB00000/BGB00120",
+      "label": "法人税額計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BGB00130",
+        "path": "HOA112/BGB00000/BGB00120/BGB00130",
+        "label": "外書文字（外）",
+        "min": 0,
+        "max": 1,
+        "type": "BGB00130-7-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 1
+       },
+       {
+        "tag": "BGB00140",
+        "path": "HOA112/BGB00000/BGB00120/BGB00140",
+        "label": "外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BGB00150",
+        "path": "HOA112/BGB00000/BGB00120/BGB00150",
+        "label": "本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BGB00160",
+      "path": "HOA112/BGB00000/BGB00160",
+      "label": "分配時調整外国税相当額及び外国関係会社等に係る控除対象所得税額等相当額の控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGB00170",
+      "path": "HOA112/BGB00000/BGB00170",
+      "label": "仮装経理に基づく過大申告の更正に伴う控除法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGB00180",
+      "path": "HOA112/BGB00000/BGB00180",
+      "label": "控除税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGB00190",
+      "path": "HOA112/BGB00000/BGB00190",
+      "label": "差引所得に対する法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGB00200",
+      "path": "HOA112/BGB00000/BGB00200",
+      "label": "中間申告分の法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGB00210",
+      "path": "HOA112/BGB00000/BGB00210",
+      "label": "差引確定法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGB00220",
+      "path": "HOA112/BGB00000/BGB00220",
+      "label": "控除税額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BGB00230",
+        "path": "HOA112/BGB00000/BGB00220/BGB00230",
+        "label": "所得税の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BGB00240",
+        "path": "HOA112/BGB00000/BGB00220/BGB00240",
+        "label": "外国税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BGB00250",
+        "path": "HOA112/BGB00000/BGB00220/BGB00250",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BGB00260",
+        "path": "HOA112/BGB00000/BGB00220/BGB00260",
+        "label": "控除した金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BGB00270",
+        "path": "HOA112/BGB00000/BGB00220/BGB00270",
+        "label": "控除しきれなかった金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BGB00320",
+      "path": "HOA112/BGB00000/BGB00320",
+      "label": "この申告による還付金額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BGB00330",
+        "path": "HOA112/BGB00000/BGB00320/BGB00330",
+        "label": "所得税額等の還付金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BGB00340",
+        "path": "HOA112/BGB00000/BGB00320/BGB00340",
+        "label": "中間納付額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BGB00350",
+        "path": "HOA112/BGB00000/BGB00320/BGB00350",
+        "label": "欠損金の繰戻しによる還付請求税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "BGB00360",
+          "path": "HOA112/BGB00000/BGB00320/BGB00350/BGB00360",
+          "label": "外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BGB00370",
+          "path": "HOA112/BGB00000/BGB00320/BGB00350/BGB00370",
+          "label": "本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "BGB00380",
+        "path": "HOA112/BGB00000/BGB00320/BGB00380",
+        "label": "計(21)＋(22)＋(23)",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "BGB00390",
+          "path": "HOA112/BGB00000/BGB00320/BGB00380/BGB00390",
+          "label": "外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BGB00400",
+          "path": "HOA112/BGB00000/BGB00320/BGB00380/BGB00400",
+          "label": "本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BGB00410",
+      "path": "HOA112/BGB00000/BGB00410",
+      "label": "明細",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BGB00430",
+        "path": "HOA112/BGB00000/BGB00410/BGB00430",
+        "label": "この申告が修正申告である場合のこの申告により納付すべき法人税額又は減少する還付請求税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "BGB00440",
+          "path": "HOA112/BGB00000/BGB00410/BGB00430/BGB00440",
+          "label": "外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BGB00450",
+          "path": "HOA112/BGB00000/BGB00410/BGB00430/BGB00450",
+          "label": "本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BGB00460",
+      "path": "HOA112/BGB00000/BGB00460",
+      "label": "欠損金等の当期控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGB00470",
+      "path": "HOA112/BGB00000/BGB00470",
+      "label": "翌期へ繰り越す欠損金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "BGC00000",
+    "path": "HOA112/BGC00000",
+    "label": "この申告書による地方法人税額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "BGC00000-7-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "BGC00010",
+      "path": "HOA112/BGC00000/BGC00010",
+      "label": "課税標準法人税額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BGC00020",
+        "path": "HOA112/BGC00000/BGC00010/BGC00020",
+        "label": "基準法人税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "BGC00030",
+          "path": "HOA112/BGC00000/BGC00010/BGC00020/BGC00030",
+          "label": "所得の金額に対する法人税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BGC00040",
+          "path": "HOA112/BGC00000/BGC00010/BGC00020/BGC00040",
+          "label": "課税留保金額に対する法人税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "BGC00050",
+        "path": "HOA112/BGC00000/BGC00010/BGC00050",
+        "label": "課税標準法人税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BGC00060",
+      "path": "HOA112/BGC00000/BGC00060",
+      "label": "地方法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGC00065",
+      "path": "HOA112/BGC00000/BGC00065",
+      "label": "税額控除超過額相当額の加算額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGC00070",
+      "path": "HOA112/BGC00000/BGC00070",
+      "label": "課税留保金額に係る地方法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGC00080",
+      "path": "HOA112/BGC00000/BGC00080",
+      "label": "所得地方法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGC00090",
+      "path": "HOA112/BGC00000/BGC00090",
+      "label": "分配時調整外国税相当額及び外国関係会社等に係る控除対象所得税額等相当額の控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGC00100",
+      "path": "HOA112/BGC00000/BGC00100",
+      "label": "外国税額の控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGC00110",
+      "path": "HOA112/BGC00000/BGC00110",
+      "label": "仮装経理に基づく過大申告の更正に伴う控除地方法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGC00120",
+      "path": "HOA112/BGC00000/BGC00120",
+      "label": "差引地方法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGC00130",
+      "path": "HOA112/BGC00000/BGC00130",
+      "label": "中間申告分の地方法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGC00140",
+      "path": "HOA112/BGC00000/BGC00140",
+      "label": "差引確定地方法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BGC00150",
+      "path": "HOA112/BGC00000/BGC00150",
+      "label": "この申告による還付金額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BGC00240",
+        "path": "HOA112/BGC00000/BGC00150/BGC00240",
+        "label": "外国税額の還付金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BGC00250",
+        "path": "HOA112/BGC00000/BGC00150/BGC00250",
+        "label": "中間納付額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BGC00260",
+        "path": "HOA112/BGC00000/BGC00150/BGC00260",
+        "label": "計(41)＋(42)",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "BGC00270",
+          "path": "HOA112/BGC00000/BGC00150/BGC00260/BGC00270",
+          "label": "外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BGC00280",
+          "path": "HOA112/BGC00000/BGC00150/BGC00260/BGC00280",
+          "label": "本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BGC00180",
+      "path": "HOA112/BGC00000/BGC00180",
+      "label": "明細",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BGC00230",
+        "path": "HOA112/BGC00000/BGC00180/BGC00230",
+        "label": "この申告が修正申告である場合のこの申告により納付すべき地方法人税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "BGD00000",
+    "path": "HOA112/BGD00000",
+    "label": "剰余金・利益の配当（剰余金の分配）の金額",
+    "min": 0,
+    "max": 1,
+    "type": "gen:kingaku",
+    "kind": "amount",
+    "base": "xsd:long",
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "BGF00000",
+    "path": "HOA112/BGF00000",
+    "label": "通知希望区分（加算税）",
+    "min": 0,
+    "max": 1,
+    "type": "BGF00000-7-0Rtype",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "kubun_CD",
+      "path": "HOA112/BGF00000/kubun_CD",
+      "label": null,
+      "min": 1,
+      "max": 1,
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:kubun_CD"
+      ],
+      "enumeration": [
+       "1",
+       "2"
+      ]
+     },
+     {
+      "tag": "kubun_NM",
+      "path": "HOA112/BGF00000/kubun_NM",
+      "label": null,
+      "min": 0,
+      "max": 1,
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:kubun_NM",
+       "gen:str"
+      ],
+      "max_length": 30
+     }
+    ]
+   },
+   {
+    "tag": "BGG00000",
+    "path": "HOA112/BGG00000",
+    "label": "通知希望区分（還付金振込）",
+    "min": 0,
+    "max": 1,
+    "type": "BGG00000-7-0Rtype",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "kubun_CD",
+      "path": "HOA112/BGG00000/kubun_CD",
+      "label": null,
+      "min": 1,
+      "max": 1,
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:kubun_CD"
+      ],
+      "enumeration": [
+       "1",
+       "2"
+      ]
+     },
+     {
+      "tag": "kubun_NM",
+      "path": "HOA112/BGG00000/kubun_NM",
+      "label": null,
+      "min": 0,
+      "max": 1,
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:kubun_NM",
+       "gen:str"
+      ],
+      "max_length": 30
+     }
+    ]
+   },
+   {
+    "tag": "BGE00000",
+    "path": "HOA112/BGE00000",
+    "label": "適用事業年度等",
+    "min": 0,
+    "max": 1,
+    "type": "BGE00000-7-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 15
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOA112-7-0VRtype",
+    "fixed": "7.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

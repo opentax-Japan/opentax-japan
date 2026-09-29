@@ -1,0 +1,2984 @@
+{
+ "form_id": "HOA420",
+ "label": "別表四（簡易様式）",
+ "version": "25.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOA420-25-0group",
+ "xsd": "19XMLスキーマ/hojin/HOA420-025.xsd",
+ "xsd_sha256": "499809bfe068c96add148c0d4500bf5c8a9f9c06eab7c76944531da7f27ba154",
+ "root": {
+  "tag": "HOA420",
+  "path": "HOA420",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "ARA00000",
+    "path": "HOA420/ARA00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "ARA00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARA00010",
+      "path": "HOA420/ARA00000/ARA00010",
+      "label": "事業年度",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARA00020",
+        "path": "HOA420/ARA00000/ARA00010/ARA00020",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_FROMref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_FROM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_FROM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ARA00030",
+        "path": "HOA420/ARA00000/ARA00010/ARA00030",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_TOref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_TO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_TO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARA00040",
+      "path": "HOA420/ARA00000/ARA00040",
+      "label": "法人名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_NMref",
+      "kind": "idref",
+      "idref": "NOZEISHA_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARB00000",
+    "path": "HOA420/ARB00000",
+    "label": "当期利益又は当期欠損の額",
+    "min": 0,
+    "max": 1,
+    "type": "ARB00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARB00010",
+      "path": "HOA420/ARB00000/ARB00010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARB00020",
+      "path": "HOA420/ARB00000/ARB00020",
+      "label": "留保",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARB00030",
+      "path": "HOA420/ARB00000/ARB00030",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARB00040",
+        "path": "HOA420/ARB00000/ARB00030/ARB00040",
+        "label": "配当",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARB00060",
+        "path": "HOA420/ARB00000/ARB00030/ARB00060",
+        "label": "その他",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARC00000",
+    "path": "HOA420/ARC00000",
+    "label": "加算",
+    "min": 0,
+    "max": 1,
+    "type": "ARC00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARC00010",
+      "path": "HOA420/ARC00000/ARC00010",
+      "label": "損金経理をした法人税、地方法人税及び防衛特別法人税（附帯税を除く。）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARC00020",
+        "path": "HOA420/ARC00000/ARC00010/ARC00020",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00030",
+        "path": "HOA420/ARC00000/ARC00010/ARC00030",
+        "label": "留保",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARC00040",
+      "path": "HOA420/ARC00000/ARC00040",
+      "label": "損金経理をした道府県民税及び市町村民税",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARC00050",
+        "path": "HOA420/ARC00000/ARC00040/ARC00050",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00060",
+        "path": "HOA420/ARC00000/ARC00040/ARC00060",
+        "label": "留保",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARC00100",
+      "path": "HOA420/ARC00000/ARC00100",
+      "label": "損金経理をした納税充当金",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARC00110",
+        "path": "HOA420/ARC00000/ARC00100/ARC00110",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00120",
+        "path": "HOA420/ARC00000/ARC00100/ARC00120",
+        "label": "留保",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARC00130",
+      "path": "HOA420/ARC00000/ARC00130",
+      "label": "損金経理をした附帯税（利子税を除く。）、加算金、延滞金（延納分を除く。）及び過怠税",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARC00140",
+        "path": "HOA420/ARC00000/ARC00130/ARC00140",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00150",
+        "path": "HOA420/ARC00000/ARC00130/ARC00150",
+        "label": "社外流出",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARC00160",
+      "path": "HOA420/ARC00000/ARC00160",
+      "label": "減価償却の償却超過額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARC00170",
+        "path": "HOA420/ARC00000/ARC00160/ARC00170",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00180",
+        "path": "HOA420/ARC00000/ARC00160/ARC00180",
+        "label": "留保",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARC00190",
+      "path": "HOA420/ARC00000/ARC00190",
+      "label": "役員給与の損金不算入額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARC00200",
+        "path": "HOA420/ARC00000/ARC00190/ARC00200",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00210",
+        "path": "HOA420/ARC00000/ARC00190/ARC00210",
+        "label": "社外流出",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARC00213",
+      "path": "HOA420/ARC00000/ARC00213",
+      "label": "交際費等の損金不算入額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARC00215",
+        "path": "HOA420/ARC00000/ARC00213/ARC00215",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00218",
+        "path": "HOA420/ARC00000/ARC00213/ARC00218",
+        "label": "社外流出",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARC00360",
+      "path": "HOA420/ARC00000/ARC00360",
+      "label": "通算法人に係る加算額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARC00370",
+        "path": "HOA420/ARC00000/ARC00360/ARC00370",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00380",
+        "path": "HOA420/ARC00000/ARC00360/ARC00380",
+        "label": "留保",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00390",
+        "path": "HOA420/ARC00000/ARC00360/ARC00390",
+        "label": "社外流出",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ARC00400",
+          "path": "HOA420/ARC00000/ARC00360/ARC00390/ARC00400",
+          "label": "外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ARC00410",
+          "path": "HOA420/ARC00000/ARC00360/ARC00390/ARC00410",
+          "label": "本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARC00220",
+      "path": "HOA420/ARC00000/ARC00220",
+      "label": "加算追加分",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARC00230",
+        "path": "HOA420/ARC00000/ARC00220/ARC00230",
+        "label": "区分名",
+        "min": 0,
+        "max": 1,
+        "type": "ARC00230-25-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "ARC00240",
+        "path": "HOA420/ARC00000/ARC00220/ARC00240",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00250",
+        "path": "HOA420/ARC00000/ARC00220/ARC00250",
+        "label": "留保",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00255",
+        "path": "HOA420/ARC00000/ARC00220/ARC00255",
+        "label": "社外流出区分名　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "ARC00255-25-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 3
+       },
+       {
+        "tag": "ARC00260",
+        "path": "HOA420/ARC00000/ARC00220/ARC00260",
+        "label": "社外流出区分名　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "ARC00260-25-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 3
+       },
+       {
+        "tag": "ARC00265",
+        "path": "HOA420/ARC00000/ARC00220/ARC00265",
+        "label": "社外流出　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00270",
+        "path": "HOA420/ARC00000/ARC00220/ARC00270",
+        "label": "社外流出　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARC00275",
+      "path": "HOA420/ARC00000/ARC00275",
+      "label": "加算追加分（項番欄あり）　繰り返し",
+      "min": 0,
+      "max": 3,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARC00280",
+        "path": "HOA420/ARC00000/ARC00275/ARC00280",
+        "label": "区分名",
+        "min": 0,
+        "max": 1,
+        "type": "ARC00280-25-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "ARC00285",
+        "path": "HOA420/ARC00000/ARC00275/ARC00285",
+        "label": "項番",
+        "min": 0,
+        "max": 1,
+        "type": "ARC00285-25-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 4
+       },
+       {
+        "tag": "ARC00290",
+        "path": "HOA420/ARC00000/ARC00275/ARC00290",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00300",
+        "path": "HOA420/ARC00000/ARC00275/ARC00300",
+        "label": "留保",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00305",
+        "path": "HOA420/ARC00000/ARC00275/ARC00305",
+        "label": "社外流出区分名　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "ARC00305-25-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 3
+       },
+       {
+        "tag": "ARC00310",
+        "path": "HOA420/ARC00000/ARC00275/ARC00310",
+        "label": "社外流出区分名　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "ARC00310-25-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 3
+       },
+       {
+        "tag": "ARC00315",
+        "path": "HOA420/ARC00000/ARC00275/ARC00315",
+        "label": "社外流出　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00320",
+        "path": "HOA420/ARC00000/ARC00275/ARC00320",
+        "label": "社外流出　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARC00325",
+      "path": "HOA420/ARC00000/ARC00325",
+      "label": "小計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARC00330",
+        "path": "HOA420/ARC00000/ARC00325/ARC00330",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00340",
+        "path": "HOA420/ARC00000/ARC00325/ARC00340",
+        "label": "留保",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00348",
+        "path": "HOA420/ARC00000/ARC00325/ARC00348",
+        "label": "社外流出　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARC00350",
+        "path": "HOA420/ARC00000/ARC00325/ARC00350",
+        "label": "社外流出　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARD00000",
+    "path": "HOA420/ARD00000",
+    "label": "減算",
+    "min": 0,
+    "max": 1,
+    "type": "ARD00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARD00010",
+      "path": "HOA420/ARD00000/ARD00010",
+      "label": "減価償却超過額の当期認容額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARD00020",
+        "path": "HOA420/ARD00000/ARD00010/ARD00020",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00030",
+        "path": "HOA420/ARD00000/ARD00010/ARD00030",
+        "label": "留保",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARD00040",
+      "path": "HOA420/ARD00000/ARD00040",
+      "label": "納税充当金から支出した事業税等の金額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARD00050",
+        "path": "HOA420/ARD00000/ARD00040/ARD00050",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00060",
+        "path": "HOA420/ARD00000/ARD00040/ARD00060",
+        "label": "留保",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARD00070",
+      "path": "HOA420/ARD00000/ARD00070",
+      "label": "受取配当等の益金不算入額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARD00080",
+        "path": "HOA420/ARD00000/ARD00070/ARD00080",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00090",
+        "path": "HOA420/ARD00000/ARD00070/ARD00090",
+        "label": "社外流出",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARD00093",
+      "path": "HOA420/ARD00000/ARD00093",
+      "label": "外国子会社から受ける剰余金の配当等の益金不算入額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARD00095",
+        "path": "HOA420/ARD00000/ARD00093/ARD00095",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00097",
+        "path": "HOA420/ARD00000/ARD00093/ARD00097",
+        "label": "社外流出",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARD00340",
+      "path": "HOA420/ARD00000/ARD00340",
+      "label": "受贈益の益金不算入額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARD00350",
+        "path": "HOA420/ARD00000/ARD00340/ARD00350",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00360",
+        "path": "HOA420/ARD00000/ARD00340/ARD00360",
+        "label": "社外流出",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARD00370",
+      "path": "HOA420/ARD00000/ARD00370",
+      "label": "適格現物分配に係る益金不算入額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARD00380",
+        "path": "HOA420/ARD00000/ARD00370/ARD00380",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00390",
+        "path": "HOA420/ARD00000/ARD00370/ARD00390",
+        "label": "社外流出",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARD00100",
+      "path": "HOA420/ARD00000/ARD00100",
+      "label": "法人税等の中間納付額及び過誤納に係る還付金額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARD00110",
+        "path": "HOA420/ARD00000/ARD00100/ARD00110",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00120",
+        "path": "HOA420/ARD00000/ARD00100/ARD00120",
+        "label": "留保",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARD00130",
+      "path": "HOA420/ARD00000/ARD00130",
+      "label": "所得税額等及び欠損金の繰戻しによる還付金額等",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARD00140",
+        "path": "HOA420/ARD00000/ARD00130/ARD00140",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00150",
+        "path": "HOA420/ARD00000/ARD00130/ARD00150",
+        "label": "社外流出",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARD00400",
+      "path": "HOA420/ARD00000/ARD00400",
+      "label": "通算法人に係る減算額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARD00410",
+        "path": "HOA420/ARD00000/ARD00400/ARD00410",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00420",
+        "path": "HOA420/ARD00000/ARD00400/ARD00420",
+        "label": "留保",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00430",
+        "path": "HOA420/ARD00000/ARD00400/ARD00430",
+        "label": "社外流出",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARD00160",
+      "path": "HOA420/ARD00000/ARD00160",
+      "label": "減算追加分",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARD00170",
+        "path": "HOA420/ARD00000/ARD00160/ARD00170",
+        "label": "区分名",
+        "min": 0,
+        "max": 1,
+        "type": "ARD00170-25-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "ARD00180",
+        "path": "HOA420/ARD00000/ARD00160/ARD00180",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00190",
+        "path": "HOA420/ARD00000/ARD00160/ARD00190",
+        "label": "留保",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00195",
+        "path": "HOA420/ARD00000/ARD00160/ARD00195",
+        "label": "社外流出区分名  外書き",
+        "min": 0,
+        "max": 1,
+        "type": "ARD00195-25-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 3
+       },
+       {
+        "tag": "ARD00200",
+        "path": "HOA420/ARD00000/ARD00160/ARD00200",
+        "label": "社外流出区分名　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "ARD00200-25-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 3
+       },
+       {
+        "tag": "ARD00205",
+        "path": "HOA420/ARD00000/ARD00160/ARD00205",
+        "label": "社外流出　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00210",
+        "path": "HOA420/ARD00000/ARD00160/ARD00210",
+        "label": "社外流出　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARD00215",
+      "path": "HOA420/ARD00000/ARD00215",
+      "label": "減算追加分（項番欄あり）　繰り返し",
+      "min": 0,
+      "max": 3,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARD00220",
+        "path": "HOA420/ARD00000/ARD00215/ARD00220",
+        "label": "区分名",
+        "min": 0,
+        "max": 1,
+        "type": "ARD00220-25-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "ARD00225",
+        "path": "HOA420/ARD00000/ARD00215/ARD00225",
+        "label": "項番",
+        "min": 0,
+        "max": 1,
+        "type": "ARD00225-25-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 4
+       },
+       {
+        "tag": "ARD00230",
+        "path": "HOA420/ARD00000/ARD00215/ARD00230",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00240",
+        "path": "HOA420/ARD00000/ARD00215/ARD00240",
+        "label": "留保",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00245",
+        "path": "HOA420/ARD00000/ARD00215/ARD00245",
+        "label": "社外流出区分名  外書き",
+        "min": 0,
+        "max": 1,
+        "type": "ARD00245-25-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 3
+       },
+       {
+        "tag": "ARD00250",
+        "path": "HOA420/ARD00000/ARD00215/ARD00250",
+        "label": "社外流出区分名　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "ARD00250-25-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 3
+       },
+       {
+        "tag": "ARD00255",
+        "path": "HOA420/ARD00000/ARD00215/ARD00255",
+        "label": "社外流出　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00260",
+        "path": "HOA420/ARD00000/ARD00215/ARD00260",
+        "label": "社外流出　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ARD00280",
+      "path": "HOA420/ARD00000/ARD00280",
+      "label": "小計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARD00290",
+        "path": "HOA420/ARD00000/ARD00280/ARD00290",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00300",
+        "path": "HOA420/ARD00000/ARD00280/ARD00300",
+        "label": "留保",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARD00310",
+        "path": "HOA420/ARD00000/ARD00280/ARD00310",
+        "label": "社外流出",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ARD00320",
+          "path": "HOA420/ARD00000/ARD00280/ARD00310/ARD00320",
+          "label": "外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ARD00330",
+          "path": "HOA420/ARD00000/ARD00280/ARD00310/ARD00330",
+          "label": "本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARE00000",
+    "path": "HOA420/ARE00000",
+    "label": "仮計(1)＋(11)－(22)",
+    "min": 0,
+    "max": 1,
+    "type": "ARE00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARE00010",
+      "path": "HOA420/ARE00000/ARE00010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARE00020",
+      "path": "HOA420/ARE00000/ARE00020",
+      "label": "留保",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARE00030",
+      "path": "HOA420/ARE00000/ARE00030",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARE00040",
+        "path": "HOA420/ARE00000/ARE00030/ARE00040",
+        "label": "外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARE00050",
+        "path": "HOA420/ARE00000/ARE00030/ARE00050",
+        "label": "本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARY00000",
+    "path": "HOA420/ARY00000",
+    "label": "対象純支払利子等の損金不算入額",
+    "min": 0,
+    "max": 1,
+    "type": "ARY00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARY00010",
+      "path": "HOA420/ARY00000/ARY00010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARY00020",
+      "path": "HOA420/ARY00000/ARY00020",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARZ00000",
+    "path": "HOA420/ARZ00000",
+    "label": "超過利子額の損金算入額",
+    "min": 0,
+    "max": 1,
+    "type": "ARZ00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARZ00010",
+      "path": "HOA420/ARZ00000/ARZ00010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARZ00020",
+      "path": "HOA420/ARZ00000/ARZ00020",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARZ10000",
+    "path": "HOA420/ARZ10000",
+    "label": "仮計((23)から(25)までの計)",
+    "min": 0,
+    "max": 1,
+    "type": "ARZ10000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARZ10010",
+      "path": "HOA420/ARZ10000/ARZ10010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARZ10020",
+      "path": "HOA420/ARZ10000/ARZ10020",
+      "label": "留保",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARZ10030",
+      "path": "HOA420/ARZ10000/ARZ10030",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARZ10040",
+        "path": "HOA420/ARZ10000/ARZ10030/ARZ10040",
+        "label": "外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARZ10050",
+        "path": "HOA420/ARZ10000/ARZ10030/ARZ10050",
+        "label": "本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARF00000",
+    "path": "HOA420/ARF00000",
+    "label": "寄附金の損金不算入額",
+    "min": 0,
+    "max": 1,
+    "type": "ARF00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARF00010",
+      "path": "HOA420/ARF00000/ARF00010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARF00020",
+      "path": "HOA420/ARF00000/ARF00020",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARI00000",
+    "path": "HOA420/ARI00000",
+    "label": "法人税額から控除される所得税額",
+    "min": 0,
+    "max": 1,
+    "type": "ARI00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARI00010",
+      "path": "HOA420/ARI00000/ARI00010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARI00020",
+      "path": "HOA420/ARI00000/ARI00020",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARJ00000",
+    "path": "HOA420/ARJ00000",
+    "label": "税額控除の対象となる外国法人税の額",
+    "min": 0,
+    "max": 1,
+    "type": "ARJ00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARJ00010",
+      "path": "HOA420/ARJ00000/ARJ00010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARJ00020",
+      "path": "HOA420/ARJ00000/ARJ00020",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARJ10000",
+    "path": "HOA420/ARJ10000",
+    "label": "分配時調整外国税相当額及び外国関係会社等に係る控除対象所得税額等相当額",
+    "min": 0,
+    "max": 1,
+    "type": "ARJ10000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARJ10010",
+      "path": "HOA420/ARJ10000/ARJ10010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARJ10020",
+      "path": "HOA420/ARJ10000/ARJ10020",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARJ20000",
+    "path": "HOA420/ARJ20000",
+    "label": "組合等損失額の損金不算入額又は組合等損失超過合計額の損金算入額",
+    "min": 0,
+    "max": 1,
+    "type": "ARJ20000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARJ20010",
+      "path": "HOA420/ARJ20000/ARJ20010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARJ20020",
+      "path": "HOA420/ARJ20000/ARJ20020",
+      "label": "留保",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARK00000",
+    "path": "HOA420/ARK00000",
+    "label": "合計",
+    "min": 0,
+    "max": 1,
+    "type": "ARK00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARK00010",
+      "path": "HOA420/ARK00000/ARK00010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARK00020",
+      "path": "HOA420/ARK00000/ARK00020",
+      "label": "留保",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARK00030",
+      "path": "HOA420/ARK00000/ARK00030",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARK00040",
+        "path": "HOA420/ARK00000/ARK00030/ARK00040",
+        "label": "外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARK00050",
+        "path": "HOA420/ARK00000/ARK00030/ARK00050",
+        "label": "本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARM00000",
+    "path": "HOA420/ARM00000",
+    "label": "総計",
+    "min": 0,
+    "max": 1,
+    "type": "ARM00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARM00010",
+      "path": "HOA420/ARM00000/ARM00010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARM00020",
+      "path": "HOA420/ARM00000/ARM00020",
+      "label": "留保",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARM00030",
+      "path": "HOA420/ARM00000/ARM00030",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARM00040",
+        "path": "HOA420/ARM00000/ARM00030/ARM00040",
+        "label": "外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARM00050",
+        "path": "HOA420/ARM00000/ARM00030/ARM00050",
+        "label": "本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARN10010",
+    "path": "HOA420/ARN10010",
+    "label": "中間申告における繰戻しによる還付に係る災害損失欠損金額の益金算入額",
+    "min": 0,
+    "max": 1,
+    "type": "ARN10010-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARN10020",
+      "path": "HOA420/ARN10010/ARN10020",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARN10030",
+      "path": "HOA420/ARN10010/ARN10030",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARR00000",
+    "path": "HOA420/ARR00000",
+    "label": "非適格合併又は残余財産の全部分配等による移転資産等の譲渡利益額又は譲渡損失額",
+    "min": 0,
+    "max": 1,
+    "type": "ARR00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARR00010",
+      "path": "HOA420/ARR00000/ARR00010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARR00020",
+      "path": "HOA420/ARR00000/ARR00020",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARS00000",
+    "path": "HOA420/ARS00000",
+    "label": "差引計(34)＋(37)＋(38)",
+    "min": 0,
+    "max": 1,
+    "type": "ARS00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARS00010",
+      "path": "HOA420/ARS00000/ARS00010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARS00020",
+      "path": "HOA420/ARS00000/ARS00020",
+      "label": "留保",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARS00030",
+      "path": "HOA420/ARS00000/ARS00030",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARS00040",
+        "path": "HOA420/ARS00000/ARS00030/ARS00040",
+        "label": "外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARS00050",
+        "path": "HOA420/ARS00000/ARS00030/ARS00050",
+        "label": "本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARS10000",
+    "path": "HOA420/ARS10000",
+    "label": "更生欠損金又は民事再生等評価換えが行われる場合の再生等欠損金の損金算入額",
+    "min": 0,
+    "max": 1,
+    "type": "ARS10000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARS10010",
+      "path": "HOA420/ARS10000/ARS10010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARS10020",
+      "path": "HOA420/ARS10000/ARS10020",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARS20000",
+    "path": "HOA420/ARS20000",
+    "label": "通算対象欠損金額の損金算入額又は通算対象所得金額の益金算入額",
+    "min": 0,
+    "max": 1,
+    "type": "ARS20000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARS20005",
+      "path": "HOA420/ARS20000/ARS20005",
+      "label": "区分",
+      "min": 0,
+      "max": 1,
+      "type": "ARS20005-25-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HOA420/ARS20000/ARS20005/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HOA420/ARS20000/ARS20005/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "ARS20010",
+      "path": "HOA420/ARS20000/ARS20010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARS20020",
+      "path": "HOA420/ARS20000/ARS20020",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARS50000",
+    "path": "HOA420/ARS50000",
+    "label": "差引計(39)＋(40)＋－(41)",
+    "min": 0,
+    "max": 1,
+    "type": "ARS50000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARS50010",
+      "path": "HOA420/ARS50000/ARS50010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARS50020",
+      "path": "HOA420/ARS50000/ARS50020",
+      "label": "留保",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARS50030",
+      "path": "HOA420/ARS50000/ARS50030",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARS50040",
+        "path": "HOA420/ARS50000/ARS50030/ARS50040",
+        "label": "外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARS50050",
+        "path": "HOA420/ARS50000/ARS50030/ARS50050",
+        "label": "本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ART00000",
+    "path": "HOA420/ART00000",
+    "label": "欠損金等の当期控除額",
+    "min": 0,
+    "max": 1,
+    "type": "ART00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ART00010",
+      "path": "HOA420/ART00000/ART00010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ART00020",
+      "path": "HOA420/ART00000/ART00020",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARX00000",
+    "path": "HOA420/ARX00000",
+    "label": "残余財産の確定の日の属する事業年度に係る事業税及び特別法人事業税の損金算入額",
+    "min": 0,
+    "max": 1,
+    "type": "ARX00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARX00010",
+      "path": "HOA420/ARX00000/ARX00010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARX00020",
+      "path": "HOA420/ARX00000/ARX00020",
+      "label": "留保",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARV00000",
+    "path": "HOA420/ARV00000",
+    "label": "所得金額又は欠損金額",
+    "min": 0,
+    "max": 1,
+    "type": "ARV00000-25-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ARV00010",
+      "path": "HOA420/ARV00000/ARV00010",
+      "label": "総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARV00020",
+      "path": "HOA420/ARV00000/ARV00020",
+      "label": "留保",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ARV00030",
+      "path": "HOA420/ARV00000/ARV00030",
+      "label": "社外流出",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ARV00040",
+        "path": "HOA420/ARV00000/ARV00030/ARV00040",
+        "label": "外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ARV00050",
+        "path": "HOA420/ARV00000/ARV00030/ARV00050",
+        "label": "本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ARW00000",
+    "path": "HOA420/ARW00000",
+    "label": "適用事業年度等",
+    "min": 0,
+    "max": 1,
+    "type": "ARW00000-25-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 15
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOA420-25-0VRtype",
+    "fixed": "25.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

@@ -215,7 +215,9 @@
 }
 ```
 - XSD の並び順（sequence）・min/maxOccurs・型をそのまま写す
-- `kind` の種類: `amount`（gen:kingaku → 整数円）／`text`（maxLength）／`idref`（IT部への参照）／`group`（入れ子）／`repeat`（maxOccurs>1）
+- `kind` の種類: `amount`（gen:kingaku → 整数円）／`value`（文字・区分・日付の部品など。maxLength・enumeration 等の制約つき）／`idref`（IT部への参照）／`group`（入れ子）。繰り返しは `max`（maxOccurs、unbounded は null）で表す
+- pattern（文字種）は layout に入れない。公式 XSD での検証で確認する
+- 値の点検 `check_values`: 道筋（例 `HOA420/ARB00000/ARB00010`、繰り返しは `[2]`）で値を渡し、layout にない項目・上限超え・金額が整数でない・桁超え・区分外は全件まとめてエラーにする
 - 帳票ID・版・group 名は `HOA420-25-0group` という名前から読み取る（AI BOOKS と同じ）
 - `FormAttribute`（ページ属性）などの共通部品は General.xsd を辿って展開する
 - CI で XSD から作り直し、コミット済みのものとずれていれば失敗にする

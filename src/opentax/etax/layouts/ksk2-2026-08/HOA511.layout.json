@@ -1,0 +1,1901 @@
+{
+ "form_id": "HOA511",
+ "label": "別表五(一)",
+ "version": "16.1",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOA511-16-1group",
+ "xsd": "19XMLスキーマ/hojin/HOA511-016.xsd",
+ "xsd_sha256": "24dbfd209339461ff77a69afa5aa0779434a4734b1caea68071b43efcff4dc8f",
+ "root": {
+  "tag": "HOA511",
+  "path": "HOA511",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "ICA00000",
+    "path": "HOA511/ICA00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "ICA00000-16-1type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ICA00010",
+      "path": "HOA511/ICA00000/ICA00010",
+      "label": "事業年度",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ICA00020",
+        "path": "HOA511/ICA00000/ICA00010/ICA00020",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_FROMref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_FROM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_FROM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ICA00030",
+        "path": "HOA511/ICA00000/ICA00010/ICA00030",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_TOref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_TO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_TO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ICA00040",
+      "path": "HOA511/ICA00000/ICA00040",
+      "label": "法人名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_NMref",
+      "kind": "idref",
+      "idref": "NOZEISHA_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ICB00000",
+    "path": "HOA511/ICB00000",
+    "label": "1利益積立金額の計算に関する明細書",
+    "min": 0,
+    "max": 1,
+    "type": "ICB00000-16-1type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ICB00010",
+      "path": "HOA511/ICB00000/ICB00010",
+      "label": "利益準備金",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ICB00020",
+        "path": "HOA511/ICB00000/ICB00010/ICB00020",
+        "label": "期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ICB00030",
+        "path": "HOA511/ICB00000/ICB00010/ICB00030",
+        "label": "当期の増減",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICB00040",
+          "path": "HOA511/ICB00000/ICB00010/ICB00030/ICB00040",
+          "label": "減",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICB00050",
+          "path": "HOA511/ICB00000/ICB00010/ICB00030/ICB00050",
+          "label": "増",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ICB00060",
+        "path": "HOA511/ICB00000/ICB00010/ICB00060",
+        "label": "差引翌期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ICB00070",
+      "path": "HOA511/ICB00000/ICB00070",
+      "label": "ＸＸ積立金",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ICB00080",
+        "path": "HOA511/ICB00000/ICB00070/ICB00080",
+        "label": "区分名",
+        "min": 0,
+        "max": 1,
+        "type": "ICB00080-16-1Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 5
+       },
+       {
+        "tag": "ICB00090",
+        "path": "HOA511/ICB00000/ICB00070/ICB00090",
+        "label": "期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ICB00100",
+        "path": "HOA511/ICB00000/ICB00070/ICB00100",
+        "label": "当期の増減",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICB00110",
+          "path": "HOA511/ICB00000/ICB00070/ICB00100/ICB00110",
+          "label": "減",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICB00120",
+          "path": "HOA511/ICB00000/ICB00070/ICB00100/ICB00120",
+          "label": "増",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ICB00130",
+        "path": "HOA511/ICB00000/ICB00070/ICB00130",
+        "label": "差引翌期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ICB00140",
+      "path": "HOA511/ICB00000/ICB00140",
+      "label": "空白部　繰り返し",
+      "min": 0,
+      "max": 19,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ICB00150",
+        "path": "HOA511/ICB00000/ICB00140/ICB00150",
+        "label": "区分名",
+        "min": 0,
+        "max": 1,
+        "type": "ICB00150-16-1Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 40
+       },
+       {
+        "tag": "ICB00160",
+        "path": "HOA511/ICB00000/ICB00140/ICB00160",
+        "label": "期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ICB00170",
+        "path": "HOA511/ICB00000/ICB00140/ICB00170",
+        "label": "当期の増減",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICB00180",
+          "path": "HOA511/ICB00000/ICB00140/ICB00170/ICB00180",
+          "label": "減　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICB00190",
+          "path": "HOA511/ICB00000/ICB00140/ICB00170/ICB00190",
+          "label": "減　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICB00200",
+          "path": "HOA511/ICB00000/ICB00140/ICB00170/ICB00200",
+          "label": "増",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ICB00210",
+        "path": "HOA511/ICB00000/ICB00140/ICB00210",
+        "label": "差引翌期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ICB00220",
+      "path": "HOA511/ICB00000/ICB00220",
+      "label": "未収還付法人税等",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ICB00230",
+        "path": "HOA511/ICB00000/ICB00220/ICB00230",
+        "label": "期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ICB00240",
+        "path": "HOA511/ICB00000/ICB00220/ICB00240",
+        "label": "当期の増減",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICB00250",
+          "path": "HOA511/ICB00000/ICB00220/ICB00240/ICB00250",
+          "label": "減",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICB00260",
+          "path": "HOA511/ICB00000/ICB00220/ICB00240/ICB00260",
+          "label": "増",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ICB00270",
+        "path": "HOA511/ICB00000/ICB00220/ICB00270",
+        "label": "差引翌期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ICB00280",
+      "path": "HOA511/ICB00000/ICB00280",
+      "label": "未収還付道府県民税",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ICB00290",
+        "path": "HOA511/ICB00000/ICB00280/ICB00290",
+        "label": "期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ICB00300",
+        "path": "HOA511/ICB00000/ICB00280/ICB00300",
+        "label": "当期の増減",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICB00310",
+          "path": "HOA511/ICB00000/ICB00280/ICB00300/ICB00310",
+          "label": "減",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICB00320",
+          "path": "HOA511/ICB00000/ICB00280/ICB00300/ICB00320",
+          "label": "増",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ICB00330",
+        "path": "HOA511/ICB00000/ICB00280/ICB00330",
+        "label": "差引翌期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ICB00340",
+      "path": "HOA511/ICB00000/ICB00340",
+      "label": "未収還付市町村民税",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ICB00350",
+        "path": "HOA511/ICB00000/ICB00340/ICB00350",
+        "label": "期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ICB00360",
+        "path": "HOA511/ICB00000/ICB00340/ICB00360",
+        "label": "当期の増減",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICB00370",
+          "path": "HOA511/ICB00000/ICB00340/ICB00360/ICB00370",
+          "label": "減",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICB00380",
+          "path": "HOA511/ICB00000/ICB00340/ICB00360/ICB00380",
+          "label": "増",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ICB00390",
+        "path": "HOA511/ICB00000/ICB00340/ICB00390",
+        "label": "差引翌期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ICB00400",
+      "path": "HOA511/ICB00000/ICB00400",
+      "label": "繰越損益金（損は赤）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ICB00410",
+        "path": "HOA511/ICB00000/ICB00400/ICB00410",
+        "label": "期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ICB00420",
+        "path": "HOA511/ICB00000/ICB00400/ICB00420",
+        "label": "当期の増減",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICB00430",
+          "path": "HOA511/ICB00000/ICB00400/ICB00420/ICB00430",
+          "label": "減",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICB00433",
+          "path": "HOA511/ICB00000/ICB00400/ICB00420/ICB00433",
+          "label": "増　内書文字（内）",
+          "min": 0,
+          "max": 1,
+          "type": "ICB00433-16-1Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "ICB00436",
+          "path": "HOA511/ICB00000/ICB00400/ICB00420/ICB00436",
+          "label": "増　内書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICB00440",
+          "path": "HOA511/ICB00000/ICB00400/ICB00420/ICB00440",
+          "label": "増　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ICB00443",
+        "path": "HOA511/ICB00000/ICB00400/ICB00443",
+        "label": "差引翌期首現在利益積立金額　内書文字（内）",
+        "min": 0,
+        "max": 1,
+        "type": "ICB00443-16-1Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 1
+       },
+       {
+        "tag": "ICB00446",
+        "path": "HOA511/ICB00000/ICB00400/ICB00446",
+        "label": "差引翌期首現在利益積立金額　内書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ICB00450",
+        "path": "HOA511/ICB00000/ICB00400/ICB00450",
+        "label": "差引翌期首現在利益積立金額　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ICB00460",
+      "path": "HOA511/ICB00000/ICB00460",
+      "label": "納税充当金",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ICB00470",
+        "path": "HOA511/ICB00000/ICB00460/ICB00470",
+        "label": "期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ICB00480",
+        "path": "HOA511/ICB00000/ICB00460/ICB00480",
+        "label": "当期の増減",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICB00490",
+          "path": "HOA511/ICB00000/ICB00460/ICB00480/ICB00490",
+          "label": "減",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICB00500",
+          "path": "HOA511/ICB00000/ICB00460/ICB00480/ICB00500",
+          "label": "増",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ICB00510",
+        "path": "HOA511/ICB00000/ICB00460/ICB00510",
+        "label": "差引翌期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ICB00520",
+      "path": "HOA511/ICB00000/ICB00520",
+      "label": "未納法人税等（各事業年度の所得に対するものに限る。）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ICB00530",
+        "path": "HOA511/ICB00000/ICB00520/ICB00530",
+        "label": "未納法人税、未納地方法人税及び未納防衛特別法人税（附帯税を除く。）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICB00540",
+          "path": "HOA511/ICB00000/ICB00520/ICB00530/ICB00540",
+          "label": "期首現在利益積立金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICB00550",
+          "path": "HOA511/ICB00000/ICB00520/ICB00530/ICB00550",
+          "label": "当期の増減",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ICB00560",
+            "path": "HOA511/ICB00000/ICB00520/ICB00530/ICB00550/ICB00560",
+            "label": "減",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ICB00570",
+            "path": "HOA511/ICB00000/ICB00520/ICB00530/ICB00550/ICB00570",
+            "label": "増",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "ICB00580",
+              "path": "HOA511/ICB00000/ICB00520/ICB00530/ICB00550/ICB00570/ICB00580",
+              "label": "中間(27)",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "ICB00590",
+              "path": "HOA511/ICB00000/ICB00520/ICB00530/ICB00550/ICB00570/ICB00590",
+              "label": "確定(27)",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ICB00610",
+          "path": "HOA511/ICB00000/ICB00520/ICB00530/ICB00610",
+          "label": "差引翌期首現在利益積立金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ICB00860",
+        "path": "HOA511/ICB00000/ICB00520/ICB00860",
+        "label": "未払通算税効果額（附帯税の額に係る部分の金額を除く。）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICB00870",
+          "path": "HOA511/ICB00000/ICB00520/ICB00860/ICB00870",
+          "label": "期首現在利益積立金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICB00880",
+          "path": "HOA511/ICB00000/ICB00520/ICB00860/ICB00880",
+          "label": "当期の増減",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ICB00890",
+            "path": "HOA511/ICB00000/ICB00520/ICB00860/ICB00880/ICB00890",
+            "label": "減",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ICB00900",
+            "path": "HOA511/ICB00000/ICB00520/ICB00860/ICB00880/ICB00900",
+            "label": "増",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "ICB00910",
+              "path": "HOA511/ICB00000/ICB00520/ICB00860/ICB00880/ICB00900/ICB00910",
+              "label": "中間(28)",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "ICB00920",
+              "path": "HOA511/ICB00000/ICB00520/ICB00860/ICB00880/ICB00900/ICB00920",
+              "label": "確定(28)",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ICB00930",
+          "path": "HOA511/ICB00000/ICB00520/ICB00860/ICB00930",
+          "label": "差引翌期首現在利益積立金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ICB00620",
+        "path": "HOA511/ICB00000/ICB00520/ICB00620",
+        "label": "未納道府県民税（均等割を含む。）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICB00630",
+          "path": "HOA511/ICB00000/ICB00520/ICB00620/ICB00630",
+          "label": "期首現在利益積立金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICB00640",
+          "path": "HOA511/ICB00000/ICB00520/ICB00620/ICB00640",
+          "label": "当期の増減",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ICB00650",
+            "path": "HOA511/ICB00000/ICB00520/ICB00620/ICB00640/ICB00650",
+            "label": "減",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ICB00660",
+            "path": "HOA511/ICB00000/ICB00520/ICB00620/ICB00640/ICB00660",
+            "label": "増",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "ICB00670",
+              "path": "HOA511/ICB00000/ICB00520/ICB00620/ICB00640/ICB00660/ICB00670",
+              "label": "中間(29)",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "ICB00680",
+              "path": "HOA511/ICB00000/ICB00520/ICB00620/ICB00640/ICB00660/ICB00680",
+              "label": "確定(29)",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ICB00700",
+          "path": "HOA511/ICB00000/ICB00520/ICB00620/ICB00700",
+          "label": "差引翌期首現在利益積立金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ICB00710",
+        "path": "HOA511/ICB00000/ICB00520/ICB00710",
+        "label": "未納市町村民税（均等割を含む。）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICB00720",
+          "path": "HOA511/ICB00000/ICB00520/ICB00710/ICB00720",
+          "label": "期首現在利益積立金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICB00730",
+          "path": "HOA511/ICB00000/ICB00520/ICB00710/ICB00730",
+          "label": "当期の増減",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ICB00740",
+            "path": "HOA511/ICB00000/ICB00520/ICB00710/ICB00730/ICB00740",
+            "label": "減",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ICB00750",
+            "path": "HOA511/ICB00000/ICB00520/ICB00710/ICB00730/ICB00750",
+            "label": "増",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "ICB00760",
+              "path": "HOA511/ICB00000/ICB00520/ICB00710/ICB00730/ICB00750/ICB00760",
+              "label": "中間(30)",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "ICB00770",
+              "path": "HOA511/ICB00000/ICB00520/ICB00710/ICB00730/ICB00750/ICB00770",
+              "label": "確定(30)",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ICB00790",
+          "path": "HOA511/ICB00000/ICB00520/ICB00710/ICB00790",
+          "label": "差引翌期首現在利益積立金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ICB00800",
+      "path": "HOA511/ICB00000/ICB00800",
+      "label": "差引合計額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ICB00810",
+        "path": "HOA511/ICB00000/ICB00800/ICB00810",
+        "label": "期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ICB00820",
+        "path": "HOA511/ICB00000/ICB00800/ICB00820",
+        "label": "当期の増減",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICB00830",
+          "path": "HOA511/ICB00000/ICB00800/ICB00820/ICB00830",
+          "label": "減(31)",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICB00840",
+          "path": "HOA511/ICB00000/ICB00800/ICB00820/ICB00840",
+          "label": "増(31)",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ICB00850",
+        "path": "HOA511/ICB00000/ICB00800/ICB00850",
+        "label": "差引翌期首現在利益積立金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ICC00000",
+    "path": "HOA511/ICC00000",
+    "label": "2資本金等の額の計算に関する明細書",
+    "min": 0,
+    "max": 1,
+    "type": "ICC00000-16-1type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ICC00010",
+      "path": "HOA511/ICC00000/ICC00010",
+      "label": "資本金又は出資金",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ICC00020",
+        "path": "HOA511/ICC00000/ICC00010/ICC00020",
+        "label": "期首現在資本金等の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ICC00030",
+        "path": "HOA511/ICC00000/ICC00010/ICC00030",
+        "label": "当期の増減",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICC00040",
+          "path": "HOA511/ICC00000/ICC00010/ICC00030/ICC00040",
+          "label": "減",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICC00050",
+          "path": "HOA511/ICC00000/ICC00010/ICC00030/ICC00050",
+          "label": "増",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ICC00060",
+        "path": "HOA511/ICC00000/ICC00010/ICC00060",
+        "label": "差引翌期首現在資本金等の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ICC00070",
+      "path": "HOA511/ICC00000/ICC00070",
+      "label": "資本準備金",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ICC00080",
+        "path": "HOA511/ICC00000/ICC00070/ICC00080",
+        "label": "期首現在資本金等の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ICC00090",
+        "path": "HOA511/ICC00000/ICC00070/ICC00090",
+        "label": "当期の増減",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICC00100",
+          "path": "HOA511/ICC00000/ICC00070/ICC00090/ICC00100",
+          "label": "減",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICC00110",
+          "path": "HOA511/ICC00000/ICC00070/ICC00090/ICC00110",
+          "label": "増",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ICC00120",
+        "path": "HOA511/ICC00000/ICC00070/ICC00120",
+        "label": "差引翌期首現在資本金等の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ICC00130",
+      "path": "HOA511/ICC00000/ICC00130",
+      "label": "空白部　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ICC00140",
+        "path": "HOA511/ICC00000/ICC00130/ICC00140",
+        "label": "区分名",
+        "min": 0,
+        "max": 1,
+        "type": "ICC00140-16-1Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 40
+       },
+       {
+        "tag": "ICC00150",
+        "path": "HOA511/ICC00000/ICC00130/ICC00150",
+        "label": "期首現在資本金等の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ICC00160",
+        "path": "HOA511/ICC00000/ICC00130/ICC00160",
+        "label": "当期の増減",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICC00170",
+          "path": "HOA511/ICC00000/ICC00130/ICC00160/ICC00170",
+          "label": "減",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICC00180",
+          "path": "HOA511/ICC00000/ICC00130/ICC00160/ICC00180",
+          "label": "増",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ICC00190",
+        "path": "HOA511/ICC00000/ICC00130/ICC00190",
+        "label": "差引翌期首現在資本金等の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ICC00200",
+      "path": "HOA511/ICC00000/ICC00200",
+      "label": "差引合計額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ICC00210",
+        "path": "HOA511/ICC00000/ICC00200/ICC00210",
+        "label": "期首現在資本金等の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ICC00220",
+        "path": "HOA511/ICC00000/ICC00200/ICC00220",
+        "label": "当期の増減",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ICC00230",
+          "path": "HOA511/ICC00000/ICC00200/ICC00220/ICC00230",
+          "label": "減(36)",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ICC00240",
+          "path": "HOA511/ICC00000/ICC00200/ICC00220/ICC00240",
+          "label": "増(36)",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ICC00250",
+        "path": "HOA511/ICC00000/ICC00200/ICC00250",
+        "label": "差引翌期首現在資本金等の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ICD00000",
+    "path": "HOA511/ICD00000",
+    "label": "適用事業年度等",
+    "min": 0,
+    "max": 1,
+    "type": "ICD00000-16-1Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 15
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOA511-16-1VRtype",
+    "enumeration": [
+     "16.0",
+     "16.1"
+    ]
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

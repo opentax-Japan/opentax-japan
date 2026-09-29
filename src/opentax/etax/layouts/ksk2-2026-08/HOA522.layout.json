@@ -1,0 +1,5807 @@
+{
+ "form_id": "HOA522",
+ "label": "別表五(二)",
+ "version": "10.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOA522-10-0group",
+ "xsd": "19XMLスキーマ/hojin/HOA522-010.xsd",
+ "xsd_sha256": "6303175bafd6168b7d430219ffa9f40ee57706f043e75b0983647b485b539d17",
+ "root": {
+  "tag": "HOA522",
+  "path": "HOA522",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "IEA00000",
+    "path": "HOA522/IEA00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "IEA00000-10-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "IEA00010",
+      "path": "HOA522/IEA00000/IEA00010",
+      "label": "事業年度",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEA00020",
+        "path": "HOA522/IEA00000/IEA00010/IEA00020",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_FROMref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_FROM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_FROM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "IEA00030",
+        "path": "HOA522/IEA00000/IEA00010/IEA00030",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_TOref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_TO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_TO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IEA00040",
+      "path": "HOA522/IEA00000/IEA00040",
+      "label": "法人名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_NMref",
+      "kind": "idref",
+      "idref": "NOZEISHA_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "IEB00000",
+    "path": "HOA522/IEB00000",
+    "label": "法人税、地方法人税及び防衛特別法人税",
+    "min": 0,
+    "max": 1,
+    "type": "IEB00000-10-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "IEB00010",
+      "path": "HOA522/IEB00000/IEB00010",
+      "label": "明細 繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEB00020",
+        "path": "HOA522/IEB00000/IEB00010/IEB00020",
+        "label": "事業年度(自)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOA522/IEB00000/IEB00010/IEB00020/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOA522/IEB00000/IEB00010/IEB00020/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOA522/IEB00000/IEB00010/IEB00020/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOA522/IEB00000/IEB00010/IEB00020/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "IEB00030",
+        "path": "HOA522/IEB00000/IEB00010/IEB00030",
+        "label": "事業年度(至)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOA522/IEB00000/IEB00010/IEB00030/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOA522/IEB00000/IEB00010/IEB00030/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOA522/IEB00000/IEB00010/IEB00030/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOA522/IEB00000/IEB00010/IEB00030/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "IEB00040",
+        "path": "HOA522/IEB00000/IEB00010/IEB00040",
+        "label": "期首現在未納税額 外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEB00050",
+        "path": "HOA522/IEB00000/IEB00010/IEB00050",
+        "label": "期首現在未納税額 本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEB00060",
+        "path": "HOA522/IEB00000/IEB00010/IEB00060",
+        "label": "当期中の納付税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEB00070",
+          "path": "HOA522/IEB00000/IEB00010/IEB00060/IEB00070",
+          "label": "充当金取崩しによる納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEB00080",
+            "path": "HOA522/IEB00000/IEB00010/IEB00060/IEB00070/IEB00080",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEB00090",
+            "path": "HOA522/IEB00000/IEB00010/IEB00060/IEB00070/IEB00090",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEB00100",
+          "path": "HOA522/IEB00000/IEB00010/IEB00060/IEB00100",
+          "label": "仮払経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEB00110",
+            "path": "HOA522/IEB00000/IEB00010/IEB00060/IEB00100/IEB00110",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEB00120",
+            "path": "HOA522/IEB00000/IEB00010/IEB00060/IEB00100/IEB00120",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEB00130",
+          "path": "HOA522/IEB00000/IEB00010/IEB00060/IEB00130",
+          "label": "損金経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEB00140",
+            "path": "HOA522/IEB00000/IEB00010/IEB00060/IEB00130/IEB00140",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEB00150",
+            "path": "HOA522/IEB00000/IEB00010/IEB00060/IEB00130/IEB00150",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEB00160",
+        "path": "HOA522/IEB00000/IEB00010/IEB00160",
+        "label": "期末現在未納税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IEB00170",
+      "path": "HOA522/IEB00000/IEB00170",
+      "label": "当期分",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEB00180",
+        "path": "HOA522/IEB00000/IEB00170/IEB00180",
+        "label": "中間",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEB00190",
+          "path": "HOA522/IEB00000/IEB00170/IEB00180/IEB00190",
+          "label": "当期発生税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEB00200",
+          "path": "HOA522/IEB00000/IEB00170/IEB00180/IEB00200",
+          "label": "当期中の納付税額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEB00210",
+            "path": "HOA522/IEB00000/IEB00170/IEB00180/IEB00200/IEB00210",
+            "label": "充当金取崩しによる納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEB00220",
+              "path": "HOA522/IEB00000/IEB00170/IEB00180/IEB00200/IEB00210/IEB00220",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEB00230",
+              "path": "HOA522/IEB00000/IEB00170/IEB00180/IEB00200/IEB00210/IEB00230",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEB00240",
+            "path": "HOA522/IEB00000/IEB00170/IEB00180/IEB00200/IEB00240",
+            "label": "仮払経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEB00250",
+              "path": "HOA522/IEB00000/IEB00170/IEB00180/IEB00200/IEB00240/IEB00250",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEB00260",
+              "path": "HOA522/IEB00000/IEB00170/IEB00180/IEB00200/IEB00240/IEB00260",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEB00270",
+            "path": "HOA522/IEB00000/IEB00170/IEB00180/IEB00200/IEB00270",
+            "label": "損金経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEB00280",
+              "path": "HOA522/IEB00000/IEB00170/IEB00180/IEB00200/IEB00270/IEB00280",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEB00290",
+              "path": "HOA522/IEB00000/IEB00170/IEB00180/IEB00200/IEB00270/IEB00290",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEB00300",
+          "path": "HOA522/IEB00000/IEB00170/IEB00180/IEB00300",
+          "label": "期末現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEB00310",
+        "path": "HOA522/IEB00000/IEB00170/IEB00310",
+        "label": "確定",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEB00320",
+          "path": "HOA522/IEB00000/IEB00170/IEB00310/IEB00320",
+          "label": "当期発生税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEB00330",
+          "path": "HOA522/IEB00000/IEB00170/IEB00310/IEB00330",
+          "label": "期末現在未納税額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEB00340",
+            "path": "HOA522/IEB00000/IEB00170/IEB00310/IEB00330/IEB00340",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEB00350",
+            "path": "HOA522/IEB00000/IEB00170/IEB00310/IEB00330/IEB00350",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IEB00360",
+      "path": "HOA522/IEB00000/IEB00360",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEB00370",
+        "path": "HOA522/IEB00000/IEB00360/IEB00370",
+        "label": "期首現在未納税額 外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEB00380",
+        "path": "HOA522/IEB00000/IEB00360/IEB00380",
+        "label": "期首現在未納税額 本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEB00390",
+        "path": "HOA522/IEB00000/IEB00360/IEB00390",
+        "label": "当期発生税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEB00400",
+        "path": "HOA522/IEB00000/IEB00360/IEB00400",
+        "label": "当期中の納付税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEB00410",
+          "path": "HOA522/IEB00000/IEB00360/IEB00400/IEB00410",
+          "label": "充当金取崩しによる納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEB00420",
+            "path": "HOA522/IEB00000/IEB00360/IEB00400/IEB00410/IEB00420",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEB00430",
+            "path": "HOA522/IEB00000/IEB00360/IEB00400/IEB00410/IEB00430",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEB00440",
+          "path": "HOA522/IEB00000/IEB00360/IEB00400/IEB00440",
+          "label": "仮払経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEB00450",
+            "path": "HOA522/IEB00000/IEB00360/IEB00400/IEB00440/IEB00450",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEB00460",
+            "path": "HOA522/IEB00000/IEB00360/IEB00400/IEB00440/IEB00460",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEB00470",
+          "path": "HOA522/IEB00000/IEB00360/IEB00400/IEB00470",
+          "label": "損金経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEB00480",
+            "path": "HOA522/IEB00000/IEB00360/IEB00400/IEB00470/IEB00480",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEB00490",
+            "path": "HOA522/IEB00000/IEB00360/IEB00400/IEB00470/IEB00490",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEB00500",
+        "path": "HOA522/IEB00000/IEB00360/IEB00500",
+        "label": "期末現在未納税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEB00510",
+          "path": "HOA522/IEB00000/IEB00360/IEB00500/IEB00510",
+          "label": "外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEB00520",
+          "path": "HOA522/IEB00000/IEB00360/IEB00500/IEB00520",
+          "label": "本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "IEC00000",
+    "path": "HOA522/IEC00000",
+    "label": "道府県民税",
+    "min": 0,
+    "max": 1,
+    "type": "IEC00000-10-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "IEC00010",
+      "path": "HOA522/IEC00000/IEC00010",
+      "label": "明細 繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEC00020",
+        "path": "HOA522/IEC00000/IEC00010/IEC00020",
+        "label": "事業年度(自)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOA522/IEC00000/IEC00010/IEC00020/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOA522/IEC00000/IEC00010/IEC00020/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOA522/IEC00000/IEC00010/IEC00020/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOA522/IEC00000/IEC00010/IEC00020/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "IEC00030",
+        "path": "HOA522/IEC00000/IEC00010/IEC00030",
+        "label": "事業年度(至)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOA522/IEC00000/IEC00010/IEC00030/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOA522/IEC00000/IEC00010/IEC00030/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOA522/IEC00000/IEC00010/IEC00030/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOA522/IEC00000/IEC00010/IEC00030/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "IEC00040",
+        "path": "HOA522/IEC00000/IEC00010/IEC00040",
+        "label": "期首現在未納税額 外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEC00050",
+        "path": "HOA522/IEC00000/IEC00010/IEC00050",
+        "label": "期首現在未納税額 本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEC00060",
+        "path": "HOA522/IEC00000/IEC00010/IEC00060",
+        "label": "当期中の納付税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEC00070",
+          "path": "HOA522/IEC00000/IEC00010/IEC00060/IEC00070",
+          "label": "充当金取崩しによる納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEC00080",
+            "path": "HOA522/IEC00000/IEC00010/IEC00060/IEC00070/IEC00080",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEC00090",
+            "path": "HOA522/IEC00000/IEC00010/IEC00060/IEC00070/IEC00090",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEC00100",
+          "path": "HOA522/IEC00000/IEC00010/IEC00060/IEC00100",
+          "label": "仮払経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEC00110",
+            "path": "HOA522/IEC00000/IEC00010/IEC00060/IEC00100/IEC00110",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEC00120",
+            "path": "HOA522/IEC00000/IEC00010/IEC00060/IEC00100/IEC00120",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEC00130",
+          "path": "HOA522/IEC00000/IEC00010/IEC00060/IEC00130",
+          "label": "損金経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEC00140",
+            "path": "HOA522/IEC00000/IEC00010/IEC00060/IEC00130/IEC00140",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEC00150",
+            "path": "HOA522/IEC00000/IEC00010/IEC00060/IEC00130/IEC00150",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEC00160",
+        "path": "HOA522/IEC00000/IEC00010/IEC00160",
+        "label": "期末現在未納税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IEC00170",
+      "path": "HOA522/IEC00000/IEC00170",
+      "label": "当期分",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEC00310",
+        "path": "HOA522/IEC00000/IEC00170/IEC00310",
+        "label": "中間",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEC00320",
+          "path": "HOA522/IEC00000/IEC00170/IEC00310/IEC00320",
+          "label": "当期発生税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEC00330",
+          "path": "HOA522/IEC00000/IEC00170/IEC00310/IEC00330",
+          "label": "当期中の納付税額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEC00340",
+            "path": "HOA522/IEC00000/IEC00170/IEC00310/IEC00330/IEC00340",
+            "label": "充当金取崩しによる納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEC00350",
+              "path": "HOA522/IEC00000/IEC00170/IEC00310/IEC00330/IEC00340/IEC00350",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEC00360",
+              "path": "HOA522/IEC00000/IEC00170/IEC00310/IEC00330/IEC00340/IEC00360",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEC00370",
+            "path": "HOA522/IEC00000/IEC00170/IEC00310/IEC00330/IEC00370",
+            "label": "仮払経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEC00380",
+              "path": "HOA522/IEC00000/IEC00170/IEC00310/IEC00330/IEC00370/IEC00380",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEC00390",
+              "path": "HOA522/IEC00000/IEC00170/IEC00310/IEC00330/IEC00370/IEC00390",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEC00400",
+            "path": "HOA522/IEC00000/IEC00170/IEC00310/IEC00330/IEC00400",
+            "label": "損金経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEC00410",
+              "path": "HOA522/IEC00000/IEC00170/IEC00310/IEC00330/IEC00400/IEC00410",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEC00420",
+              "path": "HOA522/IEC00000/IEC00170/IEC00310/IEC00330/IEC00400/IEC00420",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEC00430",
+          "path": "HOA522/IEC00000/IEC00170/IEC00310/IEC00430",
+          "label": "期末現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEC00440",
+        "path": "HOA522/IEC00000/IEC00170/IEC00440",
+        "label": "確定",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEC00450",
+          "path": "HOA522/IEC00000/IEC00170/IEC00440/IEC00450",
+          "label": "当期発生税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEC00460",
+          "path": "HOA522/IEC00000/IEC00170/IEC00440/IEC00460",
+          "label": "期末現在未納税額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEC00470",
+            "path": "HOA522/IEC00000/IEC00170/IEC00440/IEC00460/IEC00470",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEC00480",
+            "path": "HOA522/IEC00000/IEC00170/IEC00440/IEC00460/IEC00480",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IEC00490",
+      "path": "HOA522/IEC00000/IEC00490",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEC00500",
+        "path": "HOA522/IEC00000/IEC00490/IEC00500",
+        "label": "期首現在未納税額 外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEC00510",
+        "path": "HOA522/IEC00000/IEC00490/IEC00510",
+        "label": "期首現在未納税額 本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEC00520",
+        "path": "HOA522/IEC00000/IEC00490/IEC00520",
+        "label": "当期発生税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEC00530",
+        "path": "HOA522/IEC00000/IEC00490/IEC00530",
+        "label": "当期中の納付税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEC00540",
+          "path": "HOA522/IEC00000/IEC00490/IEC00530/IEC00540",
+          "label": "充当金取崩しによる納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEC00550",
+            "path": "HOA522/IEC00000/IEC00490/IEC00530/IEC00540/IEC00550",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEC00560",
+            "path": "HOA522/IEC00000/IEC00490/IEC00530/IEC00540/IEC00560",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEC00570",
+          "path": "HOA522/IEC00000/IEC00490/IEC00530/IEC00570",
+          "label": "仮払経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEC00580",
+            "path": "HOA522/IEC00000/IEC00490/IEC00530/IEC00570/IEC00580",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEC00590",
+            "path": "HOA522/IEC00000/IEC00490/IEC00530/IEC00570/IEC00590",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEC00600",
+          "path": "HOA522/IEC00000/IEC00490/IEC00530/IEC00600",
+          "label": "損金経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEC00610",
+            "path": "HOA522/IEC00000/IEC00490/IEC00530/IEC00600/IEC00610",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEC00620",
+            "path": "HOA522/IEC00000/IEC00490/IEC00530/IEC00600/IEC00620",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEC00630",
+        "path": "HOA522/IEC00000/IEC00490/IEC00630",
+        "label": "期末現在未納税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEC00640",
+          "path": "HOA522/IEC00000/IEC00490/IEC00630/IEC00640",
+          "label": "外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEC00650",
+          "path": "HOA522/IEC00000/IEC00490/IEC00630/IEC00650",
+          "label": "本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "IED00000",
+    "path": "HOA522/IED00000",
+    "label": "市町村民税",
+    "min": 0,
+    "max": 1,
+    "type": "IED00000-10-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "IED00010",
+      "path": "HOA522/IED00000/IED00010",
+      "label": "明細 繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IED00020",
+        "path": "HOA522/IED00000/IED00010/IED00020",
+        "label": "事業年度(自)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOA522/IED00000/IED00010/IED00020/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOA522/IED00000/IED00010/IED00020/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOA522/IED00000/IED00010/IED00020/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOA522/IED00000/IED00010/IED00020/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "IED00030",
+        "path": "HOA522/IED00000/IED00010/IED00030",
+        "label": "事業年度(至)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOA522/IED00000/IED00010/IED00030/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOA522/IED00000/IED00010/IED00030/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOA522/IED00000/IED00010/IED00030/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOA522/IED00000/IED00010/IED00030/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "IED00040",
+        "path": "HOA522/IED00000/IED00010/IED00040",
+        "label": "期首現在未納税額 外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IED00050",
+        "path": "HOA522/IED00000/IED00010/IED00050",
+        "label": "期首現在未納税額 本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IED00060",
+        "path": "HOA522/IED00000/IED00010/IED00060",
+        "label": "当期中の納付税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IED00070",
+          "path": "HOA522/IED00000/IED00010/IED00060/IED00070",
+          "label": "充当金取崩しによる納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IED00080",
+            "path": "HOA522/IED00000/IED00010/IED00060/IED00070/IED00080",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IED00090",
+            "path": "HOA522/IED00000/IED00010/IED00060/IED00070/IED00090",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IED00100",
+          "path": "HOA522/IED00000/IED00010/IED00060/IED00100",
+          "label": "仮払経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IED00110",
+            "path": "HOA522/IED00000/IED00010/IED00060/IED00100/IED00110",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IED00120",
+            "path": "HOA522/IED00000/IED00010/IED00060/IED00100/IED00120",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IED00130",
+          "path": "HOA522/IED00000/IED00010/IED00060/IED00130",
+          "label": "損金経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IED00140",
+            "path": "HOA522/IED00000/IED00010/IED00060/IED00130/IED00140",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IED00150",
+            "path": "HOA522/IED00000/IED00010/IED00060/IED00130/IED00150",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IED00160",
+        "path": "HOA522/IED00000/IED00010/IED00160",
+        "label": "期末現在未納税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IED00170",
+      "path": "HOA522/IED00000/IED00170",
+      "label": "当期分",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IED00180",
+        "path": "HOA522/IED00000/IED00170/IED00180",
+        "label": "中間",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IED00190",
+          "path": "HOA522/IED00000/IED00170/IED00180/IED00190",
+          "label": "当期発生税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IED00200",
+          "path": "HOA522/IED00000/IED00170/IED00180/IED00200",
+          "label": "当期中の納付税額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IED00210",
+            "path": "HOA522/IED00000/IED00170/IED00180/IED00200/IED00210",
+            "label": "充当金取崩しによる納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IED00220",
+              "path": "HOA522/IED00000/IED00170/IED00180/IED00200/IED00210/IED00220",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IED00230",
+              "path": "HOA522/IED00000/IED00170/IED00180/IED00200/IED00210/IED00230",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IED00240",
+            "path": "HOA522/IED00000/IED00170/IED00180/IED00200/IED00240",
+            "label": "仮払経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IED00250",
+              "path": "HOA522/IED00000/IED00170/IED00180/IED00200/IED00240/IED00250",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IED00260",
+              "path": "HOA522/IED00000/IED00170/IED00180/IED00200/IED00240/IED00260",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IED00270",
+            "path": "HOA522/IED00000/IED00170/IED00180/IED00200/IED00270",
+            "label": "損金経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IED00280",
+              "path": "HOA522/IED00000/IED00170/IED00180/IED00200/IED00270/IED00280",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IED00290",
+              "path": "HOA522/IED00000/IED00170/IED00180/IED00200/IED00270/IED00290",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IED00300",
+          "path": "HOA522/IED00000/IED00170/IED00180/IED00300",
+          "label": "期末現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IED00310",
+        "path": "HOA522/IED00000/IED00170/IED00310",
+        "label": "確定",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IED00320",
+          "path": "HOA522/IED00000/IED00170/IED00310/IED00320",
+          "label": "当期発生税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IED00330",
+          "path": "HOA522/IED00000/IED00170/IED00310/IED00330",
+          "label": "期末現在未納税額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IED00340",
+            "path": "HOA522/IED00000/IED00170/IED00310/IED00330/IED00340",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IED00350",
+            "path": "HOA522/IED00000/IED00170/IED00310/IED00330/IED00350",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IED00360",
+      "path": "HOA522/IED00000/IED00360",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IED00370",
+        "path": "HOA522/IED00000/IED00360/IED00370",
+        "label": "期首現在未納税額 外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IED00380",
+        "path": "HOA522/IED00000/IED00360/IED00380",
+        "label": "期首現在未納税額 本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IED00390",
+        "path": "HOA522/IED00000/IED00360/IED00390",
+        "label": "当期発生税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IED00400",
+        "path": "HOA522/IED00000/IED00360/IED00400",
+        "label": "当期中の納付税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IED00410",
+          "path": "HOA522/IED00000/IED00360/IED00400/IED00410",
+          "label": "充当金取崩しによる納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IED00420",
+            "path": "HOA522/IED00000/IED00360/IED00400/IED00410/IED00420",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IED00430",
+            "path": "HOA522/IED00000/IED00360/IED00400/IED00410/IED00430",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IED00440",
+          "path": "HOA522/IED00000/IED00360/IED00400/IED00440",
+          "label": "仮払経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IED00450",
+            "path": "HOA522/IED00000/IED00360/IED00400/IED00440/IED00450",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IED00460",
+            "path": "HOA522/IED00000/IED00360/IED00400/IED00440/IED00460",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IED00470",
+          "path": "HOA522/IED00000/IED00360/IED00400/IED00470",
+          "label": "損金経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IED00480",
+            "path": "HOA522/IED00000/IED00360/IED00400/IED00470/IED00480",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IED00490",
+            "path": "HOA522/IED00000/IED00360/IED00400/IED00470/IED00490",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IED00500",
+        "path": "HOA522/IED00000/IED00360/IED00500",
+        "label": "期末現在未納税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IED00510",
+          "path": "HOA522/IED00000/IED00360/IED00500/IED00510",
+          "label": "外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IED00520",
+          "path": "HOA522/IED00000/IED00360/IED00500/IED00520",
+          "label": "本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "IEE00000",
+    "path": "HOA522/IEE00000",
+    "label": "事業税及び特別法人事業税",
+    "min": 0,
+    "max": 1,
+    "type": "IEE00000-10-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "IEE00010",
+      "path": "HOA522/IEE00000/IEE00010",
+      "label": "明細 繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEE00020",
+        "path": "HOA522/IEE00000/IEE00010/IEE00020",
+        "label": "事業年度(自)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOA522/IEE00000/IEE00010/IEE00020/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOA522/IEE00000/IEE00010/IEE00020/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOA522/IEE00000/IEE00010/IEE00020/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOA522/IEE00000/IEE00010/IEE00020/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "IEE00030",
+        "path": "HOA522/IEE00000/IEE00010/IEE00030",
+        "label": "事業年度(至)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOA522/IEE00000/IEE00010/IEE00030/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOA522/IEE00000/IEE00010/IEE00030/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOA522/IEE00000/IEE00010/IEE00030/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOA522/IEE00000/IEE00010/IEE00030/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "IEE00040",
+        "path": "HOA522/IEE00000/IEE00010/IEE00040",
+        "label": "期首現在未納税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEE00050",
+        "path": "HOA522/IEE00000/IEE00010/IEE00050",
+        "label": "当期発生税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEE00060",
+        "path": "HOA522/IEE00000/IEE00010/IEE00060",
+        "label": "当期中の納付税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEE00070",
+          "path": "HOA522/IEE00000/IEE00010/IEE00060/IEE00070",
+          "label": "充当金取崩しによる納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEE00080",
+            "path": "HOA522/IEE00000/IEE00010/IEE00060/IEE00070/IEE00080",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEE00090",
+            "path": "HOA522/IEE00000/IEE00010/IEE00060/IEE00070/IEE00090",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEE00100",
+          "path": "HOA522/IEE00000/IEE00010/IEE00060/IEE00100",
+          "label": "仮払経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEE00110",
+            "path": "HOA522/IEE00000/IEE00010/IEE00060/IEE00100/IEE00110",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEE00120",
+            "path": "HOA522/IEE00000/IEE00010/IEE00060/IEE00100/IEE00120",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEE00130",
+          "path": "HOA522/IEE00000/IEE00010/IEE00060/IEE00130",
+          "label": "損金経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEE00140",
+            "path": "HOA522/IEE00000/IEE00010/IEE00060/IEE00130/IEE00140",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEE00150",
+            "path": "HOA522/IEE00000/IEE00010/IEE00060/IEE00130/IEE00150",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEE00160",
+        "path": "HOA522/IEE00000/IEE00010/IEE00160",
+        "label": "期末現在未納税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IEE00170",
+      "path": "HOA522/IEE00000/IEE00170",
+      "label": "当期中間分",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEE00180",
+        "path": "HOA522/IEE00000/IEE00170/IEE00180",
+        "label": "当期発生税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEE00190",
+        "path": "HOA522/IEE00000/IEE00170/IEE00190",
+        "label": "当期中の納付税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEE00200",
+          "path": "HOA522/IEE00000/IEE00170/IEE00190/IEE00200",
+          "label": "充当金取崩しによる納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEE00210",
+            "path": "HOA522/IEE00000/IEE00170/IEE00190/IEE00200/IEE00210",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEE00220",
+            "path": "HOA522/IEE00000/IEE00170/IEE00190/IEE00200/IEE00220",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEE00230",
+          "path": "HOA522/IEE00000/IEE00170/IEE00190/IEE00230",
+          "label": "仮払経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEE00240",
+            "path": "HOA522/IEE00000/IEE00170/IEE00190/IEE00230/IEE00240",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEE00250",
+            "path": "HOA522/IEE00000/IEE00170/IEE00190/IEE00230/IEE00250",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEE00260",
+          "path": "HOA522/IEE00000/IEE00170/IEE00190/IEE00260",
+          "label": "損金経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEE00270",
+            "path": "HOA522/IEE00000/IEE00170/IEE00190/IEE00260/IEE00270",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEE00280",
+            "path": "HOA522/IEE00000/IEE00170/IEE00190/IEE00260/IEE00280",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEE00290",
+        "path": "HOA522/IEE00000/IEE00170/IEE00290",
+        "label": "期末現在未納税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IEE00300",
+      "path": "HOA522/IEE00000/IEE00300",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEE00310",
+        "path": "HOA522/IEE00000/IEE00300/IEE00310",
+        "label": "期首現在未納税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEE00320",
+        "path": "HOA522/IEE00000/IEE00300/IEE00320",
+        "label": "当期発生税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEE00330",
+        "path": "HOA522/IEE00000/IEE00300/IEE00330",
+        "label": "当期中の納付税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEE00340",
+          "path": "HOA522/IEE00000/IEE00300/IEE00330/IEE00340",
+          "label": "充当金取崩しによる納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEE00350",
+            "path": "HOA522/IEE00000/IEE00300/IEE00330/IEE00340/IEE00350",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEE00360",
+            "path": "HOA522/IEE00000/IEE00300/IEE00330/IEE00340/IEE00360",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEE00370",
+          "path": "HOA522/IEE00000/IEE00300/IEE00330/IEE00370",
+          "label": "仮払経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEE00380",
+            "path": "HOA522/IEE00000/IEE00300/IEE00330/IEE00370/IEE00380",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEE00390",
+            "path": "HOA522/IEE00000/IEE00300/IEE00330/IEE00370/IEE00390",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEE00400",
+          "path": "HOA522/IEE00000/IEE00300/IEE00330/IEE00400",
+          "label": "損金経理による納付",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEE00410",
+            "path": "HOA522/IEE00000/IEE00300/IEE00330/IEE00400/IEE00410",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEE00420",
+            "path": "HOA522/IEE00000/IEE00300/IEE00330/IEE00400/IEE00420",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEE00430",
+        "path": "HOA522/IEE00000/IEE00300/IEE00430",
+        "label": "期末現在未納税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "IEF00000",
+    "path": "HOA522/IEF00000",
+    "label": "その他",
+    "min": 0,
+    "max": 1,
+    "type": "IEF00000-10-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "IEF00010",
+      "path": "HOA522/IEF00000/IEF00010",
+      "label": "損金算入のもの",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEF00020",
+        "path": "HOA522/IEF00000/IEF00010/IEF00020",
+        "label": "利子税",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEF00030",
+          "path": "HOA522/IEF00000/IEF00010/IEF00020/IEF00030",
+          "label": "期首現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEF00040",
+          "path": "HOA522/IEF00000/IEF00010/IEF00020/IEF00040",
+          "label": "当期発生税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEF00050",
+          "path": "HOA522/IEF00000/IEF00010/IEF00020/IEF00050",
+          "label": "当期中の納付税額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEF00060",
+            "path": "HOA522/IEF00000/IEF00010/IEF00020/IEF00050/IEF00060",
+            "label": "充当金取崩しによる納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00070",
+              "path": "HOA522/IEF00000/IEF00010/IEF00020/IEF00050/IEF00060/IEF00070",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00080",
+              "path": "HOA522/IEF00000/IEF00010/IEF00020/IEF00050/IEF00060/IEF00080",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEF00090",
+            "path": "HOA522/IEF00000/IEF00010/IEF00020/IEF00050/IEF00090",
+            "label": "仮払経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00100",
+              "path": "HOA522/IEF00000/IEF00010/IEF00020/IEF00050/IEF00090/IEF00100",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00110",
+              "path": "HOA522/IEF00000/IEF00010/IEF00020/IEF00050/IEF00090/IEF00110",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEF00120",
+            "path": "HOA522/IEF00000/IEF00010/IEF00020/IEF00050/IEF00120",
+            "label": "損金経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00130",
+              "path": "HOA522/IEF00000/IEF00010/IEF00020/IEF00050/IEF00120/IEF00130",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00140",
+              "path": "HOA522/IEF00000/IEF00010/IEF00020/IEF00050/IEF00120/IEF00140",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEF00150",
+          "path": "HOA522/IEF00000/IEF00010/IEF00020/IEF00150",
+          "label": "期末現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEF00160",
+        "path": "HOA522/IEF00000/IEF00010/IEF00160",
+        "label": "延滞金(延納に係るもの)",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEF00170",
+          "path": "HOA522/IEF00000/IEF00010/IEF00160/IEF00170",
+          "label": "期首現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEF00180",
+          "path": "HOA522/IEF00000/IEF00010/IEF00160/IEF00180",
+          "label": "当期発生税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEF00190",
+          "path": "HOA522/IEF00000/IEF00010/IEF00160/IEF00190",
+          "label": "当期中の納付税額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEF00200",
+            "path": "HOA522/IEF00000/IEF00010/IEF00160/IEF00190/IEF00200",
+            "label": "充当金取崩しによる納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00210",
+              "path": "HOA522/IEF00000/IEF00010/IEF00160/IEF00190/IEF00200/IEF00210",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00220",
+              "path": "HOA522/IEF00000/IEF00010/IEF00160/IEF00190/IEF00200/IEF00220",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEF00230",
+            "path": "HOA522/IEF00000/IEF00010/IEF00160/IEF00190/IEF00230",
+            "label": "仮払経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00240",
+              "path": "HOA522/IEF00000/IEF00010/IEF00160/IEF00190/IEF00230/IEF00240",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00250",
+              "path": "HOA522/IEF00000/IEF00010/IEF00160/IEF00190/IEF00230/IEF00250",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEF00260",
+            "path": "HOA522/IEF00000/IEF00010/IEF00160/IEF00190/IEF00260",
+            "label": "損金経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00270",
+              "path": "HOA522/IEF00000/IEF00010/IEF00160/IEF00190/IEF00260/IEF00270",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00280",
+              "path": "HOA522/IEF00000/IEF00010/IEF00160/IEF00190/IEF00260/IEF00280",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEF00290",
+          "path": "HOA522/IEF00000/IEF00010/IEF00160/IEF00290",
+          "label": "期末現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEF00300",
+        "path": "HOA522/IEF00000/IEF00010/IEF00300",
+        "label": "明細 繰り返し",
+        "min": 0,
+        "max": 2,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEF00310",
+          "path": "HOA522/IEF00000/IEF00010/IEF00300/IEF00310",
+          "label": "項目名",
+          "min": 0,
+          "max": 1,
+          "type": "IEF00310-10-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "IEF00320",
+          "path": "HOA522/IEF00000/IEF00010/IEF00300/IEF00320",
+          "label": "期首現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEF00330",
+          "path": "HOA522/IEF00000/IEF00010/IEF00300/IEF00330",
+          "label": "当期発生税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEF00340",
+          "path": "HOA522/IEF00000/IEF00010/IEF00300/IEF00340",
+          "label": "当期中の納付税額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEF00350",
+            "path": "HOA522/IEF00000/IEF00010/IEF00300/IEF00340/IEF00350",
+            "label": "充当金取崩しによる納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00360",
+              "path": "HOA522/IEF00000/IEF00010/IEF00300/IEF00340/IEF00350/IEF00360",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00370",
+              "path": "HOA522/IEF00000/IEF00010/IEF00300/IEF00340/IEF00350/IEF00370",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEF00380",
+            "path": "HOA522/IEF00000/IEF00010/IEF00300/IEF00340/IEF00380",
+            "label": "仮払経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00390",
+              "path": "HOA522/IEF00000/IEF00010/IEF00300/IEF00340/IEF00380/IEF00390",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00400",
+              "path": "HOA522/IEF00000/IEF00010/IEF00300/IEF00340/IEF00380/IEF00400",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEF00410",
+            "path": "HOA522/IEF00000/IEF00010/IEF00300/IEF00340/IEF00410",
+            "label": "損金経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00420",
+              "path": "HOA522/IEF00000/IEF00010/IEF00300/IEF00340/IEF00410/IEF00420",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00430",
+              "path": "HOA522/IEF00000/IEF00010/IEF00300/IEF00340/IEF00410/IEF00430",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEF00440",
+          "path": "HOA522/IEF00000/IEF00010/IEF00300/IEF00440",
+          "label": "期末現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IEF00450",
+      "path": "HOA522/IEF00000/IEF00450",
+      "label": "損金不算入のもの",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEF00460",
+        "path": "HOA522/IEF00000/IEF00450/IEF00460",
+        "label": "加算税及び加算金",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEF00470",
+          "path": "HOA522/IEF00000/IEF00450/IEF00460/IEF00470",
+          "label": "期首現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEF00480",
+          "path": "HOA522/IEF00000/IEF00450/IEF00460/IEF00480",
+          "label": "当期発生税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEF00490",
+          "path": "HOA522/IEF00000/IEF00450/IEF00460/IEF00490",
+          "label": "当期中の納付税額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEF00500",
+            "path": "HOA522/IEF00000/IEF00450/IEF00460/IEF00490/IEF00500",
+            "label": "充当金取崩しによる納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00510",
+              "path": "HOA522/IEF00000/IEF00450/IEF00460/IEF00490/IEF00500/IEF00510",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00520",
+              "path": "HOA522/IEF00000/IEF00450/IEF00460/IEF00490/IEF00500/IEF00520",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEF00530",
+            "path": "HOA522/IEF00000/IEF00450/IEF00460/IEF00490/IEF00530",
+            "label": "仮払経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00540",
+              "path": "HOA522/IEF00000/IEF00450/IEF00460/IEF00490/IEF00530/IEF00540",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00550",
+              "path": "HOA522/IEF00000/IEF00450/IEF00460/IEF00490/IEF00530/IEF00550",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEF00560",
+            "path": "HOA522/IEF00000/IEF00450/IEF00460/IEF00490/IEF00560",
+            "label": "損金経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00570",
+              "path": "HOA522/IEF00000/IEF00450/IEF00460/IEF00490/IEF00560/IEF00570",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00580",
+              "path": "HOA522/IEF00000/IEF00450/IEF00460/IEF00490/IEF00560/IEF00580",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEF00590",
+          "path": "HOA522/IEF00000/IEF00450/IEF00460/IEF00590",
+          "label": "期末現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEF00600",
+        "path": "HOA522/IEF00000/IEF00450/IEF00600",
+        "label": "延滞税",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEF00610",
+          "path": "HOA522/IEF00000/IEF00450/IEF00600/IEF00610",
+          "label": "期首現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEF00620",
+          "path": "HOA522/IEF00000/IEF00450/IEF00600/IEF00620",
+          "label": "当期発生税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEF00630",
+          "path": "HOA522/IEF00000/IEF00450/IEF00600/IEF00630",
+          "label": "当期中の納付税額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEF00640",
+            "path": "HOA522/IEF00000/IEF00450/IEF00600/IEF00630/IEF00640",
+            "label": "充当金取崩しによる納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00650",
+              "path": "HOA522/IEF00000/IEF00450/IEF00600/IEF00630/IEF00640/IEF00650",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00660",
+              "path": "HOA522/IEF00000/IEF00450/IEF00600/IEF00630/IEF00640/IEF00660",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEF00670",
+            "path": "HOA522/IEF00000/IEF00450/IEF00600/IEF00630/IEF00670",
+            "label": "仮払経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00680",
+              "path": "HOA522/IEF00000/IEF00450/IEF00600/IEF00630/IEF00670/IEF00680",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00690",
+              "path": "HOA522/IEF00000/IEF00450/IEF00600/IEF00630/IEF00670/IEF00690",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEF00700",
+            "path": "HOA522/IEF00000/IEF00450/IEF00600/IEF00630/IEF00700",
+            "label": "損金経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00710",
+              "path": "HOA522/IEF00000/IEF00450/IEF00600/IEF00630/IEF00700/IEF00710",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00720",
+              "path": "HOA522/IEF00000/IEF00450/IEF00600/IEF00630/IEF00700/IEF00720",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEF00730",
+          "path": "HOA522/IEF00000/IEF00450/IEF00600/IEF00730",
+          "label": "期末現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEF00740",
+        "path": "HOA522/IEF00000/IEF00450/IEF00740",
+        "label": "延滞金(延納分を除く。)",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEF00750",
+          "path": "HOA522/IEF00000/IEF00450/IEF00740/IEF00750",
+          "label": "期首現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEF00760",
+          "path": "HOA522/IEF00000/IEF00450/IEF00740/IEF00760",
+          "label": "当期発生税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEF00770",
+          "path": "HOA522/IEF00000/IEF00450/IEF00740/IEF00770",
+          "label": "当期中の納付税額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEF00780",
+            "path": "HOA522/IEF00000/IEF00450/IEF00740/IEF00770/IEF00780",
+            "label": "充当金取崩しによる納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00790",
+              "path": "HOA522/IEF00000/IEF00450/IEF00740/IEF00770/IEF00780/IEF00790",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00800",
+              "path": "HOA522/IEF00000/IEF00450/IEF00740/IEF00770/IEF00780/IEF00800",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEF00810",
+            "path": "HOA522/IEF00000/IEF00450/IEF00740/IEF00770/IEF00810",
+            "label": "仮払経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00820",
+              "path": "HOA522/IEF00000/IEF00450/IEF00740/IEF00770/IEF00810/IEF00820",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00830",
+              "path": "HOA522/IEF00000/IEF00450/IEF00740/IEF00770/IEF00810/IEF00830",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEF00840",
+            "path": "HOA522/IEF00000/IEF00450/IEF00740/IEF00770/IEF00840",
+            "label": "損金経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00850",
+              "path": "HOA522/IEF00000/IEF00450/IEF00740/IEF00770/IEF00840/IEF00850",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00860",
+              "path": "HOA522/IEF00000/IEF00450/IEF00740/IEF00770/IEF00840/IEF00860",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEF00870",
+          "path": "HOA522/IEF00000/IEF00450/IEF00740/IEF00870",
+          "label": "期末現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEF00880",
+        "path": "HOA522/IEF00000/IEF00450/IEF00880",
+        "label": "過怠税",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEF00890",
+          "path": "HOA522/IEF00000/IEF00450/IEF00880/IEF00890",
+          "label": "期首現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEF00900",
+          "path": "HOA522/IEF00000/IEF00450/IEF00880/IEF00900",
+          "label": "当期発生税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEF00910",
+          "path": "HOA522/IEF00000/IEF00450/IEF00880/IEF00910",
+          "label": "当期中の納付税額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEF00920",
+            "path": "HOA522/IEF00000/IEF00450/IEF00880/IEF00910/IEF00920",
+            "label": "充当金取崩しによる納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00930",
+              "path": "HOA522/IEF00000/IEF00450/IEF00880/IEF00910/IEF00920/IEF00930",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00940",
+              "path": "HOA522/IEF00000/IEF00450/IEF00880/IEF00910/IEF00920/IEF00940",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEF00950",
+            "path": "HOA522/IEF00000/IEF00450/IEF00880/IEF00910/IEF00950",
+            "label": "仮払経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00960",
+              "path": "HOA522/IEF00000/IEF00450/IEF00880/IEF00910/IEF00950/IEF00960",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF00970",
+              "path": "HOA522/IEF00000/IEF00450/IEF00880/IEF00910/IEF00950/IEF00970",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEF00980",
+            "path": "HOA522/IEF00000/IEF00450/IEF00880/IEF00910/IEF00980",
+            "label": "損金経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF00990",
+              "path": "HOA522/IEF00000/IEF00450/IEF00880/IEF00910/IEF00980/IEF00990",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF01000",
+              "path": "HOA522/IEF00000/IEF00450/IEF00880/IEF00910/IEF00980/IEF01000",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEF01010",
+          "path": "HOA522/IEF00000/IEF00450/IEF00880/IEF01010",
+          "label": "期末現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEF01020",
+        "path": "HOA522/IEF00000/IEF00450/IEF01020",
+        "label": "明細 繰り返し",
+        "min": 0,
+        "max": 2,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEF01030",
+          "path": "HOA522/IEF00000/IEF00450/IEF01020/IEF01030",
+          "label": "項目名",
+          "min": 0,
+          "max": 1,
+          "type": "IEF01030-10-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "IEF01040",
+          "path": "HOA522/IEF00000/IEF00450/IEF01020/IEF01040",
+          "label": "期首現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEF01050",
+          "path": "HOA522/IEF00000/IEF00450/IEF01020/IEF01050",
+          "label": "当期発生税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEF01060",
+          "path": "HOA522/IEF00000/IEF00450/IEF01020/IEF01060",
+          "label": "当期中の納付税額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEF01070",
+            "path": "HOA522/IEF00000/IEF00450/IEF01020/IEF01060/IEF01070",
+            "label": "充当金取崩しによる納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF01080",
+              "path": "HOA522/IEF00000/IEF00450/IEF01020/IEF01060/IEF01070/IEF01080",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF01090",
+              "path": "HOA522/IEF00000/IEF00450/IEF01020/IEF01060/IEF01070/IEF01090",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEF01100",
+            "path": "HOA522/IEF00000/IEF00450/IEF01020/IEF01060/IEF01100",
+            "label": "仮払経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF01110",
+              "path": "HOA522/IEF00000/IEF00450/IEF01020/IEF01060/IEF01100/IEF01110",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF01120",
+              "path": "HOA522/IEF00000/IEF00450/IEF01020/IEF01060/IEF01100/IEF01120",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "IEF01130",
+            "path": "HOA522/IEF00000/IEF00450/IEF01020/IEF01060/IEF01130",
+            "label": "損金経理による納付",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "IEF01140",
+              "path": "HOA522/IEF00000/IEF00450/IEF01020/IEF01060/IEF01130/IEF01140",
+              "label": "外書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "IEF01150",
+              "path": "HOA522/IEF00000/IEF00450/IEF01020/IEF01060/IEF01130/IEF01150",
+              "label": "本書き",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEF01160",
+          "path": "HOA522/IEF00000/IEF00450/IEF01020/IEF01160",
+          "label": "期末現在未納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "IEG00000",
+    "path": "HOA522/IEG00000",
+    "label": "納税充当金の計算",
+    "min": 0,
+    "max": 1,
+    "type": "IEG00000-10-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "IEG00010",
+      "path": "HOA522/IEG00000/IEG00010",
+      "label": "期首納税充当金",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "IEG00020",
+      "path": "HOA522/IEG00000/IEG00020",
+      "label": "繰入額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEG00030",
+        "path": "HOA522/IEG00000/IEG00020/IEG00030",
+        "label": "損金経理をした納税充当金",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEG00040",
+        "path": "HOA522/IEG00000/IEG00020/IEG00040",
+        "label": "［32］の欄",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEG00050",
+          "path": "HOA522/IEG00000/IEG00020/IEG00040/IEG00050",
+          "label": "項目名",
+          "min": 0,
+          "max": 1,
+          "type": "IEG00050-10-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 30
+         },
+         {
+          "tag": "IEG00060",
+          "path": "HOA522/IEG00000/IEG00020/IEG00040/IEG00060",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEG00070",
+        "path": "HOA522/IEG00000/IEG00020/IEG00070",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IEG00080",
+      "path": "HOA522/IEG00000/IEG00080",
+      "label": "取崩額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEG00090",
+        "path": "HOA522/IEG00000/IEG00080/IEG00090",
+        "label": "法人税額等",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEG00100",
+        "path": "HOA522/IEG00000/IEG00080/IEG00100",
+        "label": "事業税及び特別法人事業税",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEG00110",
+        "path": "HOA522/IEG00000/IEG00080/IEG00110",
+        "label": "その他",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEG00120",
+          "path": "HOA522/IEG00000/IEG00080/IEG00110/IEG00120",
+          "label": "損金算入のもの",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEG00130",
+          "path": "HOA522/IEG00000/IEG00080/IEG00110/IEG00130",
+          "label": "損金不算入のもの",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEG00140",
+          "path": "HOA522/IEG00000/IEG00080/IEG00110/IEG00140",
+          "label": "［38］の欄",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEG00150",
+            "path": "HOA522/IEG00000/IEG00080/IEG00110/IEG00140/IEG00150",
+            "label": "項目名",
+            "min": 0,
+            "max": 1,
+            "type": "IEG00150-10-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 30
+           },
+           {
+            "tag": "IEG00160",
+            "path": "HOA522/IEG00000/IEG00080/IEG00110/IEG00140/IEG00160",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEG00170",
+          "path": "HOA522/IEG00000/IEG00080/IEG00110/IEG00170",
+          "label": "仮払税金消却",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEG00180",
+        "path": "HOA522/IEG00000/IEG00080/IEG00180",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IEG00190",
+      "path": "HOA522/IEG00000/IEG00190",
+      "label": "期末納税充当金",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "IEI00000",
+    "path": "HOA522/IEI00000",
+    "label": "通算法人の通算税効果額の発生状況等の明細",
+    "min": 0,
+    "max": 1,
+    "type": "IEI00000-10-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "IEI00010",
+      "path": "HOA522/IEI00000/IEI00010",
+      "label": "明細 繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEI00020",
+        "path": "HOA522/IEI00000/IEI00010/IEI00020",
+        "label": "事業年度(自)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOA522/IEI00000/IEI00010/IEI00020/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOA522/IEI00000/IEI00010/IEI00020/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOA522/IEI00000/IEI00010/IEI00020/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOA522/IEI00000/IEI00010/IEI00020/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "IEI00030",
+        "path": "HOA522/IEI00000/IEI00010/IEI00030",
+        "label": "事業年度(至)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOA522/IEI00000/IEI00010/IEI00030/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOA522/IEI00000/IEI00010/IEI00030/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOA522/IEI00000/IEI00010/IEI00030/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOA522/IEI00000/IEI00010/IEI00030/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "IEI00040",
+        "path": "HOA522/IEI00000/IEI00010/IEI00040",
+        "label": "期首現在未決済額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEI00050",
+        "path": "HOA522/IEI00000/IEI00010/IEI00050",
+        "label": "当期中の決済額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEI00060",
+          "path": "HOA522/IEI00000/IEI00010/IEI00050/IEI00060",
+          "label": "支払額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEI00070",
+          "path": "HOA522/IEI00000/IEI00010/IEI00050/IEI00070",
+          "label": "受取額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEI00080",
+        "path": "HOA522/IEI00000/IEI00010/IEI00080",
+        "label": "期末現在未決済額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IEI00090",
+      "path": "HOA522/IEI00000/IEI00090",
+      "label": "当期分",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEI00100",
+        "path": "HOA522/IEI00000/IEI00090/IEI00100",
+        "label": "当期発生額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEI00110",
+          "path": "HOA522/IEI00000/IEI00090/IEI00100/IEI00110",
+          "label": "中間",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEI00120",
+            "path": "HOA522/IEI00000/IEI00090/IEI00100/IEI00110/IEI00120",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEI00130",
+            "path": "HOA522/IEI00000/IEI00090/IEI00100/IEI00110/IEI00130",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IEI00140",
+          "path": "HOA522/IEI00000/IEI00090/IEI00100/IEI00140",
+          "label": "確定",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IEI00150",
+            "path": "HOA522/IEI00000/IEI00090/IEI00100/IEI00140/IEI00150",
+            "label": "外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IEI00160",
+            "path": "HOA522/IEI00000/IEI00090/IEI00100/IEI00140/IEI00160",
+            "label": "本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEI00170",
+        "path": "HOA522/IEI00000/IEI00090/IEI00170",
+        "label": "当期中の決済額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEI00180",
+          "path": "HOA522/IEI00000/IEI00090/IEI00170/IEI00180",
+          "label": "支払額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEI00190",
+          "path": "HOA522/IEI00000/IEI00090/IEI00170/IEI00190",
+          "label": "受取額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEI00200",
+        "path": "HOA522/IEI00000/IEI00090/IEI00200",
+        "label": "期末現在未決済額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IEI00210",
+      "path": "HOA522/IEI00000/IEI00210",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IEI00220",
+        "path": "HOA522/IEI00000/IEI00210/IEI00220",
+        "label": "期首現在未決済額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEI00230",
+        "path": "HOA522/IEI00000/IEI00210/IEI00230",
+        "label": "当期発生額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IEI00240",
+        "path": "HOA522/IEI00000/IEI00210/IEI00240",
+        "label": "当期中の決済額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IEI00250",
+          "path": "HOA522/IEI00000/IEI00210/IEI00240/IEI00250",
+          "label": "支払額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IEI00260",
+          "path": "HOA522/IEI00000/IEI00210/IEI00240/IEI00260",
+          "label": "受取額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IEI00270",
+        "path": "HOA522/IEI00000/IEI00210/IEI00270",
+        "label": "期末現在未決済額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "IEH00000",
+    "path": "HOA522/IEH00000",
+    "label": "適用事業年度等",
+    "min": 0,
+    "max": 1,
+    "type": "IEH00000-10-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 15
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOA522-10-0VRtype",
+    "fixed": "10.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}
