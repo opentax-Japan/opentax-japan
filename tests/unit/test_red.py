@@ -80,6 +80,19 @@ class SampleTest(unittest.TestCase):
                 calc.schedule_02(data, calc.load_rules("corporate_tax.json"))
 
 
+class TrialRoundingGuardTest(unittest.TestCase):
+    def test_trial_rounding_needs_trial_file_name(self):
+        import contextlib
+        import io
+        from opentax.cli import main
+        err = io.StringIO()
+        with contextlib.redirect_stderr(err):
+            code = main(["export-etax", str(SAMPLE), "-o", "out.xtx", "--trial-ratio-rounding", "truncate"])
+        self.assertEqual(code, 2)
+        self.assertIn("試し用", err.getvalue())
+        self.assertIsNone(calc.load_rules("corporate_tax.json")["family_company_ratio_display"]["mode"])
+
+
 class OutOfScopeTest(unittest.TestCase):
     def assertOut(self, raw, word):
         with self.assertRaises(model.OutOfScope) as ctx:
