@@ -7,7 +7,8 @@ import sys
 from pathlib import Path
 
 from .etax.fetch_spec import SpecError, SpecSet
-from .etax.xsd_layout import LAYOUT_DIR, LayoutError, build_layout, dump_layout
+from .etax.field_catalog import WORKBOOK_RE, CatalogError, build_form_catalog, dump_catalog, find_sheet
+from .etax.xsd_layout import LAYOUT_DIR, LayoutError, build_layout, dump_layout, load_layout
 
 EXIT_OK = 0
 EXIT_CHANGED = 1
@@ -69,6 +70,52 @@ def _build_layout(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def _build_catalog(args: argparse.Namespace) -> int:
+    manifest = Path(args.manifest_dir) / f"{args.spec_set}.manifest.json"
+    spec = SpecSet(manifest, Path(args.cache_dir))
+    pkg = next((p for p in spec.manifest["packages"] if p["name"] == "e-tax10"), None)
+    if pkg is None or not pkg.get("files"):
+        raise SpecError("manifest に e-tax10 がありません。先に fetch-spec --init を実行してください")
+    workbooks = [spec.file_path(pkg, f["path"]) for f in pkg["files"] if WORKBOOK_RE.search(f["path"])]
+
+    forms = []
+    manifest_changed = False
+    for form in spec.manifest["forms"]:
+        workbook, sheet = find_sheet(workbooks, form["form_id"], form["version"])
+        source = next(f for f in pkg["files"] if spec.file_path(pkg, f["path"]) == workbook)
+        if (form.get("field_spec_workbook"), form.get("field_spec_sheet")) != (source["path"], sheet):
+            form["field_spec_workbook"], form["field_spec_sheet"] = source["path"], sheet
+            manifest_changed = True
+        entry = build_form_catalog(workbook, sheet, form, load_layout(args.spec_set, form["form_id"]))
+        entry["source"]["sha256"] = source["sha256"]
+        forms.append(entry)
+        print(f"{form['form_id']} {form['version']}: {entry['field_count']} 項目（{workbook.name} / {sheet}）")
+        if entry["unmatched_columns"]:
+            print(f"  列を決められなかった項目: 項番 {entry['unmatched_columns']}")
+        if entry["not_in_layout"]:
+            print(f"  layout で見つからない XMLタグ: {entry['not_in_layout']}")
+
+    catalog = {
+        "spec_set": args.spec_set,
+        "generated_by": "opentax build-catalog",
+        "note": "国税庁 帳票フィールド仕様書（e-tax10）から機械的に作成。列（column）は項目名から対応表で決めたもので、決められないものは null",
+        "forms": forms,
+    }
+    text = dump_catalog(catalog)
+    dest = LAYOUT_DIR / args.spec_set / "field_catalog.json"
+    if args.check:
+        same = dest.exists() and dest.read_text(encoding="utf-8") == text
+        print("変更なし" if same and not manifest_changed else "変更あり: 仕様書から作り直した field_catalog がコミット済みのものと違います")
+        return EXIT_OK if same and not manifest_changed else EXIT_CHANGED
+    with open(dest, "w", encoding="utf-8", newline="\n") as f:
+        f.write(text)
+    if manifest_changed:
+        spec.save()
+        print(f"manifest に仕様書のファイル名とシート名を記録しました: {manifest}")
+    print(f"書き出しました: {dest}")
+    return EXIT_OK
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="opentax")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -90,11 +137,17 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--out-dir", default=str(LAYOUT_DIR))
     b.add_argument("--check", action="store_true", help="作り直した layout がコミット済みのものと同じか確かめる")
 
+    c = sub.add_parser("build-catalog", help="帳票フィールド仕様書（e-tax10）から field_catalog を作る")
+    c.add_argument("--set", dest="spec_set", required=True)
+    c.add_argument("--manifest-dir", default="spec-manifest")
+    c.add_argument("--cache-dir", default=".cache/etax")
+    c.add_argument("--check", action="store_true", help="作り直した field_catalog がコミット済みのものと同じか確かめる")
+
     args = parser.parse_args(argv)
-    command = {"fetch-spec": _fetch_spec, "build-layout": _build_layout}[args.command]
+    command = {"fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog}[args.command]
     try:
         return command(args)
-    except (SpecError, LayoutError, OSError) as e:
+    except (SpecError, LayoutError, CatalogError, OSError) as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
 

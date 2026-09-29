@@ -147,7 +147,14 @@
 ## 3. 生成するカタログ（すべて生成物。手で直さない）
 
 ### 3.1 field_catalog.json（元＝e-tax10 のフィールド仕様書 xlsx）
-置き場所: `src/opentax/etax/catalog/<spec_set>/field_catalog.json`
+置き場所: `src/opentax/etax/layouts/<spec_set>/field_catalog.json`（layout と同じフォルダ）
+
+実装（Phase 3）で決まったこと
+- シートは manifest の版とシート2行目の版が一致するものを選び、manifest の `field_spec_workbook`・`field_spec_sheet` に記録する
+- 列（`column`）は項目名から別表ごとの対応表（`field_catalog.COLUMN_RULES`）で決める。当たらないものは null にして `unmatched_columns` に並べる
+- 本書き・外書き・内書きは `writing` に分ける。自動計算の式は `calc` に原文のまま入れる
+- XMLタグで layout とつなぎ `layout_path` を持つ。日付・区分は部品（era/yy/mm/dd・kubun_CD）を `layout_part` に入れる
+- `signed` は仕様書に手がかりがないため持たない
 
 ```json
 {

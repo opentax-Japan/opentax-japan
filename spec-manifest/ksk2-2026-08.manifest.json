@@ -2551,7 +2551,9 @@
       "version": "7.0",
       "xsd_documentation_date": "2025-12-04",
       "group": "HOA112-7-0group",
-      "xsd_sha256": "76857bf8af98a2cfb6ecfa5faf75a8e516933de976793faf8dd2df5af8eff3fe"
+      "xsd_sha256": "76857bf8af98a2cfb6ecfa5faf75a8e516933de976793faf8dd2df5af8eff3fe",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver7x.xlsx",
+      "field_spec_sheet": "HOA112"
     },
     {
       "form_id": "HOA410",
@@ -2561,7 +2563,9 @@
       "version": "25.0",
       "xsd_documentation_date": "2026-04-11",
       "group": "HOA410-25-0group",
-      "xsd_sha256": "7d1e168cbf6f6b7ca283f7da9c547c5428a2cb6f3194ae3b55812c64c8b0a3e3"
+      "xsd_sha256": "7d1e168cbf6f6b7ca283f7da9c547c5428a2cb6f3194ae3b55812c64c8b0a3e3",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver25x.xlsx",
+      "field_spec_sheet": "HOA410"
     },
     {
       "form_id": "HOA420",
@@ -2571,7 +2575,9 @@
       "version": "25.0",
       "xsd_documentation_date": "2026-04-11",
       "group": "HOA420-25-0group",
-      "xsd_sha256": "499809bfe068c96add148c0d4500bf5c8a9f9c06eab7c76944531da7f27ba154"
+      "xsd_sha256": "499809bfe068c96add148c0d4500bf5c8a9f9c06eab7c76944531da7f27ba154",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver25x.xlsx",
+      "field_spec_sheet": "HOA420"
     },
     {
       "form_id": "HOA511",
@@ -2581,7 +2587,9 @@
       "version": "16.1",
       "xsd_documentation_date": "2026-07-16",
       "group": "HOA511-16-1group",
-      "xsd_sha256": "24dbfd209339461ff77a69afa5aa0779434a4734b1caea68071b43efcff4dc8f"
+      "xsd_sha256": "24dbfd209339461ff77a69afa5aa0779434a4734b1caea68071b43efcff4dc8f",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver16x.xlsx",
+      "field_spec_sheet": "HOA511"
     },
     {
       "form_id": "HOA522",
@@ -2591,7 +2599,9 @@
       "version": "10.0",
       "xsd_documentation_date": "2025-12-04",
       "group": "HOA522-10-0group",
-      "xsd_sha256": "6303175bafd6168b7d430219ffa9f40ee57706f043e75b0983647b485b539d17"
+      "xsd_sha256": "6303175bafd6168b7d430219ffa9f40ee57706f043e75b0983647b485b539d17",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver10x.xlsx",
+      "field_spec_sheet": "HOA522"
     },
     {
       "form_id": "HOE200",
@@ -2601,7 +2611,9 @@
       "version": "15.0",
       "xsd_documentation_date": "2025-04-10",
       "group": "HOE200-15-0group",
-      "xsd_sha256": "bb46c6ccef919053cde4930225424a1f819c4e836050f955b1e3fcff3610eaeb"
+      "xsd_sha256": "bb46c6ccef919053cde4930225424a1f819c4e836050f955b1e3fcff3610eaeb",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver15x.xlsx",
+      "field_spec_sheet": "HOE200"
     }
   ]
 }
