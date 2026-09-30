@@ -1,0 +1,63 @@
+# 国税庁の e-Tax 仕様書の改訂を監視する。
+# 毎月1日と手動実行（公開日が分かっているときは、その日に手動で実行する）。
+# 国税庁から取り直して manifest の SHA256 と比べ、変更があったときだけ issue を立てる（同じ題名の issue が開いていればコメントを足す）。
+# 取得に失敗したときは、このワークフローが失敗として記録される（issue は立てない）。
+name: e-Tax 仕様書の監視
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"   # 毎月1日 9:00（日本時間）
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: 国税庁から取り直して manifest と比べる
+        id: check
+        env:
+          PYTHONPATH: src
+          PYTHONIOENCODING: utf-8
+        run: |
+          changed=""
+          for manifest in spec-manifest/*.manifest.json; do
+            set_name=$(basename "$manifest" .manifest.json)
+            set +e
+            python -m opentax fetch-spec --set "$set_name" --check --report "report-$set_name.md"
+            code=$?
+            set -e
+            if [ "$code" -eq 1 ]; then
+              changed="$changed $set_name"
+            elif [ "$code" -ne 0 ]; then
+              echo "::error::$set_name の確認に失敗しました（終了コード $code）"
+              exit 1
+            fi
+          done
+          echo "changed=${changed# }" >> "$GITHUB_OUTPUT"
+
+      - name: 変更があれば issue を立てる
+        if: steps.check.outputs.changed != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CHANGED: ${{ steps.check.outputs.changed }}
+        run: |
+          for set_name in $CHANGED; do
+            title="e-Tax 仕様書の改訂を検知（$set_name）"
+            existing=$(gh issue list --state open --search "\"$title\" in:title" --json number,title \
+              --jq ".[] | select(.title == \"$title\") | .number" | head -n1)
+            if [ -n "$existing" ]; then
+              gh issue comment "$existing" --body-file "report-$set_name.md"
+            else
+              gh issue create --title "$title" --body-file "report-$set_name.md"
+            fi
+          done

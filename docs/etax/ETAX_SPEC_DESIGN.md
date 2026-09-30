@@ -284,7 +284,7 @@ opentax fetch-spec --set ksk2-2026-08 --check   # 見張り：原本を取り直
 7. xlsx（e-tax10・08・07）を `.cache/etax/extracted/<spec_set>/` へ
 8. `.cache/` は .gitignore。コミット禁止
 
-見張り（GitHub Actions `etax-spec-watch.yml`、週1回＋手動）
+見張り（GitHub Actions `spec-watch.yml`、毎月1日＋手動）
 - `--check` を実行。**キャッシュを使わず毎回取り直す**
 - 不一致・取得失敗・一覧ページに新しい公開日 → issue を自動で起票（同じ題名があれば起票しない）
 - 2026年は 10/30（第3回仕様公開）の直後に手動でも回す

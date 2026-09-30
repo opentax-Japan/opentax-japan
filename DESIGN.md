@@ -343,7 +343,7 @@ opentax-japan/
 | 4 | 入力と計算（均等割・岡山県・岡山市・倉敷市） | 実装済み。別表二の割合の端数処理が未確認で、確認するまで calculate は止まる |
 | 5 | .xtx の出力と検証、e-Taxソフトへの取込手順書 | 実装済み。架空の法人で公式XSD の検証は誤りなし。e-Taxソフトへの組み込みは利用者が確認（docs/etax/IMPORT_GUIDE.md） |
 | 6 | 地方税の一覧（HTML） | 実装済み。欄番号・欄名は法令の様式（第六号様式は令和7年版・令和8年版を事業年度で選ぶ）。外部の読み込みなし |
-| 7 | 週1回の監視（GitHub Actions） | 未着手 |
+| 7 | 仕様書の改訂の監視（GitHub Actions） | 実装済み。毎月1日と手動実行。変更があったときだけ issue（.github/workflows/spec-watch.yml） |
 
 ## 10. 未決
 1. ~~e-Taxソフト（ダウンロード版）の .xtx 取込の公式の記述~~ → 「申告・申請等一覧」の「組み込み」（https://www.e-tax.nta.go.jp/toiawase/qa/yokuaru05/10.htm）

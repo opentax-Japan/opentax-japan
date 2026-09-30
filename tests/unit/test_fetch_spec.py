@@ -205,6 +205,19 @@ class SpecSetTest(unittest.TestCase):
         # キャッシュは書き換えない
         self.assertEqual(self.spec().verify().changes, [])
 
+    def test_check_report_only_when_changed(self):
+        self.spec().init()
+        report = self.tmp / "report.md"
+        self.assertEqual(self.run_cli("--check", "--report", str(report)), 0)
+        self.assertFalse(report.exists())                      # 変更がなければ何も書かない
+        (self.src / "e-tax19.CAB").write_bytes(make_cab(schema_files(hoa420_note="改訂")))
+        self.assertEqual(self.run_cli("--check", "--report", str(report)), 1)
+        text = report.read_text(encoding="utf-8")
+        self.assertIn("e-tax19.CAB", text)
+        self.assertIn("追加 0・削除 0・変更 1", text)
+        self.assertIn("OpenTax RED の帳票・手続・共通XSD にかかるもの: 0 件", text)  # テストの manifest には mvp の帳票がない
+        self.assertIn(f"変更: `{HOA420}`", text)
+
 
 if __name__ == "__main__":
     unittest.main()

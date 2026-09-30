@@ -33,6 +33,8 @@ def _fetch_spec(args: argparse.Namespace) -> int:
     if args.init:
         print(f"manifest に書き込みました: {manifest}")
         return EXIT_OK
+    if args.report and args.check and result.changes:
+        Path(args.report).write_text(change_report(spec, result), encoding="utf-8")
     if result.changes:
         print(f"変更あり（{len(result.changes)} 件）")
         for change in result.changes:
@@ -40,6 +42,43 @@ def _fetch_spec(args: argparse.Namespace) -> int:
         return EXIT_CHANGED
     print("変更なし")
     return EXIT_OK
+
+
+def change_report(spec: SpecSet, result, limit: int = 100) -> str:
+    """改訂を検知したときの issue 本文（Markdown）。"""
+    import datetime
+
+    m = spec.manifest
+    red_xsds = {f["xsd"] for f in m["forms"] if f.get("mvp")} | {p["xsd"] for p in m["procedures"]}
+    cabs = [c for c in result.changes if c.kind == "CAB"]
+    files = [c for c in result.changes if c.kind != "CAB"]
+    red = [c for c in files if c.target in red_xsds or "/general/" in c.target]
+    counts = {d: sum(1 for c in files if c.detail == d) for d in ("追加", "削除", "変更")}
+    lines = [
+        f"国税庁の e-Tax 仕様書（仕様セット `{m['spec_set']}`）が、manifest に記録したものと違っています。",
+        "",
+        f"- 確認日: {datetime.date.today().isoformat()}",
+        f"- 仕様書の一覧: {m.get('source_index', {}).get('list', '（manifest に記載なし）')}",
+        f"- 変わった CAB: {', '.join(c.target for c in cabs) or 'なし'}",
+        f"- ファイル: 追加 {counts['追加']}・削除 {counts['削除']}・変更 {counts['変更']}",
+        f"- **OpenTax RED の帳票・手続・共通XSD にかかるもの: {len(red)} 件**",
+    ]
+    lines += [f"- 注: {note}" for note in result.notes] + [""]
+    if red:
+        lines += ["### OpenTax RED にかかるもの", ""] + [f"- {c.detail}: `{c.target}`" for c in red] + [""]
+    lines += ["### すべての変更", ""]
+    lines += [f"- {c.detail}: `{c.target}`" for c in files[:limit]]
+    if len(files) > limit:
+        lines.append(f"- ほか {len(files) - limit} 件")
+    lines += [
+        "", "### 次にやること", "",
+        "1. 新しい版の仕様セット（manifest）を作り、`opentax fetch-spec --init` で取得する",
+        "2. `opentax build-layout` / `build-catalog` / `build-checks` を作り直し、前の版との差分を確かめる",
+        "3. テストと、架空の法人の .xtx の公式XSD 検証を通す",
+        "",
+        "（この issue は、仕様書の監視（GitHub Actions）が自動で立てました）",
+    ]
+    return "\n".join(lines) + "\n"
 
 
 def _build_layout(args: argparse.Namespace) -> int:
@@ -288,6 +327,7 @@ def main(argv: list[str] | None = None) -> int:
     mode.add_argument("--init", action="store_true", help="初回: 取得して manifest に SHA256 等を書き込む")
     mode.add_argument("--check", action="store_true", help="改訂の検知: 国税庁から取り直して manifest と比べる")
     f.add_argument("--force", action="store_true", help="--init で manifest を作り直す")
+    f.add_argument("--report", help="--check で変更があったとき、差分の概要（Markdown）を書き出す先")
 
     b = sub.add_parser("build-layout", help="XSD から帳票ごとの layout を作る")
     b.add_argument("--set", dest="spec_set", required=True)
