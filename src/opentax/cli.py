@@ -242,7 +242,17 @@ def _export_etax(args: argparse.Namespace) -> int:
         schema_root = api.schema_from_cab(Path(args.cab).read_bytes())
     if not schema_root.exists():
         raise SpecError("公式XSD がありません。opentax fetch-spec --set ksk2-2026-08 を実行するか、--cab で e-tax19.CAB を指定してください")
-    xml = api.export_etax(calculated, schema_root)
+    uw = None
+    if args.balance:
+        import json as _json
+        sup = _json.loads(Path(args.supplement).read_text(encoding="utf-8")) if args.supplement else None
+        uw = api.uchiwake_from_balance(Path(args.balance).read_bytes(), sup)
+        print(f"内訳書: {', '.join(uw['forms']) or 'なし'}")
+        if uw["missing"]:
+            print(f"内訳書で足りない欄（{len(uw['missing'])} 件。--supplement で足せます）:")
+            for m in uw["missing"]:
+                print(f"  {m}")
+    xml = api.export_etax(calculated, schema_root, uchiwake=uw)
     errors = api.validate_xtx(xml, schema_root)
     if errors:
         print(f"公式XSD の検証で誤りがあります（{len(errors)} 件）。.xtx は書き出しません")
@@ -353,6 +363,8 @@ def main(argv: list[str] | None = None) -> int:
     x.add_argument("--cab", help="国税庁から取った e-tax19.CAB（キャッシュの代わりに使う）")
     x.add_argument("--trial-ratio-rounding", choices=["truncate", "round_half_up"],
                    help="試し用: 別表二の割合の端数処理を仮に決める。書き出すファイル名に「試し用」か「trial」が必要")
+    x.add_argument("--balance", help="内訳書も作る: 会計ソフトの科目残高（TKC の科目残高一覧表 TXT）")
+    x.add_argument("--supplement", help="内訳書の足りない欄を足す JSON（相手先の所在地・口座番号など）")
 
     lt = sub.add_parser("local-tax", help="OpenTax RED: 地方税の計算結果の一覧（第六号様式・第二十号様式）を HTML で作る")
     lt.add_argument("input")

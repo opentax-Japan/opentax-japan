@@ -119,11 +119,13 @@ class _Emitter:
         el = ET.Element(_q(node, self.form_ns))
         tags = [c["tag"] for c in node.get("children", [])]
         if value is not None:
-            if isinstance(value, datetime.date) and all(p in tags for p in _DATE_PARTS):
+            if isinstance(value, datetime.date) and {"era", "yy"} <= set(tags) <= set(_DATE_PARTS):
+                # 年月日・年月・年だけの欄がある（例: 源泉所得税預り金の支払年月の「年」）
                 parts = to_wareki(value)
                 sub = {c["tag"]: c for c in node["children"]}
                 for p in _DATE_PARTS:
-                    ET.SubElement(el, _q(sub[p], self.form_ns)).text = str(parts[p])
+                    if p in sub:
+                        ET.SubElement(el, _q(sub[p], self.form_ns)).text = str(parts[p])
             elif isinstance(value, str) and "kubun_CD" in tags:
                 code_node = next(c for c in node["children"] if c["tag"] == "kubun_CD")
                 if code_node.get("enumeration") and value not in code_node["enumeration"]:

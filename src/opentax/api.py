@@ -37,13 +37,22 @@ def calculate(raw_input: dict, trial_ratio_rounding: str | None = None) -> dict:
     return {"input": data, "local_tax": local, "result": result, "form_values": values, "problems": problems}
 
 
-def export_etax(calculated: dict, schema_root: Path, today: datetime.date | None = None) -> bytes:
-    """calculate の結果から .xtx を作る。一致しない項目が残っていたら作らない。"""
+def export_etax(calculated: dict, schema_root: Path, today: datetime.date | None = None,
+                uchiwake: dict | None = None) -> bytes:
+    """calculate の結果から .xtx を作る。一致しない項目が残っていたら作らない。
+    uchiwake: uchiwake_from_balance の結果。あれば内訳書も入れる。"""
     if calculated["problems"]:
         raise SpecError("一致しない項目があるため .xtx を作りません: " + "; ".join(calculated["problems"][:3]))
     zeimusho = (schema_root / Path(*ZEIMUSHO_XSD.split("/"))).read_bytes()
     return build_xtx(calculated["input"], calculated["result"], calculated["form_values"], zeimusho,
-                     today or datetime.date.today())
+                     today or datetime.date.today(), (uchiwake or {}).get("forms"))
+
+
+def uchiwake_from_balance(balance: bytes, supplement: dict | None = None) -> dict:
+    """会計ソフトの科目残高（TKC の科目残高一覧表 TXT）から内訳書の値を作る。
+    戻り値: {"forms": 様式ID → 値, "missing": 足りない欄の一覧, "totals": 科目ごとの検算}"""
+    from .red import uchiwake
+    return uchiwake.build(uchiwake.parse_tkc_balance(balance), supplement)
 
 
 FORM_TITLES = {"HOA112": "別表一", "HOA114": "別表一 次葉一", "HOA201": "別表二", "HOA420": "別表四（簡易様式）",

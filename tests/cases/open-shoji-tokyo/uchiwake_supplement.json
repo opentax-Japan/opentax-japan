@@ -1,0 +1,20 @@
+{
+  "note": "架空の法人（オープン商事）の内訳書で、科目残高にない欄を足す見本。住所・番号はすべて架空",
+  "rows": [
+    {"account": "普通預金", "sub": "霞が関銀行／本店", "account_number": "1234567"},
+    {"account": "普通預金", "sub": "千代田信用金庫／麹町", "account_number": "7654321"},
+    {"account": "売掛金", "sub": "株式会社サンプル商会", "address": "東京都千代田区霞が関1-1-1"},
+    {"account": "売掛金", "sub": "架空物産株式会社", "address": "東京都港区芝公園4-2-8"},
+    {"account": "仮払金", "name": "開発 太郎", "address": "東京都千代田区霞が関3-1-1", "relation": "代表者"},
+    {"account": "買掛金", "sub": "見本卸株式会社", "address": "東京都中央区日本橋1-1-1"},
+    {"account": "未払金", "name": "千代田事務用品店", "address": "東京都千代田区麹町1-1"},
+    {"account": "預り金", "sub": "住民税", "address": "東京都千代田区九段南1-2-1"},
+    {"account": "預り金", "sub": "源泉所得税", "withholding_year_month": "2026-09", "income_type": "1"},
+    {"account": "長期借入金", "sub": "霞が関銀行／本店", "address": "東京都千代田区霞が関2-2-2", "interest": 60000, "rate": "1.2"},
+    {"account": "役員借入金", "name": "開発 太郎", "address": "東京都千代田区霞が関3-1-1", "relation": "代表者"},
+    {"account": "地代家賃", "sub": "霞が関ビル管理株式会社", "rent_kind": "家賃", "use": "事務所",
+     "property_address": "東京都千代田区霞が関3-1-1", "address": "東京都千代田区霞が関3-3-3"},
+    {"account": "雑収入", "content": "保険事務手数料"},
+    {"account": "雑損失", "content": "現金過不足"}
+  ]
+}
