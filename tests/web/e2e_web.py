@@ -41,13 +41,18 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--chrome", default=r"C:\Program Files\Google\Chrome\Application\chrome.exe")
+    ap.add_argument("--url", help="公開済みのサイトで確かめるときの URL（省略時は web/_site を手元で配る）")
     args = ap.parse_args()
-    if not SITE.exists():
-        sys.exit("web/_site がありません。先に python web/build.py を実行してください")
     OUT.mkdir(parents=True, exist_ok=True)
-    server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), functools.partial(Handler, directory=str(SITE)))
-    threading.Thread(target=server.serve_forever, daemon=True).start()
-    base = f"http://127.0.0.1:{server.server_port}/"
+    server = None
+    if args.url:
+        base = args.url if args.url.endswith("/") else args.url + "/"
+    else:
+        if not SITE.exists():
+            sys.exit("web/_site がありません。先に python web/build.py を実行してください")
+        server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), functools.partial(Handler, directory=str(SITE)))
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        base = f"http://127.0.0.1:{server.server_port}/"
     outside = []
     results = []
 
@@ -109,7 +114,8 @@ def main() -> int:
         check(f"ブラウザの保存領域に何も残っていない {storage}",
               storage == {"local": 0, "session": 0, "cookie": "", "idb": 0, "caches": 0})
         browser.close()
-    server.shutdown()
+    if server:
+        server.shutdown()
 
     check(f"サイトの外への通信なし（{len(outside)} 件）", not outside)
     for url in outside[:10]:
