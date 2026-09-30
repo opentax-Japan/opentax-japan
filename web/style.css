@@ -52,6 +52,11 @@ table.sheet td.label { min-width: 11em; }
 table.sheet td.amt { text-align: right; white-space: nowrap; font-family: ui-monospace, Consolas, monospace; min-width: 6.5em; }
 table.sheet td .sub { font-size: .72rem; color: #555; }
 table.sheet tr.filled td.label { font-weight: 600; }
+.paper-wrap { padding: 8px; overflow: auto; }
+svg.paper-sheet { width: 100%; height: auto; display: block; background: #fff; border: 1px solid #ccc; }
+svg.paper-sheet text.amt { fill: #0b3d91; font-family: ui-monospace, Consolas, "BIZ UDGothic", monospace; font-weight: 600; }
+svg.paper-sheet text.txt { fill: #0b3d91; font-family: "BIZ UDGothic", "Yu Gothic", sans-serif; }
+.src { word-break: break-all; }
 #local-sheet { width: 100%; height: 520px; border: 1px solid var(--line); border-radius: 8px; }
 .note { font-size: .82rem; color: #666; }
 .disclaimer ul { font-size: .88rem; }

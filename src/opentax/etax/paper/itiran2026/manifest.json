@@ -1,0 +1,14 @@
+{
+  "edition": "itiran2026",
+  "title": "令和8年4月以降に提供した法人税等各種別表関係（令和8年4月1日以後終了事業年度等分）",
+  "fiscal_year_end_from": "2026-04-01",
+  "source_page": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/01.htm",
+  "terms": "出典：国税庁ホームページ（各様式の URL）。公共データ利用規約（第1.0版）により利用し、金額を重ねて表示するよう加工している。国税庁が作成したものではない",
+  "terms_url": "https://www.nta.go.jp/chuijiko/copy.htm",
+  "files": {
+    "04-k.pdf": { "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/04-k.pdf", "sha256": "86eaee4558de5c6c0ef06ad98e7d74ddd504ab7c4bd771c1a0c5dcb1c94fb9aa" }
+  },
+  "forms": {
+    "HOA420": { "title": "別表四（簡易様式）", "file": "04-k.pdf", "page": 1, "printed_form_id": "NTA0HOA420010250", "etax_version": "25.0" }
+  }
+}

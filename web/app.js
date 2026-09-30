@@ -345,6 +345,7 @@ function showResults(res) {
 
   lastViews = res.form_views;
   renderForms();
+  renderPaper(res.paper_sheets || []);
   document.getElementById("local-sheet").srcdoc = res.local_sheet;
   lastLocalSheet = res.local_sheet;
   updateExportButton();
@@ -366,6 +367,42 @@ function cellContent(cell) {
 function fmt(v) {
   return typeof v === "number" ? yen(v) : String(v);
 }
+// 紙の別表: 国税庁の様式の画像の上に、金額を SVG の文字で置く（元の画像の座標のまま）
+const SVG = "http://www.w3.org/2000/svg";
+function svg(tag, attrs, text) {
+  const e = document.createElementNS(SVG, tag);
+  Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v));
+  if (text != null) e.textContent = text;
+  return e;
+}
+function renderPaper(sheets) {
+  const box = document.getElementById("paper");
+  box.textContent = "";
+  if (!sheets.length) {
+    box.append(el("p", { class: "note" }, "この事業年度の紙の様式は、まだ用意していません。下の表で確かめてください。"));
+    return;
+  }
+  sheets.forEach((sheet, i) => {
+    const [w, h] = sheet.size;
+    const s = svg("svg", { viewBox: `0 0 ${w} ${h}`, class: "paper-sheet", role: "img", "aria-label": sheet.title });
+    s.append(svg("image", { href: sheet.image, x: 0, y: 0, width: w, height: h }));
+    sheet.items.forEach((it) => {
+      const [x0, y0, x1, y1] = it.box;
+      const hgt = y1 - y0;
+      if (it.kind === "amount") {
+        const size = Math.min(38, Math.max(24, hgt * 0.64));
+        s.append(svg("text", { x: x1 - 14, y: y1 - Math.max(8, (hgt - size) / 2), "font-size": size, "text-anchor": "end", class: "amt" }, it.text));
+      } else {
+        const lines = it.text.split("\n");
+        const size = Math.min(30, (hgt - 8) / lines.length);
+        lines.forEach((line, j) => s.append(svg("text", { x: x0 + 12, y: y0 + size * (j + 1), "font-size": size, class: "txt" }, line)));
+      }
+    });
+    box.append(el("details", { class: "section", open: i === 0 }, el("summary", {}, sheet.title),
+      el("div", { class: "paper-wrap" }, s), el("p", { class: "note src" }, sheet.source)));
+  });
+}
+
 function renderForms() {
   const filledOnly = document.getElementById("filled-only").checked;
   const preview = document.getElementById("preview");

@@ -45,6 +45,14 @@ def main() -> int:
     args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     server = None
+    # 画面の JavaScript の構文を先に確かめる（node があるとき）
+    import shutil
+    import subprocess
+    if shutil.which("node"):
+        for js in ("app.js", "worker.js"):
+            r = subprocess.run(["node", "--check", str(REPO / "web" / js)], capture_output=True, text=True)
+            if r.returncode:
+                sys.exit(f"web/{js} の構文に誤りがあります:\n{r.stderr}")
     if args.url:
         base = args.url if args.url.endswith("/") else args.url + "/"
     else:
@@ -82,6 +90,9 @@ def main() -> int:
         check("帳票の式・帳票間のチェックがすべて一致", "すべて一致" in messages)
         check("別表二の端数処理が未確認の警告", "端数処理" in messages)
         page.screenshot(path=str(OUT / "02-calculated.png"))
+        paper = page.locator("#paper svg.paper-sheet")
+        check("紙の様式（別表四）に金額が重なっている", paper.count() >= 1 and "△1,129,000" in paper.first.inner_html())
+        paper.first.screenshot(path=str(OUT / "05-paper-schedule4.png"))
         sheets = page.locator("#preview table.sheet")
         check("申告書の形のプレビュー（別表一が開いている）", sheets.count() >= 1 and "所得金額又は欠損金額" in page.locator("#preview").inner_text())
         page.locator("#preview details summary", has_text="別表四").click()

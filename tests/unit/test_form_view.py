@@ -76,5 +76,24 @@ class FormViewUnitTest(unittest.TestCase):
         self.assertEqual([(r["line"], r["label"]) for r in blocks[0]["rows"]], [("3", "明細　甲"), ("4", "明細　乙")])
 
 
+class PaperSheetTest(unittest.TestCase):
+    def test_schedule4_on_paper(self):
+        calculated = api.calculate(json.loads(SAMPLE.read_text(encoding="utf-8")), "truncate")
+        sheets = {s["form_id"]: s for s in api.paper_sheets(calculated)}
+        s4 = sheets["HOA420"]
+        self.assertEqual(s4["image"], "forms/itiran2026/HOA420.jpg")
+        texts = [i["text"] for i in s4["items"]]
+        self.assertEqual(texts.count("△1,129,000"), 14)       # 23・26・34・39・43・45・52 の①と②
+        self.assertIn("オープン商事株式会社", texts)
+        self.assertIn("加工して作成", s4["source"])
+        for item in s4["items"]:
+            x0, y0, x1, y1 = item["box"]
+            self.assertTrue(0 <= x0 < x1 <= s4["size"][0] and 0 <= y0 < y1 <= s4["size"][1])
+
+    def test_no_paper_for_older_fiscal_year(self):
+        import datetime
+        self.assertIsNone(api.paper_edition(datetime.date(2026, 3, 31)))
+
+
 if __name__ == "__main__":
     unittest.main()

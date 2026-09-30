@@ -115,6 +115,53 @@ def form_views(calculated: dict) -> list[dict]:
             for fid in FORMS]
 
 
+PAPER_DIR = Path(__file__).parent / "etax" / "paper"
+
+
+def paper_edition(fiscal_year_end: datetime.date) -> dict | None:
+    """事業年度の終わりの日に使う紙の様式の版（manifest）。なければ None。"""
+    best = None
+    for path in sorted(PAPER_DIR.glob("*/manifest.json")):
+        m = json.loads(path.read_text(encoding="utf-8"))
+        if fiscal_year_end >= datetime.date.fromisoformat(m["fiscal_year_end_from"]):
+            if best is None or m["fiscal_year_end_from"] > best["fiscal_year_end_from"]:
+                best = m
+    return best
+
+
+def paper_sheets(calculated: dict) -> list[dict]:
+    """紙の別表（国税庁の様式の画像）の上に金額を置くためのデータ。位置が決まっている様式だけ。"""
+    from .red.etax_ksk2_2026_08 import FORMS
+
+    fp = calculated["input"]["fiscal_period"]
+    edition = paper_edition(fp["end"])
+    if edition is None:
+        return []
+    values = calculated["form_values"]
+    period = f"{_wareki(fp['start'])}\n{_wareki(fp['end'])}"
+    out = []
+    for form_id in FORMS:
+        path = PAPER_DIR / edition["edition"] / f"{form_id}.json"
+        if form_id not in edition["forms"] or not path.exists():
+            continue
+        m = json.loads(path.read_text(encoding="utf-8"))
+        entry = edition["forms"][form_id]
+        items = []
+        for tag, box in m["fields"].items():
+            v = values.get(tag)
+            if isinstance(v, int) and v:
+                items.append({"box": box, "text": f"△{-v:,}" if v < 0 else f"{v:,}", "kind": "amount"})
+        header = m.get("header", {})
+        if "period" in header:
+            items.append({"box": header["period"], "text": period, "kind": "text"})
+        if "company" in header:
+            items.append({"box": header["company"], "text": calculated["input"]["company"]["name"], "kind": "text"})
+        out.append({"form_id": form_id, "title": entry["title"], "image": f"forms/{edition['edition']}/{form_id}.jpg",
+                    "size": m["image_size"], "items": items,
+                    "source": f"出典：国税庁ホームページ（{edition['files'][entry['file']]['url']}）を加工して作成"})
+    return out
+
+
 def local_tax_sheet(calculated: dict, today: datetime.date | None = None) -> str:
     """地方税の一覧（第六号様式・第二十号様式）の HTML。"""
     from .red.local_sheet import build

@@ -36,3 +36,11 @@ SOFTWARE.
 e-Tax の仕様書（CAB・XSD・xlsx）は国税庁の著作物です。このリポジトリには含めていません。
 利用者が取得スクリプトで国税庁のサイトから直接ダウンロードします。
 利用条件: https://www.e-tax.nta.go.jp/shiyo/index.htm
+
+## 国税庁の様式（紙の別表の画像）
+
+Web 画面の「申告書（紙の様式）」は、国税庁ホームページで提供されている法人税の別表の様式（PDF）の画像の上に、計算した金額を重ねて表示しています。
+
+- 出典：国税庁ホームページ（https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/01.htm ほか各様式の URL）を加工して作成
+- 利用条件：公共データ利用規約（第1.0版）（https://www.nta.go.jp/chuijiko/copy.htm）
+- 国税庁が作成したものではありません。様式の PDF はリポジトリに含めず、サイトを組み立てるときに国税庁のサイトから取得し、SHA256 で照合しています

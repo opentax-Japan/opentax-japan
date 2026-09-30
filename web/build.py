@@ -54,6 +54,29 @@ def app_zip(dest: Path) -> None:
         z.write(REPO / SAMPLE, SAMPLE)
 
 
+def paper_images(width: int = 1654) -> None:
+    """紙の別表の画像（国税庁の様式 PDF の中のスキャン画像）を、幅を縮めた JPEG にする。PDF は SHA256 で照合する。"""
+    import io
+    try:
+        import pymupdf
+        from PIL import Image
+    except ImportError:
+        sys.exit("紙の別表の画像を作るには pymupdf と Pillow が要ります（pip install pymupdf pillow）")
+    for manifest_path in sorted((REPO / "src" / "opentax" / "etax" / "paper").glob("*/manifest.json")):
+        m = json.loads(manifest_path.read_text(encoding="utf-8"))
+        out_dir = SITE / "forms" / m["edition"]
+        out_dir.mkdir(parents=True, exist_ok=True)
+        for form_id, entry in m["forms"].items():
+            if not (manifest_path.parent / f"{form_id}.json").exists():
+                continue
+            f = m["files"][entry["file"]]
+            doc = pymupdf.open(fetch(f["url"], f["sha256"]))
+            ref = doc[entry["page"] - 1].get_images()[0][0]
+            img = Image.open(io.BytesIO(doc.extract_image(ref)["image"])).convert("L")
+            img = img.resize((width, round(width * img.height / img.width)), Image.LANCZOS)
+            img.save(out_dir / f"{form_id}.jpg", quality=80, optimize=True, progressive=True)
+
+
 def build() -> None:
     vendor = json.loads((WEB / "vendor.json").read_text(encoding="utf-8"))
     if SITE.exists():
@@ -75,6 +98,7 @@ def build() -> None:
         shutil.copy(path, SITE / "wheels" / path.name)
         wheels.append(path.name)
 
+    paper_images()
     for name in STATIC:
         shutil.copy(WEB / name, SITE / name)
     app_zip(SITE / "app.zip")
