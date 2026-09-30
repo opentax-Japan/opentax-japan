@@ -60,7 +60,7 @@ def ot_calculate(input_json: str, trial: str) -> str:
             "problems": calculated["problems"],
             "trial": calculated["result"]["trial"],
             "etax_ready": s2["ratio_display_confirmed"] and not calculated["problems"],
-            "preview": api.preview(calculated),
+            "form_views": api.form_views(calculated),
             "local_sheet": api.local_tax_sheet(calculated),
         })
     except Exception as e:  # noqa: BLE001 - 画面にそのまま伝える

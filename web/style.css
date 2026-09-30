@@ -41,6 +41,17 @@ table.preview { width: 100%; border-collapse: collapse; font-size: .9rem; }
 table.preview th, table.preview td { border-bottom: 1px solid var(--line); padding: 4px; text-align: left; vertical-align: top; }
 table.preview td.amt { text-align: right; font-family: ui-monospace, Consolas, monospace; white-space: nowrap; }
 table.preview td.line { white-space: nowrap; color: var(--accent-dark); width: 3.5em; }
+.sheet-head { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 8px 12px 0; font-size: .85rem; color: #333; }
+.sheet-head span:first-child { font-weight: 700; }
+.sheet-scroll { overflow-x: auto; padding: 8px 12px 12px; }
+table.sheet { border-collapse: collapse; width: 100%; min-width: 520px; font-family: "BIZ UDMincho", "Yu Mincho", "Hiragino Mincho ProN", serif; font-size: .86rem; }
+table.sheet th, table.sheet td { border: 1px solid #555; padding: 3px 5px; vertical-align: top; }
+table.sheet th { background: #eef5e0; font-weight: 600; font-size: .78rem; text-align: center; }
+table.sheet td.line { width: 2.8em; text-align: center; color: #333; white-space: nowrap; }
+table.sheet td.label { min-width: 11em; }
+table.sheet td.amt { text-align: right; white-space: nowrap; font-family: ui-monospace, Consolas, monospace; min-width: 6.5em; }
+table.sheet td .sub { font-size: .72rem; color: #555; }
+table.sheet tr.filled td.label { font-weight: 600; }
 #local-sheet { width: 100%; height: 520px; border: 1px solid var(--line); border-radius: 8px; }
 .note { font-size: .82rem; color: #666; }
 .disclaimer ul { font-size: .88rem; }

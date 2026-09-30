@@ -82,6 +82,12 @@ def main() -> int:
         check("帳票の式・帳票間のチェックがすべて一致", "すべて一致" in messages)
         check("別表二の端数処理が未確認の警告", "端数処理" in messages)
         page.screenshot(path=str(OUT / "02-calculated.png"))
+        sheets = page.locator("#preview table.sheet")
+        check("申告書の形のプレビュー（別表一が開いている）", sheets.count() >= 1 and "所得金額又は欠損金額" in page.locator("#preview").inner_text())
+        page.locator("#preview details summary", has_text="別表四").click()
+        s4 = page.locator("#preview details", has_text="別表四（簡易様式）")
+        check("別表四の表に 52 所得金額 △1,129,000", "△1,129,000" in s4.inner_text() and "①総額" in s4.inner_text())
+        s4.screenshot(path=str(OUT / "04-schedule4.png"))
 
         frame = page.frame_locator("#local-sheet")
         expect(frame.locator("body")).to_contain_text("第六号様式", timeout=10_000)

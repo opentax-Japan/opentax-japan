@@ -343,24 +343,50 @@ function showResults(res) {
   summary.textContent = "";
   cards.forEach(([label, value]) => summary.append(el("div", { class: "card" }, el("div", { class: "label" }, label), el("div", { class: "value" }, value))));
 
-  const preview = document.getElementById("preview");
-  preview.textContent = "";
-  res.preview.forEach((form) => {
-    const rows = form.rows.map((r) => el("tr", {},
-      el("td", { class: "line" }, r.line),
-      el("td", {}, [r.group, r.name].filter(Boolean).join(" ／ ") + (r.row ? `（${r.row}行目）` : "")),
-      el("td", { class: "amt" }, typeof r.value === "number" ? yen(r.value) : r.value)));
-    preview.append(el("details", { class: "section" },
-      el("summary", {}, `${form.title}（${form.rows.length} 欄）`),
-      form.rows.length ? el("table", { class: "preview" }, el("thead", {}, el("tr", {}, el("th", {}, "行"), el("th", {}, "項目"), el("th", {}, "金額など"))), el("tbody", {}, rows))
-        : el("p", { class: "note" }, "0 でない欄はありません")));
-  });
+  lastViews = res.form_views;
+  renderForms();
   document.getElementById("local-sheet").srcdoc = res.local_sheet;
   lastLocalSheet = res.local_sheet;
   updateExportButton();
 }
 
 let lastLocalSheet = "";
+let lastViews = [];
+
+// 申告書（別表）の形のプレビュー
+function cellContent(cell) {
+  if (!cell) return "";
+  const parts = [];
+  if (cell.outer != null) parts.push(el("div", { class: "sub" }, `外 ${fmt(cell.outer)}`));
+  if (cell.inner != null) parts.push(el("div", { class: "sub" }, `内 ${fmt(cell.inner)}`));
+  (cell.parts || []).forEach((p) => parts.push(el("div", {}, el("span", { class: "sub" }, `${p.label} `), fmt(p.value))));
+  if (cell.value != null) parts.push(el("div", {}, fmt(cell.value)));
+  return parts;
+}
+function fmt(v) {
+  return typeof v === "number" ? yen(v) : String(v);
+}
+function renderForms() {
+  const filledOnly = document.getElementById("filled-only").checked;
+  const preview = document.getElementById("preview");
+  preview.textContent = "";
+  lastViews.forEach((form, i) => {
+    const tables = form.blocks.map((block) => {
+      const rows = block.rows.filter((r) => !filledOnly || Object.keys(r.cells).length);
+      if (!rows.length) return null;
+      return el("div", { class: "sheet-scroll" }, el("table", { class: "sheet" },
+        el("thead", {}, el("tr", {}, el("th", { class: "line" }, "行"), el("th", { class: "label" }, "区分"),
+          block.columns.map((c) => el("th", {}, c)))),
+        el("tbody", {}, rows.map((r) => el("tr", { class: Object.keys(r.cells).length ? "filled" : "" },
+          el("td", { class: "line" }, r.line), el("td", { class: "label" }, r.label),
+          block.columns.map((c) => el("td", { class: "amt" }, cellContent(r.cells[c]))))))));
+    }).filter(Boolean);
+    preview.append(el("details", { class: "section sheet-form", open: i === 0 },
+      el("summary", {}, form.title),
+      el("div", { class: "sheet-head" }, el("span", {}, form.title), el("span", {}, `事業年度 ${form.period}`), el("span", {}, `法人名 ${form.company}`)),
+      tables.length ? tables : el("p", { class: "note" }, "金額のある行はありません")));
+  });
+}
 let cabFile = null;
 
 function updateExportButton() {
@@ -440,6 +466,7 @@ document.getElementById("clear-input").addEventListener("click", () => {
   showMessages([]);
 });
 document.getElementById("calculate").addEventListener("click", calculate);
+document.getElementById("filled-only").addEventListener("change", renderForms);
 document.getElementById("trial").addEventListener("change", () => {
   if (lastInput) { dirty = true; changed(); }
 });

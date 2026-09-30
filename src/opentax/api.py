@@ -76,6 +76,45 @@ def preview(calculated: dict) -> list[dict]:
     return out
 
 
+def _wareki(d: datetime.date) -> str:
+    from .etax.xtx import to_wareki
+    w = to_wareki(d)
+    return f"{'令和' if w['era'] == 5 else '平成'}{w['yy']}年{w['mm']}月{w['dd']}日"
+
+
+def form_views(calculated: dict) -> list[dict]:
+    """申告書（別表）の形のプレビュー。帳票ごとに、区分・行番号・列の表（blocks）を返す。"""
+    from .etax.form_view import form_view
+    from .etax.xsd_layout import LAYOUT_DIR
+    from .red.etax_ksk2_2026_08 import FORMS
+
+    catalog = json.loads((LAYOUT_DIR / SPEC_SET / "field_catalog.json").read_text(encoding="utf-8"))
+    by_form = {f["form_id"]: f for f in catalog["forms"]}
+    r = calculated["result"]
+    s2, s7, s51, s52 = r["schedule_02"], r["schedule_07_01"], r["schedule_05_01"], r["schedule_05_02"]
+    values = dict(calculated["form_values"])
+    # 別表二: 割合（端数処理が確認できているとき・試し用のときだけ）と判定結果
+    if s2["ratio_display_confirmed"] or r.get("trial"):
+        values.update({"VAB00030": s2["ratio_shares"], "VAB00080": s2["ratio_votes"], "VAB00120": s2["family_ratio"],
+                       "VAC00020": s2["ratio1_shares"], "VAC00040": s2["ratio1_votes"], "VAC00070": s2["specific_ratio"]})
+    values["VAD00000"] = {"1": "特定同族会社", "2": "同族会社", "3": "非同族会社"}[s2["result"]]
+    period = lambda a, b: f"{_wareki(a)}〜{_wareki(b)}"  # noqa: E731
+    rest = [i for i in s7["items"] if not i["last_year"]]
+    last = [i for i in s7["items"] if i["last_year"]]
+    labels = {
+        "MCB00130": [period(i["period_start"], i["period_end"]) for i in rest],
+        "MCB00030": [period(i["period_start"], i["period_end"]) for i in last],
+        "ICB00150": [x["item"] for x in s51["rows"] if x["item"] != "利益準備金"],
+        "ICC00140": [c["item"] for c in s51["capital"] if c["item"] not in ("資本金又は出資金", "資本準備金")],
+        "IEC00020": [period(x["period_start"], x["period_end"]) for x in s52["taxes"]["道府県民税"]["prior"]],
+        "IED00020": [period(x["period_start"], x["period_end"]) for x in s52["taxes"]["市町村民税"]["prior"]],
+    }
+    fp = calculated["input"]["fiscal_period"]
+    return [{"form_id": fid, "title": FORM_TITLES[fid], "company": calculated["input"]["company"]["name"],
+             "period": period(fp["start"], fp["end"]), "blocks": form_view(by_form[fid], values, labels)}
+            for fid in FORMS]
+
+
 def local_tax_sheet(calculated: dict, today: datetime.date | None = None) -> str:
     """地方税の一覧（第六号様式・第二十号様式）の HTML。"""
     from .red.local_sheet import build
