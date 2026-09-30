@@ -108,6 +108,17 @@ class PaperSheetTest(unittest.TestCase):
                 x0, y0, x1, y1 = item["box"]
                 self.assertTrue(0 <= x0 < x1 <= s["size"][0] and 0 <= y0 < y1 <= s["size"][1], (s["form_id"], item))
 
+    def test_period_goes_between_the_printed_dots(self):
+        calculated = api.calculate(json.loads(SAMPLE.read_text(encoding="utf-8")), "truncate")
+        for s in api.paper_sheets(calculated):
+            if s["form_id"] == "HOA112":
+                continue                                        # 別表一は N01・N02 の枠
+            texts = [i["text"] for i in s["items"]]
+            self.assertFalse(any("令和7年10月1日" in t for t in texts), s["form_id"])
+            period = [i for i in s["items"] if i["kind"] == "center" and i["box"][1] < 400]
+            self.assertEqual([i["text"] for i in period], ["7", "10", "1", "8", "9", "30"], s["form_id"])
+            self.assertTrue(period[0]["box"][2] <= period[1]["box"][0] + 12, s["form_id"])   # 年・月・日が左から並ぶ
+
     def test_paper_without_confirmed_ratios_hides_them(self):
         calculated = api.calculate(json.loads(SAMPLE.read_text(encoding="utf-8")))
         s2 = next(s for s in api.paper_sheets(calculated) if s["form_id"] == "HOA201")

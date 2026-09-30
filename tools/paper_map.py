@@ -238,13 +238,39 @@ def preview(form_id: str, positions: dict, header: dict, values: dict) -> Path:
     return out
 
 
+def _header(form_id: str, spec: dict) -> dict:
+    """見出し（法人名・事業年度）。事業年度は、枠の中の点の位置（年・月・日を書く場所）も入れる。"""
+    header = {k: list(v) for k, v in spec.get("header", {}).items()}
+    if not header:
+        return header
+    manifest = json.loads((PAPER / EDITION / "manifest.json").read_text(encoding="utf-8"))
+    entry = manifest["forms"][form_id]
+    img = form_image(CACHE / entry["file"], entry["page"])
+    if "period" in header:
+        header["period_slots"] = period_slots(img, header["period"])
+    if "company" in header:
+        header["company"] = company_cell(img, header["company"])
+    return header
+
+
+def company_cell(img: Image.Image, box) -> list[int]:
+    """見出しの「法人名」の記入欄。印刷された「法人名」の文字の右の縦線から、枠の右の縦線までにそろえる。"""
+    x0, y0, x1, y1 = box
+    dark = np.array(img) < 140
+    band = dark[y0 + 10:y1 - 10, x0 - 200:x1 + 60]
+    vlines = [x0 - 200 + v for v in _runs(band.mean(axis=0) >= 0.85)]
+    left = min([v for v in vlines if x0 - 200 < v < x0 + 200] or [x0], key=lambda v: abs(v - x0))
+    right = min([v for v in vlines if v > (x0 + x1) // 2] or [x1])
+    return [left + 4, y0, right - 4, y1]
+
+
 def main(form_id: str) -> None:
     grid = build(form_id)
     positions = assign(form_id, grid)
     spec = FORMS[form_id]
     dates, circles = extras(spec, grid)
     data = {"form_id": form_id, "edition": EDITION, "image_size": list(grid["image_size"]),
-            "header": {k: list(v) for k, v in spec["header"].items()},
+            "header": _header(form_id, spec),
             "fields": {k: positions[k] for k in sorted(positions)}}
     if dates:
         data["dates"] = dates
@@ -254,10 +280,8 @@ def main(form_id: str) -> None:
         data["circles"] = circles
     dest = PAPER / EDITION / f"{form_id}.json"
     dest.write_text(json.dumps(data, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    from opentax import api
-    calculated = api.calculate(json.loads((REPO / "tests/cases/open-shoji/input.json").read_text(encoding="utf-8")), "truncate")
     print(f"{form_id}: {len(positions)} 欄 → {dest}")
-    print(f"確認用の画像: {preview(form_id, positions, data['header'], calculated['form_values'])}")
+    print(f"確認用の画像: {render_check(form_id)}")
 
 
 # ---- 表の形でない様式（位置を罫線から測って書く） ----
@@ -336,6 +360,42 @@ FORMS["HOA112"] = {
 FORMS["HOA114"] = {"fixed": {}, "header": {"period": (1440, 220, 1760, 340), "company": (1880, 220, 2360, 340)}}
 
 
+def period_slots(img: Image.Image, box) -> dict:
+    """見出しの「事業年度」の枠（「 ・ ・ 」が2段）の、点の位置と枠の左右を画像から見つける。
+    上の段＝自、下の段＝至。年・月・日は、左の点の左・2つの点の間・右の点の右に書く。"""
+    x0, y0, x1, y1 = box
+    dark = np.array(img) < 140
+    pad = 140
+    # 枠の左右の縦線: 枠の高さの帯で、上から下まで続く列
+    band = dark[y0 + 10:y1 - 10, x0 - pad:x1 + pad]
+    vlines = [x0 - pad + v for v in _runs(band.mean(axis=0) >= 0.85)]
+    center = (x0 + x1) // 2
+    left = max([v for v in vlines if v < center] or [x0])
+    right = min([v for v in vlines if v > center] or [x1])
+    # 枠の上下の横線: 左右の縦線の間で、横に続く行
+    mid = (y0 + y1) // 2
+    hlines = [y0 - 80 + h for h in _runs(dark[y0 - 80:y1 + 80, left + 4:right - 4].mean(axis=1) >= 0.85)]
+    top = max([h for h in hlines if h < mid] or [y0 - 30]) + 8
+    bottom = min([h for h in hlines if h > mid] or [y1 + 30]) - 8
+    inner = dark[top:bottom, left + 10:right - 10].copy()
+    # 点: 小さなかたまり。列の方向・行の方向の「黒の量」のかたまりのうち、量のあるものを選ぶ
+    def blobs(profile):
+        out, cur = [], []
+        for i, v in enumerate(profile):
+            if v > 0:
+                cur.append(i)
+            elif cur:
+                out.append(cur); cur = []
+        if cur:
+            out.append(cur)
+        return [(round(sum(c) / len(c)), int(sum(profile[j] for j in c))) for c in out if len(c) <= 24]
+    xs = [c for c, n in blobs(inner.sum(axis=0)) if n >= 40]
+    ys = [c for c, n in blobs(inner.sum(axis=1)) if n >= 40]
+    if len(xs) != 2 or len(ys) != 2:
+        raise SystemExit(f"事業年度の枠の点が見つかりません（点の列 {xs}、段 {ys}、枠 {left}〜{right}）")
+    return {"dots_x": [left + 10 + x for x in xs], "rows_y": [top + y for y in ys], "left": left, "right": right}
+
+
 def render_check(form_id: str) -> Path:
     """api.paper_sheets の出力（画面と同じもの）を様式の画像に描いて確かめる。private/ に出す。"""
     from opentax import api
@@ -353,11 +413,15 @@ def render_check(form_id: str) -> Path:
         lines = it["text"].split("\n")
         size = int(min(38, max(24, (y1 - y0) * 0.64))) if it["kind"] == "amount" else int(min(30, (y1 - y0 - 8) / len(lines)))
         font = ImageFont.truetype("C:/Windows/Fonts/msgothic.ttc", size)
+        # 画面（app.js）と同じ: 枠の幅に収まる大きさにし、縦は中央
+        widest = max(sum(0.6 if ord(ch) < 0x2000 else 1 for ch in line) for line in lines) or 1
+        size = int(min(size, (x1 - x0 - 24) / widest))
+        font = ImageFont.truetype("C:/Windows/Fonts/msgothic.ttc", max(size, 8))
+        top = (y0 + y1) / 2 - size * len(lines) / 2
         for j, line in enumerate(lines):
             w = draw.textlength(line, font=font)
             x = {"amount": x1 - 14 - w, "center": (x0 + x1 - w) / 2}.get(it["kind"], x0 + 12)
-            y = y0 + (y1 - y0 - size) / 2 if it["kind"] != "text" else y0 + 4 + j * size
-            draw.text((x, y), line, fill=(200, 0, 0), font=font)
+            draw.text((x, top + j * size), line, fill=(200, 0, 0), font=font)
     out = REPO / "private" / "paper" / f"{form_id}-check.png"
     img.resize((1240, int(1240 * img.size[1] / img.size[0]))).save(out)
     return out
@@ -369,7 +433,7 @@ def main_manual(form_id: str) -> None:
     entry = manifest["forms"][form_id]
     img = form_image(CACHE / entry["file"], entry["page"])
     data = {"form_id": form_id, "edition": EDITION, "image_size": list(img.size),
-            "header": {k: list(v) for k, v in spec.get("header", {}).items()},
+            "header": _header(form_id, spec),
             "fields": {k: list(v) for k, v in sorted(spec.get("fixed", {}).items())}}
     if spec.get("texts"):
         data["texts"] = spec["texts"]

@@ -139,6 +139,19 @@ def _date_items(box: list[int], d: datetime.date, columns: list[int] | None = No
     return [{"box": [xs[i], y0, xs[i + 1], y1], "text": t, "kind": "center"} for i, t in enumerate(parts)]
 
 
+def _period_items(slots: dict, start: datetime.date, end: datetime.date) -> list[dict]:
+    """見出しの「事業年度 ・ ・」の枠に、年（和暦）・月・日を点の間に置く。上の段＝自、下の段＝至。"""
+    from .etax.xtx import to_wareki
+    xs = [slots["left"], *slots["dots_x"], slots["right"]]
+    gap = slots["rows_y"][1] - slots["rows_y"][0]
+    items = []
+    for y, d in zip(slots["rows_y"], (start, end)):
+        w = to_wareki(d)
+        for i, text in enumerate((str(w["yy"]), str(w["mm"]), str(w["dd"]))):
+            items.append({"box": [xs[i] + 6, round(y - gap / 2), xs[i + 1] - 6, round(y + gap / 2)], "text": text, "kind": "center"})
+    return items
+
+
 def _pairs(boxes: list, value) -> list:
     """位置（1つ、または繰り返しの行ごとのリスト）と値（1つ、またはリスト）を組にする。"""
     if boxes and isinstance(boxes[0], list):
@@ -211,7 +224,9 @@ def paper_sheets(calculated: dict) -> list[dict]:
                 text = (f"△{-v:,}" if v < 0 else f"{v:,}") if isinstance(v, int) and not isinstance(v, bool) else str(v)
                 items.append({"box": box, "text": text, "kind": {"left": "text", "center": "center", "right": "amount"}[t.get("align", "left")]})
         header = m.get("header", {})
-        if "period" in header:
+        if "period_slots" in header:
+            items += _period_items(header["period_slots"], fp["start"], fp["end"])
+        elif "period" in header:
             items.append({"box": header["period"], "text": period, "kind": "text"})
         if "company" in header:
             items.append({"box": header["company"], "text": calculated["input"]["company"]["name"], "kind": "text"})
