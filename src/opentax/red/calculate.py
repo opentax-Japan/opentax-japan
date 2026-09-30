@@ -81,6 +81,7 @@ def schedule_07_01(data: dict, s4: dict, rules: dict) -> dict:
         raise OutOfScope("当期で繰越期間が終わる欠損金が2事業年度分あります（別表七(一)の欄の数）")
     if sum(not i["last_year"] for i in items) > 9:
         raise OutOfScope("翌期へ繰り越す欠損金の明細が9事業年度分を超えています（別表七(一)の欄の数）")
+    row_note = _place_rows([i for i in items if not i["last_year"]], start)
     current_loss = -s4["income"] if s4["income"] < 0 else 0
     carry_total = sum(i["carry"] for i in items) + current_loss
     return {
@@ -88,8 +89,25 @@ def schedule_07_01(data: dict, s4: dict, rules: dict) -> dict:
         "items": items, "expired": expired,
         "balance_total": sum(i["balance"] for i in items), "deducted_total": 0,
         "carry_items_total": sum(i["carry"] for i in items),
-        "current_loss": current_loss, "carry_total": carry_total,
+        "current_loss": current_loss, "carry_total": carry_total, "row_note": row_note,
     }
+
+
+def _place_rows(rest: list[dict], start: datetime.date) -> str | None:
+    """翌期へ繰り越す欠損金を、別表七(一)の明細2〜10行目（繰り返しの 0〜8 番目）のどこに書くかを決め、row に入れる。
+    下の行から書き、1年たつごとに1行ずつ上がる書き方（前期の分が一番下の10行目、2期前が9行目…）。
+    事業年度がすべて12か月でないと何期前かが決まらないので、そのときは古い順に下へ詰める（戻り値で知らせる）。"""
+    ages = []
+    for item in rest:
+        age = next((k for k in range(1, 10) if _add_years(item["period_start"], k) == start), None)
+        ages.append(age)
+    if rest and all(ages) and len(set(ages)) == len(ages):
+        for item, age in zip(rest, ages):
+            item["row"] = 9 - age
+        return None
+    for n, item in enumerate(rest):
+        item["row"] = 9 - len(rest) + n
+    return "別表七(一): 12か月でない事業年度があるため、欠損金の明細は古い順に下の行へ詰めて書いています" if rest else None
 
 
 def _carry_years(loss_start: datetime.date, periods: list[dict]) -> int:
@@ -302,6 +320,8 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
         warnings.append(RATIO_UNCONFIRMED)
     warnings += [f"当期で繰越期間が終わる欠損金は翌期へ繰り越しません: {i['period_start']}〜{i['period_end']} {i['balance']:,}円（{i['years']}年）"
                  for i in s7["items"] if i["last_year"]]
+    if s7["row_note"]:
+        warnings.append(s7["row_note"])
     if trial_ratio_rounding:
         label = {"truncate": "切り捨て", "round_half_up": "四捨五入"}[trial_ratio_rounding]
         warnings.insert(0, f"試し用: 別表二の割合の端数処理を仮に「{label}」にしています。本番の申告には使えません")

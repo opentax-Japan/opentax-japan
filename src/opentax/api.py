@@ -18,7 +18,7 @@ from .etax.fetch_spec import SpecError, sha256_bytes, xsd_closure
 from .etax.validate import validate_xtx as _validate
 from .red import model
 from .red.calculate import calculate as _calculate
-from .red.etax_ksk2_2026_08 import SPEC_SET, build_xtx, form_values
+from .red.etax_ksk2_2026_08 import SPEC_SET, _s7_rows, build_xtx, form_values
 from .red.local_tax import local_tax
 
 MANIFEST = Path(__file__).resolve().parents[2] / "spec-manifest" / f"{SPEC_SET}.manifest.json"
@@ -103,7 +103,7 @@ def form_views(calculated: dict) -> list[dict]:
     rest = [i for i in s7["items"] if not i["last_year"]]
     last = [i for i in s7["items"] if i["last_year"]]
     labels = {
-        "MCB00130": [period(i["period_start"], i["period_end"]) for i in rest],
+        "MCB00130": _s7_rows(rest, lambda i: period(i["period_start"], i["period_end"])),
         "MCB00030": [period(i["period_start"], i["period_end"]) for i in last],
         "ICB00150": [x["item"] for x in s51["rows"] if x["item"] != "利益準備金"],
         "ICC00140": [c["item"] for c in s51["capital"] if c["item"] not in ("資本金又は出資金", "資本準備金")],

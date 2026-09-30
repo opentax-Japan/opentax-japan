@@ -33,6 +33,16 @@ RED_FORMULAS = [
 ]
 
 
+def _s7_rows(rest: list[dict], get) -> list:
+    """別表七(一)の明細の繰り返し（2〜10行目）。calculate が決めた row の位置に入れ、上の空き行は None。"""
+    if not rest:
+        return []
+    out = [None] * (max(i["row"] for i in rest) + 1)
+    for i in rest:
+        out[i["row"]] = get(i)
+    return out
+
+
 def base_values(result: dict) -> dict:
     s4, s7, s52, s51, s2 = (result[k] for k in ("schedule_04", "schedule_07_01", "schedule_05_02", "schedule_05_01", "schedule_02"))
     v: dict = {}
@@ -48,8 +58,8 @@ def base_values(result: dict) -> dict:
     if last:
         v["MCB00090"] = last[0]["balance"]
         v["MCB00100"] = last[0]["deducted"]
-    v["MCB00190"] = [i["balance"] for i in rest]
-    v["MCB00200"] = [i["deducted"] for i in rest]
+    v["MCB00190"] = _s7_rows(rest, lambda i: i["balance"])
+    v["MCB00200"] = _s7_rows(rest, lambda i: i["deducted"])
     v["MCB00270"] = s7["current_loss"]
     v["MCB00340"] = s7["current_loss"]
     v["MCB00360"] = s7["current_loss"]
@@ -156,8 +166,9 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
         v.update({"MCB00030": last[0]["period_start"], "MCB00040": last[0]["period_end"],
                   "MCB00060": "1", "MCB00070": "2", "MCB00080": "2"})
     if rest:
-        v.update({"MCB00130": [i["period_start"] for i in rest], "MCB00140": [i["period_end"] for i in rest],
-                  "MCB00160": ["1"] * len(rest), "MCB00170": ["2"] * len(rest), "MCB00180": ["2"] * len(rest)})
+        v.update({"MCB00130": _s7_rows(rest, lambda i: i["period_start"]), "MCB00140": _s7_rows(rest, lambda i: i["period_end"]),
+                  "MCB00160": _s7_rows(rest, lambda i: "1"), "MCB00170": _s7_rows(rest, lambda i: "2"),
+                  "MCB00180": _s7_rows(rest, lambda i: "2")})
     for tax, p in (("道府県民税", "IEC"), ("市町村民税", "IED")):
         rows = s52["taxes"][tax]["prior"]
         if rows:
@@ -240,7 +251,8 @@ def _forms_of(values: dict) -> dict[str, dict]:
 
 def build_xtx(data: dict, result: dict, numbers: dict, zeimusho_xsd: bytes, today: datetime.date) -> bytes:
     """numbers: form_values の結果（タグ → 金額）。0 の金額は出さない（空欄）。"""
-    nums = {k: v for k, v in numbers.items() if (isinstance(v, list) and any(v)) or (not isinstance(v, list) and v)}
+    nums = {k: ([x or None for x in v] if isinstance(v, list) else v) for k, v in numbers.items()
+            if (isinstance(v, list) and any(v)) or (not isinstance(v, list) and v)}
     values = _forms_of({**nums, **text_values(data, result)})
     it_layout = load_layout(SPEC_SET, "IT")
     it, it_ids = build_it(it_layout, it_values(data, zeimusho_xsd), {})

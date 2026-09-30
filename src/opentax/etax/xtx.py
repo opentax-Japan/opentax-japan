@@ -85,12 +85,17 @@ class _Emitter:
                 count = _rows(child, values)
                 if child["max"] is not None and count > child["max"]:
                     raise XtxError(f"{child['path']}: 繰り返しの上限（{child['max']}）を超えています（{count}行）")
+                # 繰り返しの途中の空き行は空の要素で残し、行の位置を保つ（別表七(一)の明細は下の行から書く）。末尾の空き行は出さない
+                start = len(parent)
                 for i in range(count):
-                    self.one(parent, child, values, i)
+                    self.one(parent, child, values, i, keep_empty=True)
+                while len(parent) > start and len(parent[-1]) == 0 and not parent[-1].text:
+                    parent.remove(parent[-1])
             else:
                 self.one(parent, child, values, row)
 
-    def one(self, parent: ET.Element, node: dict, values: Mapping[str, Any], row: int | None) -> None:
+    def one(self, parent: ET.Element, node: dict, values: Mapping[str, Any], row: int | None,
+            keep_empty: bool = False) -> None:
         kind = node["kind"]
         if kind == "idref":
             if node["idref"] in self.it_ids:
@@ -128,7 +133,7 @@ class _Emitter:
                 raise XtxError(f"{node['path']}: この項目に入れられない値です: {value!r}")
         else:
             self.children(el, node, values, row)
-        if len(el):
+        if len(el) or keep_empty:
             parent.append(el)
 
 

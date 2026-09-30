@@ -208,6 +208,27 @@ class LossCarryforwardTest(unittest.TestCase):
         self.assertEqual(out["problems"], [])
         self.assertEqual(len(out["result"]["warnings"]), 2)
 
+    def test_rows_from_bottom(self):
+        """明細は下の行から書き、1年ごとに1行上がる（前期＝10行目＝繰り返しの8番、2期前＝9行目＝7番）。"""
+        raw = sample()
+        raw["prior"]["losses"] = [
+            {"period_start": "2019-10-01", "period_end": "2020-09-30", "amount": 500},
+            {"period_start": "2023-10-01", "period_end": "2024-09-30", "amount": 3_000_000},
+            {"period_start": "2024-10-01", "period_end": "2025-09-30", "amount": 700},
+        ]
+        out = run(raw)
+        rest = [i for i in out["result"]["schedule_07_01"]["items"] if not i["last_year"]]
+        self.assertEqual([i["row"] for i in rest], [3, 7, 8])
+        self.assertEqual(out["values"]["MCB00190"], [None, None, None, 500, None, None, None, 3_000_000, 700])
+        self.assertEqual(out["problems"], [])
+
+    def test_rows_irregular_period_packs_to_bottom(self):
+        raw = sample()
+        raw["prior"]["losses"] = [{"period_start": "2023-04-01", "period_end": "2024-03-31", "amount": 1_000}]
+        out = run(raw)
+        self.assertEqual([i["row"] for i in out["result"]["schedule_07_01"]["items"]], [8])
+        self.assertTrue(any("下の行へ詰めて" in w for w in out["result"]["warnings"]))
+
 
 class FamilyCompanyTest(unittest.TestCase):
     def test_ratio_display_and_result(self):
