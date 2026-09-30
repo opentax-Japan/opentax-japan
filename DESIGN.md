@@ -250,7 +250,7 @@ opentax-japan/
 
 ---
 
-## 6A. Webアプリの構成（案・承認待ち）
+## 6A. Webアプリの構成（承認済み・実装済み）
 
 利用者が Windows ソフトを入れなくても、ブラウザだけで使えることを前提にする。
 
@@ -302,7 +302,12 @@ opentax-japan/
 - ダウンロード用に作ったデータ（Blob URL）は、ダウンロード後すぐ破棄する
 - 自動テストで「保存領域に何も書いていないこと」を確かめる
 
-### 6A.5 未決
+### 6A.5 実装（2026-09-30）
+- `web/`: index.html・app.js（画面）・worker.js（Pyodide を動かすワーカー）・bridge.py（opentax.api とのつなぎ）・build.py（組み立て）・vendor.json（Pyodide 314.0.7・xmlschema・elementpath の URL と SHA256）
+- 公開は `.github/workflows/pages.yml`（テスト → 組み立て → GitHub Pages）
+- 通しの確認: `tests/web/e2e_web.py`（Playwright。外への通信なし・保存領域に何も残らない・.xtx が CLI と同じ内容）
+
+### 6A.6 決まったこと（旧・未決）
 1. 画面の作り方: ビルド不要の素の HTML・JavaScript（依存が少なく監査しやすい）か、フレームワーク（React 等）か
 2. Pyodide の初回読込（10MB 前後）を許容するか
 3. Web UI を入れる順番（Phase 5・6 の後か、並行か）

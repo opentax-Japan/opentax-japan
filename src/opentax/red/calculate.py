@@ -280,8 +280,16 @@ def _display(value: Fraction, digits: int, rounding: dict) -> str | None:
 
 # --- まとめ ---
 
-def calculate(data: dict, per_capita: dict[str, int]) -> dict:
+TRIAL_ROUNDINGS = ("truncate", "round_half_up")
+
+
+def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str | None = None) -> dict:
+    """trial_ratio_rounding: 試し用。別表二の割合の端数処理を仮に決める（結果に trial の印を付ける）。"""
     rules = load_rules("corporate_tax.json")
+    if trial_ratio_rounding:
+        if trial_ratio_rounding not in TRIAL_ROUNDINGS:
+            raise RuleError(f"試し用の端数処理は {TRIAL_ROUNDINGS} のどれかです: {trial_ratio_rounding}")
+        rules["family_company_ratio_display"] = {"mode": trial_ratio_rounding, "source": "試し用の仮の値（未確認）"}
     s4 = schedule_04(data)
     s7 = schedule_07_01(data, s4, rules)
     s1 = schedule_01(s4, s7)
@@ -294,5 +302,8 @@ def calculate(data: dict, per_capita: dict[str, int]) -> dict:
         warnings.append(RATIO_UNCONFIRMED)
     warnings += [f"当期で繰越期間が終わる欠損金は翌期へ繰り越しません: {i['period_start']}〜{i['period_end']} {i['balance']:,}円（{i['years']}年）"
                  for i in s7["items"] if i["last_year"]]
+    if trial_ratio_rounding:
+        label = {"truncate": "切り捨て", "round_half_up": "四捨五入"}[trial_ratio_rounding]
+        warnings.insert(0, f"試し用: 別表二の割合の端数処理を仮に「{label}」にしています。本番の申告には使えません")
     return {"schedule_04": s4, "schedule_07_01": s7, "schedule_01": s1, "schedule_05_02": s52,
-            "schedule_05_01": s51, "schedule_02": s2, "warnings": warnings}
+            "schedule_05_01": s51, "schedule_02": s2, "warnings": warnings, "trial": bool(trial_ratio_rounding)}

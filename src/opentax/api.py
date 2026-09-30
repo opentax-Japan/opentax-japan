@@ -25,11 +25,13 @@ MANIFEST = Path(__file__).resolve().parents[2] / "spec-manifest" / f"{SPEC_SET}.
 ZEIMUSHO_XSD = "19XMLスキーマ/general/zeimusho.xsd"
 
 
-def calculate(raw_input: dict) -> dict:
-    """入力を点検し、均等割と別表を計算して、帳票の式・帳票間のチェックと突き合わせる。"""
+def calculate(raw_input: dict, trial_ratio_rounding: str | None = None) -> dict:
+    """入力を点検し、均等割と別表を計算して、帳票の式・帳票間のチェックと突き合わせる。
+    trial_ratio_rounding は試し用（別表二の割合の端数処理を仮に決める）。"""
     data = model.validate(raw_input)
     local = local_tax(data)
-    result = _calculate(data, {"道府県民税": local["prefecture"]["amount"], "市町村民税": local["municipality"]["amount"]})
+    result = _calculate(data, {"道府県民税": local["prefecture"]["amount"], "市町村民税": local["municipality"]["amount"]},
+                        trial_ratio_rounding)
     values, problems = form_values(result)
     return {"input": data, "local_tax": local, "result": result, "form_values": values, "problems": problems}
 
@@ -41,6 +43,37 @@ def export_etax(calculated: dict, schema_root: Path, today: datetime.date | None
     zeimusho = (schema_root / Path(*ZEIMUSHO_XSD.split("/"))).read_bytes()
     return build_xtx(calculated["input"], calculated["result"], calculated["form_values"], zeimusho,
                      today or datetime.date.today())
+
+
+FORM_TITLES = {"HOA112": "別表一", "HOA114": "別表一 次葉一", "HOA201": "別表二", "HOA420": "別表四（簡易様式）",
+               "HOA511": "別表五(一)", "HOA522": "別表五(二)", "HOB710": "別表七(一)"}
+
+
+def preview(calculated: dict) -> list[dict]:
+    """帳票ごとのプレビュー。金額が 0 でない欄を、帳票フィールド仕様書の行番号・項目名・列で並べる。"""
+    from .etax.xsd_layout import LAYOUT_DIR
+    from .red.etax_ksk2_2026_08 import FORMS
+
+    catalog = json.loads((LAYOUT_DIR / SPEC_SET / "field_catalog.json").read_text(encoding="utf-8"))
+    by_form = {f["form_id"]: f for f in catalog["forms"]}
+    values = calculated["form_values"]
+    out = []
+    for form_id in FORMS:
+        rows = []
+        for f in by_form[form_id]["fields"]:
+            v = values.get(f["xml_tag"])
+            if f["input_type"] != "数値" or v in (None, 0, []):
+                continue
+            for i, item in enumerate(v if isinstance(v, list) else [v], 1):
+                if item:
+                    rows.append({"line": f["line_no"] or "", "group": f["group"] or "", "name": f["name"] or "",
+                                 "column": f["column"] or "", "row": i if isinstance(v, list) else None, "value": item})
+        if form_id == "HOA201":
+            s2 = calculated["result"]["schedule_02"]
+            rows.append({"line": "18", "group": "判定結果", "name": "", "column": "", "row": None,
+                         "value": {"1": "特定同族会社", "2": "同族会社", "3": "非同族会社"}[s2["result"]]})
+        out.append({"form_id": form_id, "title": FORM_TITLES[form_id], "rows": rows})
+    return out
 
 
 def local_tax_sheet(calculated: dict, today: datetime.date | None = None) -> str:

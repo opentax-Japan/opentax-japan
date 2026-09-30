@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- このサイトのファイル以外は読み込まない・通信しない。地方税の一覧のプレビュー（srcdoc）のためだけに style の inline を許す -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self'; connect-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src 'self' about:; form-action 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<title>OpenTax RED</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>OpenTax RED</h1>
+  <p>赤字の単純な法人の法人税・地方税の申告データを、ブラウザの中だけで作ります。入力した内容はどこにも送られず、画面を閉じると消えます。</p>
+</header>
+<main>
+  <div id="status" class="status" role="status">準備しています…</div>
+
+  <section class="toolbar">
+    <button type="button" id="load-sample" disabled>見本（架空の法人）を入れる</button>
+    <label class="file-button">入力ファイルを開く<input type="file" id="open-input" accept=".json,application/json" disabled></label>
+    <button type="button" id="save-input" disabled>入力をファイルに保存</button>
+    <button type="button" id="clear-input" disabled>入力を消す</button>
+  </section>
+
+  <form id="input-form" autocomplete="off" novalidate></form>
+
+  <section class="actions">
+    <label class="inline"><input type="checkbox" id="trial"> 試し用（別表二の割合の端数処理を仮に「切り捨て」にする。本番には使えません）</label>
+    <button type="button" id="calculate" class="primary" disabled>計算する</button>
+  </section>
+
+  <section id="messages"></section>
+
+  <section id="results" hidden>
+    <h2>計算結果</h2>
+    <div id="summary" class="cards"></div>
+
+    <h3>別表のプレビュー</h3>
+    <div id="preview"></div>
+
+    <h3>地方税の一覧（第六号様式・第二十号様式）</h3>
+    <iframe id="local-sheet" title="地方税の一覧" sandbox=""></iframe>
+    <div class="row">
+      <button type="button" id="download-local">地方税の一覧を保存（HTML）</button>
+    </div>
+
+    <h3>e-Tax 用のデータ（.xtx）</h3>
+    <p class="note">国税庁の e-Tax 仕様書「XMLスキーマ」（e-tax19.CAB）を選んでください。この CAB で申告データを検証してから書き出します。CAB は国税庁のサイト（https://www.e-tax.nta.go.jp/shiyo/ksk2/ksk2_shiyo3.htm）から取得してください。</p>
+    <div class="row">
+      <label class="file-button">e-tax19.CAB を選ぶ<input type="file" id="cab" accept=".cab,.CAB"></label>
+      <span id="cab-name" class="note">未選択</span>
+    </div>
+    <div class="row">
+      <button type="button" id="export-etax" class="primary" disabled>検証して .xtx を作る</button>
+    </div>
+    <div id="export-result"></div>
+    <p class="note">e-Taxソフト（ダウンロード版）の「申告・申請等一覧」の「組み込み」で読み込めます。電子署名・送信は e-Taxソフトで行ってください。</p>
+  </section>
+
+  <section class="disclaimer">
+    <h2>対象と注意</h2>
+    <ul>
+      <li>対象: 所得金額が0以下の、赤字の単純な法人（普通法人・中小法人・青色申告）。対応している自治体は画面の選択肢のとおりです。</li>
+      <li>対象外の入力があると「OpenTax RED の対象外です」と表示して止まります。</li>
+      <li>eLTAX 用の取込ファイルは作りません。地方税は一覧を見て PCdesk に入力してください。</li>
+      <li>計算結果の正しさは保証しません。申告の内容と責任は利用者にあります。</li>
+    </ul>
+    <p class="note">ソースコード: https://github.com/opentax-Japan/opentax-japan（MIT）</p>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

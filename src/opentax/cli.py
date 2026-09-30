@@ -213,12 +213,12 @@ def _build_checks(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
-def run_red(path: Path) -> dict:
+def run_red(path: Path, trial_ratio_rounding: str | None = None) -> dict:
     """入力ファイルを読み、api.calculate を呼ぶ（Web 画面・API と同じ計算）。"""
     from . import api
     from .red import model
 
-    return api.calculate(model.load(path))
+    return api.calculate(model.load(path), trial_ratio_rounding)
 
 
 TRIAL_MARKS = ("試し用", "trial")
@@ -226,26 +226,17 @@ TRIAL_MARKS = ("試し用", "trial")
 
 def _export_etax(args: argparse.Namespace) -> int:
     from . import api
-    from .red import calculate as calc
     from .red.model import OutOfScope
 
     if args.trial_ratio_rounding and not any(m in Path(args.output).name for m in TRIAL_MARKS):
         raise SpecError("--trial-ratio-rounding を使うときは、書き出すファイル名に「試し用」か「trial」を入れてください（本番の申告に使わないため）")
-    original = calc.load_rules
     if args.trial_ratio_rounding:
-        def provisional(name: str) -> dict:
-            rules = original(name)
-            rules["family_company_ratio_display"] = {"mode": args.trial_ratio_rounding, "source": "試し用の仮の値（未確認）"}
-            return rules
-        calc.load_rules = provisional
         print(f"注意: 別表二の割合の端数処理を仮に「{args.trial_ratio_rounding}」にしています（試し用。本番には使えません）")
     try:
-        calculated = run_red(Path(args.input))
+        calculated = run_red(Path(args.input), args.trial_ratio_rounding)
     except OutOfScope as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
-    finally:
-        calc.load_rules = original
     schema_root = Path(args.cache_dir) / "ksk2-2026-08" / "files" / "e-tax19"
     if args.cab:
         schema_root = api.schema_from_cab(Path(args.cab).read_bytes())
