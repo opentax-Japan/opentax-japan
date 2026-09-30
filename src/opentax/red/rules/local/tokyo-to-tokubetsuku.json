@@ -1,0 +1,49 @@
+{
+  "jurisdiction": "東京都",
+  "kind": "都民税（特別区）",
+  "note": "東京都の特別区（23区）にだけ事務所等がある法人。道府県民税分と市町村民税分（特別区分）を合わせた都民税として都に申告する（地方税法第734条第2項・第3項）。第二十号様式は出さない。2つ以上の区に事務所等がある法人（従たる事務所等の区ごとに特別区分を加える。条例第106条第2項）は OpenTax RED の対象外",
+  "special_wards": ["千代田区", "中央区", "港区", "新宿区", "文京区", "台東区", "墨田区", "江東区", "品川区", "目黒区", "大田区", "世田谷区",
+                    "渋谷区", "中野区", "杉並区", "豊島区", "北区", "荒川区", "板橋区", "練馬区", "足立区", "葛飾区", "江戸川区"],
+  "per_capita": {
+    "source": [
+      { "title": "東京都都税条例 第106条第1項（特別区の存する区域の法人の均等割）", "url": "https://www.reiki.metro.tokyo.lg.jp/reiki/reiki_honbun/g101RG00000577.html", "checked": "2026-09-30" },
+      { "title": "東京都主税局 第6号様式 記載の手引（Ⅰ表）", "url": "https://www.tax.metro.tokyo.lg.jp/documents/d/tax/04_6_1b", "checked": "2026-09-30" },
+      { "title": "地方税法第52条第1項（道府県分）・第312条第1項（市町村分）・第734条第3項（一の税とみなす）", "url": "https://laws.e-gov.go.jp/law/325AC0000000226", "checked": "2026-09-30" }
+    ],
+    "periods": [
+      {
+        "from": null,
+        "to": null,
+        "note": "確認日時点の現行の規定。超過課税・上乗せなし（地方税法の標準税率の合計と同じ）。適用開始日は未確認",
+        "employees_threshold": 50,
+        "brackets": [
+          { "capital_etc_over": null, "capital_etc_upto": 10000000, "annual_over_threshold": 140000, "annual_upto_threshold": 70000 },
+          { "capital_etc_over": 10000000, "capital_etc_upto": 100000000, "annual_over_threshold": 200000, "annual_upto_threshold": 180000 },
+          { "capital_etc_over": 100000000, "capital_etc_upto": 1000000000, "annual_over_threshold": 530000, "annual_upto_threshold": 290000 },
+          { "capital_etc_over": 1000000000, "capital_etc_upto": 5000000000, "annual_over_threshold": 2290000, "annual_upto_threshold": 950000 },
+          { "capital_etc_over": 5000000000, "capital_etc_upto": null, "annual_over_threshold": 3800000, "annual_upto_threshold": 1210000 }
+        ]
+      }
+    ]
+  },
+  "months": {
+    "rule": "暦に従って数え、1月に満たないときは1月、1月に満たない端数は切り捨て。設置・廃止の月を含む",
+    "source": [
+      { "title": "地方税法第52条第3項・第312条第4項", "url": "https://laws.e-gov.go.jp/law/325AC0000000226", "checked": "2026-09-30" },
+      { "title": "東京都主税局 第6号様式 記載の手引 区分30", "url": "https://www.tax.metro.tokyo.lg.jp/documents/d/tax/04_6_1b", "checked": "2026-09-30" }
+    ]
+  },
+  "rounding": {
+    "unit": 100,
+    "mode": "truncate",
+    "source": [
+      { "title": "地方税法第20条の4の2第3項、東京都主税局 第6号様式 記載の手引 区分31(2)、均等割Q&A Q17（70,000×5/12＝29,100円）", "url": "https://www.tax.metro.tokyo.lg.jp/shitsumon/work/a1", "checked": "2026-09-30" }
+    ]
+  },
+  "submission": {
+    "rule": "主たる事務所等の所在区を所管する都税事務所（千代田区は千代田都税事務所）",
+    "source": [ { "title": "東京都主税局 23区内の法人事業税・法人都民税にかかる所管区域について", "url": "https://www.tax.metro.tokyo.lg.jp/kazei/info/jimusho.html", "checked": "2026-09-30" } ]
+  },
+  "attachments": ["第6号様式別表4の3（均等割額の計算に関する明細書）"],
+  "attachments_source": { "title": "東京都主税局 第6号様式別表4の3 記載の手引", "url": "https://www.tax.metro.tokyo.lg.jp/documents/d/tax/11_4_3b", "checked": "2026-09-30" }
+}

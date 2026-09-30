@@ -83,16 +83,16 @@ def main() -> int:
         page.click("#calculate")
         expect(page.locator("#results")).to_be_visible(timeout=120_000)
         summary = page.locator("#summary").inner_text()
-        check("所得金額 △1,129,000", "△1,129,000" in summary)
-        check("翌期へ繰り越す欠損金 4,129,000", "4,129,000" in summary)
-        check("均等割 21,000・50,000", "21,000" in summary and "50,000" in summary)
+        check("所得金額 △1,130,000", "△1,130,000" in summary)
+        check("翌期へ繰り越す欠損金 4,130,000", "4,130,000" in summary)
+        check("均等割 東京都 千代田区 70,000（区の分を含む）", "70,000" in summary and "千代田区" in summary)
         messages = page.locator("#messages").inner_text()
         check("帳票の式・帳票間のチェックがすべて一致", "すべて一致" in messages)
         check("別表二の端数処理が未確認の警告", "端数処理" in messages)
         page.screenshot(path=str(OUT / "02-calculated.png"))
         paper = page.locator("#paper svg.paper-sheet")
         check("紙の様式が7枚（別表一・一次葉一・二・四・五(一)・五(二)・七(一)）", paper.count() == 7)
-        check("紙の別表一に 所得金額 △1,129,000", "△1,129,000" in paper.first.inner_html())
+        check("紙の別表一に 所得金額 △1,130,000・霞が関", "△1,130,000" in paper.first.inner_html() and "霞が関" in paper.first.inner_html())
         for i in range(paper.count()):
             page.locator("#paper details").nth(i).evaluate("d => d.open = true")
             paper.nth(i).screenshot(path=str(OUT / f"05-paper-{i + 1}.png"))
@@ -100,16 +100,16 @@ def main() -> int:
         check("申告書の形のプレビュー（別表一が開いている）", sheets.count() >= 1 and "所得金額又は欠損金額" in page.locator("#preview").inner_text())
         page.locator("#preview details summary", has_text="別表四").click()
         s4 = page.locator("#preview details", has_text="別表四（簡易様式）")
-        check("別表四の表に 52 所得金額 △1,129,000", "△1,129,000" in s4.inner_text() and "①総額" in s4.inner_text())
+        check("別表四の表に 52 所得金額 △1,130,000", "△1,130,000" in s4.inner_text() and "①総額" in s4.inner_text())
         s4.screenshot(path=str(OUT / "04-schedule4.png"))
 
         frame = page.frame_locator("#local-sheet")
         expect(frame.locator("body")).to_contain_text("第六号様式", timeout=10_000)
-        check("地方税の一覧（第六号様式・第二十号様式）", "第二十号様式" in frame.locator("body").inner_text())
+        check("地方税の一覧（23区: 第六号様式だけ）", "第六号様式" in frame.locator("body").inner_text() and "第二十号様式（市町村民税）は出しません" in frame.locator("body").inner_text())
         with page.expect_download() as dl:
             page.click("#download-local")
         dl.value.save_as(OUT / "local-tax.html")
-        check("地方税の一覧の保存", (OUT / "local-tax.html").read_text(encoding="utf-8").count("均等割額") >= 2)
+        check("地方税の一覧の保存", (OUT / "local-tax.html").read_text(encoding="utf-8").count("均等割額") >= 1)
 
         page.set_input_files("#cab", str(CAB))
         page.click("#export-etax")
@@ -148,7 +148,7 @@ def main() -> int:
     root = REPO / ".cache" / "etax" / "ksk2-2026-08" / "files" / "e-tax19"
     xml = xtx_path.read_bytes()
     check("手元の公式XSD でも誤りなし", api.validate_xtx(xml, root) == [])
-    cli = api.export_etax(api.calculate(json.loads((REPO / "tests/cases/open-shoji/input.json").read_text(encoding="utf-8")),
+    cli = api.export_etax(api.calculate(json.loads((REPO / "tests/cases/open-shoji-tokyo/input.json").read_text(encoding="utf-8")),
                                         "truncate"), root)
     strip = lambda b: re.sub(rb'sakuseiDay="[^"]*"', b"", b)
     check("CLI の試し用の出力と同じ内容（作成日を除く）", strip(xml) == strip(cli))

@@ -25,7 +25,7 @@ SITE = WEB / "_site"
 CACHE = REPO / ".cache" / "web"
 STATIC = ["index.html", "style.css", "app.js", "worker.js", "bridge.py"]
 PYODIDE_FILES = ["pyodide.mjs", "pyodide.asm.mjs", "pyodide.asm.wasm", "python_stdlib.zip", "pyodide-lock.json"]
-SAMPLE = "tests/cases/open-shoji/input.json"
+SAMPLES = ["tests/cases/open-shoji/input.json", "tests/cases/open-shoji-tokyo/input.json"]
 
 
 def fetch(url: str, sha256: str) -> Path:
@@ -51,7 +51,8 @@ def app_zip(dest: Path) -> None:
                 z.write(path, path.relative_to(REPO).as_posix())
         for path in sorted((REPO / "spec-manifest").glob("*.json")):
             z.write(path, path.relative_to(REPO).as_posix())
-        z.write(REPO / SAMPLE, SAMPLE)
+        for sample in SAMPLES:
+            z.write(REPO / sample, sample)
 
 
 def paper_images(width: int = 1654) -> None:

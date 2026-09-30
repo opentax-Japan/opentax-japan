@@ -271,7 +271,8 @@ def _calculate(args: argparse.Namespace) -> int:
     print(f"所得金額（別表四 52）: {r['schedule_04']['income']:,}円")
     print(f"翌期へ繰り越す欠損金（別表七(一)）: {r['schedule_07_01']['carry_total']:,}円")
     print(f"均等割: {local['prefecture']['jurisdiction']} {local['prefecture']['amount']:,}円、"
-          f"{local['municipality']['jurisdiction']} {local['municipality']['amount']:,}円")
+          + (f"{local['municipality']['jurisdiction']} {local['municipality']['amount']:,}円" if local["municipality"]
+             else f"（{local['prefecture'].get('special_ward', '')}: 市町村民税分を含む）"))
     for w in r["warnings"]:
         print(f"注意: {w}")
     if out["problems"]:
@@ -301,7 +302,8 @@ def _local_tax(args: argparse.Namespace) -> int:
     Path(args.output).write_text(api.local_tax_sheet(calculated), encoding="utf-8")
     local = calculated["local_tax"]
     print(f"均等割: {local['prefecture']['jurisdiction']} {local['prefecture']['amount']:,}円、"
-          f"{local['municipality']['jurisdiction']} {local['municipality']['amount']:,}円")
+          + (f"{local['municipality']['jurisdiction']} {local['municipality']['amount']:,}円" if local["municipality"]
+             else f"（{local['prefecture'].get('special_ward', '')}: 市町村民税分を含む）"))
     print(f"書き出しました: {args.output}")
     return EXIT_OK
 

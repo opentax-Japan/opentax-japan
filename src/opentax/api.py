@@ -30,7 +30,8 @@ def calculate(raw_input: dict, trial_ratio_rounding: str | None = None) -> dict:
     trial_ratio_rounding は試し用（別表二の割合の端数処理を仮に決める）。"""
     data = model.validate(raw_input)
     local = local_tax(data)
-    result = _calculate(data, {"道府県民税": local["prefecture"]["amount"], "市町村民税": local["municipality"]["amount"]},
+    city_amount = local["municipality"]["amount"] if local["municipality"] else 0   # 23区は都民税に含まれる
+    result = _calculate(data, {"道府県民税": local["prefecture"]["amount"], "市町村民税": city_amount},
                         trial_ratio_rounding)
     values, problems = form_values(result)
     return {"input": data, "local_tax": local, "result": result, "form_values": values, "problems": problems}

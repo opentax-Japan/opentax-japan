@@ -29,7 +29,10 @@ def _rules_by_name() -> dict[tuple[str, str], dict]:
 
 
 def supported() -> list[str]:
-    return [f"{name}（{kind}）" for kind, name in _rules_by_name()]
+    out = []
+    for (kind, name), rules in _rules_by_name().items():
+        out.append(f"{name}の特別区（23区）" if kind == SPECIAL_WARD_KIND else f"{name}（{kind}）")
+    return out
 
 
 def find_rules(kind: str, name: str) -> dict:
@@ -96,11 +99,33 @@ def per_capita(rules: dict, start: datetime.date, capital_etc: int, employees: i
     }
 
 
+SPECIAL_WARD_KIND = "都民税（特別区）"
+
+
+def special_ward_rules(prefecture: str, municipality: str) -> dict | None:
+    """東京都の特別区（23区）なら、道府県民税分と市町村民税分を合わせた都民税の設定を返す。"""
+    rules = _rules_by_name().get((SPECIAL_WARD_KIND, prefecture))
+    if rules and municipality in rules.get("special_wards", []):
+        return rules
+    return None
+
+
 def local_tax(data: dict) -> dict:
-    """道府県民税・市町村民税の均等割。法人税割・事業税は赤字法人なので 0。"""
+    """道府県民税・市町村民税の均等割。法人税割・事業税は赤字法人なので 0。
+    東京都の特別区（23区）は、市町村民税分も含めて都民税として都に申告する（municipality は None）。"""
     company = data["company"]
     office = data["offices"][0]
     start = data["fiscal_period"]["start"]
+    months = max(o["months"] for o in data["offices"])
+    ward_rules = special_ward_rules(office["prefecture"], office["municipality"])
+    if ward_rules:
+        tokyo = per_capita(ward_rules, start, company["capital_etc"], company["employees"], months)
+        return {
+            "prefecture": {**tokyo, "corporate_tax_levy": 0, "submission_office": office["pref_office"],
+                           "special_ward": office["municipality"]},
+            "municipality": None,
+            "business_tax": {"income_levy": 0, "special_business_tax": 0},
+        }
     pref_rules = find_rules("道府県民税", office["prefecture"])
     city_rules = find_rules("市町村民税", office["municipality"])
     if city_rules.get("prefecture") and city_rules["prefecture"] != office["prefecture"]:
@@ -112,7 +137,6 @@ def local_tax(data: dict) -> dict:
         if len(wards) != 1:
             raise OutOfScope(f"{office['municipality']} の2つ以上の区に事務所等がある法人（均等割が区ごとにかかる）")
     # 同じ市町村に事務所等が2つ以上あるときは、いずれかの事務所等を有していた月数（最も長いもの）
-    months = max(o["months"] for o in data["offices"])
     pref = per_capita(pref_rules, start, company["capital_etc"], company["employees"], months)
     city = per_capita(city_rules, start, company["capital_etc"], company["employees"], months)
     return {

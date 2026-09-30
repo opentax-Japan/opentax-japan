@@ -336,9 +336,11 @@ function showResults(res) {
   const cards = [
     ["所得金額（別表四 52）", yen(s.income)],
     ["翌期へ繰り越す欠損金", yen(s.loss_carry)],
-    [`均等割 ${s.prefecture.jurisdiction}`, yen(s.prefecture.amount)],
-    [`均等割 ${s.municipality.jurisdiction}${s.municipality.ward ? " " + s.municipality.ward : ""}`, yen(s.municipality.amount)],
+    [`均等割 ${s.prefecture.jurisdiction}${s.prefecture.special_ward ? " " + s.prefecture.special_ward + "（区の分を含む）" : ""}`, yen(s.prefecture.amount)],
   ];
+  if (s.municipality) {
+    cards.push([`均等割 ${s.municipality.jurisdiction}${s.municipality.ward ? " " + s.municipality.ward : ""}`, yen(s.municipality.amount)]);
+  }
   const summary = document.getElementById("summary");
   summary.textContent = "";
   cards.forEach(([label, value]) => summary.append(el("div", { class: "card" }, el("div", { class: "label" }, label), el("div", { class: "value" }, value))));

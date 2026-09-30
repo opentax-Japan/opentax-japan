@@ -114,18 +114,24 @@ def build(calculated: dict, today: datetime.date | None = None) -> str:
         "to": f"{local['prefecture']['jurisdiction']}（提出先: {local['prefecture']['submission_office'] or '未入力'}）",
         "rows": rows6, "source": v6["source"],
     })
-    # 第二十号様式
-    f20 = forms["第二十号様式"]
-    v20 = _version(f20, start)
-    vals20 = sheet_values(calculated, "city")
-    rows20 = _rows(f20["resident_tax_lines"], vals20, {"per_capita": vals20["per_capita_note"]}) + _rows(f20["unnumbered"], vals20)
+    # 第二十号様式（東京都の特別区は、市町村民税分も含めて都に申告するので出さない）
     city = local["municipality"]
-    ward = f" {city['ward']}" if city.get("ward") else ""
-    sections.append({
-        "title": f"第二十号様式（{f20['title']}）",
-        "to": f"{city['jurisdiction']}{ward}（提出先: {city['submission_office'] or '未入力'}）",
-        "rows": rows20, "source": v20["source"],
-    })
+    if city is None:
+        sections[0]["to"] = sections[0]["to"].replace(
+            local["prefecture"]["jurisdiction"], f"{local['prefecture']['jurisdiction']} {local['prefecture'].get('special_ward', '')}", 1)
+        warnings.append("東京都の特別区（23区）の法人です。均等割は市町村民税分（特別区分）を含めた額で、第二十号様式（市町村民税）は出しません。"
+                        "第6号様式別表4の3（均等割額の計算に関する明細書）も添付します。法人税割の特別区分の欄（㉔・㉕）は 0 です")
+    else:
+        f20 = forms["第二十号様式"]
+        v20 = _version(f20, start)
+        vals20 = sheet_values(calculated, "city")
+        rows20 = _rows(f20["resident_tax_lines"], vals20, {"per_capita": vals20["per_capita_note"]}) + _rows(f20["unnumbered"], vals20)
+        ward = f" {city['ward']}" if city.get("ward") else ""
+        sections.append({
+            "title": f"第二十号様式（{f20['title']}）",
+            "to": f"{city['jurisdiction']}{ward}（提出先: {city['submission_office'] or '未入力'}）",
+            "rows": rows20, "source": v20["source"],
+        })
     missing = [n for n, v in (("資本準備金（company.capital_reserve）", vals6["capital_and_reserve"]),
                                ("資本剰余金（company.capital_surplus）", vals6["capital_and_surplus"])) if v is None]
     if missing:
