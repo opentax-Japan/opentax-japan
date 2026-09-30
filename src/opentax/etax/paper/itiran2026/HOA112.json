@@ -1,0 +1,252 @@
+{
+ "form_id": "HOA112",
+ "edition": "itiran2026",
+ "image_size": [
+  2481,
+  3508
+ ],
+ "header": {},
+ "fields": {
+  "BGB00010": [
+   574,
+   1302,
+   1188,
+   1372
+  ],
+  "BGB00470": [
+   1734,
+   2352,
+   2419,
+   2446
+  ]
+ },
+ "texts": [
+  {
+   "source": "company:tax_office",
+   "box": [
+    240,
+    206,
+    864,
+    289
+   ],
+   "align": "left"
+  },
+  {
+   "source": "company:address",
+   "box": [
+    240,
+    372,
+    1000,
+    482
+   ],
+   "align": "left"
+  },
+  {
+   "source": "phone:1",
+   "box": [
+    240,
+    482,
+    450,
+    570
+   ],
+   "align": "center"
+  },
+  {
+   "source": "phone:2",
+   "box": [
+    510,
+    482,
+    740,
+    570
+   ],
+   "align": "center"
+  },
+  {
+   "source": "phone:3",
+   "box": [
+    800,
+    482,
+    1000,
+    570
+   ],
+   "align": "center"
+  },
+  {
+   "source": "company:name_kana",
+   "box": [
+    240,
+    570,
+    1000,
+    690
+   ],
+   "align": "left"
+  },
+  {
+   "source": "company:name",
+   "box": [
+    240,
+    690,
+    1000,
+    774
+   ],
+   "align": "left"
+  },
+  {
+   "source": "company:representative_kana",
+   "box": [
+    240,
+    774,
+    1000,
+    856
+   ],
+   "align": "left"
+  },
+  {
+   "source": "company:representative",
+   "box": [
+    240,
+    856,
+    1000,
+    938
+   ],
+   "align": "left"
+  },
+  {
+   "source": "company:representative_address",
+   "box": [
+    240,
+    938,
+    1000,
+    1020
+   ],
+   "align": "left"
+  },
+  {
+   "source": "tag:BGA00130",
+   "box": [
+    1560,
+    294,
+    1644,
+    374
+   ],
+   "align": "center"
+  },
+  {
+   "source": "company:business",
+   "box": [
+    1254,
+    376,
+    1644,
+    530
+   ],
+   "align": "left"
+  },
+  {
+   "source": "company:capital",
+   "box": [
+    1224,
+    540,
+    1400,
+    632
+   ],
+   "align": "right"
+  },
+  {
+   "source": "tag:BGA00160",
+   "box": [
+    1560,
+    540,
+    1644,
+    690
+   ],
+   "align": "center"
+  },
+  {
+   "source": "tag:BGA00170",
+   "box": [
+    1560,
+    720,
+    1644,
+    820
+   ],
+   "align": "center"
+  },
+  {
+   "source": "tag:BGA00300",
+   "box": [
+    2372,
+    1070,
+    2416,
+    1150
+   ],
+   "align": "center"
+  },
+  {
+   "source": "tag:BGA00310",
+   "box": [
+    2062,
+    1208,
+    2106,
+    1284
+   ],
+   "align": "center"
+  },
+  {
+   "source": "tag:BGA00320",
+   "box": [
+    2372,
+    1208,
+    2416,
+    1284
+   ],
+   "align": "center"
+  }
+ ],
+ "dates": {
+  "period:start": {
+   "box": [
+    178,
+    1090,
+    870,
+    1184
+   ],
+   "columns": [
+    348,
+    542,
+    708,
+    870
+   ],
+   "skip_era": true
+  },
+  "period:end": {
+   "box": [
+    178,
+    1184,
+    870,
+    1286
+   ],
+   "columns": [
+    348,
+    542,
+    708,
+    870
+   ],
+   "skip_era": true
+  },
+  "tag:BGA00410": {
+   "box": [
+    2060,
+    3116,
+    2416,
+    3160
+   ],
+   "columns": [
+    2060,
+    2170,
+    2256,
+    2340,
+    2416
+   ]
+  }
+ }
+}

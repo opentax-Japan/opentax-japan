@@ -91,8 +91,11 @@ def main() -> int:
         check("別表二の端数処理が未確認の警告", "端数処理" in messages)
         page.screenshot(path=str(OUT / "02-calculated.png"))
         paper = page.locator("#paper svg.paper-sheet")
-        check("紙の様式（別表四）に金額が重なっている", paper.count() >= 1 and "△1,129,000" in paper.first.inner_html())
-        paper.first.screenshot(path=str(OUT / "05-paper-schedule4.png"))
+        check("紙の様式が7枚（別表一・一次葉一・二・四・五(一)・五(二)・七(一)）", paper.count() == 7)
+        check("紙の別表一に 所得金額 △1,129,000", "△1,129,000" in paper.first.inner_html())
+        for i in range(paper.count()):
+            page.locator("#paper details").nth(i).evaluate("d => d.open = true")
+            paper.nth(i).screenshot(path=str(OUT / f"05-paper-{i + 1}.png"))
         sheets = page.locator("#preview table.sheet")
         check("申告書の形のプレビュー（別表一が開いている）", sheets.count() >= 1 and "所得金額又は欠損金額" in page.locator("#preview").inner_text())
         page.locator("#preview details summary", has_text="別表四").click()

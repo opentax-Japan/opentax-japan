@@ -307,6 +307,12 @@ opentax-japan/
 - 公開は `.github/workflows/pages.yml`（テスト → 組み立て → GitHub Pages）
 - 通しの確認: `tests/web/e2e_web.py`（Playwright。外への通信なし・保存領域に何も残らない・.xtx が CLI と同じ内容）
 
+### 6A.7 紙の様式での表示（2026-09-30）
+- 国税庁の別表の様式 PDF（令和8年4月1日以後終了事業年度分）はスキャン画像で文字の層がない。罫線を画像から見つけて欄の位置を作る（tools/paper_map.py）
+- 欄の位置は src/opentax/etax/paper/<版>/<帳票ID>.json。様式に印字された様式ID（例 NTA0HOA420010250）が e-Tax の帳票の版と合うことを manifest に記録
+- 画面では、様式の画像を背景にした SVG に金額・名前・日付・区分コード・丸を置く。様式の PDF はリポジトリに入れず、組み立てのときに取得して SHA256 で照合
+- 出典と「加工して作成」を画面と THIRD_PARTY_NOTICES に書く（公共データ利用規約 第1.0版）
+
 ### 6A.6 決まったこと（旧・未決）
 1. 画面の作り方: ビルド不要の素の HTML・JavaScript（依存が少なく監査しやすい）か、フレームワーク（React 等）か
 2. Pyodide の初回読込（10MB 前後）を許容するか

@@ -129,15 +129,55 @@ def paper_edition(fiscal_year_end: datetime.date) -> dict | None:
     return best
 
 
+def _date_items(box: list[int], d: datetime.date, columns: list[int] | None = None) -> list[dict]:
+    """元号・年・月・日の4つの枠に分けて置く。columns は枠の境目の x（5つ）。なければ等分する。"""
+    from .etax.xtx import to_wareki
+    w = to_wareki(d)
+    x0, y0, x1, y1 = box
+    xs = columns or [round(x0 + (x1 - x0) * i / 4) for i in range(5)]
+    parts = ["令和" if w["era"] == 5 else "平成", str(w["yy"]), str(w["mm"]), str(w["dd"])]
+    return [{"box": [xs[i], y0, xs[i + 1], y1], "text": t, "kind": "center"} for i, t in enumerate(parts)]
+
+
+def _pairs(boxes: list, value) -> list:
+    """位置（1つ、または繰り返しの行ごとのリスト）と値（1つ、またはリスト）を組にする。"""
+    if boxes and isinstance(boxes[0], list):
+        return list(zip(boxes, value if isinstance(value, list) else []))
+    return [(boxes, value)]
+
+
+def _paper_sources(calculated: dict, values: dict, texts: dict):
+    """紙の様式に書く値の出どころ。「tag:タグ」（金額・区分・日付）、「company:項目」、「phone:1〜3」、「period:start/end」。
+    「:」のないものはタグとみなす。"""
+    company = calculated["input"]["company"]
+    fp = calculated["input"]["fiscal_period"]
+    phone = (company.get("phone") or "").split("-")
+
+    def get(key: str):
+        kind, _, name = key.rpartition(":") if ":" in key else ("tag", "", key)
+        if kind == "tag":
+            return values[name] if name in values else texts.get(name)
+        if kind == "company":
+            return company.get(name)
+        if kind == "phone":
+            i = int(name) - 1
+            return phone[i] if len(phone) == 3 else None
+        if kind == "period":
+            return fp[name]
+        raise ValueError(f"紙の様式の値の出どころが分かりません: {key}")
+    return get
+
+
 def paper_sheets(calculated: dict) -> list[dict]:
     """紙の別表（国税庁の様式の画像）の上に金額を置くためのデータ。位置が決まっている様式だけ。"""
-    from .red.etax_ksk2_2026_08 import FORMS
+    from .red.etax_ksk2_2026_08 import FORMS, text_values
 
     fp = calculated["input"]["fiscal_period"]
     edition = paper_edition(fp["end"])
     if edition is None:
         return []
     values = calculated["form_values"]
+    texts = text_values(calculated["input"], calculated["result"], require_ratios=False)
     period = f"{_wareki(fp['start'])}\n{_wareki(fp['end'])}"
     out = []
     for form_id in FORMS:
@@ -147,10 +187,29 @@ def paper_sheets(calculated: dict) -> list[dict]:
         m = json.loads(path.read_text(encoding="utf-8"))
         entry = edition["forms"][form_id]
         items = []
-        for tag, box in m["fields"].items():
-            v = values.get(tag)
-            if isinstance(v, int) and v:
-                items.append({"box": box, "text": f"△{-v:,}" if v < 0 else f"{v:,}", "kind": "amount"})
+        for tag, boxes in m["fields"].items():
+            for box, v in _pairs(boxes, values.get(tag)):
+                if isinstance(v, int) and v:
+                    items.append({"box": box, "text": f"△{-v:,}" if v < 0 else f"{v:,}", "kind": "amount"})
+        sources = _paper_sources(calculated, values, texts)
+        for key, spec in m.get("dates", {}).items():
+            boxes, columns, skip_era = (spec["box"], spec.get("columns"), spec.get("skip_era", False)) \
+                if isinstance(spec, dict) else (spec, m.get("date_columns"), False)
+            for box, d in _pairs(boxes, sources(key)):
+                if isinstance(d, datetime.date):
+                    parts = _date_items(box, d, columns if not skip_era else [box[0]] + columns)
+                    items += parts[1:] if skip_era else parts
+        for tag, boxes in m.get("circles", {}).items():
+            for box, code in _pairs(boxes, texts.get(tag)):
+                if code == "1":
+                    items.append({"box": box, "text": "", "kind": "circle"})
+        for t in m.get("texts", []):
+            boxes = t.get("boxes", t.get("box"))
+            for box, v in _pairs(boxes, sources(t["source"])):
+                if v is None or v == "":
+                    continue
+                text = (f"△{-v:,}" if v < 0 else f"{v:,}") if isinstance(v, int) and not isinstance(v, bool) else str(v)
+                items.append({"box": box, "text": text, "kind": {"left": "text", "center": "center", "right": "amount"}[t.get("align", "left")]})
         header = m.get("header", {})
         if "period" in header:
             items.append({"box": header["period"], "text": period, "kind": "text"})

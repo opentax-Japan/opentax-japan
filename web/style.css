@@ -65,3 +65,4 @@ svg.paper-sheet text.txt { fill: #0b3d91; font-family: "BIZ UDGothic", "Yu Gothi
   .fields { grid-template-columns: 1fr; }
   #local-sheet { height: 460px; }
 }
+svg.paper-sheet ellipse.mark { fill: none; stroke: #0b3d91; stroke-width: 4; }

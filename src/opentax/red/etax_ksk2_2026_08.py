@@ -120,11 +120,12 @@ def _kubun(flag: bool) -> str:
     return "1" if flag else "2"
 
 
-def text_values(data: dict, result: dict) -> dict:
+def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
+    """金額以外の値。require_ratios=False のときは、別表二の割合が未確認でも止めずに割合を除いて返す（画面の表示用）。"""
     from .calculate import RATIO_UNCONFIRMED, RuleError
     fp, filing = data["fiscal_period"], data["filing"]
     s2, s7, s52, s51 = result["schedule_02"], result["schedule_07_01"], result["schedule_05_02"], result["schedule_05_01"]
-    if not s2["ratio_display_confirmed"]:
+    if require_ratios and not s2["ratio_display_confirmed"]:
         raise RuleError(RATIO_UNCONFIRMED)
     att = filing["attachments"]
     v: dict = {

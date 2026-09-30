@@ -6,9 +6,80 @@
   "terms": "出典：国税庁ホームページ（各様式の URL）。公共データ利用規約（第1.0版）により利用し、金額を重ねて表示するよう加工している。国税庁が作成したものではない",
   "terms_url": "https://www.nta.go.jp/chuijiko/copy.htm",
   "files": {
-    "04-k.pdf": { "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/04-k.pdf", "sha256": "86eaee4558de5c6c0ef06ad98e7d74ddd504ab7c4bd771c1a0c5dcb1c94fb9aa" }
+    "04-k.pdf": {
+      "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/04-k.pdf",
+      "sha256": "86eaee4558de5c6c0ef06ad98e7d74ddd504ab7c4bd771c1a0c5dcb1c94fb9aa"
+    },
+    "05(01).pdf": {
+      "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/05(01).pdf",
+      "sha256": "7f96a954dafbf1b2a372fded679dde7247ce05f2856ac35e1177ef14f9d3620b"
+    },
+    "05(02).pdf": {
+      "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/05(02).pdf",
+      "sha256": "f4d58b753fd91d945b82bcf6fa5bf7798ffc1bceccf099cdc07c6a2992552f60"
+    },
+    "07(01).pdf": {
+      "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/07(01).pdf",
+      "sha256": "350a72884421d284e2e4134b033fe6c3a295f968a0d1d4bba6d84d90a7901679"
+    },
+    "02.pdf": {
+      "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/02.pdf",
+      "sha256": "5621286893ec676193594ed46e5dd24c3f390d0d4ce644ccbd52ed64ba47153f"
+    },
+    "01-01-a.pdf": {
+      "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/01-01-a.pdf",
+      "sha256": "f72212f6ea52b81566a81cc5af510897e38d5a45002d26ff539aaef7ad3b8b63"
+    }
   },
   "forms": {
-    "HOA420": { "title": "別表四（簡易様式）", "file": "04-k.pdf", "page": 1, "printed_form_id": "NTA0HOA420010250", "etax_version": "25.0" }
+    "HOA420": {
+      "title": "別表四（簡易様式）",
+      "file": "04-k.pdf",
+      "page": 1,
+      "printed_form_id": "NTA0HOA420010250",
+      "etax_version": "25.0"
+    },
+    "HOA511": {
+      "title": "別表五(一)",
+      "file": "05(01).pdf",
+      "page": 1,
+      "printed_form_id": "NTA0HOA511010160",
+      "etax_version": "16.1"
+    },
+    "HOB710": {
+      "title": "別表七(一)",
+      "file": "07(01).pdf",
+      "page": 1,
+      "printed_form_id": "NTA0HOB710010130",
+      "etax_version": "13.0"
+    },
+    "HOA522": {
+      "title": "別表五(二)",
+      "file": "05(02).pdf",
+      "page": 1,
+      "printed_form_id": "NTA0HOA522010100",
+      "etax_version": "10.0"
+    },
+    "HOA112": {
+      "title": "別表一",
+      "file": "01-01-a.pdf",
+      "page": 1,
+      "printed_form_id": "NTA1HOA112010070",
+      "etax_version": "7.0"
+    },
+    "HOA114": {
+      "title": "別表一 次葉一",
+      "file": "01-01-a.pdf",
+      "page": 2,
+      "printed_form_id": "NTA0HOA114010010",
+      "etax_version": "1.0"
+    },
+    "HOA201": {
+      "title": "別表二",
+      "file": "02.pdf",
+      "page": 1,
+      "printed_form_id": "NTA0HOA201010050",
+      "etax_version": "5.0"
+    }
   }
 }

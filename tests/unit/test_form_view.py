@@ -90,6 +90,31 @@ class PaperSheetTest(unittest.TestCase):
             x0, y0, x1, y1 = item["box"]
             self.assertTrue(0 <= x0 < x1 <= s4["size"][0] and 0 <= y0 < y1 <= s4["size"][1])
 
+    def test_all_red_forms_on_paper(self):
+        calculated = api.calculate(json.loads(SAMPLE.read_text(encoding="utf-8")), "truncate")
+        sheets = {s["form_id"]: s for s in api.paper_sheets(calculated)}
+        self.assertEqual(sorted(sheets), ["HOA112", "HOA114", "HOA201", "HOA420", "HOA511", "HOA522", "HOB710"])
+        texts = {k: [i["text"] for i in s["items"]] for k, s in sheets.items()}
+        self.assertIn("△1,129,000", texts["HOA112"])            # 1 所得金額又は欠損金額
+        self.assertIn("4,129,000", texts["HOA112"])             # 27 翌期へ繰り越す欠損金額
+        self.assertIn("岡山東", texts["HOA112"])
+        self.assertIn("2", texts["HOA201"])                     # 判定結果 2:同族会社
+        self.assertIn("02", texts["HOA201"])                    # 続柄 配偶者
+        self.assertEqual(texts["HOB710"].count("令和"), 2)       # 欠損金の事業年度（自・至）
+        self.assertIn("circle", [i["kind"] for i in sheets["HOB710"]["items"]])   # 青色欠損の丸
+        self.assertIn("71,000", texts["HOA522"])                # 納税充当金 など
+        for s in sheets.values():                               # どの欄も画像の中に収まる
+            for item in s["items"]:
+                x0, y0, x1, y1 = item["box"]
+                self.assertTrue(0 <= x0 < x1 <= s["size"][0] and 0 <= y0 < y1 <= s["size"][1], (s["form_id"], item))
+
+    def test_paper_without_confirmed_ratios_hides_them(self):
+        calculated = api.calculate(json.loads(SAMPLE.read_text(encoding="utf-8")))
+        s2 = next(s for s in api.paper_sheets(calculated) if s["form_id"] == "HOA201")
+        texts = [i["text"] for i in s2["items"]]
+        self.assertNotIn("100.0", texts)                        # 端数処理が未確認の割合は出さない
+        self.assertIn("200", texts)
+
     def test_no_paper_for_older_fiscal_year(self):
         import datetime
         self.assertIsNone(api.paper_edition(datetime.date(2026, 3, 31)))

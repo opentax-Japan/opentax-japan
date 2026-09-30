@@ -375,6 +375,11 @@ function svg(tag, attrs, text) {
   if (text != null) e.textContent = text;
   return e;
 }
+function textWidth(text) {
+  let w = 0;
+  for (const ch of text) w += ch.charCodeAt(0) < 0x2000 ? 0.6 : 1;
+  return w;
+}
 function renderPaper(sheets) {
   const box = document.getElementById("paper");
   box.textContent = "";
@@ -389,14 +394,20 @@ function renderPaper(sheets) {
     sheet.items.forEach((it) => {
       const [x0, y0, x1, y1] = it.box;
       const hgt = y1 - y0;
-      if (it.kind === "amount") {
-        const size = Math.min(38, Math.max(24, hgt * 0.64));
-        s.append(svg("text", { x: x1 - 14, y: y1 - Math.max(8, (hgt - size) / 2), "font-size": size, "text-anchor": "end", class: "amt" }, it.text));
-      } else {
-        const lines = it.text.split("\n");
-        const size = Math.min(30, (hgt - 8) / lines.length);
-        lines.forEach((line, j) => s.append(svg("text", { x: x0 + 12, y: y0 + size * (j + 1), "font-size": size, class: "txt" }, line)));
+      if (it.kind === "circle") {
+        s.append(svg("ellipse", { cx: (x0 + x1) / 2, cy: (y0 + y1) / 2, rx: (x1 - x0) / 2, ry: hgt / 2, class: "mark" }));
+        return;
       }
+      const lines = it.text.split("\n");
+      const base = it.kind === "amount" ? Math.min(38, Math.max(24, hgt * 0.64)) : Math.min(it.kind === "center" ? 40 : 30, (hgt - 8) / lines.length);
+      // 枠の幅に収まるように小さくする（半角は 0.6 文字分として見積もる）
+      const widest = Math.max(...lines.map(textWidth));
+      const size = Math.min(base, (x1 - x0 - 24) / Math.max(widest, 1));
+      const anchor = { amount: "end", center: "middle" }[it.kind] || "start";
+      const x = { amount: x1 - 14, center: (x0 + x1) / 2 }[it.kind] ?? x0 + 12;
+      const top = (y0 + y1) / 2 - (size * lines.length) / 2;
+      lines.forEach((line, j) => s.append(svg("text", { x, y: top + size * (j + 0.85), "font-size": size, "text-anchor": anchor,
+        class: it.kind === "amount" ? "amt" : "txt" }, line)));
     });
     box.append(el("details", { class: "section", open: i === 0 }, el("summary", {}, sheet.title),
       el("div", { class: "paper-wrap" }, s), el("p", { class: "note src" }, sheet.source)));
