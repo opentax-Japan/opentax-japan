@@ -44,7 +44,7 @@ def ot_info() -> str:
         if kind == SPECIAL_WARD_KIND:  # 東京都の特別区（23区）
             cities += [{"name": w, "prefecture": name, "designated_city": False} for w in r["special_wards"]]
     cities.sort(key=lambda c: (c["prefecture"] or "", c["name"]))
-    sample = (APP_ROOT / "tests" / "cases" / "open-shoji" / "input.json").read_text(encoding="utf-8")
+    sample = (APP_ROOT / "tests" / "cases" / "open-shoji-tokyo" / "input.json").read_text(encoding="utf-8")
     return _dump({"prefectures": prefs, "cities": cities, "sample": json.loads(sample)})
 
 
