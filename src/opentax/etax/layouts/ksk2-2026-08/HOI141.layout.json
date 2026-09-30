@@ -1,0 +1,1104 @@
+{
+ "form_id": "HOI141",
+ "label": "役員給与等の内訳書",
+ "version": "5.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOI141-5-0group",
+ "xsd": "19XMLスキーマ/hojin/HOI141-005.xsd",
+ "xsd_sha256": "037d9d2ef853279f94fea29df6d07fa064fe65791b3a4ce8921541f773cc6f81",
+ "root": {
+  "tag": "HOI141",
+  "path": "HOI141",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "ILA00000",
+    "path": "HOI141/ILA00000",
+    "label": "役員給与等の内訳",
+    "min": 0,
+    "max": 1,
+    "type": "ILA00000-5-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ILA00010",
+      "path": "HOI141/ILA00000/ILA00010",
+      "label": "役員給与等(代表者)",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ILA00025",
+        "path": "HOI141/ILA00000/ILA00010/ILA00025",
+        "label": "役職名",
+        "min": 0,
+        "max": 1,
+        "type": "ILA00025-5-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOI141/ILA00000/ILA00010/ILA00025/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun2_CD"
+          ],
+          "enumeration": [
+           "01",
+           "02",
+           "03",
+           "04",
+           "05",
+           "11",
+           "12",
+           "21",
+           "22",
+           "31",
+           "32",
+           "33",
+           "34",
+           "35",
+           "36",
+           "41",
+           "42",
+           "99"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOI141/ILA00000/ILA00010/ILA00025/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ILA00026",
+        "path": "HOI141/ILA00000/ILA00010/ILA00026",
+        "label": "担当業務",
+        "min": 0,
+        "max": 1,
+        "type": "ILA00026-5-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 10
+       },
+       {
+        "tag": "ILA00030",
+        "path": "HOI141/ILA00000/ILA00010/ILA00030",
+        "label": "氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "ILA00045",
+        "path": "HOI141/ILA00000/ILA00010/ILA00045",
+        "label": "代表者との関係",
+        "min": 0,
+        "max": 1,
+        "type": "ILA00045-5-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOI141/ILA00000/ILA00010/ILA00045/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun2_CD"
+          ],
+          "enumeration": [
+           "01",
+           "02",
+           "03",
+           "04",
+           "07",
+           "08",
+           "09",
+           "10",
+           "11",
+           "12",
+           "13",
+           "14",
+           "15",
+           "16",
+           "17",
+           "18",
+           "19",
+           "22",
+           "23",
+           "24",
+           "25",
+           "26",
+           "27",
+           "90"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOI141/ILA00000/ILA00010/ILA00045/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ILA00050",
+        "path": "HOI141/ILA00000/ILA00010/ILA00050",
+        "label": "住所",
+        "min": 0,
+        "max": 1,
+        "type": "gen:address",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "ILA00060",
+        "path": "HOI141/ILA00000/ILA00010/ILA00060",
+        "label": "常勤・非常勤の別",
+        "min": 0,
+        "max": 1,
+        "type": "ILA00060-5-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOI141/ILA00000/ILA00010/ILA00060/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOI141/ILA00000/ILA00010/ILA00060/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ILA00070",
+        "path": "HOI141/ILA00000/ILA00010/ILA00070",
+        "label": "役員給与計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ILA00080",
+        "path": "HOI141/ILA00000/ILA00010/ILA00080",
+        "label": "左の内訳",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ILA00090",
+          "path": "HOI141/ILA00000/ILA00010/ILA00080/ILA00090",
+          "label": "使用人職務分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ILA00100",
+          "path": "HOI141/ILA00000/ILA00010/ILA00080/ILA00100",
+          "label": "使用人職務分以外",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ILA00110",
+            "path": "HOI141/ILA00000/ILA00010/ILA00080/ILA00100/ILA00110",
+            "label": "定期同額給与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ILA00120",
+            "path": "HOI141/ILA00000/ILA00010/ILA00080/ILA00100/ILA00120",
+            "label": "事前確定届出給与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ILA00130",
+            "path": "HOI141/ILA00000/ILA00010/ILA00080/ILA00100/ILA00130",
+            "label": "業績連動給与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ILA00140",
+            "path": "HOI141/ILA00000/ILA00010/ILA00080/ILA00100/ILA00140",
+            "label": "その他",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ILA00150",
+        "path": "HOI141/ILA00000/ILA00010/ILA00150",
+        "label": "退職給与",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ILA00160",
+      "path": "HOI141/ILA00000/ILA00160",
+      "label": "役員給与等　繰り返し",
+      "min": 0,
+      "max": 9,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ILA00175",
+        "path": "HOI141/ILA00000/ILA00160/ILA00175",
+        "label": "役職名",
+        "min": 0,
+        "max": 1,
+        "type": "ILA00175-5-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOI141/ILA00000/ILA00160/ILA00175/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun2_CD"
+          ],
+          "enumeration": [
+           "01",
+           "02",
+           "03",
+           "04",
+           "05",
+           "11",
+           "12",
+           "21",
+           "22",
+           "31",
+           "32",
+           "33",
+           "34",
+           "35",
+           "36",
+           "41",
+           "42",
+           "99"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOI141/ILA00000/ILA00160/ILA00175/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ILA00176",
+        "path": "HOI141/ILA00000/ILA00160/ILA00176",
+        "label": "担当業務",
+        "min": 0,
+        "max": 1,
+        "type": "ILA00176-5-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 10
+       },
+       {
+        "tag": "ILA00180",
+        "path": "HOI141/ILA00000/ILA00160/ILA00180",
+        "label": "氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "ILA00195",
+        "path": "HOI141/ILA00000/ILA00160/ILA00195",
+        "label": "代表者との関係",
+        "min": 0,
+        "max": 1,
+        "type": "ILA00195-5-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOI141/ILA00000/ILA00160/ILA00195/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun2_CD"
+          ],
+          "enumeration": [
+           "01",
+           "02",
+           "03",
+           "04",
+           "07",
+           "08",
+           "09",
+           "10",
+           "11",
+           "12",
+           "13",
+           "14",
+           "15",
+           "16",
+           "17",
+           "18",
+           "19",
+           "22",
+           "23",
+           "24",
+           "25",
+           "26",
+           "27",
+           "90"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOI141/ILA00000/ILA00160/ILA00195/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ILA00200",
+        "path": "HOI141/ILA00000/ILA00160/ILA00200",
+        "label": "住所",
+        "min": 0,
+        "max": 1,
+        "type": "gen:address",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "ILA00210",
+        "path": "HOI141/ILA00000/ILA00160/ILA00210",
+        "label": "常勤・非常勤の別",
+        "min": 0,
+        "max": 1,
+        "type": "ILA00210-5-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOI141/ILA00000/ILA00160/ILA00210/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOI141/ILA00000/ILA00160/ILA00210/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ILA00220",
+        "path": "HOI141/ILA00000/ILA00160/ILA00220",
+        "label": "役員給与計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ILA00230",
+        "path": "HOI141/ILA00000/ILA00160/ILA00230",
+        "label": "左の内訳",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ILA00240",
+          "path": "HOI141/ILA00000/ILA00160/ILA00230/ILA00240",
+          "label": "使用人職務分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ILA00250",
+          "path": "HOI141/ILA00000/ILA00160/ILA00230/ILA00250",
+          "label": "使用人職務分以外",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ILA00260",
+            "path": "HOI141/ILA00000/ILA00160/ILA00230/ILA00250/ILA00260",
+            "label": "定期同額給与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ILA00270",
+            "path": "HOI141/ILA00000/ILA00160/ILA00230/ILA00250/ILA00270",
+            "label": "事前確定届出給与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ILA00280",
+            "path": "HOI141/ILA00000/ILA00160/ILA00230/ILA00250/ILA00280",
+            "label": "業績連動給与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ILA00290",
+            "path": "HOI141/ILA00000/ILA00160/ILA00230/ILA00250/ILA00290",
+            "label": "その他",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ILA00300",
+        "path": "HOI141/ILA00000/ILA00160/ILA00300",
+        "label": "退職給与",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ILA00310",
+      "path": "HOI141/ILA00000/ILA00310",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ILA00320",
+        "path": "HOI141/ILA00000/ILA00310/ILA00320",
+        "label": "役員給与計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ILA00330",
+        "path": "HOI141/ILA00000/ILA00310/ILA00330",
+        "label": "左の内訳",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ILA00340",
+          "path": "HOI141/ILA00000/ILA00310/ILA00330/ILA00340",
+          "label": "使用人職務分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ILA00350",
+          "path": "HOI141/ILA00000/ILA00310/ILA00330/ILA00350",
+          "label": "使用人職務分以外",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ILA00360",
+            "path": "HOI141/ILA00000/ILA00310/ILA00330/ILA00350/ILA00360",
+            "label": "定期同額給与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ILA00370",
+            "path": "HOI141/ILA00000/ILA00310/ILA00330/ILA00350/ILA00370",
+            "label": "事前確定届出給与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ILA00380",
+            "path": "HOI141/ILA00000/ILA00310/ILA00330/ILA00350/ILA00380",
+            "label": "業績連動給与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ILA00390",
+            "path": "HOI141/ILA00000/ILA00310/ILA00330/ILA00350/ILA00390",
+            "label": "その他",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ILA00400",
+        "path": "HOI141/ILA00000/ILA00310/ILA00400",
+        "label": "退職給与",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ILB00000",
+    "path": "HOI141/ILB00000",
+    "label": "人件費の内訳",
+    "min": 0,
+    "max": 1,
+    "type": "ILB00000-5-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ILB00010",
+      "path": "HOI141/ILB00000/ILB00010",
+      "label": "役員給与",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ILB00020",
+        "path": "HOI141/ILB00000/ILB00010/ILB00020",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ILB00030",
+        "path": "HOI141/ILB00000/ILB00010/ILB00030",
+        "label": "総額のうち代表者及びその家族分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ILB00040",
+      "path": "HOI141/ILB00000/ILB00040",
+      "label": "従業員給与手当",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ILB00050",
+        "path": "HOI141/ILB00000/ILB00040/ILB00050",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ILB00060",
+        "path": "HOI141/ILB00000/ILB00040/ILB00060",
+        "label": "総額のうち代表者及びその家族分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ILB00070",
+      "path": "HOI141/ILB00000/ILB00070",
+      "label": "従業員賃金手当",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ILB00080",
+        "path": "HOI141/ILB00000/ILB00070/ILB00080",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ILB00090",
+        "path": "HOI141/ILB00000/ILB00070/ILB00090",
+        "label": "総額のうち代表者及びその家族分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ILB00100",
+      "path": "HOI141/ILB00000/ILB00100",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ILB00110",
+        "path": "HOI141/ILB00000/ILB00100/ILB00110",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ILB00120",
+        "path": "HOI141/ILB00000/ILB00100/ILB00120",
+        "label": "総額のうち代表者及びその家族分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOI141-5-0VRtype",
+    "fixed": "5.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   },
+   {
+    "name": "csvFileNM",
+    "required": false,
+    "type": "gen:str"
+   }
+  ]
+ }
+}

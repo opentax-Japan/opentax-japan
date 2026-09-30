@@ -4,7 +4,8 @@ layout は e-Tax データを組み立てるときの設計図になる。帳票
 様式が改定されても layout を作り直せば追従できる。
 
 - 対象にしている XSD の書き方: sequence / group ref / complexContent（restriction・extension）/
-  simpleContent / attribute / attributeGroup。choice・all・any・list・union が出てきたら止める。
+  simpleContent / attribute / attributeGroup / choice（選択肢を並べ、各項目に "choice" を付ける。1つだけ出すのは値の側で守り、
+  公式 XSD の検証で確かめる）。all・any・list・union が出てきたら止める。
 - pattern（文字種の制約）は layout に入れない。値の文字種は公式 XSD での検証（Phase 5）で確認する。
 """
 
@@ -185,6 +186,8 @@ class _Builder:
                 continue
             if tag == "sequence":
                 children += self.particles(part, file, path, depth)
+            elif tag == "choice":
+                children += self.choice(part, file, path, depth)
             elif tag in ("attribute", "attributeGroup"):
                 attrs += self.attributes([part], file)
             elif tag == "complexContent":
@@ -266,8 +269,29 @@ class _Builder:
                 if _occurs(p) != (1, 1):
                     raise LayoutError(f"繰り返しのある sequence には対応していません（{path}）")
                 out += self.particles(p, file, path, depth)
+            elif tag == "choice":
+                out += self.choice(p, file, path, depth)
             else:
                 raise LayoutError(f"対応していない XSD の書き方です: {tag}（{path}）")
+        return out
+
+    def choice(self, ch: ET.Element, file: _File, path: str, depth: int) -> list[dict]:
+        """choice の選択肢（sequence か element）を並べる。どれか1つしか出せないので、各項目は必須にしない。"""
+        if _occurs(ch) != (1, 1):
+            raise LayoutError(f"繰り返しのある choice には対応していません（{path}）")
+        out: list[dict] = []
+        for n, alt in enumerate(a for a in ch if a.tag.rsplit("}", 1)[-1] != "annotation"):
+            tag = alt.tag.rsplit("}", 1)[-1]
+            if tag == "sequence":
+                items = self.particles(alt, file, path, depth)
+            elif tag == "element":
+                items = [self.element(alt, file, path, depth + 1)]
+            else:
+                raise LayoutError(f"choice の中の対応していない書き方です: {tag}（{path}）")
+            for item in items:
+                item["min"] = 0
+                item["choice"] = f"{path}#{n + 1}"
+            out += items
         return out
 
     # --- 属性 ---

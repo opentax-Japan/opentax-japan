@@ -1,0 +1,221 @@
+{
+ "form_id": "HOI110",
+ "label": "借入金及び支払利子の内訳書",
+ "version": "3.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOI110-3-0group",
+ "xsd": "19XMLスキーマ/hojin/HOI110-003.xsd",
+ "xsd_sha256": "6fd79ea5e5106b4a526d9c0c1d5674114ef7f6dcbeaee6b585cfef5fcde312a4",
+ "root": {
+  "tag": "HOI110",
+  "path": "HOI110",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "HKB00000",
+    "path": "HOI110/HKB00000",
+    "label": "借入金及び支払利息　繰り返し",
+    "min": 0,
+    "max": 14,
+    "type": "HKB00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HKB00100",
+      "path": "HOI110/HKB00000/HKB00100",
+      "label": "借入先　名称（氏名）",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "HKB00200",
+      "path": "HOI110/HKB00000/HKB00200",
+      "label": "借入先　法人・代表者との関係",
+      "min": 0,
+      "max": 1,
+      "type": "HKB00200-3-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 10
+     },
+     {
+      "tag": "HKB00300",
+      "path": "HOI110/HKB00000/HKB00300",
+      "label": "借入先　所在地（住所）",
+      "min": 0,
+      "max": 1,
+      "type": "gen:address",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "HKB00400",
+      "path": "HOI110/HKB00000/HKB00400",
+      "label": "期末現在高",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HKB00500",
+      "path": "HOI110/HKB00000/HKB00500",
+      "label": "期中の支払利子額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HKB00600",
+      "path": "HOI110/HKB00000/HKB00600",
+      "label": "利率",
+      "min": 0,
+      "max": 1,
+      "type": "HKB00600-3-0type",
+      "kind": "value",
+      "base": "xsd:decimal",
+      "derived_from": [
+       "gen:decimalType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HKB00800",
+      "path": "HOI110/HKB00000/HKB00800",
+      "label": "担保の内容(物件の種類、数量、所在地等)",
+      "min": 0,
+      "max": 1,
+      "type": "HKB00800-3-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 20
+     }
+    ]
+   },
+   {
+    "tag": "HKC00000",
+    "path": "HOI110/HKC00000",
+    "label": "計",
+    "min": 0,
+    "max": 1,
+    "type": "HKC00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HKC00100",
+      "path": "HOI110/HKC00000/HKC00100",
+      "label": "期末現在高",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HKC00200",
+      "path": "HOI110/HKC00000/HKC00200",
+      "label": "期中の支払利子額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOI110-3-0VRtype",
+    "fixed": "3.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   },
+   {
+    "name": "csvFileNM",
+    "required": false,
+    "type": "gen:str"
+   }
+  ]
+ }
+}

@@ -1,0 +1,5888 @@
+{
+ "form_id": "HOK010",
+ "label": "法人事業概況説明書",
+ "version": "7.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOK010-7-0group",
+ "xsd": "19XMLスキーマ/hojin/HOK010-007.xsd",
+ "xsd_sha256": "65f49154b2c764b17e574d8ba526a027cfc23e9d3a4a0337160ae11de2bac5e3",
+ "root": {
+  "tag": "HOK010",
+  "path": "HOK010",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "HOK010-1",
+    "path": "HOK010/HOK010-1",
+    "label": "一面",
+    "min": 0,
+    "max": null,
+    "type": "HOK010-1-7-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "IAA00000",
+      "path": "HOK010/HOK010-1/IAA00000",
+      "label": "納税者等部",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IAA01000",
+        "path": "HOK010/HOK010-1/IAA00000/IAA01000",
+        "label": "法人名",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAA01100",
+          "path": "HOK010/HOK010-1/IAA00000/IAA01000/IAA01100",
+          "label": "屋号",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "IAA01200",
+          "path": "HOK010/HOK010-1/IAA00000/IAA01000/IAA01200",
+          "label": "法人名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:NOZEISHA_NMref",
+          "kind": "idref",
+          "idref": "NOZEISHA_NM",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "NOZEISHA_NM",
+            "type": "xsd:IDREF"
+           }
+          ]
+         },
+         {
+          "tag": "IAA01300",
+          "path": "HOK010/HOK010-1/IAA00000/IAA01000/IAA01300",
+          "label": "電話番号",
+          "min": 0,
+          "max": 1,
+          "type": "gen:NOZEISHA_TELref",
+          "kind": "idref",
+          "idref": "NOZEISHA_TEL",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "NOZEISHA_TEL",
+            "type": "xsd:IDREF"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAA02000",
+        "path": "HOK010/HOK010-1/IAA00000/IAA02000",
+        "label": "事業年度",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAA02100",
+          "path": "HOK010/HOK010-1/IAA00000/IAA02000/IAA02100",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:JIGYO_NENDO_FROMref",
+          "kind": "idref",
+          "idref": "JIGYO_NENDO_FROM",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "JIGYO_NENDO_FROM",
+            "type": "xsd:IDREF"
+           }
+          ]
+         },
+         {
+          "tag": "IAA02200",
+          "path": "HOK010/HOK010-1/IAA00000/IAA02000/IAA02200",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:JIGYO_NENDO_TOref",
+          "kind": "idref",
+          "idref": "JIGYO_NENDO_TO",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "JIGYO_NENDO_TO",
+            "type": "xsd:IDREF"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAA02300",
+        "path": "HOK010/HOK010-1/IAA00000/IAA02300",
+        "label": "法人番号",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_BANGOref",
+        "kind": "idref",
+        "idref": "NOZEISHA_BANGO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_BANGO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "IAA02400",
+        "path": "HOK010/HOK010-1/IAA00000/IAA02400",
+        "label": "自社ホームページの有無",
+        "min": 0,
+        "max": 1,
+        "type": "IAA02400-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOK010/HOK010-1/IAA00000/IAA02400/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOK010/HOK010-1/IAA00000/IAA02400/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "IAA02500",
+        "path": "HOK010/HOK010-1/IAA00000/IAA02500",
+        "label": "(自社ホームページアドレス)",
+        "min": 0,
+        "max": 1,
+        "type": "IAA02500-7-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 60
+       }
+      ]
+     },
+     {
+      "tag": "IAB00000",
+      "path": "HOK010/HOK010-1/IAB00000",
+      "label": "１事業内容",
+      "min": 0,
+      "max": 1,
+      "type": "IAB00000-7-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 120
+     },
+     {
+      "tag": "IAS00000",
+      "path": "HOK010/HOK010-1/IAS00000",
+      "label": "()業",
+      "min": 0,
+      "max": 1,
+      "type": "IAS00000-7-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 20
+     },
+     {
+      "tag": "IAC00000",
+      "path": "HOK010/HOK010-1/IAC00000",
+      "label": "２支店・子会社の状況、３海外取引状況",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IAC01000",
+        "path": "HOK010/HOK010-1/IAC00000/IAC01000",
+        "label": "２支店・子会社の状況　（１）支店",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAC01100",
+          "path": "HOK010/HOK010-1/IAC00000/IAC01000/IAC01100",
+          "label": "国内　支店・店舗数",
+          "min": 0,
+          "max": 1,
+          "type": "IAC01100-7-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAC01300",
+          "path": "HOK010/HOK010-1/IAC00000/IAC01000/IAC01300",
+          "label": "海外　支店・店舗数",
+          "min": 0,
+          "max": 1,
+          "type": "IAC01300-7-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAC01400",
+          "path": "HOK010/HOK010-1/IAC00000/IAC01000/IAC01400",
+          "label": "海外　所在地国１",
+          "min": 0,
+          "max": 1,
+          "type": "IAC01400-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "IAC01500",
+          "path": "HOK010/HOK010-1/IAC00000/IAC01000/IAC01500",
+          "label": "海外　従業員数１",
+          "min": 0,
+          "max": 1,
+          "type": "IAC01500-7-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAC01600",
+          "path": "HOK010/HOK010-1/IAC00000/IAC01000/IAC01600",
+          "label": "海外　所在地国２",
+          "min": 0,
+          "max": 1,
+          "type": "IAC01600-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "IAC01700",
+          "path": "HOK010/HOK010-1/IAC00000/IAC01000/IAC01700",
+          "label": "海外　従業員数２",
+          "min": 0,
+          "max": 1,
+          "type": "IAC01700-7-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAC02000",
+        "path": "HOK010/HOK010-1/IAC00000/IAC02000",
+        "label": "２支店・子会社の状況　（２）子会社",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAC02050",
+          "path": "HOK010/HOK010-1/IAC00000/IAC02000/IAC02050",
+          "label": "国内　国内子会社の数",
+          "min": 0,
+          "max": 1,
+          "type": "IAC02050-7-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAC02100",
+          "path": "HOK010/HOK010-1/IAC00000/IAC02000/IAC02100",
+          "label": "海外　海外子会社の数",
+          "min": 0,
+          "max": 1,
+          "type": "IAC02100-7-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAC02150",
+          "path": "HOK010/HOK010-1/IAC00000/IAC02000/IAC02150",
+          "label": "海外　うち出資割合が５０％以上の海外子会社の数",
+          "min": 0,
+          "max": 1,
+          "type": "IAC02150-7-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAC02200",
+          "path": "HOK010/HOK010-1/IAC00000/IAC02000/IAC02200",
+          "label": "海外　子会社名称１",
+          "min": 0,
+          "max": 1,
+          "type": "IAC02200-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "IAC02300",
+          "path": "HOK010/HOK010-1/IAC00000/IAC02000/IAC02300",
+          "label": "海外　出資割合１",
+          "min": 0,
+          "max": 1,
+          "type": "IAC02300-7-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAC02400",
+          "path": "HOK010/HOK010-1/IAC00000/IAC02000/IAC02400",
+          "label": "海外　子会社名称２",
+          "min": 0,
+          "max": 1,
+          "type": "IAC02400-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "IAC02500",
+          "path": "HOK010/HOK010-1/IAC00000/IAC02000/IAC02500",
+          "label": "海外　出資割合２",
+          "min": 0,
+          "max": 1,
+          "type": "IAC02500-7-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAC03000",
+        "path": "HOK010/HOK010-1/IAC00000/IAC03000",
+        "label": "３海外取引状況　（１）取引種類",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAC03100",
+          "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03100",
+          "label": "輸入区分",
+          "min": 0,
+          "max": 1,
+          "type": "IAC03100-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03100/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03100/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAC03200",
+          "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03200",
+          "label": "輸出区分",
+          "min": 0,
+          "max": 1,
+          "type": "IAC03200-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03200/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03200/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAC03300",
+          "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03300",
+          "label": "無区分",
+          "min": 0,
+          "max": 1,
+          "type": "IAC03300-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03300/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03300/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAC03400",
+          "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03400",
+          "label": "輸入",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IAC03410",
+            "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03400/IAC03410",
+            "label": "相手国",
+            "min": 0,
+            "max": 1,
+            "type": "IAC03410-7-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "IAC03420",
+            "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03400/IAC03420",
+            "label": "主な商品",
+            "min": 0,
+            "max": 1,
+            "type": "IAC03420-7-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "IAC03430",
+            "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03400/IAC03430",
+            "label": "取引金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IAC03500",
+          "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03500",
+          "label": "輸出",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IAC03510",
+            "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03500/IAC03510",
+            "label": "相手国",
+            "min": 0,
+            "max": 1,
+            "type": "IAC03510-7-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "IAC03520",
+            "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03500/IAC03520",
+            "label": "主な商品",
+            "min": 0,
+            "max": 1,
+            "type": "IAC03520-7-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "IAC03530",
+            "path": "HOK010/HOK010-1/IAC00000/IAC03000/IAC03500/IAC03530",
+            "label": "取引金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAC04000",
+        "path": "HOK010/HOK010-1/IAC00000/IAC04000",
+        "label": "３海外取引状況　（２）輸出入以外の海外取引",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAC04100",
+          "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04100",
+          "label": "有無",
+          "min": 0,
+          "max": 1,
+          "type": "IAC04100-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04100/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04100/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAC04200",
+          "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04200",
+          "label": "手数料",
+          "min": 0,
+          "max": 1,
+          "type": "IAC04200-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04200/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04200/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAC04300",
+          "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04300",
+          "label": "ロイヤルティー",
+          "min": 0,
+          "max": 1,
+          "type": "IAC04300-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04300/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04300/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAC04400",
+          "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04400",
+          "label": "役務の提供",
+          "min": 0,
+          "max": 1,
+          "type": "IAC04400-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04400/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04400/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAC04500",
+          "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04500",
+          "label": "証券の売買",
+          "min": 0,
+          "max": 1,
+          "type": "IAC04500-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04500/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04500/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAC04600",
+          "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04600",
+          "label": "金銭の貸借",
+          "min": 0,
+          "max": 1,
+          "type": "IAC04600-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04600/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04600/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAC04700",
+          "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04700",
+          "label": "不動産の売買",
+          "min": 0,
+          "max": 1,
+          "type": "IAC04700-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04700/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04700/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAC04800",
+          "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04800",
+          "label": "その他",
+          "min": 0,
+          "max": 1,
+          "type": "IAC04800-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04800/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04800/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAC04900",
+          "path": "HOK010/HOK010-1/IAC00000/IAC04000/IAC04900",
+          "label": "その他記入欄",
+          "min": 0,
+          "max": 1,
+          "type": "IAC04900-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IAD00000",
+      "path": "HOK010/HOK010-1/IAD00000",
+      "label": "４期末従事員等の状況",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IAD01000",
+        "path": "HOK010/HOK010-1/IAD00000/IAD01000",
+        "label": "（１）期末従事員の状況　１",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAD01100",
+          "path": "HOK010/HOK010-1/IAD00000/IAD01000/IAD01100",
+          "label": "常勤役員",
+          "min": 0,
+          "max": 1,
+          "type": "IAD01100-7-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAD01200",
+        "path": "HOK010/HOK010-1/IAD00000/IAD01200",
+        "label": "（１）期末従事員の状況　繰り返し",
+        "min": 0,
+        "max": 4,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAD01300",
+          "path": "HOK010/HOK010-1/IAD00000/IAD01200/IAD01300",
+          "label": "名称",
+          "min": 0,
+          "max": 1,
+          "type": "IAD01300-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "IAD01400",
+          "path": "HOK010/HOK010-1/IAD00000/IAD01200/IAD01400",
+          "label": "人数",
+          "min": 0,
+          "max": 1,
+          "type": "IAD01400-7-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAD01700",
+        "path": "HOK010/HOK010-1/IAD00000/IAD01700",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "type": "IAD01700-7-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAD01800",
+        "path": "HOK010/HOK010-1/IAD00000/IAD01800",
+        "label": "計のうち代表者家族数",
+        "min": 0,
+        "max": 1,
+        "type": "IAD01800-7-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAD01900",
+        "path": "HOK010/HOK010-1/IAD00000/IAD01900",
+        "label": "計のうちアルバイト数",
+        "min": 0,
+        "max": 1,
+        "type": "IAD01900-7-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAD02000",
+        "path": "HOK010/HOK010-1/IAD00000/IAD02000",
+        "label": "（２）賃金の定め方",
+        "min": 0,
+        "max": 1,
+        "type": "IAD02000-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOK010/HOK010-1/IAD00000/IAD02000/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2",
+           "3"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOK010/HOK010-1/IAD00000/IAD02000/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "IAD03000",
+        "path": "HOK010/HOK010-1/IAD00000/IAD03000",
+        "label": "（３）社宅・寮の有無",
+        "min": 0,
+        "max": 1,
+        "type": "IAD03000-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOK010/HOK010-1/IAD00000/IAD03000/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOK010/HOK010-1/IAD00000/IAD03000/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IAE00000",
+      "path": "HOK010/HOK010-1/IAE00000",
+      "label": "５PC利用状況",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IAE01000",
+        "path": "HOK010/HOK010-1/IAE00000/IAE01000",
+        "label": "（１）PCの利用",
+        "min": 0,
+        "max": 1,
+        "type": "IAE01000-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOK010/HOK010-1/IAE00000/IAE01000/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOK010/HOK010-1/IAE00000/IAE01000/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "IAE02100",
+        "path": "HOK010/HOK010-1/IAE00000/IAE02100",
+        "label": "（２）PCのOS",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAE02200",
+          "path": "HOK010/HOK010-1/IAE00000/IAE02100/IAE02200",
+          "label": "Windows",
+          "min": 0,
+          "max": 1,
+          "type": "IAE02200-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAE00000/IAE02100/IAE02200/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAE00000/IAE02100/IAE02200/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAE02300",
+          "path": "HOK010/HOK010-1/IAE00000/IAE02100/IAE02300",
+          "label": "Mac",
+          "min": 0,
+          "max": 1,
+          "type": "IAE02300-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAE00000/IAE02100/IAE02300/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAE00000/IAE02100/IAE02300/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAE02400",
+          "path": "HOK010/HOK010-1/IAE00000/IAE02100/IAE02400",
+          "label": "Linux",
+          "min": 0,
+          "max": 1,
+          "type": "IAE02400-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAE00000/IAE02100/IAE02400/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAE00000/IAE02100/IAE02400/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAE02500",
+          "path": "HOK010/HOK010-1/IAE00000/IAE02100/IAE02500",
+          "label": "その他",
+          "min": 0,
+          "max": 1,
+          "type": "IAE02500-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAE00000/IAE02100/IAE02500/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAE00000/IAE02100/IAE02500/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAE02600",
+          "path": "HOK010/HOK010-1/IAE00000/IAE02100/IAE02600",
+          "label": "その他記入欄",
+          "min": 0,
+          "max": 1,
+          "type": "IAE02600-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         }
+        ]
+       },
+       {
+        "tag": "IAE03000",
+        "path": "HOK010/HOK010-1/IAE00000/IAE03000",
+        "label": "（３）PCの利用形態",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAE03100",
+          "path": "HOK010/HOK010-1/IAE00000/IAE03000/IAE03100",
+          "label": "給与管理",
+          "min": 0,
+          "max": 1,
+          "type": "IAE03100-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAE00000/IAE03000/IAE03100/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAE00000/IAE03000/IAE03100/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAE03300",
+          "path": "HOK010/HOK010-1/IAE00000/IAE03000/IAE03300",
+          "label": "在庫・販売管理",
+          "min": 0,
+          "max": 1,
+          "type": "IAE03300-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAE00000/IAE03000/IAE03300/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAE00000/IAE03000/IAE03300/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAE03400",
+          "path": "HOK010/HOK010-1/IAE00000/IAE03000/IAE03400",
+          "label": "生産管理",
+          "min": 0,
+          "max": 1,
+          "type": "IAE03400-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAE00000/IAE03000/IAE03400/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAE00000/IAE03000/IAE03400/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAE03600",
+          "path": "HOK010/HOK010-1/IAE00000/IAE03000/IAE03600",
+          "label": "財務管理",
+          "min": 0,
+          "max": 1,
+          "type": "IAE03600-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAE00000/IAE03000/IAE03600/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAE00000/IAE03000/IAE03600/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAE04300",
+        "path": "HOK010/HOK010-1/IAE00000/IAE04300",
+        "label": "（４）会計ソフトの利用等",
+        "min": 0,
+        "max": 1,
+        "type": "IAE04300-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOK010/HOK010-1/IAE00000/IAE04300/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOK010/HOK010-1/IAE00000/IAE04300/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "IAE04500",
+        "path": "HOK010/HOK010-1/IAE00000/IAE04500",
+        "label": "（５）会計ソフト名",
+        "min": 0,
+        "max": 1,
+        "type": "IAE04500-7-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 20
+       },
+       {
+        "tag": "IAE04600",
+        "path": "HOK010/HOK010-1/IAE00000/IAE04600",
+        "label": "（６）メールソフト名",
+        "min": 0,
+        "max": 1,
+        "type": "IAE04600-7-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 20
+       },
+       {
+        "tag": "IAE07910",
+        "path": "HOK010/HOK010-1/IAE00000/IAE07910",
+        "label": "（７）電帳法適用状況",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAE07920",
+          "path": "HOK010/HOK010-1/IAE00000/IAE07910/IAE07920",
+          "label": "優良",
+          "min": 0,
+          "max": 1,
+          "type": "IAE07920-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAE00000/IAE07910/IAE07920/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAE00000/IAE07910/IAE07920/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAE07930",
+          "path": "HOK010/HOK010-1/IAE00000/IAE07910/IAE07930",
+          "label": "一般",
+          "min": 0,
+          "max": 1,
+          "type": "IAE07930-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAE00000/IAE07910/IAE07930/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAE00000/IAE07910/IAE07930/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAE07940",
+          "path": "HOK010/HOK010-1/IAE00000/IAE07910/IAE07940",
+          "label": "スキャナ",
+          "min": 0,
+          "max": 1,
+          "type": "IAE07940-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAE00000/IAE07910/IAE07940/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAE00000/IAE07910/IAE07940/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IAT00000",
+      "path": "HOK010/HOK010-1/IAT00000",
+      "label": "６販売形態",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IAT01000",
+        "path": "HOK010/HOK010-1/IAT00000/IAT01000",
+        "label": "（１）電子商取引",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAT01100",
+          "path": "HOK010/HOK010-1/IAT00000/IAT01000/IAT01100",
+          "label": "有・売上",
+          "min": 0,
+          "max": 1,
+          "type": "IAT01100-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAT00000/IAT01000/IAT01100/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAT00000/IAT01000/IAT01100/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAT01200",
+          "path": "HOK010/HOK010-1/IAT00000/IAT01000/IAT01200",
+          "label": "有・仕入",
+          "min": 0,
+          "max": 1,
+          "type": "IAT01200-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAT00000/IAT01000/IAT01200/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAT00000/IAT01000/IAT01200/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAT01300",
+          "path": "HOK010/HOK010-1/IAT00000/IAT01000/IAT01300",
+          "label": "有・経費",
+          "min": 0,
+          "max": 1,
+          "type": "IAT01300-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAT00000/IAT01000/IAT01300/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAT00000/IAT01000/IAT01300/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAT01400",
+          "path": "HOK010/HOK010-1/IAT00000/IAT01000/IAT01400",
+          "label": "無",
+          "min": 0,
+          "max": 1,
+          "type": "IAT01400-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAT00000/IAT01000/IAT01400/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAT00000/IAT01000/IAT01400/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAT01500",
+        "path": "HOK010/HOK010-1/IAT00000/IAT01500",
+        "label": "（２）販売チャネル",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAT01600",
+          "path": "HOK010/HOK010-1/IAT00000/IAT01500/IAT01600",
+          "label": "自社ＨＰ",
+          "min": 0,
+          "max": 1,
+          "type": "IAT01600-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAT00000/IAT01500/IAT01600/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAT00000/IAT01500/IAT01600/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAT01700",
+          "path": "HOK010/HOK010-1/IAT00000/IAT01500/IAT01700",
+          "label": "他社ＨＰ",
+          "min": 0,
+          "max": 1,
+          "type": "IAT01700-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAT00000/IAT01500/IAT01700/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAT00000/IAT01500/IAT01700/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IAU00000",
+      "path": "HOK010/HOK010-1/IAU00000",
+      "label": "７株主又は株式所有異動の有無（うち株式交付）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IAU00010",
+        "path": "HOK010/HOK010-1/IAU00000/IAU00010",
+        "label": "有",
+        "min": 0,
+        "max": 1,
+        "type": "IAU00010-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOK010/HOK010-1/IAU00000/IAU00010/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOK010/HOK010-1/IAU00000/IAU00010/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "IAU00020",
+        "path": "HOK010/HOK010-1/IAU00000/IAU00020",
+        "label": "株式交付",
+        "min": 0,
+        "max": 1,
+        "type": "IAU00020-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOK010/HOK010-1/IAU00000/IAU00020/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOK010/HOK010-1/IAU00000/IAU00020/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IAF00000",
+      "path": "HOK010/HOK010-1/IAF00000",
+      "label": "８経理の状況",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IAF01000",
+        "path": "HOK010/HOK010-1/IAF00000/IAF01000",
+        "label": "（１）管理者",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAF01100",
+          "path": "HOK010/HOK010-1/IAF00000/IAF01000/IAF01100",
+          "label": "現金",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IAF01110",
+            "path": "HOK010/HOK010-1/IAF00000/IAF01000/IAF01100/IAF01110",
+            "label": "氏名",
+            "min": 0,
+            "max": 1,
+            "type": "gen:name",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           },
+           {
+            "tag": "IAF01120",
+            "path": "HOK010/HOK010-1/IAF00000/IAF01000/IAF01100/IAF01120",
+            "label": "代表者との関係",
+            "min": 0,
+            "max": 1,
+            "type": "IAF01120-7-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "HOK010/HOK010-1/IAF00000/IAF01000/IAF01100/IAF01120/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "HOK010/HOK010-1/IAF00000/IAF01000/IAF01100/IAF01120/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IAF01200",
+          "path": "HOK010/HOK010-1/IAF00000/IAF01000/IAF01200",
+          "label": "通帳",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IAF01210",
+            "path": "HOK010/HOK010-1/IAF00000/IAF01000/IAF01200/IAF01210",
+            "label": "氏名",
+            "min": 0,
+            "max": 1,
+            "type": "gen:name",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           },
+           {
+            "tag": "IAF01220",
+            "path": "HOK010/HOK010-1/IAF00000/IAF01000/IAF01200/IAF01220",
+            "label": "代表者との関係",
+            "min": 0,
+            "max": 1,
+            "type": "IAF01220-7-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "HOK010/HOK010-1/IAF00000/IAF01000/IAF01200/IAF01220/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "HOK010/HOK010-1/IAF00000/IAF01000/IAF01200/IAF01220/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAF02000",
+        "path": "HOK010/HOK010-1/IAF00000/IAF02000",
+        "label": "（２）試算表の作成状況",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAF02100",
+          "path": "HOK010/HOK010-1/IAF00000/IAF02000/IAF02100",
+          "label": "毎月",
+          "min": 0,
+          "max": 1,
+          "type": "IAF02100-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAF00000/IAF02000/IAF02100/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAF00000/IAF02000/IAF02100/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAF02200",
+          "path": "HOK010/HOK010-1/IAF00000/IAF02000/IAF02200",
+          "label": "おおむね＿月ごと",
+          "min": 0,
+          "max": 1,
+          "type": "IAF02200-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAF00000/IAF02000/IAF02200/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAF00000/IAF02000/IAF02200/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAF02250",
+          "path": "HOK010/HOK010-1/IAF00000/IAF02000/IAF02250",
+          "label": "おおむね＿月ごと　月数",
+          "min": 0,
+          "max": 1,
+          "type": "IAF02250-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 2
+         },
+         {
+          "tag": "IAF02300",
+          "path": "HOK010/HOK010-1/IAF00000/IAF02000/IAF02300",
+          "label": "決算時のみ",
+          "min": 0,
+          "max": 1,
+          "type": "IAF02300-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAF00000/IAF02000/IAF02300/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAF00000/IAF02000/IAF02300/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAF03000",
+        "path": "HOK010/HOK010-1/IAF00000/IAF03000",
+        "label": "（３）源泉徴収対象所得",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAF03100",
+          "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03100",
+          "label": "給与",
+          "min": 0,
+          "max": 1,
+          "type": "IAF03100-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03100/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03100/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAF03200",
+          "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03200",
+          "label": "報酬・料金",
+          "min": 0,
+          "max": 1,
+          "type": "IAF03200-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03200/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03200/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAF03300",
+          "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03300",
+          "label": "利子等",
+          "min": 0,
+          "max": 1,
+          "type": "IAF03300-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03300/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03300/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAF03400",
+          "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03400",
+          "label": "配当",
+          "min": 0,
+          "max": 1,
+          "type": "IAF03400-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03400/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03400/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAF03500",
+          "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03500",
+          "label": "非居住者",
+          "min": 0,
+          "max": 1,
+          "type": "IAF03500-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03500/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03500/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAF03600",
+          "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03600",
+          "label": "退職",
+          "min": 0,
+          "max": 1,
+          "type": "IAF03600-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03600/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAF00000/IAF03000/IAF03600/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAF04000",
+        "path": "HOK010/HOK010-1/IAF00000/IAF04000",
+        "label": "（４）消費税",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAF04200",
+          "path": "HOK010/HOK010-1/IAF00000/IAF04000/IAF04200",
+          "label": "当期課税売上高",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAF04300",
+          "path": "HOK010/HOK010-1/IAF00000/IAF04000/IAF04300",
+          "label": "経理方式",
+          "min": 0,
+          "max": 1,
+          "type": "IAF04300-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAF00000/IAF04000/IAF04300/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAF00000/IAF04000/IAF04300/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAF04400",
+        "path": "HOK010/HOK010-1/IAF00000/IAF04400",
+        "label": "（５）社内監査",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAF04500",
+          "path": "HOK010/HOK010-1/IAF00000/IAF04400/IAF04500",
+          "label": "実施の有無",
+          "min": 0,
+          "max": 1,
+          "type": "IAF04500-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-1/IAF00000/IAF04400/IAF04500/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-1/IAF00000/IAF04400/IAF04500/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAF04600",
+          "path": "HOK010/HOK010-1/IAF00000/IAF04400/IAF04600",
+          "label": "()書",
+          "min": 0,
+          "max": 1,
+          "type": "IAF04600-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IAI00000",
+      "path": "HOK010/HOK010-1/IAI00000",
+      "label": "１０主要科目",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IAI01100",
+        "path": "HOK010/HOK010-1/IAI00000/IAI01100",
+        "label": "売上（収入）高",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAI01200",
+        "path": "HOK010/HOK010-1/IAI00000/IAI01200",
+        "label": "上記のうち兼業売上（収入）高",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAI01300",
+        "path": "HOK010/HOK010-1/IAI00000/IAI01300",
+        "label": "売上（収入）原価",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAI01400",
+        "path": "HOK010/HOK010-1/IAI00000/IAI01400",
+        "label": "売上原価のうち",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAI01405",
+          "path": "HOK010/HOK010-1/IAI00000/IAI01400/IAI01405",
+          "label": "期首棚卸高",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI01410",
+          "path": "HOK010/HOK010-1/IAI00000/IAI01400/IAI01410",
+          "label": "原材料費（仕入高）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI01420",
+          "path": "HOK010/HOK010-1/IAI00000/IAI01400/IAI01420",
+          "label": "労務費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI01430",
+          "path": "HOK010/HOK010-1/IAI00000/IAI01400/IAI01430",
+          "label": "外注費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI01435",
+          "path": "HOK010/HOK010-1/IAI00000/IAI01400/IAI01435",
+          "label": "期末棚卸高",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI01440",
+          "path": "HOK010/HOK010-1/IAI00000/IAI01400/IAI01440",
+          "label": "減価償却費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI01450",
+          "path": "HOK010/HOK010-1/IAI00000/IAI01400/IAI01450",
+          "label": "地代家賃",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAI01500",
+        "path": "HOK010/HOK010-1/IAI00000/IAI01500",
+        "label": "売上（収入）総利益",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAI01600",
+        "path": "HOK010/HOK010-1/IAI00000/IAI01600",
+        "label": "販管費のうち",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAI01610",
+          "path": "HOK010/HOK010-1/IAI00000/IAI01600/IAI01610",
+          "label": "役員報酬",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI01620",
+          "path": "HOK010/HOK010-1/IAI00000/IAI01600/IAI01620",
+          "label": "従業員給料",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI01630",
+          "path": "HOK010/HOK010-1/IAI00000/IAI01600/IAI01630",
+          "label": "交際費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI01640",
+          "path": "HOK010/HOK010-1/IAI00000/IAI01600/IAI01640",
+          "label": "減価償却費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI01650",
+          "path": "HOK010/HOK010-1/IAI00000/IAI01600/IAI01650",
+          "label": "地代家賃",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAI01700",
+        "path": "HOK010/HOK010-1/IAI00000/IAI01700",
+        "label": "営業損益",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAI01800",
+        "path": "HOK010/HOK010-1/IAI00000/IAI01800",
+        "label": "特別利益",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAI01850",
+        "path": "HOK010/HOK010-1/IAI00000/IAI01850",
+        "label": "特別損失",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAI01900",
+        "path": "HOK010/HOK010-1/IAI00000/IAI01900",
+        "label": "税引前当期損益",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAI02000",
+        "path": "HOK010/HOK010-1/IAI00000/IAI02000",
+        "label": "資産の部合計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAI02100",
+        "path": "HOK010/HOK010-1/IAI00000/IAI02100",
+        "label": "資産のうち",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAI02110",
+          "path": "HOK010/HOK010-1/IAI00000/IAI02100/IAI02110",
+          "label": "現金預金",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI02120",
+          "path": "HOK010/HOK010-1/IAI00000/IAI02100/IAI02120",
+          "label": "受取手形",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI02130",
+          "path": "HOK010/HOK010-1/IAI00000/IAI02100/IAI02130",
+          "label": "売掛金",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI02140",
+          "path": "HOK010/HOK010-1/IAI00000/IAI02100/IAI02140",
+          "label": "棚卸資産（未成工事支出金）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI02145",
+          "path": "HOK010/HOK010-1/IAI00000/IAI02100/IAI02145",
+          "label": "貸付金",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI02150",
+          "path": "HOK010/HOK010-1/IAI00000/IAI02100/IAI02150",
+          "label": "建物",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI02160",
+          "path": "HOK010/HOK010-1/IAI00000/IAI02100/IAI02160",
+          "label": "機械装置",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI02165",
+          "path": "HOK010/HOK010-1/IAI00000/IAI02100/IAI02165",
+          "label": "車両・船舶",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI02170",
+          "path": "HOK010/HOK010-1/IAI00000/IAI02100/IAI02170",
+          "label": "土地",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAI02200",
+        "path": "HOK010/HOK010-1/IAI00000/IAI02200",
+        "label": "負債の部合計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAI02205",
+        "path": "HOK010/HOK010-1/IAI00000/IAI02205",
+        "label": "負債のうち",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAI02210",
+          "path": "HOK010/HOK010-1/IAI00000/IAI02205/IAI02210",
+          "label": "支払手形",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI02220",
+          "path": "HOK010/HOK010-1/IAI00000/IAI02205/IAI02220",
+          "label": "買掛金",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI02230",
+          "path": "HOK010/HOK010-1/IAI00000/IAI02205/IAI02230",
+          "label": "個人借入金",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAI02240",
+          "path": "HOK010/HOK010-1/IAI00000/IAI02205/IAI02240",
+          "label": "その他借入金",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAI02300",
+        "path": "HOK010/HOK010-1/IAI00000/IAI02300",
+        "label": "純資産の部合計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IAI02700",
+      "path": "HOK010/HOK010-1/IAI02700",
+      "label": "９役員又は役員報酬額の異動の有無",
+      "min": 0,
+      "max": 1,
+      "type": "IAI02700-7-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HOK010/HOK010-1/IAI02700/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HOK010/HOK010-1/IAI02700/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "IAI03000",
+      "path": "HOK010/HOK010-1/IAI03000",
+      "label": "１１代表者に対する報酬等の金額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IAI03100",
+        "path": "HOK010/HOK010-1/IAI03000/IAI03100",
+        "label": "報酬",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAI03200",
+        "path": "HOK010/HOK010-1/IAI03000/IAI03200",
+        "label": "貸付金",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAI03300",
+        "path": "HOK010/HOK010-1/IAI03000/IAI03300",
+        "label": "仮払金",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAI03400",
+        "path": "HOK010/HOK010-1/IAI03000/IAI03400",
+        "label": "賃借料",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAI03500",
+        "path": "HOK010/HOK010-1/IAI03000/IAI03500",
+        "label": "支払利息",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAI03600",
+        "path": "HOK010/HOK010-1/IAI03000/IAI03600",
+        "label": "借入金",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "IAI03700",
+        "path": "HOK010/HOK010-1/IAI03000/IAI03700",
+        "label": "仮受金",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   },
+   {
+    "tag": "HOK010-2",
+    "path": "HOK010/HOK010-2",
+    "label": "二面",
+    "min": 0,
+    "max": null,
+    "type": "HOK010-2-7-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "IAJ00000",
+      "path": "HOK010/HOK010-2/IAJ00000",
+      "label": "１２事業形態",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IAJ01000",
+        "path": "HOK010/HOK010-2/IAJ00000/IAJ01000",
+        "label": "（１）兼業の状況　繰り返し",
+        "min": 0,
+        "max": 3,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAJ01100",
+          "path": "HOK010/HOK010-2/IAJ00000/IAJ01000/IAJ01100",
+          "label": "兼業種目",
+          "min": 0,
+          "max": 1,
+          "type": "IAJ01100-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "IAJ01200",
+          "path": "HOK010/HOK010-2/IAJ00000/IAJ01000/IAJ01200",
+          "label": "兼業割合",
+          "min": 0,
+          "max": 1,
+          "type": "IAJ01200-7-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAJ02000",
+        "path": "HOK010/HOK010-2/IAJ00000/IAJ02000",
+        "label": "（２）事業内容の特異性",
+        "min": 0,
+        "max": 1,
+        "type": "IAJ02000-7-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 200
+       },
+       {
+        "tag": "IAJ03000",
+        "path": "HOK010/HOK010-2/IAJ00000/IAJ03000",
+        "label": "（３）売上区分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAJ03100",
+          "path": "HOK010/HOK010-2/IAJ00000/IAJ03000/IAJ03100",
+          "label": "現金売上",
+          "min": 0,
+          "max": 1,
+          "type": "IAJ03100-7-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAJ03200",
+          "path": "HOK010/HOK010-2/IAJ00000/IAJ03000/IAJ03200",
+          "label": "掛売上",
+          "min": 0,
+          "max": 1,
+          "type": "IAJ03200-7-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IAK00000",
+      "path": "HOK010/HOK010-2/IAK00000",
+      "label": "１３主な設備等の状況",
+      "min": 0,
+      "max": 1,
+      "type": "IAK00000-7-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 400
+     },
+     {
+      "tag": "IAL00000",
+      "path": "HOK010/HOK010-2/IAL00000",
+      "label": "１４決済日等の状況",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IAL01000",
+        "path": "HOK010/HOK010-2/IAL00000/IAL01000",
+        "label": "売上",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAL01100",
+          "path": "HOK010/HOK010-2/IAL00000/IAL01000/IAL01100",
+          "label": "締切日",
+          "min": 0,
+          "max": 1,
+          "type": "IAL01100-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "IAL01200",
+          "path": "HOK010/HOK010-2/IAL00000/IAL01000/IAL01200",
+          "label": "決済日",
+          "min": 0,
+          "max": 1,
+          "type": "IAL01200-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         }
+        ]
+       },
+       {
+        "tag": "IAL02000",
+        "path": "HOK010/HOK010-2/IAL00000/IAL02000",
+        "label": "仕入",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAL02100",
+          "path": "HOK010/HOK010-2/IAL00000/IAL02000/IAL02100",
+          "label": "締切日",
+          "min": 0,
+          "max": 1,
+          "type": "IAL02100-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "IAL02200",
+          "path": "HOK010/HOK010-2/IAL00000/IAL02000/IAL02200",
+          "label": "決済日",
+          "min": 0,
+          "max": 1,
+          "type": "IAL02200-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         }
+        ]
+       },
+       {
+        "tag": "IAL03000",
+        "path": "HOK010/HOK010-2/IAL00000/IAL03000",
+        "label": "外注費",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAL03100",
+          "path": "HOK010/HOK010-2/IAL00000/IAL03000/IAL03100",
+          "label": "締切日",
+          "min": 0,
+          "max": 1,
+          "type": "IAL03100-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "IAL03200",
+          "path": "HOK010/HOK010-2/IAL00000/IAL03000/IAL03200",
+          "label": "決済日",
+          "min": 0,
+          "max": 1,
+          "type": "IAL03200-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         }
+        ]
+       },
+       {
+        "tag": "IAL04000",
+        "path": "HOK010/HOK010-2/IAL00000/IAL04000",
+        "label": "給料",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAL04100",
+          "path": "HOK010/HOK010-2/IAL00000/IAL04000/IAL04100",
+          "label": "締切日",
+          "min": 0,
+          "max": 1,
+          "type": "IAL04100-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "IAL04200",
+          "path": "HOK010/HOK010-2/IAL00000/IAL04000/IAL04200",
+          "label": "支給日",
+          "min": 0,
+          "max": 1,
+          "type": "IAL04200-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IAM00000",
+      "path": "HOK010/HOK010-2/IAM00000",
+      "label": "１５帳簿類の備付状況　繰り返し",
+      "min": 0,
+      "max": 14,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IAM01000",
+        "path": "HOK010/HOK010-2/IAM00000/IAM01000",
+        "label": "帳簿書類の名称",
+        "min": 0,
+        "max": 1,
+        "type": "IAM01000-7-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 40
+       }
+      ]
+     },
+     {
+      "tag": "IAN00000",
+      "path": "HOK010/HOK010-2/IAN00000",
+      "label": "１６税理士の関与状況",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IAN01000",
+        "path": "HOK010/HOK010-2/IAN00000/IAN01000",
+        "label": "（１）氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "IAN02000",
+        "path": "HOK010/HOK010-2/IAN00000/IAN02000",
+        "label": "（２）事務所所在地",
+        "min": 0,
+        "max": 1,
+        "type": "gen:address",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "IAN04000",
+        "path": "HOK010/HOK010-2/IAN00000/IAN04000",
+        "label": "（３）電話番号",
+        "min": 0,
+        "max": 1,
+        "type": "gen:tel-number",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "tel1",
+          "path": "HOK010/HOK010-2/IAN00000/IAN04000/tel1",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:string",
+          "max_length": 6
+         },
+         {
+          "tag": "tel2",
+          "path": "HOK010/HOK010-2/IAN00000/IAN04000/tel2",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:string",
+          "max_length": 4
+         },
+         {
+          "tag": "tel3",
+          "path": "HOK010/HOK010-2/IAN00000/IAN04000/tel3",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:string",
+          "max_length": 4
+         }
+        ]
+       },
+       {
+        "tag": "IAN05000",
+        "path": "HOK010/HOK010-2/IAN00000/IAN05000",
+        "label": "（４）関与状況等",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAN05100",
+          "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05100",
+          "label": "申告書の作成",
+          "min": 0,
+          "max": 1,
+          "type": "IAN05100-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05100/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05100/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAN05200",
+          "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05200",
+          "label": "調査立会",
+          "min": 0,
+          "max": 1,
+          "type": "IAN05200-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05200/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05200/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAN05300",
+          "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05300",
+          "label": "税務相談",
+          "min": 0,
+          "max": 1,
+          "type": "IAN05300-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05300/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05300/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAN05400",
+          "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05400",
+          "label": "決算書の作成",
+          "min": 0,
+          "max": 1,
+          "type": "IAN05400-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05400/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05400/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAN05500",
+          "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05500",
+          "label": "伝票の整理",
+          "min": 0,
+          "max": 1,
+          "type": "IAN05500-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05500/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05500/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAN05600",
+          "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05600",
+          "label": "補助簿の記帳",
+          "min": 0,
+          "max": 1,
+          "type": "IAN05600-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05600/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05600/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAN05700",
+          "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05700",
+          "label": "総勘定元帳の記帳",
+          "min": 0,
+          "max": 1,
+          "type": "IAN05700-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05700/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05700/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAN05800",
+          "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05800",
+          "label": "源泉徴収関係事務",
+          "min": 0,
+          "max": 1,
+          "type": "IAN05800-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05800/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-2/IAN00000/IAN05000/IAN05800/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IAO00000",
+      "path": "HOK010/HOK010-2/IAO00000",
+      "label": "１７加入組合等の状況",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IAO01000",
+        "path": "HOK010/HOK010-2/IAO00000/IAO01000",
+        "label": "加入組合等　繰り返し",
+        "min": 0,
+        "max": 2,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAO01100",
+          "path": "HOK010/HOK010-2/IAO00000/IAO01000/IAO01100",
+          "label": "名称",
+          "min": 0,
+          "max": 1,
+          "type": "IAO01100-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "IAO01200",
+          "path": "HOK010/HOK010-2/IAO00000/IAO01000/IAO01200",
+          "label": "役職名",
+          "min": 0,
+          "max": 1,
+          "type": "IAO01200-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 10
+         }
+        ]
+       },
+       {
+        "tag": "IAO02000",
+        "path": "HOK010/HOK010-2/IAO00000/IAO02000",
+        "label": "営業時間",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAO02100",
+          "path": "HOK010/HOK010-2/IAO00000/IAO02000/IAO02100",
+          "label": "開店",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IAO02110",
+            "path": "HOK010/HOK010-2/IAO00000/IAO02000/IAO02100/IAO02110",
+            "label": "時",
+            "min": 0,
+            "max": 1,
+            "type": "IAO02110-7-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "min_inclusive": 0,
+            "max_inclusive": 24,
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IAO02120",
+            "path": "HOK010/HOK010-2/IAO00000/IAO02000/IAO02100/IAO02120",
+            "label": "分",
+            "min": 0,
+            "max": 1,
+            "type": "IAO02120-7-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "min_inclusive": 0,
+            "max_inclusive": 59,
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IAO02200",
+          "path": "HOK010/HOK010-2/IAO00000/IAO02000/IAO02200",
+          "label": "閉店",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IAO02210",
+            "path": "HOK010/HOK010-2/IAO00000/IAO02000/IAO02200/IAO02210",
+            "label": "時",
+            "min": 0,
+            "max": 1,
+            "type": "IAO02210-7-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "min_inclusive": 0,
+            "max_inclusive": 24,
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IAO02220",
+            "path": "HOK010/HOK010-2/IAO00000/IAO02000/IAO02200/IAO02220",
+            "label": "分",
+            "min": 0,
+            "max": 1,
+            "type": "IAO02220-7-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "min_inclusive": 0,
+            "max_inclusive": 59,
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAO03000",
+        "path": "HOK010/HOK010-2/IAO00000/IAO03000",
+        "label": "定休日",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAO03100",
+          "path": "HOK010/HOK010-2/IAO00000/IAO03000/IAO03100",
+          "label": "曜日",
+          "min": 0,
+          "max": 1,
+          "type": "IAO03100-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 3
+         },
+         {
+          "tag": "IAO03200",
+          "path": "HOK010/HOK010-2/IAO00000/IAO03000/IAO03200",
+          "label": "日",
+          "min": 0,
+          "max": 1,
+          "type": "IAO03200-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 8
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IAP00000",
+      "path": "HOK010/HOK010-2/IAP00000",
+      "label": "１８月別の売上高等の状況",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IAP10000",
+        "path": "HOK010/HOK010-2/IAP00000/IAP10000",
+        "label": "科目欄",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAP11000",
+          "path": "HOK010/HOK010-2/IAP00000/IAP10000/IAP11000",
+          "label": "売上(収入)金額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IAP12000",
+            "path": "HOK010/HOK010-2/IAP00000/IAP10000/IAP11000/IAP12000",
+            "label": "科目１",
+            "min": 0,
+            "max": 1,
+            "type": "IAP12000-7-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 8
+           },
+           {
+            "tag": "IAP12100",
+            "path": "HOK010/HOK010-2/IAP00000/IAP10000/IAP11000/IAP12100",
+            "label": "科目２",
+            "min": 0,
+            "max": 1,
+            "type": "IAP12100-7-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 8
+           }
+          ]
+         },
+         {
+          "tag": "IAP12200",
+          "path": "HOK010/HOK010-2/IAP00000/IAP10000/IAP12200",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IAP12300",
+            "path": "HOK010/HOK010-2/IAP00000/IAP10000/IAP12200/IAP12300",
+            "label": "科目１",
+            "min": 0,
+            "max": 1,
+            "type": "IAP12300-7-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 8
+           },
+           {
+            "tag": "IAP12400",
+            "path": "HOK010/HOK010-2/IAP00000/IAP10000/IAP12200/IAP12400",
+            "label": "科目２",
+            "min": 0,
+            "max": 1,
+            "type": "IAP12400-7-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 8
+           }
+          ]
+         },
+         {
+          "tag": "IAP12600",
+          "path": "HOK010/HOK010-2/IAP00000/IAP10000/IAP12600",
+          "label": "任意項目",
+          "min": 0,
+          "max": 1,
+          "type": "IAP12600-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 8
+         }
+        ]
+       },
+       {
+        "tag": "IAP20000",
+        "path": "HOK010/HOK010-2/IAP00000/IAP20000",
+        "label": "月別の売上高等の状況　繰り返し",
+        "min": 0,
+        "max": 12,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAP20100",
+          "path": "HOK010/HOK010-2/IAP00000/IAP20000/IAP20100",
+          "label": "月",
+          "min": 0,
+          "max": 1,
+          "type": "gen:mm",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "IAP20200",
+          "path": "HOK010/HOK010-2/IAP00000/IAP20000/IAP20200",
+          "label": "売上(収入)金額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IAP20300",
+            "path": "HOK010/HOK010-2/IAP00000/IAP20000/IAP20200/IAP20300",
+            "label": "売上(収入)金額１",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IAP20400",
+            "path": "HOK010/HOK010-2/IAP00000/IAP20000/IAP20200/IAP20400",
+            "label": "売上(収入)金額２",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IAP20410",
+          "path": "HOK010/HOK010-2/IAP00000/IAP20000/IAP20410",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IAP20420",
+            "path": "HOK010/HOK010-2/IAP00000/IAP20000/IAP20410/IAP20420",
+            "label": "仕入金額１",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IAP20430",
+            "path": "HOK010/HOK010-2/IAP00000/IAP20000/IAP20410/IAP20430",
+            "label": "仕入金額２",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IAP20500",
+          "path": "HOK010/HOK010-2/IAP00000/IAP20000/IAP20500",
+          "label": "外注費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAP20600",
+          "path": "HOK010/HOK010-2/IAP00000/IAP20000/IAP20600",
+          "label": "人件費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAP20700",
+          "path": "HOK010/HOK010-2/IAP00000/IAP20000/IAP20700",
+          "label": "源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAP20750",
+          "path": "HOK010/HOK010-2/IAP00000/IAP20000/IAP20750",
+          "label": "任意項目金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAP20800",
+          "path": "HOK010/HOK010-2/IAP00000/IAP20000/IAP20800",
+          "label": "従事員数",
+          "min": 0,
+          "max": 1,
+          "type": "IAP20800-7-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAP30000",
+        "path": "HOK010/HOK010-2/IAP00000/IAP30000",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAP30100",
+          "path": "HOK010/HOK010-2/IAP00000/IAP30000/IAP30100",
+          "label": "売上(収入)金額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IAP30200",
+            "path": "HOK010/HOK010-2/IAP00000/IAP30000/IAP30100/IAP30200",
+            "label": "売上(収入)金額１",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IAP30300",
+            "path": "HOK010/HOK010-2/IAP00000/IAP30000/IAP30100/IAP30300",
+            "label": "売上(収入)金額２",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IAP30310",
+          "path": "HOK010/HOK010-2/IAP00000/IAP30000/IAP30310",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IAP30320",
+            "path": "HOK010/HOK010-2/IAP00000/IAP30000/IAP30310/IAP30320",
+            "label": "仕入金額１",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IAP30330",
+            "path": "HOK010/HOK010-2/IAP00000/IAP30000/IAP30310/IAP30330",
+            "label": "仕入金額２",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IAP30400",
+          "path": "HOK010/HOK010-2/IAP00000/IAP30000/IAP30400",
+          "label": "外注費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAP30500",
+          "path": "HOK010/HOK010-2/IAP00000/IAP30000/IAP30500",
+          "label": "人件費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAP30600",
+          "path": "HOK010/HOK010-2/IAP00000/IAP30000/IAP30600",
+          "label": "源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAP30650",
+          "path": "HOK010/HOK010-2/IAP00000/IAP30000/IAP30650",
+          "label": "任意項目金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAP30700",
+          "path": "HOK010/HOK010-2/IAP00000/IAP30000/IAP30700",
+          "label": "従事員数",
+          "min": 0,
+          "max": 1,
+          "type": "IAP30700-7-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "IAP40000",
+        "path": "HOK010/HOK010-2/IAP00000/IAP40000",
+        "label": "前期の実績",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAP40100",
+          "path": "HOK010/HOK010-2/IAP00000/IAP40000/IAP40100",
+          "label": "売上(収入)金額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IAP40200",
+            "path": "HOK010/HOK010-2/IAP00000/IAP40000/IAP40100/IAP40200",
+            "label": "売上(収入)金額１",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IAP40300",
+            "path": "HOK010/HOK010-2/IAP00000/IAP40000/IAP40100/IAP40300",
+            "label": "売上(収入)金額２",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IAP40310",
+          "path": "HOK010/HOK010-2/IAP00000/IAP40000/IAP40310",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "IAP40320",
+            "path": "HOK010/HOK010-2/IAP00000/IAP40000/IAP40310/IAP40320",
+            "label": "仕入金額１",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "IAP40330",
+            "path": "HOK010/HOK010-2/IAP00000/IAP40000/IAP40310/IAP40330",
+            "label": "仕入金額２",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "IAP40400",
+          "path": "HOK010/HOK010-2/IAP00000/IAP40000/IAP40400",
+          "label": "外注費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAP40500",
+          "path": "HOK010/HOK010-2/IAP00000/IAP40000/IAP40500",
+          "label": "人件費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAP40600",
+          "path": "HOK010/HOK010-2/IAP00000/IAP40000/IAP40600",
+          "label": "源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAP40650",
+          "path": "HOK010/HOK010-2/IAP00000/IAP40000/IAP40650",
+          "label": "任意項目金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "IAP40700",
+          "path": "HOK010/HOK010-2/IAP00000/IAP40000/IAP40700",
+          "label": "従事員数",
+          "min": 0,
+          "max": 1,
+          "type": "IAP40700-7-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "IAQ00000",
+      "path": "HOK010/HOK010-2/IAQ00000",
+      "label": "１９当期の営業成績の概要",
+      "min": 0,
+      "max": 1,
+      "type": "IAQ00000-7-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 240
+     },
+     {
+      "tag": "IAV00000",
+      "path": "HOK010/HOK010-2/IAV00000",
+      "label": "２０年末調整関係書類の電子化の状況",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "IAV00010",
+        "path": "HOK010/HOK010-2/IAV00000/IAV00010",
+        "label": "（１）年末調整関係申告書の取扱",
+        "min": 0,
+        "max": 1,
+        "type": "IAV00010-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOK010/HOK010-2/IAV00000/IAV00010/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOK010/HOK010-2/IAV00000/IAV00010/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "IAV00020",
+        "path": "HOK010/HOK010-2/IAV00000/IAV00020",
+        "label": "（２）年末調整関係申告書の電磁的方法での受付の可否",
+        "min": 0,
+        "max": 1,
+        "type": "IAV00020-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOK010/HOK010-2/IAV00000/IAV00020/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOK010/HOK010-2/IAV00000/IAV00020/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "IAV00030",
+        "path": "HOK010/HOK010-2/IAV00000/IAV00030",
+        "label": "（３）保険料等の支払を証する書類の電磁的方法での受付の可否",
+        "min": 0,
+        "max": 1,
+        "type": "IAV00030-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOK010/HOK010-2/IAV00000/IAV00030/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOK010/HOK010-2/IAV00000/IAV00030/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "IAV00040",
+        "path": "HOK010/HOK010-2/IAV00000/IAV00040",
+        "label": "（４）従業員による保険料等の支払を証する書類のマイナポータル連携での取得",
+        "min": 0,
+        "max": 1,
+        "type": "IAV00040-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOK010/HOK010-2/IAV00000/IAV00040/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2",
+           "3"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOK010/HOK010-2/IAV00000/IAV00040/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "IAV00050",
+        "path": "HOK010/HOK010-2/IAV00000/IAV00050",
+        "label": "（５）年末調整手続でのシステム利用",
+        "min": 0,
+        "max": 1,
+        "type": "IAV00050-7-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOK010/HOK010-2/IAV00000/IAV00050/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOK010/HOK010-2/IAV00000/IAV00050/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "IAV00060",
+        "path": "HOK010/HOK010-2/IAV00000/IAV00060",
+        "label": "（６）年末調整手続で利用するシステム",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "IAV00070",
+          "path": "HOK010/HOK010-2/IAV00000/IAV00060/IAV00070",
+          "label": "国税庁が提供する年末調整控除申告書作成用ソフトウェア",
+          "min": 0,
+          "max": 1,
+          "type": "IAV00070-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-2/IAV00000/IAV00060/IAV00070/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-2/IAV00000/IAV00060/IAV00070/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAV00080",
+          "path": "HOK010/HOK010-2/IAV00000/IAV00060/IAV00080",
+          "label": "自社製ソフトウェア",
+          "min": 0,
+          "max": 1,
+          "type": "IAV00080-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-2/IAV00000/IAV00060/IAV00080/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-2/IAV00000/IAV00060/IAV00080/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAV00090",
+          "path": "HOK010/HOK010-2/IAV00000/IAV00060/IAV00090",
+          "label": "市販のソフトウェア",
+          "min": 0,
+          "max": 1,
+          "type": "IAV00090-7-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOK010/HOK010-2/IAV00000/IAV00060/IAV00090/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOK010/HOK010-2/IAV00000/IAV00060/IAV00090/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "IAV00100",
+          "path": "HOK010/HOK010-2/IAV00000/IAV00060/IAV00100",
+          "label": "名称",
+          "min": 0,
+          "max": 1,
+          "type": "IAV00100-7-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOK010-7-0VRtype",
+    "fixed": "7.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

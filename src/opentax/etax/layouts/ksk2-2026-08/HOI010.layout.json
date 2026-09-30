@@ -1,0 +1,207 @@
+{
+ "form_id": "HOI010",
+ "label": "預貯金等の内訳書",
+ "version": "4.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOI010-4-0group",
+ "xsd": "19XMLスキーマ/hojin/HOI010-004.xsd",
+ "xsd_sha256": "9b8e976cafc32e4a7e2faefb40f0d14ec7190c34811b5a9ed03b1252693980fe",
+ "root": {
+  "tag": "HOI010",
+  "path": "HOI010",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "HAB00000",
+    "path": "HOI010/HAB00000",
+    "label": "預貯金等　繰り返し",
+    "min": 0,
+    "max": 23,
+    "type": "HAB00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HAB00100",
+      "path": "HOI010/HAB00000/HAB00100",
+      "label": "明細",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HAB00110",
+        "path": "HOI010/HAB00000/HAB00100/HAB00110",
+        "label": "金融機関名",
+        "min": 0,
+        "max": 1,
+        "type": "HAB00110-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 11
+       },
+       {
+        "tag": "HAB00120",
+        "path": "HOI010/HAB00000/HAB00100/HAB00120",
+        "label": "支店名",
+        "min": 0,
+        "max": 1,
+        "type": "HAB00120-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 11
+       }
+      ]
+     },
+     {
+      "tag": "HAB00200",
+      "path": "HOI010/HAB00000/HAB00200",
+      "label": "種類",
+      "min": 0,
+      "max": 1,
+      "type": "HAB00200-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 10
+     },
+     {
+      "tag": "HAB00300",
+      "path": "HOI010/HAB00000/HAB00300",
+      "label": "口座番号",
+      "min": 0,
+      "max": 1,
+      "type": "HAB00300-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 14
+     },
+     {
+      "tag": "HAB00400",
+      "path": "HOI010/HAB00000/HAB00400",
+      "label": "期末現在高",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HAB00500",
+      "path": "HOI010/HAB00000/HAB00500",
+      "label": "摘要",
+      "min": 0,
+      "max": 1,
+      "type": "HAB00500-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 30
+     }
+    ]
+   },
+   {
+    "tag": "HAC00000",
+    "path": "HOI010/HAC00000",
+    "label": "計",
+    "min": 0,
+    "max": 1,
+    "type": "HAC00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HAC00100",
+      "path": "HOI010/HAC00000/HAC00100",
+      "label": "期末現在高",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HAC00200",
+      "path": "HOI010/HAC00000/HAC00200",
+      "label": "摘要",
+      "min": 0,
+      "max": 1,
+      "type": "HAC00200-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 30
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOI010-4-0VRtype",
+    "fixed": "4.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   },
+   {
+    "name": "csvFileNM",
+    "required": false,
+    "type": "gen:str"
+   }
+  ]
+ }
+}

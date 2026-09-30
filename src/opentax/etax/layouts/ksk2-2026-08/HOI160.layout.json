@@ -1,0 +1,343 @@
+{
+ "form_id": "HOI160",
+ "label": "雑益、雑損失等の内訳書",
+ "version": "4.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOI160-4-0group",
+ "xsd": "19XMLスキーマ/hojin/HOI160-004.xsd",
+ "xsd_sha256": "238038e9ad19dfaaa2d46fd6a0a6f3a04a60e2c0b4d741fb7492a65d8b6ccf5b",
+ "root": {
+  "tag": "HOI160",
+  "path": "HOI160",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "HPB00000",
+    "path": "HOI160/HPB00000",
+    "label": "雑益等　繰り返し",
+    "min": 0,
+    "max": 10,
+    "type": "HPB00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HPB00100",
+      "path": "HOI160/HPB00000/HPB00100",
+      "label": "科目",
+      "min": 0,
+      "max": 1,
+      "type": "HPB00100-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 10
+     },
+     {
+      "tag": "HPB00200",
+      "path": "HOI160/HPB00000/HPB00200",
+      "label": "取引の内容",
+      "min": 0,
+      "max": 1,
+      "type": "HPB00200-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 30
+     },
+     {
+      "tag": "HPB00210",
+      "path": "HOI160/HPB00000/HPB00210",
+      "label": "登録番号（法人番号）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HPB00220",
+        "path": "HOI160/HPB00000/HPB00210/HPB00220",
+        "label": "登録番号",
+        "min": 0,
+        "max": 1,
+        "type": "HPB00220-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 13
+       },
+       {
+        "tag": "HPB00230",
+        "path": "HOI160/HPB00000/HPB00210/HPB00230",
+        "label": "法人番号",
+        "min": 0,
+        "max": 1,
+        "type": "gen:bango",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kojinbango",
+          "path": "HOI160/HPB00000/HPB00210/HPB00230/kojinbango",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:string",
+          "max_length": 12,
+          "choice": "HOI160/HPB00000/HPB00210/HPB00230#1"
+         },
+         {
+          "tag": "hojinbango",
+          "path": "HOI160/HPB00000/HPB00210/HPB00230/hojinbango",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:string",
+          "max_length": 13,
+          "choice": "HOI160/HPB00000/HPB00210/HPB00230#2"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "HPB00300",
+      "path": "HOI160/HPB00000/HPB00300",
+      "label": "相手先　名称（氏名）",
+      "min": 0,
+      "max": 1,
+      "type": "HPB00300-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:in-string"
+      ],
+      "max_length": 30
+     },
+     {
+      "tag": "HPB00400",
+      "path": "HOI160/HPB00000/HPB00400",
+      "label": "相手先　所在地（住所）",
+      "min": 0,
+      "max": 1,
+      "type": "HPB00400-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:in-string"
+      ],
+      "max_length": 100
+     },
+     {
+      "tag": "HPB00500",
+      "path": "HOI160/HPB00000/HPB00500",
+      "label": "金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "HPC00000",
+    "path": "HOI160/HPC00000",
+    "label": "雑損失等　繰り返し",
+    "min": 0,
+    "max": 10,
+    "type": "HPC00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HPC00100",
+      "path": "HOI160/HPC00000/HPC00100",
+      "label": "科目",
+      "min": 0,
+      "max": 1,
+      "type": "HPC00100-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 10
+     },
+     {
+      "tag": "HPC00200",
+      "path": "HOI160/HPC00000/HPC00200",
+      "label": "取引の内容",
+      "min": 0,
+      "max": 1,
+      "type": "HPC00200-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 30
+     },
+     {
+      "tag": "HPC00210",
+      "path": "HOI160/HPC00000/HPC00210",
+      "label": "登録番号（法人番号）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HPC00220",
+        "path": "HOI160/HPC00000/HPC00210/HPC00220",
+        "label": "登録番号",
+        "min": 0,
+        "max": 1,
+        "type": "HPC00220-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 13
+       },
+       {
+        "tag": "HPC00230",
+        "path": "HOI160/HPC00000/HPC00210/HPC00230",
+        "label": "法人番号",
+        "min": 0,
+        "max": 1,
+        "type": "gen:bango",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kojinbango",
+          "path": "HOI160/HPC00000/HPC00210/HPC00230/kojinbango",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:string",
+          "max_length": 12,
+          "choice": "HOI160/HPC00000/HPC00210/HPC00230#1"
+         },
+         {
+          "tag": "hojinbango",
+          "path": "HOI160/HPC00000/HPC00210/HPC00230/hojinbango",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:string",
+          "max_length": 13,
+          "choice": "HOI160/HPC00000/HPC00210/HPC00230#2"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "HPC00300",
+      "path": "HOI160/HPC00000/HPC00300",
+      "label": "相手先　名称（氏名）",
+      "min": 0,
+      "max": 1,
+      "type": "HPC00300-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:in-string"
+      ],
+      "max_length": 30
+     },
+     {
+      "tag": "HPC00400",
+      "path": "HOI160/HPC00000/HPC00400",
+      "label": "相手先　所在地（住所）",
+      "min": 0,
+      "max": 1,
+      "type": "HPC00400-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:in-string"
+      ],
+      "max_length": 100
+     },
+     {
+      "tag": "HPC00500",
+      "path": "HOI160/HPC00000/HPC00500",
+      "label": "金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOI160-4-0VRtype",
+    "fixed": "4.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   },
+   {
+    "name": "csvFileNM",
+    "required": false,
+    "type": "gen:str"
+   }
+  ]
+ }
+}

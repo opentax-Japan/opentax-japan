@@ -1,0 +1,923 @@
+{
+ "form_id": "HOI150",
+ "label": "地代家賃等の内訳書／工業所有権等の使用料の内訳書",
+ "version": "4.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOI150-4-0group",
+ "xsd": "19XMLスキーマ/hojin/HOI150-004.xsd",
+ "xsd_sha256": "34deb4d850c5e6a83736bca6e82a68d6cc5aab264b7f6e224e82656130d429ab",
+ "root": {
+  "tag": "HOI150",
+  "path": "HOI150",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "HOB00000",
+    "path": "HOI150/HOB00000",
+    "label": "地代家賃等の内訳書",
+    "min": 0,
+    "max": 1,
+    "type": "HOB00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HOB10000",
+      "path": "HOI150/HOB00000/HOB10000",
+      "label": "地代家賃の内訳　繰り返し",
+      "min": 0,
+      "max": 8,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HOB11000",
+        "path": "HOI150/HOB00000/HOB10000/HOB11000",
+        "label": "地代・家賃の区分",
+        "min": 0,
+        "max": 1,
+        "type": "HOB11000-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 10
+       },
+       {
+        "tag": "HOB12000",
+        "path": "HOI150/HOB00000/HOB10000/HOB12000",
+        "label": "借地（借家）物件の用途",
+        "min": 0,
+        "max": 1,
+        "type": "HOB12000-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 10
+       },
+       {
+        "tag": "HOB13000",
+        "path": "HOI150/HOB00000/HOB10000/HOB13000",
+        "label": "所在地",
+        "min": 0,
+        "max": 1,
+        "type": "gen:address",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "HOB27000",
+        "path": "HOI150/HOB00000/HOB10000/HOB27000",
+        "label": "登録番号（法人番号）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "HOB27100",
+          "path": "HOI150/HOB00000/HOB10000/HOB27000/HOB27100",
+          "label": "登録番号",
+          "min": 0,
+          "max": 1,
+          "type": "HOB27100-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 13
+         },
+         {
+          "tag": "HOB27200",
+          "path": "HOI150/HOB00000/HOB10000/HOB27000/HOB27200",
+          "label": "法人番号",
+          "min": 0,
+          "max": 1,
+          "type": "gen:bango",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kojinbango",
+            "path": "HOI150/HOB00000/HOB10000/HOB27000/HOB27200/kojinbango",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 12,
+            "choice": "HOI150/HOB00000/HOB10000/HOB27000/HOB27200#1"
+           },
+           {
+            "tag": "hojinbango",
+            "path": "HOI150/HOB00000/HOB10000/HOB27000/HOB27200/hojinbango",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 13,
+            "choice": "HOI150/HOB00000/HOB10000/HOB27000/HOB27200#2"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "HOB14000",
+        "path": "HOI150/HOB00000/HOB10000/HOB14000",
+        "label": "貸主の名称（氏名）",
+        "min": 0,
+        "max": 1,
+        "type": "HOB14000-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:in-string"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "HOB15000",
+        "path": "HOI150/HOB00000/HOB10000/HOB15000",
+        "label": "貸主の所在地（住所）",
+        "min": 0,
+        "max": 1,
+        "type": "HOB15000-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:in-string"
+        ],
+        "max_length": 100
+       },
+       {
+        "tag": "HOB16000",
+        "path": "HOI150/HOB00000/HOB10000/HOB16000",
+        "label": "支払対象期間",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "HOB16100",
+          "path": "HOI150/HOB00000/HOB10000/HOB16000/HOB16100",
+          "label": "開始",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOI150/HOB00000/HOB10000/HOB16000/HOB16100/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOI150/HOB00000/HOB10000/HOB16000/HOB16100/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOI150/HOB00000/HOB10000/HOB16000/HOB16100/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOI150/HOB00000/HOB10000/HOB16000/HOB16100/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "HOB16200",
+          "path": "HOI150/HOB00000/HOB10000/HOB16000/HOB16200",
+          "label": "終了",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOI150/HOB00000/HOB10000/HOB16000/HOB16200/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOI150/HOB00000/HOB10000/HOB16000/HOB16200/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOI150/HOB00000/HOB10000/HOB16000/HOB16200/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOI150/HOB00000/HOB10000/HOB16000/HOB16200/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "HOB17000",
+        "path": "HOI150/HOB00000/HOB10000/HOB17000",
+        "label": "支払賃借料",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "HOB18000",
+        "path": "HOI150/HOB00000/HOB10000/HOB18000",
+        "label": "摘要",
+        "min": 0,
+        "max": 1,
+        "type": "HOB18000-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 40
+       }
+      ]
+     },
+     {
+      "tag": "HOB20000",
+      "path": "HOI150/HOB00000/HOB20000",
+      "label": "権利金等の期中支払の内訳　繰り返し",
+      "min": 0,
+      "max": 3,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HOB28000",
+        "path": "HOI150/HOB00000/HOB20000/HOB28000",
+        "label": "登録番号（法人番号）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "HOB28100",
+          "path": "HOI150/HOB00000/HOB20000/HOB28000/HOB28100",
+          "label": "登録番号",
+          "min": 0,
+          "max": 1,
+          "type": "HOB28100-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 13
+         },
+         {
+          "tag": "HOB28200",
+          "path": "HOI150/HOB00000/HOB20000/HOB28000/HOB28200",
+          "label": "法人番号",
+          "min": 0,
+          "max": 1,
+          "type": "gen:bango",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kojinbango",
+            "path": "HOI150/HOB00000/HOB20000/HOB28000/HOB28200/kojinbango",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 12,
+            "choice": "HOI150/HOB00000/HOB20000/HOB28000/HOB28200#1"
+           },
+           {
+            "tag": "hojinbango",
+            "path": "HOI150/HOB00000/HOB20000/HOB28000/HOB28200/hojinbango",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 13,
+            "choice": "HOI150/HOB00000/HOB20000/HOB28000/HOB28200#2"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "HOB21000",
+        "path": "HOI150/HOB00000/HOB20000/HOB21000",
+        "label": "支払先の名称（氏名）",
+        "min": 0,
+        "max": 1,
+        "type": "HOB21000-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:in-string"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "HOB22000",
+        "path": "HOI150/HOB00000/HOB20000/HOB22000",
+        "label": "支払先の所在地（住所）",
+        "min": 0,
+        "max": 1,
+        "type": "HOB22000-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:in-string"
+        ],
+        "max_length": 100
+       },
+       {
+        "tag": "HOB23000",
+        "path": "HOI150/HOB00000/HOB20000/HOB23000",
+        "label": "支払年月日",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOI150/HOB00000/HOB20000/HOB23000/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOI150/HOB00000/HOB20000/HOB23000/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOI150/HOB00000/HOB20000/HOB23000/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOI150/HOB00000/HOB20000/HOB23000/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "HOB24000",
+        "path": "HOI150/HOB00000/HOB20000/HOB24000",
+        "label": "支払金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "HOB25000",
+        "path": "HOI150/HOB00000/HOB20000/HOB25000",
+        "label": "権利金等の内容",
+        "min": 0,
+        "max": 1,
+        "type": "HOB25000-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "HOB26000",
+        "path": "HOI150/HOB00000/HOB20000/HOB26000",
+        "label": "摘要",
+        "min": 0,
+        "max": 1,
+        "type": "HOB26000-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 40
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "HOC00000",
+    "path": "HOI150/HOC00000",
+    "label": "工業所有権等の使用料の内訳書",
+    "min": 0,
+    "max": 1,
+    "type": "HOC00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HOC10000",
+      "path": "HOI150/HOC00000/HOC10000",
+      "label": "工業所有権等の使用料　繰り返し",
+      "min": 0,
+      "max": 3,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HOC11000",
+        "path": "HOI150/HOC00000/HOC10000/HOC11000",
+        "label": "名称",
+        "min": 0,
+        "max": 1,
+        "type": "HOC11000-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 10
+       },
+       {
+        "tag": "HOC17000",
+        "path": "HOI150/HOC00000/HOC10000/HOC17000",
+        "label": "登録番号（法人番号）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "HOC17100",
+          "path": "HOI150/HOC00000/HOC10000/HOC17000/HOC17100",
+          "label": "登録番号",
+          "min": 0,
+          "max": 1,
+          "type": "HOC17100-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 13
+         },
+         {
+          "tag": "HOC17200",
+          "path": "HOI150/HOC00000/HOC10000/HOC17000/HOC17200",
+          "label": "法人番号",
+          "min": 0,
+          "max": 1,
+          "type": "gen:bango",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kojinbango",
+            "path": "HOI150/HOC00000/HOC10000/HOC17000/HOC17200/kojinbango",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 12,
+            "choice": "HOI150/HOC00000/HOC10000/HOC17000/HOC17200#1"
+           },
+           {
+            "tag": "hojinbango",
+            "path": "HOI150/HOC00000/HOC10000/HOC17000/HOC17200/hojinbango",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 13,
+            "choice": "HOI150/HOC00000/HOC10000/HOC17000/HOC17200#2"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "HOC12000",
+        "path": "HOI150/HOC00000/HOC10000/HOC12000",
+        "label": "支払先の名称（氏名）",
+        "min": 0,
+        "max": 1,
+        "type": "HOC12000-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:in-string"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "HOC13000",
+        "path": "HOI150/HOC00000/HOC10000/HOC13000",
+        "label": "支払先の所在地（住所）",
+        "min": 0,
+        "max": 1,
+        "type": "HOC13000-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:in-string"
+        ],
+        "max_length": 100
+       },
+       {
+        "tag": "HOC14000",
+        "path": "HOI150/HOC00000/HOC10000/HOC14000",
+        "label": "契約期間",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "HOC14100",
+          "path": "HOI150/HOC00000/HOC10000/HOC14000/HOC14100",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymm",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOI150/HOC00000/HOC10000/HOC14000/HOC14100/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOI150/HOC00000/HOC10000/HOC14000/HOC14100/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOI150/HOC00000/HOC10000/HOC14000/HOC14100/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "HOC14200",
+          "path": "HOI150/HOC00000/HOC10000/HOC14000/HOC14200",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymm",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOI150/HOC00000/HOC10000/HOC14000/HOC14200/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOI150/HOC00000/HOC10000/HOC14000/HOC14200/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOI150/HOC00000/HOC10000/HOC14000/HOC14200/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "HOC15000",
+        "path": "HOI150/HOC00000/HOC10000/HOC15000",
+        "label": "使用料等",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "HOC15100",
+          "path": "HOI150/HOC00000/HOC10000/HOC15000/HOC15100",
+          "label": "支払対象期間",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "HOC15110",
+            "path": "HOI150/HOC00000/HOC10000/HOC15000/HOC15100/HOC15110",
+            "label": "自",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymm",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "HOI150/HOC00000/HOC10000/HOC15000/HOC15100/HOC15110/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "HOI150/HOC00000/HOC10000/HOC15000/HOC15100/HOC15110/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "HOI150/HOC00000/HOC10000/HOC15000/HOC15100/HOC15110/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "HOC15120",
+            "path": "HOI150/HOC00000/HOC10000/HOC15000/HOC15100/HOC15120",
+            "label": "至",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymm",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "HOI150/HOC00000/HOC10000/HOC15000/HOC15100/HOC15120/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "HOI150/HOC00000/HOC10000/HOC15000/HOC15100/HOC15120/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "HOI150/HOC00000/HOC10000/HOC15000/HOC15100/HOC15120/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "HOC15200",
+          "path": "HOI150/HOC00000/HOC10000/HOC15000/HOC15200",
+          "label": "支払金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "HOC16000",
+        "path": "HOI150/HOC00000/HOC10000/HOC16000",
+        "label": "摘要",
+        "min": 0,
+        "max": 1,
+        "type": "HOC16000-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 40
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOI150-4-0VRtype",
+    "fixed": "4.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   },
+   {
+    "name": "csvFileNM",
+    "required": false,
+    "type": "gen:str"
+   }
+  ]
+ }
+}

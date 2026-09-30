@@ -1,0 +1,252 @@
+{
+ "form_id": "HOI030",
+ "label": "売掛金(未収入金)の内訳書",
+ "version": "4.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOI030-4-0group",
+ "xsd": "19XMLスキーマ/hojin/HOI030-004.xsd",
+ "xsd_sha256": "71fed5d7d13291a4a898ed09e182cf46cd6394cc8b253791d29e3c3c2e43d591",
+ "root": {
+  "tag": "HOI030",
+  "path": "HOI030",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "HCB00000",
+    "path": "HOI030/HCB00000",
+    "label": "売掛金（未収入金）　繰り返し",
+    "min": 0,
+    "max": 26,
+    "type": "HCB00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HCB00100",
+      "path": "HOI030/HCB00000/HCB00100",
+      "label": "科目",
+      "min": 0,
+      "max": 1,
+      "type": "HCB00100-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 10
+     },
+     {
+      "tag": "HCB00110",
+      "path": "HOI030/HCB00000/HCB00110",
+      "label": "登録番号（法人番号）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HCB00120",
+        "path": "HOI030/HCB00000/HCB00110/HCB00120",
+        "label": "登録番号",
+        "min": 0,
+        "max": 1,
+        "type": "HCB00120-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 13
+       },
+       {
+        "tag": "HCB00130",
+        "path": "HOI030/HCB00000/HCB00110/HCB00130",
+        "label": "法人番号",
+        "min": 0,
+        "max": 1,
+        "type": "gen:bango",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kojinbango",
+          "path": "HOI030/HCB00000/HCB00110/HCB00130/kojinbango",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:string",
+          "max_length": 12,
+          "choice": "HOI030/HCB00000/HCB00110/HCB00130#1"
+         },
+         {
+          "tag": "hojinbango",
+          "path": "HOI030/HCB00000/HCB00110/HCB00130/hojinbango",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:string",
+          "max_length": 13,
+          "choice": "HOI030/HCB00000/HCB00110/HCB00130#2"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "HCB00200",
+      "path": "HOI030/HCB00000/HCB00200",
+      "label": "相手先",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HCB00210",
+        "path": "HOI030/HCB00000/HCB00200/HCB00210",
+        "label": "名称（氏名）",
+        "min": 0,
+        "max": 1,
+        "type": "HCB00210-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:in-string"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "HCB00220",
+        "path": "HOI030/HCB00000/HCB00200/HCB00220",
+        "label": "所在地（住所）",
+        "min": 0,
+        "max": 1,
+        "type": "HCB00220-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:in-string"
+        ],
+        "max_length": 100
+       }
+      ]
+     },
+     {
+      "tag": "HCB00300",
+      "path": "HOI030/HCB00000/HCB00300",
+      "label": "期末現在高",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HCB00400",
+      "path": "HOI030/HCB00000/HCB00400",
+      "label": "摘要",
+      "min": 0,
+      "max": 1,
+      "type": "HCB00400-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 50
+     }
+    ]
+   },
+   {
+    "tag": "HCC00000",
+    "path": "HOI030/HCC00000",
+    "label": "計",
+    "min": 0,
+    "max": 1,
+    "type": "HCC00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HCC00100",
+      "path": "HOI030/HCC00000/HCC00100",
+      "label": "期末現在高",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HCC00200",
+      "path": "HOI030/HCC00000/HCC00200",
+      "label": "摘要",
+      "min": 0,
+      "max": 1,
+      "type": "HCC00200-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 50
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOI030-4-0VRtype",
+    "fixed": "4.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   },
+   {
+    "name": "csvFileNM",
+    "required": false,
+    "type": "gen:str"
+   }
+  ]
+ }
+}

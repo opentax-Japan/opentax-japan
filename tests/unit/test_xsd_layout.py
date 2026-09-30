@@ -122,9 +122,15 @@ class BuildLayoutTest(unittest.TestCase):
         self.assertEqual(cd["enumeration"], ["1", "2"])
         self.assertEqual(cd["derived_from"], ["gen:kubun_CD"])
 
-    def test_unsupported_construct_stops(self):
+    def test_choice_items_are_optional_and_marked(self):
         self.write_form(FORM)
-        with self.assertRaisesRegex(LayoutError, "choice"):
+        node = self.node(build_layout(self.root, FORM_ENTRY), "TST900/BBB00000/BBB00040")
+        self.assertEqual([(c["tag"], c["min"], c["choice"]) for c in node["children"]], [("x", 0, "TST900/BBB00000/BBB00040#1")])
+
+    def test_unsupported_construct_stops(self):
+        self.write_form(FORM.replace("<xsd:choice><xsd:element name=\"x\" type=\"xsd:string\"/></xsd:choice>",
+                                     "<xsd:all><xsd:element name=\"x\" type=\"xsd:string\"/></xsd:all>"))
+        with self.assertRaisesRegex(LayoutError, "all"):
             build_layout(self.root, FORM_ENTRY)
 
     def test_check_values(self):
