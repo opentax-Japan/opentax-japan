@@ -16,6 +16,7 @@ from ..etax.xtx import XtxError, build_document, build_form, build_it, tax_offic
 
 SPEC_SET = "ksk2-2026-08"
 PROCEDURE_ID = "RHO0012"
+PROCEDURE_NAME = "内国法人の確定申告(青色)"  # e-Taxソフトが切り出したファイルの TETSUZUKI/procedure_NM と同じ
 PROCEDURE_VR = "26.0.1"
 # 手続XSD（RHO0012-260.xsd）の CONTENTS の並び順。HOA114（別表一 次葉一）は手続XSD で必須
 FORMS = ("HOA112", "HOA114", "HOA201", "HOA420", "HOA511", "HOA522", "HOB710")
@@ -199,7 +200,7 @@ def it_values(data: dict, zeimusho_xsd: bytes) -> dict:
     v: dict = {
         "zeimusho_CD": code, "zeimusho_NM": c["tax_office"],
         "NOZEISHA_ID": c["user_id"], "NOZEISHA_NM": c["name"], "NOZEISHA_ADR": c["address"],
-        "SHIHON_KIN": c["capital"], "procedure_CD": PROCEDURE_ID,
+        "SHIHON_KIN": c["capital"], "procedure_CD": PROCEDURE_ID, "procedure_NM": PROCEDURE_NAME,
         "JIGYO_NENDO_FROM": fp["start"], "JIGYO_NENDO_TO": fp["end"], "SHINKOKU_KBN": SHINKOKU_KBN_KAKUTEI,
     }
     optional = {"NOZEISHA_NM_KN": c.get("name_kana"), "JIGYO_NAIYO": c.get("business"),

@@ -111,6 +111,15 @@ class BuildItTest(unittest.TestCase):
         self.assertTrue(xml.startswith(b'<?xml version="1.0" encoding="UTF-8"?>\n'))
         root = ET.fromstring(xml)
         self.assertEqual([c.tag for c in root[0]], [H + "CATALOG", H + "CONTENTS"])
+        # 管理部は e-Taxソフトが切り出したファイルと同じ書き方（2026-10-01 に組み込みで確認）
+        rdf = "{%s}" % NS["rdf"]
+        desc = root[0][0][0][0]
+        self.assertEqual((desc.tag, desc.get("id")), (rdf + "description", "REPORT"))
+        abouts = [d.get("about") for d in desc.iter(rdf + "description") if d.get("about")]
+        form_id = root[0][1][1].get("id")
+        self.assertEqual(abouts, ["#IT", "#" + form_id])
+        self.assertEqual([c.tag.split("}")[1] for c in desc][-6:],
+                         ["TENPU_SEC", "XBRL_SEC", "XBRL2_1_SEC", "SOFUSHO_SEC", "ATTACH_SEC", "CSV_SEC"])
 
 
 class SampleXtxTest(unittest.TestCase):

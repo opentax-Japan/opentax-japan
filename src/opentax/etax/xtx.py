@@ -200,18 +200,21 @@ def build_document(procedure_id: str, procedure_vr: str, it: ET.Element, forms: 
 
 
 def _rdf(form_ids: list[str]) -> ET.Element:
-    """管理部の RDF。e-tax01「データ形式等に関する仕様書」図2-2 の骨組みどおり。
-    各部の中身の書き方は仕様書に例がないため空にしている（e-Taxソフトへの組み込みで確認する）。"""
+    """管理部の RDF。e-tax01「データ形式等に関する仕様書」図2-2 の骨組みに、e-Taxソフト（DL版）が
+    切り出したファイルと同じ書き方（rdf:description / id / about="#帳票id"）で中身を入れる。
+    2026-10-01 に e-Taxソフトへの組み込みで確認した。"""
     rdf, ns = NS["rdf"], NS[None]
     root = ET.Element(f"{{{rdf}}}RDF")
-    desc = ET.SubElement(root, f"{{{rdf}}}Description", {"ID": "REPORT"})
+    desc = ET.SubElement(root, f"{{{rdf}}}description", {"id": "REPORT"})
     ET.SubElement(desc, f"{{{ns}}}SEND_DATA")
-    ET.SubElement(desc, f"{{{ns}}}IT_SEC")
+    it_sec = ET.SubElement(desc, f"{{{ns}}}IT_SEC")
+    ET.SubElement(it_sec, f"{{{rdf}}}description", {"about": "#IT"})
     form_sec = ET.SubElement(desc, f"{{{ns}}}FORM_SEC")
     seq = ET.SubElement(form_sec, f"{{{rdf}}}Seq")
-    for _ in form_ids:
-        ET.SubElement(seq, f"{{{rdf}}}li")
-    for name in ("TENPU_SEC", "XBRL_SEC", "SOFUSHO_SEC"):
+    for form_id in form_ids:
+        li = ET.SubElement(seq, f"{{{rdf}}}li")
+        ET.SubElement(li, f"{{{rdf}}}description", {"about": f"#{form_id}"})
+    for name in ("TENPU_SEC", "XBRL_SEC", "XBRL2_1_SEC", "SOFUSHO_SEC", "ATTACH_SEC", "CSV_SEC"):
         ET.SubElement(desc, f"{{{ns}}}{name}")
     return root
 
