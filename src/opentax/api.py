@@ -280,3 +280,19 @@ def schema_from_cab(cab: bytes, workdir: Path | None = None) -> Path:
 
 def _manifest() -> dict:
     return json.loads(MANIFEST.read_text(encoding="utf-8"))
+
+
+# --- 給与の記録（計算はしない） ---
+
+def payroll_summary(record: dict) -> dict:
+    """給与の記録を確かめ、源泉所得税の納付（毎月・納期の特例）・人ごとの年間の集計・支給日ごとの合計を返す。"""
+    from .payroll import record as pr
+    rec = pr.validate(record)
+    return {"withholding_monthly": pr.withholding(rec), "withholding_semiannual": pr.withholding(rec, semiannual=True),
+            "annual": pr.annual(rec), "payment_totals": pr.payment_totals(rec)}
+
+
+def payroll_ledger(record: dict) -> str:
+    """賃金台帳（HTML）。"""
+    from .payroll import ledger, record as pr
+    return ledger.build(pr.validate(record))

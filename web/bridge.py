@@ -72,6 +72,22 @@ def ot_calculate(input_json: str, trial: str) -> str:
         return _error(e)
 
 
+def ot_payroll_sample() -> str:
+    return (APP_ROOT / "tests" / "cases" / "open-shoji-tokyo" / "payroll_2026.json").read_text(encoding="utf-8")
+
+
+def ot_payroll(record_json: str) -> str:
+    """給与の記録の検算と集計、賃金台帳。給与・税額は計算しない。"""
+    from opentax.payroll.record import PayrollInputError
+    try:
+        record = json.loads(record_json)
+        return _dump({"ok": True, "summary": api.payroll_summary(record), "ledger": api.payroll_ledger(record)})
+    except PayrollInputError as e:
+        return _dump({"ok": False, "kind": "input", "message": str(e)})
+    except Exception as e:  # noqa: BLE001
+        return _error(e)
+
+
 def ot_export(input_json: str, trial: str, cab) -> str:
     """cab: 画面で選んだ e-tax19.CAB（JS の Uint8Array）。検証を通ったときだけ .xtx を返す。"""
     try:

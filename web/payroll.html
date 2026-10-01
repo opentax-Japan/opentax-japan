@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- このサイトのファイル以外は読み込まない・通信しない。賃金台帳のプレビュー（srcdoc）のためだけに style の inline を許す -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self'; connect-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src 'self' about:; form-action 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<title>OpenTax 給与の記録</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>OpenTax 給与の記録</h1>
+  <p>先方が計算した給与の結果を記録し、賃金台帳・源泉所得税の納付の数字・年間の集計を作ります。給与や税額は計算しません。入力した内容はどこにも送られず、画面を閉じると消えます。<a href="index.html">申告（OpenTax RED）へ</a></p>
+</header>
+<main class="wide">
+  <div id="status" class="status" role="status">準備しています…</div>
+
+  <section class="toolbar">
+    <button type="button" id="load-sample" disabled>見本（架空の法人）を入れる</button>
+    <label class="file-button">記録ファイルを開く<input type="file" id="open-record" accept=".json,application/json" disabled></label>
+    <button type="button" id="save-record" disabled>記録をファイルに保存</button>
+    <button type="button" id="new-record" disabled>新しく始める</button>
+  </section>
+
+  <details class="section" open>
+    <summary>会社と年</summary>
+    <div class="fields">
+      <div class="field required"><label for="company">会社名</label><input type="text" id="company"></div>
+      <div class="field required"><label for="year">年（暦年）</label><input type="text" id="year" class="num" inputmode="numeric"></div>
+    </div>
+  </details>
+
+  <details class="section">
+    <summary>支給・控除の項目</summary>
+    <div class="list-block">
+      <h3>支給の項目</h3>
+      <div id="pay-items"></div>
+      <button type="button" id="add-pay-item">支給の項目を足す</button>
+      <h3>控除の項目</h3>
+      <div id="ded-items"></div>
+      <button type="button" id="add-ded-item">控除の項目を足す</button>
+      <p class="note">源泉所得税の項目は1つだけにしてください。社会保険料の種類は、源泉徴収簿の「社会保険料等」に集計されます。</p>
+    </div>
+  </details>
+
+  <details class="section">
+    <summary>人（役員・従業員）</summary>
+    <div class="list-block">
+      <div id="people"></div>
+      <button type="button" id="add-person">人を足す</button>
+      <p class="note">役員か従業員かで、役員報酬と給料手当を分けて集計します。マイナンバーは記録しません。</p>
+    </div>
+  </details>
+
+  <details class="section" open>
+    <summary>支給日ごとの記録</summary>
+    <div class="list-block">
+      <div class="row">
+        <label for="payment-select">支給日</label>
+        <select id="payment-select"></select>
+        <button type="button" id="add-payment">支給日を足す</button>
+        <button type="button" id="remove-payment">この支給日を消す</button>
+      </div>
+      <div class="fields" id="payment-head"></div>
+      <div class="sheet-scroll"><table class="preview" id="payment-grid"></table></div>
+      <p class="note">差引支給額は、給与明細の金額をそのまま入れてください。支給計 − 控除計 と合わない行は赤くなります。</p>
+    </div>
+  </details>
+
+  <section class="actions">
+    <button type="button" id="run" class="primary" disabled>検算して集計する</button>
+  </section>
+
+  <section id="messages"></section>
+
+  <section id="results" hidden>
+    <h2>源泉所得税の納付</h2>
+    <label class="inline note"><input type="checkbox" id="semiannual"> 納期の特例（1〜6月・7〜12月）でまとめる</label>
+    <div id="withholding"></div>
+    <p class="note">徴収高計算書へは、様式の記載要領で欄を確かめて写してください。課税支給額は、非課税の支給（通勤手当の非課税分など）を除いた額です。</p>
+
+    <h2>人ごとの年間の集計（源泉徴収簿の形）</h2>
+    <div id="annual"></div>
+
+    <h2>支給日ごとの合計（役員・従業員別）</h2>
+    <div id="totals"></div>
+
+    <h2>賃金台帳</h2>
+    <iframe id="ledger" title="賃金台帳" sandbox=""></iframe>
+    <div class="row"><button type="button" id="download-ledger">賃金台帳を保存（HTML）</button></div>
+  </section>
+
+  <section class="disclaimer">
+    <h2>注意</h2>
+    <ul>
+      <li>給与・社会保険料・源泉所得税は計算しません。先方の計算結果を記録して、検算（差引支給額）と集計だけを行います。</li>
+      <li>記録は「記録をファイルに保存」でファイルにして、次回「記録ファイルを開く」で読み込みます。ブラウザには残しません。</li>
+      <li>集計の正しさは保証しません。届出・納付の内容と責任は利用者にあります。</li>
+    </ul>
+    <p class="note">ソースコード: https://github.com/opentax-Japan/opentax-japan（MIT）</p>
+  </section>
+</main>
+<script src="payroll.js"></script>
+</body>
+</html>
