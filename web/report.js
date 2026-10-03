@@ -44,6 +44,7 @@ function fitFrame() {
 
 function show(html, company) {
   lastHtml = html;
+  inlined = null;
   lastName = `申告書一式_${company}.html`;
   const frame = document.getElementById("report");
   frame.onload = () => {
@@ -64,8 +65,24 @@ function show(html, company) {
   document.getElementById("out").hidden = false;
 }
 
-function blobUrl() {
-  return URL.createObjectURL(new Blob([lastHtml], { type: "text/html" }));
+// 様式の画像（このサイトの forms/…）を HTML の中に埋め込む。別のタブ・保存したファイルでも画像が出るように
+let inlined = null;
+async function selfContained() {
+  if (inlined) return inlined;
+  const paths = [...new Set([...lastHtml.matchAll(/href='(forms\/[^']+\.jpg)'/g)].map((m) => m[1]))];
+  let html = lastHtml;
+  for (const p of paths) {
+    const buf = new Uint8Array(await (await fetch(p)).arrayBuffer());
+    let s = "";
+    for (let i = 0; i < buf.length; i += 0x8000) s += String.fromCharCode(...buf.subarray(i, i + 0x8000));
+    html = html.split(`href='${p}'`).join(`href='data:image/jpeg;base64,${btoa(s)}'`);
+  }
+  inlined = html;
+  return html;
+}
+
+async function blobUrl() {
+  return URL.createObjectURL(new Blob([await selfContained()], { type: "text/html" }));
 }
 
 document.getElementById("demo").addEventListener("click", async () => {
@@ -75,13 +92,16 @@ document.getElementById("demo").addEventListener("click", async () => {
   setStatus("作りました。下に順に並んでいます（目次から各章へ飛べます）。");
   show(res.html, res.company);
 });
-document.getElementById("open-tab").addEventListener("click", () => {
-  if (lastHtml) window.open(blobUrl(), "_blank", "noopener");
+document.getElementById("open-tab").addEventListener("click", async () => {
+  if (!lastHtml) return;
+  const tab = window.open("", "_blank");   // 押したときに開いておく（後から開くとブラウザに止められる）
+  const url = await blobUrl();
+  if (tab) tab.location.href = url;
 });
-document.getElementById("save").addEventListener("click", () => {
+document.getElementById("save").addEventListener("click", async () => {
   if (!lastHtml) return;
   const a = document.createElement("a");
-  a.href = blobUrl();
+  a.href = await blobUrl();
   a.download = lastName;
   document.body.append(a);
   a.click();

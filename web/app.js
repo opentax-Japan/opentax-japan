@@ -541,8 +541,16 @@ document.getElementById("att-report").addEventListener("click", async () => {
     return;
   }
   setStatus("申告書一式を別のタブで開きました。");
-  const url = URL.createObjectURL(new Blob([res.html], { type: "text/html" }));
-  if (tab) tab.location.href = url; else download(new Blob([res.html], { type: "text/html" }), `申告書一式_${res.company}.html`);
+  // 様式の画像（forms/…）を HTML の中に埋め込む（別のタブでは、このサイトの相対パスが使えない）
+  let html = res.html;
+  for (const p of new Set([...html.matchAll(/href='(forms\/[^']+\.jpg)'/g)].map((m) => m[1]))) {
+    const buf = new Uint8Array(await (await fetch(p)).arrayBuffer());
+    let s = "";
+    for (let i = 0; i < buf.length; i += 0x8000) s += String.fromCharCode(...buf.subarray(i, i + 0x8000));
+    html = html.split(`href='${p}'`).join(`href='data:image/jpeg;base64,${btoa(s)}'`);
+  }
+  const blob = new Blob([html], { type: "text/html" });
+  if (tab) tab.location.href = URL.createObjectURL(blob); else download(blob, `申告書一式_${res.company}.html`);
 });
 document.getElementById("att-clear").addEventListener("click", () => {
   att = {};

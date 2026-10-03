@@ -369,6 +369,19 @@ def _report(args: argparse.Namespace) -> int:
     html = api.report(calculated, Path(args.balance).read_bytes() if args.balance else None,
                       Path(args.trend).read_bytes() if args.trend else None, [read(p) for p in args.payroll or []],
                       read(args.supplement) if args.supplement else None, info, read(args.shohi) if args.shohi else None)
+    # 様式の画像（web/build.py が作る web/_site/forms/）を HTML の中に埋め込む。なければ表の形の章だけになる
+    import base64
+    import re as _re
+    site = Path(__file__).resolve().parents[2] / "web" / "_site"
+    missing = []
+    for rel in sorted(set(_re.findall(r"href='(forms/[^']+\.jpg)'", html))):
+        img = site / rel
+        if img.exists():
+            html = html.replace(f"href='{rel}'", f"href='data:image/jpeg;base64,{base64.b64encode(img.read_bytes()).decode('ascii')}'")
+        else:
+            missing.append(rel)
+    if missing:
+        print(f"注意: 様式の画像がありません（{len(missing)} 枚）。先に python web/build.py を実行してください")
     Path(args.output).write_text(html, encoding="utf-8")
     print(f"書き出しました: {args.output}")
     return EXIT_OK
