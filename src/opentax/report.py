@@ -219,56 +219,10 @@ def _gaikyo(form: dict, v: dict) -> str:
 
 # --- 決算書 ---
 
-def _kessan(accounts) -> str:
-    from .red import gaikyo as g
-    rules = g.load_mapping()
-    cls = g._classify(accounts, rules, {})
-    minus = set(rules["items"]["IAI01435"]["accounts"])
-    by: dict[str, list] = {}
-    for a in accounts:
-        by.setdefault(cls[a], []).append(a)
-    tot = lambda c: sum((-a.balance if (c == "売上原価" and a.name in minus) else a.balance) for a in by.get(c, []))  # noqa: E731
-    sales, cogs, sga = tot("売上"), tot("売上原価"), tot("販管費")
-    gross = sales - cogs
-    op = gross - sga
-    ordinary = op + tot("営業外収益") - tot("営業外費用")
-    pretax = ordinary + tot("特別利益") - tot("特別損失")
-    net = pretax - tot("法人税等")
-
-    def rows_of(c, sign=False):
-        return [["　" + a.name, (-a.balance if sign and a.name in minus else a.balance)] for a in by.get(c, []) if a.balance]
-
-    pl = [["【売上高】", ""], *rows_of("売上"), ["売上高 計", sales],
-          ["【売上原価】", ""], *rows_of("売上原価", True), ["売上原価 計", cogs], ["売上総利益", gross],
-          ["【販売費及び一般管理費】", ""], *rows_of("販管費"), ["販売費及び一般管理費 計", sga], ["営業利益", op]]
-    for c, label in (("営業外収益", "営業外収益"), ("営業外費用", "営業外費用")):
-        if by.get(c):
-            pl += [[f"【{label}】", ""], *rows_of(c), [f"{label} 計", tot(c)]]
-    pl.append(["経常利益", ordinary])
-    for c in ("特別利益", "特別損失"):
-        if by.get(c):
-            pl += [[f"【{c}】", ""], *rows_of(c), [f"{c} 計", tot(c)]]
-    pl += [["税引前当期純利益", pretax], *rows_of("法人税等"), ["当期純利益", net]]
-
-    equity = []
-    retained = next((a for a in by.get("純資産", []) if a.name in ("繰越利益剰余金", "繰越利益")), None)
-    for a in by.get("純資産", []):
-        equity.append(["　" + a.name, a.balance + (net if a is retained else 0)])
-    if retained is None:
-        equity.append(["　当期純損益", net])
-    bs = [["【資産の部】", ""], *rows_of("資産"), ["資産の部 合計", tot("資産")],
-          ["【負債の部】", ""], *rows_of("負債"), ["負債の部 合計", tot("負債")],
-          ["【純資産の部】", ""], *equity, ["純資産の部 合計", tot("純資産") + net],
-          ["負債・純資産の部 合計", tot("負債") + tot("純資産") + net]]
-    note = ""
-    if tot("資産") != tot("負債") + tot("純資産") + net:
-        note = "<div class='warn'>資産の部合計と負債・純資産の部合計が合いません。科目の区分を確かめてください</div>"
-    unknown = [a.name for a in accounts if not cls[a]]
-    if unknown:
-        note += f"<div class='warn'>区分が決まらない科目があります: {_e('・'.join(unknown))}</div>"
-    mark = lambda rows: [[_Raw(f"<b>{_e(r[0])}</b>") if not r[0].startswith("　") else r[0], r[1]] for r in rows]  # noqa: E731
-    return (note + _form("貸借対照表", "科目残高から作成（円）", _table(["科目", "金額"], mark(bs), {1}, "fs"))
-            + _form("損益計算書", "科目残高から作成（円）", _table(["科目", "金額"], mark(pl), {1}, "fs")))
+def _kessan(accounts, company: str, start, end) -> str:
+    """決算書（貸借対照表・損益計算書・販売費及び一般管理費内訳書）。国の様式はないので一般的な決算報告書の形（kessan.py）。"""
+    from . import kessan
+    return kessan.html_of(kessan.build(accounts, company, _date(start), _date(end)))
 
 
 # --- 地方税（一覧の本文を取り込む） ---
@@ -278,6 +232,11 @@ def _local(calculated: dict, today: datetime.date | None) -> str:
     body = doc[doc.index("<main>") + 6:doc.rindex("</main>")]
     body = re.sub(r"<h1>.*?</h1>", "", body, count=1, flags=re.S)
     return body.replace("<h2>", "<h3>").replace("</h2>", "</h3>")
+
+
+def _kessan_css() -> str:
+    from .kessan import CSS
+    return CSS
 
 
 # --- 紙の様式 ---
@@ -360,7 +319,7 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
         chapters["gaikyo"] = on_paper("HOK010", "法人事業概況説明書", forms["HOK010"], _gaikyo(catalog["HOK010"], forms["HOK010"]),
                                       "金額は千円単位（千円未満切捨て）")
     if accounts:
-        chapters["kessan"] = _kessan(accounts)
+        chapters["kessan"] = _kessan(accounts, company, fp["start"], fp["end"])
     uw = [fid for fid in UCHIWAKE_TITLES if fid in forms]
     if uw:
         chapters["uchiwake"] = "".join(on_paper(fid, UCHIWAKE_TITLES[fid], forms[fid], _form_fields(catalog[fid], forms[fid]), "金額は円")
@@ -382,7 +341,7 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
         parts.append(f"<section class='chapter' id='{k}'><h2>{i}. {_e(t)}</h2>{body}</section>")
     return ("<!DOCTYPE html><html lang='ja'><head><meta charset='utf-8'>"
             "<meta name='viewport' content='width=device-width,initial-scale=1'>"
-            f"<title>申告書一式 {_e(company)}</title><style>{_CSS}</style></head><body><main>{''.join(parts)}"
+            f"<title>申告書一式 {_e(company)}</title><style>{_CSS}{_kessan_css()}</style></head><body><main>{''.join(parts)}"
             "<p class='src'>OpenTax（https://github.com/opentax-Japan/opentax-japan）で作成。計算結果の正しさは保証しません。"
             "申告の内容と責任は利用者にあります。</p></main></body></html>")
 
@@ -406,8 +365,6 @@ td.amt{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;text-align:ri
 td.ord,th.ord{width:2.2em;color:#888}
 table.kv td:first-child{width:55%}
 table.kv thead{display:none}
-table.fs{max-width:640px}
-table.fs td:first-child{width:70%}
 .sub{color:#777;font-size:.8rem}
 .note{color:#666;font-size:.85rem}
 .warn{background:#fffbe6;border:1px solid #f0d77a;padding:8px 12px;margin:12px 0;font-size:.9rem}
