@@ -29,6 +29,22 @@
     "01-01-a.pdf": {
       "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/01-01-a.pdf",
       "sha256": "f72212f6ea52b81566a81cc5af510897e38d5a45002d26ff539aaef7ad3b8b63"
+    },
+    "06(01).pdf": {
+      "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/06(01).pdf",
+      "sha256": "baf4d29b076f7978a6428e08c9bd44538dbc9357fe744aba55856af6f12603b3"
+    },
+    "15.pdf": {
+      "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/15.pdf",
+      "sha256": "aa7b1f747e2efe0462d314a69468d238fce669952b577ddf0da5544df9b91665"
+    },
+    "16(1).pdf": {
+      "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/16(1).pdf",
+      "sha256": "230d0672428fefbe54e6956322cea912a8d4a8812395cf567fa020a2fbee7af7"
+    },
+    "16(2).pdf": {
+      "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/16(2).pdf",
+      "sha256": "730c0d082d994cbbafb26135c77ee43de324b83d426ba9db19b62ef72d834df4"
     }
   },
   "forms": {
@@ -80,6 +96,34 @@
       "page": 1,
       "printed_form_id": "NTA0HOA201010050",
       "etax_version": "5.0"
+    },
+    "HOB016": {
+      "title": "別表六(一)",
+      "file": "06(01).pdf",
+      "page": 1,
+      "printed_form_id": "NTA0HOB016010060",
+      "etax_version": "6.0"
+    },
+    "HOE200": {
+      "title": "別表十五",
+      "file": "15.pdf",
+      "page": 1,
+      "printed_form_id": "NTA0HOE200010150",
+      "etax_version": "15.0"
+    },
+    "HOE315": {
+      "title": "別表十六(一)",
+      "file": "16(1).pdf",
+      "page": 1,
+      "printed_form_id": "NTA0HOE315010060",
+      "etax_version": "6.0"
+    },
+    "HOE325": {
+      "title": "別表十六(二)",
+      "file": "16(2).pdf",
+      "page": 1,
+      "printed_form_id": "NTA0HOE325010060",
+      "etax_version": "6.0"
     }
   }
 }

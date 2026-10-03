@@ -360,6 +360,143 @@ FORMS["HOA112"] = {
 FORMS["HOA114"] = {"fixed": {}, "header": {"period": (1440, 220, 1760, 340), "company": (1880, 220, 2360, 340)}}
 
 
+# ---- 別表六(一)・十五（行の位置を罫線から測って書く。明細の繰り返しは行ごとのリスト） ----
+def _rows_boxes(x0: int, x1: int, ys: list[int]) -> list[list[int]]:
+    """横線の y の並び（n+1 本）から、n 行の枠のリスト。"""
+    return [[x0, ys[i], x1, ys[i + 1]] for i in range(len(ys) - 1)]
+
+
+_B6_TOP = {"1": (464, 630), "2": (630, 794), "3": (794, 952), "4": (952, 1110), "5": (1110, 1266), "6": (1266, 1454)}
+_B6_COLS = [(1188, 1542), (1600, 1954), (2014, 2338)]            # ① 収入金額・② 所得税額・③ 控除を受ける所得税額
+_B6_TAGS = {"1": ("FZC00020", "FZC00030", "FZC00040"), "2": ("FZC00060", "FZC00070", "FZC00080"),
+            "3": ("FZC00130", "FZC00170", "FZC00210"), "4": ("FZC00230", "FZC00240", "FZC00250"),
+            "5": ("FZC00270", "FZC00280", "FZC00290"), "6": ("FZC00310", "FZC00320", None)}
+_B6_KOBETSU = [1734, 1805, 1875, 1946, 2016, 2086]               # 個別法（7〜12）の5行
+_B6_KANBEN = [2316, 2386, 2457, 2527, 2598, 2668, 2738]          # 銘柄別簡便法（13〜19）の6行
+_B6_OTHER = [2967, 3038, 3108, 3179, 3249, 3320, 3390]           # その他の明細（20・21）の6行
+FORMS["HOB016"] = {
+    "fixed": {
+        **{tag: [x0, _B6_TOP[line][0], x1, _B6_TOP[line][1]]
+           for line, tags in _B6_TAGS.items() for tag, (x0, x1) in zip(tags, _B6_COLS) if tag},
+        # 6 計の③は上下2段（上＝内書き、下＝控除を受ける所得税額）
+        "FZC00327": (2014, 1298, 2338, 1360), "FZC00330": (2014, 1360, 2338, 1454),
+        # 個別法（11 所有期間割合は小数なので置かない）
+        "FZF00040": _rows_boxes(657, 952, _B6_KOBETSU), "FZF00050": _rows_boxes(952, 1247, _B6_KOBETSU),
+        "FZF00060": _rows_boxes(1247, 1542, _B6_KOBETSU), "FZF00070": _rows_boxes(1542, 1807, _B6_KOBETSU),
+        "FZF00090": _rows_boxes(2073, 2338, _B6_KOBETSU),
+        # 銘柄別簡便法（18 所有元本割合は小数なので置かない）
+        "FZF00130": _rows_boxes(657, 922, _B6_KANBEN), "FZF00140": _rows_boxes(922, 1158, _B6_KANBEN),
+        "FZF00150": _rows_boxes(1158, 1394, _B6_KANBEN), "FZF00160": _rows_boxes(1394, 1630, _B6_KANBEN),
+        "FZF00170": _rows_boxes(1630, 1866, _B6_KANBEN), "FZF00190": _rows_boxes(2102, 2338, _B6_KANBEN),
+        # その他に係る控除を受ける所得税額の明細
+        "FZG00050": _rows_boxes(1306, 1660, _B6_OTHER), "FZG00060": _rows_boxes(1660, 2014, _B6_OTHER),
+        "FZG00090": (1306, 3390, 1660, 3460), "FZG00100": (1660, 3390, 2014, 3460),
+    },
+    "texts": [
+        {"source": "tag:FZF00030", "boxes": _rows_boxes(244, 657, _B6_KOBETSU), "align": "left"},
+        {"source": "tag:FZF00120", "boxes": _rows_boxes(244, 657, _B6_KANBEN), "align": "left"},
+        {"source": "tag:FZG00020", "boxes": _rows_boxes(184, 568, _B6_OTHER), "align": "left"},
+        {"source": "tag:FZG00030", "boxes": _rows_boxes(568, 952, _B6_OTHER), "align": "left"},
+        {"source": "tag:FZG00070", "boxes": _rows_boxes(2014, 2338, _B6_OTHER), "align": "left"},
+    ],
+    "header": {"period": (1424, 148, 1660, 330), "company": (1807, 148, 2338, 330)},
+}
+
+_B15_DETAIL = [1448 + 182 * i for i in range(10)]                # 明細の繰り返し（E01〜E09）の9行
+_B15_COLS = {"6": (768, 1114), "7": (1176, 1524), "8": (1586, 1932), "9": (1996, 2342)}
+FORMS["HOE200"] = {
+    "fixed": {
+        "EGB00000": (798, 340, 1208, 502), "EGH00000": (798, 502, 1208, 676), "EGC00030": (798, 676, 1208, 934),
+        "EGD00020": (1902, 340, 2342, 598), "EGE00000": (1902, 598, 2342, 934),
+        # 交際費の行・明細・控除対象外消費税額等の行・計の行（列 6〜9）
+        **{tag: (_B15_COLS[c][0], 1266, _B15_COLS[c][1], 1448)
+           for tag, c in (("EGF00020", "6"), ("EGF00030", "7"), ("EGF00040", "8"), ("EGF00045", "9"))},
+        **{tag: _rows_boxes(*_B15_COLS[c], _B15_DETAIL)
+           for tag, c in (("EGF00070", "6"), ("EGF00080", "7"), ("EGF00090", "8"), ("EGF00095", "9"))},
+        **{tag: (_B15_COLS[c][0], 3086, _B15_COLS[c][1], 3268)
+           for tag, c in (("EGF00160", "6"), ("EGF00170", "7"), ("EGF00180", "8"), ("EGF00190", "9"))},
+        **{tag: (_B15_COLS[c][0], 3268, _B15_COLS[c][1], 3451)
+           for tag, c in (("EGF00110", "6"), ("EGF00120", "7"), ("EGF00130", "8"), ("EGF00140", "9"))},
+    },
+    "texts": [
+        {"source": "tag:EGF00060", "boxes": _rows_boxes(200, 704, _B15_DETAIL), "align": "left"},
+        # 3 の「800万円 × ／12」の分子（月数）
+        {"source": "tag:EGC00020", "box": [426, 746, 476, 786], "align": "center"},
+    ],
+    "header": {"period": (1366, 196, 1587, 340), "company": (1744, 196, 2342, 340)},
+}
+
+
+# ---- 別表十六(一)(二)（資産ごとの5列。行は仕様書の行番号、列ごとに位置のリスト） ----
+def _column_fields(form_id: str, spec: dict) -> tuple[dict, list]:
+    """仕様書の繰り返しの欄（5列）を、行番号ごとの位置から列ごとのリストにする。
+    上下2段の行は、外書き・内書きを上の段、本書きなどを下の段に置く。割合・償却率・（）書きは置かない（小数・割増率）。"""
+    catalog = json.loads((REPO / "src/opentax/etax/layouts/ksk2-2026-08/field_catalog.json").read_text(encoding="utf-8"))
+    form = next(f for f in catalog["forms"] if f["form_id"] == form_id)
+    lines, cols, outer = spec["column_lines"], spec["col_x"], spec["outer_x"]
+    fixed: dict = {}
+    for f in form["fields"]:
+        line, name = f.get("line_no"), f.get("name") or ""
+        if not f.get("repeat") or f["input_type"] != "数値" or line not in lines or line in spec.get("skip_lines", ()):
+            continue
+        if "（）書き" in name or name.endswith("率") or "割合" in name or f["xml_tag"] in fixed:
+            continue
+        rows = lines[line]
+        if f.get("writing") in ("外書き", "内書き"):
+            if not isinstance(rows, dict):
+                continue                                  # 上下に分かれていない行の外書き・内書きは置かない
+            (y0, y1), xs = rows["upper"], (outer if rows.get("outer") else cols)
+        else:
+            (y0, y1), xs = (rows["lower"] if isinstance(rows, dict) else rows), cols
+        if line == spec.get("life_line"):
+            xs = spec["life_x"]
+        fixed[f["xml_tag"]] = [[x0, y0, x1, y1] for x0, x1 in xs]
+    texts = [{"source": f"tag:{tag}", "boxes": [[x0, lines[line][0], x1, lines[line][1]] for x0, x1 in cols], "align": "left"}
+             for tag, line in spec.get("column_texts", {}).items()]
+    return fixed, texts
+
+
+def _lines(ys: list[int], names: list, splits: dict) -> dict:
+    """横線の並びと行番号の並びから、行番号 → (上, 下)。splits の行は上下2段（{"upper", "lower", "outer"}）。"""
+    out, i = {}, 0
+    for name in names:
+        if name in splits:
+            out[name] = {"upper": (ys[i], ys[i + 1]), "lower": (ys[i + 1], ys[i + 2]), "outer": splits[name]}
+            i += 2
+        else:
+            out[name] = (ys[i], ys[i + 1])
+            i += 1
+    return out
+
+
+_Y315 = [310, 368, 426, 484, 564, 646, 704, 750, 796, 854, 902, 948, 1006, 1064, 1122, 1168, 1214, 1272, 1320, 1366, 1424,
+         1482, 1540, 1598, 1656, 1714, 1744, 1792, 1850, 1908, 1966, 2024, 2082, 2112, 2158, 2216, 2274, 2414, 2460, 2508,
+         2566, 2624, 2682, 2740, 2798, 2844, 2890, 2948, 3006, 3064, 3122, 3180, 3238, 3296, 3354, 3412]
+FORMS["HOE315"] = {
+    "column_lines": _lines(_Y315, _R(1, 47), {"7": True, "9": False, "13": True, "15": True, "22": False, "28": False,
+                                              "32": True, "38": True}),
+    "col_x": [(826, 1092), (1150, 1416), (1474, 1740), (1800, 2064), (2124, 2390)],
+    "outer_x": [(884, 1092), (1210, 1416), (1534, 1740), (1858, 2064), (2182, 2390)],
+    "skip_lines": ("4", "5"),                       # 取得年月日・事業の用に供した年月（元号・年・月の枠）は置かない
+    "life_line": "6", "life_x": [(826, 1032), (1150, 1356), (1474, 1682), (1800, 2006), (2124, 2330)],
+    "column_texts": {"NZE00020": "1", "NZE00030": "2", "NZE00040": "3"},
+    "header": {"period": (1210, 172, 1475, 310), "company": (1711, 172, 2390, 310)},
+}
+_Y325 = [304, 354, 406, 456, 542, 626, 678, 728, 780, 830, 882, 932, 984, 1034, 1086, 1136, 1188, 1238, 1290, 1340, 1392,
+         1442, 1510, 1562, 1612, 1646, 1698, 1748, 1800, 1850, 1902, 1952, 2004, 2054, 2106, 2156, 2190, 2242, 2292, 2344,
+         2496, 2530, 2582, 2632, 2684, 2734, 2786, 2836, 2888, 2938, 2990, 3040, 3092, 3142, 3194, 3244, 3313, 3364, 3415]
+FORMS["HOE325"] = {
+    "column_lines": _lines(_Y325, _R(1, 51), {"7": True, "13": True, "15": True, "22": False, "32": False, "36": True,
+                                              "42": True}),
+    "col_x": [(770, 1040), (1102, 1372), (1436, 1704), (1768, 2038), (2100, 2370)],
+    "outer_x": [(830, 1040), (1162, 1372), (1494, 1704), (1826, 2038), (2160, 2370)],
+    "skip_lines": ("4", "5"),
+    "life_line": "6", "life_x": [(770, 980), (1102, 1314), (1436, 1646), (1768, 1978), (2100, 2310)],
+    "column_texts": {"UZE00020": "1", "UZE00030": "2", "UZE00040": "3"},
+    "header": {"period": (1282, 160, 1524, 304), "company": (1768, 160, 2370, 304)},
+}
+
+
 def period_slots(img: Image.Image, box) -> dict:
     """見出しの「事業年度」の枠（「 ・ ・ 」が2段）の、点の位置と枠の左右を画像から見つける。
     上の段＝自、下の段＝至。年・月・日は、左の点の左・2つの点の間・右の点の右に書く。"""
@@ -432,11 +569,16 @@ def main_manual(form_id: str) -> None:
     manifest = json.loads((PAPER / EDITION / "manifest.json").read_text(encoding="utf-8"))
     entry = manifest["forms"][form_id]
     img = form_image(CACHE / entry["file"], entry["page"])
+    fixed, texts = dict(spec.get("fixed", {})), list(spec.get("texts", []))
+    if "column_lines" in spec:
+        more_fixed, more_texts = _column_fields(form_id, spec)
+        fixed.update(more_fixed)
+        texts += more_texts
     data = {"form_id": form_id, "edition": EDITION, "image_size": list(img.size),
             "header": _header(form_id, spec),
-            "fields": {k: list(v) for k, v in sorted(spec.get("fixed", {}).items())}}
-    if spec.get("texts"):
-        data["texts"] = spec["texts"]
+            "fields": {k: list(v) for k, v in sorted(fixed.items())}}
+    if texts:
+        data["texts"] = texts
     if spec.get("dates_manual"):
         data["dates"] = spec["dates_manual"]
     dest = PAPER / EDITION / f"{form_id}.json"

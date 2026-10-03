@@ -11,6 +11,8 @@
   texts:       [{source, box または boxes, align}]（source は「tag:タグ」「company:項目」「phone:1〜3」「period:start/end」など）
   dates:       {source: {box, columns, skip_era}}（元号・年・月・日に分けて書く）
   header:      {period, company, period_slots}
+  drop_digits: タグ → 桁数（様式に「000」などが印字済みの欄。末尾の桁を書かない）
+  text_wrap:   [タグ]（枠の中で折り返す文字の欄）
 """
 
 from __future__ import annotations
@@ -81,6 +83,19 @@ def _period_items(slots: dict, start: datetime.date, end: datetime.date) -> list
     return items
 
 
+def _wrap(text: str, box: list[int]) -> str:
+    """枠に収まるように行を分ける（文字がいちばん大きくなる行数を選ぶ。1行の文字数で等分）。"""
+    w, h = box[2] - box[0] - 24, box[3] - box[1] - 8
+    best, best_size = 1, 0.0
+    for n in range(1, 9):
+        per = -(-len(text) // n)
+        size = min(h / n, w / max(per, 1), 34)
+        if size > best_size:
+            best, best_size = n, size
+    per = -(-len(text) // best)
+    return "\n".join(text[i:i + per] for i in range(0, len(text), per))
+
+
 def _fmt(v) -> str:
     if isinstance(v, int) and not isinstance(v, bool):
         return f"△{-v:,}" if v < 0 else f"{v:,}"
@@ -104,15 +119,20 @@ def sheet(form_id: str, title: str, fiscal_period: tuple[datetime.date, datetime
         return source(key) if source else None
 
     items: list[dict] = []
+    drop = m.get("drop_digits", {})      # タグ → 様式に印字済みの末尾の桁数（「000」など）。その桁は書かない
     for tag, boxes in m.get("fields", {}).items():
         for box, v in pairs(boxes, values.get(tag)):
             if isinstance(v, int) and not isinstance(v, bool) and v:
-                items.append({"box": box, "text": _fmt(v), "kind": "amount"})
+                n = drop.get(tag, 0)
+                shown = (abs(v) // 10 ** n) * (1 if v > 0 else -1) if n else v
+                items.append({"box": box, "text": _fmt(shown) if shown else "", "kind": "amount"})
     align = m.get("text_align", {})
+    wrap = set(m.get("text_wrap", []))   # 枠の中で折り返す文字の欄
     for tag, boxes in m.get("text_fields", {}).items():
         for box, v in pairs(boxes, get(f"tag:{tag}")):
             if v not in (None, ""):
-                items.append({"box": box, "text": _fmt(v), "kind": {"left": "text", "center": "center", "right": "amount"}[align.get(tag, "left")]})
+                text = _wrap(str(v), box) if tag in wrap else _fmt(v)
+                items.append({"box": box, "text": text, "kind": {"left": "text", "center": "center", "right": "amount"}[align.get(tag, "left")]})
     for key, spec in m.get("dates", {}).items():
         boxes, columns, skip_era = (spec["box"], spec.get("columns"), spec.get("skip_era", False)) \
             if isinstance(spec, dict) else (spec, m.get("date_columns"), False)

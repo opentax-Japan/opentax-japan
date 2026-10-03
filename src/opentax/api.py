@@ -129,10 +129,14 @@ PAPER_DIR = Path(__file__).parent / "etax" / "paper"
 
 
 def paper_edition(fiscal_year_end: datetime.date) -> dict | None:
-    """事業年度の終わりの日に使う紙の様式の版（manifest）。なければ None。"""
+    """事業年度の終わりの日に使う紙の別表の版（manifest）。別表（FORMS）を持つ版の中から選ぶ。なければ None。
+    （概況書・内訳書・消費税・地方税の版は paper.find が様式ごとに選ぶ）"""
+    from .red.etax_ksk2_2026_08 import FORMS
     best = None
     for path in sorted(PAPER_DIR.glob("*/manifest.json")):
         m = json.loads(path.read_text(encoding="utf-8"))
+        if not set(m["forms"]) & set(FORMS):
+            continue
         if fiscal_year_end >= datetime.date.fromisoformat(m["fiscal_year_end_from"]):
             if best is None or m["fiscal_year_end_from"] > best["fiscal_year_end_from"]:
                 best = m
@@ -166,7 +170,7 @@ def _paper_sources(calculated: dict, values: dict, texts: dict):
 
 def paper_sheets(calculated: dict) -> list[dict]:
     """紙の別表（国税庁の様式の画像）の上に金額を置くためのデータ。位置が決まっている様式だけ。"""
-    from .red.etax_ksk2_2026_08 import FORMS, text_values
+    from .red.etax_ksk2_2026_08 import FORMS, OPTIONAL_FORMS, text_values
 
     fp = calculated["input"]["fiscal_period"]
     edition = paper_edition(fp["end"])
@@ -181,6 +185,8 @@ def paper_sheets(calculated: dict) -> list[dict]:
         if form_id not in edition["forms"] or not path.exists():
             continue
         m = json.loads(path.read_text(encoding="utf-8"))
+        if form_id in OPTIONAL_FORMS and not any(values.get(t) for t in m["fields"]):
+            continue    # 交際費・減価償却などがない会社には、空の別表を出さない
         entry = edition["forms"][form_id]
         items = []
         for tag, boxes in m["fields"].items():

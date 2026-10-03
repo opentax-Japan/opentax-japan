@@ -242,7 +242,7 @@ def _kessan_css() -> str:
 # --- 紙の様式 ---
 
 # 1つの様式が何枚の紙か（位置のファイルの名前）。書いていない様式は様式ID の1枚
-PAGES = {"HOK010": ["HOK010-1", "HOK010-2"]}
+PAGES = {"HOK010": ["HOK010-1", "HOK010-2"], "SHA010": ["SHA010-1", "SHA010-2"]}
 
 
 def _date(v) -> datetime.date:
@@ -299,7 +299,10 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
     # 1 法人税: 位置の決まった別表は api.paper_sheets（入力画面の紙の別表と同じ）、ほかは様式の画像か表
     sheets = {s["form_id"]: s for s in api.paper_sheets(calculated)}
     hojin = []
+    from .red.etax_ksk2_2026_08 import OPTIONAL_FORMS
     for v in api.form_views(calculated):
+        if v["form_id"] in OPTIONAL_FORMS and not any(r["cells"] for b in v["blocks"] for r in b["rows"]):
+            continue
         if v["form_id"] in sheets:
             hojin.append(_paper_form(v["title"], v["form_id"], [sheets[v["form_id"]]]))
         else:
@@ -307,12 +310,26 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
     chapters["hojin"] = "".join(hojin)
     if shohi:
         from .etax.form_view import form_view
-        from .shohi.etax import form_values
+        from .shohi.etax import form_values, text_values
         vals = form_values(shohi)
         sp = shohi["input"]["period"]
         sp_span = (_date(sp["start"]), _date(sp["end"]))
-        chapters["shohi"] = "".join(on_paper(fid, SHOHI_TITLES[fid], vals[fid], _blocks(form_view(catalog[fid], vals[fid], {})),
-                                             f"課税期間 {sp['start']} 〜 {sp['end']}", sp_span) for fid in SHOHI_TITLES)
+        paper_vals = {fid: {**v, **text_values(shohi)} if fid == "SHA010" else v for fid, v in vals.items()}
+        # 消費税の課税期間・会社の情報は消費税の入力から（法人税の事業年度と違うことがある）
+        sh_company = shohi["input"].get("company", {})
+        sh_phone = (sh_company.get("phone") or "").split("-")
+
+        def sh_source(key: str):
+            kind, _, name = key.rpartition(":")
+            if kind == "period":
+                return sp_span[0 if name == "start" else 1]
+            if kind == "company":
+                return sh_company.get(name)
+            if kind == "phone":
+                return sh_phone[int(name) - 1] if len(sh_phone) == 3 else None
+            return None
+        chapters["shohi"] = "".join(on_paper(fid, SHOHI_TITLES[fid], paper_vals[fid], _blocks(form_view(catalog[fid], vals[fid], {})),
+                                             f"課税期間 {sp['start']} 〜 {sp['end']}", sp_span, sh_source) for fid in SHOHI_TITLES)
         if shohi.get("warnings"):
             chapters["shohi"] = "".join(f"<div class='warn'>{_e(w)}</div>" for w in shohi["warnings"]) + chapters["shohi"]
     if "HOK010" in forms:
