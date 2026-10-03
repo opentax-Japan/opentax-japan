@@ -340,3 +340,30 @@ def merge_uchiwake(*parts: dict) -> dict:
         out["totals"] += p.get("totals", [])
         out["notes"] += p.get("notes", [])
     return out
+
+
+def attachments(calculated: dict, balance: bytes | None = None, trend: bytes | None = None,
+                payroll_records: list[dict] | None = None, supplement: dict | None = None, info: dict | None = None) -> dict | None:
+    """内訳書・概況書の値をまとめて作る（export-etax と Web 画面と同じ順）。材料がなければ None。"""
+    records = payroll_records or []
+    parts = []
+    if balance:
+        parts.append(uchiwake_from_balance(balance, supplement))
+    if records:
+        fp = calculated["input"]["fiscal_period"]
+        parts.append(uchiwake_officers(records, fp["start"], fp["end"]))
+    if info is not None:
+        parts.append(gaikyo(calculated, balance, records, info, trend))
+    return merge_uchiwake(*parts) if parts else None
+
+
+def report(calculated: dict, balance: bytes | None = None, trend: bytes | None = None,
+           payroll_records: list[dict] | None = None, supplement: dict | None = None, info: dict | None = None,
+           shohi_input: dict | None = None, today: datetime.date | None = None) -> str:
+    """申告書一式（HTML 1枚）: 法人税の別表 → 消費税 → 概況書 → 決算書 → 内訳書 → 地方税。"""
+    from . import report as rp
+    from .red import uchiwake
+    att = attachments(calculated, balance, trend, payroll_records, supplement, info)
+    shohi = shohi_calculate(shohi_input) if shohi_input else None
+    accounts = uchiwake.parse_balance(balance) if balance else None
+    return rp.build(calculated, att, shohi, accounts, today)

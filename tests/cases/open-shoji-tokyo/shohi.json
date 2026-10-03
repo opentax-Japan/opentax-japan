@@ -1,0 +1,19 @@
+{
+  "note": "架空の法人（オープン商事）の消費税（一般課税・割戻し計算）の入力。科目残高一覧表の売上高・仕入高・地代家賃・交際費・消耗品費を、すべて標準税率の課税取引（税込み）とみた見本。名前・番号・金額はすべて架空",
+  "company": {
+    "name": "オープン商事株式会社",
+    "name_kana": "オープンショウジ",
+    "address": "東京都千代田区霞が関3-1-1",
+    "tax_office": "麹町",
+    "user_id": "0000000000000000",
+    "phone": "03-0000-0000",
+    "representative": "開発 太郎",
+    "representative_kana": "カイハツ タロウ"
+  },
+  "period": {"start": "2025-10-01", "end": "2026-09-30"},
+  "sales": {"reduced": 0, "standard": 30000000, "exports": 0, "exempt": 0},
+  "sales_returns": {"reduced": 0, "standard": 0},
+  "purchases": {"reduced": 0, "standard": 21812000},
+  "purchase_returns": {"reduced": 0, "standard": 0},
+  "base_period_sales": 28000000
+}

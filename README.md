@@ -67,6 +67,7 @@ https://opentax-japan.github.io/opentax-japan/ （独自ドメイン opentax.jp 
 - ブラウザだけで使えます（Windows ソフトのインストールは不要）
 - 計算はブラウザの中で行い、入力した内容はサーバーに送りません。localStorage などにも残しません。保存は「入力をファイルに保存」でダウンロードしたファイルだけです
 - e-Tax 用の .xtx を作るときは、国税庁から取った e-tax19.CAB を画面で選びます（その CAB で検証してから書き出します）
+- 申告書一式（report.html）: デモの会社（架空）の決算書を入れると、法人税の別表 → 消費税 → 概況書 → 決算書 → 内訳書 → 地方税 を順に作り、1枚の見やすい HTML に並べます（印刷・保存できます）
 - 内訳書・概況書: 計算結果の下で、科目残高一覧表・推移表・内訳書の補足・給与の記録・概況書の入力（JSON）を選ぶと、.xtx に一緒に入れます
 - 給与の記録の画面（payroll.html）もあります
 
@@ -86,6 +87,7 @@ opentax export-etax company.json -o out.xtx # e-Taxソフト（ダウンロー�
   #   --trend 月次推移表.csv                            概況書の月別の売上・仕入を推移表から作る
 opentax local-tax company.json -o out.html  # 地方税の一覧（第六号様式・第二十号様式の欄ごとの金額。スマホで見られる HTML）
 opentax shohi shohi.json -o shohi.xtx       # 消費税（一般課税・法人）の .xtx（見本: tests/cases/kokuzei-shoji-shohi/input.json）
+opentax report --demo -o 一式.html         # 申告書一式（HTML 1枚）。自社の分は input.json --balance --trend --payroll --supplement --gaikyo --shohi
 ```
 
 入力の見本（架空の法人）: [tests/cases/open-shoji/input.json](tests/cases/open-shoji/input.json)、

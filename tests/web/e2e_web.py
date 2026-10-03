@@ -149,6 +149,18 @@ def main() -> int:
             idb: (await indexedDB.databases()).length, caches: (await caches.keys()).length })""")
         check(f"ブラウザの保存領域に何も残っていない {storage}",
               storage == {"local": 0, "session": 0, "cookie": "", "idb": 0, "caches": 0})
+
+        # 申告書一式（デモ）: 別表 → 消費税 → 概況書 → 決算書 → 内訳書 → 地方税 の順に並ぶ
+        page.goto(base + "report.html")
+        expect(page.locator("#status")).to_contain_text("準備ができました", timeout=180_000)
+        page.click("#demo")
+        expect(page.locator("#status")).to_contain_text("作りました", timeout=120_000)
+        body = page.frame_locator("#report").locator("body").inner_text()
+        order = [body.find(t) for t in ("1. 法人税（別表）", "2. 消費税", "3. 法人事業概況説明書", "4. 決算書", "5. 勘定科目内訳明細書", "6. 地方税")]
+        check("申告書一式（デモ）が6章の順に並ぶ", all(i >= 0 for i in order) and order == sorted(order))
+        check("申告書一式（デモ）: 所得金額 △1,130,000・消費税 580,500・資産の部合計 13,781,000",
+              all(t in body for t in ("△1,130,000", "580,500", "13,781,000")))
+        page.screenshot(path=str(OUT / "07-report.png"))
         browser.close()
     if server:
         server.shutdown()

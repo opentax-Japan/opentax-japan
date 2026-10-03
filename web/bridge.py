@@ -93,21 +93,10 @@ def ot_payroll(record_json: str) -> str:
 
 def _attachments(calculated: dict, att: dict) -> dict | None:
     """内訳書・概況書の値。att: {balance・trend: base64（会計ソフトの CSV・TXT）, supplement・gaikyo: dict, payroll: [dict]}。
-    CLI の export-etax と同じ順でまとめる。"""
-    if not any(att.get(k) for k in ("balance", "trend", "supplement", "payroll", "gaikyo")):
-        return None
+    CLI の export-etax と同じ順でまとめる（api.attachments）。"""
     balance = base64.b64decode(att["balance"]) if att.get("balance") else None
     trend = base64.b64decode(att["trend"]) if att.get("trend") else None
-    records = att.get("payroll") or []
-    parts = []
-    if balance:
-        parts.append(api.uchiwake_from_balance(balance, att.get("supplement")))
-    if records:
-        fp = calculated["input"]["fiscal_period"]
-        parts.append(api.uchiwake_officers(records, fp["start"], fp["end"]))
-    if att.get("gaikyo") is not None:
-        parts.append(api.gaikyo(calculated, balance, records, att["gaikyo"], trend))
-    return api.merge_uchiwake(*parts)
+    return api.attachments(calculated, balance, trend, att.get("payroll") or [], att.get("supplement"), att.get("gaikyo"))
 
 
 ATTACHMENT_TITLES = {"HOI010": "預貯金等", "HOI030": "売掛金（未収入金）", "HOI040": "仮払金（前渡金）・貸付金",
@@ -131,6 +120,37 @@ def ot_attachment_samples() -> str:
     return _dump({"balance": b64("科目残高一覧表_架空_TKC形式.txt"), "trend": b64("科目残高推移表_架空_TKC形式.txt"),
                   "supplement": js("uchiwake_supplement.json"), "payroll": [js("payroll_2026.json")],
                   "gaikyo": gaikyo})
+
+
+def ot_demo_report() -> str:
+    """デモ: 架空の法人（オープン商事）の決算書（科目残高）・推移表・給与の記録・概況書と消費税の入力から、申告書一式の HTML を作る。"""
+    case = APP_ROOT / "tests" / "cases" / "open-shoji-tokyo"
+    try:
+        def js(name):
+            return json.loads((case / name).read_text(encoding="utf-8"))
+
+        calculated = api.calculate(js("input.json"))
+        info = js("gaikyo.json")
+        info["monthly"].pop("months")
+        html = api.report(calculated, (case / "科目残高一覧表_架空_TKC形式.txt").read_bytes(),
+                          (case / "科目残高推移表_架空_TKC形式.txt").read_bytes(), [js("payroll_2026.json")],
+                          js("uchiwake_supplement.json"), info, js("shohi.json"))
+        return _dump({"ok": True, "html": html, "company": calculated["input"]["company"]["name"]})
+    except Exception as e:  # noqa: BLE001
+        return _error(e)
+
+
+def ot_report(input_json: str, trial: str, att_json: str) -> str:
+    """今の入力と選んだファイル（内訳書・概況書の材料）から、申告書一式の HTML を作る（消費税は入れない）。"""
+    try:
+        calculated = api.calculate(json.loads(input_json), trial or None)
+        att = json.loads(att_json or "{}")
+        balance = base64.b64decode(att["balance"]) if att.get("balance") else None
+        trend = base64.b64decode(att["trend"]) if att.get("trend") else None
+        html = api.report(calculated, balance, trend, att.get("payroll") or [], att.get("supplement"), att.get("gaikyo"))
+        return _dump({"ok": True, "html": html, "company": calculated["input"]["company"]["name"]})
+    except Exception as e:  # noqa: BLE001
+        return _error(e)
 
 
 def ot_attachments(input_json: str, trial: str, att_json: str) -> str:

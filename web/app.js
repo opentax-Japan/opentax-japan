@@ -527,6 +527,23 @@ ATT_FILES.forEach((f) => {
   });
 });
 document.getElementById("att-check").addEventListener("click", checkAttachments);
+document.getElementById("att-report").addEventListener("click", async () => {
+  const out = document.getElementById("att-result");
+  out.textContent = "";
+  if (!lastInput) { out.append(el("div", { class: "msg error" }, "先に「計算する」を押してください。")); return; }
+  const tab = window.open("", "_blank");   // ボタンを押したときに開いておく（後から開くとブラウザに止められる）
+  setStatus("申告書一式を作っています…");
+  const res = await call("ot_report", [JSON.stringify(lastInput), trialMode(), JSON.stringify(att)]);
+  if (!res.ok) {
+    if (tab) tab.close();
+    setStatus("申告書一式を作れませんでした。", true);
+    out.append(el("div", { class: "msg error" }, res.message));
+    return;
+  }
+  setStatus("申告書一式を別のタブで開きました。");
+  const url = URL.createObjectURL(new Blob([res.html], { type: "text/html" }));
+  if (tab) tab.location.href = url; else download(new Blob([res.html], { type: "text/html" }), `申告書一式_${res.company}.html`);
+});
 document.getElementById("att-clear").addEventListener("click", () => {
   att = {};
   ATT_FILES.forEach(({ id }) => delete attNames[id]);

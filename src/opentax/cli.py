@@ -342,6 +342,38 @@ def _local_tax(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def _report(args: argparse.Namespace) -> int:
+    """申告書一式（HTML 1枚）。--demo なら架空の法人（オープン商事）の見本で作る。"""
+    import json as _json
+
+    from . import api
+    from .red.model import OutOfScope
+
+    read = lambda p: _json.loads(Path(p).read_text(encoding="utf-8"))  # noqa: E731
+    if args.demo:
+        case = Path(__file__).resolve().parents[2] / "tests" / "cases" / "open-shoji-tokyo"
+        args.input, args.balance, args.trend = case / "input.json", case / "科目残高一覧表_架空_TKC形式.txt", case / "科目残高推移表_架空_TKC形式.txt"
+        args.payroll, args.supplement, args.shohi = [case / "payroll_2026.json"], case / "uchiwake_supplement.json", case / "shohi.json"
+        info = read(case / "gaikyo.json")
+        info["monthly"].pop("months")
+    else:
+        if not args.input:
+            print("エラー: 入力（法人税の JSON）か --demo を指定してください", file=sys.stderr)
+            return EXIT_ERROR
+        info = read(args.gaikyo) if args.gaikyo else None
+    try:
+        calculated = run_red(Path(args.input))
+    except OutOfScope as e:
+        print(f"エラー: {e}", file=sys.stderr)
+        return EXIT_ERROR
+    html = api.report(calculated, Path(args.balance).read_bytes() if args.balance else None,
+                      Path(args.trend).read_bytes() if args.trend else None, [read(p) for p in args.payroll or []],
+                      read(args.supplement) if args.supplement else None, info, read(args.shohi) if args.shohi else None)
+    Path(args.output).write_text(html, encoding="utf-8")
+    print(f"書き出しました: {args.output}")
+    return EXIT_OK
+
+
 def _shohi(args: argparse.Namespace) -> int:
     import json as _json
     from . import api
@@ -433,6 +465,17 @@ def main(argv: list[str] | None = None) -> int:
     lt.add_argument("input")
     lt.add_argument("-o", "--output", required=True, help="書き出す HTML")
 
+    rp = sub.add_parser("report", help="申告書一式（別表・消費税・概況書・決算書・内訳書・地方税）を HTML 1枚で作る")
+    rp.add_argument("input", nargs="?", help="法人税の入力（JSON または CSV）")
+    rp.add_argument("-o", "--output", required=True, help="書き出す HTML")
+    rp.add_argument("--demo", action="store_true", help="架空の法人（オープン商事）の見本で作る")
+    rp.add_argument("--balance", help="会計ソフトの残高試算表（CSV・TXT）。決算書・内訳書・概況書の主要科目に使う")
+    rp.add_argument("--trend", help="会計ソフトの月次推移表（CSV・TXT）")
+    rp.add_argument("--payroll", nargs="+", help="給与の記録")
+    rp.add_argument("--supplement", help="内訳書の足りない欄を足す JSON")
+    rp.add_argument("--gaikyo", help="概況書の手入力の欄の JSON")
+    rp.add_argument("--shohi", help="消費税の入力 JSON")
+
     sh = sub.add_parser("shohi", help="消費税の一般課税（法人・割戻し計算・全額控除）を計算し、-o で .xtx（手続 RSH0020）を作る")
     sh.add_argument("input")
     sh.add_argument("-o", "--output", help="書き出す .xtx（省略時は計算結果だけ表示）")
@@ -442,7 +485,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     command = {"fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
                "build-checks": _build_checks, "calculate": _calculate, "export-etax": _export_etax,
-               "local-tax": _local_tax, "shohi": _shohi}[args.command]
+               "local-tax": _local_tax, "shohi": _shohi, "report": _report}[args.command]
     from .etax.validate import ValidationUnavailable
     from .etax.xtx import XtxError
     from .red.calculate import RuleError
