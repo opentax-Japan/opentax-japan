@@ -15,6 +15,7 @@ import json
 import shutil
 import sys
 import tarfile
+import time
 import urllib.request
 import zipfile
 from pathlib import Path
@@ -38,8 +39,16 @@ def fetch(url: str, sha256: str) -> Path:
     if not dest.exists():
         print(f"取得: {url}")
         req = urllib.request.Request(url, headers={"User-Agent": "opentax-japan web build"})
-        with urllib.request.urlopen(req, timeout=300) as res, open(dest.with_suffix(".part"), "wb") as f:
-            shutil.copyfileobj(res, f)
+        for attempt in range(4):           # 公表元のサイトが接続を切ることがあるので、間を空けて取り直す
+            try:
+                with urllib.request.urlopen(req, timeout=300) as res, open(dest.with_suffix(".part"), "wb") as f:
+                    shutil.copyfileobj(res, f)
+                break
+            except OSError as e:
+                if attempt == 3:
+                    raise
+                print(f"  取り直します（{e}）")
+                time.sleep(5 * 2 ** attempt)
         dest.with_suffix(".part").replace(dest)
     digest = hashlib.sha256(dest.read_bytes()).hexdigest()
     if digest != sha256:
