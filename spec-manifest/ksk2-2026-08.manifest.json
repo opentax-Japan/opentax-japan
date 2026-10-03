@@ -943,12 +943,52 @@
           "sha256": "4c666d5eb7d167ab713d4d1c365a066a1f3bd9254dca2281a7f36788eed00bd9"
         },
         {
+          "path": "19XMLスキーマ/kyotsu/RSH0020a-260.xsd",
+          "sha256": "4c666d5eb7d167ab713d4d1c365a066a1f3bd9254dca2281a7f36788eed00bd9"
+        },
+        {
           "path": "19XMLスキーマ/kyotsu/TEA050-002.xsd",
           "sha256": "d795c29e4a53719a5aee1dac9569585537408cebbbad79beb8d07cabdf4bb632"
         },
         {
           "path": "19XMLスキーマ/kyotsu/TEI010-001.xsd",
           "sha256": "f4b42949eee989e412a64637993423c9ca6906d32aae9df4b833518a3a99bb5c"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/RSH0020-260.xsd",
+          "sha256": "91975cfaefb399504dd34393286bcf3ae9ffa680db82fbf03dd61d6ec193e1fb"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHA010-011.xsd",
+          "sha256": "955615125a1ef3855d655e0f2d111c25444e387a7c3a72ddfdc986a3faa8ff29"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHB013-003.xsd",
+          "sha256": "d29519a958ffef518030e9f6f9720e741a91dd683c6aa734922ab931e867911b"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHB015-005.xsd",
+          "sha256": "b02a86568aa4b5579995b976fa22d625c8ebe4fccff34a298d3469e446f7cfbb"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHB017-002.xsd",
+          "sha256": "177ee78a92e30c2434cc862e39a8b7d6c0c456920c1cfca57347a974ff7509c5"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHB025-003.xsd",
+          "sha256": "799f00786b4b6fe3f9e530fff2963ea61b9db58a1ec3574ea58c7b2a1c6cb3e7"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHB030-007.xsd",
+          "sha256": "0a84a39d42be321d6661575c4976ca6eff5660c1cc29c3ffa4bffa7b0e0390e0"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHB033-002.xsd",
+          "sha256": "2205915de109a05b86525c27a2e43a131d4730fdf3961b672f8733c022b51713"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHC015-002.xsd",
+          "sha256": "da1f53925fbfaa1a4c205290297c3b46ee5dffec2682410e25eb98e528c52a6c"
         },
         {
           "path": "19XMLスキーマ/somu/SOZ-001.xsd",
@@ -1292,6 +1332,167 @@
         {
           "path": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申請）Ver9x.xlsx",
           "sha256": "824498bab5079f4af0fd674b44db071b85539939d0029e2c4823b5a6228cee82"
+        }
+      ]
+    },
+    {
+      "name": "e-tax11",
+      "url": "https://www.e-tax.nta.go.jp/shiyo/ksk2/download/e-tax11.CAB",
+      "extract": "all",
+      "sha256": "71c02daffedfa43b048e38cdfe51480f496ef89c70be9b031681fbbee9f5e1ba",
+      "size_bytes": 2282180,
+      "files": [
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申告)Ver10x.xlsx",
+          "sha256": "01982162a71d4ad7bb5aeb92af3632a90da3531b17a712c3fcdb46bca37e6006"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申告)Ver11x.xlsx",
+          "sha256": "7fadb7fb98c2cd467612a0eab4e562b92234ea3e85195c41acc705fecc803e1a"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申告)Ver1x.xlsx",
+          "sha256": "74a6fc7af6d033866eb35ac834100fd3567b4ca22e9ce35681ba58697b788bef"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申告)Ver2x.xlsx",
+          "sha256": "08b2887c22deb31f6acfcb1c4672c3bb8f7fc6e5b98af4104de346c35cf89d43"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申告)Ver3x.xlsx",
+          "sha256": "00034c7131ddb81b6e9251d4afc64cdf3156f5b6c5ba502bf630c46d699a6bee"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申告)Ver4x.xlsx",
+          "sha256": "a95b618a61023aceb4ec2b31f87c8b29df695321139cac3498abc9a6e28129a4"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申告)Ver5x.xlsx",
+          "sha256": "3a5478f8364fbc2a5125cb0080d72cc098bf758c0a318adbd969429ffa8b8271"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申告)Ver6x.xlsx",
+          "sha256": "c0e2c24c549fb783e89a6deb3b510afcfe59988c63387eb46713f86be7f45326"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申告)Ver7x.xlsx",
+          "sha256": "b4ce02b1be2b45d9f61e8146bec2b3835a5bf42b1729774354e9f122e1b55832"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申告)Ver8x.xlsx",
+          "sha256": "3c611a01d713c0436db38209058c6a9cfaf513856de35eb97169647151a06522"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申告)Ver9x.xlsx",
+          "sha256": "93aa39fed4ceb40d89993dd5ed8373a943e5b13b810fed186eadc817ed553e55"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申請)Ver11x.xlsx",
+          "sha256": "3aeed2ac7f56ac4cb640ba5aa50ca01f29b0127d517caf29cad419a19af028ae"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申請)Ver1x.xlsx",
+          "sha256": "0415bb5cdeb6e3d9ad718f8e5782e29273f91a2cd541867d448c7ce690c2b3e9"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申請)Ver2x.xlsx",
+          "sha256": "9e04852d65d8e6a61bc98ab95b3e325789671f7f2dbec16c73df31c891d28612"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申請)Ver3x.xlsx",
+          "sha256": "3010aa562cef36d7fd487209f673cd462a8fa4853280190a04403ee14871b7b4"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申請)Ver4x.xlsx",
+          "sha256": "232175fa0ad378793f77a574b31493278223e72409b45368e547bcb1ec6960e8"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申請)Ver5x.xlsx",
+          "sha256": "7db1987605f9f9416a9d42ba80ffd8f74c3f12b3f4d8c1f7df6f317eaea0591c"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申請)Ver6x.xlsx",
+          "sha256": "2b68f73d5d9925d8a2757c91091bd76d1efebba29c07da8716edde32be937ffa"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/XML構造設計書(消費-申請)Ver7x.xlsx",
+          "sha256": "670983a5bec20736c74f4f43eb6f572a9e73c77f884217de49e5e53be3313366"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver10x.xlsx",
+          "sha256": "830792b92a105dc5e7c559d58d732faf2b6b1659166d21bd277bf899221bb574"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver11x.xlsx",
+          "sha256": "1a3b71c16089d244ef260f31a21dbc315605de8c84671cdc5931f659b4d74d94"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver1x.xlsx",
+          "sha256": "4e03caa093a0f8fff763b2c1a29576f79958aa9045fa1cae852abd3643f15f87"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver2x.xlsx",
+          "sha256": "e985524316717b7cf2cbda06edc176c0ed673c503eb7e915020674e641661146"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver3x.xlsx",
+          "sha256": "1760aa1c32e30b25be1ad24768218e2ad56369cd24f17e2e733590d8ffd01015"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver4x.xlsx",
+          "sha256": "695ef8fc839292d68163fa66d0ebc82b55198282a3f02d5007e9d64785cf282c"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver5x.xlsx",
+          "sha256": "7cd1fce7df44577017ce62f14b5caf4869d5cd0ced1a6abf545daea1300c21da"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver6x.xlsx",
+          "sha256": "0300de8efb9cf0e8be4cddbc59e3571d76fd11e7ac69532eca1fdb194dd2a271"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver7x.xlsx",
+          "sha256": "dbfb15e68808d357fa6e7d8614ca6d16ea3931dec6e5071c7694a7f3300dcb5a"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver8x.xlsx",
+          "sha256": "f3b01a39a80ce5837735c4539a13c1914fbef790bee6b81f16dfe32872ff67f2"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver9x.xlsx",
+          "sha256": "e8ff50ee286914590a288228d1e7682914a1b54efc6361c8c0a8d857b856da6e"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申請)Ver11x.xlsx",
+          "sha256": "77e7f683236a1cc7fedf5ead0d2b4af14c9a9fcba92f8bc8cafb2fd1ff3c8a40"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申請)Ver1x.xlsx",
+          "sha256": "891397cce11bdeac290b91bc08d0d327f5d200ed8f4e23253bc611d7d9eb6efd"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申請)Ver2x.xlsx",
+          "sha256": "2ff8bbcc5f64ed84e92baf7511edd0af91316d6c22c8089ff3470949b8a738f4"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申請)Ver3x.xlsx",
+          "sha256": "65881d8276529bff2d94f3a96f8bc681198be2471996e6d8101190668e977a04"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申請)Ver4x.xlsx",
+          "sha256": "5ba1b7b90ee7b1ba364cf12bf3dc44af9434ee5e70838c6a76f32a0306cbc201"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申請)Ver5x.xlsx",
+          "sha256": "458cc8554c8de51139c89c3cac36f12da9be2023d6bca859e1f5c0dc97d7917a"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申請)Ver6x.xlsx",
+          "sha256": "d515bdaa5f134523a70d321d8c6f29e672c6f809b43b5c7eac7887b5b121f3fe"
+        },
+        {
+          "path": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申請)Ver7x.xlsx",
+          "sha256": "3c0e248b5e46a778d5e67f118e626d55320a9b03180f47b1fb3c220eee853179"
         }
       ]
     },
@@ -2576,6 +2777,13 @@
       "xsd": "19XMLスキーマ/hojin/RHO0012-260.xsd",
       "xsd_sha256": "fc85c3bc3e57aea650cf02a8269ff1781815b0fa3641d99141d61a4846bf21af",
       "version": "26.0.1"
+    },
+    {
+      "procedure_id": "RSH0020",
+      "label": "消費税及び地方消費税申告（一般・法人）",
+      "xsd": "19XMLスキーマ/shohi/RSH0020-260.xsd",
+      "xsd_sha256": "91975cfaefb399504dd34393286bcf3ae9ffa680db82fbf03dd61d6ec193e1fb",
+      "version": "26.0.0"
     }
   ],
   "forms": [
@@ -2855,6 +3063,45 @@
       "xsd_sha256": "65f49154b2c764b17e574d8ba526a027cfc23e9d3a4a0337160ae11de2bac5e3",
       "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver7x.xlsx",
       "field_spec_sheet": "HOK010"
+    },
+    {
+      "form_id": "SHA010",
+      "label": "消費税及び地方消費税の申告書（一般用）",
+      "mvp": false,
+      "stage": "shohi",
+      "xsd": "19XMLスキーマ/shohi/SHA010-011.xsd",
+      "version": "11.0",
+      "xsd_documentation_date": "2026-07-16",
+      "group": "SHA010-11-0group",
+      "xsd_sha256": "955615125a1ef3855d655e0f2d111c25444e387a7c3a72ddfdc986a3faa8ff29",
+      "field_spec_workbook": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver11x.xlsx",
+      "field_spec_sheet": "SHA010"
+    },
+    {
+      "form_id": "SHB017",
+      "label": "付表1-3 税率別消費税額計算表",
+      "mvp": false,
+      "stage": "shohi",
+      "xsd": "19XMLスキーマ/shohi/SHB017-002.xsd",
+      "version": "2.0",
+      "xsd_documentation_date": "2023-06-26",
+      "group": "SHB017-2-0group",
+      "xsd_sha256": "177ee78a92e30c2434cc862e39a8b7d6c0c456920c1cfca57347a974ff7509c5",
+      "field_spec_workbook": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver2x.xlsx",
+      "field_spec_sheet": "SHB017"
+    },
+    {
+      "form_id": "SHB033",
+      "label": "付表2-3 課税売上割合・控除対象仕入税額等の計算表",
+      "mvp": false,
+      "stage": "shohi",
+      "xsd": "19XMLスキーマ/shohi/SHB033-002.xsd",
+      "version": "2.0",
+      "xsd_documentation_date": "2023-06-26",
+      "group": "SHB033-2-0group",
+      "xsd_sha256": "2205915de109a05b86525c27a2e43a131d4730fdf3961b672f8733c022b51713",
+      "field_spec_workbook": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver2x.xlsx",
+      "field_spec_sheet": "SHB033"
     }
   ]
 }

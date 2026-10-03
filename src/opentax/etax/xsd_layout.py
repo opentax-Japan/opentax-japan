@@ -25,13 +25,18 @@ _PREFIXES = {
     "http://xml.e-tax.nta.go.jp/XSD/general": "gen",
     "http://xml.e-tax.nta.go.jp/XSD/kyotsu": "kyo",
 }
+def _number(text: str):
+    """範囲の制約の値。整数ならそのまま int、小数（例: 課税売上割合の 100.00）は文字のまま持つ。"""
+    return int(text) if text.lstrip("-").isdigit() else text
+
+
 _FACETS = {
     "length": ("length", int),
     "minLength": ("min_length", int),
     "maxLength": ("max_length", int),
     "totalDigits": ("total_digits", int),
-    "minInclusive": ("min_inclusive", int),
-    "maxInclusive": ("max_inclusive", int),
+    "minInclusive": ("min_inclusive", _number),
+    "maxInclusive": ("max_inclusive", _number),
 }
 _KINGAKU = "gen:kingaku"
 
@@ -232,10 +237,14 @@ class _Builder:
         elif simple is not None:
             out.update(kind="amount" if type_name == _KINGAKU else "value", **simple)
         else:
-            idref = next((a for a in attrs if a["name"] == "IDREF" and a.get("fixed")), None)
+            idref = next((a for a in attrs if a["name"] == "IDREF" and (a.get("fixed") or a.get("enumeration"))), None)
             if idref is None:
                 raise LayoutError(f"中身のない複合型です: {path}")
-            out.update(kind="idref", idref=idref["fixed"])
+            if idref.get("fixed"):
+                out.update(kind="idref", idref=idref["fixed"])
+            else:
+                # どれか1つを参照する（IT部にある最初のもの）
+                out.update(kind="idref", idref=idref["enumeration"][0], idref_options=idref["enumeration"])
         if attrs:
             out["attributes"] = attrs
         return out
@@ -318,6 +327,14 @@ class _Builder:
                             item["fixed"] = enum[0]
                         elif enum:
                             item["enumeration"] = enum
+                inline = a.find(_x("simpleType"))
+                if inline is not None:
+                    # 属性の中に書いた単純型（例: 消費税の申告書の IDREF「NOZEISHA_NM か NOZEISHA_YAGO」）
+                    enum = self.simple_type(inline, file).get("enumeration")
+                    if enum and len(enum) == 1:
+                        item["fixed"] = enum[0]
+                    elif enum:
+                        item["enumeration"] = enum
                 out.append(item)
         return out
 
@@ -416,6 +433,19 @@ def build_it_layout(schema_root: Path, procedure_xsd: str, names: list[str]) -> 
 IT_ELEMENTS = ["ZEIMUSHO", "TEISYUTSU_DAY", "NOZEISHA_ID", "NOZEISHA_NM_KN", "NOZEISHA_NM", "NOZEISHA_ZIP",
                "NOZEISHA_ADR", "NOZEISHA_TEL", "SHIHON_KIN", "JIGYO_NAIYO", "DAIHYO_NM_KN", "DAIHYO_NM",
                "DAIHYO_ADR", "TETSUZUKI", "JIGYO_NENDO_FROM", "JIGYO_NENDO_TO", "SHINKOKU_KBN", "KANPU_KINYUKIKAN"]
+
+# 手続ごとの IT部の要素。最初の手続（法人税 RHO0012）は IT.layout.json、ほかは IT-<手続ID>.layout.json
+IT_ELEMENTS_BY_PROCEDURE = {
+    "RHO0012": IT_ELEMENTS,
+    "RSH0020": ["ZEIMUSHO", "TEISYUTSU_DAY", "NOZEISHA_ID", "NOZEISHA_BANGO", "NOZEISHA_NM_KN", "NOZEISHA_NM",
+                "NOZEISHA_ZIP", "NOZEISHA_ADR", "NOZEISHA_TEL", "DAIHYO_NM_KN", "DAIHYO_NM", "KANPU_KINYUKIKAN",
+                "TETSUZUKI", "KAZEI_KIKAN_FROM", "KAZEI_KIKAN_TO", "SHINKOKU_KBN"],
+}
+
+
+def it_layout_name(procedure_id: str, first: bool) -> str:
+    return "IT" if first else f"IT-{procedure_id}"
+
 
 LAYOUT_DIR = Path(__file__).parent / "layouts"
 

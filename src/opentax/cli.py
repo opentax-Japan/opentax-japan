@@ -10,7 +10,7 @@ from pathlib import Path
 from .etax.checks import LINKAGE_RE, CheckError, cross_form_checks, find_linkage_workbook, in_form_checks
 from .etax.fetch_spec import SpecError, SpecSet
 from .etax.field_catalog import WORKBOOK_RE, CatalogError, build_form_catalog, dump_catalog, find_sheet
-from .etax.xsd_layout import (IT_ELEMENTS, LAYOUT_DIR, LayoutError, build_it_layout, build_layout, dump_layout,
+from .etax.xsd_layout import (IT_ELEMENTS_BY_PROCEDURE, LAYOUT_DIR, it_layout_name, LayoutError, build_it_layout, build_layout, dump_layout,
                               load_layout)
 
 EXIT_OK = 0
@@ -103,16 +103,17 @@ def _build_layout(args: argparse.Namespace) -> int:
             f.write(text)
         print(f"{form['form_id']} {form['version']}: {dest}")
     if not args.form:
-        proc = spec.manifest["procedures"][0]
-        text = dump_layout(build_it_layout(spec.schema_root(), proc["xsd"], IT_ELEMENTS))
-        dest = out_dir / "IT.layout.json"
-        if args.check:
-            if not dest.exists() or dest.read_text(encoding="utf-8") != text:
-                drift.append(dest)
-        else:
-            with open(dest, "w", encoding="utf-8", newline="\n") as f:
-                f.write(text)
-            print(f"IT部（{proc['procedure_id']}）: {dest}")
+        for n, proc in enumerate(spec.manifest["procedures"]):
+            names = IT_ELEMENTS_BY_PROCEDURE[proc["procedure_id"]]
+            text = dump_layout(build_it_layout(spec.schema_root(), proc["xsd"], names))
+            dest = out_dir / f"{it_layout_name(proc['procedure_id'], n == 0)}.layout.json"
+            if args.check:
+                if not dest.exists() or dest.read_text(encoding="utf-8") != text:
+                    drift.append(dest)
+            else:
+                with open(dest, "w", encoding="utf-8", newline="\n") as f:
+                    f.write(text)
+                print(f"IT部（{proc['procedure_id']}）: {dest}")
     if args.check:
         if drift:
             print(f"変更あり（{len(drift)} 件）: XSD から作り直した layout がコミット済みのものと違います")
@@ -126,16 +127,20 @@ def _build_layout(args: argparse.Namespace) -> int:
 def _build_catalog(args: argparse.Namespace) -> int:
     manifest = Path(args.manifest_dir) / f"{args.spec_set}.manifest.json"
     spec = SpecSet(manifest, Path(args.cache_dir))
-    pkg = next((p for p in spec.manifest["packages"] if p["name"] == "e-tax10"), None)
-    if pkg is None or not pkg.get("files"):
+    # 帳票フィールド仕様書: e-tax10（法人税）・e-tax11（消費税）
+    pkgs = [p for p in spec.manifest["packages"] if p["name"] in ("e-tax10", "e-tax11") and p.get("files")]
+    if not any(p["name"] == "e-tax10" for p in pkgs):
         raise SpecError("manifest に e-tax10 がありません。先に fetch-spec --init を実行してください")
-    workbooks = [spec.file_path(pkg, f["path"]) for f in pkg["files"] if WORKBOOK_RE.search(f["path"])]
+    sources = {spec.file_path(p, f["path"]): f for p in pkgs for f in p["files"] if WORKBOOK_RE.search(f["path"])}
+    workbooks = list(sources)
 
     forms = []
     manifest_changed = False
     for form in spec.manifest["forms"]:
-        workbook, sheet = find_sheet(workbooks, form["form_id"], form["version"])
-        source = next(f for f in pkg["files"] if spec.file_path(pkg, f["path"]) == workbook)
+        # 消費税の様式は消費税の仕様書、ほかは法人税の仕様書から探す
+        books = [w for w in workbooks if ("消費" in w.name) == form["form_id"].startswith("SH")]
+        workbook, sheet = find_sheet(books, form["form_id"], form["version"])
+        source = sources[workbook]
         if (form.get("field_spec_workbook"), form.get("field_spec_sheet")) != (source["path"], sheet):
             form["field_spec_workbook"], form["field_spec_sheet"] = source["path"], sheet
             manifest_changed = True
@@ -336,6 +341,42 @@ def _local_tax(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def _shohi(args: argparse.Namespace) -> int:
+    import json as _json
+    from . import api
+    from .shohi.calculate import ShohiOutOfScope
+
+    try:
+        c = api.shohi_calculate(_json.loads(Path(args.input).read_text(encoding="utf-8")))
+    except ShohiOutOfScope as e:
+        print(f"エラー: {e}", file=sys.stderr)
+        return EXIT_ERROR
+    f1 = c["form_1"]
+    print(f"課税標準額 {f1['1']:,}円  消費税額 {f1['2']:,}円  控除税額小計 {f1['7']:,}円  課税売上割合 {c['fuhyo_2_3']['8']}％")
+    print(f"差引税額 {f1['9']:,}円（中間 {f1['10']:,}円）  譲渡割額 {f1['20']:,}円（中間 {f1['21']:,}円）")
+    print(f"消費税及び地方消費税の合計（納付又は還付）税額 {f1['26']:,}円")
+    for w in c["warnings"]:
+        print(f"注意: {w}")
+    if not args.output:
+        return EXIT_OK
+    schema_root = Path(args.cache_dir) / "ksk2-2026-08" / "files" / "e-tax19"
+    if args.cab:
+        schema_root = api.schema_from_cab(Path(args.cab).read_bytes())
+    if not schema_root.exists():
+        raise SpecError("公式XSD がありません。opentax fetch-spec --set ksk2-2026-08 を実行するか、--cab で e-tax19.CAB を指定してください")
+    xml = api.shohi_export(c, schema_root)
+    errors = api.validate_xtx(xml, schema_root, "RSH0020")
+    if errors:
+        print(f"公式XSD の検証で誤りがあります（{len(errors)} 件）。.xtx は書き出しません")
+        for e in errors[:20]:
+            print(f"  {e}")
+        return EXIT_CHANGED
+    Path(args.output).write_bytes(xml)
+    print("公式XSD（手続 RSH0020）の検証: 誤りなし")
+    print(f"書き出しました: {args.output}（{len(xml):,} バイト）")
+    return EXIT_OK
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="opentax")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -390,20 +431,27 @@ def main(argv: list[str] | None = None) -> int:
     lt.add_argument("input")
     lt.add_argument("-o", "--output", required=True, help="書き出す HTML")
 
+    sh = sub.add_parser("shohi", help="消費税の一般課税（法人・割戻し計算・全額控除）を計算し、-o で .xtx（手続 RSH0020）を作る")
+    sh.add_argument("input")
+    sh.add_argument("-o", "--output", help="書き出す .xtx（省略時は計算結果だけ表示）")
+    sh.add_argument("--cache-dir", default=".cache/etax")
+    sh.add_argument("--cab", help="国税庁から取った e-tax19.CAB（キャッシュの代わりに使う）")
+
     args = parser.parse_args(argv)
     command = {"fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
                "build-checks": _build_checks, "calculate": _calculate, "export-etax": _export_etax,
-               "local-tax": _local_tax}[args.command]
+               "local-tax": _local_tax, "shohi": _shohi}[args.command]
     from .etax.validate import ValidationUnavailable
     from .etax.xtx import XtxError
     from .red.calculate import RuleError
     from .red.local_tax import LocalRuleError
     from .red.local_sheet import SheetError
     from .red.model import InputError
+    from .shohi.calculate import ShohiInputError
     try:
         return command(args)
     except (SpecError, LayoutError, CatalogError, CheckError, InputError, RuleError, LocalRuleError, XtxError,
-            ValidationUnavailable, SheetError, OSError) as e:
+            ValidationUnavailable, SheetError, ShohiInputError, OSError) as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
 

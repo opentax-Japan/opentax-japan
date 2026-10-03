@@ -252,9 +252,25 @@ def local_tax_sheet(calculated: dict, today: datetime.date | None = None) -> str
     return build(calculated, today)
 
 
-def validate_xtx(xml: bytes, schema_root: Path) -> list[str]:
-    procedure = _manifest()["procedures"][0]
+def validate_xtx(xml: bytes, schema_root: Path, procedure_id: str = "RHO0012") -> list[str]:
+    """公式XSD で検証する。procedure_id: RHO0012（法人税）・RSH0020（消費税 一般・法人）。"""
+    procedure = next(p for p in _manifest()["procedures"] if p["procedure_id"] == procedure_id)
     return _validate(xml, schema_root, procedure["xsd"])
+
+
+# --- 消費税（一般課税・法人） ---
+
+def shohi_calculate(raw_input: dict) -> dict:
+    """消費税の一般課税（割戻し計算・全額控除）の計算。申告書第一表・第二表・付表1-3・2-3 の数字を返す。"""
+    from .shohi.calculate import calculate
+    return calculate(raw_input)
+
+
+def shohi_export(calculated: dict, schema_root: Path, today: datetime.date | None = None) -> bytes:
+    """消費税の .xtx（手続 RSH0020）。"""
+    from .shohi.etax import build_xtx
+    zeimusho = (schema_root / Path(*ZEIMUSHO_XSD.split("/"))).read_bytes()
+    return build_xtx(calculated, zeimusho, today or datetime.date.today())
 
 
 def schema_from_cab(cab: bytes, workdir: Path | None = None) -> Path:

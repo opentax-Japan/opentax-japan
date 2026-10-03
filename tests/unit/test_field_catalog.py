@@ -154,16 +154,20 @@ class CommittedCatalogTest(unittest.TestCase):
 
     def test_committed_catalog_matches_spec(self):
         manifest = json.loads((REPO / "spec-manifest" / "ksk2-2026-08.manifest.json").read_text(encoding="utf-8"))
-        pkg = next(p for p in manifest["packages"] if p["name"] == "e-tax10")
-        base = REPO / ".cache" / "etax" / manifest["spec_set"] / "files" / "e-tax10"
-        if not base.exists():
+        files = REPO / ".cache" / "etax" / manifest["spec_set"] / "files"
+        if not (files / "e-tax10").exists():
             self.skipTest("帳票フィールド仕様書がありません（opentax fetch-spec --set ksk2-2026-08）")
         committed = json.loads((LAYOUT_DIR / manifest["spec_set"] / "field_catalog.json").read_text(encoding="utf-8"))
         by_id = {f["form_id"]: f for f in committed["forms"]}
-        sha = {f["path"]: f["sha256"] for f in pkg["files"]}
+        # 帳票フィールド仕様書は e-tax10（法人税）と e-tax11（消費税）
+        sha, where = {}, {}
+        for pkg in manifest["packages"]:
+            if pkg["name"] in ("e-tax10", "e-tax11"):
+                for f in pkg["files"]:
+                    sha[f["path"]], where[f["path"]] = f["sha256"], files / pkg["name"]
         for form in manifest["forms"]:
             with self.subTest(form=form["form_id"]):
-                path = base / Path(*form["field_spec_workbook"].split("/"))
+                path = where[form["field_spec_workbook"]] / Path(*form["field_spec_workbook"].split("/"))
                 entry = build_form_catalog(path, form["field_spec_sheet"], form,
                                            load_layout(manifest["spec_set"], form["form_id"]))
                 entry["source"]["sha256"] = sha[form["field_spec_workbook"]]

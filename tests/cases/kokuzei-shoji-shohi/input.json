@@ -1,0 +1,25 @@
+{
+  "note": "国税庁「消費税及び地方消費税の申告書（一般用）の書き方（法人用）」（令和7年10月1日以後に終了する課税期間用）11ページの設例（株式会社国税商事・割戻し計算）を入力にしたもの。住所・電話・利用者識別番号・基準期間の課税売上高は架空。https://www.nta.go.jp/publication/pamph/shohi/kaisei/yoshiki/pdf/202411_01.pdf",
+  "company": {
+    "name": "株式会社国税商事",
+    "name_kana": "カブシキガイシャコクゼイショウジ",
+    "address": "東京都千代田区神田錦町1-1",
+    "tax_office": "麹町",
+    "user_id": "0000000000000000",
+    "phone": "03-0000-0000",
+    "representative": "国税 一夫",
+    "representative_kana": "コクゼイ カズオ"
+  },
+  "period": {"start": "2025-01-01", "end": "2025-12-31"},
+  "sales": {"reduced": 203878000, "standard": 135400000, "exports": 11000000, "exempt": 7000000},
+  "sales_returns": {"reduced": 4521120, "standard": 4400005},
+  "purchases": {"reduced": 98628000, "standard": 72730000},
+  "purchase_returns": {"reduced": 6410000, "standard": 3700000},
+  "non_invoice_purchases": [
+    {"from": "2025-01-01", "to": "2025-12-31", "reduced": 21600000, "standard": 22000000,
+     "returns_reduced": 2160000, "returns_standard": 2200000}
+  ],
+  "bad_debts": {"standard": 1230000},
+  "interim": {"consumption": 5460300, "local": 1540000},
+  "base_period_sales": 300000000
+}

@@ -106,8 +106,9 @@ class _Emitter:
             keep_empty: bool = False) -> None:
         kind = node["kind"]
         if kind == "idref":
-            if node["idref"] in self.it_ids:
-                ET.SubElement(parent, _q(node, self.form_ns), {"IDREF": node["idref"]})
+            target = next((t for t in node.get("idref_options", [node["idref"]]) if t in self.it_ids), None)
+            if target:
+                ET.SubElement(parent, _q(node, self.form_ns), {"IDREF": target})
             return
         value = _pick(values, node["tag"], row)
         extra_attrs = {}
@@ -202,15 +203,17 @@ def _all_tags(node: dict) -> set[str]:
     return out
 
 
-def build_document(procedure_id: str, procedure_vr: str, it: ET.Element, forms: list[ET.Element]) -> bytes:
-    ns = NS[None]
+def build_document(procedure_id: str, procedure_vr: str, it: ET.Element, forms: list[ET.Element],
+                   namespace: str | None = None) -> bytes:
+    """namespace: 手続の名前空間（法人税 hojin・消費税 shohi）。省略時は法人税。"""
+    ns = namespace or NS[None]
     ET.register_namespace("", ns)
     ET.register_namespace("gen", NS["gen"])
     ET.register_namespace("rdf", NS["rdf"])
     data = ET.Element(f"{{{ns}}}DATA", {"id": "DATA"})
     proc = ET.SubElement(data, f"{{{ns}}}{procedure_id}", {"VR": procedure_vr, "id": procedure_id})
     catalog = ET.SubElement(proc, f"{{{ns}}}CATALOG", {"id": "CATALOG"})
-    catalog.append(_rdf([f.get("id") for f in forms]))
+    catalog.append(_rdf([f.get("id") for f in forms], ns))
     contents = ET.SubElement(proc, f"{{{ns}}}CONTENTS", {"id": "CONTENTS"})
     contents.append(it)
     for f in forms:
@@ -220,11 +223,11 @@ def build_document(procedure_id: str, procedure_vr: str, it: ET.Element, forms: 
     return b'<?xml version="1.0" encoding="UTF-8"?>\n' + ET.tostring(data, encoding="unicode").encode("utf-8")
 
 
-def _rdf(form_ids: list[str]) -> ET.Element:
+def _rdf(form_ids: list[str], ns: str | None = None) -> ET.Element:
     """管理部の RDF。e-tax01「データ形式等に関する仕様書」図2-2 の骨組みに、e-Taxソフト（DL版）が
     切り出したファイルと同じ書き方（rdf:description / id / about="#帳票id"）で中身を入れる。
     2026-10-01 に e-Taxソフトへの組み込みで確認した。"""
-    rdf, ns = NS["rdf"], NS[None]
+    rdf, ns = NS["rdf"], ns or NS[None]
     root = ET.Element(f"{{{rdf}}}RDF")
     desc = ET.SubElement(root, f"{{{rdf}}}description", {"id": "REPORT"})
     ET.SubElement(desc, f"{{{ns}}}SEND_DATA")

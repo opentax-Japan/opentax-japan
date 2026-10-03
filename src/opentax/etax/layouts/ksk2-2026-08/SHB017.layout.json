@@ -1,0 +1,923 @@
+{
+ "form_id": "SHB017",
+ "label": "付表1-3 税率別消費税額計算表",
+ "version": "2.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shohi",
+ "group": "SHB017-2-0group",
+ "xsd": "19XMLスキーマ/shohi/SHB017-002.xsd",
+ "xsd_sha256": "177ee78a92e30c2434cc862e39a8b7d6c0c456920c1cfca57347a974ff7509c5",
+ "root": {
+  "tag": "SHB017",
+  "path": "SHB017",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "DSA00000",
+    "path": "SHB017/DSA00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "DSA00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DSA00010",
+      "path": "SHB017/DSA00000/DSA00010",
+      "label": "課税期間",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DSA00020",
+        "path": "SHB017/DSA00000/DSA00010/DSA00020",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:KAZEI_KIKAN_FROMref",
+        "kind": "idref",
+        "idref": "KAZEI_KIKAN_FROM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "KAZEI_KIKAN_FROM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "DSA00030",
+        "path": "SHB017/DSA00000/DSA00010/DSA00030",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:KAZEI_KIKAN_TOref",
+        "kind": "idref",
+        "idref": "KAZEI_KIKAN_TO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "KAZEI_KIKAN_TO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DSA00040",
+      "path": "SHB017/DSA00000/DSA00040",
+      "label": "氏名又は名称",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_NMref",
+      "kind": "idref",
+      "idref": "NOZEISHA_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DSB00000",
+    "path": "SHB017/DSB00000",
+    "label": "課税標準額",
+    "min": 0,
+    "max": 1,
+    "type": "DSB00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DSB00010",
+      "path": "SHB017/DSB00000/DSB00010",
+      "label": "税率6.24％適用分",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DSB00020",
+      "path": "SHB017/DSB00000/DSB00020",
+      "label": "税率7.8％適用分",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DSB00030",
+      "path": "SHB017/DSB00000/DSB00030",
+      "label": "合計",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DSC00000",
+    "path": "SHB017/DSC00000",
+    "label": "(１)の内訳",
+    "min": 0,
+    "max": 1,
+    "type": "DSC00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DSC00010",
+      "path": "SHB017/DSC00000/DSC00010",
+      "label": "課税資産の譲渡等の対価の額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DSC00020",
+        "path": "SHB017/DSC00000/DSC00010/DSC00020",
+        "label": "税率6.24％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DSC00030",
+        "path": "SHB017/DSC00000/DSC00010/DSC00030",
+        "label": "税率7.8％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DSC00040",
+        "path": "SHB017/DSC00000/DSC00010/DSC00040",
+        "label": "合計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DSC00050",
+      "path": "SHB017/DSC00000/DSC00050",
+      "label": "特定課税仕入れに係る支払対価の額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DSC00060",
+        "path": "SHB017/DSC00000/DSC00050/DSC00060",
+        "label": "税率7.8％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DSC00070",
+        "path": "SHB017/DSC00000/DSC00050/DSC00070",
+        "label": "合計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DSD00000",
+    "path": "SHB017/DSD00000",
+    "label": "消費税額",
+    "min": 0,
+    "max": 1,
+    "type": "DSD00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DSD00010",
+      "path": "SHB017/DSD00000/DSD00010",
+      "label": "税率6.24％適用分",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DSD00020",
+      "path": "SHB017/DSD00000/DSD00020",
+      "label": "税率7.8％適用分",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DSD00030",
+      "path": "SHB017/DSD00000/DSD00030",
+      "label": "合計",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DSE00000",
+    "path": "SHB017/DSE00000",
+    "label": "控除過大調整税額",
+    "min": 0,
+    "max": 1,
+    "type": "DSE00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DSE00010",
+      "path": "SHB017/DSE00000/DSE00010",
+      "label": "税率6.24％適用分",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DSE00020",
+      "path": "SHB017/DSE00000/DSE00020",
+      "label": "税率7.8％適用分",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DSE00030",
+      "path": "SHB017/DSE00000/DSE00030",
+      "label": "合計",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DSF00000",
+    "path": "SHB017/DSF00000",
+    "label": "控除税額",
+    "min": 0,
+    "max": 1,
+    "type": "DSF00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DSF00010",
+      "path": "SHB017/DSF00000/DSF00010",
+      "label": "控除対象仕入税額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DSF00020",
+        "path": "SHB017/DSF00000/DSF00010/DSF00020",
+        "label": "税率6.24％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DSF00030",
+        "path": "SHB017/DSF00000/DSF00010/DSF00030",
+        "label": "税率7.8％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DSF00040",
+        "path": "SHB017/DSF00000/DSF00010/DSF00040",
+        "label": "合計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DSF00050",
+      "path": "SHB017/DSF00000/DSF00050",
+      "label": "返還等対価に係る税額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DSF00060",
+        "path": "SHB017/DSF00000/DSF00050/DSF00060",
+        "label": "税率6.24％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DSF00070",
+        "path": "SHB017/DSF00000/DSF00050/DSF00070",
+        "label": "税率7.8％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DSF00080",
+        "path": "SHB017/DSF00000/DSF00050/DSF00080",
+        "label": "合計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DSF00090",
+      "path": "SHB017/DSF00000/DSF00090",
+      "label": "(５)の内訳",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DSF00100",
+        "path": "SHB017/DSF00000/DSF00090/DSF00100",
+        "label": "売上げの返還等対価に係る税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DSF00110",
+          "path": "SHB017/DSF00000/DSF00090/DSF00100/DSF00110",
+          "label": "税率6.24％適用分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "DSF00120",
+          "path": "SHB017/DSF00000/DSF00090/DSF00100/DSF00120",
+          "label": "税率7.8％適用分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "DSF00130",
+          "path": "SHB017/DSF00000/DSF00090/DSF00100/DSF00130",
+          "label": "合計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "DSF00140",
+        "path": "SHB017/DSF00000/DSF00090/DSF00140",
+        "label": "特定課税仕入れの返還等対価に係る税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DSF00150",
+          "path": "SHB017/DSF00000/DSF00090/DSF00140/DSF00150",
+          "label": "税率7.8％適用分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "DSF00160",
+          "path": "SHB017/DSF00000/DSF00090/DSF00140/DSF00160",
+          "label": "合計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DSF00170",
+      "path": "SHB017/DSF00000/DSF00170",
+      "label": "貸倒れに係る税額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DSF00180",
+        "path": "SHB017/DSF00000/DSF00170/DSF00180",
+        "label": "税率6.24％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DSF00190",
+        "path": "SHB017/DSF00000/DSF00170/DSF00190",
+        "label": "税率7.8％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DSF00200",
+        "path": "SHB017/DSF00000/DSF00170/DSF00200",
+        "label": "合計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DSF00210",
+      "path": "SHB017/DSF00000/DSF00210",
+      "label": "控除税額小計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DSF00220",
+        "path": "SHB017/DSF00000/DSF00210/DSF00220",
+        "label": "税率6.24％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DSF00230",
+        "path": "SHB017/DSF00000/DSF00210/DSF00230",
+        "label": "税率7.8％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DSF00240",
+        "path": "SHB017/DSF00000/DSF00210/DSF00240",
+        "label": "合計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DSG00000",
+    "path": "SHB017/DSG00000",
+    "label": "控除不足還付税額",
+    "min": 0,
+    "max": 1,
+    "type": "gen:kingaku",
+    "kind": "amount",
+    "base": "xsd:long",
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DSH00000",
+    "path": "SHB017/DSH00000",
+    "label": "差引税額",
+    "min": 0,
+    "max": 1,
+    "type": "gen:kingaku",
+    "kind": "amount",
+    "base": "xsd:long",
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DSI00000",
+    "path": "SHB017/DSI00000",
+    "label": "地方消費税の課税標準となる消費税額",
+    "min": 0,
+    "max": 1,
+    "type": "DSI00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DSI00010",
+      "path": "SHB017/DSI00000/DSI00010",
+      "label": "控除不足還付税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DSI00020",
+      "path": "SHB017/DSI00000/DSI00020",
+      "label": "差引税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DSJ00000",
+    "path": "SHB017/DSJ00000",
+    "label": "譲渡割額",
+    "min": 0,
+    "max": 1,
+    "type": "DSJ00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DSJ00010",
+      "path": "SHB017/DSJ00000/DSJ00010",
+      "label": "還付額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DSJ00020",
+      "path": "SHB017/DSJ00000/DSJ00020",
+      "label": "納税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "SHB017-2-0VRtype",
+    "fixed": "2.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}
