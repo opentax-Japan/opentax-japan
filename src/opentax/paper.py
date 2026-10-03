@@ -41,21 +41,33 @@ def editions() -> list[dict]:
     return out
 
 
-def find(form_id: str, fiscal_year_end: datetime.date, fiscal_year_start: datetime.date | None = None) -> tuple[dict, dict] | None:
-    """その事業年度に使う版と、様式の位置のファイル。なければ None（表で見せる）。
-    manifest の fiscal_year_end_from（この日以後に終わる年度から）と、あれば fiscal_year_start_before
-    （この日より前に始まる年度まで。新しい様式に替わる版）で選ぶ。"""
-    best = None
+def find(form_id: str, fiscal_year_end: datetime.date, fiscal_year_start: datetime.date | None = None,
+         submitted: datetime.date | None = None) -> tuple[dict, dict] | None:
+    """その事業年度（と提出日）に使う版と、様式の位置のファイル。なければ None（表で見せる）。
+    manifest の条件（書いてあるものだけ見る）:
+      fiscal_year_end_from（この日以後に終わる年度から）・fiscal_year_start_from（この日以後に始まる年度から）・
+      fiscal_year_start_before（この日より前に始まる年度まで）・submitted_from / submitted_before（提出日。書面の様式が替わるもの）
+    条件に合う版が2つ以上なら、いちばん新しい日付の条件を持つ版。"""
+    d = datetime.date.fromisoformat
+    best, best_key = None, ""
     for m in editions():
         if form_id not in m["forms"] or not (m["_dir"] / f"{form_id}.json").exists():
             continue
-        if fiscal_year_end < datetime.date.fromisoformat(m["fiscal_year_end_from"]):
+        if fiscal_year_end < d(m["fiscal_year_end_from"]):
             continue
-        before = m.get("fiscal_year_start_before")
-        if before and fiscal_year_start and fiscal_year_start >= datetime.date.fromisoformat(before):
+        start = fiscal_year_start or fiscal_year_end
+        if m.get("fiscal_year_start_from") and start < d(m["fiscal_year_start_from"]):
             continue
-        if best is None or m["fiscal_year_end_from"] > best["fiscal_year_end_from"]:
-            best = m
+        if m.get("fiscal_year_start_before") and fiscal_year_start and fiscal_year_start >= d(m["fiscal_year_start_before"]):
+            continue
+        on = submitted or datetime.date.today()
+        if m.get("submitted_from") and on < d(m["submitted_from"]):
+            continue
+        if m.get("submitted_before") and on >= d(m["submitted_before"]):
+            continue
+        key = max(m.get(k) or "" for k in ("fiscal_year_end_from", "fiscal_year_start_from", "submitted_from"))
+        if best is None or key > best_key:
+            best, best_key = m, key
     if best is None:
         return None
     return best, json.loads((best["_dir"] / f"{form_id}.json").read_text(encoding="utf-8"))
@@ -115,10 +127,11 @@ def _fmt(v) -> str:
 
 
 def sheet(form_id: str, title: str, fiscal_period: tuple[datetime.date, datetime.date], values: dict,
-          source: Callable[[str], object] | None = None, company: str | None = None) -> dict | None:
+          source: Callable[[str], object] | None = None, company: str | None = None,
+          submitted: datetime.date | None = None) -> dict | None:
     """1枚の様式の上に置く値（items）。位置のファイルがなければ None。
     values: タグ → 値（繰り返しはリスト）。source: 「company:name」などの出どころから値を返す関数（なければ values だけ）。"""
-    found = find(form_id, fiscal_period[1], fiscal_period[0])
+    found = find(form_id, fiscal_period[1], fiscal_period[0], submitted)
     if found is None:
         return None
     edition, m = found

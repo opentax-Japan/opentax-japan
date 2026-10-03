@@ -5,6 +5,7 @@
 
 値.json はタグ → 値（繰り返しはリスト）。省略したら、位置のファイルの全部の欄に「123,456」「あいう」を置く。
 --boxes で、すべての位置の枠を赤で描く（値がなくても）。
+--period=2026-10-01,2027-09-30（事業年度・課税期間）、--on=2026-11-30（提出日）で、版を選ぶ日付を変えられる。
 """
 
 from __future__ import annotations
@@ -71,8 +72,13 @@ def main() -> int:
                 values[tag] = [sample] * len(b) if b and isinstance(b[0], list) else sample
         for tag, spec in m.get("circles", {}).items():
             values[tag] = next(iter(spec)) if isinstance(spec, dict) else "1"
-    s = paper.sheet(form_id, entry["title"], (datetime.date(2025, 10, 1), datetime.date(2026, 9, 30)), values,
-                    lambda key: {"company:name": "見本商事株式会社"}.get(key, "見本"), "見本商事株式会社")
+    opt = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
+    period = tuple(datetime.date.fromisoformat(x) for x in opt.get("period", "2025-10-01,2026-09-30").split(","))
+    on = datetime.date.fromisoformat(opt["on"]) if "on" in opt else None
+    s = paper.sheet(form_id, entry["title"], period, values,
+                    lambda key: {"company:name": "見本商事株式会社"}.get(key, "見本"), "見本商事株式会社", on)
+    if s is None:
+        sys.exit("この期間・提出日では、この版は選ばれません（--period=開始,終了 / --on=提出日 で指定）")
     d = ImageDraw.Draw(img)
     if "--boxes" in sys.argv:
         for tag, box in _all_boxes(m):

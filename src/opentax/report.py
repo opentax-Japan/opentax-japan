@@ -301,9 +301,11 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
     span = (fp["start"], fp["end"])
     sources = api._paper_sources(calculated, calculated["form_values"], {})
 
-    def on_paper(form_id: str, title: str, values: dict, fallback: str, sub: str = "", period=span, src=sources) -> str:
+    def on_paper(form_id: str, title: str, values: dict, fallback: str, sub: str = "", period=span, src=sources,
+                 submitted=None) -> str:
         """公表されている様式の画像の上に値を置く。位置のファイルがない様式は表（fallback）で見せる。"""
-        pages = [p for p in (paper.sheet(pid, title, period, values, src, company) for pid in PAGES.get(form_id, [form_id])) if p]
+        pages = [p for p in (paper.sheet(pid, title, period, values, src, company, submitted)
+                             for pid in PAGES.get(form_id, [form_id])) if p]
         if not pages:
             return _form(title, sub, fallback, form_id)
         return _paper_form(title, form_id, pages)
@@ -361,7 +363,7 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
         # 紙の様式には「税理士会」「支部」が印字済みなので、その語を除いて書く
         dv_paper = {**dv, **{k: re.sub(suf + "$", "", dv[k]) for k, suf in (("ATB00120", "税理士会"), ("ATB00130", "支部")) if dv.get(k)}}
         chapters["dairi"] = on_paper("SOZ074", "税務代理権限証書", dv_paper, _form_fields(catalog["SOZ074"], dv),
-                                     "税理士法第30条（令和6年4月1日以降提出分）")
+                                     "税理士法第30条", submitted=today)
 
     checks = (attachments or {}).get("missing", []) + (attachments or {}).get("notes", [])
     shown = [(k, t) for k, t in CHAPTERS if k not in PRO_CHAPTERS or k in chapters]
