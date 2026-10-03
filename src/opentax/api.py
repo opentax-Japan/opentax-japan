@@ -304,11 +304,21 @@ def uchiwake_officers(payroll_records: list[dict], start: datetime.date, end: da
     return officers.build(payroll_records, start, end)
 
 
+def gaikyo(calculated: dict, balance: bytes | None = None, payroll_records: list[dict] | None = None,
+           info: dict | None = None) -> dict:
+    """法人事業概況説明書（HOK010）を、科目残高・給与の記録・入力（info）から作る。
+    戻り値は uchiwake_from_balance と同じ形（forms・missing）に、初期値で埋めた欄の説明（notes）を足したもの。"""
+    from .red import gaikyo as g, uchiwake
+    accounts = uchiwake.parse_tkc_balance(balance) if balance else None
+    return g.build(calculated, accounts, payroll_records, info)
+
+
 def merge_uchiwake(*parts: dict) -> dict:
-    """内訳書の値（uchiwake_from_balance・uchiwake_officers の結果）をまとめる。"""
-    out = {"forms": {}, "missing": [], "totals": []}
+    """内訳書・概況書の値（uchiwake_from_balance・uchiwake_officers・gaikyo の結果）をまとめる。"""
+    out = {"forms": {}, "missing": [], "totals": [], "notes": []}
     for p in parts:
         out["forms"].update(p.get("forms", {}))
         out["missing"] += p.get("missing", [])
         out["totals"] += p.get("totals", [])
+        out["notes"] += p.get("notes", [])
     return out

@@ -58,19 +58,27 @@ def _pick(values: Mapping[str, Any], tag: str, row: int | None) -> Any:
     return v
 
 
+def _repeats(node: dict) -> bool:
+    return node["kind"] != "idref" and (node["max"] is None or node["max"] > 1)
+
+
 def _rows(node: dict, values: Mapping[str, Any]) -> int:
-    n = 0
+    """繰り返しの欄の行数。リストの値は、いちばん近い繰り返しの欄の行とみなす（中の繰り返しの欄のリストは数えない）。
+    リストがなくても値があれば1行（例: 概況書の一面・二面は繰り返しのページで、月別の12行はその中の繰り返し）。"""
+    n, has = 0, False
 
-    def walk(x):
-        nonlocal n
+    def walk(x, own):
+        nonlocal n, has
         v = values.get(x["tag"])
-        if isinstance(v, list):
-            n = max(n, len(v))
+        if v is not None and v != []:
+            has = True
+            if isinstance(v, list) and own:
+                n = max(n, len(v))
         for c in x.get("children", []):
-            walk(c)
+            walk(c, own and not _repeats(c))
 
-    walk(node)
-    return n
+    walk(node, True)
+    return n or (1 if has else 0)
 
 
 class _Emitter:

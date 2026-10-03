@@ -250,12 +250,14 @@ def _forms_of(values: dict) -> dict[str, dict]:
 
 
 UCHIWAKE_FORMS = ("HOI010", "HOI030", "HOI040", "HOI090", "HOI100", "HOI110", "HOI141", "HOI150", "HOI160")
+# 別表のあとに付ける帳票（手続XSD の並び順）: 内訳書 → 法人事業概況説明書
+ATTACH_FORMS = UCHIWAKE_FORMS + ("HOK010",)
 
 
 def build_xtx(data: dict, result: dict, numbers: dict, zeimusho_xsd: bytes, today: datetime.date,
               uchiwake: dict | None = None) -> bytes:
     """numbers: form_values の結果（タグ → 金額）。0 の金額は出さない（空欄）。
-    uchiwake: 内訳書の値（様式ID → タグ → 値。red.uchiwake.build の forms）。ある様式だけ別表のあとに入れる。"""
+    uchiwake: 内訳書・概況書の値（様式ID → タグ → 値。red.uchiwake.build・red.gaikyo.build の forms）。ある様式だけ別表のあとに入れる。"""
     nums = {k: ([x or None for x in v] if isinstance(v, list) else v) for k, v in numbers.items()
             if (isinstance(v, list) and any(v)) or (not isinstance(v, list) and v)}
     values = _forms_of({**nums, **text_values(data, result)})
@@ -267,7 +269,7 @@ def build_xtx(data: dict, result: dict, numbers: dict, zeimusho_xsd: bytes, toda
         attrs = {"id": f"{form_id}-1", "page": "1", "softNM": SOFT_NAME, "sakuseiNM": preparer,
                  "sakuseiDay": today.isoformat()}
         forms.append(build_form(load_layout(SPEC_SET, form_id), values[form_id], it_ids, attrs))
-    for form_id in UCHIWAKE_FORMS:
+    for form_id in ATTACH_FORMS:
         if (uchiwake or {}).get(form_id):
             attrs = {"id": f"{form_id}-1", "page": "1", "softNM": SOFT_NAME, "sakuseiNM": preparer,
                      "sakuseiDay": today.isoformat()}

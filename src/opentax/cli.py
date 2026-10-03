@@ -260,7 +260,17 @@ def _export_etax(args: argparse.Namespace) -> int:
         for m in officers["missing"]:
             print(f"  役員給与等の内訳書: {m}")
         uw = api.merge_uchiwake(uw or {}, officers)
-    xml = api.export_etax(calculated, schema_root, uchiwake=uw)
+    if args.gaikyo:
+        import json as _json
+        info = _json.loads(Path(args.gaikyo).read_text(encoding="utf-8"))
+        records = [_json.loads(Path(f).read_text(encoding="utf-8")) for f in args.payroll or []]
+        gk = api.gaikyo(calculated, Path(args.balance).read_bytes() if args.balance else None, records, info)
+        for m in gk["notes"]:
+            print(f"  概況書（確かめてください）: {m}")
+        for m in gk["missing"]:
+            print(f"  概況書で足りない欄: {m}")
+        uw = api.merge_uchiwake(uw or {}, gk)
+    xml =api.export_etax(calculated, schema_root, uchiwake=uw)
     errors = api.validate_xtx(xml, schema_root)
     if errors:
         print(f"公式XSD の検証で誤りがあります（{len(errors)} 件）。.xtx は書き出しません")
@@ -374,6 +384,7 @@ def main(argv: list[str] | None = None) -> int:
     x.add_argument("--balance", help="内訳書も作る: 会計ソフトの科目残高（TKC の科目残高一覧表 TXT）")
     x.add_argument("--supplement", help="内訳書の足りない欄を足す JSON（相手先の所在地・口座番号など）")
     x.add_argument("--payroll", nargs="+", help="役員給与等・人件費の内訳書も作る: 給与の記録ファイル（事業年度にかかる年の分）")
+    x.add_argument("--gaikyo", help="法人事業概況説明書も作る: 手入力の欄の JSON（主要科目は --balance、従事員・人件費は --payroll から）")
 
     lt = sub.add_parser("local-tax", help="OpenTax RED: 地方税の計算結果の一覧（第六号様式・第二十号様式）を HTML で作る")
     lt.add_argument("input")

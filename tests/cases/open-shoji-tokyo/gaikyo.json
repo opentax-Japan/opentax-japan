@@ -1,0 +1,41 @@
+{
+  "note": "架空の法人（オープン商事）の法人事業概況説明書で、手入力する欄の見本。名前・住所・番号・金額はすべて架空",
+  "business": "事務用品の卸売",
+  "industry": "卸売",
+  "homepage": false,
+  "overseas": false,
+  "staff": {"wage": "固定", "housing": false},
+  "pc": {"use": true, "os": ["Windows"], "uses": ["給与管理", "財務管理"], "accounting_software": "見本会計",
+         "mail_software": "見本メール", "ebook": ["一般"]},
+  "ec": [],
+  "channels": [],
+  "accounting": {
+    "cash": {"name": "開発 花子", "relation": "親族"},
+    "bank": {"name": "開発 太郎", "relation": "親族"},
+    "trial_balance": "毎月",
+    "withholding": ["報酬・料金"],
+    "taxable_sales": 30000000,
+    "tax_method": "税込",
+    "internal_audit": false
+  },
+  "tax_accountant": {"name": "見本 次郎", "address": "東京都千代田区霞が関9-9-9", "phone": "03-0000-1111",
+                     "roles": ["申告書の作成", "税務相談", "決算書の作成", "総勘定元帳の記帳", "源泉徴収関係事務"]},
+  "monthly": {
+    "sales_titles": ["売上高"],
+    "purchase_titles": ["仕入高"],
+    "months": [
+      {"month": 10, "sales": [2500000], "purchases": [1650000]},
+      {"month": 11, "sales": [2400000], "purchases": [1600000]},
+      {"month": 12, "sales": [2800000], "purchases": [1900000]},
+      {"month": 1, "sales": [2300000], "purchases": [1500000]},
+      {"month": 2, "sales": [2200000], "purchases": [1450000]},
+      {"month": 3, "sales": [2900000], "purchases": [1950000]},
+      {"month": 4, "sales": [2500000], "purchases": [1700000]},
+      {"month": 5, "sales": [2400000], "purchases": [1600000]},
+      {"month": 6, "sales": [2500000], "purchases": [1650000]},
+      {"month": 7, "sales": [2600000], "purchases": [1700000]},
+      {"month": 8, "sales": [2300000], "purchases": [1500000]},
+      {"month": 9, "sales": [2600000], "purchases": [1800000]}
+    ]
+  }
+}
