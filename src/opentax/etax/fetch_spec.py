@@ -6,6 +6,7 @@
 manifest の packages[].extract
 - "closure": 手続XSD（procedures[].xsd）から include / import をたどって届くファイルだけを取り出す（e-tax19 は全税目で 17,000 ファイル以上あるため）
 - "all": CAB の中身をすべて取り出す
+- "listed": files[] に書いたファイルだけを取り出す（e-tax17 は総務の帳票フィールド仕様書だけ使うため）
 """
 
 from __future__ import annotations
@@ -160,6 +161,9 @@ class SpecSet:
         """CAB から取り出すファイルを選び、中身を返す。"""
         if pkg["extract"] == "all":
             return {e.path: cab.read(e) for e in _in_folder_order(cab.entries)}
+        if pkg["extract"] == "listed":
+            wanted = {f["path"] for f in pkg.get("files", [])}
+            return {e.path: cab.read(e) for e in _in_folder_order(cab.entries) if e.path in wanted}
         if pkg["extract"] != "closure":
             raise SpecError(f"extract の指定が不正です: {pkg['name']} {pkg['extract']}")
         entries = {e.path: e for e in cab.entries}

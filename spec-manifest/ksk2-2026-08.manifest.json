@@ -2768,6 +2768,19 @@
           "sha256": "9f68ed83780694e87da7d1e459d41bc9c7ae3bf584f293f510195aeea191a9c0"
         }
       ]
+    },
+    {
+      "name": "e-tax17",
+      "url": "https://www.e-tax.nta.go.jp/shiyo/ksk2/download/e-tax17.CAB",
+      "extract": "listed",
+      "sha256": "4b22f7e6ee20c04b1671231c3536e0f20465bea4240550debfc8c0e9e425f1c2",
+      "size_bytes": 4855596,
+      "files": [
+        {
+          "path": "17XML構造設計書等【その他】/帳票フィールド仕様書（総務）Ver1x.xlsx",
+          "sha256": "6bf25cfb41c517ee0be52ecb8006d741681ece5dae9b1ab762807f5a59ea9a9e"
+        }
+      ]
     }
   ],
   "procedures": [
@@ -3102,6 +3115,18 @@
       "xsd_sha256": "2205915de109a05b86525c27a2e43a131d4730fdf3961b672f8733c022b51713",
       "field_spec_workbook": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver2x.xlsx",
       "field_spec_sheet": "SHB033"
+    },
+    {
+      "form_id": "SOZ074",
+      "label": "税務代理権限証書（令和6年4月1日以降提出分）",
+      "mvp": false,
+      "stage": "pro",
+      "xsd": "19XMLスキーマ/somu/SOZ074-001.xsd",
+      "version": "1.0",
+      "element": "SOZ074",
+      "xsd_sha256": "d7db2d61a125c620aa8d7c38708e901604ce7438c846db6a9e8059c6d146f18f",
+      "field_spec_workbook": "17XML構造設計書等【その他】/帳票フィールド仕様書（総務）Ver1x.xlsx",
+      "field_spec_sheet": "SOZ074"
     }
   ]
 }

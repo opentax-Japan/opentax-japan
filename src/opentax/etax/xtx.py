@@ -18,6 +18,7 @@ NS = {
     None: "http://xml.e-tax.nta.go.jp/XSD/hojin",
     "gen": "http://xml.e-tax.nta.go.jp/XSD/general",
     "kyo": "http://xml.e-tax.nta.go.jp/XSD/kyotsu",
+    "som": "http://xml.e-tax.nta.go.jp/XSD/somu",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 }
 _DATE_PARTS = ("era", "yy", "mm", "dd")
@@ -141,6 +142,13 @@ class _Emitter:
                 for p in _DATE_PARTS:
                     if p in sub:
                         ET.SubElement(el, _q(sub[p], self.form_ns)).text = str(parts[p])
+            elif isinstance(value, str) and set(tags) == {"tel1", "tel2", "tel3"}:
+                # 電話番号「03-0000-0000」を市外局番・市内局番・加入者番号に分ける（1つの様式に電話番号の欄が2つある場合に使う）
+                parts = value.split("-")
+                if len(parts) != 3:
+                    raise XtxError(f"{node['path']}: 電話番号は「03-0000-0000」の形にしてください: {value}")
+                for c, t in zip(node["children"], parts):
+                    ET.SubElement(el, _q(c, self.form_ns)).text = t
             elif isinstance(value, str) and "kubun_CD" in tags:
                 code_node = next(c for c in node["children"] if c["tag"] == "kubun_CD")
                 if code_node.get("enumeration") and value not in code_node["enumeration"]:
@@ -204,26 +212,32 @@ def _all_tags(node: dict) -> set[str]:
 
 
 def build_document(procedure_id: str, procedure_vr: str, it: ET.Element, forms: list[ET.Element],
-                   namespace: str | None = None) -> bytes:
-    """namespace: 手続の名前空間（法人税 hojin・消費税 shohi）。省略時は法人税。"""
+                   namespace: str | None = None, tenpu: list[ET.Element] | None = None) -> bytes:
+    """namespace: 手続の名前空間（法人税 hojin・消費税 shohi）。省略時は法人税。
+    tenpu: 添付（TENPU）に入れる様式（税務代理権限証書 SOZ074 など。手続XSD の TENPU の並び順で渡す）。"""
     ns = namespace or NS[None]
     ET.register_namespace("", ns)
     ET.register_namespace("gen", NS["gen"])
     ET.register_namespace("rdf", NS["rdf"])
+    ET.register_namespace("som", NS["som"])
     data = ET.Element(f"{{{ns}}}DATA", {"id": "DATA"})
     proc = ET.SubElement(data, f"{{{ns}}}{procedure_id}", {"VR": procedure_vr, "id": procedure_id})
     catalog = ET.SubElement(proc, f"{{{ns}}}CATALOG", {"id": "CATALOG"})
-    catalog.append(_rdf([f.get("id") for f in forms], ns))
+    catalog.append(_rdf([f.get("id") for f in forms], ns, [f.get("id") for f in tenpu or []]))
     contents = ET.SubElement(proc, f"{{{ns}}}CONTENTS", {"id": "CONTENTS"})
     contents.append(it)
     for f in forms:
         contents.append(f)
+    if tenpu:
+        box = ET.SubElement(contents, f"{{{ns}}}TENPU", {"id": "TENPU"})
+        for f in tenpu:
+            box.append(f)
     ET.indent(data, space=" ")
     # 宣言は仕様書の例（e-tax01 図1-1 など）と同じ書き方にする
     return b'<?xml version="1.0" encoding="UTF-8"?>\n' + ET.tostring(data, encoding="unicode").encode("utf-8")
 
 
-def _rdf(form_ids: list[str], ns: str | None = None) -> ET.Element:
+def _rdf(form_ids: list[str], ns: str | None = None, tenpu_ids: list[str] | None = None) -> ET.Element:
     """管理部の RDF。e-tax01「データ形式等に関する仕様書」図2-2 の骨組みに、e-Taxソフト（DL版）が
     切り出したファイルと同じ書き方（rdf:description / id / about="#帳票id"）で中身を入れる。
     2026-10-01 に e-Taxソフトへの組み込みで確認した。"""
@@ -238,7 +252,14 @@ def _rdf(form_ids: list[str], ns: str | None = None) -> ET.Element:
     for form_id in form_ids:
         li = ET.SubElement(seq, f"{{{rdf}}}li")
         ET.SubElement(li, f"{{{rdf}}}description", {"about": f"#{form_id}"})
-    for name in ("TENPU_SEC", "XBRL_SEC", "XBRL2_1_SEC", "SOFUSHO_SEC", "ATTACH_SEC", "CSV_SEC"):
+    tenpu_sec = ET.SubElement(desc, f"{{{ns}}}TENPU_SEC")
+    if tenpu_ids:
+        # 添付（税務代理権限証書など）も FORM_SEC と同じ書き方にする（e-Taxソフトへの組み込みは未確認）
+        tseq = ET.SubElement(tenpu_sec, f"{{{rdf}}}Seq")
+        for form_id in tenpu_ids:
+            li = ET.SubElement(tseq, f"{{{rdf}}}li")
+            ET.SubElement(li, f"{{{rdf}}}description", {"about": f"#{form_id}"})
+    for name in ("XBRL_SEC", "XBRL2_1_SEC", "SOFUSHO_SEC", "ATTACH_SEC", "CSV_SEC"):
         ET.SubElement(desc, f"{{{ns}}}{name}")
     return root
 

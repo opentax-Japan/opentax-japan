@@ -16,7 +16,9 @@ from . import api, paper
 from .red import local_sheet
 
 CHAPTERS = [("hojin", "法人税（別表）"), ("shohi", "消費税"), ("gaikyo", "法人事業概況説明書"),
-            ("kessan", "決算書（貸借対照表・損益計算書）"), ("uchiwake", "勘定科目内訳明細書"), ("chiho", "地方税")]
+            ("kessan", "決算書（貸借対照表・損益計算書）"), ("uchiwake", "勘定科目内訳明細書"), ("chiho", "地方税"),
+            ("dairi", "税務代理権限証書（OpenTax プロ）")]
+PRO_CHAPTERS = {"dairi"}     # 税理士事務所の設定があるときだけ出す章
 UCHIWAKE_TITLES = {"HOI010": "預貯金等の内訳書", "HOI030": "売掛金（未収入金）の内訳書", "HOI040": "仮払金（前渡金）の内訳書・貸付金及び受取利息の内訳書",
                    "HOI090": "買掛金（未払金・未払費用）の内訳書", "HOI100": "仮受金（前受金・預り金）の内訳書・源泉所得税預り金の内訳",
                    "HOI110": "借入金及び支払利子の内訳書", "HOI141": "役員給与等の内訳書・人件費の内訳書",
@@ -282,7 +284,7 @@ def _local_paper(calculated: dict, company: str, span, sources=None) -> str | No
 # --- 本体 ---
 
 def build(calculated: dict, attachments: dict | None = None, shohi: dict | None = None, accounts=None,
-          today: datetime.date | None = None) -> str:
+          today: datetime.date | None = None, office: dict | None = None, engagement: dict | None = None) -> str:
     """calculated: api.calculate の結果。attachments: api.merge_uchiwake の結果（内訳書・概況書）。
     shohi: api.shohi_calculate の結果。accounts: 科目残高（red.uchiwake.parse_balance）。ないものの章は「ありません」と出す。"""
     today = today or datetime.date.today()
@@ -350,10 +352,16 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
         chapters["uchiwake"] = "".join(on_paper(fid, UCHIWAKE_TITLES[fid], forms[fid], _form_fields(catalog[fid], forms[fid]), "金額は円")
                                        for fid in uw)
     chapters["chiho"] = _local_paper(calculated, company, span, sources) or _local(calculated, today)
+    if office:
+        from .pro import dairi
+        sh_period = (_date(shohi["input"]["period"]["start"]), _date(shohi["input"]["period"]["end"])) if shohi else None
+        dv = dairi.values(office, data["company"], corporate=span, consumption=sh_period, engagement=engagement, submit_date=today)
+        chapters["dairi"] = on_paper("SOZ074", "税務代理権限証書", dv, _form_fields(catalog["SOZ074"], dv),
+                                     "税理士法第30条（令和6年4月1日以降提出分）")
 
     checks = (attachments or {}).get("missing", []) + (attachments or {}).get("notes", [])
-    toc = "".join(f"<li><a href='#{k}'>{_e(t)}</a>{'' if k in chapters else '（なし）'}</li>"
-                  for i, (k, t) in enumerate(CHAPTERS, start=1))
+    shown = [(k, t) for k, t in CHAPTERS if k not in PRO_CHAPTERS or k in chapters]
+    toc = "".join(f"<li><a href='#{k}'>{_e(t)}</a>{'' if k in chapters else '（なし）'}</li>" for k, t in shown)
     parts = [f"<h1>申告書一式</h1><p class='meta'>{_e(company)}　事業年度 {_e(period)}　作成 {today.isoformat()}</p>",
              f"<nav><ol>{toc}</ol></nav>"]
     if calculated["result"].get("trial"):
@@ -361,7 +369,7 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
     if checks:
         parts.append("<details class='checks'><summary>確かめてほしいこと（" + str(len(checks)) + " 件）</summary><ul>"
                      + "".join(f"<li>{_e(c)}</li>" for c in checks) + "</ul></details>")
-    for i, (k, t) in enumerate(CHAPTERS, start=1):
+    for i, (k, t) in enumerate(shown, start=1):
         body = chapters.get(k) or "<p class='note'>材料がないため作っていません</p>"
         parts.append(f"<section class='chapter' id='{k}'><h2>{i}. {_e(t)}</h2>{body}</section>")
     return ("<!DOCTYPE html><html lang='ja'><head><meta charset='utf-8'>"

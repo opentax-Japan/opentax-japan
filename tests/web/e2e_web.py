@@ -135,7 +135,7 @@ def main() -> int:
         page.click("#att-check")
         expect(page.locator("#att-result")).to_contain_text("作れる様式", timeout=120_000)
         att_text = page.locator("#att-result").inner_text()
-        check("内訳書・概況書を確かめる（HOI010・HOI141・HOK010）", all(f in att_text for f in ("HOI010", "HOI141", "HOK010")))
+        check("内訳書・概況書を確かめる（HOI010・HOI141・HOK010・税務代理権限証書）", all(f in att_text for f in ("HOI010", "HOI141", "HOK010", "SOZ074")))
         check("概況書の月別を推移表から作った", "推移表から作りました" in att_text)
         page.locator("#att-result").screenshot(path=str(OUT / "06-attachments.png"))
         with page.expect_download(timeout=300_000) as dl:
@@ -156,8 +156,8 @@ def main() -> int:
         page.click("#demo")
         expect(page.locator("#status")).to_contain_text("作りました", timeout=120_000)
         body = page.frame_locator("#report").locator("body").inner_text()
-        order = [body.find(t) for t in ("1. 法人税（別表）", "2. 消費税", "3. 法人事業概況説明書", "4. 決算書", "5. 勘定科目内訳明細書", "6. 地方税")]
-        check("申告書一式（デモ）が6章の順に並ぶ", all(i >= 0 for i in order) and order == sorted(order))
+        order = [body.find(t) for t in ("1. 法人税（別表）", "2. 消費税", "3. 法人事業概況説明書", "4. 決算書", "5. 勘定科目内訳明細書", "6. 地方税", "7. 税務代理権限証書")]
+        check("申告書一式（デモ）が7章の順に並ぶ（7は税務代理権限証書）", all(i >= 0 for i in order) and order == sorted(order))
         check("申告書一式（デモ）: 所得金額 △1,130,000・消費税 580,500・資産の部合計 13,781,000",
               all(t in body for t in ("△1,130,000", "580,500", "13,781,000")))
         page.screenshot(path=str(OUT / "07-report.png"))
@@ -195,7 +195,9 @@ def main() -> int:
     att_xml = att_path.read_bytes()
     check("内訳書・概況書入りの .xtx も公式XSD で誤りなし", api.validate_xtx(att_xml, root) == [] and b"<HOK010 " in att_xml)
     check("内訳書・概況書入りの .xtx が手元で作ったものと同じ（作成日を除く）",
-          strip(att_xml) == strip(api.export_etax(calc, root, None, uw)))
+          strip(att_xml) == strip(api.export_etax(calc, root, None, uw,
+                                                  json.loads((REPO / "tests/cases/office/office.json").read_text(encoding="utf-8")))))
+    check("見本の .xtx に税務代理権限証書（OpenTax プロ）", b"<som:SOZ074 " in att_xml)
 
     failed = [label for label, ok in results if not ok]
     print(f"\n{len(results) - len(failed)}/{len(results)} 件 OK")

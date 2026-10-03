@@ -1,0 +1,2173 @@
+{
+ "form_id": "SOZ074",
+ "label": "税務代理権限証書（令和6年4月1日以降提出分）",
+ "version": "1.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/somu",
+ "group": null,
+ "xsd": "19XMLスキーマ/somu/SOZ074-001.xsd",
+ "xsd_sha256": "d7db2d61a125c620aa8d7c38708e901604ce7438c846db6a9e8059c6d146f18f",
+ "root": {
+  "tag": "SOZ074",
+  "path": "SOZ074",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "type": "SOZ074-1-0type",
+  "kind": "group",
+  "children": [
+   {
+    "tag": "ATA00000",
+    "path": "SOZ074/ATA00000",
+    "label": "基申告書（申請書）の受付番号",
+    "min": 0,
+    "max": 1,
+    "type": "ATA00000-1-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 20
+   },
+   {
+    "tag": "ATB00000",
+    "path": "SOZ074/ATB00000",
+    "label": "証書",
+    "min": 0,
+    "max": 1,
+    "type": "ATB00000-1-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ATB00010",
+      "path": "SOZ074/ATB00000/ATB00010",
+      "label": "提出年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "SOZ074/ATB00000/ATB00010/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "SOZ074/ATB00000/ATB00010/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "SOZ074/ATB00000/ATB00010/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "SOZ074/ATB00000/ATB00010/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "ATB00020",
+      "path": "SOZ074/ATB00000/ATB00020",
+      "label": "提出先",
+      "min": 0,
+      "max": 1,
+      "type": "ATB00020-1-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 15
+     },
+     {
+      "tag": "ATB00030",
+      "path": "SOZ074/ATB00000/ATB00030",
+      "label": "税理士又は税理士法人",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ATB00040",
+        "path": "SOZ074/ATB00000/ATB00030/ATB00040",
+        "label": "氏名又は名称",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ATB00050",
+          "path": "SOZ074/ATB00000/ATB00030/ATB00040/ATB00050",
+          "label": "氏名又は名称",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "ATB00060",
+          "path": "SOZ074/ATB00000/ATB00030/ATB00040/ATB00060",
+          "label": "税理士の利用者識別番号",
+          "min": 0,
+          "max": 1,
+          "type": "gen:nozeisha-id",
+          "kind": "value",
+          "base": "xsd:string",
+          "max_length": 16
+         }
+        ]
+       },
+       {
+        "tag": "ATB00070",
+        "path": "SOZ074/ATB00000/ATB00030/ATB00070",
+        "label": "事務所の名称及び所在地",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ATB00080",
+          "path": "SOZ074/ATB00000/ATB00030/ATB00070/ATB00080",
+          "label": "名称",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "ATB00090",
+          "path": "SOZ074/ATB00000/ATB00030/ATB00070/ATB00090",
+          "label": "所在地",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "ATB00100",
+          "path": "SOZ074/ATB00000/ATB00030/ATB00070/ATB00100",
+          "label": "電話番号",
+          "min": 0,
+          "max": 1,
+          "type": "gen:tel-number",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "tel1",
+            "path": "SOZ074/ATB00000/ATB00030/ATB00070/ATB00100/tel1",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 6
+           },
+           {
+            "tag": "tel2",
+            "path": "SOZ074/ATB00000/ATB00030/ATB00070/ATB00100/tel2",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 4
+           },
+           {
+            "tag": "tel3",
+            "path": "SOZ074/ATB00000/ATB00030/ATB00070/ATB00100/tel3",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 4
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ATB00110",
+        "path": "SOZ074/ATB00000/ATB00030/ATB00110",
+        "label": "所属税理士会等",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ATB00120",
+          "path": "SOZ074/ATB00000/ATB00030/ATB00110/ATB00120",
+          "label": "税理士会",
+          "min": 0,
+          "max": 1,
+          "type": "ATB00120-1-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 6
+         },
+         {
+          "tag": "ATB00130",
+          "path": "SOZ074/ATB00000/ATB00030/ATB00110/ATB00130",
+          "label": "支部",
+          "min": 0,
+          "max": 1,
+          "type": "ATB00130-1-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 6
+         },
+         {
+          "tag": "ATB00140",
+          "path": "SOZ074/ATB00000/ATB00030/ATB00110/ATB00140",
+          "label": "登録番号等",
+          "min": 0,
+          "max": 1,
+          "type": "ATB00140-1-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 10
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ATB00150",
+      "path": "SOZ074/ATB00000/ATB00150",
+      "label": "代理人の区分",
+      "min": 0,
+      "max": 1,
+      "type": "ATB00150-1-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "SOZ074/ATB00000/ATB00150/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "SOZ074/ATB00000/ATB00150/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "ATB00160",
+      "path": "SOZ074/ATB00000/ATB00160",
+      "label": "委任年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "SOZ074/ATB00000/ATB00160/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "SOZ074/ATB00000/ATB00160/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "SOZ074/ATB00000/ATB00160/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "SOZ074/ATB00000/ATB00160/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "ATB00170",
+      "path": "SOZ074/ATB00000/ATB00170",
+      "label": "過年分に関する税務代理",
+      "min": 0,
+      "max": 1,
+      "type": "ATB00170-1-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "SOZ074/ATB00000/ATB00170/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "SOZ074/ATB00000/ATB00170/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "ATB00180",
+      "path": "SOZ074/ATB00000/ATB00180",
+      "label": "調査の通知・終了の際の手続に関する同意",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ATB00190",
+        "path": "SOZ074/ATB00000/ATB00180/ATB00190",
+        "label": "調査の通知",
+        "min": 0,
+        "max": 1,
+        "type": "ATB00190-1-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SOZ074/ATB00000/ATB00180/ATB00190/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SOZ074/ATB00000/ATB00180/ATB00190/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ATB00200",
+        "path": "SOZ074/ATB00000/ATB00180/ATB00200",
+        "label": "調査終了時点において更正決定等をすべきと認められない場合における、その旨の通知",
+        "min": 0,
+        "max": 1,
+        "type": "ATB00200-1-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SOZ074/ATB00000/ATB00180/ATB00200/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SOZ074/ATB00000/ATB00180/ATB00200/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ATB00210",
+        "path": "SOZ074/ATB00000/ATB00180/ATB00210",
+        "label": "調査の結果、更正決定等をすべきと認められる場合における、調査結果の内容の説明等",
+        "min": 0,
+        "max": 1,
+        "type": "ATB00210-1-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SOZ074/ATB00000/ATB00180/ATB00210/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SOZ074/ATB00000/ATB00180/ATB00210/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ATB00220",
+      "path": "SOZ074/ATB00000/ATB00220",
+      "label": "代理人が複数ある場合における代表する代理人の定め",
+      "min": 0,
+      "max": 1,
+      "type": "ATB00220-1-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "SOZ074/ATB00000/ATB00220/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "SOZ074/ATB00000/ATB00220/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "ATB00230",
+      "path": "SOZ074/ATB00000/ATB00230",
+      "label": "依頼者",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ATB00240",
+        "path": "SOZ074/ATB00000/ATB00230/ATB00240",
+        "label": "氏名又は名称",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ATB00250",
+          "path": "SOZ074/ATB00000/ATB00230/ATB00240/ATB00250",
+          "label": "氏名又は名称",
+          "min": 0,
+          "max": 1,
+          "type": "ATB00250-1-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 45
+         },
+         {
+          "tag": "ATB00260",
+          "path": "SOZ074/ATB00000/ATB00230/ATB00240/ATB00260",
+          "label": "依頼者の利用者識別番号",
+          "min": 0,
+          "max": 1,
+          "type": "gen:nozeisha-id",
+          "kind": "value",
+          "base": "xsd:string",
+          "max_length": 16
+         }
+        ]
+       },
+       {
+        "tag": "ATB00270",
+        "path": "SOZ074/ATB00000/ATB00230/ATB00270",
+        "label": "住所又は事務所の所在地",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ATB00280",
+          "path": "SOZ074/ATB00000/ATB00230/ATB00270/ATB00280",
+          "label": "住所又は事務所の所在地",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "ATB00290",
+          "path": "SOZ074/ATB00000/ATB00230/ATB00270/ATB00290",
+          "label": "電話番号",
+          "min": 0,
+          "max": 1,
+          "type": "gen:tel-number",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "tel1",
+            "path": "SOZ074/ATB00000/ATB00230/ATB00270/ATB00290/tel1",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 6
+           },
+           {
+            "tag": "tel2",
+            "path": "SOZ074/ATB00000/ATB00230/ATB00270/ATB00290/tel2",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 4
+           },
+           {
+            "tag": "tel3",
+            "path": "SOZ074/ATB00000/ATB00230/ATB00270/ATB00290/tel3",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 4
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ATC00000",
+    "path": "SOZ074/ATC00000",
+    "label": "１　税務代理の対象に関する事項",
+    "min": 0,
+    "max": 1,
+    "type": "ATC00000-1-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ATC00010",
+      "path": "SOZ074/ATC00000/ATC00010",
+      "label": "所得税（申告に係るもの）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ATC00020",
+        "path": "SOZ074/ATC00000/ATC00010/ATC00020",
+        "label": "区分",
+        "min": 0,
+        "max": 1,
+        "type": "ATC00020-1-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SOZ074/ATC00000/ATC00010/ATC00020/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SOZ074/ATC00000/ATC00010/ATC00020/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ATC00030",
+        "path": "SOZ074/ATC00000/ATC00010/ATC00030",
+        "label": "年分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yy",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "SOZ074/ATC00000/ATC00010/ATC00030/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "SOZ074/ATC00000/ATC00010/ATC00030/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ATC00040",
+      "path": "SOZ074/ATC00000/ATC00040",
+      "label": "法人税",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ATC00050",
+        "path": "SOZ074/ATC00000/ATC00040/ATC00050",
+        "label": "区分",
+        "min": 0,
+        "max": 1,
+        "type": "ATC00050-1-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SOZ074/ATC00000/ATC00040/ATC00050/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SOZ074/ATC00000/ATC00040/ATC00050/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ATC00060",
+        "path": "SOZ074/ATC00000/ATC00040/ATC00060",
+        "label": "事業年度",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ATC00070",
+          "path": "SOZ074/ATC00000/ATC00040/ATC00060/ATC00070",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "SOZ074/ATC00000/ATC00040/ATC00060/ATC00070/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "SOZ074/ATC00000/ATC00040/ATC00060/ATC00070/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "SOZ074/ATC00000/ATC00040/ATC00060/ATC00070/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "SOZ074/ATC00000/ATC00040/ATC00060/ATC00070/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "ATC00080",
+          "path": "SOZ074/ATC00000/ATC00040/ATC00060/ATC00080",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "SOZ074/ATC00000/ATC00040/ATC00060/ATC00080/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "SOZ074/ATC00000/ATC00040/ATC00060/ATC00080/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "SOZ074/ATC00000/ATC00040/ATC00060/ATC00080/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "SOZ074/ATC00000/ATC00040/ATC00060/ATC00080/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ATC00090",
+      "path": "SOZ074/ATC00000/ATC00090",
+      "label": "消費税及び地方消費税（譲渡割）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ATC00100",
+        "path": "SOZ074/ATC00000/ATC00090/ATC00100",
+        "label": "区分",
+        "min": 0,
+        "max": 1,
+        "type": "ATC00100-1-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SOZ074/ATC00000/ATC00090/ATC00100/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SOZ074/ATC00000/ATC00090/ATC00100/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ATC00110",
+        "path": "SOZ074/ATC00000/ATC00090/ATC00110",
+        "label": "事業年度",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ATC00120",
+          "path": "SOZ074/ATC00000/ATC00090/ATC00110/ATC00120",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "SOZ074/ATC00000/ATC00090/ATC00110/ATC00120/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "SOZ074/ATC00000/ATC00090/ATC00110/ATC00120/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "SOZ074/ATC00000/ATC00090/ATC00110/ATC00120/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "SOZ074/ATC00000/ATC00090/ATC00110/ATC00120/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "ATC00130",
+          "path": "SOZ074/ATC00000/ATC00090/ATC00110/ATC00130",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "SOZ074/ATC00000/ATC00090/ATC00110/ATC00130/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "SOZ074/ATC00000/ATC00090/ATC00110/ATC00130/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "SOZ074/ATC00000/ATC00090/ATC00110/ATC00130/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "SOZ074/ATC00000/ATC00090/ATC00110/ATC00130/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ATC00140",
+      "path": "SOZ074/ATC00000/ATC00140",
+      "label": "所得税（源泉徴収に係るもの）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ATC00150",
+        "path": "SOZ074/ATC00000/ATC00140/ATC00150",
+        "label": "区分",
+        "min": 0,
+        "max": 1,
+        "type": "ATC00150-1-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SOZ074/ATC00000/ATC00140/ATC00150/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SOZ074/ATC00000/ATC00140/ATC00150/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ATC00160",
+        "path": "SOZ074/ATC00000/ATC00140/ATC00160",
+        "label": "事業年度",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ATC00170",
+          "path": "SOZ074/ATC00000/ATC00140/ATC00160/ATC00170",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "SOZ074/ATC00000/ATC00140/ATC00160/ATC00170/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "SOZ074/ATC00000/ATC00140/ATC00160/ATC00170/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "SOZ074/ATC00000/ATC00140/ATC00160/ATC00170/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "SOZ074/ATC00000/ATC00140/ATC00160/ATC00170/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "ATC00180",
+          "path": "SOZ074/ATC00000/ATC00140/ATC00160/ATC00180",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "SOZ074/ATC00000/ATC00140/ATC00160/ATC00180/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "SOZ074/ATC00000/ATC00140/ATC00160/ATC00180/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "SOZ074/ATC00000/ATC00140/ATC00160/ATC00180/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "SOZ074/ATC00000/ATC00140/ATC00160/ATC00180/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ATC00190",
+      "path": "SOZ074/ATC00000/ATC00190",
+      "label": "追加税目（税目選択あり）　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ATC00200",
+        "path": "SOZ074/ATC00000/ATC00190/ATC00200",
+        "label": "税目",
+        "min": 0,
+        "max": 1,
+        "type": "ATC00200-1-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SOZ074/ATC00000/ATC00190/ATC00200/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun2_CD"
+          ],
+          "enumeration": [
+           "01",
+           "02",
+           "03",
+           "04",
+           "05",
+           "06",
+           "07",
+           "08",
+           "09",
+           "10",
+           "11",
+           "12",
+           "13"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SOZ074/ATC00000/ATC00190/ATC00200/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ATC00210",
+        "path": "SOZ074/ATC00000/ATC00190/ATC00210",
+        "label": "区分",
+        "min": 0,
+        "max": 1,
+        "type": "ATC00210-1-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SOZ074/ATC00000/ATC00190/ATC00210/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SOZ074/ATC00000/ATC00190/ATC00210/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ATC00220",
+        "path": "SOZ074/ATC00000/ATC00190/ATC00220",
+        "label": "年分等",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ATC00230",
+          "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00230",
+          "label": "相続開始年月日",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00230/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00230/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00230/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00230/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "ATC00240",
+          "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00240",
+          "label": "年月日分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00240/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00240/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00240/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00240/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "ATC00250",
+          "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00250",
+          "label": "年月分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymm",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00250/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00250/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00250/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "ATC00260",
+          "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00260",
+          "label": "年分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yy",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00260/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "SOZ074/ATC00000/ATC00190/ATC00220/ATC00260/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ATC00270",
+      "path": "SOZ074/ATC00000/ATC00270",
+      "label": "追加税目",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ATC00280",
+        "path": "SOZ074/ATC00000/ATC00270/ATC00280",
+        "label": "税目",
+        "min": 0,
+        "max": 1,
+        "type": "ATC00280-1-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "ATC00290",
+        "path": "SOZ074/ATC00000/ATC00270/ATC00290",
+        "label": "区分",
+        "min": 0,
+        "max": 1,
+        "type": "ATC00290-1-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SOZ074/ATC00000/ATC00270/ATC00290/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SOZ074/ATC00000/ATC00270/ATC00290/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ATC00300",
+        "path": "SOZ074/ATC00000/ATC00270/ATC00300",
+        "label": "年分等",
+        "min": 0,
+        "max": 1,
+        "type": "ATC00300-1-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 60
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ATD00000",
+    "path": "SOZ074/ATD00000",
+    "label": "２　税務代理の対象となる書類の受領に関する事項",
+    "min": 0,
+    "max": 1,
+    "type": "ATD00000-1-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ATD00010",
+      "path": "SOZ074/ATD00000/ATD00010",
+      "label": "(1)更正の請求に係る更正通知・更正の請求に係る更正の理由がない旨の通知",
+      "min": 0,
+      "max": 1,
+      "type": "ATD00010-1-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "SOZ074/ATD00000/ATD00010/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "SOZ074/ATD00000/ATD00010/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "ATD00020",
+      "path": "SOZ074/ATD00000/ATD00020",
+      "label": "(2)期限後申告書・修正申告書の提出、更正の請求に係る更正があった場合に課する加算税に係る賦課決定通知",
+      "min": 0,
+      "max": 1,
+      "type": "ATD00020-1-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "SOZ074/ATD00000/ATD00020/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "SOZ074/ATD00000/ATD00020/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "ATD00030",
+      "path": "SOZ074/ATD00000/ATD00030",
+      "label": "(3)予定納税額の通知",
+      "min": 0,
+      "max": 1,
+      "type": "ATD00030-1-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "SOZ074/ATD00000/ATD00030/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "SOZ074/ATD00000/ATD00030/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "ATD00040",
+      "path": "SOZ074/ATD00000/ATD00040",
+      "label": "(4)予定納税額の減額申請に係る承認又は却下の通知",
+      "min": 0,
+      "max": 1,
+      "type": "ATD00040-1-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "SOZ074/ATD00000/ATD00040/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "SOZ074/ATD00000/ATD00040/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "ATD00050",
+      "path": "SOZ074/ATD00000/ATD00050",
+      "label": "(5)適格請求書発行事業者の登録通知",
+      "min": 0,
+      "max": 1,
+      "type": "ATD00050-1-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "SOZ074/ATD00000/ATD00050/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "SOZ074/ATD00000/ATD00050/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ATE00000",
+    "path": "SOZ074/ATE00000",
+    "label": "３　その他の事項",
+    "min": 0,
+    "max": 1,
+    "type": "ATE00000-1-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 144
+   },
+   {
+    "tag": "ATF00000",
+    "path": "SOZ074/ATF00000",
+    "label": "委任状",
+    "min": 0,
+    "max": 1,
+    "type": "ATF00000-1-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ATF00010",
+      "path": "SOZ074/ATF00000/ATF00010",
+      "label": "代理を委任した年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "SOZ074/ATF00000/ATF00010/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "SOZ074/ATF00000/ATF00010/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "SOZ074/ATF00000/ATF00010/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "SOZ074/ATF00000/ATF00010/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "ATF00020",
+      "path": "SOZ074/ATF00000/ATF00020",
+      "label": "代理人（税務代理以外の行為）の区分",
+      "min": 0,
+      "max": 1,
+      "type": "ATF00020-1-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "SOZ074/ATF00000/ATF00020/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "SOZ074/ATF00000/ATF00020/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "ATF00030",
+      "path": "SOZ074/ATF00000/ATF00030",
+      "label": "代理人に委任する行為の内容",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ATF00040",
+        "path": "SOZ074/ATF00000/ATF00030/ATF00040",
+        "label": "区分",
+        "min": 0,
+        "max": 1,
+        "type": "ATF00040-1-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SOZ074/ATF00000/ATF00030/ATF00040/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SOZ074/ATF00000/ATF00030/ATF00040/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ATF00050",
+        "path": "SOZ074/ATF00000/ATF00030/ATF00050",
+        "label": "委任内容",
+        "min": 0,
+        "max": 1,
+        "type": "ATF00050-1-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 45
+       }
+      ]
+     },
+     {
+      "tag": "ATF00060",
+      "path": "SOZ074/ATF00000/ATF00060",
+      "label": "依頼者",
+      "min": 0,
+      "max": 1,
+      "type": "ATF00060-1-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 45
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "SOZ074-1-0VRtype",
+    "fixed": "1.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ },
+ "element": "SOZ074"
+}

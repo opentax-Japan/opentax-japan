@@ -159,10 +159,10 @@ class CommittedCatalogTest(unittest.TestCase):
             self.skipTest("帳票フィールド仕様書がありません（opentax fetch-spec --set ksk2-2026-08）")
         committed = json.loads((LAYOUT_DIR / manifest["spec_set"] / "field_catalog.json").read_text(encoding="utf-8"))
         by_id = {f["form_id"]: f for f in committed["forms"]}
-        # 帳票フィールド仕様書は e-tax10（法人税）と e-tax11（消費税）
+        # 帳票フィールド仕様書は e-tax10（法人税）・e-tax11（消費税）・e-tax17（総務）
         sha, where = {}, {}
         for pkg in manifest["packages"]:
-            if pkg["name"] in ("e-tax10", "e-tax11"):
+            if pkg["name"] in ("e-tax10", "e-tax11", "e-tax17"):
                 for f in pkg["files"]:
                     sha[f["path"]], where[f["path"]] = f["sha256"], files / pkg["name"]
         for form in manifest["forms"]:

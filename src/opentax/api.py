@@ -38,14 +38,21 @@ def calculate(raw_input: dict, trial_ratio_rounding: str | None = None) -> dict:
 
 
 def export_etax(calculated: dict, schema_root: Path, today: datetime.date | None = None,
-                uchiwake: dict | None = None) -> bytes:
+                uchiwake: dict | None = None, office: dict | None = None, engagement: dict | None = None) -> bytes:
     """calculate の結果から .xtx を作る。一致しない項目が残っていたら作らない。
-    uchiwake: uchiwake_from_balance の結果。あれば内訳書も入れる。"""
+    uchiwake: uchiwake_from_balance の結果。あれば内訳書も入れる。
+    office: 税理士事務所の設定（OpenTax プロ）。あれば税務代理権限証書（法人税）を添付する。engagement は pro.dairi を参照"""
     if calculated["problems"]:
         raise SpecError("一致しない項目があるため .xtx を作りません: " + "; ".join(calculated["problems"][:3]))
     zeimusho = (schema_root / Path(*ZEIMUSHO_XSD.split("/"))).read_bytes()
+    tenpu = None
+    if office:
+        from .pro import dairi
+        fp = calculated["input"]["fiscal_period"]
+        tenpu = {"SOZ074": dairi.values(office, calculated["input"]["company"], corporate=(fp["start"], fp["end"]),
+                                        engagement=engagement)}
     return build_xtx(calculated["input"], calculated["result"], calculated["form_values"], zeimusho,
-                     today or datetime.date.today(), (uchiwake or {}).get("forms"))
+                     today or datetime.date.today(), (uchiwake or {}).get("forms"), tenpu)
 
 
 def uchiwake_from_balance(balance: bytes, supplement: dict | None = None) -> dict:
@@ -245,11 +252,18 @@ def shohi_calculate(raw_input: dict) -> dict:
     return calculate(raw_input)
 
 
-def shohi_export(calculated: dict, schema_root: Path, today: datetime.date | None = None) -> bytes:
-    """消費税の .xtx（手続 RSH0020）。"""
+def shohi_export(calculated: dict, schema_root: Path, today: datetime.date | None = None,
+                 office: dict | None = None, engagement: dict | None = None) -> bytes:
+    """消費税の .xtx（手続 RSH0020）。office があれば税務代理権限証書（消費税）を添付する（OpenTax プロ）。"""
     from .shohi.etax import build_xtx
     zeimusho = (schema_root / Path(*ZEIMUSHO_XSD.split("/"))).read_bytes()
-    return build_xtx(calculated, zeimusho, today or datetime.date.today())
+    tenpu = None
+    if office:
+        from .pro import dairi
+        p = calculated["input"]["period"]
+        period = tuple(x if isinstance(x, datetime.date) else datetime.date.fromisoformat(str(x)) for x in (p["start"], p["end"]))
+        tenpu = {"SOZ074": dairi.values(office, calculated["input"]["company"], consumption=period, engagement=engagement)}
+    return build_xtx(calculated, zeimusho, today or datetime.date.today(), tenpu)
 
 
 def schema_from_cab(cab: bytes, workdir: Path | None = None) -> Path:
@@ -338,11 +352,13 @@ def attachments(calculated: dict, balance: bytes | None = None, trend: bytes | N
 
 def report(calculated: dict, balance: bytes | None = None, trend: bytes | None = None,
            payroll_records: list[dict] | None = None, supplement: dict | None = None, info: dict | None = None,
-           shohi_input: dict | None = None, today: datetime.date | None = None) -> str:
-    """申告書一式（HTML 1枚）: 法人税の別表 → 消費税 → 概況書 → 決算書 → 内訳書 → 地方税。"""
+           shohi_input: dict | None = None, today: datetime.date | None = None,
+           office: dict | None = None, engagement: dict | None = None) -> str:
+    """申告書一式（HTML 1枚）: 法人税の別表 → 消費税 → 概況書 → 決算書 → 内訳書 → 地方税
+    （→ 税理士事務所の設定 office があれば税務代理権限証書。OpenTax プロ）。"""
     from . import report as rp
     from .red import uchiwake
     att = attachments(calculated, balance, trend, payroll_records, supplement, info)
     shohi = shohi_calculate(shohi_input) if shohi_input else None
     accounts = uchiwake.parse_balance(balance) if balance else None
-    return rp.build(calculated, att, shohi, accounts, today)
+    return rp.build(calculated, att, shohi, accounts, today, office, engagement)

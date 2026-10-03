@@ -119,7 +119,7 @@ def ot_attachment_samples() -> str:
     gaikyo["monthly"].pop("months")  # 月別の売上・仕入は推移表から作る（手で書いたものと同じ値になる）
     return _dump({"balance": b64("科目残高一覧表_架空_TKC形式.txt"), "trend": b64("科目残高推移表_架空_TKC形式.txt"),
                   "supplement": js("uchiwake_supplement.json"), "payroll": [js("payroll_2026.json")],
-                  "gaikyo": gaikyo})
+                  "gaikyo": gaikyo, "office": json.loads((case.parent / "office" / "office.json").read_text(encoding="utf-8"))})
 
 
 def ot_demo_report() -> str:
@@ -134,7 +134,9 @@ def ot_demo_report() -> str:
         info["monthly"].pop("months")
         html = api.report(calculated, (case / "科目残高一覧表_架空_TKC形式.txt").read_bytes(),
                           (case / "科目残高推移表_架空_TKC形式.txt").read_bytes(), [js("payroll_2026.json")],
-                          js("uchiwake_supplement.json"), info, js("shohi.json"))
+                          js("uchiwake_supplement.json"), info, js("shohi.json"),
+                          office=json.loads((case.parent / "office" / "office.json").read_text(encoding="utf-8")),
+                          engagement={"date": datetime.date.today().isoformat()})
         return _dump({"ok": True, "html": html, "company": calculated["input"]["company"]["name"]})
     except Exception as e:  # noqa: BLE001
         return _error(e)
@@ -147,7 +149,8 @@ def ot_report(input_json: str, trial: str, att_json: str) -> str:
         att = json.loads(att_json or "{}")
         balance = base64.b64decode(att["balance"]) if att.get("balance") else None
         trend = base64.b64decode(att["trend"]) if att.get("trend") else None
-        html = api.report(calculated, balance, trend, att.get("payroll") or [], att.get("supplement"), att.get("gaikyo"))
+        html = api.report(calculated, balance, trend, att.get("payroll") or [], att.get("supplement"), att.get("gaikyo"),
+                          office=att.get("office"))
         return _dump({"ok": True, "html": html, "company": calculated["input"]["company"]["name"]})
     except Exception as e:  # noqa: BLE001
         return _error(e)
@@ -157,11 +160,17 @@ def ot_attachments(input_json: str, trial: str, att_json: str) -> str:
     """内訳書・概況書を作り、作れた様式・足りない欄・確かめてほしいことを返す（.xtx は作らない）。"""
     try:
         calculated = api.calculate(json.loads(input_json), trial or None)
-        uw = _attachments(calculated, json.loads(att_json or "{}"))
-        if uw is None:
-            return _dump({"ok": True, "forms": [], "missing": [], "notes": []})
+        att = json.loads(att_json or "{}")
+        uw = _attachments(calculated, att) or {"forms": {}, "missing": [], "notes": []}
         forms = [f"{ATTACHMENT_TITLES.get(f, f)}（{f}）" for f in sorted(uw["forms"])]
-        return _dump({"ok": True, "forms": forms, "missing": uw["missing"], "notes": uw.get("notes", [])})
+        missing = list(uw["missing"])
+        if att.get("office"):
+            from opentax.pro import dairi
+            office_missing = dairi.check_office(att["office"])
+            missing += [f"税務代理権限証書: {m}" for m in office_missing]
+            if not office_missing:
+                forms.append("税務代理権限証書（SOZ074。OpenTax プロ）")
+        return _dump({"ok": True, "forms": forms, "missing": missing, "notes": uw.get("notes", [])})
     except Exception as e:  # noqa: BLE001
         return _error(e)
 
@@ -176,8 +185,9 @@ def ot_export(input_json: str, trial: str, cab, att_json: str = "") -> str:
             _schema["root"] = api.schema_from_cab(data, Path("/tmp/opentax-xsd"))
             _schema["sha256"] = digest
         calculated = api.calculate(json.loads(input_json), trial or None)
-        uw = _attachments(calculated, json.loads(att_json or "{}"))
-        xml = api.export_etax(calculated, _schema["root"], datetime.date.today(), uw)
+        att = json.loads(att_json or "{}")
+        uw = _attachments(calculated, att)
+        xml = api.export_etax(calculated, _schema["root"], datetime.date.today(), uw, att.get("office"))
         errors = api.validate_xtx(xml, _schema["root"])
         if errors:
             return _dump({"ok": False, "kind": "xsd", "message": "公式XSD の検証で誤りがあります。.xtx は書き出しません",

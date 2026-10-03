@@ -90,7 +90,7 @@ def _build_layout(args: argparse.Namespace) -> int:
         raise SpecError("対象の帳票がありません")
     drift = []
     for form in forms:
-        if "group" not in form:
+        if "group" not in form and "element" not in form:
             raise SpecError(f"manifest に {form['form_id']} の XSD 情報がありません。先に fetch-spec --init を実行してください")
         text = dump_layout(build_layout(spec.schema_root(), form))
         dest = out_dir / f"{form['form_id']}.layout.json"
@@ -127,8 +127,8 @@ def _build_layout(args: argparse.Namespace) -> int:
 def _build_catalog(args: argparse.Namespace) -> int:
     manifest = Path(args.manifest_dir) / f"{args.spec_set}.manifest.json"
     spec = SpecSet(manifest, Path(args.cache_dir))
-    # 帳票フィールド仕様書: e-tax10（法人税）・e-tax11（消費税）
-    pkgs = [p for p in spec.manifest["packages"] if p["name"] in ("e-tax10", "e-tax11") and p.get("files")]
+    # 帳票フィールド仕様書: e-tax10（法人税）・e-tax11（消費税）・e-tax17（総務。税務代理権限証書など）
+    pkgs = [p for p in spec.manifest["packages"] if p["name"] in ("e-tax10", "e-tax11", "e-tax17") and p.get("files")]
     if not any(p["name"] == "e-tax10" for p in pkgs):
         raise SpecError("manifest に e-tax10 がありません。先に fetch-spec --init を実行してください")
     sources = {spec.file_path(p, f["path"]): f for p in pkgs for f in p["files"] if WORKBOOK_RE.search(f["path"])}
@@ -137,8 +137,9 @@ def _build_catalog(args: argparse.Namespace) -> int:
     forms = []
     manifest_changed = False
     for form in spec.manifest["forms"]:
-        # 消費税の様式は消費税の仕様書、ほかは法人税の仕様書から探す
-        books = [w for w in workbooks if ("消費" in w.name) == form["form_id"].startswith("SH")]
+        # 消費税の様式は消費税の仕様書、総務の様式（SOZ）は総務の仕様書、ほかは法人税の仕様書から探す
+        kind = "消費" if form["form_id"].startswith("SH") else "総務" if form["form_id"].startswith("SO") else "法人"
+        books = [w for w in workbooks if kind in w.name]
         workbook, sheet = find_sheet(books, form["form_id"], form["version"])
         source = sources[workbook]
         if (form.get("field_spec_workbook"), form.get("field_spec_sheet")) != (source["path"], sheet):
@@ -276,7 +277,8 @@ def _export_etax(args: argparse.Namespace) -> int:
         for m in gk["missing"]:
             print(f"  概況書で足りない欄: {m}")
         uw = api.merge_uchiwake(uw or {}, gk)
-    xml =api.export_etax(calculated, schema_root, uchiwake=uw)
+    office, engagement = _office(args)
+    xml = api.export_etax(calculated, schema_root, uchiwake=uw, office=office, engagement=engagement)
     errors = api.validate_xtx(xml, schema_root)
     if errors:
         print(f"公式XSD の検証で誤りがあります（{len(errors)} 件）。.xtx は書き出しません")
@@ -342,6 +344,20 @@ def _local_tax(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def _office_args(p: argparse.ArgumentParser) -> None:
+    p.add_argument("--office", help="OpenTax プロ: 税理士事務所の設定 JSON。税務代理権限証書を添付する（見本: tests/cases/office/office.json）")
+    p.add_argument("--engaged-on", help="OpenTax プロ: 税務代理権限証書の委任年月日（YYYY-MM-DD）")
+
+
+def _office(args: argparse.Namespace) -> tuple[dict | None, dict | None]:
+    if not getattr(args, "office", None):
+        return None, None
+    import json as _json
+    office = _json.loads(Path(args.office).read_text(encoding="utf-8"))
+    print("税務代理権限証書を入れます（OpenTax プロ）")
+    return office, ({"date": args.engaged_on} if args.engaged_on else None)
+
+
 def _report(args: argparse.Namespace) -> int:
     """申告書一式（HTML 1枚）。--demo なら架空の法人（オープン商事）の見本で作る。"""
     import json as _json
@@ -356,6 +372,7 @@ def _report(args: argparse.Namespace) -> int:
         args.payroll, args.supplement, args.shohi = [case / "payroll_2026.json"], case / "uchiwake_supplement.json", case / "shohi.json"
         info = read(case / "gaikyo.json")
         info["monthly"].pop("months")
+        args.office = args.office or str(case.parent / "office" / "office.json")
     else:
         if not args.input:
             print("エラー: 入力（法人税の JSON）か --demo を指定してください", file=sys.stderr)
@@ -368,7 +385,8 @@ def _report(args: argparse.Namespace) -> int:
         return EXIT_ERROR
     html = api.report(calculated, Path(args.balance).read_bytes() if args.balance else None,
                       Path(args.trend).read_bytes() if args.trend else None, [read(p) for p in args.payroll or []],
-                      read(args.supplement) if args.supplement else None, info, read(args.shohi) if args.shohi else None)
+                      read(args.supplement) if args.supplement else None, info, read(args.shohi) if args.shohi else None,
+                      None, *_office(args))
     # 様式の画像（web/build.py が作る web/_site/forms/）を HTML の中に埋め込む。なければ表の形の章だけになる
     import base64
     import re as _re
@@ -410,7 +428,8 @@ def _shohi(args: argparse.Namespace) -> int:
         schema_root = api.schema_from_cab(Path(args.cab).read_bytes())
     if not schema_root.exists():
         raise SpecError("公式XSD がありません。opentax fetch-spec --set ksk2-2026-08 を実行するか、--cab で e-tax19.CAB を指定してください")
-    xml = api.shohi_export(c, schema_root)
+    office, engagement = _office(args)
+    xml = api.shohi_export(c, schema_root, office=office, engagement=engagement)
     errors = api.validate_xtx(xml, schema_root, "RSH0020")
     if errors:
         print(f"公式XSD の検証で誤りがあります（{len(errors)} 件）。.xtx は書き出しません")
@@ -472,6 +491,7 @@ def main(argv: list[str] | None = None) -> int:
     x.add_argument("--supplement", help="内訳書の足りない欄を足す JSON（相手先の所在地・口座番号など）")
     x.add_argument("--payroll", nargs="+", help="役員給与等・人件費の内訳書も作る: 給与の記録ファイル（事業年度にかかる年の分）")
     x.add_argument("--gaikyo", help="法人事業概況説明書も作る: 手入力の欄の JSON（主要科目は --balance、従事員・人件費は --payroll から）")
+    _office_args(x)
     x.add_argument("--trend", help="概況書の月別の売上・仕入を作る: 会計ソフトの月次推移表（CSV・TXT。--gaikyo の monthly.months があればそちらを使う）")
 
     lt = sub.add_parser("local-tax", help="OpenTax RED: 地方税の計算結果の一覧（第六号様式・第二十号様式）を HTML で作る")
@@ -488,12 +508,14 @@ def main(argv: list[str] | None = None) -> int:
     rp.add_argument("--supplement", help="内訳書の足りない欄を足す JSON")
     rp.add_argument("--gaikyo", help="概況書の手入力の欄の JSON")
     rp.add_argument("--shohi", help="消費税の入力 JSON")
+    _office_args(rp)
 
     sh = sub.add_parser("shohi", help="消費税の一般課税（法人・割戻し計算・全額控除）を計算し、-o で .xtx（手続 RSH0020）を作る")
     sh.add_argument("input")
     sh.add_argument("-o", "--output", help="書き出す .xtx（省略時は計算結果だけ表示）")
     sh.add_argument("--cache-dir", default=".cache/etax")
     sh.add_argument("--cab", help="国税庁から取った e-tax19.CAB（キャッシュの代わりに使う）")
+    _office_args(sh)
 
     args = parser.parse_args(argv)
     command = {"fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,

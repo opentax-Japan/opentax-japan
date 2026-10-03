@@ -469,7 +469,7 @@ let att = {};
 const attNames = {};
 const ATT_FILES = [
   { id: "balance", kind: "txt" }, { id: "trend", kind: "txt" }, { id: "supplement", kind: "json" },
-  { id: "payroll", kind: "json", multiple: true }, { id: "gaikyo", kind: "json" },
+  { id: "payroll", kind: "json", multiple: true }, { id: "gaikyo", kind: "json" }, { id: "office", kind: "json" },
 ];
 
 function base64Of(buffer) {

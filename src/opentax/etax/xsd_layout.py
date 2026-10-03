@@ -263,6 +263,8 @@ class _Builder:
             if tag == "annotation":
                 continue
             if tag == "element":
+                if (p.get("ref") or "").endswith(":Signature"):
+                    continue    # 様式の中の電子署名（XML 署名。税務代理権限証書など）は e-Taxソフトで付ける。欄ではない
                 out.append(self.element(p, file, path, depth + 1))
             elif tag == "group":
                 if _occurs(p) != (1, 1):
@@ -384,24 +386,34 @@ class _Builder:
 def build_layout(schema_root: Path, form: Mapping[str, Any]) -> dict:
     """manifest の forms[] の1件（xsd・version・group が入ったもの）から layout を作る。"""
     schemas = SchemaSet(schema_root, form["xsd"])
-    d = schemas.lookup("group", form["group"], schemas.entry)
-    if d is None:
-        raise LayoutError(f"group がありません: {form['group']}（{form['xsd']}）")
-    seq = d.el.find(_x("sequence"))
-    elements = [] if seq is None else [e for e in seq if e.tag == _x("element")]
-    if len(elements) != 1 or elements[0].get("name") != form["form_id"]:
-        raise LayoutError(f"group の中身が帳票1件ではありません: {form['group']}")
-    root = _Builder(schemas).element(elements[0], d.file, "", 0)
-    return {
+    if form.get("element"):
+        # 総務の様式（税務代理権限証書など）は group ではなく、最上位の element で定義されている
+        d = schemas.lookup("element", form["element"], schemas.entry)
+        if d is None:
+            raise LayoutError(f"element がありません: {form['element']}（{form['xsd']}）")
+        root = _Builder(schemas).element(d.el, d.file, "", 0)
+    else:
+        d = schemas.lookup("group", form["group"], schemas.entry)
+        if d is None:
+            raise LayoutError(f"group がありません: {form['group']}（{form['xsd']}）")
+        seq = d.el.find(_x("sequence"))
+        elements = [] if seq is None else [e for e in seq if e.tag == _x("element")]
+        if len(elements) != 1 or elements[0].get("name") != form["form_id"]:
+            raise LayoutError(f"group の中身が帳票1件ではありません: {form['group']}")
+        root = _Builder(schemas).element(elements[0], d.file, "", 0)
+    out = {
         "form_id": form["form_id"],
         "label": form.get("label"),
         "version": form["version"],
         "namespace": schemas.entry.tns,
-        "group": form["group"],
+        "group": form.get("group"),
         "xsd": form["xsd"],
         "xsd_sha256": form.get("xsd_sha256"),
         "root": root,
     }
+    if form.get("element"):
+        out["element"] = form["element"]
+    return out
 
 
 def build_it_layout(schema_root: Path, procedure_xsd: str, names: list[str]) -> dict:

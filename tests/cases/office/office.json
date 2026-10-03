@@ -1,0 +1,14 @@
+{
+  "note": "架空の税理士事務所の設定（OpenTax プロ。税務代理権限証書に使う）。名前・番号はすべて架空",
+  "kind": "税理士",
+  "name": "見本 次郎",
+  "user_id": "0000000000000000",
+  "office_name": "見本税理士事務所",
+  "address": "東京都千代田区霞が関9-9-9",
+  "phone": "03-0000-1111",
+  "association": "見本税理士会",
+  "branch": "霞が関支部",
+  "registration": "999999",
+  "consents": {"past_years": false, "survey_notice": true, "no_correction_notice": true, "result_explanation": true,
+               "representative": false}
+}

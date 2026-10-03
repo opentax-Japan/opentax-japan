@@ -25,7 +25,7 @@ _NS = {
     "r": "http://schemas.openxmlformats.org/officeDocument/2006/relationships",
     "rel": "http://schemas.openxmlformats.org/package/2006/relationships",
 }
-WORKBOOK_RE = re.compile(r"帳票フィールド仕様書[（(](?:法人|消費)-申告[）)]Ver(\d+)x\.xlsx$")
+WORKBOOK_RE = re.compile(r"帳票フィールド仕様書[（(](?:法人-申告|消費-申告|総務)[）)]Ver(\d+)x\.xlsx$")
 
 HEADER = ("項番", "入力型", "帳票項番", "項目（ｸﾞﾙｰﾌﾟ）名", "項目名", "繰返し回数", "書式", "入力ﾁｪｯｸ", "計算",
           "値の範囲", "計算No", "計算／備考", "ＸＭＬタグ", "順位", "ID属性", "IDREF属性")

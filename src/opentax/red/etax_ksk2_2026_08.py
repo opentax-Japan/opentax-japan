@@ -412,7 +412,7 @@ ATTACH_FORMS = UCHIWAKE_FORMS + ("HOK010",)
 
 
 def build_xtx(data: dict, result: dict, numbers: dict, zeimusho_xsd: bytes, today: datetime.date,
-              uchiwake: dict | None = None) -> bytes:
+              uchiwake: dict | None = None, tenpu: dict | None = None) -> bytes:
     """numbers: form_values の結果（タグ → 金額）。0 の金額は出さない（空欄）。
     uchiwake: 内訳書・概況書の値（様式ID → タグ → 値。red.uchiwake.build・red.gaikyo.build の forms）。ある様式だけ別表のあとに入れる。"""
     nums = {k: ([x or None for x in v] if isinstance(v, list) else v) for k, v in numbers.items()
@@ -433,7 +433,22 @@ def build_xtx(data: dict, result: dict, numbers: dict, zeimusho_xsd: bytes, toda
             attrs = {"id": f"{form_id}-1", "page": "1", "softNM": SOFT_NAME, "sakuseiNM": preparer,
                      "sakuseiDay": today.isoformat()}
             forms.append(build_form(load_layout(SPEC_SET, form_id), uchiwake[form_id], it_ids, attrs))
-    return build_document(PROCEDURE_ID, PROCEDURE_VR, it, forms)
+    return build_document(PROCEDURE_ID, PROCEDURE_VR, it, forms, tenpu=tenpu_forms(tenpu, it_ids, preparer, today))
+
+
+# 添付（TENPU）に入れる様式（手続XSD の TENPU の並び順）: 税務代理権限証書
+TENPU_FORMS = ("SOZ074",)
+
+
+def tenpu_forms(tenpu: dict | None, it_ids: set[str], preparer: str, today: datetime.date) -> list:
+    """tenpu: 様式ID → 値（pro.dairi.values など）。法人税・消費税の手続で共通。"""
+    out = []
+    for form_id in TENPU_FORMS:
+        if (tenpu or {}).get(form_id):
+            attrs = {"id": f"{form_id}-1", "page": "1", "softNM": SOFT_NAME, "sakuseiNM": preparer,
+                     "sakuseiDay": today.isoformat()}
+            out.append(build_form(load_layout(SPEC_SET, form_id), tenpu[form_id], it_ids, attrs))
+    return out
 
 
 def verify(result: dict, values: dict) -> list[str]:

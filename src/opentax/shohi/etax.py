@@ -109,7 +109,7 @@ def it_values(c: dict, zeimusho_xsd: bytes) -> dict:
     return v
 
 
-def build_xtx(c: dict, zeimusho_xsd: bytes, today: datetime.date) -> bytes:
+def build_xtx(c: dict, zeimusho_xsd: bytes, today: datetime.date, tenpu: dict | None = None) -> bytes:
     values = form_values(c)
     values["SHA010"].update(text_values(c))
     it, it_ids = build_it(load_layout(SPEC_SET, f"IT-{PROCEDURE_ID}"), it_values(c, zeimusho_xsd), {})
@@ -119,4 +119,5 @@ def build_xtx(c: dict, zeimusho_xsd: bytes, today: datetime.date) -> bytes:
         vals = {k: x for k, x in values[form_id].items() if x not in (None, 0, "0.00")}
         attrs = {"id": f"{form_id}-1", "page": "1", "softNM": SOFT_NAME, "sakuseiNM": preparer, "sakuseiDay": today.isoformat()}
         forms.append(build_form(load_layout(SPEC_SET, form_id), vals, it_ids, attrs))
-    return build_document(PROCEDURE_ID, PROCEDURE_VR, it, forms, NAMESPACE)
+    from ..red.etax_ksk2_2026_08 import tenpu_forms
+    return build_document(PROCEDURE_ID, PROCEDURE_VR, it, forms, NAMESPACE, tenpu_forms(tenpu, it_ids, preparer, today))
