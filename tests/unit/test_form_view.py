@@ -119,12 +119,12 @@ class PaperSheetTest(unittest.TestCase):
             self.assertEqual([i["text"] for i in period], ["7", "10", "1", "8", "9", "30"], s["form_id"])
             self.assertTrue(period[0]["box"][2] <= period[1]["box"][0] + 12, s["form_id"])   # 年・月・日が左から並ぶ
 
-    def test_paper_without_confirmed_ratios_hides_them(self):
+    def test_paper_ratios_are_truncated(self):
         raw = json.loads(SAMPLE.read_text(encoding="utf-8"))
         raw["issued_shares"] = 300                              # 200/300 で端数が出る
         s2 = next(s for s in api.paper_sheets(api.calculate(raw)) if s["form_id"] == "HOA201")
         texts = [i["text"] for i in s2["items"]]
-        self.assertFalse([t for t in texts if t.startswith("66.")])   # 端数処理が未確認の割合は出さない
+        self.assertEqual([t for t in texts if t.startswith("66.")], ["66.6", "66.666"])   # 切り捨て
         self.assertIn("200", texts)
         s2 = next(s for s in api.paper_sheets(api.calculate(json.loads(SAMPLE.read_text(encoding="utf-8"))))
                   if s["form_id"] == "HOA201")

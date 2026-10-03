@@ -95,7 +95,7 @@ class TrialRoundingGuardTest(unittest.TestCase):
             code = main(["export-etax", str(SAMPLE), "-o", "out.xtx", "--trial-ratio-rounding", "truncate"])
         self.assertEqual(code, 2)
         self.assertIn("試し用", err.getvalue())
-        self.assertIsNone(calc.load_rules("corporate_tax.json")["family_company_ratio_display"]["mode"])
+        self.assertNotIn("試し用", calc.load_rules("corporate_tax.json")["family_company_ratio_display"]["source"])   # 設定ファイルは書き換えない
 
 
 class OutOfScopeTest(unittest.TestCase):

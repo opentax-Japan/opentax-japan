@@ -17,8 +17,9 @@
     }
   ],
   "family_company_ratio_display": {
-    "mode": null,
-    "source": null,
-    "note": "別表二の「株式数等による判定」（小数1桁）・「判定割合」（小数3桁）に書く割合の端数処理。国税庁の別表二の記載要領（https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2024/pdf/02-ki.pdf）に記載が見つからない。判定そのものは丸めずに行う。端数が出ない割合（100% など）は mode が null でも書く（DESIGN.md §15.4）。mode は truncate（切り捨て）か round_half_up（四捨五入）"
+    "mode": "truncate",
+    "source": "法令・通達・記載の仕方に定めがないため、利用者（税理士）の判断で切り捨てに決めた（2026-10-03）。定めがないことを確かめた資料: 法人税法第2条第10号、法人税法施行令第4条、法人税基本通達1-3-1〜1-3-8、別表二の記載の仕方（https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/02-ki.pdf）、法人税のあらましと申告の手引 令和7年版 別表二。持株割合を実際より大きく書かないよう切り捨てにする",
+    "checked": "2026-10-03",
+    "note": "別表二の「株式数等による判定」（小数1桁）・「判定割合」（小数3桁）に書く割合の端数処理。判定そのものは丸めずに（分数で）「百分の五十を超えるか」で行う（法人税法第2条第10号）。ほかの割合（施行令第8条・第9条・第12条・第96条など）は条文ごとに端数処理が定められているが、同族会社の判定割合には定めがない。mode は truncate（切り捨て）か round_half_up（四捨五入）"
   }
 }
