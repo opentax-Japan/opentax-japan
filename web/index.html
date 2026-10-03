@@ -52,6 +52,27 @@
       <button type="button" id="download-local">地方税の一覧を保存（HTML）</button>
     </div>
 
+    <h3>内訳書・概況書（任意）</h3>
+    <p class="note">選んだファイルから、勘定科目内訳明細書と法人事業概況説明書を作り、.xtx に一緒に入れます。ファイルはこの画面の中で読むだけで、どこにも送りません。</p>
+    <div class="attach-grid">
+      <label class="file-button">科目残高一覧表（TKC の TXT）<input type="file" id="att-balance" accept=".txt,.TXT,text/plain"></label>
+      <span id="att-balance-name" class="note">未選択（内訳書・概況書の主要科目に使います）</span>
+      <label class="file-button">科目残高推移表（TKC の TXT）<input type="file" id="att-trend" accept=".txt,.TXT,text/plain"></label>
+      <span id="att-trend-name" class="note">未選択（概況書の月別の売上・仕入に使います）</span>
+      <label class="file-button">内訳書の補足（JSON）<input type="file" id="att-supplement" accept=".json,application/json"></label>
+      <span id="att-supplement-name" class="note">未選択（相手先の所在地・口座番号など）</span>
+      <label class="file-button">給与の記録（JSON・複数可）<input type="file" id="att-payroll" accept=".json,application/json" multiple></label>
+      <span id="att-payroll-name" class="note">未選択（役員給与等の内訳書、概況書の従事員・人件費に使います）</span>
+      <label class="file-button">概況書の入力（JSON）<input type="file" id="att-gaikyo" accept=".json,application/json"></label>
+      <span id="att-gaikyo-name" class="note">未選択（事業内容・経理の状況・税理士など。選ばなければ概況書は作りません）</span>
+    </div>
+    <div class="row">
+      <button type="button" id="att-sample">見本（架空の法人）のファイルを入れる</button>
+      <button type="button" id="att-check">内訳書・概況書を確かめる</button>
+      <button type="button" id="att-clear">選んだファイルを外す</button>
+    </div>
+    <div id="att-result"></div>
+
     <h3>e-Tax 用のデータ（.xtx）</h3>
     <p class="note">国税庁の e-Tax 仕様書「XMLスキーマ」（e-tax19.CAB）を選んでください。この CAB で申告データを検証してから書き出します。CAB は国税庁のサイト（https://www.e-tax.nta.go.jp/shiyo/ksk2/ksk2_shiyo3.htm）から取得してください。</p>
     <div class="row">

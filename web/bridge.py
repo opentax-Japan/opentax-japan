@@ -28,7 +28,10 @@ def _dump(obj) -> str:
 
 
 def _error(e: Exception) -> str:
-    kinds = [(OutOfScope, "out_of_scope"), (InputError, "input"), (RuleError, "rule"), (LocalRuleError, "rule"),
+    from opentax.payroll.record import PayrollInputError
+    from opentax.red.uchiwake import BalanceFormatError
+    kinds = [(OutOfScope, "out_of_scope"), (InputError, "input"), (BalanceFormatError, "input"),
+             (PayrollInputError, "input"), (RuleError, "rule"), (LocalRuleError, "rule"),
              (SheetError, "rule"), (XtxError, "xtx"), (SpecError, "spec"), (ValidationUnavailable, "spec")]
     kind = next((k for t, k in kinds if isinstance(e, t)), "internal")
     message = str(e) if kind != "internal" else f"内部エラー: {e}\n{traceback.format_exc()}"
@@ -88,8 +91,64 @@ def ot_payroll(record_json: str) -> str:
         return _error(e)
 
 
-def ot_export(input_json: str, trial: str, cab) -> str:
-    """cab: 画面で選んだ e-tax19.CAB（JS の Uint8Array）。検証を通ったときだけ .xtx を返す。"""
+def _attachments(calculated: dict, att: dict) -> dict | None:
+    """内訳書・概況書の値。att: {balance・trend: base64（TKC の TXT）, supplement・gaikyo: dict, payroll: [dict]}。
+    CLI の export-etax と同じ順でまとめる。"""
+    if not any(att.get(k) for k in ("balance", "trend", "supplement", "payroll", "gaikyo")):
+        return None
+    balance = base64.b64decode(att["balance"]) if att.get("balance") else None
+    trend = base64.b64decode(att["trend"]) if att.get("trend") else None
+    records = att.get("payroll") or []
+    parts = []
+    if balance:
+        parts.append(api.uchiwake_from_balance(balance, att.get("supplement")))
+    if records:
+        fp = calculated["input"]["fiscal_period"]
+        parts.append(api.uchiwake_officers(records, fp["start"], fp["end"]))
+    if att.get("gaikyo") is not None:
+        parts.append(api.gaikyo(calculated, balance, records, att["gaikyo"], trend))
+    return api.merge_uchiwake(*parts)
+
+
+ATTACHMENT_TITLES = {"HOI010": "預貯金等", "HOI030": "売掛金（未収入金）", "HOI040": "仮払金（前渡金）・貸付金",
+                     "HOI090": "買掛金（未払金・未払費用）", "HOI100": "仮受金（前受金・預り金）", "HOI110": "借入金及び支払利子",
+                     "HOI141": "役員給与等・人件費", "HOI150": "地代家賃等", "HOI160": "雑益、雑損失等",
+                     "HOK010": "法人事業概況説明書"}
+
+
+def ot_attachment_samples() -> str:
+    """架空の法人の内訳書・概況書の見本（科目残高・推移表は base64）。"""
+    case = APP_ROOT / "tests" / "cases" / "open-shoji-tokyo"
+
+    def b64(name):
+        return base64.b64encode((case / name).read_bytes()).decode("ascii")
+
+    def js(name):
+        return json.loads((case / name).read_text(encoding="utf-8"))
+
+    gaikyo = js("gaikyo.json")
+    gaikyo["monthly"].pop("months")  # 月別の売上・仕入は推移表から作る（手で書いたものと同じ値になる）
+    return _dump({"balance": b64("科目残高一覧表_架空_TKC形式.txt"), "trend": b64("科目残高推移表_架空_TKC形式.txt"),
+                  "supplement": js("uchiwake_supplement.json"), "payroll": [js("payroll_2026.json")],
+                  "gaikyo": gaikyo})
+
+
+def ot_attachments(input_json: str, trial: str, att_json: str) -> str:
+    """内訳書・概況書を作り、作れた様式・足りない欄・確かめてほしいことを返す（.xtx は作らない）。"""
+    try:
+        calculated = api.calculate(json.loads(input_json), trial or None)
+        uw = _attachments(calculated, json.loads(att_json or "{}"))
+        if uw is None:
+            return _dump({"ok": True, "forms": [], "missing": [], "notes": []})
+        forms = [f"{ATTACHMENT_TITLES.get(f, f)}（{f}）" for f in sorted(uw["forms"])]
+        return _dump({"ok": True, "forms": forms, "missing": uw["missing"], "notes": uw.get("notes", [])})
+    except Exception as e:  # noqa: BLE001
+        return _error(e)
+
+
+def ot_export(input_json: str, trial: str, cab, att_json: str = "") -> str:
+    """cab: 画面で選んだ e-tax19.CAB（JS の Uint8Array）。検証を通ったときだけ .xtx を返す。
+    att_json: 内訳書・概況書の材料（_attachments の att）。空なら別表だけ。"""
     try:
         data = bytes(cab.to_py())
         digest = hashlib.sha256(data).hexdigest()
@@ -97,7 +156,8 @@ def ot_export(input_json: str, trial: str, cab) -> str:
             _schema["root"] = api.schema_from_cab(data, Path("/tmp/opentax-xsd"))
             _schema["sha256"] = digest
         calculated = api.calculate(json.loads(input_json), trial or None)
-        xml = api.export_etax(calculated, _schema["root"], datetime.date.today())
+        uw = _attachments(calculated, json.loads(att_json or "{}"))
+        xml = api.export_etax(calculated, _schema["root"], datetime.date.today(), uw)
         errors = api.validate_xtx(xml, _schema["root"])
         if errors:
             return _dump({"ok": False, "kind": "xsd", "message": "公式XSD の検証で誤りがあります。.xtx は書き出しません",

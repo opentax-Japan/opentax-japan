@@ -26,7 +26,10 @@ CACHE = REPO / ".cache" / "web"
 STATIC = ["index.html", "style.css", "app.js", "worker.js", "bridge.py", "payroll.html", "payroll.js"]
 PYODIDE_FILES = ["pyodide.mjs", "pyodide.asm.mjs", "pyodide.asm.wasm", "python_stdlib.zip", "pyodide-lock.json"]
 SAMPLES = ["tests/cases/open-shoji/input.json", "tests/cases/open-shoji-tokyo/input.json",
-           "tests/cases/open-shoji-tokyo/payroll_2026.json"]
+           "tests/cases/open-shoji-tokyo/payroll_2026.json", "tests/cases/open-shoji-tokyo/gaikyo.json",
+           "tests/cases/open-shoji-tokyo/uchiwake_supplement.json",
+           "tests/cases/open-shoji-tokyo/科目残高一覧表_架空_TKC形式.txt",
+           "tests/cases/open-shoji-tokyo/科目残高推移表_架空_TKC形式.txt"]
 
 
 def fetch(url: str, sha256: str) -> Path:

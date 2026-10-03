@@ -129,6 +129,21 @@ def main() -> int:
         expect(page.locator("#export-result")).to_contain_text("誤りなし", timeout=10_000)
         page.locator("#results").screenshot(path=str(OUT / "03-results.png"))
 
+        # 内訳書・概況書（見本のファイル）を入れて .xtx を作る
+        page.click("#att-sample")
+        expect(page.locator("#att-gaikyo-name")).to_contain_text("見本", timeout=30_000)
+        page.click("#att-check")
+        expect(page.locator("#att-result")).to_contain_text("作れる様式", timeout=120_000)
+        att_text = page.locator("#att-result").inner_text()
+        check("内訳書・概況書を確かめる（HOI010・HOI141・HOK010）", all(f in att_text for f in ("HOI010", "HOI141", "HOK010")))
+        check("概況書の月別を推移表から作った", "推移表から作りました" in att_text)
+        page.locator("#att-result").screenshot(path=str(OUT / "06-attachments.png"))
+        with page.expect_download(timeout=300_000) as dl:
+            page.click("#export-etax")
+        att_path = OUT / ("att_" + dl.value.suggested_filename)
+        dl.value.save_as(att_path)
+        expect(page.locator("#export-result")).to_contain_text("誤りなし", timeout=10_000)
+
         storage = page.evaluate("""async () => ({
             local: localStorage.length, session: sessionStorage.length, cookie: document.cookie,
             idb: (await indexedDB.databases()).length, caches: (await caches.keys()).length })""")
@@ -153,6 +168,22 @@ def main() -> int:
                                         "truncate"), root)
     strip = lambda b: re.sub(rb'sakuseiDay="[^"]*"', b"", b)
     check("CLI の試し用の出力と同じ内容（作成日を除く）", strip(xml) == strip(cli))
+
+    # 内訳書・概況書入りの .xtx も、同じ材料で手元で作ったものと同じ
+    case = REPO / "tests/cases/open-shoji-tokyo"
+    load = lambda n: json.loads((case / n).read_text(encoding="utf-8"))  # noqa: E731
+    calc = api.calculate(load("input.json"), "truncate")
+    balance, trend = (case / "科目残高一覧表_架空_TKC形式.txt").read_bytes(), (case / "科目残高推移表_架空_TKC形式.txt").read_bytes()
+    fp = calc["input"]["fiscal_period"]
+    info = load("gaikyo.json")
+    info["monthly"].pop("months")
+    uw =api.merge_uchiwake(api.uchiwake_from_balance(balance, load("uchiwake_supplement.json")),
+                            api.uchiwake_officers([load("payroll_2026.json")], fp["start"], fp["end"]),
+                            api.gaikyo(calc, balance, [load("payroll_2026.json")], info, trend))
+    att_xml = att_path.read_bytes()
+    check("内訳書・概況書入りの .xtx も公式XSD で誤りなし", api.validate_xtx(att_xml, root) == [] and b"<HOK010 " in att_xml)
+    check("内訳書・概況書入りの .xtx が手元で作ったものと同じ（作成日を除く）",
+          strip(att_xml) == strip(api.export_etax(calc, root, None, uw)))
 
     failed = [label for label, ok in results if not ok]
     print(f"\n{len(results) - len(failed)}/{len(results)} 件 OK")

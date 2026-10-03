@@ -71,3 +71,5 @@ svg.paper-sheet ellipse.mark { fill: none; stroke: #0b3d91; stroke-width: 4; }
 main.wide { max-width: 1280px; }
 #payment-grid td:first-child, #payment-grid th { white-space: nowrap; }
 #totals td { white-space: normal; }
+.attach-grid { display: grid; grid-template-columns: max-content 1fr; gap: 8px 12px; align-items: center; margin: 12px 0; }
+@media (max-width: 640px) { .attach-grid { grid-template-columns: 1fr; } }

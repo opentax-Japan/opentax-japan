@@ -449,7 +449,7 @@ async function exportEtax() {
   out.textContent = "";
   setStatus("公式XSD で検証して .xtx を作っています（1分ほどかかることがあります）…");
   const bytes = new Uint8Array(await cabFile.arrayBuffer());
-  const res = await call("ot_export", [JSON.stringify(lastInput), trialMode(), bytes], [bytes.buffer]);
+  const res = await call("ot_export", [JSON.stringify(lastInput), trialMode(), bytes, JSON.stringify(att)], [bytes.buffer]);
   setStatus(res.ok ? ".xtx を作りました。" : ".xtx を作れませんでした。", !res.ok);
   out.scrollIntoView({ behavior: "smooth", block: "center" });
   if (!res.ok) {
@@ -463,6 +463,80 @@ async function exportEtax() {
   out.append(el("div", { class: "msg ok" }, `公式XSD（手続 RHO0012）の検証: 誤りなし。${name}（${res.size.toLocaleString("ja-JP")} バイト）を保存しました。`
     + (res.trial ? "\n試し用です。本番の申告には使わないでください。" : "")));
 }
+
+// ---- 内訳書・概況書の材料（選んだファイルの中身。この変数にだけ置く） ----
+let att = {};
+const attNames = {};
+const ATT_FILES = [
+  { id: "balance", kind: "txt" }, { id: "trend", kind: "txt" }, { id: "supplement", kind: "json" },
+  { id: "payroll", kind: "json", multiple: true }, { id: "gaikyo", kind: "json" },
+];
+
+function base64Of(buffer) {
+  const bytes = new Uint8Array(buffer);
+  let s = "";
+  for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  return btoa(s);
+}
+
+function showAttNames() {
+  ATT_FILES.forEach(({ id }) => {
+    const span = document.getElementById(`att-${id}-name`);
+    if (!span.dataset.empty) span.dataset.empty = span.textContent;
+    span.textContent = attNames[id] || span.dataset.empty;
+  });
+  document.getElementById("att-result").textContent = "";
+}
+
+async function pickAttachment(f, files) {
+  if (!files.length) return;
+  try {
+    const values = [];
+    for (const file of files) {
+      values.push(f.kind === "txt" ? base64Of(await file.arrayBuffer()) : JSON.parse(await file.text()));
+    }
+    att[f.id] = f.multiple ? values : values[0];
+    attNames[f.id] = files.map((x) => x.name).join("、");
+  } catch (err) {
+    delete att[f.id];
+    delete attNames[f.id];
+    showMessages([["error", `ファイルを読めません: ${err.message}`]]);
+  }
+  showAttNames();
+}
+
+async function checkAttachments() {
+  const out = document.getElementById("att-result");
+  out.textContent = "";
+  if (!lastInput) { out.append(el("div", { class: "msg error" }, "先に「計算する」を押してください。")); return; }
+  setStatus("内訳書・概況書を作っています…");
+  const res = await call("ot_attachments", [JSON.stringify(lastInput), trialMode(), JSON.stringify(att)]);
+  setStatus(res.ok ? "内訳書・概況書を確かめました。" : "内訳書・概況書を作れませんでした。", !res.ok);
+  if (!res.ok) { out.append(el("div", { class: "msg error" }, res.message)); return; }
+  if (!res.forms.length) { out.append(el("div", { class: "msg warn" }, "ファイルが選ばれていません。")); return; }
+  out.append(el("div", { class: "msg ok" }, `作れる様式: ${res.forms.join("、")}（.xtx に入れます）`));
+  if (res.missing.length) out.append(el("div", { class: "msg warn" }, `足りない欄・合わない検算（${res.missing.length} 件）:\n${res.missing.join("\n")}`));
+  if (res.notes.length) out.append(el("div", { class: "msg warn" }, `確かめてください:\n${res.notes.join("\n")}`));
+}
+
+ATT_FILES.forEach((f) => {
+  document.getElementById(`att-${f.id}`).addEventListener("change", async (e) => {
+    const files = [...e.target.files];
+    e.target.value = "";
+    await pickAttachment(f, files);
+  });
+});
+document.getElementById("att-check").addEventListener("click", checkAttachments);
+document.getElementById("att-clear").addEventListener("click", () => {
+  att = {};
+  ATT_FILES.forEach(({ id }) => delete attNames[id]);
+  showAttNames();
+});
+document.getElementById("att-sample").addEventListener("click", async () => {
+  att = await call("ot_attachment_samples", []);
+  ATT_FILES.forEach(({ id }) => { attNames[id] = "見本（架空の法人）"; });
+  showAttNames();
+});
 
 // ---- ファイル ----
 function download(blob, name) {
@@ -511,6 +585,9 @@ document.getElementById("clear-input").addEventListener("click", () => {
   state = {};
   lastInput = null;
   dirty = false;
+  att = {};
+  ATT_FILES.forEach(({ id }) => delete attNames[id]);
+  showAttNames();
   render();
   document.getElementById("results").hidden = true;
   showMessages([]);
