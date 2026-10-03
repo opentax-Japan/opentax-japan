@@ -252,6 +252,14 @@ def _export_etax(args: argparse.Namespace) -> int:
             print(f"内訳書で足りない欄（{len(uw['missing'])} 件。--supplement で足せます）:")
             for m in uw["missing"]:
                 print(f"  {m}")
+    if args.payroll:
+        import json as _json
+        records = [_json.loads(Path(f).read_text(encoding="utf-8")) for f in args.payroll]
+        fp = calculated["input"]["fiscal_period"]
+        officers = api.uchiwake_officers(records, fp["start"], fp["end"])
+        for m in officers["missing"]:
+            print(f"  役員給与等の内訳書: {m}")
+        uw = api.merge_uchiwake(uw or {}, officers)
     xml = api.export_etax(calculated, schema_root, uchiwake=uw)
     errors = api.validate_xtx(xml, schema_root)
     if errors:
@@ -365,6 +373,7 @@ def main(argv: list[str] | None = None) -> int:
                    help="試し用: 別表二の割合の端数処理を仮に決める。書き出すファイル名に「試し用」か「trial」が必要")
     x.add_argument("--balance", help="内訳書も作る: 会計ソフトの科目残高（TKC の科目残高一覧表 TXT）")
     x.add_argument("--supplement", help="内訳書の足りない欄を足す JSON（相手先の所在地・口座番号など）")
+    x.add_argument("--payroll", nargs="+", help="役員給与等・人件費の内訳書も作る: 給与の記録ファイル（事業年度にかかる年の分）")
 
     lt = sub.add_parser("local-tax", help="OpenTax RED: 地方税の計算結果の一覧（第六号様式・第二十号様式）を HTML で作る")
     lt.add_argument("input")

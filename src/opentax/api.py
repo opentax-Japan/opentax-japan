@@ -296,3 +296,19 @@ def payroll_ledger(record: dict) -> str:
     """賃金台帳（HTML）。"""
     from .payroll import ledger, record as pr
     return ledger.build(pr.validate(record))
+
+
+def uchiwake_officers(payroll_records: list[dict], start: datetime.date, end: datetime.date) -> dict:
+    """役員給与等の内訳書・人件費の内訳書（HOI141）を給与の記録から作る。戻り値は uchiwake_from_balance と同じ形。"""
+    from .payroll import officers
+    return officers.build(payroll_records, start, end)
+
+
+def merge_uchiwake(*parts: dict) -> dict:
+    """内訳書の値（uchiwake_from_balance・uchiwake_officers の結果）をまとめる。"""
+    out = {"forms": {}, "missing": [], "totals": []}
+    for p in parts:
+        out["forms"].update(p.get("forms", {}))
+        out["missing"] += p.get("missing", [])
+        out["totals"] += p.get("totals", [])
+    return out

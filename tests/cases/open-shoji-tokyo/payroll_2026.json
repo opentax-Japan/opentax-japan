@@ -5,45 +5,233 @@
   "year": 2026,
   "items": {
     "pay": [
-      {"key": "basic", "name": "基本給", "taxable": true},
-      {"key": "overtime", "name": "時間外手当", "taxable": true},
-      {"key": "commute", "name": "通勤手当（非課税）", "taxable": false},
-      {"key": "bonus", "name": "賞与", "taxable": true}
+      {
+        "key": "basic",
+        "name": "基本給",
+        "taxable": true
+      },
+      {
+        "key": "overtime",
+        "name": "時間外手当",
+        "taxable": true
+      },
+      {
+        "key": "commute",
+        "name": "通勤手当（非課税）",
+        "taxable": false
+      },
+      {
+        "key": "bonus",
+        "name": "賞与",
+        "taxable": true
+      }
     ],
     "deduct": [
-      {"key": "health", "name": "健康保険料", "kind": "social"},
-      {"key": "pension", "name": "厚生年金保険料", "kind": "social"},
-      {"key": "employment", "name": "雇用保険料", "kind": "social"},
-      {"key": "income_tax", "name": "源泉所得税", "kind": "income_tax"},
-      {"key": "resident_tax", "name": "住民税", "kind": "resident_tax"}
+      {
+        "key": "health",
+        "name": "健康保険料",
+        "kind": "social"
+      },
+      {
+        "key": "pension",
+        "name": "厚生年金保険料",
+        "kind": "social"
+      },
+      {
+        "key": "employment",
+        "name": "雇用保険料",
+        "kind": "social"
+      },
+      {
+        "key": "income_tax",
+        "name": "源泉所得税",
+        "kind": "income_tax"
+      },
+      {
+        "key": "resident_tax",
+        "name": "住民税",
+        "kind": "resident_tax"
+      }
     ]
   },
   "people": [
-    {"id": "p1", "name": "開発 太郎", "kana": "カイハツ タロウ", "sex": "男", "role": "役員"},
-    {"id": "p2", "name": "見本 花子", "kana": "ミホン ハナコ", "sex": "女", "role": "従業員"}
+    {
+      "id": "p1",
+      "name": "開発 太郎",
+      "kana": "カイハツ タロウ",
+      "sex": "男",
+      "role": "役員",
+      "title": "代表取締役",
+      "duty": "経営全般",
+      "relation": "本人",
+      "address": "東京都千代田区霞が関3-1-1",
+      "full_time": true,
+      "representative": true
+    },
+    {
+      "id": "p2",
+      "name": "見本 花子",
+      "kana": "ミホン ハナコ",
+      "sex": "女",
+      "role": "従業員",
+      "family": false
+    }
   ],
   "payments": [
-    {"date": "2026-01-25", "kind": "給与", "period_start": "2026-01-01", "period_end": "2026-01-31", "rows": [
-      {"person": "p1", "pay": {"basic": 300000}, "deduct": {"health": 15000, "pension": 27450, "income_tax": 6750, "resident_tax": 10000}, "net": 240800},
-      {"person": "p2", "pay": {"basic": 220000, "overtime": 12000, "commute": 10000},
-       "deduct": {"health": 11000, "pension": 20130, "employment": 1276, "income_tax": 4770, "resident_tax": 6000}, "net": 198824,
-       "days": 20, "hours": 160, "overtime_hours": 8, "holiday_hours": 0, "night_hours": 0}
-    ]},
-    {"date": "2026-02-25", "kind": "給与", "period_start": "2026-02-01", "period_end": "2026-02-28", "rows": [
-      {"person": "p1", "pay": {"basic": 300000}, "deduct": {"health": 15000, "pension": 27450, "income_tax": 6750, "resident_tax": 10000}, "net": 240800},
-      {"person": "p2", "pay": {"basic": 220000, "commute": 10000},
-       "deduct": {"health": 11000, "pension": 20130, "employment": 1210, "income_tax": 4420, "resident_tax": 6000}, "net": 187240,
-       "days": 19, "hours": 152, "overtime_hours": 0, "holiday_hours": 0, "night_hours": 0}
-    ]},
-    {"date": "2026-07-10", "kind": "賞与", "rows": [
-      {"person": "p1", "pay": {"bonus": 200000}, "deduct": {"health": 10000, "pension": 18300, "income_tax": 10000}, "net": 161700},
-      {"person": "p2", "pay": {"bonus": 150000}, "deduct": {"health": 7500, "pension": 13725, "employment": 825, "income_tax": 5000}, "net": 122950}
-    ]},
-    {"date": "2026-07-25", "kind": "給与", "period_start": "2026-07-01", "period_end": "2026-07-31", "rows": [
-      {"person": "p1", "pay": {"basic": 300000}, "deduct": {"health": 15000, "pension": 27450, "income_tax": 6750, "resident_tax": 10000}, "net": 240800},
-      {"person": "p2", "pay": {"basic": 220000, "commute": 10000},
-       "deduct": {"health": 11000, "pension": 20130, "employment": 1210, "income_tax": 4420, "resident_tax": 6000}, "net": 187240,
-       "days": 21, "hours": 168, "overtime_hours": 0, "holiday_hours": 0, "night_hours": 0}
-    ]}
+    {
+      "date": "2026-01-25",
+      "kind": "給与",
+      "period_start": "2026-01-01",
+      "period_end": "2026-01-31",
+      "rows": [
+        {
+          "person": "p1",
+          "pay": {
+            "basic": 300000
+          },
+          "deduct": {
+            "health": 15000,
+            "pension": 27450,
+            "income_tax": 6750,
+            "resident_tax": 10000
+          },
+          "net": 240800
+        },
+        {
+          "person": "p2",
+          "pay": {
+            "basic": 220000,
+            "overtime": 12000,
+            "commute": 10000
+          },
+          "deduct": {
+            "health": 11000,
+            "pension": 20130,
+            "employment": 1276,
+            "income_tax": 4770,
+            "resident_tax": 6000
+          },
+          "net": 198824,
+          "days": 20,
+          "hours": 160,
+          "overtime_hours": 8,
+          "holiday_hours": 0,
+          "night_hours": 0
+        }
+      ]
+    },
+    {
+      "date": "2026-02-25",
+      "kind": "給与",
+      "period_start": "2026-02-01",
+      "period_end": "2026-02-28",
+      "rows": [
+        {
+          "person": "p1",
+          "pay": {
+            "basic": 300000
+          },
+          "deduct": {
+            "health": 15000,
+            "pension": 27450,
+            "income_tax": 6750,
+            "resident_tax": 10000
+          },
+          "net": 240800
+        },
+        {
+          "person": "p2",
+          "pay": {
+            "basic": 220000,
+            "commute": 10000
+          },
+          "deduct": {
+            "health": 11000,
+            "pension": 20130,
+            "employment": 1210,
+            "income_tax": 4420,
+            "resident_tax": 6000
+          },
+          "net": 187240,
+          "days": 19,
+          "hours": 152,
+          "overtime_hours": 0,
+          "holiday_hours": 0,
+          "night_hours": 0
+        }
+      ]
+    },
+    {
+      "date": "2026-07-10",
+      "kind": "賞与",
+      "rows": [
+        {
+          "person": "p1",
+          "pay": {
+            "bonus": 200000
+          },
+          "deduct": {
+            "health": 10000,
+            "pension": 18300,
+            "income_tax": 10000
+          },
+          "net": 161700
+        },
+        {
+          "person": "p2",
+          "pay": {
+            "bonus": 150000
+          },
+          "deduct": {
+            "health": 7500,
+            "pension": 13725,
+            "employment": 825,
+            "income_tax": 5000
+          },
+          "net": 122950
+        }
+      ]
+    },
+    {
+      "date": "2026-07-25",
+      "kind": "給与",
+      "period_start": "2026-07-01",
+      "period_end": "2026-07-31",
+      "rows": [
+        {
+          "person": "p1",
+          "pay": {
+            "basic": 300000
+          },
+          "deduct": {
+            "health": 15000,
+            "pension": 27450,
+            "income_tax": 6750,
+            "resident_tax": 10000
+          },
+          "net": 240800
+        },
+        {
+          "person": "p2",
+          "pay": {
+            "basic": 220000,
+            "commute": 10000
+          },
+          "deduct": {
+            "health": 11000,
+            "pension": 20130,
+            "employment": 1210,
+            "income_tax": 4420,
+            "resident_tax": 6000
+          },
+          "net": 187240,
+          "days": 21,
+          "hours": 168,
+          "overtime_hours": 0,
+          "holiday_hours": 0,
+          "night_hours": 0
+        }
+      ]
+    }
   ]
 }

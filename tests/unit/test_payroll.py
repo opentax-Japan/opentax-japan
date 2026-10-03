@@ -69,3 +69,31 @@ class PayrollTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class OfficersUchiwakeTest(unittest.TestCase):
+    def test_hoi141_from_payroll(self):
+        import datetime
+        out = api.uchiwake_officers([sample()], datetime.date(2025, 10, 1), datetime.date(2026, 9, 30))
+        v = out["forms"]["HOI141"]
+        self.assertEqual((v["ILA00025"], v["ILA00030"], v["ILA00045"], v["ILA00060"]), ("01", "開発 太郎", "01", "1"))
+        self.assertEqual((v["ILA00070"], v["ILA00110"], v["ILA00140"]), (1_100_000, 900_000, 200_000))  # 賞与は届出なしで「その他」
+        self.assertEqual(v["ILB00020"], 1_100_000)
+        self.assertEqual(v["ILB00050"], 232_000 + 220_000 + 150_000 + 220_000)  # 非課税の通勤手当は人件費に入れない
+        self.assertEqual(v["ILB00030"], 1_100_000)                   # 代表者分
+        self.assertEqual(out["missing"], [])
+
+    def test_xtx_validates(self):
+        import datetime
+        root = Path(__file__).resolve().parents[2] / ".cache" / "etax" / "ksk2-2026-08" / "files" / "e-tax19"
+        if not root.exists():
+            self.skipTest("公式XSD がありません")
+        case = Path(__file__).resolve().parents[2] / "tests" / "cases" / "open-shoji-tokyo"
+        c = api.calculate(json.loads((case / "input.json").read_text(encoding="utf-8")), "truncate")
+        uw = api.merge_uchiwake(
+            api.uchiwake_from_balance((case / "科目残高一覧表_架空_TKC形式.txt").read_bytes(),
+                                      json.loads((case / "uchiwake_supplement.json").read_text(encoding="utf-8"))),
+            api.uchiwake_officers([sample()], datetime.date(2025, 10, 1), datetime.date(2026, 9, 30)))
+        xml = api.export_etax(c, root, datetime.date(2026, 11, 26), uw)
+        self.assertEqual(api.validate_xtx(xml, root), [])
+        self.assertIn('about="#HOI141-1"', xml.decode("utf-8"))
