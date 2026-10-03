@@ -28,10 +28,10 @@
             { "title": "e-Gov 地方税法施行規則 第六号様式（令和8年7月21日 総務省令第89号までを反映）", "url": "https://laws.e-gov.go.jp/api/2/attachment/329M50000002023_20260721_508M60000008089?src=./pict/2FH00000079725.pdf", "checked": "2026-09-30" },
             { "title": "愛知県 第六号様式 記載の手引（令和8年版）", "url": "https://www.pref.aichi.jp/uploaded/attachment/628258.pdf", "checked": "2026-09-30" }
           ],
-          "business_tax_lines_note": "tax_paid・special_paid は様式の欄の並び（差引の次・納付すべき額の2つ前）から決めた。tax_income_part・refund_interim は欄番号を確かめていないので空欄",
+          "business_tax_lines_note": "tax_paid・special_paid は様式の欄の並び（差引の次・納付すべき額の2つ前）から決めた。tax_income_part（㊽）・refund_interim（73）は e-Gov の改正後の第六号様式（2FH00000079725）で確かめた（2026-10-04）",
           "business_tax_lines": { "income_total": "㉘", "tax_total": "㊵", "tax_diff": "㊹", "tax_paid": "㊺", "tax_payable": "㊼",
-                                  "tax_income_part": null, "special_income": "54", "special_total": "56", "special_paid": "59",
-                                  "special_payable": "61", "refund_interim": null,
+                                  "tax_income_part": "㊽", "special_income": "54", "special_total": "56", "special_paid": "59",
+                                  "special_payable": "61", "refund_interim": "73",
                                   "income_34": "64", "provisional": "69", "loss_deduction": "70", "income_52": "71" }
         }
       ],

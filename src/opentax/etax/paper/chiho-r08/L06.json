@@ -1,0 +1,340 @@
+{
+ "form_id": "L06",
+ "edition": "chiho-r08",
+ "image_size": [
+  2481,
+  3508
+ ],
+ "note": "キーは local_sheet.sheet_values(calculated, \"pref\") の名前（rules/local_forms.json の value）。欄番号は令和8年版（令和8年4月1日以後開始事業年度。事業税は㊶「令和6年改正法附則第8条第2項の控除額」が入り、㊶以降が1つずれる）",
+ "header": {
+  "company": [
+   320,
+   690,
+   970,
+   785
+  ]
+ },
+ "fields": {
+  "corporate_tax": [
+   1966,
+   945,
+   2329,
+   1005
+  ],
+  "tax_base": [
+   1966,
+   1197,
+   2250,
+   1248
+  ],
+  "levy": [
+   1966,
+   1321,
+   2329,
+   1372
+  ],
+  "levy_paid": [
+   1966,
+   1772,
+   2279,
+   1823
+  ],
+  "levy_payable": [
+   1966,
+   1893,
+   2279,
+   1943
+  ],
+  "per_capita": [
+   1966,
+   2030,
+   2279,
+   2077
+  ],
+  "per_capita_paid": [
+   1966,
+   2083,
+   2279,
+   2135
+  ],
+  "per_capita_payable": [
+   1966,
+   2145,
+   2279,
+   2194
+  ],
+  "resident_total": [
+   1966,
+   2204,
+   2279,
+   2254
+  ],
+  "business_income_total": [
+   559,
+   962,
+   975,
+   1010
+  ],
+  "business_paid": [
+   1110,
+   1833,
+   1428,
+   1883
+  ],
+  "business_payable": [
+   1110,
+   1893,
+   1428,
+   1943
+  ],
+  "special_paid": [
+   555,
+   2475,
+   735,
+   2556
+  ],
+  "special_payable": [
+   555,
+   2566,
+   735,
+   2646
+  ],
+  "income_34": [
+   1110,
+   2740,
+   1476,
+   2790
+  ],
+  "business_provisional": [
+   1110,
+   3027,
+   1476,
+   3072
+  ],
+  "income_52": [
+   1110,
+   3145,
+   1476,
+   3193
+  ],
+  "refund_interim_pref": [
+   1110,
+   3266,
+   1476,
+   3312
+  ],
+  "capital": [
+   1265,
+   497,
+   1605,
+   548
+  ],
+  "capital_and_surplus": [
+   1265,
+   580,
+   1605,
+   636
+  ],
+  "capital_and_reserve": [
+   1990,
+   664,
+   2329,
+   720
+  ],
+  "capital_etc": [
+   1990,
+   745,
+   2329,
+   792
+  ],
+  "capital_etc_corporate": [
+   1966,
+   2752,
+   2329,
+   2795
+  ]
+ },
+ "text_fields": {
+  "months": [
+   2190,
+   1955,
+   2286,
+   2008
+  ]
+ },
+ "text_align": {
+  "months": "right"
+ },
+ "drop_digits": {
+  "tax_base": 3,
+  "levy_paid": 2,
+  "levy_payable": 2,
+  "per_capita": 2,
+  "per_capita_paid": 2,
+  "per_capita_payable": 2,
+  "resident_total": 2,
+  "business_paid": 2,
+  "business_payable": 2,
+  "special_paid": 2,
+  "special_payable": 2
+ },
+ "same_value_boxes": {
+  "_note": "同じ値を2つ目の欄にも書く場所。drop_digits はタグごとなので、1つ目と2つ目で印字の「00」の有無が違う欄は書けない: ⑬差引法人税割額（levy。⑦は00なし・⑬は00あり）と㉓差引（resident_total。㉑は00あり・㉓は00なし）は位置を付けていない。zero は値がいつも 0 の欄（書かない）",
+  "business_payable": [
+   [
+    555,
+    1953,
+    735,
+    2007
+   ]
+  ],
+  "zero": [
+   [
+    555,
+    1690,
+    735,
+    1762
+   ],
+   [
+    555,
+    1833,
+    735,
+    1883
+   ],
+   [
+    1110,
+    2229,
+    1428,
+    2256
+   ],
+   [
+    1110,
+    2325,
+    1428,
+    2372
+   ],
+   [
+    1110,
+    3081,
+    1476,
+    3132
+   ]
+  ]
+ },
+ "same_value_lines": {
+  "business_payable": [
+   "㊽"
+  ],
+  "zero": [
+   "㊵",
+   "㊹",
+   "54",
+   "56",
+   "70"
+  ]
+ },
+ "texts": [
+  {
+   "source": "company:address",
+   "box": [
+    320,
+    392,
+    970,
+    600
+   ],
+   "align": "left"
+  },
+  {
+   "source": "company:phone",
+   "box": [
+    540,
+    604,
+    955,
+    640
+   ],
+   "align": "left"
+  },
+  {
+   "source": "company:name_kana",
+   "box": [
+    320,
+    643,
+    970,
+    672
+   ],
+   "align": "left"
+  },
+  {
+   "source": "company:corporate_number",
+   "box": [
+    1064,
+    294,
+    1392,
+    378
+   ],
+   "align": "center"
+  },
+  {
+   "source": "company:representative_kana",
+   "box": [
+    1125,
+    383,
+    1615,
+    410
+   ],
+   "align": "left"
+  },
+  {
+   "source": "company:representative",
+   "box": [
+    1125,
+    414,
+    1615,
+    472
+   ],
+   "align": "left"
+  },
+  {
+   "source": "company:business",
+   "box": [
+    1775,
+    478,
+    2325,
+    546
+   ],
+   "align": "left"
+  }
+ ],
+ "dates": {
+  "period:start": {
+   "box": [
+    120,
+    800,
+    548,
+    877
+   ],
+   "columns": [
+    182,
+    300,
+    430,
+    548
+   ],
+   "skip_era": true
+  },
+  "period:end": {
+   "box": [
+    560,
+    800,
+    1026,
+    877
+   ],
+   "columns": [
+    660,
+    779,
+    907,
+    1026
+   ],
+   "skip_era": true
+  }
+ }
+}
