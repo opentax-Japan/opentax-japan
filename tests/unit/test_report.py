@@ -39,7 +39,7 @@ class ReportTest(unittest.TestCase):
         t = self.text
         self.assertIn("△1,130,000", t)                       # 別表一 所得金額
         self.assertIn("580,500", t)                           # 消費税 差引税額
-        self.assertIn("事務用品の卸売", t)                     # 概況書 事業内容
+        self.assertIn("事務用品", t)                           # 概況書 事業内容（様式の枠で折り返す）
         self.assertIn("13,781,000", t)                        # 貸借対照表 資産の部合計
         self.assertIn("△1,200,000", t)                       # 損益計算書 当期純損失
         self.assertIn("霞が関銀行", t)                         # 預貯金等の内訳書

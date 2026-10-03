@@ -1,0 +1,29 @@
+{
+  "edition": "gaikyo2024",
+  "title": "法人事業概況説明書（税務署所管法人用）（令和6年3月1日以後終了事業年度分）",
+  "publisher": "国税庁",
+  "fiscal_year_end_from": "2024-03-01",
+  "source_page": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/01.htm",
+  "terms": "出典：国税庁ホームページ（各様式の URL）。公共データ利用規約（第1.0版）により利用し、値を重ねて表示するよう加工している。国税庁が作成したものではない",
+  "terms_url": "https://www.nta.go.jp/chuijiko/copy.htm",
+  "files": {
+    "HOK010.pdf": {
+      "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/pdf/HOK010.pdf",
+      "sha256": "6687eb975c03cec0feae4313b048f298938795918fccb0093114f56187c41cca"
+    }
+  },
+  "forms": {
+    "HOK010-1": {
+      "title": "法人事業概況説明書（表面）",
+      "file": "HOK010.pdf",
+      "page": 1,
+      "printed_form_id": "NTA0HOK010010070"
+    },
+    "HOK010-2": {
+      "title": "法人事業概況説明書（裏面）",
+      "file": "HOK010.pdf",
+      "page": 2,
+      "printed_form_id": "NTA0HOK010020070"
+    }
+  }
+}

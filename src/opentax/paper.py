@@ -13,6 +13,8 @@
   header:      {period, company, period_slots}
   drop_digits: タグ → 桁数（様式に「000」などが印字済みの欄。末尾の桁を書かない）
   text_wrap:   [タグ]（枠の中で折り返す文字の欄）
+  labels:      タグ → {コード: 言葉}（text_fields のコードを言葉にして書く）
+  dates の parts: ["era", "yy"] など（元号・年だけの欄。columns は parts の数＋1）
 """
 
 from __future__ import annotations
@@ -60,14 +62,18 @@ def pairs(boxes: list, value) -> list:
     return [(boxes, value)]
 
 
-def _date_items(box: list[int], d: datetime.date, columns: list[int] | None = None) -> list[dict]:
-    """元号・年・月・日の4つの枠に分けて置く。columns は枠の境目の x（5つ）。なければ等分する。"""
+def _date_items(box: list[int], d: datetime.date, columns: list[int] | None = None,
+                parts: list[str] | None = None) -> list[dict]:
+    """元号・年・月・日の枠に分けて置く。parts で一部だけ（例 ["era", "yy"]・["era", "yy", "mm"]）。
+    columns は枠の境目の x（parts の数＋1）。なければ等分する。"""
     from .etax.xtx import to_wareki
     w = to_wareki(d)
     x0, y0, x1, y1 = box
-    xs = columns or [round(x0 + (x1 - x0) * i / 4) for i in range(5)]
-    parts = ["令和" if w["era"] == 5 else "平成", str(w["yy"]), str(w["mm"]), str(w["dd"])]
-    return [{"box": [xs[i], y0, xs[i + 1], y1], "text": t, "kind": "center"} for i, t in enumerate(parts)]
+    names = parts or ["era", "yy", "mm", "dd"]
+    n = len(names)
+    xs = columns or [round(x0 + (x1 - x0) * i / n) for i in range(n + 1)]
+    text = {"era": "令和" if w["era"] == 5 else "平成", "yy": str(w["yy"]), "mm": str(w["mm"]), "dd": str(w["dd"])}
+    return [{"box": [xs[i], y0, xs[i + 1], y1], "text": text[k], "kind": "center"} for i, k in enumerate(names)]
 
 
 def _period_items(slots: dict, start: datetime.date, end: datetime.date) -> list[dict]:
@@ -128,17 +134,25 @@ def sheet(form_id: str, title: str, fiscal_period: tuple[datetime.date, datetime
                 items.append({"box": box, "text": _fmt(shown) if shown else "", "kind": "amount"})
     align = m.get("text_align", {})
     wrap = set(m.get("text_wrap", []))   # 枠の中で折り返す文字の欄
+    labels = m.get("labels", {})          # タグ → {コード: 紙に書く言葉}（役職名・代表者との関係など）
     for tag, boxes in m.get("text_fields", {}).items():
         for box, v in pairs(boxes, get(f"tag:{tag}")):
             if v not in (None, ""):
+                v = labels.get(tag, {}).get(str(v), v)
                 text = _wrap(str(v), box) if tag in wrap else _fmt(v)
                 items.append({"box": box, "text": text, "kind": {"left": "text", "center": "center", "right": "amount"}[align.get(tag, "left")]})
     for key, spec in m.get("dates", {}).items():
         boxes, columns, skip_era = (spec["box"], spec.get("columns"), spec.get("skip_era", False)) \
             if isinstance(spec, dict) else (spec, m.get("date_columns"), False)
+        names = spec.get("parts") if isinstance(spec, dict) else None
         for box, d in pairs(boxes, get(key)):
+            if isinstance(d, str):
+                try:
+                    d = datetime.date.fromisoformat(d)
+                except ValueError:
+                    continue
             if isinstance(d, datetime.date):
-                parts = _date_items(box, d, columns if not skip_era else [box[0]] + columns)
+                parts = _date_items(box, d, columns if not skip_era else [box[0]] + columns, names)
                 items += parts[1:] if skip_era else parts
     for tag, spec in m.get("circles", {}).items():
         v = get(f"tag:{tag}")

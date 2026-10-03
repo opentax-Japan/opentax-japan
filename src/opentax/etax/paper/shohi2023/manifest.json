@@ -1,0 +1,58 @@
+{
+  "edition": "shohi2023",
+  "title": "消費税及び地方消費税の申告書（一般用）・付表1-3・付表2-3（令和5年10月1日以後終了課税期間分。令和8年9月30日以前に開始した課税期間用）",
+  "publisher": "国税庁",
+  "fiscal_year_end_from": "2023-10-01",
+  "source_page": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/shinkoku/shohi/06.htm",
+  "note": "令和8年10月1日以後に開始する課税期間は、令和8年8月に公表された新しい様式（0026008-068-01.pdf・0026008-068-02.pdf）を使う。この版は事業年度の終わりの日でしか選べないため、新しい様式の版を足すときは開始日で分ける仕組みが要る",
+  "terms": "出典：国税庁ホームページ（各様式の URL）。公共データ利用規約（第1.0版）により利用し、金額を重ねて表示するよう加工している。国税庁が作成したものではない",
+  "terms_url": "https://www.nta.go.jp/chuijiko/copy.htm",
+  "files": {
+    "youshiki_003.pdf": {
+      "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/kansetsu/951225/pdf/youshiki_003.pdf",
+      "sha256": "b511f580f2ca618f19342f680ffde4416ad74568ffab8e9ba6b26624e3df81a0"
+    },
+    "youshiki_005.pdf": {
+      "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/kansetsu/951225/pdf/youshiki_005.pdf",
+      "sha256": "08c8f8ee83e781b3e8e7a649a3109d5041e256e80fbe02f79755c79f960bd766"
+    },
+    "youshiki_024.pdf": {
+      "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/kansetsu/951225/pdf/youshiki_024.pdf",
+      "sha256": "07c048e127e8a9d92f01e8adda77f27785e5aa76d576fbfc116288c21affaa20"
+    },
+    "youshiki_026.pdf": {
+      "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/kansetsu/951225/pdf/youshiki_026.pdf",
+      "sha256": "e042d265d387ed1c307ac85efc194439862298716b94d9ab5a1edade88080095"
+    }
+  },
+  "forms": {
+    "SHA010-1": {
+      "title": "消費税及び地方消費税の申告書 第一表（一般用）",
+      "file": "youshiki_003.pdf",
+      "page": 1,
+      "printed_form_id": "NTA1SHA010010100",
+      "etax_version": "10.0"
+    },
+    "SHA010-2": {
+      "title": "課税標準額等の内訳書 第二表",
+      "file": "youshiki_005.pdf",
+      "page": 1,
+      "printed_form_id": "NTA0SHA010020100",
+      "etax_version": "10.0"
+    },
+    "SHB017": {
+      "title": "付表1-3 税率別消費税額計算表 兼 地方消費税の課税標準となる消費税額計算表",
+      "file": "youshiki_024.pdf",
+      "page": 1,
+      "printed_form_id": "NTA0SHB017010020",
+      "etax_version": "2.0"
+    },
+    "SHB033": {
+      "title": "付表2-3 課税売上割合・控除対象仕入税額等の計算表",
+      "file": "youshiki_026.pdf",
+      "page": 1,
+      "printed_form_id": "NTA0SHB033010020",
+      "etax_version": "2.0"
+    }
+  }
+}
