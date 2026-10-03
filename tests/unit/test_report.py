@@ -56,5 +56,23 @@ class ReportTest(unittest.TestCase):
         self.assertEqual(html.count("材料がないため作っていません"), 4)   # 消費税・概況書・決算書・内訳書
 
 
+
+class LocalPaperTest(unittest.TestCase):
+    def test_loss_rows_by_year(self):
+        # 第六号様式別表九の明細は年度ごとに決まった行（いちばん下が前期）。岡山の見本は前々期の欠損金だけ
+        from opentax.red import local_sheet
+        calc = api.calculate(json.loads((CASE.parent / "open-shoji" / "input.json").read_text(encoding="utf-8")))
+        v = local_sheet.loss_values(calc)
+        self.assertEqual(len(v["loss_balance"]), 10)
+        self.assertEqual(v["loss_balance"][8], 3_000_000)
+        self.assertIsNone(v["loss_balance"][9])
+
+    def test_okayama_local_forms_on_paper(self):
+        html = api.report(api.calculate(json.loads((CASE.parent / "open-shoji" / "input.json").read_text(encoding="utf-8"))))
+        chiho = html.split("id='chiho'")[1]
+        for map_id in ("L06", "L06B9", "L20"):
+            self.assertIn(f"id='{map_id}'", chiho)
+
+
 if __name__ == "__main__":
     unittest.main()

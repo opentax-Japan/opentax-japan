@@ -104,6 +104,36 @@ def _rows(lines: list[dict], values: dict, notes: dict[str, str] | None = None) 
     return out
 
 
+def loss_values(calculated: dict) -> dict | None:
+    """第六号様式別表九を紙の様式に置くための値（キーは位置のファイル chiho-r07/L06B9.json の説明のとおり）。
+    明細は様式の10行に年度ごとに置く（空いた行は None）。繰越期間の最後の年は ⑤ が斜線なので loss_carry を None。添付しないときは None。"""
+    from .calculate import load_rules, schedule_07_01
+    data = calculated["input"]
+    provisional = calculated["form_values"].get("ARK00010", 0)
+    losses = data["prior"].get("business_losses") or data["prior"]["losses"]
+    s9 = schedule_07_01({**data, "prior": {**data["prior"], "losses": losses}},
+                        {"pre_deduction": provisional, "income": provisional}, load_rules("corporate_tax.json"))
+    if not s9["items"] and not s9["current_loss"]:
+        return None
+    # 様式の明細は10行。いちばん下が前の事業年度、1行目が10年前（繰越期間の最後の年。⑤は斜線）。年度ごとに決まった行に置く
+    start = data["fiscal_period"]["start"]
+    rows: list[dict | None] = [None] * 10
+    for i in s9["items"]:
+        back = ((start.year - i["period_start"].year) * 12 + start.month - i["period_start"].month + 11) // 12
+        rows[min(max(10 - back, 0), 9)] = i
+    col = lambda f: [f(i) if i else None for i in rows]  # noqa: E731
+    return {
+        "pre_deduction": provisional if provisional > 0 else 0, "limit": s9.get("limit") or 0,
+        "loss_start": col(lambda i: i["period_start"]), "loss_end": col(lambda i: i["period_end"]),
+        "loss_balance": col(lambda i: i["balance"]), "loss_deducted": col(lambda i: i["deducted"]),
+        "loss_carry": col(lambda i: None if i["last_year"] else i["carry"]),
+        "balance_total": s9["balance_total"], "deducted_total": s9["deducted_total"],
+        "carry_items_total": s9["carry_items_total"],
+        "current_loss": s9["current_loss"], "current_loss_own": s9["current_loss"], "current_loss_carry": s9["current_loss"],
+        "carry_total": s9["carry_total"],
+    }
+
+
 def loss_schedule(calculated: dict) -> list[tuple[str, str, str, str]] | None:
     """第六号様式別表九の行。欠損金の繰越も当期の欠損もなければ None（添付しない）。"""
     from .calculate import load_rules, schedule_07_01

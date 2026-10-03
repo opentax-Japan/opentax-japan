@@ -1,0 +1,66 @@
+{
+  "form_id": "L06",
+  "edition": "chiho-r07",
+  "image_size": [2481, 3508],
+  "note": "キーは local_sheet.sheet_values(calculated, \"pref\") の名前（rules/local_forms.json の value）。欄番号は令和7年版",
+  "header": {
+    "company": [320, 680, 970, 768]
+  },
+  "fields": {
+    "corporate_tax": [1966, 938, 2329, 994],
+    "tax_base": [1966, 1180, 2329, 1235],
+    "levy": [1966, 1330, 2329, 1386],
+    "levy_paid": [1966, 1759, 2329, 1815],
+    "levy_payable": [1966, 1880, 2329, 1965],
+    "per_capita": [1966, 2040, 2329, 2094],
+    "per_capita_paid": [1966, 2099, 2329, 2156],
+    "per_capita_payable": [1966, 2161, 2329, 2215],
+    "resident_total": [1966, 2220, 2329, 2276],
+    "business_income_total": [559, 945, 983, 994],
+    "business_paid": [1110, 1820, 1481, 1875],
+    "business_payable": [1110, 1880, 1481, 1965],
+    "special_paid": [367, 2470, 788, 2557],
+    "special_payable": [367, 2562, 788, 2647],
+    "income_34": [1110, 2734, 1481, 2790],
+    "business_provisional": [1110, 3034, 1481, 3086],
+    "income_52": [1110, 3152, 1481, 3210],
+    "refund_interim_pref": [1110, 3280, 1481, 3337],
+    "capital": [1265, 482, 1605, 547],
+    "capital_and_surplus": [1265, 560, 1605, 636],
+    "capital_and_reserve": [1966, 648, 2329, 705],
+    "capital_etc": [1966, 714, 2329, 769],
+    "capital_etc_corporate": [1966, 2742, 2329, 2790]
+  },
+  "text_fields": {
+    "months": [2160, 1972, 2338, 2026]
+  },
+  "text_align": {
+    "months": "right"
+  },
+  "same_value_boxes": {
+    "_note": "同じ値を2つ目の欄にも書く場所（paper.py はまだ読まない。fields は1つのキーに1つの欄しか持てないため）。zero は値がいつも 0 の欄（書かない）",
+    "levy": [[1966, 1699, 2329, 1754]],
+    "resident_total": [[1966, 2341, 2329, 2393]],
+    "business_payable": [[367, 1970, 788, 2028]],
+    "zero": [[1110, 1699, 1481, 1754], [367, 1820, 788, 1875], [1110, 2246, 1481, 2276], [1110, 2341, 1481, 2393], [1110, 3091, 1481, 3147]]
+  },
+  "same_value_lines": {
+    "levy": ["⑬"],
+    "resident_total": ["㉓"],
+    "business_payable": ["㊼"],
+    "zero": ["㊵", "㊸", "53", "55", "69"]
+  },
+  "texts": [
+    {"source": "company:address", "box": [320, 392, 970, 600], "align": "left"},
+    {"source": "company:phone", "box": [540, 604, 955, 640], "align": "left"},
+    {"source": "company:name_kana", "box": [320, 643, 970, 672], "align": "left"},
+    {"source": "company:corporate_number", "box": [1064, 294, 1392, 378], "align": "center"},
+    {"source": "company:representative_kana", "box": [1125, 383, 1615, 410], "align": "left"},
+    {"source": "company:representative", "box": [1125, 414, 1615, 472], "align": "left"},
+    {"source": "company:business", "box": [1775, 478, 2325, 546], "align": "left"}
+  ],
+  "dates": {
+    "period:start": {"box": [120, 785, 548, 862], "columns": [182, 300, 430, 548], "skip_era": true},
+    "period:end": {"box": [560, 785, 1026, 862], "columns": [660, 779, 907, 1026], "skip_era": true}
+  }
+}

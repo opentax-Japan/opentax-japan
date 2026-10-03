@@ -13,6 +13,7 @@
   header:      {period, company, period_slots}
   drop_digits: タグ → 桁数（様式に「000」などが印字済みの欄。末尾の桁を書かない）
   text_wrap:   [タグ]（枠の中で折り返す文字の欄）
+  same_value_boxes: タグ → [位置…]（同じ値をほかの欄にも書く。「_」で始まるキーは説明）
   labels:      タグ → {コード: 言葉}（text_fields のコードを言葉にして書く）
   dates の parts: ["era", "yy"] など（元号・年だけの欄。columns は parts の数＋1）
 """
@@ -40,13 +41,18 @@ def editions() -> list[dict]:
     return out
 
 
-def find(form_id: str, fiscal_year_end: datetime.date) -> tuple[dict, dict] | None:
-    """その事業年度に使う版と、様式の位置のファイル。なければ None（表で見せる）。"""
+def find(form_id: str, fiscal_year_end: datetime.date, fiscal_year_start: datetime.date | None = None) -> tuple[dict, dict] | None:
+    """その事業年度に使う版と、様式の位置のファイル。なければ None（表で見せる）。
+    manifest の fiscal_year_end_from（この日以後に終わる年度から）と、あれば fiscal_year_start_before
+    （この日より前に始まる年度まで。新しい様式に替わる版）で選ぶ。"""
     best = None
     for m in editions():
         if form_id not in m["forms"] or not (m["_dir"] / f"{form_id}.json").exists():
             continue
         if fiscal_year_end < datetime.date.fromisoformat(m["fiscal_year_end_from"]):
+            continue
+        before = m.get("fiscal_year_start_before")
+        if before and fiscal_year_start and fiscal_year_start >= datetime.date.fromisoformat(before):
             continue
         if best is None or m["fiscal_year_end_from"] > best["fiscal_year_end_from"]:
             best = m
@@ -112,7 +118,7 @@ def sheet(form_id: str, title: str, fiscal_period: tuple[datetime.date, datetime
           source: Callable[[str], object] | None = None, company: str | None = None) -> dict | None:
     """1枚の様式の上に置く値（items）。位置のファイルがなければ None。
     values: タグ → 値（繰り返しはリスト）。source: 「company:name」などの出どころから値を返す関数（なければ values だけ）。"""
-    found = find(form_id, fiscal_period[1])
+    found = find(form_id, fiscal_period[1], fiscal_period[0])
     if found is None:
         return None
     edition, m = found
@@ -154,6 +160,15 @@ def sheet(form_id: str, title: str, fiscal_period: tuple[datetime.date, datetime
             if isinstance(d, datetime.date):
                 parts = _date_items(box, d, columns if not skip_era else [box[0]] + columns, names)
                 items += parts[1:] if skip_era else parts
+    for tag, boxes in m.get("same_value_boxes", {}).items():   # 同じ値をもう1つ（以上）の欄にも書く
+        if tag.startswith("_"):
+            continue
+        v = get(f"tag:{tag}")
+        if isinstance(v, int) and not isinstance(v, bool) and v:
+            for box in boxes:
+                n = drop.get(tag, 0)
+                shown = (abs(v) // 10 ** n) * (1 if v > 0 else -1) if n else v
+                items.append({"box": box, "text": _fmt(shown), "kind": "amount"})
     for tag, spec in m.get("circles", {}).items():
         v = get(f"tag:{tag}")
         if isinstance(spec, dict):

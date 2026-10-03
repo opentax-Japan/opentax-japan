@@ -255,7 +255,7 @@ def _paper_form(title: str, anchor: str, pages: list[dict]) -> str:
     return f"<section class='form' id='{_e(anchor)}'><h3>{_e(title)}</h3>{body}<p class='src'>{_e(src)}</p></section>"
 
 
-def _local_paper(calculated: dict, company: str, span) -> str | None:
+def _local_paper(calculated: dict, company: str, span, sources=None) -> str | None:
     """地方税の様式（第六号様式・第二十号様式など）。位置のファイルがなければ None（一覧で見せる）。
     値は地方税の一覧と同じ（local_sheet.sheet_values。キーは rules/local_forms.json の value）。"""
     local = calculated["local_tax"]
@@ -265,7 +265,15 @@ def _local_paper(calculated: dict, company: str, span) -> str | None:
                                 ("L20", "第二十号様式（市町村民税）", "city")):
         if kind == "city" and not local.get("municipality"):
             continue
-        s = paper.sheet(map_id, title, span, local_sheet.sheet_values(calculated, kind), None, company)
+        if map_id == "L06B9":
+            values = local_sheet.loss_values(calculated)
+            if values is None:
+                continue
+        else:
+            values = dict(local_sheet.sheet_values(calculated, kind))
+            # 様式に「月」「人」が印刷されているので、数字だけ書く
+            values.update({k: re.sub(r"\D", "", str(values[k])) for k in ("months", "employees") if values.get(k)})
+        s = paper.sheet(map_id, title, span, values, sources, company)
         if s:
             pages.append(_paper_form(title, map_id, [s]))
     return "".join(pages) or None
@@ -341,7 +349,7 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
     if uw:
         chapters["uchiwake"] = "".join(on_paper(fid, UCHIWAKE_TITLES[fid], forms[fid], _form_fields(catalog[fid], forms[fid]), "金額は円")
                                        for fid in uw)
-    chapters["chiho"] = _local_paper(calculated, company, span) or _local(calculated, today)
+    chapters["chiho"] = _local_paper(calculated, company, span, sources) or _local(calculated, today)
 
     checks = (attachments or {}).get("missing", []) + (attachments or {}).get("notes", [])
     toc = "".join(f"<li><a href='#{k}'>{_e(t)}</a>{'' if k in chapters else '（なし）'}</li>"
