@@ -1,56 +1,291 @@
 {
-  "form_id": "L20",
-  "edition": "chiho-r07",
-  "image_size": [2481, 3508],
-  "note": "キーは local_sheet.sheet_values(calculated, \"city\") の名前（rules/local_forms.json の value）",
-  "header": {
-    "company": [315, 653, 1235, 775]
-  },
-  "fields": {
-    "corporate_tax": [1241, 1150, 1659, 1227],
-    "tax_base": [1241, 1414, 1659, 1470],
-    "levy": [1842, 1837, 2259, 1892],
-    "levy_paid": [1842, 1897, 2259, 1953],
-    "levy_payable": [1842, 2021, 2259, 2077],
-    "per_capita": [1842, 2085, 2259, 2168],
-    "per_capita_paid": [1842, 2175, 2259, 2230],
-    "per_capita_payable": [1842, 2235, 2259, 2290],
-    "resident_total": [1842, 2295, 2259, 2351],
-    "refund_resident": [1842, 3250, 2259, 3305],
-    "capital": [1771, 700, 2259, 757],
-    "capital_and_reserve": [1771, 762, 2259, 828],
-    "capital_etc": [1771, 833, 2259, 900],
-    "capital_etc_corporate": [1559, 2937, 1889, 2991]
-  },
-  "text_fields": {
-    "months": [1241, 2085, 1372, 2168]
-  },
-  "text_align": {
-    "months": "right"
-  },
-  "same_value_boxes": {
-    "_note": "同じ値を2つ目の欄にも書く場所（paper.py はまだ読まない。fields は1つのキーに1つの欄しか持てないため）",
-    "levy": [[1842, 1440, 2259, 1470]],
-    "resident_total": [[1842, 2416, 2259, 2472]]
-  },
-  "same_value_lines": {
-    "levy": ["⑤の法人税割額（税額の欄）"],
-    "resident_total": ["㉒"]
-  },
-  "texts": [
-    {"source": "tag:employees", "box": [1440, 2700, 1697, 2755], "align": "right"},
-    {"source": "tag:employees", "box": [1730, 2700, 1978, 2755], "align": "right"},
-    {"source": "tag:employees", "box": [2010, 2700, 2260, 2755], "align": "right"},
-    {"source": "company:address", "box": [315, 400, 1235, 585], "align": "left"},
-    {"source": "company:phone", "box": [840, 586, 1220, 614], "align": "left"},
-    {"source": "company:name_kana", "box": [315, 617, 1235, 648], "align": "left"},
-    {"source": "company:representative_kana", "box": [315, 779, 685, 810], "align": "left"},
-    {"source": "company:representative", "box": [315, 815, 685, 900], "align": "left"},
-    {"source": "company:corporate_number", "box": [1560, 305, 2045, 395], "align": "center"},
-    {"source": "company:business", "box": [1550, 590, 2259, 684], "align": "left"}
+ "form_id": "L20",
+ "edition": "chiho-r07",
+ "image_size": [
+  2481,
+  3508
+ ],
+ "note": "キーは local_sheet.sheet_values(calculated, \"city\") の名前（rules/local_forms.json の value）",
+ "header": {
+  "company": [
+   315,
+   653,
+   1235,
+   775
+  ]
+ },
+ "fields": {
+  "corporate_tax": [
+   1241,
+   1150,
+   1659,
+   1227
   ],
-  "dates": {
-    "period:start": {"box": [150, 928, 567, 990], "columns": [211, 320, 458, 567], "skip_era": true},
-    "period:end": {"box": [600, 928, 1028, 990], "columns": [670, 780, 917, 1028], "skip_era": true}
+  "tax_base": [
+   1241,
+   1414,
+   1565,
+   1470
+  ],
+  "levy": [
+   1842,
+   1837,
+   2203,
+   1892
+  ],
+  "levy_paid": [
+   1842,
+   1897,
+   2203,
+   1953
+  ],
+  "levy_payable": [
+   1842,
+   2021,
+   2203,
+   2077
+  ],
+  "per_capita": [
+   1842,
+   2085,
+   2203,
+   2168
+  ],
+  "per_capita_paid": [
+   1842,
+   2175,
+   2203,
+   2230
+  ],
+  "per_capita_payable": [
+   1842,
+   2235,
+   2203,
+   2290
+  ],
+  "resident_total": [
+   1842,
+   2295,
+   2203,
+   2351
+  ],
+  "refund_resident": [
+   1842,
+   3250,
+   2259,
+   3305
+  ],
+  "capital": [
+   1771,
+   700,
+   2259,
+   757
+  ],
+  "capital_and_reserve": [
+   1771,
+   762,
+   2259,
+   828
+  ],
+  "capital_etc": [
+   1771,
+   833,
+   2259,
+   900
+  ],
+  "capital_etc_corporate": [
+   1559,
+   2937,
+   1889,
+   2991
+  ]
+ },
+ "text_fields": {
+  "months": [
+   1241,
+   2085,
+   1372,
+   2168
+  ]
+ },
+ "text_align": {
+  "months": "right"
+ },
+ "same_value_boxes": {
+  "_note": "同じ値を2つ目の欄にも書く場所。{\"box\": 位置, \"drop\": 桁数} はその欄だけの印字済みの桁数（1つ目の欄の drop_digits と印字の「00」の有無が違うとき）。zero は値がいつも 0 の欄（書かない）",
+  "levy": [
+   {
+    "box": [
+     1842,
+     1440,
+     2259,
+     1470
+    ],
+    "drop": 0
+   }
+  ],
+  "resident_total": [
+   {
+    "box": [
+     1842,
+     2416,
+     2259,
+     2472
+    ],
+    "drop": 0
+   }
+  ]
+ },
+ "texts": [
+  {
+   "source": "tag:employees",
+   "box": [
+    1440,
+    2700,
+    1697,
+    2755
+   ],
+   "align": "right"
+  },
+  {
+   "source": "tag:employees",
+   "box": [
+    1730,
+    2700,
+    1978,
+    2755
+   ],
+   "align": "right"
+  },
+  {
+   "source": "tag:employees",
+   "box": [
+    2010,
+    2700,
+    2260,
+    2755
+   ],
+   "align": "right"
+  },
+  {
+   "source": "company:address",
+   "box": [
+    315,
+    400,
+    1235,
+    585
+   ],
+   "align": "left"
+  },
+  {
+   "source": "company:phone",
+   "box": [
+    840,
+    586,
+    1220,
+    614
+   ],
+   "align": "left"
+  },
+  {
+   "source": "company:name_kana",
+   "box": [
+    315,
+    617,
+    1235,
+    648
+   ],
+   "align": "left"
+  },
+  {
+   "source": "company:representative_kana",
+   "box": [
+    315,
+    779,
+    685,
+    810
+   ],
+   "align": "left"
+  },
+  {
+   "source": "company:representative",
+   "box": [
+    315,
+    815,
+    685,
+    900
+   ],
+   "align": "left"
+  },
+  {
+   "source": "company:corporate_number",
+   "box": [
+    1560,
+    305,
+    2045,
+    395
+   ],
+   "align": "center"
+  },
+  {
+   "source": "company:business",
+   "box": [
+    1550,
+    590,
+    2259,
+    684
+   ],
+   "align": "left"
   }
+ ],
+ "dates": {
+  "period:start": {
+   "box": [
+    150,
+    928,
+    567,
+    990
+   ],
+   "columns": [
+    211,
+    320,
+    458,
+    567
+   ],
+   "skip_era": true
+  },
+  "period:end": {
+   "box": [
+    600,
+    928,
+    1028,
+    990
+   ],
+   "columns": [
+    670,
+    780,
+    917,
+    1028
+   ],
+   "skip_era": true
+  }
+ },
+ "drop_digits": {
+  "tax_base": 3,
+  "levy": 2,
+  "levy_paid": 2,
+  "levy_payable": 2,
+  "per_capita": 2,
+  "per_capita_paid": 2,
+  "per_capita_payable": 2,
+  "resident_total": 2
+ },
+ "same_value_lines": {
+  "levy": [
+   "⑤の法人税割額（税額の欄）"
+  ],
+  "resident_total": [
+   "㉒"
+  ]
+ }
 }

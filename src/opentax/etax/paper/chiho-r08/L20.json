@@ -112,7 +112,29 @@
   "months": "right"
  },
  "same_value_boxes": {
-  "_note": "chiho-r07 にあった levy の2つ目（⑤の税額の欄）と resident_total の2つ目（㉒）は、印字の「00」がなく drop_digits（タグごと）と合わないので外した"
+  "_note": "同じ値を2つ目の欄にも書く場所。{\"box\": 位置, \"drop\": 桁数} はその欄だけの印字済みの桁数（1つ目の欄の drop_digits と印字の「00」の有無が違うとき）。zero は値がいつも 0 の欄（書かない）",
+  "levy": [
+   {
+    "box": [
+     1842,
+     1440,
+     2259,
+     1470
+    ],
+    "drop": 0
+   }
+  ],
+  "resident_total": [
+   {
+    "box": [
+     1842,
+     2416,
+     2259,
+     2472
+    ],
+    "drop": 0
+   }
+  ]
  },
  "texts": [
   {
@@ -257,5 +279,13 @@
   "per_capita_paid": 2,
   "per_capita_payable": 2,
   "resident_total": 2
+ },
+ "same_value_lines": {
+  "levy": [
+   "⑤の法人税割額（税額の欄）"
+  ],
+  "resident_total": [
+   "㉒"
+  ]
  }
 }

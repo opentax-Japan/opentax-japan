@@ -13,7 +13,7 @@
   header:      {period, company, period_slots}
   drop_digits: タグ → 桁数（様式に「000」などが印字済みの欄。末尾の桁を書かない）
   text_wrap:   [タグ]（枠の中で折り返す文字の欄）
-  same_value_boxes: タグ → [位置…]（同じ値をほかの欄にも書く。「_」で始まるキーは説明）
+  same_value_boxes: タグ → [位置 または {box, drop}…]（同じ値をほかの欄にも書く。drop はその欄だけの印字済みの桁数。「_」で始まるキーは説明）
   split_fields: タグ → [位置…]（「03-0000-1111」のような値を「-」で分けて枠ごとに中央寄せで書く）
   labels:      タグ → {コード: 言葉}（text_fields のコードを言葉にして書く）
   dates の parts: ["era", "yy"] など（元号・年だけの欄。columns は parts の数＋1）
@@ -186,6 +186,8 @@ def sheet(form_id: str, title: str, fiscal_period: tuple[datetime.date, datetime
         if isinstance(v, int) and not isinstance(v, bool) and v:
             for box in boxes:
                 n = drop.get(tag, 0)
+                if isinstance(box, dict):     # {"box": 位置, "drop": 桁数}（印字の「00」が1つ目の欄と違うとき）
+                    box, n = box["box"], box.get("drop", 0)
                 shown = (abs(v) // 10 ** n) * (1 if v > 0 else -1) if n else v
                 items.append({"box": box, "text": _fmt(shown), "kind": "amount"})
     for tag, spec in m.get("circles", {}).items():
