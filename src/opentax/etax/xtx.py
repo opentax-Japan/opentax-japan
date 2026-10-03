@@ -110,6 +110,12 @@ class _Emitter:
                 ET.SubElement(parent, _q(node, self.form_ns), {"IDREF": node["idref"]})
             return
         value = _pick(values, node["tag"], row)
+        extra_attrs = {}
+        if isinstance(value, tuple):          # (値, 属性) — 例: 還付先の金融機関名と金融機関の区分（kinyukikan_KB）
+            value, extra_attrs = value
+            known = {a["name"] for a in node.get("attributes", [])}
+            if set(extra_attrs) - known:
+                raise XtxError(f"{node['path']}: この項目にない属性です: {sorted(set(extra_attrs) - known)}")
         if kind in ("amount", "value"):
             if value is None:
                 return
@@ -121,7 +127,7 @@ class _Emitter:
                 raise XtxError(f"{node['path']}: {node['max_length']} 文字を超えています: {text}")
             if node.get("enumeration") and text not in node["enumeration"]:
                 raise XtxError(f"{node['path']}: 使える値は {node['enumeration'][:10]}… です: {text}")
-            ET.SubElement(parent, _q(node, self.form_ns)).text = text
+            ET.SubElement(parent, _q(node, self.form_ns), extra_attrs).text = text
             return
         # group
         el = ET.Element(_q(node, self.form_ns))

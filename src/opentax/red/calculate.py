@@ -35,24 +35,50 @@ def _add_years(d: datetime.date, years: int) -> datetime.date:
 
 # --- 別表四 ---
 
+def interim_amounts(data: dict) -> dict:
+    """当期の中間納付。national＝法人税＋地方法人税、inhabitant＝道府県民税・市町村民税ごとの計、business＝事業税＋特別法人事業税。"""
+    i = data.get("interim") or {}
+    if not i:
+        return {"method": None, "corporate": 0, "local_corporate": 0, "national": 0, "business": 0,
+                "inhabitant": {t: {"法人税割": 0, "均等割": 0, "total": 0} for t in ("道府県民税", "市町村民税")}}
+    inh = {t: {**i[t], "total": i[t]["法人税割"] + i[t]["均等割"]} for t in ("道府県民税", "市町村民税")}
+    return {"method": i["method"], "corporate": i["法人税"], "local_corporate": i["地方法人税"],
+            "national": i["法人税"] + i["地方法人税"], "business": i["事業税"] + i["特別法人事業税"], "inhabitant": inh}
+
+
+def _paid(data: dict, taxes: tuple, method: str) -> int:
+    return sum(p["amount"] for p in data["tax_payments"] if p["tax"] in taxes and p["method"] == method)
+
+
 def schedule_04(data: dict) -> dict:
     acc = data["accounting"]
-    expensed = sum(p["amount"] for p in data["tax_payments"] if p["method"] == "損金経理")
+    im = interim_amounts(data)
+    by_expense = im["method"] == "損金経理"
+    inhabitant = ("道府県民税", "市町村民税")
+    expensed = _paid(data, inhabitant, "損金経理") + (sum(t["total"] for t in im["inhabitant"].values()) if by_expense else 0)
     if acc.get("inhabitant_tax_expensed", 0) not in (0, expensed):
-        raise InputError("accounting.inhabitant_tax_expensed が、tax_payments の損金経理の合計と合いません")
+        raise InputError("accounting.inhabitant_tax_expensed が、損金経理をした住民税（tax_payments・interim）の合計と合いません")
     net = acc["net_income"]
+    # 2 損金経理をした法人税・地方法人税（留保）
+    add_corporate = _paid(data, ("法人税等",), "損金経理") + (im["national"] if by_expense else 0)
     add_inhabitant = expensed                      # 3 損金経理をした道府県民税及び市町村民税（留保）
     add_provision = acc["tax_provision_charged"]   # 4 損金経理をした納税充当金（留保）
-    add_total = add_inhabitant + add_provision
-    deduct_total = 0                               # 13 納税充当金から支出した事業税等は RED では 0
-    provisional = net + add_total - deduct_total   # 23 仮計（43 差引計も同じ額）
-    income = provisional                           # 44 欠損金等の当期控除額は 0（所得が0以下）
+    add_total = add_corporate + add_inhabitant + add_provision
+    # 13 納税充当金から支出した事業税等（前期分の事業税・特別法人事業税と、当期の中間分を充当金で払ったもの）
+    deduct_business = _paid(data, ("事業税等",), "充当金取崩し") + (im["business"] if im["method"] == "充当金取崩し" else 0)
+    deduct_total = deduct_business
+    provisional = net + add_total - deduct_total   # 23 仮計（26 仮計も同じ額）
+    credit = sum(c["tax"] for c in data.get("income_tax_credit", []))   # 29 法人税額から控除される所得税額（社外流出）
+    pre_deduction = provisional + credit           # 34 合計＝39＝43 差引計
+    income = pre_deduction                         # 44 欠損金等の当期控除額は 0（所得が0以下）
     if income > 0:
         raise OutOfScope(f"所得金額が0を超えています（{income:,}円。黒字法人）")
     return {
-        "net_income": net, "add_inhabitant": add_inhabitant, "add_provision": add_provision,
-        "add_total": add_total, "deduct_total": deduct_total, "provisional": provisional,
-        "loss_deduction": 0, "income": income,
+        "net_income": net, "add_corporate": add_corporate, "add_inhabitant": add_inhabitant, "add_provision": add_provision,
+        "add_total": add_total, "deduct_business": deduct_business, "deduct_total": deduct_total,
+        "provisional": provisional, "credit": credit, "pre_deduction": pre_deduction,
+        "credit_income": sum(c["income"] for c in data.get("income_tax_credit", [])),
+        "loss_deduction": 0, "income": income, "retained": provisional,
     }
 
 
@@ -85,7 +111,7 @@ def schedule_07_01(data: dict, s4: dict, rules: dict) -> dict:
     current_loss = -s4["income"] if s4["income"] < 0 else 0
     carry_total = sum(i["carry"] for i in items) + current_loss
     return {
-        "pre_deduction_income": s4["provisional"],
+        "pre_deduction_income": s4["pre_deduction"],
         "items": items, "expired": expired,
         "balance_total": sum(i["balance"] for i in items), "deducted_total": 0,
         "carry_items_total": sum(i["carry"] for i in items),
@@ -121,23 +147,42 @@ def _carry_years(loss_start: datetime.date, periods: list[dict]) -> int:
 
 # --- 別表一 ---
 
-def schedule_01(s4: dict, s7: dict) -> dict:
+def schedule_01(data: dict, s4: dict, s7: dict) -> dict:
+    """法人税額・地方法人税額は 0（所得が0以下）。所得税額は控除しきれないので全額を還付、中間納付額も全額を還付。"""
+    im = interim_amounts(data)
     return {"income": s4["income"], "corporate_tax": 0, "local_corporate_tax": 0,
-            "loss_deduction": s4["loss_deduction"], "loss_carry": s7["carry_total"]}
+            "loss_deduction": s4["loss_deduction"], "loss_carry": s7["carry_total"],
+            "interim_corporate": im["corporate"], "income_tax": s4["credit"],
+            "refund_income_tax": s4["credit"], "refund_interim": im["corporate"],
+            "refund_total": s4["credit"] + im["corporate"],
+            "interim_local": im["local_corporate"], "refund_local": im["local_corporate"]}
 
 
 # --- 別表五(二) ---
 
 def schedule_05_02(data: dict, per_capita: dict[str, int]) -> dict:
-    """per_capita: {"道府県民税": 当期の均等割額, "市町村民税": 当期の均等割額}"""
+    """per_capita: {"道府県民税": 当期の均等割額, "市町村民税": 当期の均等割額}
+
+    税目ごとに prior（前期以前の未納の明細）・interim（当期中間）・current（当期確定）・total（計）。
+    確定の額は「確定税額 − 中間納付額」。マイナス（還付）の部分は refund に分け、⑥期末現在未納税額の外書き（△）にする。
+    赤字なので確定税額は、法人税等・法人税割が 0、均等割が当期の均等割額。"""
     fp = data["fiscal_period"]
-    prior_rows = {}
+    im = interim_amounts(data)
+    method = im["method"]
+    prior_rows: dict[str, list] = {}
     for row in data["prior"]["schedule_05_02"]:
-        if row["tax"] in per_capita:
-            prior_rows.setdefault(row["tax"], []).append(dict(row))
+        prior_rows.setdefault(row["tax"], []).append(dict(row))
     taxes = {}
     used = set()
-    for tax in ("道府県民税", "市町村民税"):
+
+    def paid_row(accrued: int) -> dict:
+        return {"by_provision": accrued if method == "充当金取崩し" else 0, "by_expense": accrued if method == "損金経理" else 0}
+
+    finals = {"法人税等": [0 - im["national"]]}
+    for t in ("道府県民税", "市町村民税"):
+        finals[t] = [0 - im["inhabitant"][t]["法人税割"], per_capita[t] - im["inhabitant"][t]["均等割"]]
+    interim_of = {"法人税等": im["national"], **{t: im["inhabitant"][t]["total"] for t in ("道府県民税", "市町村民税")}}
+    for tax in ("法人税等", "道府県民税", "市町村民税"):
         rows = []
         for row in sorted(prior_rows.get(tax, []), key=lambda r: r["period_end"]):
             pays = [p for p in data["tax_payments"] if p["tax"] == tax and p["period_end"] == row["period_end"]]
@@ -151,24 +196,55 @@ def schedule_05_02(data: dict, per_capita: dict[str, int]) -> dict:
                          "accrued": 0, "by_provision": by_provision, "by_expense": by_expense, "closing": closing})
         if len(rows) > 2:
             raise OutOfScope(f"前期以前の未納の{tax}が3事業年度分以上あります（別表五(二)の欄の数）")
-        current = {"period_start": fp["start"], "period_end": fp["end"], "opening": 0, "accrued": per_capita[tax],
-                   "by_provision": 0, "by_expense": 0, "closing": per_capita[tax]}
-        total = {k: sum(r[k] for r in rows) + current[k] for k in ("opening", "accrued", "by_provision", "by_expense", "closing")}
-        taxes[tax] = {"prior": rows, "current": current, "total": total}
+        interim = {"opening": 0, "accrued": interim_of[tax], **paid_row(interim_of[tax]), "closing": 0}
+        payable = sum(x for x in finals[tax] if x > 0)
+        refund = -sum(x for x in finals[tax] if x < 0)
+        current = {"period_start": fp["start"], "period_end": fp["end"], "opening": 0, "accrued": payable,
+                   "by_provision": 0, "by_expense": 0, "closing": payable, "refund": refund}
+        total = {k: sum(r[k] for r in rows) + interim[k] + current[k]
+                 for k in ("opening", "accrued", "by_provision", "by_expense", "closing")}
+        total["refund"] = refund
+        taxes[tax] = {"prior": rows, "interim": interim, "current": current, "total": total}
+
+    # 事業税・特別法人事業税: 前期分は申告した当期の「当期発生税額」、当期中間分
+    business_rows = []
+    for p in sorted((p for p in data["tax_payments"] if p["tax"] == "事業税等"), key=lambda p: p["period_end"]):
+        used.add(id(p))
+        start = _add_years(p["period_end"] + datetime.timedelta(days=1), -1)
+        row = next((r for r in business_rows if r["period_end"] == p["period_end"]), None)
+        if row is None:
+            row = {"period_start": start, "period_end": p["period_end"], "opening": 0, "accrued": 0,
+                   "by_provision": 0, "by_expense": 0, "closing": 0}
+            business_rows.append(row)
+        row["accrued"] += p["amount"]
+        row["by_provision" if p["method"] == "充当金取崩し" else "by_expense"] += p["amount"]
+    if len(business_rows) > 2:
+        raise OutOfScope("前期以前の事業税等が3事業年度分以上あります（別表五(二)の欄の数）")
+    b_interim = {"opening": 0, "accrued": im["business"], **paid_row(im["business"]), "closing": 0}
+    business = {"prior": business_rows, "interim": b_interim,
+                "total": {k: sum(r[k] for r in business_rows) + b_interim[k]
+                          for k in ("opening", "accrued", "by_provision", "by_expense", "closing")}}
+
     stray = [p for p in data["tax_payments"] if id(p) not in used]
     if stray:
         raise InputError("tax_payments: prior.schedule_05_02 に期首の未納がない事業年度分の納付があります: "
                          + ", ".join(f"{p['tax']} {p['period_end']}" for p in stray))
 
+    # その他（損金不算入のもの）: 源泉所得税等（損金経理をしたもの）
+    others = []
+    if data.get("income_tax_credit"):
+        credit = sum(c["tax"] for c in data["income_tax_credit"])
+        others.append({"item": "源泉所得税等", "opening": 0, "accrued": credit, "by_provision": 0, "by_expense": credit, "closing": 0})
+
     opening = _five_one_amount(data, "納税充当金")
     charged = data["accounting"]["tax_provision_charged"]
-    reversed_tax = sum(t["total"]["by_provision"] for t in taxes.values())  # 34 法人税額等
-    if reversed_tax > opening + charged:
-        raise InputError("納税充当金の取崩しが、期首の納税充当金と当期の繰入額の合計を超えています")
+    reversed_tax = sum(t["total"]["by_provision"] for t in taxes.values())   # 34 法人税額等
+    reversed_business = business["total"]["by_provision"]                    # 35 事業税及び特別法人事業税
     provision = {"opening": opening, "charged": charged, "charged_total": charged,
-                 "reversed_corporate_etc": reversed_tax, "reversed_business": 0, "reversed_total": reversed_tax,
-                 "closing": opening + charged - reversed_tax}
-    return {"taxes": taxes, "provision": provision}
+                 "reversed_corporate_etc": reversed_tax, "reversed_business": reversed_business,
+                 "reversed_total": reversed_tax + reversed_business,
+                 "closing": opening + charged - reversed_tax - reversed_business}
+    return {"taxes": taxes, "business": business, "others": others, "provision": provision}
 
 
 # --- 別表五(一) ---
@@ -185,7 +261,7 @@ def schedule_05_01(data: dict, s4: dict, s52: dict) -> dict:
                          "配当などによる増減は OpenTax RED の対象外です")
     rows = []
     for item in data["prior"]["schedule_05_01"]:
-        if item["item"] in {"繰越損益金", "納税充当金", "未納道府県民税", "未納市町村民税"}:
+        if item["item"] in {"繰越損益金", "納税充当金", "未納法人税等", "未納道府県民税", "未納市町村民税"}:
             continue
         rows.append({"item": item["item"], "opening": item["amount"], "decrease": 0, "increase": 0, "closing": item["amount"]})
     prov = s52["provision"]
@@ -193,21 +269,26 @@ def schedule_05_01(data: dict, s4: dict, s52: dict) -> dict:
     provision = {"item": "納税充当金", "opening": prov["opening"], "decrease": prov["reversed_total"],
                  "increase": prov["charged_total"], "closing": prov["closing"]}
     unpaid = {}
-    for tax, label in (("道府県民税", "未納道府県民税"), ("市町村民税", "未納市町村民税")):
+    for tax, label in (("法人税等", "未納法人税等"), ("道府県民税", "未納道府県民税"), ("市町村民税", "未納市町村民税")):
         t = s52["taxes"][tax]
         prior_opening = _five_one_amount(data, label)
         rows_opening = sum(r["opening"] for r in t["prior"])
         if prior_opening != rows_opening:
             raise InputError(f"前期の別表五(一)の{label}（{prior_opening:,}円）と、前期の別表五(二)の未納額（{rows_opening:,}円）が合いません")
-        paid = sum(r["by_provision"] + r["by_expense"] for r in t["prior"])
-        # 値は正の数で持つ（帳票ではマイナス表示）
-        unpaid[tax] = {"item": label, "opening": prior_opening, "decrease": paid, "increase_interim": 0,
-                       "increase_final": t["current"]["closing"], "closing": prior_opening - paid + t["current"]["closing"]}
+        paid = sum(r["by_provision"] + r["by_expense"] for r in t["prior"]) + t["interim"]["by_provision"] + t["interim"]["by_expense"]
+        # 値は正の数で持つ（帳票ではマイナス表示）。確定の還付分は未納に入れず、未収還付の行（22〜24）に書く
+        inc_interim, inc_final = t["interim"]["accrued"], t["current"]["closing"]
+        unpaid[tax] = {"item": label, "opening": prior_opening, "decrease": paid, "increase_interim": inc_interim,
+                       "increase_final": inc_final, "closing": prior_opening - paid + inc_interim + inc_final}
+    receivable = [{"item": label, "opening": 0, "decrease": 0, "increase": s52["taxes"][tax]["current"]["refund"],
+                   "closing": s52["taxes"][tax]["current"]["refund"]}
+                  for tax, label in (("法人税等", "未収還付法人税等"), ("道府県民税", "未収還付道府県民税"),
+                                     ("市町村民税", "未収還付市町村民税"))]
     if _five_one_amount(data, "納税充当金") != prov["opening"]:
         raise InputError("納税充当金の期首が合いません")
 
     def total(key_plain: str, key_unpaid) -> int:
-        plus = sum(r[key_plain] for r in rows) + carried[key_plain] + provision[key_plain]
+        plus = sum(r[key_plain] for r in rows + receivable) + carried[key_plain] + provision[key_plain]
         minus = sum(key_unpaid(u) for u in unpaid.values())
         return plus - minus
 
@@ -219,7 +300,7 @@ def schedule_05_01(data: dict, s4: dict, s52: dict) -> dict:
     }
     capital = [{"item": c["item"], "opening": c["begin"], "decrease": max(c["begin"] - c["end"], 0),
                 "increase": max(c["end"] - c["begin"], 0), "closing": c["end"]} for c in data["capital_items"]]
-    return {"rows": rows, "retained": carried, "provision": provision, "unpaid": unpaid, "totals": totals,
+    return {"rows": rows, "receivable": receivable, "retained": carried, "provision": provision, "unpaid": unpaid, "totals": totals,
             "capital": capital, "capital_total": {k: sum(c[k] for c in capital) for k in ("opening", "decrease", "increase", "closing")}}
 
 
@@ -321,7 +402,7 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
         rules["family_company_ratio_display"] = {"mode": trial_ratio_rounding, "source": "試し用の仮の値（未確認）"}
     s4 = schedule_04(data)
     s7 = schedule_07_01(data, s4, rules)
-    s1 = schedule_01(s4, s7)
+    s1 = schedule_01(data, s4, s7)
     s52 = schedule_05_02(data, per_capita)
     s51 = schedule_05_01(data, s4, s52)
     s2 = schedule_02(data, rules)
@@ -333,6 +414,12 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
                  for i in s7["items"] if i["last_year"]]
     if s7["row_note"]:
         warnings.append(s7["row_note"])
+    if s52["provision"]["closing"] < 0:
+        warnings.append(f"期末の納税充当金がマイナスです（{s52['provision']['closing']:,}円）。中間納付を納税充当金の取崩しで払った額が、"
+                        "納税充当金より多いためです（会計の処理と合っているか確かめてください）")
+    refund = s1["refund_total"] + s1["refund_local"]
+    if refund and not data.get("refund_account"):
+        warnings.append(f"還付金（法人税・地方法人税 {refund:,}円）を受け取る口座（refund_account）が入力にありません")
     if trial_ratio_rounding:
         label = {"truncate": "切り捨て", "round_half_up": "四捨五入"}[trial_ratio_rounding]
         warnings.insert(0, f"試し用: 別表二の割合の端数処理を仮に「{label}」にしています。本番の申告には使えません")

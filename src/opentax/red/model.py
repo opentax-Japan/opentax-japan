@@ -19,9 +19,7 @@ SME_CAPITAL_LIMIT = 100_000_000  # 中小法人: 資本金1億円以下（法人
 
 # 対象外の項目。値が 0・false・空でなければ止める
 OUT_OF_SCOPE_KEYS = {
-    "withholding_income_tax": "所得税額の控除・還付（源泉所得税）",
     "tax_credits": "税額控除",
-    "interim_payments": "中間申告・中間納付",
     "loss_carryback": "欠損金の繰戻し還付",
     "group_taxation": "グループ通算",
     "special_measures": "特別措置の適用（適用額明細書）",
@@ -59,6 +57,13 @@ _SCHEMA: dict[str, Any] = {
         "losses": [{"period_start": "date", "period_end": "date", "amount": int}],
     },
     "capital_items": [{"item": str, "begin": int, "end": int}],
+    # 所得税額の控除（別表六(一)）。kind は「利子」（預貯金の利子など。1行目）だけ
+    "income_tax_credit": [{"kind": str, "income": int, "tax": int}],
+    # 当期の中間申告（予定申告を含む）で納付した税額。method は納付の経理（充当金取崩し・損金経理）
+    "interim": {"法人税": int, "地方法人税": int, "道府県民税": {"法人税割": int, "均等割": int},
+                "市町村民税": {"法人税割": int, "均等割": int}, "事業税": int, "特別法人事業税": int, "method": str},
+    # 還付を受ける金融機関（IT部 KANPU_KINYUKIKAN）
+    "refund_account": {"bank": str, "bank_kind": str, "branch": str, "branch_kind": str, "type": str, "number": str},
     **{k: object for k in OUT_OF_SCOPE_KEYS},
 }
 
@@ -68,9 +73,15 @@ REQUIRED = [
     "shareholders", "issued_shares", "accounting.net_income", "accounting.retained_earnings_end",
 ]
 LOCAL_TAXES = ("道府県民税", "市町村民税")
+# 前期以前の分の納付（tax_payments）に書ける税目。法人税等＝法人税・地方法人税（・防衛特別法人税）、事業税等＝事業税・特別法人事業税
+PAYMENT_TAXES = ("法人税等", "道府県民税", "市町村民税", "事業税等")
+UNPAID_TAXES = ("法人税等", "道府県民税", "市町村民税")   # 別表五(二)の期首の未納（事業税は申告した期の当期発生税額）
 PAYMENT_METHODS = ("充当金取崩し", "損金経理")
-FIVE_ONE_RESERVED = {"繰越損益金", "納税充当金", "未納道府県民税", "未納市町村民税"}
-FIVE_ONE_NOT_SUPPORTED = {"未納法人税等": "前期の未納法人税等", "未払通算税効果額": "グループ通算"}
+CREDIT_KINDS = ("利子",)
+FIVE_ONE_RESERVED = {"繰越損益金", "納税充当金", "未納道府県民税", "未納市町村民税", "未納法人税等"}
+FIVE_ONE_NOT_SUPPORTED = {"未払通算税効果額": "グループ通算", "未収還付法人税等": "前期の未収還付法人税等（還付を受けた期の減算）",
+                          "未収還付道府県民税": "前期の未収還付道府県民税（還付を受けた期の減算）",
+                          "未収還付市町村民税": "前期の未収還付市町村民税（還付を受けた期の減算）"}
 
 
 class InputError(Exception):
@@ -225,8 +236,11 @@ def _check_scope(data: dict) -> None:
         if item["item"] in FIVE_ONE_NOT_SUPPORTED and item["amount"]:
             raise OutOfScope(FIVE_ONE_NOT_SUPPORTED[item["item"]])
     for row in data.get("prior", {}).get("schedule_05_02", []):
-        if row["tax"] not in LOCAL_TAXES and row["unpaid"]:
-            raise OutOfScope(f"前期の未納の{row['tax']}（RED で扱うのは道府県民税・市町村民税の均等割だけ）")
+        if row["tax"] not in UNPAID_TAXES and row["unpaid"]:
+            raise OutOfScope(f"前期の未納の{row['tax']}（扱えるのは {'・'.join(UNPAID_TAXES)}）")
+    for c in data.get("income_tax_credit", []):
+        if c["kind"] not in CREDIT_KINDS:
+            raise OutOfScope(f"所得税額の控除の「{c['kind']}」（扱えるのは預貯金の利子など（kind: 利子）だけ。配当は所有期間の按分が要る）")
 
 
 def _fill_defaults(data: dict) -> None:
@@ -243,6 +257,15 @@ def _fill_defaults(data: dict) -> None:
     for k in ("inhabitant_tax_expensed", "tax_provision_charged"):
         acc.setdefault(k, 0)
     data.setdefault("tax_payments", [])
+    data.setdefault("income_tax_credit", [])
+    interim = data.setdefault("interim", {})
+    if interim:
+        for k in ("法人税", "地方法人税", "事業税", "特別法人事業税"):
+            interim.setdefault(k, 0)
+        for k in LOCAL_TAXES:
+            interim.setdefault(k, {})
+            interim[k].setdefault("法人税割", 0)
+            interim[k].setdefault("均等割", 0)
     prior = data.setdefault("prior", {})
     for k in ("schedule_05_01", "schedule_05_02", "losses"):
         prior.setdefault(k, [])
@@ -269,10 +292,16 @@ def _check_values(data: dict) -> None:
         if not 1 <= o["months"] <= months:
             errors.append(f"offices[{i}].months: 事務所等を有していた月数は1〜{months}にしてください")
     for i, p in enumerate(data["tax_payments"], 1):
-        if p["tax"] not in LOCAL_TAXES:
-            errors.append(f"tax_payments[{i}].tax: {LOCAL_TAXES} のどれかにしてください")
+        if p["tax"] not in PAYMENT_TAXES:
+            errors.append(f"tax_payments[{i}].tax: {PAYMENT_TAXES} のどれかにしてください")
         if p["method"] not in PAYMENT_METHODS:
             errors.append(f"tax_payments[{i}].method: {PAYMENT_METHODS} のどれかにしてください")
+    for i, c in enumerate(data["income_tax_credit"], 1):
+        if c["income"] < 0 or c["tax"] < 0 or c["tax"] > c["income"]:
+            errors.append(f"income_tax_credit[{i}]: 収入金額・所得税額は0以上で、所得税額は収入金額以下にしてください")
+    interim = data["interim"]
+    if interim and interim.get("method") not in PAYMENT_METHODS:
+        errors.append(f"interim.method: 中間納付の経理を {PAYMENT_METHODS} のどれかで書いてください（仮払経理は対象外）")
     total = sum(s["shares"] for s in data["shareholders"])
     if total > data["issued_shares"]:
         errors.append("shareholders: 株主の持株数の合計が発行済株式の総数を超えています")

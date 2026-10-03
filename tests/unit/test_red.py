@@ -111,10 +111,15 @@ class OutOfScopeTest(unittest.TestCase):
         raw["accounting"]["retained_earnings_end"] = -2_900_000
         self.assertOut(raw, "黒字法人")
 
-    def test_withholding_tax(self):
+    def test_dividend_credit(self):
         raw = sample()
-        raw["withholding_income_tax"] = 15
-        self.assertOut(raw, "所得税額の控除・還付")
+        raw["income_tax_credit"] = [{"kind": "配当", "income": 1000, "tax": 153}]
+        self.assertOut(raw, "所有期間の按分")
+
+    def test_prior_receivable_refund(self):
+        raw = sample()
+        raw["prior"]["schedule_05_01"].append({"item": "未収還付法人税等", "amount": 100})
+        self.assertOut(raw, "未収還付法人税等")
 
     def test_two_municipalities(self):
         raw = sample()
@@ -139,10 +144,11 @@ class OutOfScopeTest(unittest.TestCase):
         raw["company"]["blue_return"] = False
         self.assertOut(raw, "青色申告でない")
 
-    def test_prior_unpaid_corporate_tax(self):
+    def test_old_keys_are_unknown(self):
         raw = sample()
-        raw["prior"]["schedule_05_01"].append({"item": "未納法人税等", "amount": 100})
-        self.assertOut(raw, "前期の未納法人税等")
+        raw["withholding_income_tax"] = 15
+        with self.assertRaisesRegex(model.InputError, "知らない項目キー"):
+            run(raw)
 
 
 class InputErrorTest(unittest.TestCase):
@@ -268,6 +274,85 @@ class FamilyCompanyTest(unittest.TestCase):
         out = run(raw)
         self.assertTrue(out["result"]["schedule_02"]["with_votes"])
         self.assertIn("VAB00060", base_values(out["result"]))
+
+
+def interim_sample() -> dict:
+    """架空の数字: 前期の未納法人税等・前期分の事業税、当期の中間納付（納税充当金の取崩しで納付）、預金利子の源泉所得税。"""
+    raw = sample()
+    raw["prior"]["schedule_05_01"] = [i if i["item"] != "納税充当金" else {**i, "amount": 400_000}
+                                      for i in raw["prior"]["schedule_05_01"]]
+    raw["prior"]["schedule_05_01"].append({"item": "未納法人税等", "amount": 300_000})
+    raw["prior"]["schedule_05_02"].append({"tax": "法人税等", "period_start": "2024-10-01", "period_end": "2025-09-30",
+                                           "unpaid": 300_000})
+    raw["tax_payments"] += [{"tax": "法人税等", "period_end": "2025-09-30", "method": "充当金取崩し", "amount": 300_000},
+                            {"tax": "事業税等", "period_end": "2025-09-30", "method": "充当金取崩し", "amount": 100_000}]
+    raw["interim"] = {"法人税": 150_000, "地方法人税": 15_000, "道府県民税": {"法人税割": 1_000, "均等割": 10_500},
+                      "市町村民税": {"法人税割": 6_000, "均等割": 25_000}, "事業税": 50_000, "特別法人事業税": 20_000,
+                      "method": "充当金取崩し"}
+    raw["income_tax_credit"] = [{"kind": "利子", "income": 10_000, "tax": 1_531}]
+    raw["refund_account"] = {"bank": "見本", "bank_kind": "銀行", "branch": "本店", "branch_kind": "本店",
+                             "type": "普通", "number": "1234567"}
+    return raw
+
+
+class InterimRefundTest(unittest.TestCase):
+    """中間納付の還付・所得税額の控除（還付）・前期の未納法人税等・事業税等の減算。"""
+
+    def setUp(self):
+        self.out = run(interim_sample())
+        self.r, self.v = self.out["result"], self.out["values"]
+
+    def test_all_checks_pass(self):
+        self.assertEqual(self.out["problems"], [])
+
+    def test_schedule_04(self):
+        s4 = self.r["schedule_04"]
+        self.assertEqual((s4["deduct_business"], s4["provisional"], s4["credit"], s4["income"], s4["retained"]),
+                         (170_000, -1_299_000, 1_531, -1_297_469, -1_299_000))
+        self.assertEqual((self.v["ARD00050"], self.v["ARI00010"], self.v["ARV00010"], self.v["ARV00020"]),
+                         (170_000, 1_531, -1_297_469, -1_299_000))
+
+    def test_schedule_01_refunds(self):
+        v = self.v
+        self.assertEqual((v["BGB00200"], v["BGB00230"], v["BGB00330"], v["BGB00340"], v["BGB00400"]),
+                         (150_000, 1_531, 1_531, 150_000, 151_531))
+        self.assertEqual((v["BGC00130"], v["BGC00250"], v["BGC00280"]), (15_000, 15_000, 15_000))
+        self.assertEqual((v["FZC00020"], v["FZC00040"]), (10_000, 1_531))
+
+    def test_schedule_05(self):
+        s52, v = self.r["schedule_05_02"], self.v
+        self.assertEqual((s52["taxes"]["法人税等"]["current"]["refund"], s52["taxes"]["道府県民税"]["current"]["accrued"],
+                          s52["taxes"]["道府県民税"]["current"]["refund"], s52["taxes"]["市町村民税"]["current"]["refund"]),
+                         (165_000, 10_500, 1_000, 6_000))
+        self.assertEqual(s52["provision"]["closing"], -277_500)
+        self.assertTrue(any("納税充当金がマイナス" in w for w in self.r["warnings"]))
+        self.assertEqual((v["ICB00260"], v["ICB00320"], v["ICB00380"]), (165_000, 1_000, 6_000))
+        self.assertEqual((v["IEB00340"], v["IEC00470"], v["IED00340"]), (-165_000, -1_000, -6_000))
+
+    def test_local_sheet(self):
+        from opentax import api
+        from opentax.red.local_sheet import sheet_values
+        data = model.validate(interim_sample())
+        with mock.patch.object(calc, "load_rules", rules_with_rounding("truncate")):
+            c = api.calculate(interim_sample())
+        pref, city = sheet_values(c, "pref"), sheet_values(c, "city")
+        self.assertEqual((pref["levy_payable"], pref["resident_total"], pref["refund_interim_pref"]), (-1_000, 10_500, 71_000))
+        self.assertEqual((city["levy_payable"], city["resident_total"], city["refund_resident"]), (-6_000, 25_000, 6_000))
+        self.assertIn("見本銀行 本店本店 普通 1234567", api.local_tax_sheet(c))
+        self.assertEqual(data["interim"]["method"], "充当金取崩し")
+
+    def test_xtx_validates(self):
+        from opentax import api
+        root = REPO / ".cache" / "etax" / "ksk2-2026-08" / "files" / "e-tax19"
+        if not root.exists():
+            self.skipTest("公式XSD がありません")
+        c = api.calculate(interim_sample())
+        xml = api.export_etax(c, root, datetime.date(2026, 11, 26))
+        self.assertEqual(api.validate_xtx(xml, root), [])
+        text = xml.decode("utf-8")
+        self.assertIn('about="#HOB016-1"', text)
+        self.assertIn('kinyukikan_KB="1"', text)
+        self.assertNotIn('HOB016', api.export_etax(api.calculate(sample()), root, datetime.date(2026, 11, 26)).decode("utf-8"))
 
 
 if __name__ == "__main__":

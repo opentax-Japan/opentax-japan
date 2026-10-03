@@ -13,8 +13,9 @@
             { "title": "愛知県 第六号様式 記載の手引（令和7年版）", "url": "https://www.pref.aichi.jp/uploaded/attachment/628210.pdf", "checked": "2026-09-30" },
             { "title": "愛知県 法人県民税・法人事業税の様式", "url": "https://www.pref.aichi.jp/soshiki/zeimu/0000055625.html", "checked": "2026-09-30" }
           ],
-          "business_tax_lines": { "income_total": "㉘", "tax_total": "㊵", "tax_diff": "㊸", "tax_payable": "㊻",
-                                  "special_income": "53", "special_total": "55", "special_payable": "60",
+          "business_tax_lines": { "income_total": "㉘", "tax_total": "㊵", "tax_diff": "㊸", "tax_paid": "㊹", "tax_payable": "㊻",
+                                  "tax_income_part": "㊼", "special_income": "53", "special_total": "55", "special_paid": "58",
+                                  "special_payable": "60", "refund_interim": "72",
                                   "income_34": "63", "provisional": "68", "loss_deduction": "69", "income_52": "70" }
         },
         {
@@ -27,8 +28,10 @@
             { "title": "e-Gov 地方税法施行規則 第六号様式（令和8年7月21日 総務省令第89号までを反映）", "url": "https://laws.e-gov.go.jp/api/2/attachment/329M50000002023_20260721_508M60000008089?src=./pict/2FH00000079725.pdf", "checked": "2026-09-30" },
             { "title": "愛知県 第六号様式 記載の手引（令和8年版）", "url": "https://www.pref.aichi.jp/uploaded/attachment/628258.pdf", "checked": "2026-09-30" }
           ],
-          "business_tax_lines": { "income_total": "㉘", "tax_total": "㊵", "tax_diff": "㊹", "tax_payable": "㊼",
-                                  "special_income": "54", "special_total": "56", "special_payable": "61",
+          "business_tax_lines_note": "tax_paid・special_paid は様式の欄の並び（差引の次・納付すべき額の2つ前）から決めた。tax_income_part・refund_interim は欄番号を確かめていないので空欄",
+          "business_tax_lines": { "income_total": "㉘", "tax_total": "㊵", "tax_diff": "㊹", "tax_paid": "㊺", "tax_payable": "㊼",
+                                  "tax_income_part": null, "special_income": "54", "special_total": "56", "special_paid": "59",
+                                  "special_payable": "61", "refund_interim": null,
                                   "income_34": "64", "provisional": "69", "loss_deduction": "70", "income_52": "71" }
         }
       ],
@@ -37,10 +40,12 @@
         { "no": "⑤", "name": "課税標準となる法人税額（①＋②－③＋④）", "value": "tax_base" },
         { "no": "⑦", "name": "法人税割額", "value": "levy" },
         { "no": "⑬", "name": "差引法人税割額", "value": "levy" },
-        { "no": "⑯", "name": "この申告により納付すべき法人税割額", "value": "levy" },
+        { "no": "⑭", "name": "既に納付の確定した当期分の法人税割額", "value": "levy_paid", "interim_only": true },
+        { "no": "⑯", "name": "この申告により納付すべき法人税割額（⑬－⑭－⑮）", "value": "levy_payable" },
         { "no": "⑰", "name": "算定期間中において事務所等を有していた月数", "value": "months" },
         { "no": "⑱", "name": "均等割額", "value": "per_capita" },
-        { "no": "⑳", "name": "この申告により納付すべき均等割額（⑱－⑲）", "value": "per_capita" },
+        { "no": "⑲", "name": "既に納付の確定した当期分の均等割額", "value": "per_capita_paid", "interim_only": true },
+        { "no": "⑳", "name": "この申告により納付すべき均等割額（⑱－⑲）", "value": "per_capita_payable" },
         { "no": "㉑", "name": "この申告により納付すべき道府県民税額（⑯＋⑳）", "value": "resident_total" },
         { "no": "㉓", "name": "差引（㉑－㉒）", "value": "resident_total" }
       ],
@@ -48,14 +53,18 @@
         { "key": "income_total", "name": "所得金額総額", "value": "business_income_total" },
         { "key": "tax_total", "name": "合計事業税額", "value": "zero" },
         { "key": "tax_diff", "name": "差引事業税額", "value": "zero" },
-        { "key": "tax_payable", "name": "この申告により納付すべき事業税額", "value": "zero" },
+        { "key": "tax_paid", "name": "既に納付の確定した当期分の事業税額", "value": "business_paid", "interim_only": true },
+        { "key": "tax_payable", "name": "この申告により納付すべき事業税額", "value": "business_payable" },
+        { "key": "tax_income_part", "name": "この申告により納付すべき事業税額の内訳 所得割", "value": "business_payable", "interim_only": true },
         { "key": "special_income", "name": "所得割に係る特別法人事業税額", "value": "zero" },
         { "key": "special_total", "name": "合計特別法人事業税額", "value": "zero" },
-        { "key": "special_payable", "name": "この申告により納付すべき特別法人事業税額", "value": "zero" },
+        { "key": "special_paid", "name": "既に納付の確定した当期分の特別法人事業税額", "value": "special_paid", "interim_only": true },
+        { "key": "special_payable", "name": "この申告により納付すべき特別法人事業税額", "value": "special_payable" },
         { "key": "income_34", "name": "所得金額（法人税の明細書（別表4）の34）", "value": "income_34" },
         { "key": "provisional", "name": "仮計", "value": "business_provisional" },
         { "key": "loss_deduction", "name": "繰越欠損金額等若しくは災害損失金額又は債務免除等があった場合の欠損金額等の当期控除額", "value": "zero" },
-        { "key": "income_52", "name": "法人税の所得金額（法人税の明細書（別表4）の52）", "value": "income_52" }
+        { "key": "income_52", "name": "法人税の所得金額（法人税の明細書（別表4）の52）", "value": "income_52" },
+        { "key": "refund_interim", "name": "還付請求 中間納付額（法人税割・事業税・特別法人事業税の中間納付の還付）", "value": "refund_interim_pref", "interim_only": true }
       ],
       "unnumbered": [
         { "name": "期末現在の資本金の額", "value": "capital" },
@@ -83,12 +92,15 @@
         { "no": "①", "name": "法人税法の規定によって計算した法人税額", "value": "corporate_tax" },
         { "no": "⑤", "name": "課税標準となる法人税額及びその法人税割額（①＋②－③＋④）", "value": "tax_base" },
         { "no": "⑫", "name": "差引法人税割額", "value": "levy" },
-        { "no": "⑮", "name": "この申告により納付すべき法人税割額", "value": "levy" },
+        { "no": "⑬", "name": "既に納付の確定した当期分の法人税割額", "value": "levy_paid", "interim_only": true },
+        { "no": "⑮", "name": "この申告により納付すべき法人税割額（⑫－⑬－⑭）", "value": "levy_payable" },
         { "no": "⑯", "name": "算定期間中において事務所等を有していた月数", "value": "months" },
         { "no": "⑰", "name": "均等割額", "value": "per_capita" },
-        { "no": "⑲", "name": "この申告により納付すべき均等割額（⑰－⑱）", "value": "per_capita" },
+        { "no": "⑱", "name": "既に納付の確定した当期分の均等割額", "value": "per_capita_paid", "interim_only": true },
+        { "no": "⑲", "name": "この申告により納付すべき均等割額（⑰－⑱）", "value": "per_capita_payable" },
         { "no": "⑳", "name": "この申告により納付すべき市町村民税額（⑮＋⑲）", "value": "resident_total" },
         { "no": "㉒", "name": "差引（⑳－㉑）", "value": "resident_total" },
+        { "no": null, "name": "還付請求税額（法人税割の中間納付の還付）", "value": "refund_resident", "interim_only": true },
         { "no": "㉓", "name": "当該法人の全従業者数", "value": "employees" },
         { "no": "㉔", "name": "左のうち当該市町村分の従業者数", "value": "employees" },
         { "no": "㉕", "name": "当該市町村分の均等割の税率適用区分に用いる従業者数", "value": "employees" }

@@ -415,7 +415,7 @@ def build_it_layout(schema_root: Path, procedure_xsd: str, names: list[str]) -> 
 # RED で使う IT部の要素（別表から IDREF で参照するもの）
 IT_ELEMENTS = ["ZEIMUSHO", "TEISYUTSU_DAY", "NOZEISHA_ID", "NOZEISHA_NM_KN", "NOZEISHA_NM", "NOZEISHA_ZIP",
                "NOZEISHA_ADR", "NOZEISHA_TEL", "SHIHON_KIN", "JIGYO_NAIYO", "DAIHYO_NM_KN", "DAIHYO_NM",
-               "DAIHYO_ADR", "TETSUZUKI", "JIGYO_NENDO_FROM", "JIGYO_NENDO_TO", "SHINKOKU_KBN"]
+               "DAIHYO_ADR", "TETSUZUKI", "JIGYO_NENDO_FROM", "JIGYO_NENDO_TO", "SHINKOKU_KBN", "KANPU_KINYUKIKAN"]
 
 LAYOUT_DIR = Path(__file__).parent / "layouts"
 

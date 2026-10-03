@@ -56,13 +56,30 @@ def sheet_values(calculated: dict, office_kind: str) -> dict:
     reserve = c.get("capital_reserve")
     surplus = c.get("capital_surplus")
     s4 = calculated["result"]["schedule_04"]
+    i = data.get("interim") or {}
+    tax = "道府県民税" if office_kind == "pref" else "市町村民税"
+    levy_paid = i.get(tax, {}).get("法人税割", 0)
+    per_capita_paid = i.get(tax, {}).get("均等割", 0)
+    levy_payable = 0 - levy_paid                     # 赤字なので法人税割額は 0。中間納付分がマイナス（還付）になる
+    per_capita_payable = part["amount"] - per_capita_paid
+    # 納付すべき額の合計には、還付になる法人税割（マイナス）を入れない。還付は「還付請求」の欄で請求する
+    resident_total = max(levy_payable, 0) + per_capita_payable
+    refund_resident = max(-levy_payable, 0)
+    business_paid, special_paid = i.get("事業税", 0), i.get("特別法人事業税", 0)
     return {
         "zero": 0, "corporate_tax": 0, "tax_base": 0, "levy": 0,
+        "levy_paid": levy_paid, "levy_payable": levy_payable,
+        "per_capita_paid": per_capita_paid, "per_capita_payable": per_capita_payable,
+        "refund_resident": refund_resident,
+        "business_paid": business_paid, "business_payable": -business_paid,
+        "special_paid": special_paid, "special_payable": -special_paid,
+        "refund_interim_pref": refund_resident + business_paid + special_paid,
+        "has_interim": bool(i),
         "months": f"{part['months']}月",
         "per_capita": part["amount"],
         "per_capita_note": f"{part['annual']:,}円 × {part['months']}／12"
                            + (f"（うち{part['surcharge_name']} {part['surcharge_annual']:,}円／年）" if part.get("surcharge_name") else ""),
-        "resident_total": part["amount"],
+        "resident_total": resident_total,
         "employees": f"{c['employees']}人",
         "capital": c["capital"],
         "capital_and_reserve": None if reserve is None else c["capital"] + reserve,
@@ -79,10 +96,19 @@ def sheet_values(calculated: dict, office_kind: str) -> dict:
 def _rows(lines: list[dict], values: dict, notes: dict[str, str] | None = None) -> list[tuple[str, str, str, str]]:
     out = []
     for line in lines:
+        if line.get("interim_only") and not values["has_interim"]:
+            continue
         v = values[line["value"]]
         note = (notes or {}).get(line["value"], "")
         out.append((_no(line.get("no")), line["name"], _yen(v), note))
     return out
+
+
+def _account_text(data: dict) -> str | None:
+    a = data.get("refund_account")
+    if not a:
+        return None
+    return f"{a['bank']}{a['bank_kind']} {a['branch']}{a['branch_kind']} {a['type']} {a['number']}"
 
 
 def build(calculated: dict, today: datetime.date | None = None) -> str:
@@ -101,14 +127,21 @@ def build(calculated: dict, today: datetime.date | None = None) -> str:
     if v6.get("revised_from_filing_date") and filing_day >= datetime.date.fromisoformat(v6["revised_from_filing_date"]):
         warnings.append(f"第六号様式: {v6['revised_note']}")
     vals6 = sheet_values(calculated, "pref")
-    rows6 = _rows(f6["resident_tax_lines"], vals6, {"per_capita": vals6["per_capita_note"]})
+    resident_note = "法人税割のマイナス（中間納付の還付）は入れない。還付は「還付請求 中間納付額」の欄で請求する"
+    rows6 = _rows(f6["resident_tax_lines"], vals6, {"per_capita": vals6["per_capita_note"],
+                                                    **({"resident_total": resident_note} if vals6["refund_resident"] else {})})
     for item in f6["business_tax_items"]:
+        if item.get("interim_only") and not vals6["has_interim"]:
+            continue
         no = v6["business_tax_lines"][item["key"]]
-        note = ""
+        note = "" if no else "この版の欄番号は確かめていません。様式で確かめてください"
         if item["value"] in ("business_income_total", "income_34", "business_provisional", "income_52") and vals6[item["value"]] < 0:
             note = "赤字（欠損）。△を付けて円単位で書く（課税標準の㉙〜㉜は 0）"
         rows6.append((_no(no), item["name"], _yen(vals6[item["value"]]), note))
     rows6 += _rows(f6["unnumbered"], vals6)
+    account = _account_text(data)
+    if account and vals6["refund_interim_pref"]:
+        rows6.append(("", "還付を受けようとする金融機関及び支払方法", account, ""))
     sections.append({
         "title": f"第六号様式（{f6['title']}）{v6['version']}",
         "to": f"{local['prefecture']['jurisdiction']}（提出先: {local['prefecture']['submission_office'] or '未入力'}）",
@@ -125,7 +158,12 @@ def build(calculated: dict, today: datetime.date | None = None) -> str:
         f20 = forms["第二十号様式"]
         v20 = _version(f20, start)
         vals20 = sheet_values(calculated, "city")
-        rows20 = _rows(f20["resident_tax_lines"], vals20, {"per_capita": vals20["per_capita_note"]}) + _rows(f20["unnumbered"], vals20)
+        notes20 = {"per_capita": vals20["per_capita_note"]}
+        if vals20["refund_resident"]:
+            notes20["resident_total"] = "法人税割のマイナス（中間納付の還付）は入れない。還付は「還付請求税額」の欄で請求する"
+        rows20 = _rows(f20["resident_tax_lines"], vals20, notes20) + _rows(f20["unnumbered"], vals20)
+        if account and vals20["refund_resident"]:
+            rows20.append(("", "還付を受けようとする金融機関及び支払方法", account, ""))
         ward = f" {city['ward']}" if city.get("ward") else ""
         sections.append({
             "title": f"第二十号様式（{f20['title']}）",
@@ -183,7 +221,9 @@ def _html(data, start, end, sections, warnings, guides, today) -> str:
         parts.append("</tbody></table>")
         parts.append('<p class="src">様式の出典: ' + " ／ ".join(f"{e(x['title'])} {e(x['url'])}" for x in s["source"]) + "</p>")
     parts.append("<h2>注意</h2><ul class=\"note\">")
+    interim = bool(data.get("interim"))
     for text in [
+        "赤字のため法人税割・事業税・特別法人事業税は 0 です。中間納付した分は還付になります。" if interim else
         "均等割だけの申告です（赤字のため法人税割・事業税・特別法人事業税は 0）。",
         "eLTAX 用の取込ファイルは作っていません（地方税共同機構の回答を待っています）。",
         "計算結果の正しさは保証しません。提出前に必ず確かめてください。",

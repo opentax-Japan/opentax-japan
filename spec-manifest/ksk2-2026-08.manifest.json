@@ -2688,6 +2688,19 @@
       "field_spec_sheet": "HOB710"
     },
     {
+      "form_id": "HOB016",
+      "label": "別表六(一)（所得税額の控除）",
+      "mvp": false,
+      "stage": "red-plus",
+      "xsd": "19XMLスキーマ/hojin/HOB016-006.xsd",
+      "version": "6.0",
+      "xsd_documentation_date": "2020-04-10",
+      "group": "HOB016-6-0group",
+      "xsd_sha256": "0ad0a7eb4c996a9213711e9d5f2d286635384481235787d9882f6aadc2683ad0",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver6x.xlsx",
+      "field_spec_sheet": "HOB016"
+    },
+    {
       "form_id": "HOI010",
       "label": "預貯金等の内訳書",
       "mvp": false,

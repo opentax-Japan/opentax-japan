@@ -902,6 +902,153 @@
     ]
    },
    {
+    "tag": "KANPU_KINYUKIKAN",
+    "path": "IT/KANPU_KINYUKIKAN",
+    "label": "還付先金融機関",
+    "min": 0,
+    "max": 1,
+    "kind": "group",
+    "children": [
+     {
+      "tag": "kinyukikan_NM",
+      "path": "IT/KANPU_KINYUKIKAN/kinyukikan_NM",
+      "label": null,
+      "min": 0,
+      "max": 1,
+      "ns": "gen",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 15,
+      "attributes": [
+       {
+        "name": "kinyukikan_KB",
+        "required": false,
+        "type": "gen:kinyukikan_KB"
+       }
+      ],
+      "choice": "IT/KANPU_KINYUKIKAN#1"
+     },
+     {
+      "tag": "shiten_NM",
+      "path": "IT/KANPU_KINYUKIKAN/shiten_NM",
+      "label": null,
+      "min": 0,
+      "max": 1,
+      "ns": "gen",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 15,
+      "attributes": [
+       {
+        "name": "shiten_KB",
+        "required": false,
+        "type": "gen:shiten_KB"
+       }
+      ],
+      "choice": "IT/KANPU_KINYUKIKAN#1"
+     },
+     {
+      "tag": "kinyukikan_CD",
+      "path": "IT/KANPU_KINYUKIKAN/kinyukikan_CD",
+      "label": null,
+      "min": 0,
+      "max": 1,
+      "ns": "gen",
+      "kind": "value",
+      "base": "xsd:string",
+      "max_length": 4,
+      "choice": "IT/KANPU_KINYUKIKAN#1"
+     },
+     {
+      "tag": "shiten_CD",
+      "path": "IT/KANPU_KINYUKIKAN/shiten_CD",
+      "label": null,
+      "min": 0,
+      "max": 1,
+      "ns": "gen",
+      "kind": "value",
+      "base": "xsd:string",
+      "max_length": 3,
+      "choice": "IT/KANPU_KINYUKIKAN#1"
+     },
+     {
+      "tag": "yokin",
+      "path": "IT/KANPU_KINYUKIKAN/yokin",
+      "label": null,
+      "min": 0,
+      "max": 1,
+      "ns": "gen",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "choice": "IT/KANPU_KINYUKIKAN#1"
+     },
+     {
+      "tag": "koza",
+      "path": "IT/KANPU_KINYUKIKAN/koza",
+      "label": null,
+      "min": 0,
+      "max": 1,
+      "ns": "gen",
+      "kind": "value",
+      "base": "xsd:string",
+      "max_length": 10,
+      "choice": "IT/KANPU_KINYUKIKAN#1"
+     },
+     {
+      "tag": "yubinkyoku_NM",
+      "path": "IT/KANPU_KINYUKIKAN/yubinkyoku_NM",
+      "label": null,
+      "min": 0,
+      "max": 1,
+      "ns": "gen",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 20,
+      "choice": "IT/KANPU_KINYUKIKAN#2"
+     },
+     {
+      "tag": "kigobango1",
+      "path": "IT/KANPU_KINYUKIKAN/kigobango1",
+      "label": null,
+      "min": 0,
+      "max": 1,
+      "ns": "gen",
+      "kind": "value",
+      "base": "xsd:string",
+      "max_length": 5,
+      "choice": "IT/KANPU_KINYUKIKAN#2"
+     },
+     {
+      "tag": "kigobango2",
+      "path": "IT/KANPU_KINYUKIKAN/kigobango2",
+      "label": null,
+      "min": 0,
+      "max": 1,
+      "ns": "gen",
+      "kind": "value",
+      "base": "xsd:string",
+      "max_length": 8,
+      "choice": "IT/KANPU_KINYUKIKAN#2"
+     }
+    ],
+    "attributes": [
+     {
+      "name": "ID",
+      "required": true,
+      "type": "xsd:ID"
+     }
+    ]
+   },
+   {
     "tag": "DAIHYO_NM_KN",
     "path": "IT/DAIHYO_NM_KN",
     "label": "代表者氏名読み",

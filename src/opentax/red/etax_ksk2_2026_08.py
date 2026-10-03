@@ -19,7 +19,9 @@ PROCEDURE_ID = "RHO0012"
 PROCEDURE_NAME = "内国法人の確定申告(青色)"  # e-Taxソフトが切り出したファイルの TETSUZUKI/procedure_NM と同じ
 PROCEDURE_VR = "26.0.1"
 # 手続XSD（RHO0012-260.xsd）の CONTENTS の並び順。HOA114（別表一 次葉一）は手続XSD で必須
-FORMS = ("HOA112", "HOA114", "HOA201", "HOA420", "HOA511", "HOA522", "HOB710")
+FORMS = ("HOA112", "HOA114", "HOA201", "HOA420", "HOA511", "HOA522", "HOB016", "HOB710")
+# 値があるときだけ出す帳票（別表六(一)は所得税額の控除があるときだけ）
+OPTIONAL_FORMS = ("HOB016",)
 SOFT_NAME = "OpenTaxRED OpenTaxJapan"   # 「ソフト名△会社名」（e-tax01 表1-1）
 SHINKOKU_KBN_KAKUTEI = "30"           # 申告の種類「確定/確定」（e-tax10 帳票フィールド仕様書 Ver7x「HOA112別紙」申告の種類一覧）
 FAMILY_CODE_FOR_S1 = {"1": "4", "2": "1", "3": "3"}  # 別表二の判定結果 → 別表一の同非区分（1:同族 3:非同族 4:特定同族）
@@ -49,8 +51,11 @@ def base_values(result: dict) -> dict:
     # 別表四（簡易様式）
     v["ARB00010"] = s4["net_income"]
     v["ARB00020"] = s4["net_income"]            # 配当なし（RED の対象外）なので全額が留保
+    v["ARC00020"] = s4["add_corporate"]
     v["ARC00050"] = s4["add_inhabitant"]
     v["ARC00110"] = s4["add_provision"]
+    v["ARD00050"] = s4["deduct_business"]
+    v["ARI00010"] = s4["credit"]
     v["ART00010"] = s4["loss_deduction"]
     # 別表七(一)
     last = [i for i in s7["items"] if i["last_year"]]
@@ -63,18 +68,51 @@ def base_values(result: dict) -> dict:
     v["MCB00270"] = s7["current_loss"]
     v["MCB00340"] = s7["current_loss"]
     v["MCB00360"] = s7["current_loss"]
-    # 別表一
+    # 別表一（還付金額などは仕様書の【計算】の式で埋める）
+    s1 = result["schedule_01"]
     v["BGB00460"] = s4["loss_deduction"]
+    v["BGB00200"] = s1["interim_corporate"]       # 14 中間申告分の法人税額
+    v["BGB00230"] = s1["income_tax"]              # 16 所得税の額
+    v["BGC00130"] = s1["interim_local"]           # 39 中間申告分の地方法人税額
+    # 22 中間納付額（【計算】BGB00200－BGB00190。申告の種類による例外があり式を読み取れないので、確定申告として入れる）
+    v["BGB00340"] = s1["refund_interim"]
+    # 別表六(一)（預貯金の利子などの1行目だけ）
+    if s4["credit"]:
+        income = s4["credit_income"]
+        v["FZC00020"], v["FZC00030"], v["FZC00040"] = income, s4["credit"], s4["credit"]
+        v["FZC00310"], v["FZC00320"], v["FZC00330"] = income, s4["credit"], s4["credit"]
     # 別表五(二)
     for tax, p in (("道府県民税", "IEC"), ("市町村民税", "IED")):
         t = s52["taxes"][tax]
         v[f"{p}00050"] = [r["opening"] for r in t["prior"]]
         v[f"{p}00090"] = [r["by_provision"] for r in t["prior"]]
         v[f"{p}00150"] = [r["by_expense"] for r in t["prior"]]
-    v["IEC00450"] = s52["taxes"]["道府県民税"]["current"]["accrued"]
-    v["IEC00480"] = s52["taxes"]["道府県民税"]["current"]["closing"]
-    v["IED00320"] = s52["taxes"]["市町村民税"]["current"]["accrued"]
-    v["IED00350"] = s52["taxes"]["市町村民税"]["current"]["closing"]
+    nat = s52["taxes"]["法人税等"]
+    v["IEB00050"] = [r["opening"] for r in nat["prior"]]
+    v["IEB00090"] = [r["by_provision"] for r in nat["prior"]]
+    v["IEB00150"] = [r["by_expense"] for r in nat["prior"]]
+    v["IEB00190"], v["IEB00230"], v["IEB00290"] = (nat["interim"][k] for k in ("accrued", "by_provision", "by_expense"))
+    v["IEB00320"], v["IEB00350"] = nat["current"]["accrued"], nat["current"]["closing"]
+    v["IEB00340"] = -nat["current"]["refund"]     # ⑥の外書き（還付）は△
+    v["IEB00510"] = -nat["current"]["refund"]
+    for tax, p, (acc, prov, exp, fin_acc, fin_out, fin_close, tot_out) in (
+            ("道府県民税", "IEC", ("IEC00320", "IEC00360", "IEC00420", "IEC00450", "IEC00470", "IEC00480", "IEC00640")),
+            ("市町村民税", "IED", ("IED00190", "IED00230", "IED00290", "IED00320", "IED00340", "IED00350", "IED00510"))):
+        t = s52["taxes"][tax]
+        v[acc], v[prov], v[exp] = (t["interim"][k] for k in ("accrued", "by_provision", "by_expense"))
+        v[fin_acc], v[fin_close] = t["current"]["accrued"], t["current"]["closing"]
+        v[fin_out] = -t["current"]["refund"]
+        v[tot_out] = -t["current"]["refund"]
+    bus = s52["business"]
+    v["IEE00050"] = [r["accrued"] for r in bus["prior"]]
+    v["IEE00090"] = [r["by_provision"] for r in bus["prior"]]
+    v["IEE00150"] = [r["by_expense"] for r in bus["prior"]]
+    v["IEE00180"], v["IEE00220"], v["IEE00280"] = (bus["interim"][k] for k in ("accrued", "by_provision", "by_expense"))
+    if len(s52["others"]) > 2:
+        from .model import OutOfScope
+        raise OutOfScope("別表五(二)のその他（損金不算入のもの）が2行を超えています")
+    v["IEF01050"] = [r["accrued"] for r in s52["others"]]
+    v["IEF01150"] = [r["by_expense"] for r in s52["others"]]
     v["IEG00010"] = s52["provision"]["opening"]
     v["IEG00030"] = s52["provision"]["charged"]
     # 別表五(一)
@@ -91,7 +129,11 @@ def base_values(result: dict) -> dict:
     ret, prov = s51["retained"], s51["provision"]
     v["ICB00410"], v["ICB00430"], v["ICB00440"] = ret["opening"], ret["decrease"], ret["increase"]
     v["ICB00470"], v["ICB00490"], v["ICB00500"] = prov["opening"], prov["decrease"], prov["increase"]
-    for tax, (o, d, mid, fin) in (("道府県民税", ("ICB00630", "ICB00650", "ICB00670", "ICB00680")),
+    for r, (o, d, i) in zip(s51["receivable"], (("ICB00230", "ICB00250", "ICB00260"), ("ICB00290", "ICB00310", "ICB00320"),
+                                                  ("ICB00350", "ICB00370", "ICB00380"))):
+        v[o], v[d], v[i] = r["opening"], r["decrease"], r["increase"]
+    for tax, (o, d, mid, fin) in (("法人税等", ("ICB00540", "ICB00560", "ICB00580", "ICB00590")),
+                                  ("道府県民税", ("ICB00630", "ICB00650", "ICB00670", "ICB00680")),
                                   ("市町村民税", ("ICB00720", "ICB00740", "ICB00760", "ICB00770"))):
         u = s51["unpaid"][tax]
         v[o], v[d], v[mid], v[fin] = u["opening"], u["decrease"], u["increase_interim"], u["increase_final"]
@@ -169,11 +211,13 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
         v.update({"MCB00130": _s7_rows(rest, lambda i: i["period_start"]), "MCB00140": _s7_rows(rest, lambda i: i["period_end"]),
                   "MCB00160": _s7_rows(rest, lambda i: "1"), "MCB00170": _s7_rows(rest, lambda i: "2"),
                   "MCB00180": _s7_rows(rest, lambda i: "2")})
-    for tax, p in (("道府県民税", "IEC"), ("市町村民税", "IED")):
-        rows = s52["taxes"][tax]["prior"]
+    for rows, p in ((s52["taxes"]["法人税等"]["prior"], "IEB"), (s52["taxes"]["道府県民税"]["prior"], "IEC"),
+                    (s52["taxes"]["市町村民税"]["prior"], "IED"), (s52["business"]["prior"], "IEE")):
         if rows:
             v[f"{p}00020"] = [r["period_start"] for r in rows]
             v[f"{p}00030"] = [r["period_end"] for r in rows]
+    if s52["others"]:
+        v["IEF01030"] = [r["item"] for r in s52["others"]]
     others = [r["item"] for r in s51["rows"] if r["item"] != "利益準備金"]
     if others:
         v["ICB00150"] = others
@@ -229,7 +273,27 @@ def it_values(data: dict, zeimusho_xsd: bytes) -> dict:
         if not m:
             raise XtxError(f"company.phone: 電話番号は 086-000-0000 の形で入れてください: {c['phone']}")
         v.update({"tel1": m.group(1), "tel2": m.group(2), "tel3": m.group(3)})
+    acct = data.get("refund_account")
+    if acct:
+        v.update(refund_account_values(acct))
     return v
+
+
+# 還付先金融機関の区分（e-Tax 仕様 General.xsd の kinyukikan_KB・shiten_KB・yokin）
+BANK_KINDS = {"銀行": "1", "金庫": "2", "組合": "3", "農協": "4", "漁協": "5"}
+BRANCH_KINDS = {"本店": "1", "支店": "2", "本所": "3", "支所": "4", "出張所": "5"}
+DEPOSIT_TYPES = {"普通": "1", "当座": "2", "納税準備": "3", "通知": "4", "別段": "5", "貯蓄": "6", "その他": "9"}
+
+
+def refund_account_values(acct: dict) -> dict:
+    for key, table in (("bank_kind", BANK_KINDS), ("branch_kind", BRANCH_KINDS), ("type", DEPOSIT_TYPES)):
+        if acct.get(key) not in table:
+            raise XtxError(f"refund_account.{key}: {list(table)} のどれかにしてください: {acct.get(key)!r}")
+    if not re.fullmatch(r"\d{1,10}", acct.get("number") or ""):
+        raise XtxError("refund_account.number: 口座番号は10桁までの数字で入れてください")
+    return {"kinyukikan_NM": (acct["bank"], {"kinyukikan_KB": BANK_KINDS[acct["bank_kind"]]}),
+            "shiten_NM": (acct["branch"], {"shiten_KB": BRANCH_KINDS[acct["branch_kind"]]}),
+            "yokin": DEPOSIT_TYPES[acct["type"]], "koza": acct["number"]}
 
 
 def _forms_of(values: dict) -> dict[str, dict]:
@@ -267,6 +331,8 @@ def build_xtx(data: dict, result: dict, numbers: dict, zeimusho_xsd: bytes, toda
     preparer = data["filing"].get("preparer") or data["company"]["name"]
     forms = []
     for form_id in FORMS:
+        if form_id in OPTIONAL_FORMS and not values[form_id]:
+            continue
         attrs = {"id": f"{form_id}-1", "page": "1", "softNM": SOFT_NAME, "sakuseiNM": preparer,
                  "sakuseiDay": today.isoformat()}
         forms.append(build_form(load_layout(SPEC_SET, form_id), values[form_id], it_ids, attrs))
@@ -283,7 +349,9 @@ def verify(result: dict, values: dict) -> list[str]:
     s4, s7, s52, s51 = (result[k] for k in ("schedule_04", "schedule_07_01", "schedule_05_02", "schedule_05_01"))
     pairs = [
         ("別表四 52① 所得金額", "ARV00010", s4["income"]),
-        ("別表四 52② 所得金額 留保", "ARV00020", s4["income"]),
+        ("別表四 52② 所得金額 留保", "ARV00020", s4["retained"]),
+        ("別表一 24 還付金額 計", "BGB00400", result["schedule_01"]["refund_total"]),
+        ("別表一 43 地方法人税の還付金額 計", "BGC00280", result["schedule_01"]["refund_local"]),
         ("別表一 1 所得金額", "BGB00010", result["schedule_01"]["income"]),
         ("別表七(一) 合計⑤ 翌期繰越額", "MCB00370", s7["carry_total"]),
         ("別表一 27 翌期へ繰り越す欠損金額", "BGB00470", result["schedule_01"]["loss_carry"]),
