@@ -1,0 +1,59 @@
+{
+  "edition": "shohi2026",
+  "title": "消費税及び地方消費税の申告書（一般用）・付表1-3・付表2-3（令和8年10月1日以後に開始する課税期間用）",
+  "publisher": "国税庁",
+  "fiscal_year_end_from": "2026-10-01",
+  "fiscal_year_start_from": "2026-10-01",
+  "source_page": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/shinkoku/shohi/06.htm",
+  "note": "第一表・第二表は令和8年8月に公表された新しい様式（AI-OCR 対応。様式ID NTA1SHA010010110・NTA0SHA010020110）。第一表は参考事項 G33 が「売上税額の積上げ計算の適用」、G34 の 8 が「（個人の方）税額控除に係る経過措置の適用（3割特例）」に替わり、㉖欄と税理士法第30条・第33条の2の行が少し上に上がった。第二表は様式IDだけが替わった。付表1-3・付表2-3 は新しい様式が出ておらず、国税庁の様式のページで新旧どちらの課税期間用にも youshiki_024・youshiki_026 が載っているので、それを使う",
+  "terms": "出典：国税庁ホームページ（各様式の URL）。公共データ利用規約（第1.0版）により利用し、金額を重ねて表示するよう加工している。国税庁が作成したものではない",
+  "terms_url": "https://www.nta.go.jp/chuijiko/copy.htm",
+  "files": {
+    "0026008-068-01.pdf": {
+      "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/shinkoku/shohi/pdf/0026008-068-01.pdf",
+      "sha256": "e61f045a577c73c71961d85a830df94fb2d359404297b850e98b32b227edc429"
+    },
+    "0026008-068-02.pdf": {
+      "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/shinkoku/shohi/pdf/0026008-068-02.pdf",
+      "sha256": "f231ba06e50df797762efcec4570f86beeea1ba879b2ea328d0e5c0c9d384ec4"
+    },
+    "youshiki_024.pdf": {
+      "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/kansetsu/951225/pdf/youshiki_024.pdf",
+      "sha256": "07c048e127e8a9d92f01e8adda77f27785e5aa76d576fbfc116288c21affaa20"
+    },
+    "youshiki_026.pdf": {
+      "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/kansetsu/951225/pdf/youshiki_026.pdf",
+      "sha256": "e042d265d387ed1c307ac85efc194439862298716b94d9ab5a1edade88080095"
+    }
+  },
+  "forms": {
+    "SHA010-1": {
+      "title": "消費税及び地方消費税の申告書 第一表（一般用）",
+      "file": "0026008-068-01.pdf",
+      "page": 1,
+      "printed_form_id": "NTA1SHA010010110",
+      "etax_version": "11.0"
+    },
+    "SHA010-2": {
+      "title": "課税標準額等の内訳書 第二表",
+      "file": "0026008-068-02.pdf",
+      "page": 1,
+      "printed_form_id": "NTA0SHA010020110",
+      "etax_version": "11.0"
+    },
+    "SHB017": {
+      "title": "付表1-3 税率別消費税額計算表 兼 地方消費税の課税標準となる消費税額計算表",
+      "file": "youshiki_024.pdf",
+      "page": 1,
+      "printed_form_id": "NTA0SHB017010020",
+      "etax_version": "2.0"
+    },
+    "SHB033": {
+      "title": "付表2-3 課税売上割合・控除対象仕入税額等の計算表",
+      "file": "youshiki_026.pdf",
+      "page": 1,
+      "printed_form_id": "NTA0SHB033010020",
+      "etax_version": "2.0"
+    }
+  }
+}

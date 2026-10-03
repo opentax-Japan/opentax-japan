@@ -79,6 +79,8 @@ def main() -> int:
                     lambda key: {"company:name": "見本商事株式会社"}.get(key, "見本"), "見本商事株式会社", on)
     if s is None:
         sys.exit("この期間・提出日では、この版は選ばれません（--period=開始,終了 / --on=提出日 で指定）")
+    if f"forms/{edition}/" not in s["image"]:
+        sys.exit(f"この期間・提出日では別の版（{s['image'].split('/')[1]}）が選ばれます。--period・--on を見直してください")
     d = ImageDraw.Draw(img)
     if "--boxes" in sys.argv:
         for tag, box in _all_boxes(m):
