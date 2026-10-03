@@ -74,5 +74,32 @@ class LocalPaperTest(unittest.TestCase):
             self.assertIn(f"id='{map_id}'", chiho)
 
 
+class EditionTest(unittest.TestCase):
+    """様式の版を、事業年度（課税期間）の開始日・終了日と提出日で選ぶ。"""
+
+    def edition(self, form_id, start, end, on=None):
+        from opentax import paper
+        d = datetime.date.fromisoformat
+        found = paper.find(form_id, d(end), d(start), d(on) if on else None)
+        return found[0]["edition"] if found else None
+
+    def test_consumption_tax_new_form_from_october_2026(self):
+        self.assertEqual(self.edition("SHA010-1", "2025-10-01", "2026-09-30"), "shohi2023")
+        self.assertEqual(self.edition("SHA010-1", "2026-10-01", "2027-09-30"), "shohi2026")
+
+    def test_local_tax_new_form_from_april_2026(self):
+        self.assertEqual(self.edition("L06", "2025-10-01", "2026-09-30"), "chiho-r07")
+        self.assertEqual(self.edition("L06", "2026-04-01", "2027-03-31", "2026-11-30"), "chiho-r08")
+        self.assertIsNone(self.edition("L06", "2026-04-01", "2027-03-31", "2027-05-31"))   # 令和9年1月の改正後の様式は未対応
+
+    def test_power_of_attorney_by_submission_date(self):
+        self.assertEqual(self.edition("SOZ074", "2025-10-01", "2026-09-30", "2026-09-23"), "dairi2024")
+        self.assertEqual(self.edition("SOZ074", "2025-10-01", "2026-09-30", "2026-09-24"), "dairi2026")
+
+    def test_corporate_tax_schedules_before_april_2026_not_on_paper(self):
+        self.assertEqual(self.edition("HOA112", "2025-10-01", "2026-09-30"), "itiran2026")
+        self.assertIsNone(self.edition("HOA112", "2024-04-01", "2025-03-31"))
+
+
 if __name__ == "__main__":
     unittest.main()
