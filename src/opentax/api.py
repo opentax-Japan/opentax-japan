@@ -103,10 +103,9 @@ def form_views(calculated: dict) -> list[dict]:
     r = calculated["result"]
     s2, s7, s51, s52 = r["schedule_02"], r["schedule_07_01"], r["schedule_05_01"], r["schedule_05_02"]
     values = dict(calculated["form_values"])
-    # 別表二: 割合（端数処理が確認できているとき・試し用のときだけ）と判定結果
-    if s2["ratio_display_confirmed"] or r.get("trial"):
-        values.update({"VAB00030": s2["ratio_shares"], "VAB00080": s2["ratio_votes"], "VAB00120": s2["family_ratio"],
-                       "VAC00020": s2["ratio1_shares"], "VAC00040": s2["ratio1_votes"], "VAC00070": s2["specific_ratio"]})
+    # 別表二: 割合（決まっているもの。端数が出ない・端数処理が確認できている・試し用）と判定結果
+    values.update({k: x for k, x in {"VAB00030": s2["ratio_shares"], "VAB00080": s2["ratio_votes"],
+                                     "VAB00120": s2["family_ratio"]}.items() if x is not None})
     values["VAD00000"] = {"1": "特定同族会社", "2": "同族会社", "3": "非同族会社"}[s2["result"]]
     period = lambda a, b: f"{_wareki(a)}〜{_wareki(b)}"  # noqa: E731
     rest = [i for i in s7["items"] if not i["last_year"]]

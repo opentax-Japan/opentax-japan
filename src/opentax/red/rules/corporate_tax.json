@@ -19,6 +19,6 @@
   "family_company_ratio_display": {
     "mode": null,
     "source": null,
-    "note": "別表二の「株式数等による判定」（小数1桁）・「判定割合」（小数3桁）に書く割合の端数処理。国税庁の別表二の記載要領（https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2024/pdf/02-ki.pdf）に記載が見つからない。判定そのものは丸めずに行う。mode は truncate（切り捨て）か round_half_up（四捨五入）"
+    "note": "別表二の「株式数等による判定」（小数1桁）・「判定割合」（小数3桁）に書く割合の端数処理。国税庁の別表二の記載要領（https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2024/pdf/02-ki.pdf）に記載が見つからない。判定そのものは丸めずに行う。端数が出ない割合（100% など）は mode が null でも書く（DESIGN.md §15.4）。mode は truncate（切り捨て）か round_half_up（四捨五入）"
   }
 }

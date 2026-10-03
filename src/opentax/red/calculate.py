@@ -265,15 +265,23 @@ def schedule_02(data: dict, rules: dict) -> dict:
     else:
         result = "3"
     rank = {g["group"]: i for i, g in enumerate(by_shares, 1)}
+    # 帳票に書く欄（国税庁「別表二の記載の仕方」）:
+    # 3 議決権の欄（4・5・6・13・14・20・22）は、議決権の内容の異なる種類株式を発行していなければ記載を要しない。
+    #   議決権の数が株式数と同じ（入力で votes を省略）なら書かない
+    # 7(1) 特定同族会社の判定（11〜17）は、資本金1億円以下なら記載を要しない（RED は資本金1億円以下だけ）
+    with_votes = votes_total != issued or any(s["votes"] != s["shares"] for s in holders)
+    shown = {"ratio_shares": _display(r_shares, 1, rounding), "family_ratio": _display(family, 3, rounding),
+             "ratio_votes": _display(r_votes, 1, rounding) if with_votes else None}
+    printed = ["ratio_shares", "family_ratio"] + (["ratio_votes"] if with_votes else [])
     return {
-        "issued_shares": issued, "top3_shares": top3_shares, "ratio_shares": _display(r_shares, 1, rounding),
-        "total_votes": votes_total, "top3_votes": top3_votes, "ratio_votes": _display(r_votes, 1, rounding),
-        "family_ratio": _display(family, 3, rounding),
-        "top1_shares": top1_shares, "ratio1_shares": _display(r1_shares, 1, rounding),
-        "top1_votes": top1_votes, "ratio1_votes": _display(r1_votes, 1, rounding),
-        "specific_ratio": _display(specific, 3, rounding),
+        "issued_shares": issued, "top3_shares": top3_shares, "ratio_shares": shown["ratio_shares"],
+        "total_votes": votes_total, "top3_votes": top3_votes, "ratio_votes": shown["ratio_votes"],
+        "family_ratio": shown["family_ratio"], "with_votes": with_votes,
+        "top1_shares": top1_shares, "top1_votes": top1_votes, "specific_ratio_value": float(specific),
         "result": result,
-        "ratio_display_confirmed": confirmed,
+        # 書く割合がどれも決まっているか（端数が出なければ、端数処理が未確認でも決まる）
+        "ratio_display_confirmed": all(shown[k] is not None for k in printed),
+        "rounding_confirmed": confirmed,
         "holders": [{**s, "rank": rank[s["group"]], "relation_code": RELATION_CODES[s["relation"]]}
                     for s in sorted(holders, key=lambda s: (rank[s["group"]], -s["shares"]))],
     }
@@ -283,10 +291,13 @@ RATIO_UNCONFIRMED = "別表二の割合の端数処理が確認できていま�
 
 
 def _display(value: Fraction, digits: int, rounding: dict) -> str | None:
-    """帳票に書く割合。端数処理が確認できていなければ None（判定には使わない）。"""
+    """帳票に書く割合。端数が出なければ（例: 100%）そのまま。端数が出て、端数処理が確認できていなければ None（判定には使わない）。"""
+    scale = 10 ** digits
+    if (value * scale).denominator == 1:
+        n = int(value * scale)
+        return f"{n // scale}.{n % scale:0{digits}d}"
     if rounding.get("mode") is None or not rounding.get("source"):
         return None
-    scale = 10 ** digits
     if rounding["mode"] == "truncate":
         n = value.numerator * scale // value.denominator
     elif rounding["mode"] == "round_half_up":

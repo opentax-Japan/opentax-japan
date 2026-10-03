@@ -6,7 +6,7 @@
 確かめること:
 - サイトの外（localhost 以外）への通信が1件もない
 - 計算結果（所得金額・欠損金・均等割）と、帳票の式・帳票間のチェックがすべて一致
-- 別表二の端数処理が未確認のままだと .xtx は作らず、試し用にすると作れる
+- 別表二の割合に端数が出ない（100%）ので、端数処理が未確認でも .xtx を作れる。試し用にしても作れる
 - 作った .xtx が公式XSD（利用者が選ぶ e-tax19.CAB）で検証済みで、CLI の試し用の出力と同じ内容
 - localStorage・sessionStorage・IndexedDB・Cookie・Cache Storage に何も残っていない
 """
@@ -88,7 +88,7 @@ def main() -> int:
         check("均等割 東京都 千代田区 70,000（区の分を含む）", "70,000" in summary and "千代田区" in summary)
         messages = page.locator("#messages").inner_text()
         check("帳票の式・帳票間のチェックがすべて一致", "すべて一致" in messages)
-        check("別表二の端数処理が未確認の警告", "端数処理" in messages)
+        check("別表二の割合に端数が出ない（100%）ので端数処理の警告なし", "端数処理" not in messages)
         page.screenshot(path=str(OUT / "02-calculated.png"))
         paper = page.locator("#paper svg.paper-sheet")
         check("紙の様式が7枚（別表一・一次葉一・二・四・五(一)・五(二)・七(一)）", paper.count() == 7)
@@ -112,9 +112,10 @@ def main() -> int:
         check("地方税の一覧の保存", (OUT / "local-tax.html").read_text(encoding="utf-8").count("均等割額") >= 1)
 
         page.set_input_files("#cab", str(CAB))
-        page.click("#export-etax")
-        expect(page.locator("#export-result .msg")).to_be_visible(timeout=300_000)
-        check("端数処理が未確認なら .xtx を作らない", "端数処理" in page.locator("#export-result").inner_text())
+        with page.expect_download(timeout=300_000) as dl:
+            page.click("#export-etax")
+        check(f"試し用にしなくても .xtx を作れる（{dl.value.suggested_filename}）", "_trial" not in dl.value.suggested_filename)
+        expect(page.locator("#export-result")).to_contain_text("誤りなし", timeout=10_000)
 
         page.check("#trial")
         check("試し用に切り替えると前の結果からは作らない", page.locator("#export-etax").is_disabled())

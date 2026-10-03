@@ -75,12 +75,14 @@ class SampleTest(unittest.TestCase):
 
     def test_unconfirmed_rounding_only_blocks_etax_output(self):
         from opentax.red.etax_ksk2_2026_08 import text_values
-        out = run(sample(), rounding=None)          # 計算は進む（警告つき）
+        raw = sample()
+        raw["issued_shares"] = 300                  # 200/300 で端数が出る
+        out = run(raw, rounding=None)               # 計算は進む（警告つき）
         self.assertEqual(out["problems"], [])
         self.assertIsNone(out["result"]["schedule_02"]["ratio_shares"])
         self.assertTrue(any("端数処理" in w for w in out["result"]["warnings"]))
         with self.assertRaises(calc.RuleError):     # e-Tax 用の出力だけ止まる
-            text_values(model.validate(sample()), out["result"])
+            text_values(model.validate(raw), out["result"])
 
 
 class TrialRoundingGuardTest(unittest.TestCase):
@@ -242,13 +244,30 @@ class FamilyCompanyTest(unittest.TestCase):
         with mock.patch.object(calc, "load_rules", rules_with_rounding("truncate")):
             s2 = calc.schedule_02(data, calc.load_rules("corporate_tax.json"))
         self.assertEqual((s2["ratio_shares"], s2["family_ratio"], s2["result"]), ("50.0", "50.000", "3"))  # ちょうど50%は同族会社でない
-        raw["shareholders"][1]["shares"] = 1
         raw["issued_shares"] = 3
-        raw["shareholders"][0]["shares"] = 2
+        raw["shareholders"] = [{"name": "甲", "relation": "本人", "group": 1, "shares": 2}]
         data = model.validate(raw)
         with mock.patch.object(calc, "load_rules", rules_with_rounding("round_half_up")):
             s2 = calc.schedule_02(data, calc.load_rules("corporate_tax.json"))
-        self.assertEqual((s2["ratio1_shares"], s2["specific_ratio"], s2["result"]), ("66.7", "66.667", "2"))
+        self.assertEqual((s2["ratio_shares"], s2["family_ratio"], s2["result"]), ("66.7", "66.667", "2"))
+        self.assertNotIn("specific_ratio", s2)          # 資本金1億円以下は特定同族会社の判定を書かない
+
+    def test_exact_ratio_needs_no_rounding_rule(self):
+        s2 = calc.schedule_02(model.validate(sample()), {"family_company_ratio_display": {"mode": None, "source": None}})
+        self.assertEqual((s2["ratio_shares"], s2["family_ratio"], s2["ratio_display_confirmed"]), ("100.0", "100.000", True))
+
+    def test_votes_only_with_class_shares(self):
+        from opentax.red.etax_ksk2_2026_08 import base_values, text_values
+        out = run(sample())
+        tv = text_values(model.validate(sample()), out["result"])
+        self.assertFalse(out["result"]["schedule_02"]["with_votes"])
+        self.assertFalse({"VAB00060", "VAB00070", "VAB00080", "VAE00160", "VAC00010"} & (set(base_values(out["result"])) | set(tv)))
+        raw = sample()
+        raw["shareholders"][1]["votes"] = 0
+        raw["total_votes"] = 150
+        out = run(raw)
+        self.assertTrue(out["result"]["schedule_02"]["with_votes"])
+        self.assertIn("VAB00060", base_values(out["result"]))
 
 
 if __name__ == "__main__":

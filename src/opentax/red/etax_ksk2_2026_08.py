@@ -107,10 +107,11 @@ def base_values(result: dict) -> dict:
     v["ICC00150"] = [c["opening"] for c in cap_others]
     v["ICC00170"] = [c["decrease"] for c in cap_others]
     v["ICC00180"] = [c["increase"] for c in cap_others]
-    # 別表二（割合は小数なので金額の突合せには入れない）
+    # 別表二（割合は小数なので金額の突合せには入れない）。議決権の欄は種類株式があるときだけ、
+    # 特定同族会社の判定（11〜17）は資本金1億円以下なので書かない（別表二の記載の仕方３・７(1)）
     v["VAB00010"], v["VAB00020"] = s2["issued_shares"], s2["top3_shares"]
-    v["VAB00060"], v["VAB00070"] = s2["total_votes"], s2["top3_votes"]
-    v["VAC00010"], v["VAC00030"] = s2["top1_shares"], s2["top1_votes"]
+    if s2["with_votes"]:
+        v["VAB00060"], v["VAB00070"] = s2["total_votes"], s2["top3_votes"]
     return {k: val for k, val in v.items() if val != []}
 
 
@@ -155,7 +156,6 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
         "MCB00007": "5",                                   # 損金算入限度額: 100/100（中小法人）
         # 別表二
         "VAB00030": s2["ratio_shares"], "VAB00080": s2["ratio_votes"], "VAB00120": s2["family_ratio"],
-        "VAC00020": s2["ratio1_shares"], "VAC00040": s2["ratio1_votes"], "VAC00070": s2["specific_ratio"],
         "VAD00000": s2["result"],
     }
     if filing.get("settled_on"):
@@ -184,7 +184,8 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
     principal = next((h for h in holders if h["rank"] == 1 and h["relation"] == "本人"), holders[0] if holders else None)
     if principal:
         v.update({"VAE00030": principal["rank"], "VAE00040": principal["rank"], "VAE00060": principal.get("address") or None,
-                  "VAE00070": principal["name"], "VAE00130": principal["shares"], "VAE00160": principal["votes"]})
+                  "VAE00070": principal["name"], "VAE00130": principal["shares"],
+                  "VAE00160": principal["votes"] if s2["with_votes"] else None})
         others_h = [h for h in holders if h is not principal]
         if len(others_h) > 12:
             from .model import OutOfScope
@@ -193,7 +194,7 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
             v.update({"VAE00190": [h["rank"] for h in others_h], "VAE00200": [h["rank"] for h in others_h],
                       "VAE00220": [h.get("address") or None for h in others_h], "VAE00230": [h["name"] for h in others_h],
                       "VAE00235": [h["relation_code"] for h in others_h], "VAE00300": [h["shares"] for h in others_h],
-                      "VAE00330": [h["votes"] for h in others_h]})
+                      "VAE00330": [h["votes"] for h in others_h] if s2["with_votes"] else []})
     return {k: val for k, val in v.items() if val is not None}
 
 

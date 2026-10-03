@@ -106,7 +106,7 @@ def build(calculated: dict, today: datetime.date | None = None) -> str:
         no = v6["business_tax_lines"][item["key"]]
         note = ""
         if item["value"] in ("business_income_total", "income_34", "business_provisional", "income_52") and vals6[item["value"]] < 0:
-            note = "赤字（欠損）。△の付け方は自治体の手引で確認"
+            note = "赤字（欠損）。△を付けて円単位で書く（課税標準の㉙〜㉜は 0）"
         rows6.append((_no(no), item["name"], _yen(vals6[item["value"]]), note))
     rows6 += _rows(f6["unnumbered"], vals6)
     sections.append({

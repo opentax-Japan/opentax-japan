@@ -120,11 +120,15 @@ class PaperSheetTest(unittest.TestCase):
             self.assertTrue(period[0]["box"][2] <= period[1]["box"][0] + 12, s["form_id"])   # 年・月・日が左から並ぶ
 
     def test_paper_without_confirmed_ratios_hides_them(self):
-        calculated = api.calculate(json.loads(SAMPLE.read_text(encoding="utf-8")))
-        s2 = next(s for s in api.paper_sheets(calculated) if s["form_id"] == "HOA201")
+        raw = json.loads(SAMPLE.read_text(encoding="utf-8"))
+        raw["issued_shares"] = 300                              # 200/300 で端数が出る
+        s2 = next(s for s in api.paper_sheets(api.calculate(raw)) if s["form_id"] == "HOA201")
         texts = [i["text"] for i in s2["items"]]
-        self.assertNotIn("100.0", texts)                        # 端数処理が未確認の割合は出さない
+        self.assertFalse([t for t in texts if t.startswith("66.")])   # 端数処理が未確認の割合は出さない
         self.assertIn("200", texts)
+        s2 = next(s for s in api.paper_sheets(api.calculate(json.loads(SAMPLE.read_text(encoding="utf-8"))))
+                  if s["form_id"] == "HOA201")
+        self.assertIn("100.0", [i["text"] for i in s2["items"]])  # 端数が出ない割合は出す
 
     def test_no_paper_for_older_fiscal_year(self):
         import datetime
