@@ -57,7 +57,7 @@ def uchiwake_from_balance(balance: bytes, supplement: dict | None = None) -> dic
 
 FORM_TITLES = {"HOA112": "別表一", "HOA114": "別表一 次葉一", "HOA201": "別表二", "HOA420": "別表四（簡易様式）",
                "HOA511": "別表五(一)", "HOA522": "別表五(二)", "HOB016": "別表六(一)",
-               "HOB710": "別表七(一)"}
+               "HOB710": "別表七(一)", "HOE200": "別表十五", "HOE315": "別表十六(一)", "HOE325": "別表十六(二)"}
 
 
 def preview(calculated: dict) -> list[dict]:

@@ -355,5 +355,72 @@ class InterimRefundTest(unittest.TestCase):
         self.assertNotIn('HOB016', api.export_etax(api.calculate(sample()), root, datetime.date(2026, 11, 26)).decode("utf-8"))
 
 
+class EntertainmentDepreciationTest(unittest.TestCase):
+    """別表十五（交際費等）・別表十六（減価償却）・第六号様式別表九。架空の数字だけを使う。"""
+
+    def test_entertainment_fixed_deduction(self):
+        raw = sample()
+        raw["entertainment"] = [{"account": "交際費", "amount": 8_500_000, "dining": 2_000_000},
+                                {"account": "会議費", "amount": 300_000, "deductible": 100_000}]
+        out = run(raw)
+        s15, s4, v = out["result"]["schedule_15"], out["result"]["schedule_04"], out["values"]
+        self.assertEqual((s15["spent"], s15["dining_base"], s15["fixed"], s15["limit"], s15["disallowed"]),
+                         (8_700_000, 1_000_000, 8_000_000, 8_000_000, 700_000))
+        self.assertEqual((s4["add_entertainment"], s4["retained"] - s4["provisional"]), (700_000, -700_000))
+        self.assertEqual((v["ARC00215"], v["EGE00000"], v["EGF00020"], v["EGF00090"]), (700_000, 700_000, 8_500_000, [200_000]))
+        self.assertEqual(out["problems"], [])
+
+    def test_entertainment_dining_half(self):
+        data = model.validate({**sample(), "entertainment": [{"account": "交際費", "amount": 20_000_000, "dining": 18_000_000}]})
+        s15 = calc.schedule_15(data, calc.load_rules("corporate_tax.json"))
+        self.assertEqual((s15["limit"], s15["limit_choice"], s15["disallowed"]), (9_000_000, "1", 11_000_000))
+
+    def test_months_round_up(self):
+        self.assertEqual(calc._months_ceil(datetime.date(2025, 10, 1), datetime.date(2026, 3, 15)), 6)
+        self.assertEqual(calc._months_ceil(datetime.date(2025, 10, 1), datetime.date(2026, 9, 30)), 12)
+
+    def test_depreciation_excess_and_allowance(self):
+        raw = sample()
+        raw["prior"]["schedule_05_01"].append({"item": "減価償却超過額", "amount": 50_000})
+        raw["depreciation"] = [
+            {"method": "定額法", "kind": "器具及び備品", "cost": 1_000_000, "book_end": 500_000, "expensed": 500_000, "limit": 400_000},
+            {"method": "定率法", "kind": "機械及び装置", "cost": 2_000_000, "book_end": 900_000, "expensed": 300_000,
+             "limit": 400_000, "prior_excess": 50_000}]
+        out = run(raw)
+        s4, v = out["result"]["schedule_04"], out["values"]
+        self.assertEqual((s4["add_depreciation"], s4["deduct_depreciation"]), (100_000, 50_000))
+        dep = next(r for r in out["result"]["schedule_05_01"]["rows"] if r["item"] == "減価償却超過額")
+        self.assertEqual((dep["opening"], dep["decrease"], dep["increase"], dep["closing"]), (50_000, 50_000, 100_000, 100_000))
+        self.assertEqual((v["NZE00640"], v["NZE00740"], v["UZE00810"]), ([100_000], [100_000], [50_000]))
+        self.assertNotIn("UZE00850", v)                 # 翌期への繰越額が 0 の欄は書かない
+        self.assertEqual(out["problems"], [])
+
+    def test_depreciation_prior_excess_must_match(self):
+        raw = sample()
+        raw["prior"]["schedule_05_01"].append({"item": "減価償却超過額", "amount": 50_000})
+        with self.assertRaisesRegex(model.InputError, "減価償却超過額"):
+            run(raw)
+
+    def test_loss_schedule_and_xtx(self):
+        from opentax import api
+        from opentax.red.local_sheet import loss_schedule
+        raw = interim_sample()
+        raw["entertainment"] = [{"account": "交際費", "amount": 500_000}]
+        raw["depreciation"] = [{"method": "定額法", "kind": "器具及び備品", "cost": 1_000_000, "book_end": 500_000,
+                                "expensed": 100_000, "limit": 100_000}]
+        c = api.calculate(raw)
+        rows = loss_schedule(c)
+        self.assertEqual(rows[-1][2], f"{c['result']['schedule_07_01']['carry_total']:,}")
+        root = REPO / ".cache" / "etax" / "ksk2-2026-08" / "files" / "e-tax19"
+        if not root.exists():
+            self.skipTest("公式XSD がありません")
+        xml = api.export_etax(c, root, datetime.date(2026, 11, 26))
+        self.assertEqual(api.validate_xtx(xml, root), [])
+        text = xml.decode("utf-8")
+        for fid in ("HOE200", "HOE315"):
+            self.assertIn(f'about="#{fid}-1"', text)
+        self.assertNotIn('about="#HOE325-1"', text)
+
+
 if __name__ == "__main__":
     unittest.main()

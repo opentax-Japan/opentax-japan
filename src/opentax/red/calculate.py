@@ -33,6 +33,71 @@ def _add_years(d: datetime.date, years: int) -> datetime.date:
         return d.replace(year=d.year + years, day=28)
 
 
+# --- 別表十五 ---
+
+def _months_ceil(start: datetime.date, end: datetime.date) -> int:
+    """暦に従って数え、1月に満たない端数は1月（租税特別措置法第61条の4第4項）。"""
+    end_excl = end + datetime.timedelta(days=1)
+    return next(n for n in range(1, 14) if _add_months(start, n) >= end_excl)
+
+
+def _add_months(d: datetime.date, n: int) -> datetime.date:
+    y, m = divmod(d.month - 1 + n, 12)
+    year, month = d.year + y, m + 1
+    for day in (d.day, 30, 29, 28):
+        try:
+            return datetime.date(year, month, day)
+        except ValueError:
+            continue
+    raise ValueError(d)
+
+
+def schedule_15(data: dict, rules: dict) -> dict | None:
+    """交際費等の損金算入（中小法人。定額控除限度額と接待飲食費の50%の多い方）。交際費等の入力がなければ None。"""
+    rows = data.get("entertainment") or []
+    if not rows:
+        return None
+    r = rules["entertainment"]
+    if r.get("fixed_deduction_annual") is None or not r.get("source"):
+        raise RuleError("交際費等の設定に、確認できていない値があります（rules/corporate_tax.json）")
+    fp = data["fiscal_period"]
+    lo, hi = (datetime.date.fromisoformat(r[k]) for k in ("fiscal_year_start_from", "fiscal_year_start_to"))
+    if not lo <= fp["start"] <= hi:
+        raise RuleError(f"交際費等の損金不算入の設定（{lo}〜{hi} に開始する事業年度）の外の事業年度です")
+    lines = [{**e, "net": e["amount"] - e["deductible"]} for e in rows]
+    spent = sum(x["net"] for x in lines)                                          # 1
+    dining = sum(x["dining"] for x in lines)
+    dining_base = dining * r["dining_ratio_percent"] // 100                        # 2
+    months = min(_months_ceil(fp["start"], fp["end"]), 12)
+    fixed = min(spent, r["fixed_deduction_annual"] * months // 12)                  # 3
+    limit = max(dining_base, fixed)                                                # 4
+    return {"rows": lines, "spent": spent, "dining": dining, "dining_base": dining_base, "months": months,
+            "fixed": fixed, "limit": limit, "limit_choice": "2" if fixed >= dining_base else "1",
+            "disallowed": max(spent - limit, 0)}                                   # 5
+
+
+# --- 別表十六(一)(二) ---
+
+def schedule_16(data: dict) -> dict:
+    """固定資産台帳の数字（資産ごと・種類ごとの合計）から、償却超過額・認容額を出す。償却限度額は台帳の計算を使う。"""
+    rows = []
+    for d in data.get("depreciation") or []:
+        short = max(d["limit"] - d["expensed"], 0)
+        excess = max(d["expensed"] - d["limit"], 0)
+        allowed = min(short, d["prior_excess"])                  # 当期認容額（償却不足によるもの）
+        rows.append({**d, "book_total": d["book_end"] + d["expensed"] + d["prior_excess"],
+                     "short": short, "excess": excess, "allowed": allowed,
+                     "carry": excess + d["prior_excess"] - allowed})
+    straight = [r for r in rows if r["method"] in ("定額法", "旧定額法")]
+    declining = [r for r in rows if r["method"] in ("定率法", "旧定率法")]
+    for name, rs in (("別表十六(一)", straight), ("別表十六(二)", declining)):
+        if len(rs) > 5:
+            raise OutOfScope(f"{name}の列が5を超えています（種類ごとの合計にまとめてください）")
+    return {"straight": straight, "declining": declining,
+            "excess": sum(r["excess"] for r in rows), "allowed": sum(r["allowed"] for r in rows),
+            "prior_excess": sum(r["prior_excess"] for r in rows), "carry": sum(r["carry"] for r in rows)}
+
+
 # --- 別表四 ---
 
 def interim_amounts(data: dict) -> dict:
@@ -50,7 +115,7 @@ def _paid(data: dict, taxes: tuple, method: str) -> int:
     return sum(p["amount"] for p in data["tax_payments"] if p["tax"] in taxes and p["method"] == method)
 
 
-def schedule_04(data: dict) -> dict:
+def schedule_04(data: dict, s15: dict | None = None, s16: dict | None = None) -> dict:
     acc = data["accounting"]
     im = interim_amounts(data)
     by_expense = im["method"] == "損金経理"
@@ -63,10 +128,13 @@ def schedule_04(data: dict) -> dict:
     add_corporate = _paid(data, ("法人税等",), "損金経理") + (im["national"] if by_expense else 0)
     add_inhabitant = expensed                      # 3 損金経理をした道府県民税及び市町村民税（留保）
     add_provision = acc["tax_provision_charged"]   # 4 損金経理をした納税充当金（留保）
-    add_total = add_corporate + add_inhabitant + add_provision
+    add_depreciation = (s16 or {}).get("excess", 0)        # 6 減価償却の償却超過額（留保）
+    add_entertainment = (s15 or {}).get("disallowed", 0)   # 8 交際費等の損金不算入額（社外流出）
+    add_total = add_corporate + add_inhabitant + add_provision + add_depreciation + add_entertainment
     # 13 納税充当金から支出した事業税等（前期分の事業税・特別法人事業税と、当期の中間分を充当金で払ったもの）
     deduct_business = _paid(data, ("事業税等",), "充当金取崩し") + (im["business"] if im["method"] == "充当金取崩し" else 0)
-    deduct_total = deduct_business
+    deduct_depreciation = (s16 or {}).get("allowed", 0)    # 12 減価償却超過額の当期認容額（留保）
+    deduct_total = deduct_business + deduct_depreciation
     provisional = net + add_total - deduct_total   # 23 仮計（26 仮計も同じ額）
     credit = sum(c["tax"] for c in data.get("income_tax_credit", []))   # 29 法人税額から控除される所得税額（社外流出）
     pre_deduction = provisional + credit           # 34 合計＝39＝43 差引計
@@ -78,7 +146,9 @@ def schedule_04(data: dict) -> dict:
         "add_total": add_total, "deduct_business": deduct_business, "deduct_total": deduct_total,
         "provisional": provisional, "credit": credit, "pre_deduction": pre_deduction,
         "credit_income": sum(c["income"] for c in data.get("income_tax_credit", [])),
-        "loss_deduction": 0, "income": income, "retained": provisional,
+        "add_depreciation": add_depreciation, "add_entertainment": add_entertainment,
+        "deduct_depreciation": deduct_depreciation,
+        "loss_deduction": 0, "income": income, "retained": provisional - add_entertainment,
     }
 
 
@@ -264,6 +334,20 @@ def schedule_05_01(data: dict, s4: dict, s52: dict) -> dict:
         if item["item"] in {"繰越損益金", "納税充当金", "未納法人税等", "未納道府県民税", "未納市町村民税"}:
             continue
         rows.append({"item": item["item"], "opening": item["amount"], "decrease": 0, "increase": 0, "closing": item["amount"]})
+    # 減価償却超過額: 別表十六の前期からの繰越額の合計と合わせ、当期認容額を減、当期の償却超過額を増に書く
+    dep = [r for r in rows if r["item"] == "減価償却超過額"]
+    prior_excess = sum(d["prior_excess"] for d in data.get("depreciation") or [])
+    opening_excess = sum(r["opening"] for r in dep)
+    if opening_excess != prior_excess:
+        raise InputError(f"前期の別表五(一)の減価償却超過額（{opening_excess:,}円）と、depreciation の前期から繰り越した償却超過額の合計"
+                         f"（{prior_excess:,}円）が合いません")
+    if s4["add_depreciation"] or s4["deduct_depreciation"]:
+        if not dep:
+            dep = [{"item": "減価償却超過額", "opening": 0, "decrease": 0, "increase": 0, "closing": 0}]
+            rows.append(dep[0])
+        d = dep[0]
+        d["decrease"], d["increase"] = s4["deduct_depreciation"], s4["add_depreciation"]
+        d["closing"] = d["opening"] - d["decrease"] + d["increase"]
     prov = s52["provision"]
     carried = {"item": "繰越損益金", "opening": re_begin, "decrease": re_begin, "increase": re_end, "closing": re_end}
     provision = {"item": "納税充当金", "opening": prov["opening"], "decrease": prov["reversed_total"],
@@ -400,7 +484,9 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
         if trial_ratio_rounding not in TRIAL_ROUNDINGS:
             raise RuleError(f"試し用の端数処理は {TRIAL_ROUNDINGS} のどれかです: {trial_ratio_rounding}")
         rules["family_company_ratio_display"] = {"mode": trial_ratio_rounding, "source": "試し用の仮の値（未確認）"}
-    s4 = schedule_04(data)
+    s15 = schedule_15(data, rules)
+    s16 = schedule_16(data)
+    s4 = schedule_04(data, s15, s16)
     s7 = schedule_07_01(data, s4, rules)
     s1 = schedule_01(data, s4, s7)
     s52 = schedule_05_02(data, per_capita)
@@ -424,4 +510,5 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
         label = {"truncate": "切り捨て", "round_half_up": "四捨五入"}[trial_ratio_rounding]
         warnings.insert(0, f"試し用: 別表二の割合の端数処理を仮に「{label}」にしています。本番の申告には使えません")
     return {"schedule_04": s4, "schedule_07_01": s7, "schedule_01": s1, "schedule_05_02": s52,
+            "schedule_15": s15, "schedule_16": s16,
             "schedule_05_01": s51, "schedule_02": s2, "warnings": warnings, "trial": bool(trial_ratio_rounding)}

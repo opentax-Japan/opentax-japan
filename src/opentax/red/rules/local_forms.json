@@ -113,6 +113,14 @@
       ]
     }
   ],
+  "loss_schedule": {
+    "form": "第六号様式別表九",
+    "title": "欠損金額等及び災害損失欠損金額の控除明細書",
+    "source": [
+      { "title": "e-Gov 地方税法施行規則（第六号様式別表九）", "url": "https://laws.e-gov.go.jp/law/329M50000002023", "checked": "2026-10-04" }
+    ],
+    "note": "①控除前所得金額は第六号様式の仮計（⑥⑧）。欠損金額は法人税の別表七(一)と同じ繰越期間・行の書き方。prior.business_losses がなければ法人税の欠損金（prior.losses）と同じとする"
+  },
   "local_guides": [
     { "title": "岡山県 第6号様式・記載の手引き（令和8年版の内容）", "url": "https://www.pref.okayama.jp/page/detail-5242.html" },
     { "title": "岡山市 法人市民税（第20号様式・記載の手引）", "url": "https://www.city.okayama.jp/kurashi/0000005632.html" },

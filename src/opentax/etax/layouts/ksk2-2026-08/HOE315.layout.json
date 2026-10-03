@@ -1,0 +1,1720 @@
+{
+ "form_id": "HOE315",
+ "label": "別表十六(一)（定額法）",
+ "version": "6.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOE315-6-0group",
+ "xsd": "19XMLスキーマ/hojin/HOE315-006.xsd",
+ "xsd_sha256": "9b92a1ed189d776c79a06c371426789e0ef9472140b3502e330077748f17f32b",
+ "root": {
+  "tag": "HOE315",
+  "path": "HOE315",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "NZA00000",
+    "path": "HOE315/NZA00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "NZA00000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "NZA00010",
+      "path": "HOE315/NZA00000/NZA00010",
+      "label": "事業年度",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "NZA00020",
+        "path": "HOE315/NZA00000/NZA00010/NZA00020",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_FROMref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_FROM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_FROM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "NZA00030",
+        "path": "HOE315/NZA00000/NZA00010/NZA00030",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_TOref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_TO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_TO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "NZA00040",
+      "path": "HOE315/NZA00000/NZA00040",
+      "label": "法人名",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "NZA00050",
+        "path": "HOE315/NZA00000/NZA00040/NZA00050",
+        "label": "法人名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_NMref",
+        "kind": "idref",
+        "idref": "NOZEISHA_NM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_NM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "NZB00000",
+    "path": "HOE315/NZB00000",
+    "label": "計　区分",
+    "min": 0,
+    "max": 1,
+    "type": "NZB00000-6-0Rtype",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "kubun_CD",
+      "path": "HOE315/NZB00000/kubun_CD",
+      "label": null,
+      "min": 1,
+      "max": 1,
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:kubun_CD"
+      ],
+      "enumeration": [
+       "1",
+       "2"
+      ]
+     },
+     {
+      "tag": "kubun_NM",
+      "path": "HOE315/NZB00000/kubun_NM",
+      "label": null,
+      "min": 0,
+      "max": 1,
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:kubun_NM",
+       "gen:str"
+      ],
+      "max_length": 30
+     }
+    ]
+   },
+   {
+    "tag": "NZC00000",
+    "path": "HOE315/NZC00000",
+    "label": "算出償却額　分子",
+    "min": 0,
+    "max": 1,
+    "type": "NZC00000-6-0type",
+    "kind": "value",
+    "base": "xsd:nonNegativeInteger",
+    "derived_from": [
+     "gen:nonNegativeType"
+    ],
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "NZD00000",
+    "path": "HOE315/NZD00000",
+    "label": "＿・＿・＿＿・＿・＿",
+    "min": 0,
+    "max": 1,
+    "type": "NZD00000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "NZD00010",
+      "path": "HOE315/NZD00000/NZD00010",
+      "label": "自",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "HOE315/NZD00000/NZD00010/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "HOE315/NZD00000/NZD00010/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "HOE315/NZD00000/NZD00010/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "HOE315/NZD00000/NZD00010/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "NZD00020",
+      "path": "HOE315/NZD00000/NZD00020",
+      "label": "至",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "HOE315/NZD00000/NZD00020/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "HOE315/NZD00000/NZD00020/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "HOE315/NZD00000/NZD00020/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "HOE315/NZD00000/NZD00020/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "NZE00000",
+    "path": "HOE315/NZE00000",
+    "label": "明細　繰り返し",
+    "min": 0,
+    "max": 5,
+    "type": "NZE00000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "NZE00010",
+      "path": "HOE315/NZE00000/NZE00010",
+      "label": "資産区分",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "NZE00020",
+        "path": "HOE315/NZE00000/NZE00010/NZE00020",
+        "label": "種類",
+        "min": 0,
+        "max": 1,
+        "type": "NZE00020-6-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 15
+       },
+       {
+        "tag": "NZE00030",
+        "path": "HOE315/NZE00000/NZE00010/NZE00030",
+        "label": "構造",
+        "min": 0,
+        "max": 1,
+        "type": "NZE00030-6-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 15
+       },
+       {
+        "tag": "NZE00040",
+        "path": "HOE315/NZE00000/NZE00010/NZE00040",
+        "label": "細目",
+        "min": 0,
+        "max": 1,
+        "type": "NZE00040-6-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 15
+       },
+       {
+        "tag": "NZE00050",
+        "path": "HOE315/NZE00000/NZE00010/NZE00050",
+        "label": "取得年月日",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOE315/NZE00000/NZE00010/NZE00050/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOE315/NZE00000/NZE00010/NZE00050/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOE315/NZE00000/NZE00010/NZE00050/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOE315/NZE00000/NZE00010/NZE00050/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "NZE00060",
+        "path": "HOE315/NZE00000/NZE00010/NZE00060",
+        "label": "事業の用に供した年月",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymm",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOE315/NZE00000/NZE00010/NZE00060/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOE315/NZE00000/NZE00010/NZE00060/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOE315/NZE00000/NZE00010/NZE00060/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "NZE00070",
+        "path": "HOE315/NZE00000/NZE00010/NZE00070",
+        "label": "耐用年数",
+        "min": 0,
+        "max": 1,
+        "type": "NZE00070-6-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "NZE00080",
+      "path": "HOE315/NZE00000/NZE00080",
+      "label": "取得価額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "NZE00090",
+        "path": "HOE315/NZE00000/NZE00080/NZE00090",
+        "label": "取得価額又は製作価額　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00100",
+        "path": "HOE315/NZE00000/NZE00080/NZE00100",
+        "label": "取得価額又は製作価額　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00110",
+        "path": "HOE315/NZE00000/NZE00080/NZE00110",
+        "label": "(7)のうち積立金方式による圧縮記帳の場合の償却額計算の対象となる取得価額に算入しない金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00120",
+        "path": "HOE315/NZE00000/NZE00080/NZE00120",
+        "label": "差引取得価額　内書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00130",
+        "path": "HOE315/NZE00000/NZE00080/NZE00130",
+        "label": "差引取得価額　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "NZE00140",
+      "path": "HOE315/NZE00000/NZE00140",
+      "label": "帳簿価額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "NZE00150",
+        "path": "HOE315/NZE00000/NZE00140/NZE00150",
+        "label": "償却額計算の対象となる期末現在の帳簿記載金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00160",
+        "path": "HOE315/NZE00000/NZE00140/NZE00160",
+        "label": "期末現在の積立金の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00170",
+        "path": "HOE315/NZE00000/NZE00140/NZE00170",
+        "label": "積立金の期中取崩額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00180",
+        "path": "HOE315/NZE00000/NZE00140/NZE00180",
+        "label": "差引帳簿記載金額　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00190",
+        "path": "HOE315/NZE00000/NZE00140/NZE00190",
+        "label": "差引帳簿記載金額　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00200",
+        "path": "HOE315/NZE00000/NZE00140/NZE00200",
+        "label": "損金に計上した当期償却額　外書文字（外）",
+        "min": 0,
+        "max": 1,
+        "type": "NZE00200-6-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 2
+       },
+       {
+        "tag": "NZE00210",
+        "path": "HOE315/NZE00000/NZE00140/NZE00210",
+        "label": "損金に計上した当期償却額　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00220",
+        "path": "HOE315/NZE00000/NZE00140/NZE00220",
+        "label": "損金に計上した当期償却額　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00230",
+        "path": "HOE315/NZE00000/NZE00140/NZE00230",
+        "label": "前期から繰り越した償却超過額　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00240",
+        "path": "HOE315/NZE00000/NZE00140/NZE00240",
+        "label": "前期から繰り越した償却超過額　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00250",
+        "path": "HOE315/NZE00000/NZE00140/NZE00250",
+        "label": "合計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "NZE00260",
+      "path": "HOE315/NZE00000/NZE00260",
+      "label": "当期分の普通償却限度額等",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "NZE00270",
+        "path": "HOE315/NZE00000/NZE00260/NZE00270",
+        "label": "平成19年３月31日以前取得分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "NZE00280",
+          "path": "HOE315/NZE00000/NZE00260/NZE00270/NZE00280",
+          "label": "残存価額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "NZE00290",
+          "path": "HOE315/NZE00000/NZE00260/NZE00270/NZE00290",
+          "label": "差引取得価額*５％",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "NZE00300",
+          "path": "HOE315/NZE00000/NZE00260/NZE00270/NZE00300",
+          "label": "(16)＞(18)の場合",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "NZE00310",
+            "path": "HOE315/NZE00000/NZE00260/NZE00270/NZE00300/NZE00310",
+            "label": "旧定額法の償却額計算の基礎となる金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "NZE00320",
+            "path": "HOE315/NZE00000/NZE00260/NZE00270/NZE00300/NZE00320",
+            "label": "旧定額法の償却率",
+            "min": 0,
+            "max": 1,
+            "type": "NZE00320-6-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "NZE00330",
+            "path": "HOE315/NZE00000/NZE00260/NZE00270/NZE00300/NZE00330",
+            "label": "算出償却額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "NZE00340",
+            "path": "HOE315/NZE00000/NZE00260/NZE00270/NZE00300/NZE00340",
+            "label": "増加償却額",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "NZE00350",
+              "path": "HOE315/NZE00000/NZE00260/NZE00270/NZE00300/NZE00340/NZE00350",
+              "label": "（）書き",
+              "min": 0,
+              "max": 1,
+              "type": "NZE00350-6-0type",
+              "kind": "value",
+              "base": "xsd:decimal",
+              "derived_from": [
+               "gen:decimalType"
+              ],
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "NZE00360",
+              "path": "HOE315/NZE00000/NZE00260/NZE00270/NZE00300/NZE00340/NZE00360",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "NZE00370",
+            "path": "HOE315/NZE00000/NZE00260/NZE00270/NZE00300/NZE00370",
+            "label": "計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "NZE00380",
+          "path": "HOE315/NZE00000/NZE00260/NZE00270/NZE00380",
+          "label": "算出償却額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "NZE00390",
+        "path": "HOE315/NZE00000/NZE00260/NZE00390",
+        "label": "平成19年４月１日以後取得分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "NZE00400",
+          "path": "HOE315/NZE00000/NZE00260/NZE00390/NZE00400",
+          "label": "定額法の償却額計算の基礎となる金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "NZE00410",
+          "path": "HOE315/NZE00000/NZE00260/NZE00390/NZE00410",
+          "label": "定額法の償却率",
+          "min": 0,
+          "max": 1,
+          "type": "NZE00410-6-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "NZE00420",
+          "path": "HOE315/NZE00000/NZE00260/NZE00390/NZE00420",
+          "label": "算出償却額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "NZE00430",
+          "path": "HOE315/NZE00000/NZE00260/NZE00390/NZE00430",
+          "label": "増加償却額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "NZE00440",
+            "path": "HOE315/NZE00000/NZE00260/NZE00390/NZE00430/NZE00440",
+            "label": "（）書き",
+            "min": 0,
+            "max": 1,
+            "type": "NZE00440-6-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "NZE00450",
+            "path": "HOE315/NZE00000/NZE00260/NZE00390/NZE00430/NZE00450",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "NZE00460",
+          "path": "HOE315/NZE00000/NZE00260/NZE00390/NZE00460",
+          "label": "計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "NZE00470",
+      "path": "HOE315/NZE00000/NZE00470",
+      "label": "当期分の償却限度額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "NZE00480",
+        "path": "HOE315/NZE00000/NZE00470/NZE00480",
+        "label": "当期分の普通償却限度額等",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00490",
+        "path": "HOE315/NZE00000/NZE00470/NZE00490",
+        "label": "特別償却又は割増償却による特別償却限度額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "NZE00500",
+          "path": "HOE315/NZE00000/NZE00470/NZE00490/NZE00500",
+          "label": "租税特別措置法適用条項",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "NZE00510",
+            "path": "HOE315/NZE00000/NZE00470/NZE00490/NZE00500/NZE00510",
+            "label": "条",
+            "min": 0,
+            "max": 1,
+            "type": "NZE00510-6-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 10
+           },
+           {
+            "tag": "NZE00520",
+            "path": "HOE315/NZE00000/NZE00470/NZE00490/NZE00500/NZE00520",
+            "label": "枝番号",
+            "min": 0,
+            "max": 1,
+            "type": "NZE00520-6-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 10
+           },
+           {
+            "tag": "NZE00530",
+            "path": "HOE315/NZE00000/NZE00470/NZE00490/NZE00500/NZE00530",
+            "label": "項",
+            "min": 0,
+            "max": 1,
+            "type": "NZE00530-6-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 10
+           },
+           {
+            "tag": "NZE00540",
+            "path": "HOE315/NZE00000/NZE00470/NZE00490/NZE00500/NZE00540",
+            "label": "割合",
+            "min": 0,
+            "max": 1,
+            "type": "NZE00540-6-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "NZE00550",
+          "path": "HOE315/NZE00000/NZE00470/NZE00490/NZE00550",
+          "label": "特別償却限度額　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "NZE00560",
+          "path": "HOE315/NZE00000/NZE00470/NZE00490/NZE00560",
+          "label": "特別償却限度額　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "NZE00563",
+        "path": "HOE315/NZE00000/NZE00470/NZE00563",
+        "label": "前期から繰り越した特別償却不足額又は合併等特別償却不足額　内書文字（内）",
+        "min": 0,
+        "max": 1,
+        "type": "NZE00563-6-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 1
+       },
+       {
+        "tag": "NZE00566",
+        "path": "HOE315/NZE00000/NZE00470/NZE00566",
+        "label": "前期から繰り越した特別償却不足額又は合併等特別償却不足額　内書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00570",
+        "path": "HOE315/NZE00000/NZE00470/NZE00570",
+        "label": "前期から繰り越した特別償却不足額又は合併等特別償却不足額　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00580",
+        "path": "HOE315/NZE00000/NZE00470/NZE00580",
+        "label": "合計　外書文字（外）",
+        "min": 0,
+        "max": 1,
+        "type": "NZE00580-6-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 2
+       },
+       {
+        "tag": "NZE00590",
+        "path": "HOE315/NZE00000/NZE00470/NZE00590",
+        "label": "合計　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00600",
+        "path": "HOE315/NZE00000/NZE00470/NZE00600",
+        "label": "合計　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "NZE00610",
+      "path": "HOE315/NZE00000/NZE00610",
+      "label": "当期償却額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "NZE00620",
+      "path": "HOE315/NZE00000/NZE00620",
+      "label": "差引",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "NZE00630",
+        "path": "HOE315/NZE00000/NZE00620/NZE00630",
+        "label": "償却不足額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00640",
+        "path": "HOE315/NZE00000/NZE00620/NZE00640",
+        "label": "償却超過額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "NZE00650",
+      "path": "HOE315/NZE00000/NZE00650",
+      "label": "償却超過額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "NZE00660",
+        "path": "HOE315/NZE00000/NZE00650/NZE00660",
+        "label": "前期からの繰越額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "NZE00670",
+          "path": "HOE315/NZE00000/NZE00650/NZE00660/NZE00670",
+          "label": "外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "NZE00680",
+          "path": "HOE315/NZE00000/NZE00650/NZE00660/NZE00680",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "NZE00690",
+        "path": "HOE315/NZE00000/NZE00650/NZE00690",
+        "label": "当期損金認容額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "NZE00700",
+          "path": "HOE315/NZE00000/NZE00650/NZE00690/NZE00700",
+          "label": "償却不足によるもの",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "NZE00710",
+          "path": "HOE315/NZE00000/NZE00650/NZE00690/NZE00710",
+          "label": "積立金取崩しによるもの",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "NZE00720",
+        "path": "HOE315/NZE00000/NZE00650/NZE00720",
+        "label": "差引合計翌期への繰越額　外書文字（外）",
+        "min": 0,
+        "max": 1,
+        "type": "NZE00720-6-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 1
+       },
+       {
+        "tag": "NZE00730",
+        "path": "HOE315/NZE00000/NZE00650/NZE00730",
+        "label": "差引合計翌期への繰越額　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00740",
+        "path": "HOE315/NZE00000/NZE00650/NZE00740",
+        "label": "差引合計翌期への繰越額　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "NZE00750",
+      "path": "HOE315/NZE00000/NZE00750",
+      "label": "特別償却不足額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "NZE00760",
+        "path": "HOE315/NZE00000/NZE00750/NZE00760",
+        "label": "翌期に繰り越すべき特別償却不足額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00770",
+        "path": "HOE315/NZE00000/NZE00750/NZE00770",
+        "label": "当期において切り捨てる特別償却不足額又は合併等特別償却不足額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00780",
+        "path": "HOE315/NZE00000/NZE00750/NZE00780",
+        "label": "差引翌期への繰越額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "NZE00790",
+        "path": "HOE315/NZE00000/NZE00750/NZE00790",
+        "label": "翌期への繰越額の内訳",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "NZE00800",
+          "path": "HOE315/NZE00000/NZE00750/NZE00790/NZE00800",
+          "label": "_・_・_～_・_・_",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "NZE00810",
+          "path": "HOE315/NZE00000/NZE00750/NZE00790/NZE00810",
+          "label": "当期分不足額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "NZE00820",
+      "path": "HOE315/NZE00000/NZE00820",
+      "label": "適格組織再編成により引き継ぐべき合併等特別償却不足額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "NZF00000",
+    "path": "HOE315/NZF00000",
+    "label": "備考",
+    "min": 0,
+    "max": 1,
+    "type": "NZF00000-6-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 100
+   },
+   {
+    "tag": "NZG00000",
+    "path": "HOE315/NZG00000",
+    "label": "適用事業年度等",
+    "min": 0,
+    "max": 1,
+    "type": "NZG00000-6-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 15
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOE315-6-0VRtype",
+    "fixed": "6.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

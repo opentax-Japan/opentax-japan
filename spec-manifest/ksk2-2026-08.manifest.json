@@ -2676,6 +2676,32 @@
       "field_spec_sheet": "HOE200"
     },
     {
+      "form_id": "HOE315",
+      "label": "別表十六(一)（定額法）",
+      "mvp": false,
+      "stage": "red-plus",
+      "xsd": "19XMLスキーマ/hojin/HOE315-006.xsd",
+      "version": "6.0",
+      "xsd_documentation_date": "2023-04-11",
+      "group": "HOE315-6-0group",
+      "xsd_sha256": "9b92a1ed189d776c79a06c371426789e0ef9472140b3502e330077748f17f32b",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver6x.xlsx",
+      "field_spec_sheet": "HOE315"
+    },
+    {
+      "form_id": "HOE325",
+      "label": "別表十六(二)（定率法）",
+      "mvp": false,
+      "stage": "red-plus",
+      "xsd": "19XMLスキーマ/hojin/HOE325-006.xsd",
+      "version": "6.0",
+      "xsd_documentation_date": "2023-04-11",
+      "group": "HOE325-6-0group",
+      "xsd_sha256": "650dfa695455d1f4ce3c55f0c54e6c6244836714e1c7467c56111a8fa40556b8",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver6x.xlsx",
+      "field_spec_sheet": "HOE325"
+    },
+    {
       "form_id": "HOB710",
       "label": "別表七(一)（欠損金）",
       "mvp": true,

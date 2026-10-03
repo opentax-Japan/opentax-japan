@@ -16,6 +16,15 @@
       "checked": "2026-09-30"
     }
   ],
+  "entertainment": {
+    "fiscal_year_start_from": "2014-04-01",
+    "fiscal_year_start_to": "2027-03-31",
+    "fixed_deduction_annual": 8000000,
+    "dining_ratio_percent": 50,
+    "source": "租税特別措置法第61条の4第1項（平成26年4月1日から令和9年3月31日までの間に開始する各事業年度。接待飲食費の額の百分の五十）・第2項（資本金1億円以下の法人の定額控除限度額 八百万円×月数÷12）・第4項（月数は暦に従って計算し、1月に満たない端数は1月）。e-Gov 法令API https://laws.e-gov.go.jp/api/1/articles;lawId=332AC0000000026;article=61_4",
+    "checked": "2026-10-04",
+    "note": "定額控除限度額と接待飲食費の50%の多い方を損金算入限度額にする（別表十五の4は「(2)又は(3)」）。1円未満は切り捨て（法令に定めがないため。金額は円単位の欄）"
+  },
   "family_company_ratio_display": {
     "mode": "truncate",
     "source": "法令・通達・記載の仕方に定めがないため、利用者（税理士）の判断で切り捨てに決めた（2026-10-03）。定めがないことを確かめた資料: 法人税法第2条第10号、法人税法施行令第4条、法人税基本通達1-3-1〜1-3-8、別表二の記載の仕方（https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/02-ki.pdf）、法人税のあらましと申告の手引 令和7年版 別表二。持株割合を実際より大きく書かないよう切り捨てにする",

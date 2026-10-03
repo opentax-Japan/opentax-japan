@@ -55,6 +55,8 @@ _SCHEMA: dict[str, Any] = {
         "schedule_05_01": [{"item": str, "amount": int}],
         "schedule_05_02": [{"tax": str, "period_start": "date", "period_end": "date", "unpaid": int}],
         "losses": [{"period_start": "date", "period_end": "date", "amount": int}],
+        # 事業税の繰越欠損金（第六号様式別表九）。法人税の欠損金と違うときだけ書く
+        "business_losses": [{"period_start": "date", "period_end": "date", "amount": int}],
     },
     "capital_items": [{"item": str, "begin": int, "end": int}],
     # 所得税額の控除（別表六(一)）。kind は「利子」（預貯金の利子など。1行目）だけ
@@ -62,6 +64,12 @@ _SCHEMA: dict[str, Any] = {
     # 当期の中間申告（予定申告を含む）で納付した税額。method は納付の経理（充当金取崩し・損金経理）
     "interim": {"法人税": int, "地方法人税": int, "道府県民税": {"法人税割": int, "均等割": int},
                 "市町村民税": {"法人税割": int, "均等割": int}, "事業税": int, "特別法人事業税": int, "method": str},
+    # 交際費等（別表十五）。科目ごとに 支出額・交際費等から控除される費用の額・接待飲食費の額
+    "entertainment": [{"account": str, "amount": int, "deductible": int, "dining": int}],
+    # 減価償却（別表十六(一)(二)）。固定資産台帳の数字を写す（資産ごと、または種類ごとの合計）。
+    # limit（当期分の普通償却限度額）は台帳で計算したもの。OpenTax は償却率から計算しない
+    "depreciation": [{"method": str, "kind": str, "structure": str, "detail": str, "useful_life": int, "cost": int,
+                      "book_end": int, "expensed": int, "limit": int, "prior_excess": int}],
     # 還付を受ける金融機関（IT部 KANPU_KINYUKIKAN）
     "refund_account": {"bank": str, "bank_kind": str, "branch": str, "branch_kind": str, "type": str, "number": str},
     **{k: object for k in OUT_OF_SCOPE_KEYS},
@@ -78,6 +86,7 @@ PAYMENT_TAXES = ("法人税等", "道府県民税", "市町村民税", "事業�
 UNPAID_TAXES = ("法人税等", "道府県民税", "市町村民税")   # 別表五(二)の期首の未納（事業税は申告した期の当期発生税額）
 PAYMENT_METHODS = ("充当金取崩し", "損金経理")
 CREDIT_KINDS = ("利子",)
+DEPRECIATION_METHODS = ("定額法", "旧定額法", "定率法", "旧定率法")
 FIVE_ONE_RESERVED = {"繰越損益金", "納税充当金", "未納道府県民税", "未納市町村民税", "未納法人税等"}
 FIVE_ONE_NOT_SUPPORTED = {"未払通算税効果額": "グループ通算", "未収還付法人税等": "前期の未収還付法人税等（還付を受けた期の減算）",
                           "未収還付道府県民税": "前期の未収還付道府県民税（還付を受けた期の減算）",
@@ -258,6 +267,13 @@ def _fill_defaults(data: dict) -> None:
         acc.setdefault(k, 0)
     data.setdefault("tax_payments", [])
     data.setdefault("income_tax_credit", [])
+    for e in data.setdefault("entertainment", []):
+        e.setdefault("deductible", 0)
+        e.setdefault("dining", 0)
+    for d in data.setdefault("depreciation", []):
+        for k in ("structure", "detail"):
+            d.setdefault(k, "")
+        d.setdefault("prior_excess", 0)
     interim = data.setdefault("interim", {})
     if interim:
         for k in ("法人税", "地方法人税", "事業税", "特別法人事業税"):
@@ -299,6 +315,14 @@ def _check_values(data: dict) -> None:
     for i, c in enumerate(data["income_tax_credit"], 1):
         if c["income"] < 0 or c["tax"] < 0 or c["tax"] > c["income"]:
             errors.append(f"income_tax_credit[{i}]: 収入金額・所得税額は0以上で、所得税額は収入金額以下にしてください")
+    for i, e in enumerate(data["entertainment"], 1):
+        if min(e["amount"], e["deductible"], e["dining"]) < 0 or e["deductible"] > e["amount"]                 or e["dining"] > e["amount"] - e["deductible"]:
+            errors.append(f"entertainment[{i}]: 金額は0以上で、控除される費用は支出額以下、接待飲食費は差引交際費等の額以下にしてください")
+    for i, d in enumerate(data["depreciation"], 1):
+        if d["method"] not in DEPRECIATION_METHODS:
+            errors.append(f"depreciation[{i}].method: {DEPRECIATION_METHODS} のどれかにしてください（ほかの償却方法は対象外）")
+        if min(d["cost"], d["book_end"], d["expensed"], d["limit"], d["prior_excess"]) < 0:
+            errors.append(f"depreciation[{i}]: 金額は0以上にしてください")
     interim = data["interim"]
     if interim and interim.get("method") not in PAYMENT_METHODS:
         errors.append(f"interim.method: 中間納付の経理を {PAYMENT_METHODS} のどれかで書いてください（仮払経理は対象外）")

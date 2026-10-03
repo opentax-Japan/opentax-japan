@@ -19,9 +19,9 @@ PROCEDURE_ID = "RHO0012"
 PROCEDURE_NAME = "内国法人の確定申告(青色)"  # e-Taxソフトが切り出したファイルの TETSUZUKI/procedure_NM と同じ
 PROCEDURE_VR = "26.0.1"
 # 手続XSD（RHO0012-260.xsd）の CONTENTS の並び順。HOA114（別表一 次葉一）は手続XSD で必須
-FORMS = ("HOA112", "HOA114", "HOA201", "HOA420", "HOA511", "HOA522", "HOB016", "HOB710")
-# 値があるときだけ出す帳票（別表六(一)は所得税額の控除があるときだけ）
-OPTIONAL_FORMS = ("HOB016",)
+FORMS = ("HOA112", "HOA114", "HOA201", "HOA420", "HOA511", "HOA522", "HOB016", "HOB710", "HOE200", "HOE315", "HOE325")
+# 値があるときだけ出す帳票（別表六(一)は所得税額の控除、別表十五は交際費等、別表十六は減価償却の入力があるときだけ）
+OPTIONAL_FORMS = ("HOB016", "HOE200", "HOE315", "HOE325")
 SOFT_NAME = "OpenTaxRED OpenTaxJapan"   # 「ソフト名△会社名」（e-tax01 表1-1）
 SHINKOKU_KBN_KAKUTEI = "30"           # 申告の種類「確定/確定」（e-tax10 帳票フィールド仕様書 Ver7x「HOA112別紙」申告の種類一覧）
 FAMILY_CODE_FOR_S1 = {"1": "4", "2": "1", "3": "3"}  # 別表二の判定結果 → 別表一の同非区分（1:同族 3:非同族 4:特定同族）
@@ -55,6 +55,11 @@ def base_values(result: dict) -> dict:
     v["ARC00050"] = s4["add_inhabitant"]
     v["ARC00110"] = s4["add_provision"]
     v["ARD00050"] = s4["deduct_business"]
+    v["ARC00170"] = s4["add_depreciation"]
+    v["ARC00215"] = s4["add_entertainment"]
+    v["ARD00020"] = s4["deduct_depreciation"]
+    v.update(_s15_values(result.get("schedule_15")))
+    v.update(_s16_values(result.get("schedule_16")))
     v["ARI00010"] = s4["credit"]
     v["ART00010"] = s4["loss_deduction"]
     # 別表七(一)
@@ -157,6 +162,78 @@ def base_values(result: dict) -> dict:
     return {k: val for k, val in v.items() if val != []}
 
 
+def _s15_split(s15: dict) -> tuple[list, list]:
+    """科目が「交際費」の最初の行（専用の行）と、そのほか（明細の繰り返し）。"""
+    main = next((r for r in s15["rows"] if r["account"] == "交際費"), None)
+    return ([main] if main else []), [r for r in s15["rows"] if r is not main]
+
+
+def _s15_values(s15: dict | None) -> dict:
+    """別表十五。科目が「交際費」の行は専用の行（6〜9）、ほかは明細の繰り返し（9行まで）。"""
+    if not s15:
+        return {}
+    v = {"EGB00000": s15["spent"], "EGH00000": s15["dining_base"], "EGC00020": s15["months"], "EGC00030": s15["fixed"],
+         "EGD00020": s15["limit"], "EGE00000": s15["disallowed"]}
+    main, rest = _s15_split(s15)
+    if len(rest) > 9:
+        from .model import OutOfScope
+        raise OutOfScope("別表十五の支出交際費等の明細が「交際費」のほかに9行を超えています")
+    if main:
+        m = main[0]
+        v.update({"EGF00020": m["amount"], "EGF00030": m["deductible"], "EGF00040": m["net"], "EGF00045": m["dining"]})
+    if rest:
+        v.update({"EGF00070": [r["amount"] for r in rest], "EGF00080": [r["deductible"] for r in rest],
+                  "EGF00090": [r["net"] for r in rest], "EGF00095": [r["dining"] for r in rest]})
+    rows = s15["rows"]
+    v.update({"EGF00110": sum(r["amount"] for r in rows), "EGF00120": sum(r["deductible"] for r in rows),
+              "EGF00130": sum(r["net"] for r in rows), "EGF00140": sum(r["dining"] for r in rows)})
+    return v
+
+
+def _s16_values(s16: dict | None) -> dict:
+    """別表十六(一)(二)。償却限度額は、償却方法に応じた算出償却額・計の欄と、当期分の普通償却限度額等の欄に入れる。"""
+    if not s16:
+        return {}
+    v: dict = {}
+    for rows, p, cols in ((s16["straight"], "NZE00", {
+            "life": "070", "cost": "100", "net_cost": "130", "book": "150", "book_net": "190", "expensed": "220", "prior": "240",
+            "total": "250", "limit": "480", "limit_total": "600", "current": "610", "short": "630", "excess": "640",
+            "prior_excess": "680", "allowed": "700", "carry": "740"}),
+                          (s16["declining"], "UZE00", {
+            "life": "070", "cost": "100", "net_cost": "130", "book": "150", "book_net": "190", "expensed": "220", "prior": "240",
+            "total": "250", "base": "270", "limit": "590", "limit_total": "710", "current": "720", "short": "740", "excess": "750",
+            "prior_excess": "790", "allowed": "810", "carry": "850"})):
+        if not rows:
+            continue
+        col = lambda f: [f(r) for r in rows]  # noqa: E731
+        t = lambda k: p + cols[k]  # noqa: E731
+        v[t("life")] = col(lambda r: r.get("useful_life"))
+        v[t("cost")] = v[t("net_cost")] = col(lambda r: r["cost"])
+        v[t("book")] = v[t("book_net")] = col(lambda r: r["book_end"])
+        v[t("expensed")] = col(lambda r: r["expensed"])
+        v[t("prior")] = col(lambda r: r["prior_excess"])
+        v[t("total")] = col(lambda r: r["book_total"])
+        v[t("limit")] = v[t("limit_total")] = col(lambda r: r["limit"])
+        v[t("current")] = col(lambda r: r["expensed"])
+        v[t("short")] = col(lambda r: r["short"])
+        v[t("excess")] = col(lambda r: r["excess"])
+        v[t("prior_excess")] = col(lambda r: r["prior_excess"])
+        v[t("allowed")] = col(lambda r: r["allowed"])
+        v[t("carry")] = col(lambda r: r["carry"])
+        if p == "NZE00":
+            v["NZE00400"] = col(lambda r: r["cost"] if r["method"] == "定額法" else None)          # 25 定額法の基礎となる金額
+            v["NZE00420"] = v["NZE00460"] = col(lambda r: r["limit"] if r["method"] == "定額法" and r["limit"] else None)  # 27・29
+            v["NZE00330"] = v["NZE00370"] = col(lambda r: r["limit"] if r["method"] == "旧定額法" and r["limit"] else None)  # 21・23
+            v["NZE00290"] = col(lambda r: r["cost"] * 5 // 100 if r["method"] == "旧定額法" else None)       # 18 差引取得価額×5%
+        else:
+            v["UZE00270"] = col(lambda r: r["book_total"])                                       # 18 償却額計算の基礎となる金額
+            # 定率法の 26（調整前償却額）・28（償却保証額）・29（改定取得価額）は資産ごとの計算なので書かない（台帳で確かめる）
+            v["UZE00570"] = col(lambda r: r["limit"] if r["method"] == "定率法" and r["limit"] else None)     # 33 計
+            v["UZE00330"] = v["UZE00370"] = col(lambda r: r["limit"] if r["method"] == "旧定率法" and r["limit"] else None)  # 21・23
+            v["UZE00300"] = col(lambda r: r["cost"] * 5 // 100 if r["method"] == "旧定率法" else None)       # 19 差引取得価額×5%
+    return {k: x for k, x in v.items() if any(i for i in x)}
+
+
 def form_values(result: dict) -> tuple[dict, list[str]]:
     """元になる項目を入れ、式で合計を埋め、全部のチェックと計算結果との突合せを行う。
     戻り値: (タグ → 値, 合わなかったものの一覧)。一覧が空なら全部一致。"""
@@ -218,6 +295,21 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
             v[f"{p}00030"] = [r["period_end"] for r in rows]
     if s52["others"]:
         v["IEF01030"] = [r["item"] for r in s52["others"]]
+    s15, s16 = result.get("schedule_15"), result.get("schedule_16")
+    if s15:
+        v["EGC00017"] = "1"                                # 3 定額控除限度額: 800万円×月数／12
+        v["EGD00005"] = s15["limit_choice"]                # 4 損金算入限度額: (2) か (3)
+        _, rest = _s15_split(s15)
+        if rest:
+            v["EGF00060"] = [r["account"] for r in rest]
+    if s16:
+        for rows, p in ((s16["straight"], "NZE"), (s16["declining"], "UZE")):
+            if rows:
+                v[f"{p}00020"] = [r["kind"] for r in rows]
+                if any(r["structure"] for r in rows):
+                    v[f"{p}00030"] = [r["structure"] or None for r in rows]
+                if any(r["detail"] for r in rows):
+                    v[f"{p}00040"] = [r["detail"] or None for r in rows]
     others = [r["item"] for r in s51["rows"] if r["item"] != "利益準備金"]
     if others:
         v["ICB00150"] = others

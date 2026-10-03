@@ -104,6 +104,31 @@ def _rows(lines: list[dict], values: dict, notes: dict[str, str] | None = None) 
     return out
 
 
+def loss_schedule(calculated: dict) -> list[tuple[str, str, str, str]] | None:
+    """第六号様式別表九の行。欠損金の繰越も当期の欠損もなければ None（添付しない）。"""
+    from .calculate import load_rules, schedule_07_01
+    data = calculated["input"]
+    provisional = calculated["form_values"].get("ARK00010", 0)     # 第六号様式 ⑥⑧ 仮計（別表四の34から加減算なし）
+    losses = data["prior"].get("business_losses") or data["prior"]["losses"]
+    s9 = schedule_07_01({**data, "prior": {**data["prior"], "losses": losses}},
+                        {"pre_deduction": provisional, "income": provisional}, load_rules("corporate_tax.json"))
+    if not s9["items"] and not s9["current_loss"]:
+        return None
+    period = lambda i: f"{i['period_start']:%Y-%m-%d}〜{i['period_end']:%Y-%m-%d}"  # noqa: E731
+    rows = [("①", "控除前所得金額", _yen(provisional) if provisional > 0 else "（記載なし）",
+             "" if provisional > 0 else "所得が0以下なので書かない（②損金算入限度額も同じ）")]
+    for i in s9["items"]:
+        rows.append(("", f"{period(i)} 欠損金額等",
+                     f"③{i['balance']:,} ④{i['deducted']:,} ⑤{'—' if i['last_year'] else format(i['carry'], ',')}",
+                     "繰越期間の最後の年（翌期へ繰り越さない）" if i["last_year"] else ""))
+    if s9["items"]:
+        rows.append(("", "計", f"③{s9['balance_total']:,} ④{s9['deducted_total']:,} ⑤{s9['carry_items_total']:,}", ""))
+    if s9["current_loss"]:
+        rows.append(("", "当期分 欠損金額（同上のうち欠損金額）", f"{s9['current_loss']:,}", "⑤ 翌期繰越額にも同じ額"))
+    rows.append(("⑤", "合計（翌期繰越額）", f"{s9['carry_total']:,}", ""))
+    return rows
+
+
 def _account_text(data: dict) -> str | None:
     a = data.get("refund_account")
     if not a:
@@ -147,6 +172,12 @@ def build(calculated: dict, today: datetime.date | None = None) -> str:
         "to": f"{local['prefecture']['jurisdiction']}（提出先: {local['prefecture']['submission_office'] or '未入力'}）",
         "rows": rows6, "source": v6["source"],
     })
+    # 第六号様式別表九（事業税の欠損金額等の控除明細書）
+    s9 = loss_schedule(calculated)
+    if s9:
+        cfg = _forms()["loss_schedule"]
+        sections.append({"title": f"{cfg['form']}（{cfg['title']}）", "to": "第六号様式に添付",
+                         "rows": s9, "source": cfg["source"]})
     # 第二十号様式（東京都の特別区は、市町村民税分も含めて都に申告するので出さない）
     city = local["municipality"]
     if city is None:
