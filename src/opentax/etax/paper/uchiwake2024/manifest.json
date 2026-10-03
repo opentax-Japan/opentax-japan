@@ -1,0 +1,26 @@
+{
+  "edition": "uchiwake2024",
+  "title": "勘定科目内訳明細書（令和6年3月1日以後終了事業年度分）",
+  "publisher": "国税庁",
+  "fiscal_year_end_from": "2024-03-01",
+  "source_page": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/01.htm",
+  "terms": "出典：国税庁ホームページ（各様式の URL）。公共データ利用規約（第1.0版）により利用し、金額を重ねて表示するよう加工している。国税庁が作成したものではない",
+  "terms_url": "https://www.nta.go.jp/chuijiko/copy.htm",
+  "files": {
+    "0023007-053_03.pdf": {
+      "url": "https://www.nta.go.jp/law/tsutatsu/kobetsu/hojin/010705/pdf/0023007-053_03.pdf",
+      "sha256": "5e4762b866ddd0161f9f433ea321da07d2b87dd6d0caf17194b5c2aa5671babc"
+    }
+  },
+  "forms": {
+    "HOI010": {"title": "預貯金等の内訳書", "file": "0023007-053_03.pdf", "page": 1, "printed_form_id": "NTA0HOI010010040"},
+    "HOI030": {"title": "売掛金（未収入金）の内訳書", "file": "0023007-053_03.pdf", "page": 3, "printed_form_id": "NTA0HOI030010040"},
+    "HOI040": {"title": "仮払金（前渡金）の内訳書／貸付金及び受取利息の内訳書", "file": "0023007-053_03.pdf", "page": 4, "printed_form_id": "NTA0HOI040010040"},
+    "HOI090": {"title": "買掛金（未払金・未払費用）の内訳書", "file": "0023007-053_03.pdf", "page": 9, "printed_form_id": "NTA0HOI090010050"},
+    "HOI100": {"title": "仮受金（前受金・預り金）の内訳書／源泉所得税預り金の内訳", "file": "0023007-053_03.pdf", "page": 10, "printed_form_id": "NTA0HOI100010060"},
+    "HOI110": {"title": "借入金及び支払利子の内訳書", "file": "0023007-053_03.pdf", "page": 11, "printed_form_id": "NTA0HOI110010030"},
+    "HOI141": {"title": "役員給与等の内訳書／人件費の内訳書", "file": "0023007-053_03.pdf", "page": 14, "printed_form_id": "NTA0HOI141010050"},
+    "HOI150": {"title": "地代家賃等の内訳書／工業所有権等の使用料の内訳書", "file": "0023007-053_03.pdf", "page": 15, "printed_form_id": "NTA0HOI150010040"},
+    "HOI160": {"title": "雑益、雑損失等の内訳書", "file": "0023007-053_03.pdf", "page": 16, "printed_form_id": "NTA0HOI160010040"}
+  }
+}
