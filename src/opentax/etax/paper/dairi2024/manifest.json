@@ -4,7 +4,7 @@
   "publisher": "国税庁",
   "fiscal_year_end_from": "2024-04-01",
   "source_page": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/zeirishi/annai/001.htm",
-  "note": "この版は事業年度の終わりの日で選ばれる（使い始めの日を 2024-04-01 にした）。国税庁は、令和8年9月24日以降に書面で提出する場合の新しい様式（https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/zeirishi/annai/pdf/0026008-113_01.pdf。e-Tax の SOZ074 と同じ欄の並び）を公表している。提出日で選ぶ仕組みはまだない",
+  "note": "令和6年4月1日以降・令和8年9月23日までに提出する様式（事業年度の終わりの日の条件は 2024-04-01 から）。提出日が 2026-09-24 以後なら submitted_before で外れ、令和8年9月24日以降に書面で提出する場合の新しい様式の版 dairi2026（https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/zeirishi/annai/pdf/0026008-113_01.pdf）が選ばれる",
   "terms": "出典：国税庁ホームページ（各様式の URL）。公共データ利用規約（第1.0版）により利用し、値を重ねて表示するよう加工している。国税庁が作成したものではない",
   "terms_url": "https://www.nta.go.jp/chuijiko/copy.htm",
   "files": {

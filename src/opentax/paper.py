@@ -14,6 +14,7 @@
   drop_digits: タグ → 桁数（様式に「000」などが印字済みの欄。末尾の桁を書かない）
   text_wrap:   [タグ]（枠の中で折り返す文字の欄）
   same_value_boxes: タグ → [位置…]（同じ値をほかの欄にも書く。「_」で始まるキーは説明）
+  split_fields: タグ → [位置…]（「03-0000-1111」のような値を「-」で分けて枠ごとに中央寄せで書く）
   labels:      タグ → {コード: 言葉}（text_fields のコードを言葉にして書く）
   dates の parts: ["era", "yy"] など（元号・年だけの欄。columns は parts の数＋1）
 """
@@ -160,6 +161,11 @@ def sheet(form_id: str, title: str, fiscal_period: tuple[datetime.date, datetime
                 v = labels.get(tag, {}).get(str(v), v)
                 text = _wrap(str(v), box) if tag in wrap else _fmt(v)
                 items.append({"box": box, "text": text, "kind": {"left": "text", "center": "center", "right": "amount"}[align.get(tag, "left")]})
+    for tag, boxes in m.get("split_fields", {}).items():   # 「03-0000-1111」を「-」で分けて枠ごとに置く（電話番号など）
+        v = get(f"tag:{tag}")
+        if isinstance(v, str) and v:
+            for box, part in zip(boxes, v.split("-")):
+                items.append({"box": box, "text": part, "kind": "center"})
     for key, spec in m.get("dates", {}).items():
         boxes, columns, skip_era = (spec["box"], spec.get("columns"), spec.get("skip_era", False)) \
             if isinstance(spec, dict) else (spec, m.get("date_columns"), False)

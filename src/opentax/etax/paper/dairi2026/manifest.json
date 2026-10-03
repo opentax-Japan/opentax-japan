@@ -1,0 +1,26 @@
+{
+  "edition": "dairi2026",
+  "title": "税務代理権限証書（税理士法第30条。令和8年9月24日以降に書面で提出する場合）",
+  "publisher": "国税庁",
+  "fiscal_year_end_from": "2024-04-01",
+  "submitted_from": "2026-09-24",
+  "source_page": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/zeirishi/annai/001.htm",
+  "note": "提出日で選ばれる版（国税庁の案内ページの「令和8年9月24日以降の様式」。それより前の提出は dairi2024）。記載要領は https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/zeirishi/annai/pdf/0026008-113_02.pdf。様式の下の「委任状」（G16・G17・E09・E10・N12。納税証明書の受領などの委任）と、所得税・源泉所得税（G07・G10）・その他の税目（G11〜G15・E06・E07・M・L の欄）・E08 には値を置かない",
+  "terms": "出典：国税庁ホームページ（各様式の URL）。公共データ利用規約（第1.0版）により利用し、値を重ねて表示するよう加工している。国税庁が作成したものではない",
+  "terms_url": "https://www.nta.go.jp/chuijiko/copy.htm",
+  "files": {
+    "0026008-113_01.pdf": {
+      "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/zeirishi/annai/pdf/0026008-113_01.pdf",
+      "sha256": "dc72c40129adc9cfdc3fec4d572715d63748256a535cab72c67538100ce3e656"
+    }
+  },
+  "forms": {
+    "SOZ074": {
+      "title": "税務代理権限証書",
+      "file": "0026008-113_01.pdf",
+      "page": 1,
+      "render": true,
+      "etax_version": "1.0"
+    }
+  }
+}
