@@ -139,10 +139,11 @@ def _main_items(accounts, rules: dict, gaikyo: dict, net_income_input: int | Non
     lenders = gaikyo.get("lenders", {})
     personal = other = 0
     for a in accounts:
-        if a.name not in names or cls[a.name] != "負債":
+        if cls[a.name] != "負債" or not (a.name in names or a.name.endswith(b.get("suffix") or "借入金")):
             continue
+        officer = a.name == "役員借入金" or any(k in a.name for k in b.get("officer_keywords", []))
         for who, bal in ([(s.name, s.balance) for s in a.subs] if a.subs else [(lenders.get(a.name), a.balance)]):
-            if who is None and a.name != "役員借入金":
+            if who is None and not officer:
                 missing.append(f"10 主要科目: {a.name} の借入先が分かりません（gaikyo の lenders に書いてください）。その他借入金に入れました")
                 other += bal
             elif who and any(k in who for k in b["bank_keywords"]):
@@ -158,6 +159,10 @@ def _main_items(accounts, rules: dict, gaikyo: dict, net_income_input: int | Non
     yen.update({"IAI01100": total["売上"], "IAI01200": gaikyo.get("side_sales"), "IAI01300": total["売上原価"],
                 "IAI01500": gross, "IAI01700": operating, "IAI01800": total["特別利益"], "IAI01850": total["特別損失"],
                 "IAI01900": pretax, "IAI02000": total["資産"], "IAI02200": total["負債"], "IAI02300": total["純資産"] + net})
+    accum = [a.name for a in accounts if cls[a.name] == "資産" and "累計額" in a.name and a.balance]
+    if accum:
+        missing.append(f"10 主要科目: {'・'.join(accum)} があります。建物・機械装置・車両・船舶は減価償却累計額を引いた額を書くので、"
+                       "gaikyo の accounts で振り分けるか、直接法の残高で取り込んでください（記載要領 10 ⑻）")
     # 検算: 資産＝負債＋純資産（当期純損益を含む）、当期純損益＝入力の当期利益
     if total["資産"] != total["負債"] + total["純資産"] + net:
         missing.append(f"10 主要科目: 資産 {total['資産']:,} が 負債 {total['負債']:,}＋純資産 {total['純資産'] + net:,} と合いません"
@@ -347,11 +352,14 @@ def build(calculated: dict, accounts=None, payroll_records: list[dict] | None = 
     if accounts:
         yen, _ = _main_items(accounts, rules, gaikyo, data.get("accounting", {}).get("net_income"), missing)
         v.update({tag: thousand(x) for tag, x in yen.items()})
+        # 資産の部合計は、千円にした負債の部合計＋純資産の部合計（記載要領 10 ⒁「一致するよう検算」）
+        v["IAI02000"] = ((v["IAI02200"] or 0) + (v["IAI02300"] or 0)) or None
         paid = sum(ln["amount"] for ln in lines if ln["person"]["role"] == "役員")
         if lines and paid != yen["IAI01610"]:
             notes.append(f"10 主要科目: 給与の記録の役員への支給 {paid:,} 円と、役員報酬の残高 {yen['IAI01610']:,} 円が違います"
                          "（記録が事業年度の全部の月にあるか確かめてください）")
-        notes.append("10 主要科目: 決算額（科目残高）で埋めました。値引・割戻しの控除、退職金の除外、申告調整（交際費を除く）は確かめてください")
+        notes.append("10 主要科目: 決算額（科目残高）で埋めました。値引・割戻しの控除、退職金の除外、申告調整（交際費を除く）、"
+                     "買掛金に入れる原価性のある未払金は確かめてください")
     else:
         missing.append("10 主要科目: 科目残高がありません")
 
@@ -360,9 +368,12 @@ def build(calculated: dict, accounts=None, payroll_records: list[dict] | None = 
         rep = {"IAI03100": sum(ln["amount"] for ln in lines if ln["person"].get("representative")) or None}
         for tag, it in rules["representative"].items():
             if tag.startswith("IAI") and accounts:
-                rep[tag] = sum(a.balance for a in accounts if a.name in it["accounts"]) or None
+                keys = rules["borrowings"].get("officer_keywords", [])
+                used = [a for a in accounts if a.name in it["accounts"] or (
+                    it.get("suffix") and a.name.endswith(it["suffix"]) and any(k in a.name for k in keys))]
+                rep[tag] = sum(a.balance for a in used) or None
                 if rep[tag]:
-                    notes.append(f"11 代表者に対する{it['name']}: 「{'・'.join(it['accounts'])}」の期末残高を入れました"
+                    notes.append(f"11 代表者に対する{it['name']}: 「{'・'.join(a.name for a in used)}」の期末残高を入れました"
                                  "（代表者以外の分があれば representative で直してください）")
         names = {"報酬": "IAI03100", "貸付金": "IAI03200", "仮払金": "IAI03300", "賃借料": "IAI03400",
                  "支払利息": "IAI03500", "借入金": "IAI03600", "仮受金": "IAI03700"}

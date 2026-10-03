@@ -103,6 +103,34 @@ class CheckTest(unittest.TestCase):
         out = g.build(CALC, u.parse_tkc_balance(tsv), [], {"lenders": {"短期借入金": "見本信用組合"}})
         self.assertEqual(out["forms"]["HOK010"]["IAI02240"], 100)
 
+    def test_officer_borrowing_by_name(self):
+        # 「借入金」で終わる科目は借入金。社長・役員・代表者の名前の科目は補助科目がなくても個人借入金・代表者からの借入金
+        tsv = ("勘定科目名\t科目コード\t補助コード\t残高\n社長長期借入金\t2321\t\t1,500,000\n").encode("cp932")
+        out = g.build(CALC, u.parse_tkc_balance(tsv), [], {})
+        v = out["forms"]["HOK010"]
+        self.assertEqual((v["IAI02230"], v["IAI03600"]), (1_500, 1_500))
+        self.assertFalse(any("借入先" in m for m in out["missing"]))
+
+    def test_account_names(self):
+        tsv = ("勘定科目名\t科目コード\t補助コード\t残高\n建物\t1211\t\t2,000,000\n建物附属設備\t1212\t\t500,000\n"
+               "販売員給与\t7121\t\t3,000,000\n").encode("cp932")
+        v = g.build(CALC, u.parse_tkc_balance(tsv), [], {})["forms"]["HOK010"]
+        self.assertEqual((v["IAI02150"], v["IAI01620"]), (2_000, 3_000))   # 建物附属設備は建物に入れない
+
+    def test_total_assets_is_sum_of_rounded(self):
+        # 資産の部合計は、千円にした負債＋純資産（記載要領 10 ⒁）。決算書の資産 2,001,200 を切り捨てた 2,001 にはしない
+        tsv = ("勘定科目名\t科目コード\t補助コード\t残高\n現金\t1111\t\t2,001,200\n買掛金\t2111\t\t1,000,600\n"
+               "資本金\t3111\t\t1,000,600\n").encode("cp932")
+        calc = copy.deepcopy(CALC)
+        calc["input"]["accounting"]["net_income"] = 0
+        v = g.build(calc, u.parse_tkc_balance(tsv), [], {})["forms"]["HOK010"]
+        self.assertEqual((v["IAI02000"], v["IAI02200"], v["IAI02300"]), (2_000, 1_000, 1_000))
+
+    def test_accumulated_depreciation_warned(self):
+        tsv = ("勘定科目名\t科目コード\t補助コード\t残高\n車両運搬具\t1231\t\t800,000\n減価償却累計額\t1291\t\t△300,000\n").encode("cp932")
+        out = g.build(CALC, u.parse_tkc_balance(tsv), [], {})
+        self.assertTrue(any("累計額" in m for m in out["missing"]))
+
     def test_empty_input_lists_sections(self):
         out = build(info={}, payroll=False, balance=None)
         text = "\n".join(out["missing"])
