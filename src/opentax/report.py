@@ -254,7 +254,9 @@ def _date(v) -> datetime.date:
 def _paper_form(title: str, anchor: str, pages: list[dict]) -> str:
     body = "".join(f"<div class='sheet'>{paper.svg(p)}</div>" for p in pages)
     src = pages[0]["source"]
-    return f"<section class='form' id='{_e(anchor)}'><h3>{_e(title)}</h3>{body}<p class='src'>{_e(src)}</p></section>"
+    edition = pages[0].get("edition")
+    ed = f"<p class='meta'>使う様式: {_e(edition)}</p>" if edition else ""
+    return f"<section class='form' id='{_e(anchor)}'><h3>{_e(title)}</h3>{ed}{body}<p class='src'>{_e(src)}</p></section>"
 
 
 def _local_paper(calculated: dict, company: str, span, sources=None) -> str | None:
@@ -356,7 +358,9 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
         from .pro import dairi
         sh_period = (_date(shohi["input"]["period"]["start"]), _date(shohi["input"]["period"]["end"])) if shohi else None
         dv = dairi.values(office, data["company"], corporate=span, consumption=sh_period, engagement=engagement, submit_date=today)
-        chapters["dairi"] = on_paper("SOZ074", "税務代理権限証書", dv, _form_fields(catalog["SOZ074"], dv),
+        # 紙の様式には「税理士会」「支部」が印字済みなので、その語を除いて書く
+        dv_paper = {**dv, **{k: re.sub(suf + "$", "", dv[k]) for k, suf in (("ATB00120", "税理士会"), ("ATB00130", "支部")) if dv.get(k)}}
+        chapters["dairi"] = on_paper("SOZ074", "税務代理権限証書", dv_paper, _form_fields(catalog["SOZ074"], dv),
                                      "税理士法第30条（令和6年4月1日以降提出分）")
 
     checks = (attachments or {}).get("missing", []) + (attachments or {}).get("notes", [])

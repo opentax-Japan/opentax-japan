@@ -193,6 +193,7 @@ def sheet(form_id: str, title: str, fiscal_period: tuple[datetime.date, datetime
     if "company" in header and company:
         items.append({"box": header["company"], "text": company, "kind": "text"})
     return {"form_id": form_id, "title": title or entry["title"], "image": f"forms/{edition['edition']}/{form_id}.jpg",
+            "edition": edition.get("title", ""),
             "size": m["image_size"], "items": items,
             "source": f"出典：{edition.get('publisher', '国税庁')}ホームページ（{edition['files'][entry['file']]['url']}）を加工して作成"}
 

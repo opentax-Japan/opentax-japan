@@ -228,6 +228,7 @@ def paper_sheets(calculated: dict) -> list[dict]:
             items.append({"box": header["company"], "text": calculated["input"]["company"]["name"], "kind": "text"})
         out.append({"form_id": form_id, "title": entry["title"], "image": f"forms/{edition['edition']}/{form_id}.jpg",
                     "size": m["image_size"], "items": items,
+                    "edition": edition.get("title", ""),
                     "source": f"出典：国税庁ホームページ（{edition['files'][entry['file']]['url']}）を加工して作成"})
     return out
 

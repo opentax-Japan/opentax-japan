@@ -126,10 +126,10 @@ def html_of(k: dict) -> str:
 
     rows = "".join(f"<tr>{cells(*l)}{cells(*r)}</tr>" for l, r in zip(left, right))
     bs_html = (_head("貸 借 対 照 表", k["company"], f"{_jp(k['end'])}現在")
-               + "<div class='scroll'><table class='fs bs'><thead><tr><th colspan='2'>資 産 の 部</th><th colspan='2'>負 債 の 部</th></tr>"
+               + "<table class='fs bs'><thead><tr><th colspan='2'>資 産 の 部</th><th colspan='2'>負 債 の 部</th></tr>"
                "<tr><th>科　目</th><th>金　額</th><th>科　目</th><th>金　額</th></tr></thead>"
                f"<tbody>{rows}<tr class='total'><td>資産の部合計</td><td class='amt'>{_y(bs['asset_total'])}</td>"
-               f"<td>負債・純資産の部合計</td><td class='amt'>{_y(bs['liability_total'] + bs['equity_total'])}</td></tr></tbody></table></div>")
+               f"<td>負債・純資産の部合計</td><td class='amt'>{_y(bs['liability_total'] + bs['equity_total'])}</td></tr></tbody></table>")
 
     lines: list[tuple[str, str, int | None, int | None]] = []   # （種類, 科目, 内訳の列, 合計の列）
 
@@ -167,28 +167,36 @@ def html_of(k: dict) -> str:
                 + f"<table class='fs pl'><thead><tr><th>科　目</th><th colspan='2'>金　額</th></tr></thead><tbody>{sga_rows}"
                 f"<tr class='profit'><td>合　計</td><td></td><td class='amt'>{_y(k['pl']['sga_total'])}</td></tr></tbody></table>")
     warn = "".join(f"<div class='warn'>{_e(c)}</div>" for c in k["checks"])
-    return warn + "".join(f"<section class='form fs-page'>{p}</section>" for p in (bs_html, pl_html, sga_html))
+    return warn + "".join(f"<section class='form fs-page'><div class='fs-in'>{p}</div></section>" for p in (bs_html, pl_html, sga_html))
 
 
 CSS = """
-.fs-page{border:1px solid #cfd8c0;padding:18px 16px 22px;margin:18px 0;background:#fff}
-.fs-title{text-align:center;font-size:1.3rem;font-weight:700;letter-spacing:.3em;text-decoration:underline double;text-underline-offset:6px;margin:4px 0 6px}
-.fs-unit{text-align:right;font-size:.85rem;color:#444}
-.fs-meta{display:flex;justify-content:space-between;font-size:.9rem;margin:4px 0 8px}
-table.fs{border:2px solid #333;border-collapse:collapse;max-width:none}
-table.fs th{background:#f4f4f4;border:1px solid #333;text-align:center;font-weight:600}
-table.fs td{border-left:1px solid #333;border-right:1px solid #333;border-bottom:none;padding:5px 10px}
+/* 決算書は A4 縦の紙の形（210×297mm）。画面では紙の幅に合わせて全体を縮める（文字の大きさは紙の幅に対する割合 cqw） */
+.fs-page{container-type:inline-size;width:100%;max-width:820px;aspect-ratio:210/297;margin:18px auto;background:#fff;
+  border:1px solid #bbb;box-shadow:0 1px 6px rgba(0,0,0,.12);box-sizing:border-box;overflow:hidden}
+.fs-in{padding:9cqw 8cqw;font-size:1.9cqw;line-height:1.55}
+.fs-title{text-align:center;font-size:3.2cqw;font-weight:700;letter-spacing:.5em;text-decoration:underline double;
+  text-underline-offset:.35em;margin:0 0 2.5cqw}
+.fs-unit{text-align:right;font-size:1.7cqw;color:#333}
+.fs-meta{display:flex;justify-content:space-between;font-size:1.9cqw;margin:.6cqw 0 1.6cqw}
+table.fs{width:100%;border:.3cqw solid #222;border-collapse:collapse;table-layout:fixed;font-size:1.85cqw;margin:0}
+table.fs th{background:#f2f2f2;border:.15cqw solid #222;text-align:center;font-weight:600;padding:.7cqw 0;white-space:nowrap}
+table.fs td{border:none;border-left:.15cqw solid #222;border-right:.15cqw solid #222;padding:.55cqw 1.2cqw;white-space:nowrap;
+  overflow:hidden;text-overflow:clip}
+table.fs td.amt{text-align:right;font-family:"BIZ UDGothic","Yu Gothic",sans-serif;font-variant-numeric:tabular-nums}
 table.fs td.sec{font-weight:600}
-table.fs td.sum,table.fs tr.sum td,table.fs tr.profit td,table.fs tr.total td{border-top:1px solid #333}
-table.fs tr.profit td:first-child{padding-left:3em;font-weight:600}
-table.fs tr.row td:first-child,table.fs.bs td:not(.sec):not(.sum):not(.band):not(.amt){padding-left:1.6em}
-table.fs td.subrow{color:#666;font-size:.85rem}
-table.fs td.band{text-align:center;border-top:1px solid #333;border-bottom:1px solid #333;background:#f4f4f4;font-weight:600}
-table.fs tr.total td{background:#ececec;font-weight:700;border-top:2px solid #333}
-table.fs.bs{min-width:640px;width:100%;table-layout:fixed}
-table.fs.bs td:nth-child(odd){width:31%}
-table.fs.bs td:nth-child(even){width:19%}
-table.fs td{white-space:nowrap}
-table.fs.pl{width:100%;max-width:680px;table-layout:fixed}
-table.fs.pl td:first-child{width:52%}
+table.fs td.sum,table.fs tr.sum td,table.fs tr.profit td,table.fs tr.total td{border-top:.15cqw solid #222}
+table.fs tr.profit td:first-child{padding-left:5cqw;font-weight:600}
+table.fs tr.row td:first-child,table.fs.bs td:not(.sec):not(.sum):not(.band):not(.amt){padding-left:2.6cqw}
+table.fs td.subrow{color:#555;font-size:1.6cqw}
+table.fs td.band{text-align:center;border-top:.15cqw solid #222;border-bottom:.15cqw solid #222;background:#f2f2f2;font-weight:600}
+table.fs tr.total td{background:#ececec;font-weight:700;border-top:.3cqw solid #222}
+table.fs.bs td:nth-child(odd){width:30%}
+table.fs.bs td:nth-child(even){width:20%}
+table.fs.bs{font-size:1.7cqw}
+table.fs.pl td:first-child{width:50%}
+@media print{
+  @page{size:A4 portrait;margin:0}
+  .fs-page{width:210mm;height:297mm;max-width:none;aspect-ratio:auto;margin:0;border:none;box-shadow:none;break-after:page;break-inside:avoid}
+}
 """

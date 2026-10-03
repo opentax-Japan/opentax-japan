@@ -1,0 +1,25 @@
+{
+  "edition": "dairi2024",
+  "title": "税務代理権限証書（税理士法第30条。令和6年4月1日以降提出分）",
+  "publisher": "国税庁",
+  "fiscal_year_end_from": "2024-04-01",
+  "source_page": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/zeirishi/annai/001.htm",
+  "note": "この版は事業年度の終わりの日で選ばれる（使い始めの日を 2024-04-01 にした）。国税庁は、令和8年9月24日以降に書面で提出する場合の新しい様式（https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/zeirishi/annai/pdf/0026008-113_01.pdf。e-Tax の SOZ074 と同じ欄の並び）を公表している。提出日で選ぶ仕組みはまだない",
+  "terms": "出典：国税庁ホームページ（各様式の URL）。公共データ利用規約（第1.0版）により利用し、値を重ねて表示するよう加工している。国税庁が作成したものではない",
+  "terms_url": "https://www.nta.go.jp/chuijiko/copy.htm",
+  "files": {
+    "0022003-154.pdf": {
+      "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/zeirishi/pdf/0022003-154.pdf",
+      "sha256": "fef5d46c59a639826fc83b91bd8cb77e685a00f569a26661e63cc7c951d909bd"
+    }
+  },
+  "forms": {
+    "SOZ074": {
+      "title": "税務代理権限証書",
+      "file": "0022003-154.pdf",
+      "page": 1,
+      "render": true,
+      "etax_version": "1.0"
+    }
+  }
+}
