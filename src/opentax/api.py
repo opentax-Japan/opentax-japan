@@ -321,12 +321,14 @@ def uchiwake_officers(payroll_records: list[dict], start: datetime.date, end: da
 
 
 def gaikyo(calculated: dict, balance: bytes | None = None, payroll_records: list[dict] | None = None,
-           info: dict | None = None) -> dict:
+           info: dict | None = None, trend: bytes | None = None) -> dict:
     """法人事業概況説明書（HOK010）を、科目残高・給与の記録・入力（info）から作る。
+    trend は科目残高推移表（TKC の TXT）。info に月別の売上・仕入がなければ、ここから作る。
     戻り値は uchiwake_from_balance と同じ形（forms・missing）に、初期値で埋めた欄の説明（notes）を足したもの。"""
     from .red import gaikyo as g, uchiwake
     accounts = uchiwake.parse_tkc_balance(balance) if balance else None
-    return g.build(calculated, accounts, payroll_records, info)
+    monthly = uchiwake.parse_tkc_monthly(trend) if trend else None
+    return g.build(calculated, accounts, payroll_records, info, trend=monthly)
 
 
 def merge_uchiwake(*parts: dict) -> dict:

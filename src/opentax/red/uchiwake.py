@@ -89,6 +89,53 @@ def parse_tkc_balance(data: bytes) -> list[Account]:
     return accounts
 
 
+@dataclass
+class MonthlyAccount:
+    name: str
+    code: str
+    months: dict[int, int]          # 月 → その月の額（発生額）
+
+
+_MONTH_HEAD = (re.compile(r"^(\d{1,2})月$"), re.compile(r"^\(?[RH]?\d{1,4}[./．／](\d{1,2})\)?$"))
+
+
+def _month_of(head: str) -> int | None:
+    h = head.strip().replace(" ", "").replace("　", "")
+    for p in _MONTH_HEAD:
+        m = p.match(h)
+        if m and 1 <= int(m.group(1)) <= 12:
+            return int(m.group(1))
+    return None
+
+
+def parse_tkc_monthly(data: bytes) -> list[MonthlyAccount]:
+    """TKC の科目残高推移表（月別の発生額）TXT を読む。見出しの「10月」「( 7.10)」「R7.10」のような列を月とみる。
+    補助科目の行は読まない（概況書の 18 は科目ごとでよい）。合計など月でない列は使わない。"""
+    lines = [ln for ln in _decode(data).splitlines() if ln.strip()]
+    if not lines:
+        raise BalanceFormatError("中身がありません")
+    head = [h.strip() for h in lines[0].split("\t")]
+    try:
+        i_name, i_code, i_sub = head.index("勘定科目名"), head.index("科目コード"), head.index("補助コード")
+    except ValueError:
+        raise BalanceFormatError("見出しに「勘定科目名」「科目コード」「補助コード」がありません（科目残高推移表の TXT ですか）") from None
+    cols = [(i, m) for i, m in ((i, _month_of(h)) for i, h in enumerate(head)) if m]
+    if not cols:
+        raise BalanceFormatError("見出しに月の列（「10月」「( 7.10)」など）がありません")
+    months = [m for _, m in cols]
+    if len(set(months)) != len(months):
+        raise BalanceFormatError(f"月の列が重なっています（{months}）")
+    out: list[MonthlyAccount] = []
+    for n, line in enumerate(lines[1:], start=2):
+        c = line.split("\t")
+        if len(c) <= max(i for i, _ in cols):
+            raise BalanceFormatError(f"{n}行目: 列が足りません")
+        if c[i_sub].strip():
+            continue
+        out.append(MonthlyAccount(c[i_name].strip(), c[i_code].strip(), {m: _amount(c[i]) for i, m in cols}))
+    return out
+
+
 def load_mapping() -> dict:
     return json.loads((RULES_DIR / "uchiwake_accounts.json").read_text(encoding="utf-8"))
 

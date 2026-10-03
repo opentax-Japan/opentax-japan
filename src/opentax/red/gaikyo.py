@@ -175,8 +175,10 @@ def _main_items(accounts, rules: dict, gaikyo: dict, net_income_input: int | Non
 # --- 本体 ---
 
 def build(calculated: dict, accounts=None, payroll_records: list[dict] | None = None, gaikyo: dict | None = None,
-          mapping: dict | None = None) -> dict:
+          mapping: dict | None = None, trend=None) -> dict:
     """戻り値: {"forms": {"HOK010": 値}, "missing": 足りない欄・合わない検算, "notes": 初期値で埋めた欄の説明}
+
+    trend: 科目残高推移表（red.uchiwake.parse_tkc_monthly）。gaikyo の monthly.months がなければ、18 の売上・仕入の月別をここから作る
 
     gaikyo（入力。どれも省略できる。省略した区分は空欄のままで missing に出る）:
       business（事業内容）・industry（「（ ）業」。省略時は会社の業種から「業」を除いたもの）・homepage（URL。無ければ false）
@@ -398,9 +400,40 @@ def build(calculated: dict, accounts=None, payroll_records: list[dict] | None = 
     else:
         missing.append("16 税理士の関与状況: tax_accountant")
 
-    v.update(_monthly(gaikyo.get("monthly") or {}, lines, start, end, missing))
+    mo = dict(gaikyo.get("monthly") or {})
+    if trend and not mo.get("months"):
+        mo.update(_from_trend(trend, accounts, rules, gaikyo, missing, notes))
+    v.update(_monthly(mo, lines, start, end, missing))
     v = {k: x for k, x in v.items() if x not in (None, "", [])}
     return {"forms": {"HOK010": v}, "missing": missing, "notes": notes}
+
+
+def _from_trend(trend, accounts, rules: dict, gaikyo: dict, missing: list[str], notes: list[str]) -> dict:
+    """18 の売上・仕入の月別を、科目残高推移表から作る（monthly の形で返す）。
+    売上は「売上」の区分の科目、仕入は「原材料費（仕入高）」の科目。科目が3つ以上あれば、年間の額の大きい2つ（記載要領 18 注1）"""
+    cls = _classify(trend, gaikyo.get("classes") or rules["classes"]["by_code_prefix"])
+    buy_names = (gaikyo.get("accounts") or {}).get("IAI01410", rules["items"]["IAI01410"]["accounts"])
+    out: dict = {"sales_titles": [], "purchase_titles": []}
+    picked = {}
+    for key, title, label, pick in (("sales", "sales_titles", "売上", lambda a: cls[a.name] == "売上"),
+                                    ("purchases", "purchase_titles", "仕入",
+                                     lambda a: cls[a.name] == "売上原価" and a.name in buy_names)):
+        rows = sorted((a for a in trend if pick(a) and any(a.months.values())), key=lambda a: -sum(a.months.values()))
+        if len(rows) > 2:
+            notes.append(f"18 月別の{label}: 科目が{len(rows)}つあるので、額の大きい「{rows[0].name}」「{rows[1].name}」を書きました")
+        picked[key] = rows[:2]
+        out[title] = [a.name for a in rows[:2]]
+    months = sorted({m for a in trend for m in a.months})
+    out["months"] = [{"month": m, "sales": [a.months.get(m, 0) for a in picked["sales"]],
+                      "purchases": [a.months.get(m, 0) for a in picked["purchases"]]} for m in months]
+    # 検算: 推移表の年間の額＝科目残高の期末残高
+    if accounts:
+        bal = {a.name: a.balance for a in accounts}
+        for a in picked["sales"] + picked["purchases"]:
+            if a.name in bal and sum(a.months.values()) != bal[a.name]:
+                missing.append(f"18 月別: 推移表の{a.name}の年間 {sum(a.months.values()):,} 円が科目残高 {bal[a.name]:,} 円と合いません")
+    notes.append("18 月別の売上・仕入: 科目残高推移表から作りました")
+    return out
 
 
 def _months(start: datetime.date, end: datetime.date) -> list[tuple[int, int]]:

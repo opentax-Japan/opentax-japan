@@ -12,6 +12,7 @@ from opentax.red import gaikyo as g, uchiwake as u
 REPO = Path(__file__).resolve().parents[2]
 CASE = REPO / "tests" / "cases" / "open-shoji-tokyo"
 BALANCE = (CASE / "科目残高一覧表_架空_TKC形式.txt").read_bytes()
+TREND = (CASE / "科目残高推移表_架空_TKC形式.txt").read_bytes()
 
 
 def load(name: str) -> dict:
@@ -102,6 +103,34 @@ class CheckTest(unittest.TestCase):
         self.assertTrue(any("借入先が分かりません" in m for m in out["missing"]))
         out = g.build(CALC, u.parse_tkc_balance(tsv), [], {"lenders": {"短期借入金": "見本信用組合"}})
         self.assertEqual(out["forms"]["HOK010"]["IAI02240"], 100)
+
+    def test_monthly_from_trend_matches_input(self):
+        # 推移表から作った月別は、手で書いた monthly と同じになる
+        info = load("gaikyo.json")
+        del info["monthly"]
+        out = api.gaikyo(CALC, BALANCE, [load("payroll_2026.json")], info, TREND)
+        v, w = out["forms"]["HOK010"], build()["forms"]["HOK010"]
+        for k in ("IAP12000", "IAP12300", "IAP20100", "IAP20300", "IAP20420", "IAP30200", "IAP30320"):
+            self.assertEqual(v.get(k), w.get(k), k)
+        self.assertEqual(out["missing"], [])
+
+    def test_trend_mismatch_and_many_sales(self):
+        tsv = ("勘定科目名\t科目コード\t補助コード\t10月\t11月\t合計\n売上高\t4111\t\t100,000\t200,000\t300,000\n"
+               "工事売上\t4112\t\t500,000\t0\t500,000\n雑売上\t4113\t\t1,000\t0\t1,000\n").encode("cp932")
+        bal = ("勘定科目名\t科目コード\t補助コード\t残高\n売上高\t4111\t\t999,000\n").encode("cp932")
+        info = {"monthly": {}}
+        out = g.build(CALC, u.parse_tkc_balance(bal), [], info, trend=u.parse_tkc_monthly(tsv))
+        v = out["forms"]["HOK010"]
+        self.assertEqual((v["IAP12000"], v["IAP12100"]), ("工事売上", "売上高"))     # 額の大きい2つ
+        self.assertTrue(any("合いません" in m for m in out["missing"]))
+        self.assertTrue(any("3つ" in n for n in out["notes"]))
+
+    def test_trend_headers(self):
+        for h in ("10月", "( 7.10)", "R7.10", "2025/10"):
+            self.assertEqual(u._month_of(h), 10, h)
+        self.assertIsNone(u._month_of("合計"))
+        with self.assertRaises(u.BalanceFormatError):
+            u.parse_tkc_monthly("勘定科目名\t科目コード\t補助コード\t合計\n".encode("cp932"))
 
     def test_officer_borrowing_by_name(self):
         # 「借入金」で終わる科目は借入金。社長・役員・代表者の名前の科目は補助科目がなくても個人借入金・代表者からの借入金

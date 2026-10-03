@@ -269,7 +269,8 @@ def _export_etax(args: argparse.Namespace) -> int:
         import json as _json
         info = _json.loads(Path(args.gaikyo).read_text(encoding="utf-8"))
         records = [_json.loads(Path(f).read_text(encoding="utf-8")) for f in args.payroll or []]
-        gk = api.gaikyo(calculated, Path(args.balance).read_bytes() if args.balance else None, records, info)
+        gk = api.gaikyo(calculated, Path(args.balance).read_bytes() if args.balance else None, records, info,
+                        Path(args.trend).read_bytes() if args.trend else None)
         for m in gk["notes"]:
             print(f"  概況書（確かめてください）: {m}")
         for m in gk["missing"]:
@@ -426,6 +427,7 @@ def main(argv: list[str] | None = None) -> int:
     x.add_argument("--supplement", help="内訳書の足りない欄を足す JSON（相手先の所在地・口座番号など）")
     x.add_argument("--payroll", nargs="+", help="役員給与等・人件費の内訳書も作る: 給与の記録ファイル（事業年度にかかる年の分）")
     x.add_argument("--gaikyo", help="法人事業概況説明書も作る: 手入力の欄の JSON（主要科目は --balance、従事員・人件費は --payroll から）")
+    x.add_argument("--trend", help="概況書の月別の売上・仕入を作る: 科目残高推移表（TKC の TXT。--gaikyo の monthly.months があればそちらを使う）")
 
     lt = sub.add_parser("local-tax", help="OpenTax RED: 地方税の計算結果の一覧（第六号様式・第二十号様式）を HTML で作る")
     lt.add_argument("input")
