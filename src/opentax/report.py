@@ -12,7 +12,7 @@ import html
 import json
 import re
 
-from . import api
+from . import api, paper
 from .red import local_sheet
 
 CHAPTERS = [("hojin", "法人税（別表）"), ("shohi", "消費税"), ("gaikyo", "法人事業概況説明書"),
@@ -280,6 +280,38 @@ def _local(calculated: dict, today: datetime.date | None) -> str:
     return body.replace("<h2>", "<h3>").replace("</h2>", "</h3>")
 
 
+# --- 紙の様式 ---
+
+# 1つの様式が何枚の紙か（位置のファイルの名前）。書いていない様式は様式ID の1枚
+PAGES = {"HOK010": ["HOK010-1", "HOK010-2"]}
+
+
+def _date(v) -> datetime.date:
+    return v if isinstance(v, datetime.date) else datetime.date.fromisoformat(str(v))
+
+
+def _paper_form(title: str, anchor: str, pages: list[dict]) -> str:
+    body = "".join(f"<div class='sheet'>{paper.svg(p)}</div>" for p in pages)
+    src = pages[0]["source"]
+    return f"<section class='form' id='{_e(anchor)}'><h3>{_e(title)}</h3>{body}<p class='src'>{_e(src)}</p></section>"
+
+
+def _local_paper(calculated: dict, company: str, span) -> str | None:
+    """地方税の様式（第六号様式・第二十号様式など）。位置のファイルがなければ None（一覧で見せる）。
+    値は地方税の一覧と同じ（local_sheet.sheet_values。キーは rules/local_forms.json の value）。"""
+    local = calculated["local_tax"]
+    pages = []
+    for map_id, title, kind in (("L06", "第六号様式（道府県民税・事業税・特別法人事業税）", "pref"),
+                                ("L06B9", "第六号様式別表九（欠損金額等の控除明細書）", "pref"),
+                                ("L20", "第二十号様式（市町村民税）", "city")):
+        if kind == "city" and not local.get("municipality"):
+            continue
+        s = paper.sheet(map_id, title, span, local_sheet.sheet_values(calculated, kind), None, company)
+        if s:
+            pages.append(_paper_form(title, map_id, [s]))
+    return "".join(pages) or None
+
+
 # --- 本体 ---
 
 def build(calculated: dict, attachments: dict | None = None, shohi: dict | None = None, accounts=None,
@@ -295,25 +327,45 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
     catalog = _catalog()
     chapters: dict[str, str] = {}
 
-    chapters["hojin"] = "".join(_form(v["title"], f"事業年度 {v['period']}", _blocks(v["blocks"]), v["form_id"])
-                                for v in api.form_views(calculated))
+    span = (fp["start"], fp["end"])
+    sources = api._paper_sources(calculated, calculated["form_values"], {})
+
+    def on_paper(form_id: str, title: str, values: dict, fallback: str, sub: str = "", period=span, src=sources) -> str:
+        """公表されている様式の画像の上に値を置く。位置のファイルがない様式は表（fallback）で見せる。"""
+        pages = [p for p in (paper.sheet(pid, title, period, values, src, company) for pid in PAGES.get(form_id, [form_id])) if p]
+        if not pages:
+            return _form(title, sub, fallback, form_id)
+        return _paper_form(title, form_id, pages)
+
+    # 1 法人税: 位置の決まった別表は api.paper_sheets（入力画面の紙の別表と同じ）、ほかは様式の画像か表
+    sheets = {s["form_id"]: s for s in api.paper_sheets(calculated)}
+    hojin = []
+    for v in api.form_views(calculated):
+        if v["form_id"] in sheets:
+            hojin.append(_paper_form(v["title"], v["form_id"], [sheets[v["form_id"]]]))
+        else:
+            hojin.append(on_paper(v["form_id"], v["title"], calculated["form_values"], _blocks(v["blocks"]), f"事業年度 {v['period']}"))
+    chapters["hojin"] = "".join(hojin)
     if shohi:
         from .etax.form_view import form_view
         from .shohi.etax import form_values
         vals = form_values(shohi)
         sp = shohi["input"]["period"]
-        chapters["shohi"] = "".join(_form(SHOHI_TITLES[fid], f"課税期間 {sp['start']} 〜 {sp['end']}",
-                                          _blocks(form_view(catalog[fid], vals[fid], {})), fid) for fid in SHOHI_TITLES)
+        sp_span = (_date(sp["start"]), _date(sp["end"]))
+        chapters["shohi"] = "".join(on_paper(fid, SHOHI_TITLES[fid], vals[fid], _blocks(form_view(catalog[fid], vals[fid], {})),
+                                             f"課税期間 {sp['start']} 〜 {sp['end']}", sp_span) for fid in SHOHI_TITLES)
         if shohi.get("warnings"):
             chapters["shohi"] = "".join(f"<div class='warn'>{_e(w)}</div>" for w in shohi["warnings"]) + chapters["shohi"]
     if "HOK010" in forms:
-        chapters["gaikyo"] = _form("法人事業概況説明書", "金額は千円単位（千円未満切捨て）", _gaikyo(catalog["HOK010"], forms["HOK010"]), "HOK010")
+        chapters["gaikyo"] = on_paper("HOK010", "法人事業概況説明書", forms["HOK010"], _gaikyo(catalog["HOK010"], forms["HOK010"]),
+                                      "金額は千円単位（千円未満切捨て）")
     if accounts:
         chapters["kessan"] = _kessan(accounts)
     uw = [fid for fid in UCHIWAKE_TITLES if fid in forms]
     if uw:
-        chapters["uchiwake"] = "".join(_form(UCHIWAKE_TITLES[fid], "金額は円", _form_fields(catalog[fid], forms[fid]), fid) for fid in uw)
-    chapters["chiho"] = _local(calculated, today)
+        chapters["uchiwake"] = "".join(on_paper(fid, UCHIWAKE_TITLES[fid], forms[fid], _form_fields(catalog[fid], forms[fid]), "金額は円")
+                                       for fid in uw)
+    chapters["chiho"] = _local_paper(calculated, company, span) or _local(calculated, today)
 
     checks = (attachments or {}).get("missing", []) + (attachments or {}).get("notes", [])
     toc = "".join(f"<li><a href='#{k}'>{_e(t)}</a>{'' if k in chapters else '（なし）'}</li>"
@@ -360,7 +412,12 @@ table.fs td:first-child{width:70%}
 .note{color:#666;font-size:.85rem}
 .warn{background:#fffbe6;border:1px solid #f0d77a;padding:8px 12px;margin:12px 0;font-size:.9rem}
 .checks{background:#fffbe6;border:1px solid #f0d77a;padding:8px 12px;margin:12px 0;font-size:.9rem}
-.src{font-size:.8rem;color:#666;word-break:break-all;margin-top:40px}
+.src{font-size:.8rem;color:#666;word-break:break-all;margin-top:6px}
+.sheet{border:1px solid #d7e9b0;margin:8px 0;background:#fff}
+svg.paper{display:block;width:100%;height:auto}
+svg.paper text.amt,svg.paper text.txt{fill:#0b4dbb;font-family:ui-monospace,Consolas,"BIZ UDGothic",monospace}
+svg.paper text.txt{font-family:"BIZ UDGothic","Yu Gothic",sans-serif}
+svg.paper .mark{fill:none;stroke:#0b4dbb;stroke-width:4}
 @media (max-width:560px){main{padding:10px}nav ol{columns:1}td.ord,th.ord{display:none}table{font-size:.86rem}}
 @media print{main{max-width:none}nav,.checks{display:none}h2{break-before:page}section.form{break-inside:avoid}a{color:#222;text-decoration:none}}
 """

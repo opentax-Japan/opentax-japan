@@ -60,24 +60,25 @@ def app_zip(dest: Path) -> None:
 
 
 def paper_images(width: int = 1654) -> None:
-    """紙の別表の画像（国税庁の様式 PDF の中のスキャン画像）を、幅を縮めた JPEG にする。PDF は SHA256 で照合する。"""
-    import io
+    """紙の様式の画像（公表元の様式 PDF から作る）を、幅を縮めた JPEG にする。PDF は SHA256 で照合する。"""
     try:
-        import pymupdf
+        import pymupdf  # noqa: F401
         from PIL import Image
     except ImportError:
-        sys.exit("紙の別表の画像を作るには pymupdf と Pillow が要ります（pip install pymupdf pillow）")
+        sys.exit("紙の様式の画像を作るには pymupdf と Pillow が要ります（pip install pymupdf pillow）")
+    sys.path.insert(0, str(REPO / "src"))
+    from opentax.etax.paper_image import page_image
     for manifest_path in sorted((REPO / "src" / "opentax" / "etax" / "paper").glob("*/manifest.json")):
         m = json.loads(manifest_path.read_text(encoding="utf-8"))
         out_dir = SITE / "forms" / m["edition"]
         out_dir.mkdir(parents=True, exist_ok=True)
         for form_id, entry in m["forms"].items():
-            if not (manifest_path.parent / f"{form_id}.json").exists():
+            path = manifest_path.parent / f"{form_id}.json"
+            if not path.exists():
                 continue
+            size = json.loads(path.read_text(encoding="utf-8"))["image_size"]
             f = m["files"][entry["file"]]
-            doc = pymupdf.open(fetch(f["url"], f["sha256"]))
-            ref = doc[entry["page"] - 1].get_images()[0][0]
-            img = Image.open(io.BytesIO(doc.extract_image(ref)["image"])).convert("L")
+            img = page_image(fetch(f["url"], f["sha256"]), entry["page"], size, entry.get("render", False), entry.get("rotate", 0))
             img = img.resize((width, round(width * img.height / img.width)), Image.LANCZOS)
             img.save(out_dir / f"{form_id}.jpg", quality=80, optimize=True, progressive=True)
 

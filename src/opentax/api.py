@@ -139,34 +139,7 @@ def paper_edition(fiscal_year_end: datetime.date) -> dict | None:
     return best
 
 
-def _date_items(box: list[int], d: datetime.date, columns: list[int] | None = None) -> list[dict]:
-    """元号・年・月・日の4つの枠に分けて置く。columns は枠の境目の x（5つ）。なければ等分する。"""
-    from .etax.xtx import to_wareki
-    w = to_wareki(d)
-    x0, y0, x1, y1 = box
-    xs = columns or [round(x0 + (x1 - x0) * i / 4) for i in range(5)]
-    parts = ["令和" if w["era"] == 5 else "平成", str(w["yy"]), str(w["mm"]), str(w["dd"])]
-    return [{"box": [xs[i], y0, xs[i + 1], y1], "text": t, "kind": "center"} for i, t in enumerate(parts)]
-
-
-def _period_items(slots: dict, start: datetime.date, end: datetime.date) -> list[dict]:
-    """見出しの「事業年度 ・ ・」の枠に、年（和暦）・月・日を点の間に置く。上の段＝自、下の段＝至。"""
-    from .etax.xtx import to_wareki
-    xs = [slots["left"], *slots["dots_x"], slots["right"]]
-    gap = slots["rows_y"][1] - slots["rows_y"][0]
-    items = []
-    for y, d in zip(slots["rows_y"], (start, end)):
-        w = to_wareki(d)
-        for i, text in enumerate((str(w["yy"]), str(w["mm"]), str(w["dd"]))):
-            items.append({"box": [xs[i] + 6, round(y - gap / 2), xs[i + 1] - 6, round(y + gap / 2)], "text": text, "kind": "center"})
-    return items
-
-
-def _pairs(boxes: list, value) -> list:
-    """位置（1つ、または繰り返しの行ごとのリスト）と値（1つ、またはリスト）を組にする。"""
-    if boxes and isinstance(boxes[0], list):
-        return list(zip(boxes, value if isinstance(value, list) else []))
-    return [(boxes, value)]
+from .paper import _date_items, _period_items, pairs as _pairs  # noqa: E402  紙の様式の共通の部品
 
 
 def _paper_sources(calculated: dict, values: dict, texts: dict):
