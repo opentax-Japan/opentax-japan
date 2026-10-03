@@ -1,7 +1,7 @@
 """勘定科目内訳明細書（内訳書）を、会計ソフトの科目残高から作る。
 
-- 取り込める形式: TKC（FX 系）の「科目残高一覧表」TXT（タブ区切り・Shift_JIS）。見本は架空のデータ
-  （tests/cases/open-shoji-tokyo/科目残高一覧表_架空_TKC形式.txt）。実物との違いは利用者の手元で確かめる
+- 取り込める形式: 会計ソフトの残高試算表・科目残高一覧表（CSV・TXT。ソフトを問わない）。見出しの行の列の名前で読む
+  （parse_balance）。見本は架空のデータ（tests/cases/open-shoji-tokyo/科目残高一覧表_架空_TKC形式.txt など）
 - 科目 → 内訳書の振り分けは rules/uchiwake_accounts.json（初期値。supplement の accounts で上書き）
 - 科目残高にない欄（相手先の所在地・口座番号・利率など）は supplement で足す。足りない欄は missing で知らせる
 - 金額は期末残高（最後の「残高」の列）。補助科目があれば補助ごとに1行、なければ科目で1行
@@ -9,6 +9,7 @@
 
 from __future__ import annotations
 
+import csv
 import datetime
 import json
 import re
@@ -56,37 +57,94 @@ def _decode(data: bytes) -> str:
     raise BalanceFormatError("文字コードが分かりません（Shift_JIS か UTF-8 の書き出しにしてください）")
 
 
-def parse_tkc_balance(data: bytes) -> list[Account]:
-    """TKC の科目残高一覧表 TXT を読む。見出しの行で列を決める（勘定科目名・科目コード・補助コード・…・残高）。"""
-    lines = [ln for ln in _decode(data).splitlines() if ln.strip()]
+# --- 会計ソフトの書き出しを読む（ソフトを問わない） ---
+#
+# 見出しの行の列の名前で読む。区切りはタブかカンマ、文字コードは Shift_JIS か UTF-8。
+# 科目コードの列があれば区分（資産・負債…）をコードで決め、なければ科目名で決める（gaikyo）。
+# 合計・小計の行（「流動資産合計」「売上総利益」など）は読まない。
+
+NAME_HEADS = ("勘定科目名", "勘定科目", "科目名", "科目", "表示科目")
+CODE_HEADS = ("科目コード", "勘定科目コード", "コード")
+SUB_CODE_HEADS = ("補助コード", "補助科目コード")
+SUB_NAME_HEADS = ("補助科目名", "補助科目", "補助")
+BALANCE_HEADS = ("期末残高", "当期残高", "残高", "月末残高", "翌期繰越", "次期繰越", "翌月繰越", "貸借残高")
+_TOTAL_ROW = re.compile(r"(合計|小計|総計|の部計|^計)$|^[【［\[(（].*[】］\])）]$|"
+                        r"^(売上総利益|売上総損益|営業利益|営業損益|経常利益|経常損益|税引前当期純利益|税引前当期純損益|"
+                        r"当期純利益|当期純損益|当期利益|当期損失|当期純損失)(金額)?$")
+
+
+def _table(data: bytes) -> tuple[list[str], list[list[str]]]:
+    text = _decode(data)
+    lines = [ln for ln in text.splitlines() if ln.strip()]
     if not lines:
         raise BalanceFormatError("中身がありません")
-    head = [h.strip() for h in lines[0].split("\t")]
-    try:
-        i_name, i_code, i_sub = head.index("勘定科目名"), head.index("科目コード"), head.index("補助コード")
-    except ValueError:
-        raise BalanceFormatError("見出しに「勘定科目名」「科目コード」「補助コード」がありません（科目残高一覧表の TXT ですか）") from None
-    balance_cols = [i for i, h in enumerate(head) if h.startswith("残高")]
-    if not balance_cols:
-        raise BalanceFormatError("見出しに「残高」の列がありません")
-    i_bal = balance_cols[-1]
+    delim = "\t" if "\t" in lines[0] else ","
+    rows = list(csv.reader(lines, delimiter=delim))
+    return [h.strip().replace(" ", "").replace("　", "") for h in rows[0]], rows[1:]
+
+
+def _col(head: list[str], names: tuple[str, ...], startswith: bool = False, last: bool = False) -> int | None:
+    for n in names:
+        hits = [i for i, h in enumerate(head) if (h.startswith(n) if startswith else h == n)]
+        if hits:
+            return hits[-1] if last else hits[0]
+    return None
+
+
+def _is_total(name: str) -> bool:
+    return bool(_TOTAL_ROW.search(name))
+
+
+def parse_balance(data: bytes) -> list[Account]:
+    """会計ソフトの残高試算表・科目残高一覧表（CSV・TXT）を読む。
+    見出しに科目名の列（勘定科目名・科目名など）と残高の列（期末残高・残高など。いくつかあれば最後の列）が要る。
+    補助科目は、補助科目名の列があればその行、なければ補助コードのある行（科目名は字下げでもよい）。"""
+    head, rows = _table(data)
+    i_name = _col(head, NAME_HEADS)
+    i_bal = _col(head, BALANCE_HEADS, startswith=True, last=True)
+    if i_name is None or i_bal is None:
+        raise BalanceFormatError("見出しの行に、科目名の列（「勘定科目」「科目名」など）と残高の列（「期末残高」「残高」など）が要ります。"
+                                 f"今の見出し: {'・'.join(h for h in head if h)}")
+    i_code, i_scode, i_sname = _col(head, CODE_HEADS), _col(head, SUB_CODE_HEADS), _col(head, SUB_NAME_HEADS)
+    cell = lambda r, i: (r[i].strip() if i is not None and i < len(r) else "")  # noqa: E731
     accounts: list[Account] = []
-    for n, line in enumerate(lines[1:], start=2):
-        cols = line.split("\t")
-        if len(cols) <= i_bal:
+    implicit: set[int] = set()        # 補助科目の行だけで、科目の合計の行がない科目
+    for n, r in enumerate(rows, start=2):
+        name, code, scode, sname = cell(r, i_name), cell(r, i_code), cell(r, i_scode), cell(r, i_sname)
+        if len(r) <= i_bal:
             raise BalanceFormatError(f"{n}行目: 列が足りません")
-        name, code, sub = cols[i_name], cols[i_code].strip(), cols[i_sub].strip()
-        bal = _amount(cols[i_bal])
-        if sub:
+        raw = r[i_bal].strip()
+        if sname:                                       # 補助科目名の列がある形
+            parent = next((a for a in reversed(accounts) if a.name == name), None) if name else (accounts[-1] if accounts else None)
+            if parent is None:
+                if not name:
+                    raise BalanceFormatError(f"{n}行目: 補助科目の前に科目の行がありません（{sname}）")
+                parent = Account(name, code, 0)
+                accounts.append(parent)
+                implicit.add(id(parent))
+            parent.subs.append(Sub(sname, scode, _amount(raw)))
+            if id(parent) in implicit:
+                parent.balance += _amount(raw)
+            continue
+        if scode and i_sname is None:                   # 補助コードの行（科目名は字下げ）
             if not accounts or accounts[-1].code != code:
-                raise BalanceFormatError(f"{n}行目: 補助科目の前に科目の行がありません（{name.strip()}）")
-            accounts[-1].subs.append(Sub(name.strip(), sub, bal))
-        else:
-            accounts.append(Account(name.strip(), code, bal))
+                raise BalanceFormatError(f"{n}行目: 補助科目の前に科目の行がありません（{name}）")
+            accounts[-1].subs.append(Sub(name, scode, _amount(raw)))
+            continue
+        if not name or _is_total(name) or (i_code is not None and not code and raw == ""):
+            continue
+        if i_code is not None and not code:             # コードのある書き出しで、コードのない行は合計の行
+            continue
+        accounts.append(Account(name, code, _amount(raw)))
     for a in accounts:
         if a.subs and sum(s.balance for s in a.subs) != a.balance:
             raise BalanceFormatError(f"{a.name}: 補助科目の合計が科目の残高と合いません")
+    if not accounts:
+        raise BalanceFormatError("科目の行がありません")
     return accounts
+
+
+parse_tkc_balance = parse_balance   # 以前の名前
 
 
 @dataclass
@@ -96,7 +154,7 @@ class MonthlyAccount:
     months: dict[int, int]          # 月 → その月の額（発生額）
 
 
-_MONTH_HEAD = (re.compile(r"^(\d{1,2})月$"), re.compile(r"^\(?[RH]?\d{1,4}[./．／](\d{1,2})\)?$"))
+_MONTH_HEAD = (re.compile(r"^(\d{1,2})月(分)?$"), re.compile(r"^\(?[RH令和]*\d{1,4}[./．／年](\d{1,2})月?\)?$"))
 
 
 def _month_of(head: str) -> int | None:
@@ -108,32 +166,35 @@ def _month_of(head: str) -> int | None:
     return None
 
 
-def parse_tkc_monthly(data: bytes) -> list[MonthlyAccount]:
-    """TKC の科目残高推移表（月別の発生額）TXT を読む。見出しの「10月」「( 7.10)」「R7.10」のような列を月とみる。
-    補助科目の行は読まない（概況書の 18 は科目ごとでよい）。合計など月でない列は使わない。"""
-    lines = [ln for ln in _decode(data).splitlines() if ln.strip()]
-    if not lines:
-        raise BalanceFormatError("中身がありません")
-    head = [h.strip() for h in lines[0].split("\t")]
-    try:
-        i_name, i_code, i_sub = head.index("勘定科目名"), head.index("科目コード"), head.index("補助コード")
-    except ValueError:
-        raise BalanceFormatError("見出しに「勘定科目名」「科目コード」「補助コード」がありません（科目残高推移表の TXT ですか）") from None
+def parse_monthly(data: bytes) -> list[MonthlyAccount]:
+    """会計ソフトの月次推移表（月別の発生額。CSV・TXT）を読む。見出しの「10月」「( 7.10)」「R7.10」「2025/10」のような列を月とみる。
+    補助科目の行・合計の行は読まない（概況書の 18 は科目ごとでよい）。合計など月でない列は使わない。"""
+    head, rows = _table(data)
+    i_name = _col(head, NAME_HEADS)
+    if i_name is None:
+        raise BalanceFormatError(f"見出しの行に、科目名の列（「勘定科目」「科目名」など）が要ります。今の見出し: {'・'.join(h for h in head if h)}")
+    i_code, i_scode, i_sname = _col(head, CODE_HEADS), _col(head, SUB_CODE_HEADS), _col(head, SUB_NAME_HEADS)
     cols = [(i, m) for i, m in ((i, _month_of(h)) for i, h in enumerate(head)) if m]
     if not cols:
-        raise BalanceFormatError("見出しに月の列（「10月」「( 7.10)」など）がありません")
+        raise BalanceFormatError("見出しに月の列（「10月」「( 7.10)」「2025/10」など）がありません")
     months = [m for _, m in cols]
     if len(set(months)) != len(months):
         raise BalanceFormatError(f"月の列が重なっています（{months}）")
+    cell = lambda r, i: (r[i].strip() if i is not None and i < len(r) else "")  # noqa: E731
     out: list[MonthlyAccount] = []
-    for n, line in enumerate(lines[1:], start=2):
-        c = line.split("\t")
-        if len(c) <= max(i for i, _ in cols):
+    for n, r in enumerate(rows, start=2):
+        if len(r) <= max(i for i, _ in cols):
             raise BalanceFormatError(f"{n}行目: 列が足りません")
-        if c[i_sub].strip():
+        name, code = cell(r, i_name), cell(r, i_code)
+        if cell(r, i_scode) or cell(r, i_sname) or not name or _is_total(name):
             continue
-        out.append(MonthlyAccount(c[i_name].strip(), c[i_code].strip(), {m: _amount(c[i]) for i, m in cols}))
+        if i_code is not None and not code:
+            continue
+        out.append(MonthlyAccount(name, code, {m: _amount(r[i]) for i, m in cols}))
     return out
+
+
+parse_tkc_monthly = parse_monthly   # 以前の名前
 
 
 def load_mapping() -> dict:

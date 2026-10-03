@@ -31,11 +31,31 @@ class ParseTest(unittest.TestCase):
 
     def test_errors(self):
         with self.assertRaisesRegex(u.BalanceFormatError, "見出し"):
-            u.parse_tkc_balance("科目\t残高\n現金\t1\n".encode("cp932"))
+            u.parse_tkc_balance("科目\t借方\n現金\t1\n".encode("cp932"))
         with self.assertRaisesRegex(u.BalanceFormatError, "補助科目の合計"):
             u.parse_tkc_balance(tsv("売掛金\t1131\t\t0\t0\t0\t100\t0.0", "  甲\t1131\tA\t0\t0\t0\t90\t0.0"))
         with self.assertRaisesRegex(u.BalanceFormatError, "科目の行がありません"):
             u.parse_tkc_balance(tsv("  甲\t1131\tA\t0\t0\t0\t90\t0.0"))
+
+
+    def test_other_software_csv(self):
+        # 科目コードがなく、補助科目名の列・合計の行がある CSV（架空。ソフトを問わない形）
+        data = ("勘定科目,補助科目,前期繰越,借方金額,貸方金額,期末残高\n"
+                "【流動資産】,,,,,\n"
+                "現金,,0,0,0,\"120,000\"\n"
+                "普通預金,見本銀行,0,0,0,\"300,000\"\n"
+                "普通預金,見本信用金庫,0,0,0,\"200,000\"\n"
+                "流動資産合計,,,,,\"620,000\"\n"
+                "売上高,,0,0,0,\"1,000,000\"\n"
+                "売上総利益,,,,,\"1,000,000\"\n").encode("cp932")
+        accounts = u.parse_balance(data)
+        self.assertEqual([(a.name, a.balance) for a in accounts], [("現金", 120_000), ("普通預金", 500_000), ("売上高", 1_000_000)])
+        self.assertEqual([s.name for s in accounts[1].subs], ["見本銀行", "見本信用金庫"])
+
+    def test_monthly_other_software(self):
+        data = ("科目名,2025/10,2025/11,合計\n売上高,100,200,300\n売上合計,100,200,300\n").encode("utf-8")
+        m = u.parse_monthly(data)
+        self.assertEqual([(a.name, a.months) for a in m], [("売上高", {10: 100, 11: 200})])
 
 
 class BuildTest(unittest.TestCase):

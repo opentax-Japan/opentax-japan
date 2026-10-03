@@ -6,7 +6,7 @@
 法人名・電話番号・事業年度・法人番号は IT 部を参照する（xtx の idref）。
 
 出どころ:
-- 10 主要科目: 科目残高（red.uchiwake.parse_tkc_balance）。科目の振り分けは rules/gaikyo_accounts.json（gaikyo の accounts・classes で上書き）
+- 10 主要科目: 科目残高（red.uchiwake.parse_balance）。科目の振り分けは rules/gaikyo_accounts.json（gaikyo の accounts・classes で上書き）
 - 4 期末従事員・9 役員報酬の異動・11 報酬・18 の人件費・源泉徴収税額・従事員数: 給与の記録（payroll）
 - そのほか: gaikyo（入力。形は下の build の説明）
 
@@ -105,33 +105,72 @@ def _officer_change(lines: list[dict]) -> bool | None:
 
 # --- 科目残高 ---
 
-def _classify(accounts, prefixes: list[list[str]]) -> dict[str, str]:
-    order = sorted(prefixes, key=lambda p: -len(p[0]))
-    out = {}
+class _Classes(dict):
+    """科目（行）ごとの区分。売上原価と販管費に同じ名前の科目があるので、名前ではなく行で持つ。"""
+
+    def __getitem__(self, a):
+        return dict.get(self, id(a), "")
+
+
+def _classify(accounts, rules: dict, gaikyo: dict) -> _Classes:
+    """区分（資産・負債・純資産・売上・売上原価・販管費・営業外収益・営業外費用・特別利益・特別損失・法人税等）を決める。
+    gaikyo の classes（科目コードの接頭辞）があればそれだけで決める。なければ科目名（rules の classes.by_name と items）で決め、
+    決まらないものは科目コード（classes.by_code_prefix）で決める。会計ソフトを問わず読めるように、科目名を先に見る"""
+    def by_code(a, prefixes):
+        order = sorted(prefixes, key=lambda p: -len(p[0]))
+        return next((c for pre, c in order if a.code and a.code.startswith(pre)), "")
+
+    out = _Classes()
+    if gaikyo.get("classes"):
+        for a in accounts:
+            out[id(a)] = by_code(a, gaikyo["classes"])
+        return out
+    prefixes = rules["classes"]["by_code_prefix"]
+    bn = rules["classes"]["by_name"]
+    exact: dict[str, set[str]] = {}
+    for c, names in bn["exact"].items():
+        for n in names:
+            exact.setdefault(n, set()).add(c)
+    for it in rules["items"].values():
+        for n in it["accounts"]:
+            exact.setdefault(n, set()).add(it["class"])
+    seen: dict[str, int] = {}
+    count = {}
     for a in accounts:
-        out[a.name] = next((cls for pre, cls in order if a.code.startswith(pre)), "")
+        count[a.name] = count.get(a.name, 0) + 1
+    for a in accounts:
+        cands = exact.get(a.name, set())
+        if len(cands) == 1:
+            c = next(iter(cands))
+        elif cands:                                   # 売上原価と販管費の両方にある名前
+            c = by_code(a, prefixes) if a.code else ""
+            if c not in cands:
+                c = "売上原価" if (count[a.name] > 1 and not seen.get(a.name)) else "販管費"
+        else:
+            c = next((cl for suf, cl in bn["suffix"] if a.name.endswith(suf)), "") or by_code(a, prefixes)
+        seen[a.name] = seen.get(a.name, 0) + 1
+        out[id(a)] = c
     return out
 
 
 def _main_items(accounts, rules: dict, gaikyo: dict, net_income_input: int | None, missing: list[str]) -> tuple[dict, dict]:
     """10 主要科目（円）と、区分ごとの合計。"""
-    prefixes = gaikyo.get("classes") or rules["classes"]["by_code_prefix"]
-    cls = _classify(accounts, prefixes)
-    unknown = [a.name for a in accounts if not cls[a.name]]
+    cls = _classify(accounts, rules, gaikyo)
+    unknown = [a.name for a in accounts if not cls[a]]
     if unknown:
-        missing.append(f"10 主要科目: 区分が決まらない科目があります（{'・'.join(unknown[:5])}）。gaikyo の classes で科目コードの区分を足してください")
+        missing.append(f"10 主要科目: 区分が決まらない科目があります（{'・'.join(unknown[:5])}）。gaikyo の classes（科目コードの区分）か accounts で振り分けてください")
     override = gaikyo.get("accounts", {})
     items = {tag: {**it, "accounts": override.get(tag, it["accounts"])} for tag, it in rules["items"].items()}
     minus = set(items["IAI01435"]["accounts"])           # 期末棚卸高は売上原価から引く
     total = {c: 0 for c in ("資産", "負債", "純資産", "売上", "売上原価", "販管費", "営業外収益", "営業外費用",
                             "特別利益", "特別損失", "法人税等")}
     for a in accounts:
-        c = cls[a.name]
+        c = cls[a]
         if c in total:
             total[c] += -a.balance if (c == "売上原価" and a.name in minus) else a.balance
     yen: dict[str, int] = {}
     for tag, it in items.items():
-        yen[tag] = sum(a.balance for a in accounts if a.name in it["accounts"] and cls[a.name] == it["class"])
+        yen[tag] = sum(a.balance for a in accounts if a.name in it["accounts"] and cls[a] == it["class"])
 
     # 借入金: 銀行・信用金庫・信用組合からかどうかで分ける
     b = rules["borrowings"]
@@ -139,7 +178,7 @@ def _main_items(accounts, rules: dict, gaikyo: dict, net_income_input: int | Non
     lenders = gaikyo.get("lenders", {})
     personal = other = 0
     for a in accounts:
-        if cls[a.name] != "負債" or not (a.name in names or a.name.endswith(b.get("suffix") or "借入金")):
+        if cls[a] != "負債" or not (a.name in names or a.name.endswith(b.get("suffix") or "借入金")):
             continue
         officer = a.name == "役員借入金" or any(k in a.name for k in b.get("officer_keywords", []))
         for who, bal in ([(s.name, s.balance) for s in a.subs] if a.subs else [(lenders.get(a.name), a.balance)]):
@@ -159,7 +198,7 @@ def _main_items(accounts, rules: dict, gaikyo: dict, net_income_input: int | Non
     yen.update({"IAI01100": total["売上"], "IAI01200": gaikyo.get("side_sales"), "IAI01300": total["売上原価"],
                 "IAI01500": gross, "IAI01700": operating, "IAI01800": total["特別利益"], "IAI01850": total["特別損失"],
                 "IAI01900": pretax, "IAI02000": total["資産"], "IAI02200": total["負債"], "IAI02300": total["純資産"] + net})
-    accum = [a.name for a in accounts if cls[a.name] == "資産" and "累計額" in a.name and a.balance]
+    accum = [a.name for a in accounts if cls[a] == "資産" and "累計額" in a.name and a.balance]
     if accum:
         missing.append(f"10 主要科目: {'・'.join(accum)} があります。建物・機械装置・車両・船舶は減価償却累計額を引いた額を書くので、"
                        "gaikyo の accounts で振り分けるか、直接法の残高で取り込んでください（記載要領 10 ⑻）")
@@ -178,7 +217,7 @@ def build(calculated: dict, accounts=None, payroll_records: list[dict] | None = 
           mapping: dict | None = None, trend=None) -> dict:
     """戻り値: {"forms": {"HOK010": 値}, "missing": 足りない欄・合わない検算, "notes": 初期値で埋めた欄の説明}
 
-    trend: 科目残高推移表（red.uchiwake.parse_tkc_monthly）。gaikyo の monthly.months がなければ、18 の売上・仕入の月別をここから作る
+    trend: 月次推移表（red.uchiwake.parse_monthly）。gaikyo の monthly.months がなければ、18 の売上・仕入の月別をここから作る
 
     gaikyo（入力。どれも省略できる。省略した区分は空欄のままで missing に出る）:
       business（事業内容）・industry（「（ ）業」。省略時は会社の業種から「業」を除いたもの）・homepage（URL。無ければ false）
@@ -409,15 +448,15 @@ def build(calculated: dict, accounts=None, payroll_records: list[dict] | None = 
 
 
 def _from_trend(trend, accounts, rules: dict, gaikyo: dict, missing: list[str], notes: list[str]) -> dict:
-    """18 の売上・仕入の月別を、科目残高推移表から作る（monthly の形で返す）。
+    """18 の売上・仕入の月別を、月次推移表から作る（monthly の形で返す）。
     売上は「売上」の区分の科目、仕入は「原材料費（仕入高）」の科目。科目が3つ以上あれば、年間の額の大きい2つ（記載要領 18 注1）"""
-    cls = _classify(trend, gaikyo.get("classes") or rules["classes"]["by_code_prefix"])
+    cls = _classify(trend, rules, gaikyo)
     buy_names = (gaikyo.get("accounts") or {}).get("IAI01410", rules["items"]["IAI01410"]["accounts"])
     out: dict = {"sales_titles": [], "purchase_titles": []}
     picked = {}
-    for key, title, label, pick in (("sales", "sales_titles", "売上", lambda a: cls[a.name] == "売上"),
+    for key, title, label, pick in (("sales", "sales_titles", "売上", lambda a: cls[a] == "売上"),
                                     ("purchases", "purchase_titles", "仕入",
-                                     lambda a: cls[a.name] == "売上原価" and a.name in buy_names)):
+                                     lambda a: cls[a] == "売上原価" and a.name in buy_names)):
         rows = sorted((a for a in trend if pick(a) and any(a.months.values())), key=lambda a: -sum(a.months.values()))
         if len(rows) > 2:
             notes.append(f"18 月別の{label}: 科目が{len(rows)}つあるので、額の大きい「{rows[0].name}」「{rows[1].name}」を書きました")
@@ -432,7 +471,7 @@ def _from_trend(trend, accounts, rules: dict, gaikyo: dict, missing: list[str], 
         for a in picked["sales"] + picked["purchases"]:
             if a.name in bal and sum(a.months.values()) != bal[a.name]:
                 missing.append(f"18 月別: 推移表の{a.name}の年間 {sum(a.months.values()):,} 円が科目残高 {bal[a.name]:,} 円と合いません")
-    notes.append("18 月別の売上・仕入: 科目残高推移表から作りました")
+    notes.append("18 月別の売上・仕入: 月次推移表から作りました")
     return out
 
 

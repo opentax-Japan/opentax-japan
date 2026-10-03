@@ -423,11 +423,11 @@ def main(argv: list[str] | None = None) -> int:
     x.add_argument("--cab", help="国税庁から取った e-tax19.CAB（キャッシュの代わりに使う）")
     x.add_argument("--trial-ratio-rounding", choices=["truncate", "round_half_up"],
                    help="試し用: 別表二の割合の端数処理を仮に決める。書き出すファイル名に「試し用」か「trial」が必要")
-    x.add_argument("--balance", help="内訳書も作る: 会計ソフトの科目残高（TKC の科目残高一覧表 TXT）")
+    x.add_argument("--balance", help="内訳書も作る: 会計ソフトの残高試算表（CSV・TXT。見出しに勘定科目と期末残高の列）")
     x.add_argument("--supplement", help="内訳書の足りない欄を足す JSON（相手先の所在地・口座番号など）")
     x.add_argument("--payroll", nargs="+", help="役員給与等・人件費の内訳書も作る: 給与の記録ファイル（事業年度にかかる年の分）")
     x.add_argument("--gaikyo", help="法人事業概況説明書も作る: 手入力の欄の JSON（主要科目は --balance、従事員・人件費は --payroll から）")
-    x.add_argument("--trend", help="概況書の月別の売上・仕入を作る: 科目残高推移表（TKC の TXT。--gaikyo の monthly.months があればそちらを使う）")
+    x.add_argument("--trend", help="概況書の月別の売上・仕入を作る: 会計ソフトの月次推移表（CSV・TXT。--gaikyo の monthly.months があればそちらを使う）")
 
     lt = sub.add_parser("local-tax", help="OpenTax RED: 地方税の計算結果の一覧（第六号様式・第二十号様式）を HTML で作る")
     lt.add_argument("input")

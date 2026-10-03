@@ -92,7 +92,7 @@ def ot_payroll(record_json: str) -> str:
 
 
 def _attachments(calculated: dict, att: dict) -> dict | None:
-    """内訳書・概況書の値。att: {balance・trend: base64（TKC の TXT）, supplement・gaikyo: dict, payroll: [dict]}。
+    """内訳書・概況書の値。att: {balance・trend: base64（会計ソフトの CSV・TXT）, supplement・gaikyo: dict, payroll: [dict]}。
     CLI の export-etax と同じ順でまとめる。"""
     if not any(att.get(k) for k in ("balance", "trend", "supplement", "payroll", "gaikyo")):
         return None

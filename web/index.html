@@ -53,11 +53,11 @@
     </div>
 
     <h3>内訳書・概況書（任意）</h3>
-    <p class="note">選んだファイルから、勘定科目内訳明細書と法人事業概況説明書を作り、.xtx に一緒に入れます。ファイルはこの画面の中で読むだけで、どこにも送りません。</p>
+    <p class="note">選んだファイルから、勘定科目内訳明細書と法人事業概況説明書を作り、.xtx に一緒に入れます。ファイルはこの画面の中で読むだけで、どこにも送りません。<br>会計ソフトは問いません。見出しの行に「勘定科目（科目名）」と「期末残高（残高）」の列がある CSV・TXT なら読めます。月次推移表は「10月」「2025/10」のような月の列で読みます。</p>
     <div class="attach-grid">
-      <label class="file-button">科目残高一覧表（TKC の TXT）<input type="file" id="att-balance" accept=".txt,.TXT,text/plain"></label>
-      <span id="att-balance-name" class="note">未選択（内訳書・概況書の主要科目に使います）</span>
-      <label class="file-button">科目残高推移表（TKC の TXT）<input type="file" id="att-trend" accept=".txt,.TXT,text/plain"></label>
+      <label class="file-button">残高試算表（会計ソフトから書き出した CSV・TXT）<input type="file" id="att-balance" accept=".txt,.TXT,.csv,.CSV,text/plain,text/csv"></label>
+      <span id="att-balance-name" class="note">未選択（期末の科目ごとの残高。内訳書・概況書の主要科目に使います）</span>
+      <label class="file-button">月次推移表（会計ソフトから書き出した CSV・TXT）<input type="file" id="att-trend" accept=".txt,.TXT,.csv,.CSV,text/plain,text/csv"></label>
       <span id="att-trend-name" class="note">未選択（概況書の月別の売上・仕入に使います）</span>
       <label class="file-button">内訳書の補足（JSON）<input type="file" id="att-supplement" accept=".json,application/json"></label>
       <span id="att-supplement-name" class="note">未選択（相手先の所在地・口座番号など）</span>

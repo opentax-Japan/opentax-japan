@@ -49,10 +49,10 @@ def export_etax(calculated: dict, schema_root: Path, today: datetime.date | None
 
 
 def uchiwake_from_balance(balance: bytes, supplement: dict | None = None) -> dict:
-    """会計ソフトの科目残高（TKC の科目残高一覧表 TXT）から内訳書の値を作る。
+    """会計ソフトの残高試算表（CSV・TXT。ソフトを問わない）から内訳書の値を作る。
     戻り値: {"forms": 様式ID → 値, "missing": 足りない欄の一覧, "totals": 科目ごとの検算}"""
     from .red import uchiwake
-    return uchiwake.build(uchiwake.parse_tkc_balance(balance), supplement)
+    return uchiwake.build(uchiwake.parse_balance(balance), supplement)
 
 
 FORM_TITLES = {"HOA112": "別表一", "HOA114": "別表一 次葉一", "HOA201": "別表二", "HOA420": "別表四（簡易様式）",
@@ -323,11 +323,11 @@ def uchiwake_officers(payroll_records: list[dict], start: datetime.date, end: da
 def gaikyo(calculated: dict, balance: bytes | None = None, payroll_records: list[dict] | None = None,
            info: dict | None = None, trend: bytes | None = None) -> dict:
     """法人事業概況説明書（HOK010）を、科目残高・給与の記録・入力（info）から作る。
-    trend は科目残高推移表（TKC の TXT）。info に月別の売上・仕入がなければ、ここから作る。
+    trend は会計ソフトの月次推移表（CSV・TXT）。info に月別の売上・仕入がなければ、ここから作る。
     戻り値は uchiwake_from_balance と同じ形（forms・missing）に、初期値で埋めた欄の説明（notes）を足したもの。"""
     from .red import gaikyo as g, uchiwake
-    accounts = uchiwake.parse_tkc_balance(balance) if balance else None
-    monthly = uchiwake.parse_tkc_monthly(trend) if trend else None
+    accounts = uchiwake.parse_balance(balance) if balance else None
+    monthly = uchiwake.parse_monthly(trend) if trend else None
     return g.build(calculated, accounts, payroll_records, info, trend=monthly)
 
 
