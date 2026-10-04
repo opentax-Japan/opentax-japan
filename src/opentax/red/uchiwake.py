@@ -478,6 +478,32 @@ def build(accounts: list[Account], supplement: dict | None = None, mapping: dict
     if r["HLB00100"]:
         forms["HOI120"] = r
 
+    # 売上高等の事業所別内訳書（科目残高からは作れない。supplement の offices に事業所ごとに書く）
+    r = {t: [] for t in ("HMB00100", "HMB00200", "HMB00300", "HMB00400", "HMB00500", "HMB00600", "HMB00700", "HMB00800",
+                         "HMB01000", "HMB01100")}
+    for n, d in enumerate(supplement.get("offices", []), start=1):
+        where = f"売上高等の事業所別（{n}件目）"
+        r["HMB00100"].append(b.pick(d, where, "name", "事業所の名称"))
+        r["HMB00200"].append(b.pick(d, where, "address", "所在地"))
+        r["HMB00300"].append(b.pick(d, where, "manager", "責任者氏名", required=False))
+        r["HMB00400"].append(b.pick(d, where, "relation", "代表者との関係", required=False))
+        r["HMB00500"].append(b.pick(d, where, "business", "事業等の内容"))
+        r["HMB00600"].append(b.pick(d, where, "sales", "売上高", kind="amount"))
+        r["HMB00700"].append(b.pick(d, where, "closing_inventory", "期末棚卸高", required=False, kind="amount"))
+        r["HMB00800"].append(b.pick(d, where, "employees", "期末従事員数", required=False, kind="amount"))
+        r["HMB01000"].append(b.pick(d, where, "withholding_office", "源泉所得税納付署", required=False))
+        r["HMB01100"].append(b.pick(d, where, "note", "摘要", required=False))
+    if r["HMB00100"]:
+        v = forms.setdefault("HOI130", {})
+        v.update(r)
+        v["HMC00200"] = sum(x or 0 for x in r["HMB00600"])
+        v["HMC00300"] = sum(x or 0 for x in r["HMB00700"]) or None
+        v["HMC00400"] = sum(x or 0 for x in r["HMB00800"]) or None
+        # 計は損益計算書の売上高と合うように書く（様式の注2）。科目残高の売上高と比べる
+        book = sum(a.balance for a in accounts if a.name in rules.get("HOI130", {}).get("sales_accounts", []))
+        if book and v["HMC00200"] != book:
+            b.missing.append(f"売上高等の事業所別: 売上高の計（{v['HMC00200']:,}円）が科目残高の売上高（{book:,}円）と合いません")
+
     # 仮受金・前受金・預り金（源泉所得税の預り金は下の欄へ）
     keyword = rules["HOI100"].get("withholding_sub_keyword", "源泉")
     rows = _lines_of(accounts, names("HOI100"))

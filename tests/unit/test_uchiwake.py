@@ -202,6 +202,19 @@ class NewFormsTest(unittest.TestCase):
         self.assertTrue(any("売上（仲介）年月（YYYY-MM）（YYYY-MM の形で" in m for m in out["missing"]))
         self.assertNotIn("HOI120", u.build(u.parse_balance(BALANCE))["forms"])
 
+    OFFICES = [{"name": "本店", "address": "東京都千代田区霞が関3-1-1", "manager": "開発 太郎", "relation": "本人", "business": "事務用品の卸売",
+                "sales": 22_000_000, "closing_inventory": 200_000, "employees": 3, "withholding_office": "麹町"},
+               {"name": "江東営業所", "address": "東京都江東区見本町1-2-3", "business": "倉庫", "sales": 8_000_000, "employees": 2}]
+
+    def test_offices_from_supplement(self):
+        out = u.build(u.parse_balance(BALANCE), {"offices": self.OFFICES})
+        v = out["forms"]["HOI130"]
+        self.assertEqual((v["HMB00100"], v["HMB00600"]), (["本店", "江東営業所"], [22_000_000, 8_000_000]))
+        self.assertEqual((v["HMC00200"], v["HMC00300"], v["HMC00400"]), (30_000_000, 200_000, 5))
+        self.assertFalse([m for m in out["missing"] if m.startswith("売上高等の事業所別")])
+        out = u.build(u.parse_balance(BALANCE), {"offices": self.OFFICES[:1]})
+        self.assertIn("売上高等の事業所別: 売上高の計（22,000,000円）が科目残高の売上高（30,000,000円）と合いません", out["missing"])
+
 
 class XtxTest(unittest.TestCase):
     def test_validates_with_official_xsd(self):
@@ -232,12 +245,12 @@ class XtxTest(unittest.TestCase):
                         {"account": "土地", "use": "倉庫敷地", "area": "200.25", "property_address": "東京都江東区見本町1-2-3",
                          "change_date": "2026-03-15", "change_reason": "売却", "change_amount": 3_000_000, "change_book_value": 2_500_000,
                          "counterparty": "見本不動産株式会社", "counterparty_address": "東京都港区見本1-1", "sold_acquired": "1985-06"}]}
-        sup["land_sales"] = NewFormsTest.LAND_SALES
+        sup["land_sales"], sup["offices"] = NewFormsTest.LAND_SALES, NewFormsTest.OFFICES
         uw = u.build(u.parse_balance(data), sup)
         xml = api.export_etax(c, root, datetime.date(2026, 11, 26), uw)
         self.assertEqual(api.validate_xtx(xml, root), [])
         text = xml.decode("utf-8")
-        for fid in ("HOI060", "HOI070", "HOI120"):
+        for fid in ("HOI060", "HOI070", "HOI120", "HOI130"):
             self.assertIn(f'about="#{fid}-1"', text)
         self.assertIn("<gen:era>3</gen:era>", text)                     # 昭和の取得年月
 

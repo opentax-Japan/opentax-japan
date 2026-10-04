@@ -406,7 +406,7 @@ def _forms_of(values: dict) -> dict[str, dict]:
     return out
 
 
-UCHIWAKE_FORMS = ("HOI010", "HOI020", "HOI030", "HOI040", "HOI050", "HOI060", "HOI070", "HOI080", "HOI090", "HOI100", "HOI110", "HOI120", "HOI141", "HOI150", "HOI160")
+UCHIWAKE_FORMS = ("HOI010", "HOI020", "HOI030", "HOI040", "HOI050", "HOI060", "HOI070", "HOI080", "HOI090", "HOI100", "HOI110", "HOI120", "HOI130", "HOI141", "HOI150", "HOI160")
 # 別表のあとに付ける帳票（手続XSD の並び順）: 内訳書 → 法人事業概況説明書
 ATTACH_FORMS = UCHIWAKE_FORMS + ("HOK010",)
 
