@@ -48,6 +48,13 @@ _SCHEMA: dict[str, Any] = {
     "shareholders": [{"name": str, "address": str, "relation": str, "group": int, "shares": int, "votes": int}],
     "issued_shares": int,
     "total_votes": int,
+    # 決算書の株主資本等変動計算書・個別注記表（DESIGN §16.3）。equity_changes は当期の変動（当期純損益は書かない。
+    # 剰余金の配当・増資など。amount は科目残高を増やす向きが正）。notes は注記の文言（書かなければ科目から推定する）
+    "financial_statements": {
+        "equity_changes": [{"account": str, "label": str, "amount": int}],
+        "notes": {"standard": str, "inventory": str, "securities": str, "depreciation": str, "allowance": str,
+                  "consumption_tax": str, "other": str},
+    },
     "accounting": {"net_income": int, "inhabitant_tax_expensed": int, "tax_provision_charged": int,
                    "retained_earnings_end": int},
     "tax_payments": [{"tax": str, "period_end": "date", "method": str, "amount": int}],

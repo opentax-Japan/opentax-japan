@@ -16,7 +16,7 @@ from . import api, paper
 from .red import local_sheet
 
 CHAPTERS = [("hojin", "法人税（別表）"), ("shohi", "消費税"), ("gaikyo", "法人事業概況説明書"),
-            ("kessan", "決算書（貸借対照表・損益計算書）"), ("uchiwake", "勘定科目内訳明細書"), ("chiho", "地方税"),
+            ("kessan", "決算書（貸借対照表・損益計算書・株主資本等変動計算書・個別注記表）"), ("uchiwake", "勘定科目内訳明細書"), ("chiho", "地方税"),
             ("dairi", "税務代理権限証書（OpenTax プロ）")]
 PRO_CHAPTERS = {"dairi"}     # 税理士事務所の設定があるときだけ出す章
 UCHIWAKE_TITLES = {"HOI010": "預貯金等の内訳書", "HOI030": "売掛金（未収入金）の内訳書", "HOI040": "仮払金（前渡金）の内訳書・貸付金及び受取利息の内訳書",
@@ -221,10 +221,14 @@ def _gaikyo(form: dict, v: dict) -> str:
 
 # --- 決算書 ---
 
-def _kessan(accounts, company: str, start, end) -> str:
-    """決算書（貸借対照表・損益計算書・販売費及び一般管理費内訳書）。国の様式はないので一般的な決算報告書の形（kessan.py）。"""
+def _kessan(accounts, data: dict, gaikyo: dict | None) -> str:
+    """決算書（貸借対照表・損益計算書・販売費及び一般管理費内訳書・株主資本等変動計算書・個別注記表）。
+    国の様式はないので一般的な決算報告書の形（kessan.py）。消費税の経理は概況書の入力（IAF04300）から。"""
     from . import kessan
-    return kessan.html_of(kessan.build(accounts, company, _date(start), _date(end)))
+    fp = data["fiscal_period"]
+    tax_method = {"1": "税抜", "2": "税込"}.get(str((gaikyo or {}).get("IAF04300", "")))
+    return kessan.html_of(kessan.build(accounts, data["company"]["name"], _date(fp["start"]), _date(fp["end"]),
+                                       data.get("issued_shares"), data.get("financial_statements"), tax_method))
 
 
 # --- 地方税（一覧の本文を取り込む） ---
@@ -350,7 +354,7 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
         chapters["gaikyo"] = on_paper("HOK010", "法人事業概況説明書", forms["HOK010"], _gaikyo(catalog["HOK010"], forms["HOK010"]),
                                       "金額は千円単位（千円未満切捨て）")
     if accounts:
-        chapters["kessan"] = _kessan(accounts, company, fp["start"], fp["end"])
+        chapters["kessan"] = _kessan(accounts, data, forms.get("HOK010"))
     uw = [fid for fid in UCHIWAKE_TITLES if fid in forms]
     if uw:
         chapters["uchiwake"] = "".join(on_paper(fid, UCHIWAKE_TITLES[fid], forms[fid], _form_fields(catalog[fid], forms[fid]), "金額は円")

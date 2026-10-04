@@ -1,4 +1,4 @@
-"""決算書（貸借対照表・損益計算書・販売費及び一般管理費の内訳）を、科目残高から組む。
+"""決算書（貸借対照表・損益計算書・販売費及び一般管理費の内訳・株主資本等変動計算書・個別注記表）を、科目残高から組む。
 
 国の様式はないので、一般的な決算報告書の形にする: 貸借対照表は左に資産の部・右に負債の部と純資産の部、
 損益計算書は内訳の列と合計の列。区分（資産・負債・売上・販管費など）は概況書と同じ規則（red.gaikyo._classify）、
@@ -32,8 +32,11 @@ def _section(name: str, kind: str, rules: dict) -> str:
     return next((sec for suf, sec in r.get("suffix", []) if name.endswith(suf)), r["default"])
 
 
-def build(accounts, company: str, start: datetime.date, end: datetime.date) -> dict:
-    """戻り値: {"bs": {...}, "pl": {...}, "sga": [...], "checks": [...]}（金額は円）。"""
+def build(accounts, company: str, start: datetime.date, end: datetime.date, issued_shares: int | None = None,
+          fs: dict | None = None, tax_method: str | None = None) -> dict:
+    """戻り値: {"bs": {...}, "pl": {...}, "sga": [...], "ss": [...], "notes": [...], "checks": [...]}（金額は円）。
+    issued_shares: 発行済株式の総数（注記）。tax_method: 消費税の経理（税抜・税込。概況書の入力）。
+    fs: 入力の financial_statements（株主資本の当期の変動・注記の文言。DESIGN §16.3）。"""
     from .red import gaikyo as g
     rules = g.load_mapping()
     sections = json.loads((RULES_DIR / "kessan_sections.json").read_text(encoding="utf-8"))
@@ -70,8 +73,12 @@ def build(accounts, company: str, start: datetime.date, end: datetime.date) -> d
     if unknown:
         checks.append(f"区分が決まらない科目があります: {'・'.join(unknown)}")
     cogs_rows = [(a.name, -a.balance if a.name in minus else a.balance) for a in by.get("売上原価", []) if a.balance]
+    fs = fs or {}
+    changes = fs.get("equity_changes", [])
+    ss = _equity_changes(by.get("純資産", []), retained, net, changes, checks)
+    notes = _notes(accounts, cls, issued_shares, tax_method, fs.get("notes", {}), changes, checks)
     return {
-        "company": company, "start": start, "end": end, "checks": checks,
+        "company": company, "start": start, "end": end, "checks": checks, "ss": ss, "notes": notes,
         "bs": {"assets": assets, "liabilities": liabilities, "equity": equity, "retained_net": net if retained else None,
                "asset_total": tot("資産"), "liability_total": tot("負債"), "equity_total": tot("純資産") + net},
         "pl": {"sales": [(a.name, a.balance) for a in by.get("売上", []) if a.balance], "sales_total": sales,
@@ -84,6 +91,100 @@ def build(accounts, company: str, start: datetime.date, end: datetime.date) -> d
                "pretax": pretax, "taxes": [(a.name, a.balance) for a in by.get("法人税等", []) if a.balance], "net": net},
         "sga": [(a.name, a.balance) for a in by.get("販管費", []) if a.balance],
     }
+
+
+# --- 株主資本等変動計算書 ---
+#
+# 科目残高（決算整理後・損益振替前）の純資産の科目は、当期の変動（配当・増資など）を含み当期純損益を含まない。
+# 期首残高 = 科目残高 − 入力の当期の変動、期末残高 = 科目残高（繰越利益剰余金は ＋当期純損益）。
+
+_EQUITY_GROUPS = [("資本金", ("資本金",)), ("資本剰余金", ("資本準備金", "資本剰余金")),
+                  ("利益剰余金", ("利益準備金", "積立金", "繰越利益")), ("自己株式", ("自己株式",)),
+                  ("評価・換算差額等", ("評価差額", "換算調整", "繰延ヘッジ")), ("新株予約権", ("新株予約権",))]
+_SHAREHOLDERS_EQUITY = ("資本金", "資本剰余金", "利益剰余金", "自己株式")
+
+
+def _equity_group(name: str) -> str:
+    return next((g for g, keys in _EQUITY_GROUPS if any(k in name for k in keys)), "利益剰余金")
+
+
+def _equity_changes(equity_accounts, retained, net: int, changes: list[dict], checks: list[str]) -> list[dict]:
+    """戻り値: [{"group", "name", "begin", "changes": [(事由, 金額)], "end"}]（_EQUITY_GROUPS の順）。"""
+    rows = [{"group": _equity_group(a.name), "name": a.name, "balance": a.balance, "changes": []}
+            for a in equity_accounts if a.balance or a is retained]
+    if retained is None:
+        rows.append({"group": "利益剰余金", "name": "繰越利益剰余金", "balance": 0, "changes": [], "retained": True})
+        checks.append("繰越利益剰余金の科目がないので、株主資本等変動計算書の期首残高を0円としました")
+    by_name = {r["name"]: r for r in rows}
+    for c in changes:
+        r = by_name.get(c["account"])
+        if r is None:
+            checks.append(f"株主資本の当期の変動の科目が科目残高にありません: {c['account']}")
+            continue
+        r["changes"].append((c.get("label") or "当期変動額", c["amount"]))
+    for r in rows:
+        r["begin"] = r["balance"] - sum(v for _, v in r["changes"])
+        if r.get("retained") or (retained is not None and r["name"] == retained.name):
+            r["changes"].append(("当期純利益" if net >= 0 else "当期純損失", net))
+        r["end"] = r["begin"] + sum(v for _, v in r["changes"])
+    order = [g for g, _ in _EQUITY_GROUPS]
+    rows.sort(key=lambda r: order.index(r["group"]))
+    return [{k: r[k] for k in ("group", "name", "begin", "changes", "end")} for r in rows]
+
+
+# --- 個別注記表 ---
+#
+# 会社計算規則98条2項（公開会社でない・会計監査人を置かない会社）の、重要な会計方針・株主資本等変動計算書・その他の注記。
+# 文言を入力（financial_statements.notes）に書かなければ、科目から推定した法人税法の方法の文言を入れ、確かめてほしいことに出す。
+
+_INVENTORY = ("商品", "製品", "半製品", "仕掛品", "原材料", "貯蔵品")
+_FIXED = ("建物", "構築物", "機械", "車両", "工具", "器具", "備品", "ソフトウェア", "減価償却")
+
+
+def _notes(accounts, cls, issued_shares, tax_method, given: dict, changes: list[dict], checks: list[str]) -> list[tuple[str, list[str]]]:
+    names = {a.name for a in accounts if a.balance}
+    assets = {a.name for a in accounts if a.balance and cls[a] == "資産"}
+    guessed: list[str] = []
+
+    def item(key: str, title: str, cond: bool, default: str):
+        if given.get(key):
+            return f"{title}　{given[key]}"
+        if cond:
+            guessed.append(title)
+            return f"{title}　{default}"
+        return None
+
+    allowance = sorted(n for n in names if "引当金" in n and "繰入" not in n and "戻入" not in n)
+    if not tax_method:
+        tax_method = "税抜" if any("仮払消費税" in n or "仮受消費税" in n for n in names) else "税込"
+        guessed.append("消費税等の会計処理")
+    policy = [x for x in (
+        item("inventory", "棚卸資産の評価基準及び評価方法", any(n.startswith(_INVENTORY) for n in assets), "最終仕入原価法による原価法によっています。"),
+        item("securities", "有価証券の評価基準及び評価方法", any("有価証券" in n for n in assets), "移動平均法による原価法によっています。"),
+        item("depreciation", "固定資産の減価償却の方法", any(k in n for n in names for k in _FIXED), "法人税法に規定する方法と同一の基準によっています。"),
+        item("allowance", "引当金の計上基準", allowance == ["貸倒引当金"],
+             "貸倒引当金は、債権の貸倒れによる損失に備えるため、法人税法の規定による繰入限度額を計上しています。"),
+        f"消費税等の会計処理　{given.get('consumption_tax') or ('税抜方式' if tax_method == '税抜' else '税込方式') + 'によっています。'}",
+    ) if x]
+    if allowance and allowance != ["貸倒引当金"] and not given.get("allowance"):
+        checks.append(f"引当金の計上基準を financial_statements.notes.allowance に書いてください（{'・'.join(allowance)}）")
+    policy = [f"({i}) {p}" for i, p in enumerate(policy, 1)]
+    if given.get("standard"):
+        policy.insert(0, given["standard"])
+    equity = []
+    if issued_shares:
+        equity.append(f"当事業年度の末日における発行済株式の数　普通株式　{issued_shares:,}株")
+    else:
+        checks.append("個別注記表の発行済株式の数がありません（issued_shares）")
+    dividends = -sum(c["amount"] for c in changes if "配当" in (c.get("label") or "") and c["amount"] < 0)
+    if dividends:
+        equity.append(f"当事業年度中に行った剰余金の配当　配当金の総額　{dividends:,}円")
+    out = [("重要な会計方針に係る事項に関する注記", policy), ("株主資本等変動計算書に関する注記", equity)]
+    if given.get("other"):
+        out.append(("その他の注記", [given["other"]]))
+    if guessed:
+        checks.append(f"個別注記表の「{'」「'.join(guessed)}」は科目から推定した文言です。実際の方法と違えば financial_statements.notes に書いてください")
+    return [(h, ps) for h, ps in out if ps]
 
 
 def _head(title: str, company: str, when: str) -> str:
@@ -167,7 +268,58 @@ def html_of(k: dict) -> str:
                 + f"<table class='fs pl'><thead><tr><th>科　目</th><th colspan='2'>金　額</th></tr></thead><tbody>{sga_rows}"
                 f"<tr class='profit'><td>合　計</td><td></td><td class='amt'>{_y(k['pl']['sga_total'])}</td></tr></tbody></table>")
     warn = "".join(f"<div class='warn'>{_e(c)}</div>" for c in k["checks"])
-    return warn + "".join(f"<section class='form fs-page'><div class='fs-in'>{p}</div></section>" for p in (bs_html, pl_html, sga_html))
+    pages = (bs_html, pl_html, sga_html, _ss_html(k, period), _notes_html(k))
+    return warn + "".join(f"<section class='form fs-page'><div class='fs-in'>{p}</div></section>" for p in pages)
+
+
+def _ss_html(k: dict, period: str) -> str:
+    """株主資本等変動計算書（縦に並べる形）。科目ごとに 当期首残高・当期変動額・当期末残高、株主資本合計・純資産合計。"""
+    lines: list[tuple[str, str, int | None]] = []   # （種類, 見出し, 金額）
+
+    def amounts(begin, changes, end, depth):
+        lines.append((f"d{depth + 1}", "当期首残高", begin))
+        if changes:
+            lines.append((f"d{depth + 1}", "当期変動額", None))
+            lines.extend((f"d{depth + 2}", lb, v) for lb, v in changes)
+            if len(changes) > 1:
+                lines.append((f"d{depth + 1}", "当期変動額合計", sum(v for _, v in changes)))
+        lines.append((f"d{depth + 1} end", "当期末残高", end))
+
+    def total(label, rows, depth):
+        ch: dict[str, int] = {}
+        for r in rows:
+            for lb, v in r["changes"]:
+                ch[lb] = ch.get(lb, 0) + v
+        lines.append((f"head d{depth}", label, None))
+        amounts(sum(r["begin"] for r in rows), list(ch.items()), sum(r["end"] for r in rows), depth)
+
+    ss = k["ss"]
+    shareholders = [r for r in ss if r["group"] in _SHAREHOLDERS_EQUITY]
+    if shareholders:
+        lines.append(("band", "株主資本", None))
+    group = None
+    for r in ss:
+        if r["group"] not in _SHAREHOLDERS_EQUITY and shareholders and group in _SHAREHOLDERS_EQUITY:
+            total("株主資本合計", shareholders, 1)
+        if r["group"] != group and r["group"] != r["name"]:
+            lines.append(("head d1", r["group"], None))
+        depth = 1 if r["group"] == r["name"] else 2
+        lines.append((f"head d{depth}", r["name"], None))
+        amounts(r["begin"], r["changes"], r["end"], depth)
+        group = r["group"]
+    if shareholders and group in _SHAREHOLDERS_EQUITY:
+        total("株主資本合計", shareholders, 1)
+    total("純資産合計", ss, 0)
+    body = "".join(f"<tr class='{c}'><td>{_e(n)}</td><td class='amt'>{_y(v)}</td></tr>" for c, n, v in lines)
+    return (_head("株主資本等変動計算書", k["company"], period)
+            + f"<table class='fs ss'><thead><tr><th>科　目</th><th>金　額</th></tr></thead><tbody>{body}</tbody></table>")
+
+
+def _notes_html(k: dict) -> str:
+    body = "".join(f"<div class='fs-nh'>{i}. {_e(h)}</div>" + "".join(f"<p class='fs-np'>{_e(p)}</p>" for p in ps)
+                   for i, (h, ps) in enumerate(k["notes"], 1))
+    return (f"<div class='fs-title'>個 別 注 記 表</div><div class='fs-meta'><span>{_e(k['company'])}</span>"
+            f"<span>自 {_jp(k['start'])}　至 {_jp(k['end'])}</span></div>{body}")
 
 
 CSS = """
@@ -195,6 +347,17 @@ table.fs.bs td:nth-child(odd){width:30%}
 table.fs.bs td:nth-child(even){width:20%}
 table.fs.bs{font-size:1.7cqw}
 table.fs.pl td:first-child{width:50%}
+table.fs.ss td:first-child{width:65%}
+table.fs.ss tr.d0 td:first-child{padding-left:1.2cqw}
+table.fs.ss tr.d1 td:first-child{padding-left:3.4cqw}
+table.fs.ss tr.d2 td:first-child{padding-left:5.6cqw}
+table.fs.ss tr.d3 td:first-child{padding-left:7.8cqw}
+table.fs.ss tr.d4 td:first-child{padding-left:10cqw}
+table.fs.ss tr.head td{font-weight:600}
+table.fs.ss tr.end td{border-bottom:.1cqw dotted #888}
+table.fs.ss tr.band td{text-align:center;background:#f2f2f2;font-weight:600;border-top:.15cqw solid #222;border-bottom:.15cqw solid #222}
+.fs-nh{font-weight:700;margin:2.4cqw 0 .8cqw}
+.fs-np{margin:.4cqw 0 .4cqw 2.6cqw;white-space:normal}
 @media print{
   @page{size:A4 portrait;margin:0}
   .fs-page{width:210mm;height:297mm;max-width:none;aspect-ratio:auto;margin:0;border:none;box-shadow:none;break-after:page;break-inside:avoid}
