@@ -3,6 +3,10 @@
   "rows": [
     {"account": "普通預金", "sub": "霞が関銀行／本店", "account_number": "1234567"},
     {"account": "普通預金", "sub": "千代田信用金庫／麹町", "account_number": "7654321"},
+    {"account": "受取手形", "sub": "株式会社サンプル商会", "issue_date": "2026-07-31", "due_date": "2026-10-31",
+     "pay_bank": "霞が関銀行", "pay_branch": "本店"},
+    {"account": "受取手形", "sub": "架空物産株式会社", "issue_date": "2026-08-31", "due_date": "2026-11-30",
+     "pay_bank": "見本銀行", "pay_branch": "芝支店"},
     {"account": "売掛金", "sub": "株式会社サンプル商会", "address": "東京都千代田区霞が関1-1-1"},
     {"account": "売掛金", "sub": "架空物産株式会社", "address": "東京都港区芝公園4-2-8"},
     {"account": "仮払金", "name": "開発 太郎", "address": "東京都千代田区霞が関3-1-1", "relation": "代表者"},

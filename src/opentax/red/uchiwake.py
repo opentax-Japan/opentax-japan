@@ -221,6 +221,13 @@ def _bank_branch(name: str) -> tuple[str, str]:
     return (parts[0].strip(), parts[1].strip() if len(parts) > 1 else "")
 
 
+def _where(a: Account, s: Sub | None) -> str:
+    return f"{a.name}{'／' + s.name if s else ''}"
+
+
+_DATE_FORMS = {"date": "YYYY-MM-DD", "month": "YYYY-MM", "year": "YYYY"}
+
+
 class _Builder:
     def __init__(self, supplement: dict):
         self.extra = {(r["account"], r.get("sub") or ""): r for r in supplement.get("rows", [])}
@@ -229,8 +236,80 @@ class _Builder:
     def get(self, a: Account, s: Sub | None, key: str, label: str, required: bool = True):
         v = self.extra.get((a.name, s.name if s else ""), {}).get(key)
         if v in (None, "") and required:
-            self.missing.append(f"{a.name}{'／' + s.name if s else ''}: {label}")
+            self.missing.append(f"{_where(a, s)}: {label}")
         return v or None
+
+    def pick(self, d: dict, where: str, key: str, label: str, required: bool = True, kind: str = "text"):
+        """補足の1行（d）から値を取る。kind: text（そのまま）・date（YYYY-MM-DD → date）・month（YYYY-MM → その月の1日）・
+        year（YYYY → その年の1月1日）・number（数量・面積。整数か小数）・amount（円の整数）"""
+        v = d.get(key)
+        if v in (None, ""):
+            if required:
+                self.missing.append(f"{where}: {label}")
+            return None
+        if kind == "text":
+            return v
+        if kind == "amount":
+            if isinstance(v, bool) or not isinstance(v, int):
+                self.missing.append(f"{where}: {label}（円の整数で入れてください: {v!r}）")
+                return None
+            return v
+        if kind == "number":
+            n = _number(v)
+            if n is None:
+                self.missing.append(f"{where}: {label}（数で入れてください。小数は2桁まで: {v!r}）")
+            return n
+        day = _to_date(v, kind)
+        if day is None:
+            self.missing.append(f"{where}: {label}（{_DATE_FORMS[kind]} の形で入れてください: {v!r}）")
+        return day
+
+    def items(self, a: Account, s: Sub | None) -> list[tuple[dict, str, int]]:
+        """科目（補助）の1行を、補足の items で何行かに分ける（手形1枚ごと・品目ごと・物件ごと）。
+        戻り値: [(補足の値, 場所の名前, 金額)]。items がなければ補足の行そのもので1行（金額は残高）。
+        items の金額（amount）の合計が残高と合わなければ missing に出す（金額は items のまま）。"""
+        base = self.extra.get((a.name, s.name if s else ""), {})
+        bal = (s or a).balance
+        items = base.get("items")
+        if not items:
+            return [(base, _where(a, s), bal)]
+        out = []
+        for n, it in enumerate(items, start=1):
+            amt = it.get("amount")
+            if isinstance(amt, bool) or not isinstance(amt, int):
+                self.missing.append(f"{_where(a, s)}: items の {n} 行目の金額（amount。円の整数）")
+                amt = 0
+            out.append(({**{k: v for k, v in base.items() if k != "items"}, **it}, f"{_where(a, s)}（{n}）", amt))
+        if sum(x for _, _, x in out) != bal:
+            self.missing.append(f"{_where(a, s)}: items の金額の合計（{sum(x for _, _, x in out):,}円）が残高（{bal:,}円）と合いません")
+        return out
+
+
+def _number(v) -> int | str | None:
+    """数量・面積（e-Tax の decimalType）。整数は int、小数は「12.5」の文字（小数点以下2桁まで）。"""
+    if isinstance(v, bool):
+        return None
+    t = str(v).strip().replace(",", "")
+    if not re.fullmatch(r"\d+(\.\d{1,2})?", t):
+        return None
+    if "." in t:
+        t = t.rstrip("0").rstrip(".")
+    return int(t) if "." not in t else t
+
+
+def _to_date(v, kind: str = "date") -> datetime.date | None:
+    if isinstance(v, datetime.date):
+        return v
+    t = str(v).strip()
+    try:
+        if kind == "month":
+            y, m = t.split("-")
+            return datetime.date(int(y), int(m), 1)
+        if kind == "year":
+            return datetime.date(int(t), 1, 1)
+        return datetime.date.fromisoformat(t)
+    except ValueError:
+        return None
 
 
 def build(accounts: list[Account], supplement: dict | None = None, mapping: dict | None = None) -> dict:
@@ -263,6 +342,24 @@ def build(accounts: list[Account], supplement: dict | None = None, mapping: dict
         r["HAB00300"].append(b.get(a, s, "account_number", "口座番号", required=False))
         r["HAB00400"].append((s or a).balance)
     put("HOI010", r, "HAC00100", "HAB00400")
+
+    # 受取手形（手形1枚ごとに1行。補助科目が振出人。同じ振出人の何枚かは補足の items で分ける）
+    for fid, p, total, discount in (("HOI020", "HBB00", "HBC00100", "HBB00610"),):
+        r = {f"{p}100": [], f"{p}200": [], f"{p}300": [], f"{p}410": [], f"{p}420": [], f"{p}500": [], f"{p}700": []}
+        if discount:
+            r[discount] = []
+        for a, s in _lines_of(accounts, names(fid)):
+            for d, where, amt in b.items(a, s):
+                r[f"{p}100"].append(s.name if s else b.pick(d, where, "name", "振出人"))
+                r[f"{p}200"].append(b.pick(d, where, "issue_date", "振出年月日", kind="date"))
+                r[f"{p}300"].append(b.pick(d, where, "due_date", "支払期日", kind="date"))
+                r[f"{p}410"].append(b.pick(d, where, "pay_bank", "支払銀行の名称"))
+                r[f"{p}420"].append(b.pick(d, where, "pay_branch", "支払銀行の支店名", required=False))
+                r[f"{p}500"].append(amt)
+                if discount:
+                    r[discount].append(b.pick(d, where, "discount_bank", "割引銀行名及び支店名", required=False))
+                r[f"{p}700"].append(b.pick(d, where, "note", "摘要", required=False))
+        put(fid, r, total, f"{p}500")
 
     # 売掛金・買掛金（同じ形）
     for fid, p, total in (("HOI030", "HCB00", "HCC00100"), ("HOI090", "HIB00", "HIC00100")):

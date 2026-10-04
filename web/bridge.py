@@ -99,8 +99,10 @@ def _attachments(calculated: dict, att: dict) -> dict | None:
     return api.attachments(calculated, balance, trend, att.get("payroll") or [], att.get("supplement"), att.get("gaikyo"))
 
 
-ATTACHMENT_TITLES = {"HOI010": "預貯金等", "HOI030": "売掛金（未収入金）", "HOI040": "仮払金（前渡金）・貸付金",
+ATTACHMENT_TITLES = {"HOI010": "預貯金等", "HOI020": "受取手形", "HOI030": "売掛金（未収入金）", "HOI040": "仮払金（前渡金）・貸付金",
+                     "HOI050": "棚卸資産", "HOI060": "有価証券", "HOI070": "固定資産（土地・建物）", "HOI080": "支払手形",
                      "HOI090": "買掛金（未払金・未払費用）", "HOI100": "仮受金（前受金・預り金）", "HOI110": "借入金及び支払利子",
+                     "HOI120": "土地の売上高等", "HOI130": "売上高等の事業所別",
                      "HOI141": "役員給与等・人件費", "HOI150": "地代家賃等", "HOI160": "雑益、雑損失等",
                      "HOK010": "法人事業概況説明書"}
 

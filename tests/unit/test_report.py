@@ -45,6 +45,15 @@ class ReportTest(unittest.TestCase):
         self.assertIn("霞が関銀行", t)                         # 預貯金等の内訳書
         self.assertIn("第六号様式", t)                         # 地方税
 
+    def test_new_uchiwake_forms_on_paper(self):
+        # 2026-10-04 に足した内訳書も、公表の様式の上に並ぶ（様式ID の順）
+        body = self.html.split("id='uchiwake'")[1]
+        ids = [fid for fid in ("HOI010", "HOI020", "HOI030") if f"id='{fid}'" in body]
+        self.assertEqual(ids, ["HOI010", "HOI020", "HOI030"])
+        hoi020 = body.split("id='HOI020'")[1].split("</section>")[0]
+        self.assertIn("forms/uchiwake2024/HOI020.jpg", hoi020)
+        self.assertIn("芝支店", hoi020)
+
     def test_balance_sheet_balances(self):
         self.assertNotIn("合いません", self.html.split("id='kessan'")[1].split("id='uchiwake'")[0])
 
