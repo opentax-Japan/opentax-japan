@@ -129,7 +129,7 @@ def ot_demo_report() -> str:
         def js(name):
             return json.loads((case / name).read_text(encoding="utf-8"))
 
-        calculated = api.calculate(js("input.json"))
+        calculated = api.calculate(js("input_demo.json"))   # 交際費・減価償却・源泉所得税も入れて、作れる別表を全部出す
         info = js("gaikyo.json")
         info["monthly"].pop("months")
         html = api.report(calculated, (case / "科目残高一覧表_架空_TKC形式.txt").read_bytes(),

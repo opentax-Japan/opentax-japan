@@ -368,7 +368,7 @@ def _report(args: argparse.Namespace) -> int:
     read = lambda p: _json.loads(Path(p).read_text(encoding="utf-8"))  # noqa: E731
     if args.demo:
         case = Path(__file__).resolve().parents[2] / "tests" / "cases" / "open-shoji-tokyo"
-        args.input, args.balance, args.trend = case / "input.json", case / "科目残高一覧表_架空_TKC形式.txt", case / "科目残高推移表_架空_TKC形式.txt"
+        args.input, args.balance, args.trend = case / "input_demo.json", case / "科目残高一覧表_架空_TKC形式.txt", case / "科目残高推移表_架空_TKC形式.txt"
         args.payroll, args.supplement, args.shohi = [case / "payroll_2026.json"], case / "uchiwake_supplement.json", case / "shohi.json"
         info = read(case / "gaikyo.json")
         info["monthly"].pop("months")

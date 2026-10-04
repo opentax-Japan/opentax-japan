@@ -1,0 +1,148 @@
+{
+  "company": {
+    "name": "オープン商事株式会社",
+    "name_kana": "オープンショウジ",
+    "address": "東京都千代田区霞が関3-1-1",
+    "tax_office": "麹町",
+    "representative": "開発 太郎",
+    "corporate_number": null,
+    "capital": 10000000,
+    "capital_etc": 10000000,
+    "employees": 5,
+    "blue_return": true,
+    "user_id": "0000000000000000",
+    "zip": "100-0013",
+    "phone": "03-0000-0000",
+    "business": "卸売業",
+    "representative_kana": "カイハツ タロウ"
+  },
+  "fiscal_period": {
+    "start": "2025-10-01",
+    "end": "2026-09-30"
+  },
+  "offices": [
+    {
+      "prefecture": "東京都",
+      "municipality": "千代田区",
+      "pref_office": "千代田都税事務所",
+      "months": 12
+    }
+  ],
+  "shareholders": [
+    {
+      "name": "開発 太郎",
+      "address": "東京都千代田区霞が関3-1-1",
+      "relation": "本人",
+      "group": 1,
+      "shares": 150
+    },
+    {
+      "name": "開発 花子",
+      "address": "東京都千代田区霞が関3-1-1",
+      "relation": "配偶者",
+      "group": 1,
+      "shares": 50
+    }
+  ],
+  "issued_shares": 200,
+  "accounting": {
+    "net_income": -1200000,
+    "tax_provision_charged": 70000,
+    "retained_earnings_end": -4200000
+  },
+  "tax_payments": [
+    {
+      "tax": "道府県民税",
+      "period_end": "2025-09-30",
+      "method": "充当金取崩し",
+      "amount": 70000
+    }
+  ],
+  "prior": {
+    "schedule_05_01": [
+      {
+        "item": "繰越損益金",
+        "amount": -3000000
+      },
+      {
+        "item": "納税充当金",
+        "amount": 70000
+      },
+      {
+        "item": "未納道府県民税",
+        "amount": 70000
+      }
+    ],
+    "schedule_05_02": [
+      {
+        "tax": "道府県民税",
+        "period_start": "2024-10-01",
+        "period_end": "2025-09-30",
+        "unpaid": 70000
+      }
+    ],
+    "losses": [
+      {
+        "period_start": "2023-10-01",
+        "period_end": "2024-09-30",
+        "amount": 3000000
+      }
+    ]
+  },
+  "filing": {
+    "settled_on": "2026-11-25"
+  },
+  "income_tax_credit": [
+    {
+      "kind": "利子",
+      "income": 10000,
+      "tax": 1531
+    }
+  ],
+  "entertainment": [
+    {
+      "account": "交際費",
+      "amount": 300000,
+      "deductible": 0,
+      "dining": 120000
+    }
+  ],
+  "depreciation": [
+    {
+      "method": "定額法",
+      "kind": "建物",
+      "structure": "鉄骨造",
+      "detail": "事務所",
+      "useful_life": 34,
+      "cost": 3000000,
+      "book_end": 2000000,
+      "expensed": 100000,
+      "limit": 100000,
+      "prior_excess": 0
+    },
+    {
+      "method": "定率法",
+      "kind": "機械及び装置",
+      "structure": "",
+      "detail": "包装機",
+      "useful_life": 10,
+      "cost": 2000000,
+      "book_end": 941000,
+      "expensed": 300000,
+      "limit": 300000,
+      "prior_excess": 0
+    },
+    {
+      "method": "定率法",
+      "kind": "車両運搬具",
+      "structure": "",
+      "detail": "営業車",
+      "useful_life": 6,
+      "cost": 2500000,
+      "book_end": 800000,
+      "expensed": 200000,
+      "limit": 200000,
+      "prior_excess": 0
+    }
+  ]
+}

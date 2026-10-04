@@ -158,8 +158,10 @@ def main() -> int:
         body = page.frame_locator("#report").locator("body").inner_text()
         order = [body.find(t) for t in ("1. 法人税（別表）", "2. 消費税", "3. 法人事業概況説明書", "4. 決算書", "5. 勘定科目内訳明細書", "6. 地方税", "7. 税務代理権限証書")]
         check("申告書一式（デモ）が7章の順に並ぶ（7は税務代理権限証書）", all(i >= 0 for i in order) and order == sorted(order))
-        check("申告書一式（デモ）: 所得金額 △1,130,000・消費税 580,500・資産の部合計 13,781,000",
-              all(t in body for t in ("△1,130,000", "580,500", "13,781,000")))
+        check("申告書一式（デモ）: 所得金額 △1,128,469・消費税 580,500・資産の部合計 13,781,000",
+              all(t in body for t in ("△1,128,469", "580,500", "13,781,000")))
+        n_sheets = page.frame_locator("#report").locator("#hojin svg.paper").count()
+        check(f"申告書一式（デモ）: 法人税の別表11枚が様式の形（{n_sheets} 枚）", n_sheets == 11)
         page.screenshot(path=str(OUT / "07-report.png"))
         browser.close()
     if server:
