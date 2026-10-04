@@ -15,6 +15,36 @@
   <p>赤字の単純な法人の法人税・地方税の申告データを、ブラウザの中だけで作ります。入力した内容はどこにも送られず、画面を閉じると消えます。<a href="report.html">申告書一式（デモ）を見る</a>・<a href="payroll.html">給与の記録へ</a></p>
 </header>
 <main>
+  <section class="editions" aria-label="3つの版の違い">
+    <div class="edition red">
+      <p class="ed-name">OpenTax RED<span class="ed-state">使えます（開発中）</span></p>
+      <p class="ed-who">赤字の会社</p>
+      <ul>
+        <li>法人税の別表11枚（別表一・二・四・五・六(一)・七(一)・十五・十六）</li>
+        <li>消費税（一般課税）・概況書・内訳書・決算書</li>
+        <li>地方税は一覧を見て PCdesk に入力</li>
+      </ul>
+    </div>
+    <div class="edition black">
+      <p class="ed-name">OpenTax BLACK<span class="ed-state">準備中</span></p>
+      <p class="ed-who">黒字の会社</p>
+      <ul>
+        <li>RED のすべて＋法人税・地方法人税の税額の計算</li>
+        <li>適用額明細書（中小法人の軽減税率）</li>
+        <li>受取配当・貸倒引当金・寄附金などの別表</li>
+      </ul>
+    </div>
+    <div class="edition pro">
+      <p class="ed-name">OpenTax プロ<span class="ed-state">一部使えます</span></p>
+      <p class="ed-who">税理士事務所</p>
+      <ul>
+        <li>RED・BLACK に足して使う</li>
+        <li>税務代理権限証書を申告データと一式に</li>
+        <li>事務所の設定（JSON）を一度作れば毎回入る</li>
+      </ul>
+    </div>
+  </section>
+
   <div id="status" class="status" role="status">準備しています…</div>
 
   <section class="toolbar">

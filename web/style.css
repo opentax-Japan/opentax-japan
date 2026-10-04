@@ -35,6 +35,16 @@ details.section > summary { cursor: pointer; padding: 10px 12px; font-weight: 60
 .msg.ok { background: var(--soft); border: 1px solid var(--line); }
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
 .card { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+.editions { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin: 0 0 16px; }
+.edition { border: 1px solid var(--line); border-top: 6px solid; border-radius: 8px; padding: 8px 12px; }
+.edition.red { border-top-color: #c62828; }
+.edition.black { border-top-color: #222; }
+.edition.pro { border-top-color: #9acd32; }
+.edition p { margin: 2px 0; }
+.edition .ed-name { font-weight: 700; display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.edition .ed-state { font-weight: 400; font-size: .8rem; color: #555; }
+.edition .ed-who { font-size: 1.05rem; }
+.edition ul { margin: 4px 0 0; padding-left: 1.2em; font-size: .88rem; }
 .card .label { font-size: .8rem; color: #555; }
 .card .value { font-family: ui-monospace, Consolas, monospace; font-size: 1.1rem; text-align: right; }
 table.preview { width: 100%; border-collapse: collapse; font-size: .9rem; }
