@@ -4,7 +4,9 @@
   （parse_balance）。見本は架空のデータ（tests/cases/open-shoji-tokyo/科目残高一覧表_架空_TKC形式.txt など）
 - 科目 → 内訳書の振り分けは rules/uchiwake_accounts.json（初期値。supplement の accounts で上書き）
 - 科目残高にない欄（相手先の所在地・口座番号・利率など）は supplement で足す。足りない欄は missing で知らせる
-- 金額は期末残高（最後の「残高」の列）。補助科目があれば補助ごとに1行、なければ科目で1行
+- 金額は期末残高（最後の「残高」の列）。補助科目があれば補助ごとに1行、なければ科目で1行。
+  supplement の行の items で、1つの科目（補助）を何行かに分けられる（手形1枚ごと・品目ごと・物件ごと）
+- 土地の売上高等（HOI120）・売上高等の事業所別（HOI130）は科目残高から作れないので、supplement の land_sales・offices に書く
 """
 
 from __future__ import annotations

@@ -94,7 +94,7 @@ opentax report --demo -o 一式.html         # 申告書一式（HTML 1枚）。
 内訳書・概況書・給与の記録つき（東京都の特別区）: [tests/cases/open-shoji-tokyo/](tests/cases/open-shoji-tokyo/)
 
 e-Taxソフトへの組み込み: [docs/etax/IMPORT_GUIDE.md](docs/etax/IMPORT_GUIDE.md)
-（法人税の別表・内訳書は e-Taxソフトへの組み込みを確かめました。概況書と消費税の .xtx は、まだ組み込みを確かめていません）
+（法人税の別表・内訳書は e-Taxソフトへの組み込みを確かめました。概況書と消費税の .xtx、2026-10-04 に足した内訳書7様式（受取手形・棚卸資産・有価証券・固定資産・支払手形・土地の売上高等・事業所別）は、まだ組み込みを確かめていません）
 
 ## 設計
 
