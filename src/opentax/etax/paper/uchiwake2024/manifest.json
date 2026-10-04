@@ -24,6 +24,7 @@
     "HOI090": {"title": "買掛金（未払金・未払費用）の内訳書", "file": "0023007-053_03.pdf", "page": 9, "printed_form_id": "NTA0HOI090010050"},
     "HOI100": {"title": "仮受金（前受金・預り金）の内訳書／源泉所得税預り金の内訳", "file": "0023007-053_03.pdf", "page": 10, "printed_form_id": "NTA0HOI100010060"},
     "HOI110": {"title": "借入金及び支払利子の内訳書", "file": "0023007-053_03.pdf", "page": 11, "printed_form_id": "NTA0HOI110010030"},
+    "HOI120": {"title": "土地の売上高等の内訳書", "file": "0023007-053_03.pdf", "page": 12, "printed_form_id": "NTA0HOI120010050"},
     "HOI141": {"title": "役員給与等の内訳書／人件費の内訳書", "file": "0023007-053_03.pdf", "page": 14, "printed_form_id": "NTA0HOI141010050"},
     "HOI150": {"title": "地代家賃等の内訳書／工業所有権等の使用料の内訳書", "file": "0023007-053_03.pdf", "page": 15, "printed_form_id": "NTA0HOI150010040"},
     "HOI160": {"title": "雑益、雑損失等の内訳書", "file": "0023007-053_03.pdf", "page": 16, "printed_form_id": "NTA0HOI160010040"}

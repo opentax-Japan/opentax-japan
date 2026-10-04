@@ -182,6 +182,26 @@ class NewFormsTest(unittest.TestCase):
         for m in ("借地権: 用途", "借地権: 面積（㎡）", "借地権: 物件の所在地"):
             self.assertIn(m, out["missing"])
 
+    LAND_SALES = [{"kind": "売上", "address": "東京都江東区見本町2-3-4", "land_category": "宅地", "total_area": "330.58", "month": "2026-05",
+                   "buyer": "見本建設株式会社", "buyer_address": "東京都中央区見本1-2-3", "area": "165.29", "amount": 45_000_000,
+                   "acquired_year": 1989},
+                  {"kind": "仲介", "address": "東京都江東区見本町5-6", "month": "2026-08", "buyer": "見本 一郎",
+                   "buyer_address": "東京都江東区見本7-8", "area": 120, "amount_with_building": 30_000_000}]
+
+    def test_land_sales_from_supplement(self):
+        out = u.build(u.parse_balance(BALANCE), {"land_sales": self.LAND_SALES})
+        v = out["forms"]["HOI120"]
+        self.assertEqual((v["HLB00100"], v["HLB00400"], v["HLB00700"]), (["売上", "仲介"], ["330.58", None], ["165.29", 120]))
+        self.assertEqual((v["HLB00810"], v["HLB00820"]), ([None, 30_000_000], [45_000_000, None]))
+        self.assertEqual(v["HLB00500"], [datetime.date(2026, 5, 1), datetime.date(2026, 8, 1)])
+        self.assertEqual(v["HLB00900"][0], datetime.date(1989, 12, 31))   # 年だけの欄は平成元年
+        self.assertFalse([m for m in out["missing"] if m.startswith("土地の売上高等")])
+        out = u.build(u.parse_balance(BALANCE), {"land_sales": [{"kind": "売上", "month": "5月"}]})
+        for m in ("土地の売上高等（1件目）: 商品の所在地", "土地の売上高等（1件目）: 売上（仲介）先の名称", "土地の売上高等（1件目）: 売上金額（仲介手数料）"):
+            self.assertIn(m, out["missing"])
+        self.assertTrue(any("売上（仲介）年月（YYYY-MM）（YYYY-MM の形で" in m for m in out["missing"]))
+        self.assertNotIn("HOI120", u.build(u.parse_balance(BALANCE))["forms"])
+
 
 class XtxTest(unittest.TestCase):
     def test_validates_with_official_xsd(self):
@@ -212,11 +232,12 @@ class XtxTest(unittest.TestCase):
                         {"account": "土地", "use": "倉庫敷地", "area": "200.25", "property_address": "東京都江東区見本町1-2-3",
                          "change_date": "2026-03-15", "change_reason": "売却", "change_amount": 3_000_000, "change_book_value": 2_500_000,
                          "counterparty": "見本不動産株式会社", "counterparty_address": "東京都港区見本1-1", "sold_acquired": "1985-06"}]}
+        sup["land_sales"] = NewFormsTest.LAND_SALES
         uw = u.build(u.parse_balance(data), sup)
         xml = api.export_etax(c, root, datetime.date(2026, 11, 26), uw)
         self.assertEqual(api.validate_xtx(xml, root), [])
         text = xml.decode("utf-8")
-        for fid in ("HOI060", "HOI070"):
+        for fid in ("HOI060", "HOI070", "HOI120"):
             self.assertIn(f'about="#{fid}-1"', text)
         self.assertIn("<gen:era>3</gen:era>", text)                     # 昭和の取得年月
 

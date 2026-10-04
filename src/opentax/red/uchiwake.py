@@ -241,7 +241,7 @@ class _Builder:
 
     def pick(self, d: dict, where: str, key: str, label: str, required: bool = True, kind: str = "text"):
         """補足の1行（d）から値を取る。kind: text（そのまま）・date（YYYY-MM-DD → date）・month（YYYY-MM → その月の1日）・
-        year（YYYY → その年の1月1日）・number（数量・面積。整数か小数）・amount（円の整数）"""
+        year（YYYY → その年の12月31日）・number（数量・面積。整数か小数）・amount（円の整数）"""
         v = d.get(key)
         if v in (None, ""):
             if required:
@@ -305,8 +305,8 @@ def _to_date(v, kind: str = "date") -> datetime.date | None:
         if kind == "month":
             y, m = t.split("-")
             return datetime.date(int(y), int(m), 1)
-        if kind == "year":
-            return datetime.date(int(t), 1, 1)
+        if kind == "year":       # 年だけの欄は12月31日とみる（元号の替わった年は新しい元号。1989年＝平成元年）
+            return datetime.date(int(t), 12, 31)
         return datetime.date.fromisoformat(t)
     except ValueError:
         return None
@@ -457,6 +457,26 @@ def build(accounts: list[Account], supplement: dict | None = None, mapping: dict
             r["HGB00660"].append(b.pick(d, where, "counterparty_address", "売却（購入）先の所在地", required=False))
             r["HGB00670"].append(b.pick(d, where, "sold_acquired", "売却物件の取得年月（YYYY-MM）", required=False, kind="month"))
     put("HOI070", r, None, "HGB00500")
+
+    # 土地の売上高等（科目残高からは作れない。supplement の land_sales に1件ずつ書く）
+    r = {t: [] for t in ("HLB00100", "HLB00200", "HLB00300", "HLB00400", "HLB00500", "HLB00610", "HLB00620", "HLB00700",
+                         "HLB00810", "HLB00820", "HLB00900")}
+    for n, d in enumerate(supplement.get("land_sales", []), start=1):
+        where = f"土地の売上高等（{n}件目）"
+        r["HLB00100"].append(b.pick(d, where, "kind", "区分（売上・仲介）"))
+        r["HLB00200"].append(b.pick(d, where, "address", "商品の所在地"))
+        r["HLB00300"].append(b.pick(d, where, "land_category", "地目", required=False))
+        r["HLB00400"].append(b.pick(d, where, "total_area", "総面積（㎡）", required=False, kind="number"))
+        r["HLB00500"].append(b.pick(d, where, "month", "売上（仲介）年月（YYYY-MM）", kind="month"))
+        r["HLB00610"].append(b.pick(d, where, "buyer", "売上（仲介）先の名称"))
+        r["HLB00620"].append(b.pick(d, where, "buyer_address", "売上（仲介）先の所在地"))
+        r["HLB00700"].append(b.pick(d, where, "area", "売上（仲介）面積（㎡）", kind="number"))
+        whole = b.pick(d, where, "amount_with_building", "売上金額（土地と建物の総額）", required=False, kind="amount")
+        r["HLB00810"].append(whole)
+        r["HLB00820"].append(b.pick(d, where, "amount", "売上金額（仲介手数料）", required=whole is None, kind="amount"))
+        r["HLB00900"].append(b.pick(d, where, "acquired_year", "売上商品の取得年（YYYY）", required=False, kind="year"))
+    if r["HLB00100"]:
+        forms["HOI120"] = r
 
     # 仮受金・前受金・預り金（源泉所得税の預り金は下の欄へ）
     keyword = rules["HOI100"].get("withholding_sub_keyword", "源泉")
