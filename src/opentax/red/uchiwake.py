@@ -437,6 +437,27 @@ def build(accounts: list[Account], supplement: dict | None = None, mapping: dict
         v["HFC00100"] = sum(r["HFB00230"])
         v["HFC00200"] = sum(x or 0 for x in r["HFB00340"]) or None
 
+    # 固定資産（土地・土地の上に存する権利・建物。物件ごとに1行。物件が何件かあれば補助科目か items で分ける）
+    rule = rules.get("HOI070", {})
+    r = {t: [] for t in ("HGB00100", "HGB00200", "HGB00300", "HGB00400", "HGB00500", "HGB00610", "HGB00620", "HGB00630",
+                         "HGB00640", "HGB00650", "HGB00660", "HGB00670")}
+    for a, s in _lines_of(accounts, names("HOI070")):
+        kind0 = rule.get("default_kind", {}).get(a.name)
+        for d, where, amt in b.items(a, s):
+            r["HGB00100"].append(b.pick(d, where, "kind", "種類・構造", required=not kind0) or kind0)
+            r["HGB00200"].append(b.pick(d, where, "use", "用途"))
+            r["HGB00300"].append(b.pick(d, where, "area", "面積（㎡）", kind="number"))
+            r["HGB00400"].append(b.pick(d, where, "property_address", "物件の所在地"))
+            r["HGB00500"].append(amt)
+            r["HGB00610"].append(b.pick(d, where, "change_date", "異動年月日", required=False, kind="date"))
+            r["HGB00620"].append(b.pick(d, where, "change_reason", "異動事由", required=False))
+            r["HGB00630"].append(b.pick(d, where, "change_amount", "取得（処分）価額", required=False, kind="amount"))
+            r["HGB00640"].append(b.pick(d, where, "change_book_value", "異動直前の帳簿価額", required=False, kind="amount"))
+            r["HGB00650"].append(b.pick(d, where, "counterparty", "売却（購入）先の名称", required=False))
+            r["HGB00660"].append(b.pick(d, where, "counterparty_address", "売却（購入）先の所在地", required=False))
+            r["HGB00670"].append(b.pick(d, where, "sold_acquired", "売却物件の取得年月（YYYY-MM）", required=False, kind="month"))
+    put("HOI070", r, None, "HGB00500")
+
     # 仮受金・前受金・預り金（源泉所得税の預り金は下の欄へ）
     keyword = rules["HOI100"].get("withholding_sub_keyword", "源泉")
     rows = _lines_of(accounts, names("HOI100"))

@@ -168,6 +168,20 @@ class NewFormsTest(unittest.TestCase):
         for m in ("有価証券: 区分（売買・満期・その他）", "有価証券: 種類（株式・出資金など）", "有価証券: 銘柄"):
             self.assertIn(m, out["missing"])
 
+    def test_land_and_buildings(self):
+        out = u.build(u.parse_balance(BALANCE), SUPPLEMENT)
+        v = out["forms"]["HOI070"]
+        self.assertEqual(v["HGB00100"], ["建物 鉄骨造", "土地"])        # 種類の初期値は科目名（建物は補足で構造まで）
+        self.assertEqual((v["HGB00300"], v["HGB00500"]), (["120.5", 200], [2_000_000, 5_000_000]))
+        self.assertNotIn("HGC00100", v)                                 # 計の欄はない
+        self.assertFalse([m for m in out["missing"] if m.startswith(("土地", "建物"))])
+        out = u.build(u.parse_balance(tsv("借地権	1261		0	0	0	900,000	0.0")),
+                      {"rows": [{"account": "借地権", "sold_acquired": "1985-06"}]})
+        v = out["forms"]["HOI070"]
+        self.assertEqual((v["HGB00100"], v["HGB00670"]), (["借地権"], [datetime.date(1985, 6, 1)]))
+        for m in ("借地権: 用途", "借地権: 面積（㎡）", "借地権: 物件の所在地"):
+            self.assertIn(m, out["missing"])
+
 
 class XtxTest(unittest.TestCase):
     def test_validates_with_official_xsd(self):
@@ -190,14 +204,21 @@ class XtxTest(unittest.TestCase):
         if not root.exists():
             self.skipTest("公式XSD がありません")
         c = api.calculate(json.loads((CASE / "input.json").read_text(encoding="utf-8")), "truncate")
-        data = tsv("売買目的有価証券	1171		0	0	0	1,200,000	0.0", "  見本電機株式会社	1171	A	0	0	0	1,200,000	0.0")
+        data = tsv("売買目的有価証券	1171		0	0	0	1,200,000	0.0", "  見本電機株式会社	1171	A	0	0	0	1,200,000	0.0",
+                   "土地	1251		0	0	0	5,000,000	0.0")
         sup = {"rows": [{"account": "売買目的有価証券", "sub": "見本電機株式会社", "type": "株式", "quantity": "1000.25",
                          "book_before_market": 1_000_000, "change_date": "2026-04-01", "change_reason": "買入", "change_quantity": 1000,
-                         "change_amount": 1_000_000, "counterparty": "見本証券株式会社", "counterparty_address": "東京都中央区日本橋2-2-2"}]}
+                         "change_amount": 1_000_000, "counterparty": "見本証券株式会社", "counterparty_address": "東京都中央区日本橋2-2-2"},
+                        {"account": "土地", "use": "倉庫敷地", "area": "200.25", "property_address": "東京都江東区見本町1-2-3",
+                         "change_date": "2026-03-15", "change_reason": "売却", "change_amount": 3_000_000, "change_book_value": 2_500_000,
+                         "counterparty": "見本不動産株式会社", "counterparty_address": "東京都港区見本1-1", "sold_acquired": "1985-06"}]}
         uw = u.build(u.parse_balance(data), sup)
         xml = api.export_etax(c, root, datetime.date(2026, 11, 26), uw)
         self.assertEqual(api.validate_xtx(xml, root), [])
-        self.assertIn('about="#HOI060-1"', xml.decode("utf-8"))
+        text = xml.decode("utf-8")
+        for fid in ("HOI060", "HOI070"):
+            self.assertIn(f'about="#{fid}-1"', text)
+        self.assertIn("<gen:era>3</gen:era>", text)                     # 昭和の取得年月
 
 
 if __name__ == "__main__":

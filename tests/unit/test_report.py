@@ -48,7 +48,7 @@ class ReportTest(unittest.TestCase):
     def test_new_uchiwake_forms_on_paper(self):
         # 2026-10-04 に足した内訳書も、公表の様式の上に並ぶ（様式ID の順）
         body = self.html.split("id='uchiwake'")[1]
-        order = ("HOI010", "HOI020", "HOI030", "HOI050", "HOI080", "HOI090")
+        order = ("HOI010", "HOI020", "HOI030", "HOI050", "HOI070", "HOI080", "HOI090")
         ids = sorted((body.find(f"id='{fid}'"), fid) for fid in order if f"id='{fid}'" in body)
         self.assertEqual([fid for _, fid in ids], list(order))
         hoi020 = body.split("id='HOI020'")[1].split("</section>")[0]

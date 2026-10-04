@@ -13,6 +13,8 @@
       {"item": "事務用ファイル", "quantity": 400, "unit_price": 500, "amount": 200000},
       {"item": "ボールペン", "quantity": 1000, "unit_price": 100, "amount": 100000}]},
     {"account": "仮払金", "name": "開発 太郎", "address": "東京都千代田区霞が関3-1-1", "relation": "代表者"},
+    {"account": "建物", "kind": "建物 鉄骨造", "use": "倉庫", "area": 120.5, "property_address": "東京都江東区見本町1-2-3"},
+    {"account": "土地", "use": "倉庫敷地", "area": 200, "property_address": "東京都江東区見本町1-2-3"},
     {"account": "支払手形", "sub": "見本卸株式会社", "pay_bank": "霞が関銀行", "pay_branch": "本店", "items": [
       {"issue_date": "2026-07-31", "due_date": "2026-10-31", "amount": 250000},
       {"issue_date": "2026-08-31", "due_date": "2026-11-30", "amount": 150000}]},
