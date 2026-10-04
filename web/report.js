@@ -39,7 +39,9 @@ function setStatus(text, error) {
 function fitFrame() {
   const frame = document.getElementById("report");
   const doc = frame.contentDocument;
-  if (doc && doc.documentElement) frame.style.height = `${doc.documentElement.scrollHeight + 20}px`;
+  // 中身（main）の高さに合わせる。枠の高さを測ると、伸ばすたびに少しずつ高くなるので使わない
+  const main = doc && doc.querySelector("main");
+  if (main) frame.style.height = `${Math.ceil(main.getBoundingClientRect().height) + 24}px`;
 }
 
 function show(html, company) {
