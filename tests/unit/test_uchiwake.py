@@ -151,6 +151,23 @@ class NewFormsTest(unittest.TestCase):
         self.assertIn("製品: 品目", out["missing"])
         self.assertTrue(any(m.startswith("製品: 数量（数で入れてください") for m in out["missing"]))
 
+    def test_securities(self):
+        data = tsv("売買目的有価証券	1171		0	0	0	1,200,000	0.0", "  見本電機株式会社	1171	A	0	0	0	1,200,000	0.0",
+                   "有価証券	1172		0	0	0	300,000	0.0",
+                   "出資金	1281		0	0	0	10,000	0.0", "  千代田信用金庫	1281	A	0	0	0	10,000	0.0")
+        sup = {"rows": [{"account": "売買目的有価証券", "sub": "見本電機株式会社", "type": "株式", "quantity": 1000,
+                         "book_before_market": 1_000_000, "change_date": "2026-04-01", "change_reason": "買入", "change_amount": 1_000_000}]}
+        out = u.build(u.parse_balance(data), sup)
+        v = out["forms"]["HOI060"]
+        self.assertEqual(v["HFB00120"], ["売買", None, "その他"])
+        self.assertEqual(v["HFB00130"], ["株式", None, "出資金"])
+        self.assertEqual(v["HFB00140"], ["見本電機株式会社", None, "千代田信用金庫"])
+        self.assertEqual((v["HFB00220"], v["HFB00230"]), ([1_000_000, None, None], [1_200_000, 300_000, 10_000]))
+        self.assertEqual((v["HFC00100"], v["HFC00200"]), (1_510_000, 1_000_000))
+        self.assertEqual(v["HFB00310"][0], datetime.date(2026, 4, 1))
+        for m in ("有価証券: 区分（売買・満期・その他）", "有価証券: 種類（株式・出資金など）", "有価証券: 銘柄"):
+            self.assertIn(m, out["missing"])
+
 
 class XtxTest(unittest.TestCase):
     def test_validates_with_official_xsd(self):
@@ -165,6 +182,22 @@ class XtxTest(unittest.TestCase):
         for fid in ("HOI010", "HOI020", "HOI030", "HOI040", "HOI050", "HOI080", "HOI090", "HOI100", "HOI110", "HOI150", "HOI160"):
             self.assertIn(f'about="#{fid}-1"', text)
         self.assertNotIn("HOI141", text)
+
+
+    def test_new_forms_validate_with_official_xsd(self):
+        # 科目残高からは作らない欄・小数・日付も含めて、足した様式が公式XSD に通る
+        root = REPO / ".cache" / "etax" / "ksk2-2026-08" / "files" / "e-tax19"
+        if not root.exists():
+            self.skipTest("公式XSD がありません")
+        c = api.calculate(json.loads((CASE / "input.json").read_text(encoding="utf-8")), "truncate")
+        data = tsv("売買目的有価証券	1171		0	0	0	1,200,000	0.0", "  見本電機株式会社	1171	A	0	0	0	1,200,000	0.0")
+        sup = {"rows": [{"account": "売買目的有価証券", "sub": "見本電機株式会社", "type": "株式", "quantity": "1000.25",
+                         "book_before_market": 1_000_000, "change_date": "2026-04-01", "change_reason": "買入", "change_quantity": 1000,
+                         "change_amount": 1_000_000, "counterparty": "見本証券株式会社", "counterparty_address": "東京都中央区日本橋2-2-2"}]}
+        uw = u.build(u.parse_balance(data), sup)
+        xml = api.export_etax(c, root, datetime.date(2026, 11, 26), uw)
+        self.assertEqual(api.validate_xtx(xml, root), [])
+        self.assertIn('about="#HOI060-1"', xml.decode("utf-8"))
 
 
 if __name__ == "__main__":

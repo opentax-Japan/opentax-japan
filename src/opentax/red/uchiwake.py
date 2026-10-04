@@ -411,6 +411,32 @@ def build(accounts: list[Account], supplement: dict | None = None, mapping: dict
             r["HEB00600"].append(b.pick(d, where, "note", "摘要", required=False))
     put("HOI050", r, "HEC00100", "HEB00500")
 
+    # 有価証券（銘柄ごとに1行。補助科目が銘柄。期末現在高は下の欄＝帳簿価額。売買目的の時価評価の前の帳簿価額は上の欄）
+    rule = rules.get("HOI060", {})
+    r = {t: [] for t in ("HFB00120", "HFB00130", "HFB00140", "HFB00210", "HFB00220", "HFB00230", "HFB00310", "HFB00320",
+                         "HFB00330", "HFB00340", "HFB00350", "HFB00360", "HFB00400")}
+    for a, s in _lines_of(accounts, names("HOI060")):
+        kind0, type0 = rule.get("default_kind", {}).get(a.name), rule.get("default_type", {}).get(a.name)
+        for d, where, amt in b.items(a, s):
+            r["HFB00120"].append(b.pick(d, where, "kind", "区分（売買・満期・その他）", required=not kind0) or kind0)
+            r["HFB00130"].append(b.pick(d, where, "type", "種類（株式・出資金など）", required=not type0) or type0)
+            r["HFB00140"].append(s.name if s else b.pick(d, where, "name", "銘柄"))
+            r["HFB00210"].append(b.pick(d, where, "quantity", "数量", required=False, kind="number"))
+            r["HFB00220"].append(b.pick(d, where, "book_before_market", "時価評価の前の帳簿価額", required=False, kind="amount"))
+            r["HFB00230"].append(amt)
+            r["HFB00310"].append(b.pick(d, where, "change_date", "異動年月日", required=False, kind="date"))
+            r["HFB00320"].append(b.pick(d, where, "change_reason", "異動事由", required=False))
+            r["HFB00330"].append(b.pick(d, where, "change_quantity", "期中増減の数量", required=False, kind="number"))
+            r["HFB00340"].append(b.pick(d, where, "change_amount", "期中増減の金額", required=False, kind="amount"))
+            r["HFB00350"].append(b.pick(d, where, "counterparty", "売却（買入）先の名称", required=False))
+            r["HFB00360"].append(b.pick(d, where, "counterparty_address", "売却（買入）先の所在地", required=False))
+            r["HFB00400"].append(b.pick(d, where, "note", "摘要", required=False))
+    if r["HFB00230"]:
+        v = forms.setdefault("HOI060", {})
+        v.update(r)
+        v["HFC00100"] = sum(r["HFB00230"])
+        v["HFC00200"] = sum(x or 0 for x in r["HFB00340"]) or None
+
     # 仮受金・前受金・預り金（源泉所得税の預り金は下の欄へ）
     keyword = rules["HOI100"].get("withholding_sub_keyword", "源泉")
     rows = _lines_of(accounts, names("HOI100"))
