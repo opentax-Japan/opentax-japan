@@ -399,6 +399,18 @@ def build(accounts: list[Account], supplement: dict | None = None, mapping: dict
         v["HDC02100"] = sum(r["HDC01400"])
         v["HDC02200"] = sum(x or 0 for x in r["HDC01500"]) or None
 
+    # 棚卸資産（品目ごとに1行。補助科目が品目。補助がなければ補足の item、品目が何種類かあれば items で分ける）
+    r = {"HEB00100": [], "HEB00200": [], "HEB00300": [], "HEB00400": [], "HEB00500": [], "HEB00600": []}
+    for a, s in _lines_of(accounts, names("HOI050")):
+        for d, where, amt in b.items(a, s):
+            r["HEB00100"].append(a.name)
+            r["HEB00200"].append(b.pick(d, where, "item", "品目", required=not s) or (s.name if s else None))
+            r["HEB00300"].append(b.pick(d, where, "quantity", "数量", required=False, kind="number"))
+            r["HEB00400"].append(b.pick(d, where, "unit_price", "単価", required=False, kind="number"))
+            r["HEB00500"].append(amt)
+            r["HEB00600"].append(b.pick(d, where, "note", "摘要", required=False))
+    put("HOI050", r, "HEC00100", "HEB00500")
+
     # 仮受金・前受金・預り金（源泉所得税の預り金は下の欄へ）
     keyword = rules["HOI100"].get("withholding_sub_keyword", "源泉")
     rows = _lines_of(accounts, names("HOI100"))

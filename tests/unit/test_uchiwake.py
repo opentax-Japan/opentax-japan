@@ -136,6 +136,21 @@ class NewFormsTest(unittest.TestCase):
         self.assertEqual((v["HHB00410"], v["HHB00500"], v["HHC00100"]), (["霞が関銀行"] * 2, [250_000, 150_000], 400_000))
         self.assertFalse([m for m in out["missing"] if m.startswith("支払手形")])
 
+    def test_inventory(self):
+        out = u.build(u.parse_balance(BALANCE), SUPPLEMENT)
+        v = out["forms"]["HOI050"]
+        self.assertEqual((v["HEB00100"], v["HEB00200"]), (["商品", "商品"], ["事務用ファイル", "ボールペン"]))
+        self.assertEqual((v["HEB00300"], v["HEB00400"], v["HEB00500"], v["HEC00100"]), ([400, 1000], [500, 100], [200_000, 100_000], 300_000))
+        # 期末商品棚卸高（損益の科目）は入れない
+        self.assertNotIn("期末商品棚卸高", v["HEB00100"])
+        out = u.build(u.parse_balance(tsv("製品	1152		0	0	0	80,000	0.0")),
+                      {"rows": [{"account": "製品", "item": "見本の部品", "quantity": "12.50", "unit_price": "6,400"}]})
+        v = out["forms"]["HOI050"]
+        self.assertEqual((v["HEB00200"], v["HEB00300"], v["HEB00400"]), (["見本の部品"], ["12.5"], [6400]))
+        out = u.build(u.parse_balance(tsv("製品	1152		0	0	0	80,000	0.0")), {"rows": [{"account": "製品", "quantity": "たくさん"}]})
+        self.assertIn("製品: 品目", out["missing"])
+        self.assertTrue(any(m.startswith("製品: 数量（数で入れてください") for m in out["missing"]))
+
 
 class XtxTest(unittest.TestCase):
     def test_validates_with_official_xsd(self):
@@ -147,7 +162,7 @@ class XtxTest(unittest.TestCase):
         xml = api.export_etax(c, root, datetime.date(2026, 11, 26), uw)
         self.assertEqual(api.validate_xtx(xml, root), [])
         text = xml.decode("utf-8")
-        for fid in ("HOI010", "HOI020", "HOI030", "HOI040", "HOI080", "HOI090", "HOI100", "HOI110", "HOI150", "HOI160"):
+        for fid in ("HOI010", "HOI020", "HOI030", "HOI040", "HOI050", "HOI080", "HOI090", "HOI100", "HOI110", "HOI150", "HOI160"):
             self.assertIn(f'about="#{fid}-1"', text)
         self.assertNotIn("HOI141", text)
 

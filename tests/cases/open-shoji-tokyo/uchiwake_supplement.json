@@ -9,6 +9,9 @@
      "pay_bank": "見本銀行", "pay_branch": "芝支店"},
     {"account": "売掛金", "sub": "株式会社サンプル商会", "address": "東京都千代田区霞が関1-1-1"},
     {"account": "売掛金", "sub": "架空物産株式会社", "address": "東京都港区芝公園4-2-8"},
+    {"account": "商品", "items": [
+      {"item": "事務用ファイル", "quantity": 400, "unit_price": 500, "amount": 200000},
+      {"item": "ボールペン", "quantity": 1000, "unit_price": 100, "amount": 100000}]},
     {"account": "仮払金", "name": "開発 太郎", "address": "東京都千代田区霞が関3-1-1", "relation": "代表者"},
     {"account": "支払手形", "sub": "見本卸株式会社", "pay_bank": "霞が関銀行", "pay_branch": "本店", "items": [
       {"issue_date": "2026-07-31", "due_date": "2026-10-31", "amount": 250000},
