@@ -128,6 +128,15 @@ class NewFormsTest(unittest.TestCase):
         self.assertTrue(any("items の金額の合計（250,000円）が残高（300,000円）と合いません" in m for m in out["missing"]))
 
 
+    def test_notes_payable_split_by_items(self):
+        out = u.build(u.parse_balance(BALANCE), SUPPLEMENT)
+        v = out["forms"]["HOI080"]
+        self.assertEqual(v["HHB00100"], ["見本卸株式会社"] * 2)
+        self.assertEqual(v["HHB00300"], [datetime.date(2026, 10, 31), datetime.date(2026, 11, 30)])
+        self.assertEqual((v["HHB00410"], v["HHB00500"], v["HHC00100"]), (["霞が関銀行"] * 2, [250_000, 150_000], 400_000))
+        self.assertFalse([m for m in out["missing"] if m.startswith("支払手形")])
+
+
 class XtxTest(unittest.TestCase):
     def test_validates_with_official_xsd(self):
         root = REPO / ".cache" / "etax" / "ksk2-2026-08" / "files" / "e-tax19"
@@ -138,7 +147,7 @@ class XtxTest(unittest.TestCase):
         xml = api.export_etax(c, root, datetime.date(2026, 11, 26), uw)
         self.assertEqual(api.validate_xtx(xml, root), [])
         text = xml.decode("utf-8")
-        for fid in ("HOI010", "HOI020", "HOI030", "HOI040", "HOI090", "HOI100", "HOI110", "HOI150", "HOI160"):
+        for fid in ("HOI010", "HOI020", "HOI030", "HOI040", "HOI080", "HOI090", "HOI100", "HOI110", "HOI150", "HOI160"):
             self.assertIn(f'about="#{fid}-1"', text)
         self.assertNotIn("HOI141", text)
 

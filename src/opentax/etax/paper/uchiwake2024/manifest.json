@@ -17,6 +17,7 @@
     "HOI020": {"title": "受取手形の内訳書", "file": "0023007-053_03.pdf", "page": 2, "printed_form_id": "NTA0HOI020010040"},
     "HOI030": {"title": "売掛金（未収入金）の内訳書", "file": "0023007-053_03.pdf", "page": 3, "printed_form_id": "NTA0HOI030010040"},
     "HOI040": {"title": "仮払金（前渡金）の内訳書／貸付金及び受取利息の内訳書", "file": "0023007-053_03.pdf", "page": 4, "printed_form_id": "NTA0HOI040010040"},
+    "HOI080": {"title": "支払手形の内訳書", "file": "0023007-053_03.pdf", "page": 8, "printed_form_id": "NTA0HOI080010040"},
     "HOI090": {"title": "買掛金（未払金・未払費用）の内訳書", "file": "0023007-053_03.pdf", "page": 9, "printed_form_id": "NTA0HOI090010050"},
     "HOI100": {"title": "仮受金（前受金・預り金）の内訳書／源泉所得税預り金の内訳", "file": "0023007-053_03.pdf", "page": 10, "printed_form_id": "NTA0HOI100010060"},
     "HOI110": {"title": "借入金及び支払利子の内訳書", "file": "0023007-053_03.pdf", "page": 11, "printed_form_id": "NTA0HOI110010030"},

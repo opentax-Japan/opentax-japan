@@ -343,14 +343,15 @@ def build(accounts: list[Account], supplement: dict | None = None, mapping: dict
         r["HAB00400"].append((s or a).balance)
     put("HOI010", r, "HAC00100", "HAB00400")
 
-    # 受取手形（手形1枚ごとに1行。補助科目が振出人。同じ振出人の何枚かは補足の items で分ける）
-    for fid, p, total, discount in (("HOI020", "HBB00", "HBC00100", "HBB00610"),):
-        r = {f"{p}100": [], f"{p}200": [], f"{p}300": [], f"{p}410": [], f"{p}420": [], f"{p}500": [], f"{p}700": []}
+    # 受取手形・支払手形（手形1枚ごとに1行。補助科目が振出人・支払先。同じ相手の何枚かは補足の items で分ける）
+    for fid, p, total, discount, note, who in (("HOI020", "HBB00", "HBC00100", "HBB00610", "HBB00700", "振出人"),
+                                               ("HOI080", "HHB00", "HHC00100", None, "HHB00600", "支払先")):
+        r = {f"{p}100": [], f"{p}200": [], f"{p}300": [], f"{p}410": [], f"{p}420": [], f"{p}500": [], note: []}
         if discount:
             r[discount] = []
         for a, s in _lines_of(accounts, names(fid)):
             for d, where, amt in b.items(a, s):
-                r[f"{p}100"].append(s.name if s else b.pick(d, where, "name", "振出人"))
+                r[f"{p}100"].append(s.name if s else b.pick(d, where, "name", who))
                 r[f"{p}200"].append(b.pick(d, where, "issue_date", "振出年月日", kind="date"))
                 r[f"{p}300"].append(b.pick(d, where, "due_date", "支払期日", kind="date"))
                 r[f"{p}410"].append(b.pick(d, where, "pay_bank", "支払銀行の名称"))
@@ -358,7 +359,7 @@ def build(accounts: list[Account], supplement: dict | None = None, mapping: dict
                 r[f"{p}500"].append(amt)
                 if discount:
                     r[discount].append(b.pick(d, where, "discount_bank", "割引銀行名及び支店名", required=False))
-                r[f"{p}700"].append(b.pick(d, where, "note", "摘要", required=False))
+                r[note].append(b.pick(d, where, "note", "摘要", required=False))
         put(fid, r, total, f"{p}500")
 
     # 売掛金・買掛金（同じ形）

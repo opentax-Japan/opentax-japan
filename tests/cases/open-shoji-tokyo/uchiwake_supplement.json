@@ -10,6 +10,9 @@
     {"account": "売掛金", "sub": "株式会社サンプル商会", "address": "東京都千代田区霞が関1-1-1"},
     {"account": "売掛金", "sub": "架空物産株式会社", "address": "東京都港区芝公園4-2-8"},
     {"account": "仮払金", "name": "開発 太郎", "address": "東京都千代田区霞が関3-1-1", "relation": "代表者"},
+    {"account": "支払手形", "sub": "見本卸株式会社", "pay_bank": "霞が関銀行", "pay_branch": "本店", "items": [
+      {"issue_date": "2026-07-31", "due_date": "2026-10-31", "amount": 250000},
+      {"issue_date": "2026-08-31", "due_date": "2026-11-30", "amount": 150000}]},
     {"account": "買掛金", "sub": "見本卸株式会社", "address": "東京都中央区日本橋1-1-1"},
     {"account": "未払金", "name": "千代田事務用品店", "address": "東京都千代田区麹町1-1"},
     {"account": "預り金", "sub": "住民税", "address": "東京都千代田区九段南1-2-1"},
