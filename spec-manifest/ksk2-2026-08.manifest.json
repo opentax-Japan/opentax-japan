@@ -2961,6 +2961,19 @@
       "field_spec_sheet": "HOI010"
     },
     {
+      "form_id": "HOI020",
+      "label": "受取手形の内訳書",
+      "mvp": false,
+      "stage": "uchiwake",
+      "xsd": "19XMLスキーマ/hojin/HOI020-004.xsd",
+      "version": "4.0",
+      "xsd_documentation_date": "2023-11-20",
+      "group": "HOI020-4-0group",
+      "xsd_sha256": "615c44a1c88d8493d34ebce79933ee0208592117f6ed7ef33a3e802c045b1b51",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver4x.xlsx",
+      "field_spec_sheet": "HOI020"
+    },
+    {
       "form_id": "HOI030",
       "label": "売掛金(未収入金)の内訳書",
       "mvp": false,
@@ -2985,6 +2998,58 @@
       "xsd_sha256": "b0e9ee1a8ed0cba9cc682e432c22c05b18d865e43a4b4815b8328bbd1addff14",
       "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver4x.xlsx",
       "field_spec_sheet": "HOI040"
+    },
+    {
+      "form_id": "HOI050",
+      "label": "棚卸資産(商品又は製品、半製品、仕掛品、原材料、貯蔵品)の内訳書",
+      "mvp": false,
+      "stage": "uchiwake",
+      "xsd": "19XMLスキーマ/hojin/HOI050-004.xsd",
+      "version": "4.0",
+      "xsd_documentation_date": "2018-11-09",
+      "group": "HOI050-4-0group",
+      "xsd_sha256": "91333e07bde8156a8919a61e5bccfb0c1d2ef91d246c6b917e02286f60397aab",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver4x.xlsx",
+      "field_spec_sheet": "HOI050"
+    },
+    {
+      "form_id": "HOI060",
+      "label": "有価証券の内訳書",
+      "mvp": false,
+      "stage": "uchiwake",
+      "xsd": "19XMLスキーマ/hojin/HOI060-004.xsd",
+      "version": "4.0",
+      "xsd_documentation_date": "2018-11-09",
+      "group": "HOI060-4-0group",
+      "xsd_sha256": "4bef2e8065a9f5bda0cac0b575013f77e517558cd983cf74f374dcfcd8b89fb5",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver4x.xlsx",
+      "field_spec_sheet": "HOI060"
+    },
+    {
+      "form_id": "HOI070",
+      "label": "固定資産(土地、土地の上に存する権利及び建物に限る。)の内訳書",
+      "mvp": false,
+      "stage": "uchiwake",
+      "xsd": "19XMLスキーマ/hojin/HOI070-005.xsd",
+      "version": "5.0",
+      "xsd_documentation_date": "2023-11-20",
+      "group": "HOI070-5-0group",
+      "xsd_sha256": "8570cfc1a5639ac1ff13bf9b7ae1ff0fa51e71fce59cd279c5821ab7f94ad6c1",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver5x.xlsx",
+      "field_spec_sheet": "HOI070"
+    },
+    {
+      "form_id": "HOI080",
+      "label": "支払手形の内訳書",
+      "mvp": false,
+      "stage": "uchiwake",
+      "xsd": "19XMLスキーマ/hojin/HOI080-004.xsd",
+      "version": "4.0",
+      "xsd_documentation_date": "2023-11-20",
+      "group": "HOI080-4-0group",
+      "xsd_sha256": "af2e210a24c06809d0108f5488aeb2814f5b32f9ffa9e623e8bbe8f583498ed3",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver4x.xlsx",
+      "field_spec_sheet": "HOI080"
     },
     {
       "form_id": "HOI090",
@@ -3024,6 +3089,32 @@
       "xsd_sha256": "6fd79ea5e5106b4a526d9c0c1d5674114ef7f6dcbeaee6b585cfef5fcde312a4",
       "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver3x.xlsx",
       "field_spec_sheet": "HOI110"
+    },
+    {
+      "form_id": "HOI120",
+      "label": "土地の売上高等の内訳書",
+      "mvp": false,
+      "stage": "uchiwake",
+      "xsd": "19XMLスキーマ/hojin/HOI120-005.xsd",
+      "version": "5.0",
+      "xsd_documentation_date": "2023-11-20",
+      "group": "HOI120-5-0group",
+      "xsd_sha256": "645131340d9ff838b806bcb8fdf7b4a3fbfd19b06a44b81e2ad892955bcece0c",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver5x.xlsx",
+      "field_spec_sheet": "HOI120"
+    },
+    {
+      "form_id": "HOI130",
+      "label": "売上高等の事業所別内訳書",
+      "mvp": false,
+      "stage": "uchiwake",
+      "xsd": "19XMLスキーマ/hojin/HOI130-005.xsd",
+      "version": "5.0",
+      "xsd_documentation_date": "2018-11-09",
+      "group": "HOI130-5-0group",
+      "xsd_sha256": "a787793ec15c7a3f9815af318b594c78f1ef599b97b8d220353566e96fddefea",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver5x.xlsx",
+      "field_spec_sheet": "HOI130"
     },
     {
       "form_id": "HOI141",

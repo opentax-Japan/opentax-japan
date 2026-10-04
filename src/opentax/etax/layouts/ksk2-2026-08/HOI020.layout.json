@@ -1,0 +1,390 @@
+{
+ "form_id": "HOI020",
+ "label": "受取手形の内訳書",
+ "version": "4.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOI020-4-0group",
+ "xsd": "19XMLスキーマ/hojin/HOI020-004.xsd",
+ "xsd_sha256": "615c44a1c88d8493d34ebce79933ee0208592117f6ed7ef33a3e802c045b1b51",
+ "root": {
+  "tag": "HOI020",
+  "path": "HOI020",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "HBB00000",
+    "path": "HOI020/HBB00000",
+    "label": "受取手形　繰り返し",
+    "min": 0,
+    "max": 23,
+    "type": "HBB00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HBB00710",
+      "path": "HOI020/HBB00000/HBB00710",
+      "label": "登録番号（法人番号）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HBB00720",
+        "path": "HOI020/HBB00000/HBB00710/HBB00720",
+        "label": "登録番号",
+        "min": 0,
+        "max": 1,
+        "type": "HBB00720-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 13
+       },
+       {
+        "tag": "HBB00730",
+        "path": "HOI020/HBB00000/HBB00710/HBB00730",
+        "label": "法人番号",
+        "min": 0,
+        "max": 1,
+        "type": "gen:bango",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kojinbango",
+          "path": "HOI020/HBB00000/HBB00710/HBB00730/kojinbango",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:string",
+          "max_length": 12,
+          "choice": "HOI020/HBB00000/HBB00710/HBB00730#1"
+         },
+         {
+          "tag": "hojinbango",
+          "path": "HOI020/HBB00000/HBB00710/HBB00730/hojinbango",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:string",
+          "max_length": 13,
+          "choice": "HOI020/HBB00000/HBB00710/HBB00730#2"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "HBB00100",
+      "path": "HOI020/HBB00000/HBB00100",
+      "label": "振出人",
+      "min": 0,
+      "max": 1,
+      "type": "HBB00100-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:in-string"
+      ],
+      "max_length": 30
+     },
+     {
+      "tag": "HBB00200",
+      "path": "HOI020/HBB00000/HBB00200",
+      "label": "振出年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "HOI020/HBB00000/HBB00200/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "HOI020/HBB00000/HBB00200/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "HOI020/HBB00000/HBB00200/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "HOI020/HBB00000/HBB00200/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "HBB00300",
+      "path": "HOI020/HBB00000/HBB00300",
+      "label": "支払期日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "HOI020/HBB00000/HBB00300/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "HOI020/HBB00000/HBB00300/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "HOI020/HBB00000/HBB00300/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "HOI020/HBB00000/HBB00300/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "HBB00400",
+      "path": "HOI020/HBB00000/HBB00400",
+      "label": "支払銀行",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HBB00410",
+        "path": "HOI020/HBB00000/HBB00400/HBB00410",
+        "label": "名称",
+        "min": 0,
+        "max": 1,
+        "type": "HBB00410-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 11
+       },
+       {
+        "tag": "HBB00420",
+        "path": "HOI020/HBB00000/HBB00400/HBB00420",
+        "label": "支店名",
+        "min": 0,
+        "max": 1,
+        "type": "HBB00420-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 11
+       }
+      ]
+     },
+     {
+      "tag": "HBB00500",
+      "path": "HOI020/HBB00000/HBB00500",
+      "label": "金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HBB00600",
+      "path": "HOI020/HBB00000/HBB00600",
+      "label": "割引銀行名及び支店名等",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HBB00610",
+        "path": "HOI020/HBB00000/HBB00600/HBB00610",
+        "label": "割引銀行名及び支店名",
+        "min": 0,
+        "max": 1,
+        "type": "HBB00610-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 22
+       }
+      ]
+     },
+     {
+      "tag": "HBB00700",
+      "path": "HOI020/HBB00000/HBB00700",
+      "label": "摘要",
+      "min": 0,
+      "max": 1,
+      "type": "HBB00700-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 50
+     }
+    ]
+   },
+   {
+    "tag": "HBC00000",
+    "path": "HOI020/HBC00000",
+    "label": "計",
+    "min": 0,
+    "max": 1,
+    "type": "HBC00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HBC00100",
+      "path": "HOI020/HBC00000/HBC00100",
+      "label": "金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HBC00200",
+      "path": "HOI020/HBC00000/HBC00200",
+      "label": "摘要",
+      "min": 0,
+      "max": 1,
+      "type": "HBC00200-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 50
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOI020-4-0VRtype",
+    "fixed": "4.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   },
+   {
+    "name": "csvFileNM",
+    "required": false,
+    "type": "gen:str"
+   }
+  ]
+ }
+}

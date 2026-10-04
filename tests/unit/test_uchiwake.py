@@ -72,7 +72,7 @@ class BuildTest(unittest.TestCase):
 
     def test_receivables_and_totals(self):
         self.assertEqual(self.f["HOI030"]["HCB00210"], ["株式会社サンプル商会", "架空物産株式会社"])
-        self.assertEqual(self.f["HOI030"]["HCC00100"], 1_250_000)
+        self.assertEqual(self.f["HOI030"]["HCC00100"], 850_000)
         self.assertEqual(self.f["HOI110"]["HKC00100"], 7_200_000)
         for name, balance, rows in self.out["totals"]:
             self.assertEqual(balance, rows, name)
@@ -96,20 +96,163 @@ class BuildTest(unittest.TestCase):
         self.assertIn("現金", out["forms"]["HOI010"]["HAB00200"])
 
 
+SUPPLEMENT = json.loads((CASE / "uchiwake_supplement.json").read_text(encoding="utf-8"))
+
+
+class NewFormsTest(unittest.TestCase):
+    """2026-10-04 に足した様式（受取手形・棚卸資産・有価証券・固定資産・支払手形・土地の売上高等・事業所別）。"""
+
+    def test_notes_receivable(self):
+        out = u.build(u.parse_balance(BALANCE), SUPPLEMENT)
+        v = out["forms"]["HOI020"]
+        self.assertEqual(v["HBB00100"], ["株式会社サンプル商会", "架空物産株式会社"])
+        self.assertEqual(v["HBB00200"], [datetime.date(2026, 7, 31), datetime.date(2026, 8, 31)])
+        self.assertEqual(v["HBB00300"][1], datetime.date(2026, 11, 30))
+        self.assertEqual((v["HBB00410"], v["HBB00420"]), (["霞が関銀行", "見本銀行"], ["本店", "芝支店"]))
+        self.assertEqual((v["HBB00500"], v["HBC00100"]), ([250_000, 150_000], 400_000))
+        self.assertFalse([m for m in out["missing"] if m.startswith("受取手形")])
+
+    def test_notes_missing_and_items(self):
+        data = tsv("受取手形	1121		0	0	0	300,000	0.0")
+        out = u.build(u.parse_balance(data))
+        self.assertIn("受取手形: 振出人", out["missing"])
+        self.assertIn("受取手形: 支払期日", out["missing"])
+        sup = {"rows": [{"account": "受取手形", "pay_bank": "見本銀行", "items": [
+            {"name": "甲商店", "issue_date": "2026-08-01", "due_date": "2026-11-01", "amount": 200_000},
+            {"name": "乙商店", "issue_date": "2026-09-01", "due_date": "2026/12/01", "amount": 50_000}]}]}
+        out = u.build(u.parse_balance(data), sup)
+        v = out["forms"]["HOI020"]
+        self.assertEqual((v["HBB00100"], v["HBB00410"], v["HBB00500"]), (["甲商店", "乙商店"], ["見本銀行"] * 2, [200_000, 50_000]))
+        self.assertEqual(v["HBB00300"], [datetime.date(2026, 11, 1), None])
+        self.assertTrue(any("受取手形（2）: 支払期日（YYYY-MM-DD" in m for m in out["missing"]))
+        self.assertTrue(any("items の金額の合計（250,000円）が残高（300,000円）と合いません" in m for m in out["missing"]))
+
+
+    def test_notes_payable_split_by_items(self):
+        out = u.build(u.parse_balance(BALANCE), SUPPLEMENT)
+        v = out["forms"]["HOI080"]
+        self.assertEqual(v["HHB00100"], ["見本卸株式会社"] * 2)
+        self.assertEqual(v["HHB00300"], [datetime.date(2026, 10, 31), datetime.date(2026, 11, 30)])
+        self.assertEqual((v["HHB00410"], v["HHB00500"], v["HHC00100"]), (["霞が関銀行"] * 2, [250_000, 150_000], 400_000))
+        self.assertFalse([m for m in out["missing"] if m.startswith("支払手形")])
+
+    def test_inventory(self):
+        out = u.build(u.parse_balance(BALANCE), SUPPLEMENT)
+        v = out["forms"]["HOI050"]
+        self.assertEqual((v["HEB00100"], v["HEB00200"]), (["商品", "商品"], ["事務用ファイル", "ボールペン"]))
+        self.assertEqual((v["HEB00300"], v["HEB00400"], v["HEB00500"], v["HEC00100"]), ([400, 1000], [500, 100], [200_000, 100_000], 300_000))
+        # 期末商品棚卸高（損益の科目）は入れない
+        self.assertNotIn("期末商品棚卸高", v["HEB00100"])
+        out = u.build(u.parse_balance(tsv("製品	1152		0	0	0	80,000	0.0")),
+                      {"rows": [{"account": "製品", "item": "見本の部品", "quantity": "12.50", "unit_price": "6,400"}]})
+        v = out["forms"]["HOI050"]
+        self.assertEqual((v["HEB00200"], v["HEB00300"], v["HEB00400"]), (["見本の部品"], ["12.5"], [6400]))
+        out = u.build(u.parse_balance(tsv("製品	1152		0	0	0	80,000	0.0")), {"rows": [{"account": "製品", "quantity": "たくさん"}]})
+        self.assertIn("製品: 品目", out["missing"])
+        self.assertTrue(any(m.startswith("製品: 数量（数で入れてください") for m in out["missing"]))
+
+    def test_securities(self):
+        data = tsv("売買目的有価証券	1171		0	0	0	1,200,000	0.0", "  見本電機株式会社	1171	A	0	0	0	1,200,000	0.0",
+                   "有価証券	1172		0	0	0	300,000	0.0",
+                   "出資金	1281		0	0	0	10,000	0.0", "  千代田信用金庫	1281	A	0	0	0	10,000	0.0")
+        sup = {"rows": [{"account": "売買目的有価証券", "sub": "見本電機株式会社", "type": "株式", "quantity": 1000,
+                         "book_before_market": 1_000_000, "change_date": "2026-04-01", "change_reason": "買入", "change_amount": 1_000_000}]}
+        out = u.build(u.parse_balance(data), sup)
+        v = out["forms"]["HOI060"]
+        self.assertEqual(v["HFB00120"], ["売買", None, "その他"])
+        self.assertEqual(v["HFB00130"], ["株式", None, "出資金"])
+        self.assertEqual(v["HFB00140"], ["見本電機株式会社", None, "千代田信用金庫"])
+        self.assertEqual((v["HFB00220"], v["HFB00230"]), ([1_000_000, None, None], [1_200_000, 300_000, 10_000]))
+        self.assertEqual((v["HFC00100"], v["HFC00200"]), (1_510_000, 1_000_000))
+        self.assertEqual(v["HFB00310"][0], datetime.date(2026, 4, 1))
+        for m in ("有価証券: 区分（売買・満期・その他）", "有価証券: 種類（株式・出資金など）", "有価証券: 銘柄"):
+            self.assertIn(m, out["missing"])
+
+    def test_land_and_buildings(self):
+        out = u.build(u.parse_balance(BALANCE), SUPPLEMENT)
+        v = out["forms"]["HOI070"]
+        self.assertEqual(v["HGB00100"], ["建物 鉄骨造", "土地"])        # 種類の初期値は科目名（建物は補足で構造まで）
+        self.assertEqual((v["HGB00300"], v["HGB00500"]), (["120.5", 200], [2_000_000, 5_000_000]))
+        self.assertNotIn("HGC00100", v)                                 # 計の欄はない
+        self.assertFalse([m for m in out["missing"] if m.startswith(("土地", "建物"))])
+        out = u.build(u.parse_balance(tsv("借地権	1261		0	0	0	900,000	0.0")),
+                      {"rows": [{"account": "借地権", "sold_acquired": "1985-06"}]})
+        v = out["forms"]["HOI070"]
+        self.assertEqual((v["HGB00100"], v["HGB00670"]), (["借地権"], [datetime.date(1985, 6, 1)]))
+        for m in ("借地権: 用途", "借地権: 面積（㎡）", "借地権: 物件の所在地"):
+            self.assertIn(m, out["missing"])
+
+    LAND_SALES = [{"kind": "売上", "address": "東京都江東区見本町2-3-4", "land_category": "宅地", "total_area": "330.58", "month": "2026-05",
+                   "buyer": "見本建設株式会社", "buyer_address": "東京都中央区見本1-2-3", "area": "165.29", "amount": 45_000_000,
+                   "acquired_year": 1989},
+                  {"kind": "仲介", "address": "東京都江東区見本町5-6", "month": "2026-08", "buyer": "見本 一郎",
+                   "buyer_address": "東京都江東区見本7-8", "area": 120, "amount_with_building": 30_000_000}]
+
+    def test_land_sales_from_supplement(self):
+        out = u.build(u.parse_balance(BALANCE), {"land_sales": self.LAND_SALES})
+        v = out["forms"]["HOI120"]
+        self.assertEqual((v["HLB00100"], v["HLB00400"], v["HLB00700"]), (["売上", "仲介"], ["330.58", None], ["165.29", 120]))
+        self.assertEqual((v["HLB00810"], v["HLB00820"]), ([None, 30_000_000], [45_000_000, None]))
+        self.assertEqual(v["HLB00500"], [datetime.date(2026, 5, 1), datetime.date(2026, 8, 1)])
+        self.assertEqual(v["HLB00900"][0], datetime.date(1989, 12, 31))   # 年だけの欄は平成元年
+        self.assertFalse([m for m in out["missing"] if m.startswith("土地の売上高等")])
+        out = u.build(u.parse_balance(BALANCE), {"land_sales": [{"kind": "売上", "month": "5月"}]})
+        for m in ("土地の売上高等（1件目）: 商品の所在地", "土地の売上高等（1件目）: 売上（仲介）先の名称", "土地の売上高等（1件目）: 売上金額（仲介手数料）"):
+            self.assertIn(m, out["missing"])
+        self.assertTrue(any("売上（仲介）年月（YYYY-MM）（YYYY-MM の形で" in m for m in out["missing"]))
+        self.assertNotIn("HOI120", u.build(u.parse_balance(BALANCE))["forms"])
+
+    OFFICES = [{"name": "本店", "address": "東京都千代田区霞が関3-1-1", "manager": "開発 太郎", "relation": "本人", "business": "事務用品の卸売",
+                "sales": 22_000_000, "closing_inventory": 200_000, "employees": 3, "withholding_office": "麹町"},
+               {"name": "江東営業所", "address": "東京都江東区見本町1-2-3", "business": "倉庫", "sales": 8_000_000, "employees": 2}]
+
+    def test_offices_from_supplement(self):
+        out = u.build(u.parse_balance(BALANCE), {"offices": self.OFFICES})
+        v = out["forms"]["HOI130"]
+        self.assertEqual((v["HMB00100"], v["HMB00600"]), (["本店", "江東営業所"], [22_000_000, 8_000_000]))
+        self.assertEqual((v["HMC00200"], v["HMC00300"], v["HMC00400"]), (30_000_000, 200_000, 5))
+        self.assertFalse([m for m in out["missing"] if m.startswith("売上高等の事業所別")])
+        out = u.build(u.parse_balance(BALANCE), {"offices": self.OFFICES[:1]})
+        self.assertIn("売上高等の事業所別: 売上高の計（22,000,000円）が科目残高の売上高（30,000,000円）と合いません", out["missing"])
+
+
 class XtxTest(unittest.TestCase):
     def test_validates_with_official_xsd(self):
         root = REPO / ".cache" / "etax" / "ksk2-2026-08" / "files" / "e-tax19"
         if not root.exists():
             self.skipTest("公式XSD がありません")
         c = api.calculate(json.loads((CASE / "input.json").read_text(encoding="utf-8")), "truncate")
-        uw = api.uchiwake_from_balance(BALANCE, {"rows": [
-            {"account": "預り金", "sub": "源泉所得税", "withholding_year_month": "2026-09", "income_type": "1"}]})
+        uw = api.uchiwake_from_balance(BALANCE, SUPPLEMENT)
         xml = api.export_etax(c, root, datetime.date(2026, 11, 26), uw)
         self.assertEqual(api.validate_xtx(xml, root), [])
         text = xml.decode("utf-8")
-        for fid in ("HOI010", "HOI030", "HOI040", "HOI090", "HOI100", "HOI110", "HOI150", "HOI160"):
+        for fid in ("HOI010", "HOI020", "HOI030", "HOI040", "HOI050", "HOI080", "HOI090", "HOI100", "HOI110", "HOI150", "HOI160"):
             self.assertIn(f'about="#{fid}-1"', text)
         self.assertNotIn("HOI141", text)
+
+
+    def test_new_forms_validate_with_official_xsd(self):
+        # 科目残高からは作らない欄・小数・日付も含めて、足した様式が公式XSD に通る
+        root = REPO / ".cache" / "etax" / "ksk2-2026-08" / "files" / "e-tax19"
+        if not root.exists():
+            self.skipTest("公式XSD がありません")
+        c = api.calculate(json.loads((CASE / "input.json").read_text(encoding="utf-8")), "truncate")
+        data = tsv("売買目的有価証券	1171		0	0	0	1,200,000	0.0", "  見本電機株式会社	1171	A	0	0	0	1,200,000	0.0",
+                   "土地	1251		0	0	0	5,000,000	0.0")
+        sup = {"rows": [{"account": "売買目的有価証券", "sub": "見本電機株式会社", "type": "株式", "quantity": "1000.25",
+                         "book_before_market": 1_000_000, "change_date": "2026-04-01", "change_reason": "買入", "change_quantity": 1000,
+                         "change_amount": 1_000_000, "counterparty": "見本証券株式会社", "counterparty_address": "東京都中央区日本橋2-2-2"},
+                        {"account": "土地", "use": "倉庫敷地", "area": "200.25", "property_address": "東京都江東区見本町1-2-3",
+                         "change_date": "2026-03-15", "change_reason": "売却", "change_amount": 3_000_000, "change_book_value": 2_500_000,
+                         "counterparty": "見本不動産株式会社", "counterparty_address": "東京都港区見本1-1", "sold_acquired": "1985-06"}]}
+        sup["land_sales"], sup["offices"] = NewFormsTest.LAND_SALES, NewFormsTest.OFFICES
+        uw = u.build(u.parse_balance(data), sup)
+        xml = api.export_etax(c, root, datetime.date(2026, 11, 26), uw)
+        self.assertEqual(api.validate_xtx(xml, root), [])
+        text = xml.decode("utf-8")
+        for fid in ("HOI060", "HOI070", "HOI120", "HOI130"):
+            self.assertIn(f'about="#{fid}-1"', text)
+        self.assertIn("<gen:era>3</gen:era>", text)                     # 昭和の取得年月
 
 
 if __name__ == "__main__":

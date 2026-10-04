@@ -14,11 +14,18 @@
   },
   "forms": {
     "HOI010": {"title": "預貯金等の内訳書", "file": "0023007-053_03.pdf", "page": 1, "printed_form_id": "NTA0HOI010010040"},
+    "HOI020": {"title": "受取手形の内訳書", "file": "0023007-053_03.pdf", "page": 2, "printed_form_id": "NTA0HOI020010040"},
     "HOI030": {"title": "売掛金（未収入金）の内訳書", "file": "0023007-053_03.pdf", "page": 3, "printed_form_id": "NTA0HOI030010040"},
     "HOI040": {"title": "仮払金（前渡金）の内訳書／貸付金及び受取利息の内訳書", "file": "0023007-053_03.pdf", "page": 4, "printed_form_id": "NTA0HOI040010040"},
+    "HOI050": {"title": "棚卸資産（商品又は製品、半製品、仕掛品、原材料、貯蔵品）の内訳書", "file": "0023007-053_03.pdf", "page": 5, "printed_form_id": "NTA0HOI050010040"},
+    "HOI060": {"title": "有価証券の内訳書", "file": "0023007-053_03.pdf", "page": 6, "printed_form_id": "NTA0HOI060010040"},
+    "HOI070": {"title": "固定資産（土地、土地の上に存する権利及び建物に限る。）の内訳書", "file": "0023007-053_03.pdf", "page": 7, "printed_form_id": "NTA0HOI070010050"},
+    "HOI080": {"title": "支払手形の内訳書", "file": "0023007-053_03.pdf", "page": 8, "printed_form_id": "NTA0HOI080010040"},
     "HOI090": {"title": "買掛金（未払金・未払費用）の内訳書", "file": "0023007-053_03.pdf", "page": 9, "printed_form_id": "NTA0HOI090010050"},
     "HOI100": {"title": "仮受金（前受金・預り金）の内訳書／源泉所得税預り金の内訳", "file": "0023007-053_03.pdf", "page": 10, "printed_form_id": "NTA0HOI100010060"},
     "HOI110": {"title": "借入金及び支払利子の内訳書", "file": "0023007-053_03.pdf", "page": 11, "printed_form_id": "NTA0HOI110010030"},
+    "HOI120": {"title": "土地の売上高等の内訳書", "file": "0023007-053_03.pdf", "page": 12, "printed_form_id": "NTA0HOI120010050"},
+    "HOI130": {"title": "売上高等の事業所別内訳書", "file": "0023007-053_03.pdf", "page": 13, "printed_form_id": "NTA0HOI130010050"},
     "HOI141": {"title": "役員給与等の内訳書／人件費の内訳書", "file": "0023007-053_03.pdf", "page": 14, "printed_form_id": "NTA0HOI141010050"},
     "HOI150": {"title": "地代家賃等の内訳書／工業所有権等の使用料の内訳書", "file": "0023007-053_03.pdf", "page": 15, "printed_form_id": "NTA0HOI150010040"},
     "HOI160": {"title": "雑益、雑損失等の内訳書", "file": "0023007-053_03.pdf", "page": 16, "printed_form_id": "NTA0HOI160010040"}

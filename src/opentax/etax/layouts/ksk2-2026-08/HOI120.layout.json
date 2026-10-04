@@ -1,0 +1,368 @@
+{
+ "form_id": "HOI120",
+ "label": "土地の売上高等の内訳書",
+ "version": "5.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOI120-5-0group",
+ "xsd": "19XMLスキーマ/hojin/HOI120-005.xsd",
+ "xsd_sha256": "645131340d9ff838b806bcb8fdf7b4a3fbfd19b06a44b81e2ad892955bcece0c",
+ "root": {
+  "tag": "HOI120",
+  "path": "HOI120",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "HLB00000",
+    "path": "HOI120/HLB00000",
+    "label": "土地の売上高等　繰り返し",
+    "min": 0,
+    "max": 10,
+    "type": "HLB00000-5-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HLB00100",
+      "path": "HOI120/HLB00000/HLB00100",
+      "label": "区分",
+      "min": 0,
+      "max": 1,
+      "type": "HLB00100-5-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 10
+     },
+     {
+      "tag": "HLB00200",
+      "path": "HOI120/HLB00000/HLB00200",
+      "label": "商品の所在地",
+      "min": 0,
+      "max": 1,
+      "type": "gen:address",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "HLB00300",
+      "path": "HOI120/HLB00000/HLB00300",
+      "label": "地目",
+      "min": 0,
+      "max": 1,
+      "type": "HLB00300-5-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 10
+     },
+     {
+      "tag": "HLB00400",
+      "path": "HOI120/HLB00000/HLB00400",
+      "label": "総面積",
+      "min": 0,
+      "max": 1,
+      "type": "HLB00400-5-0type",
+      "kind": "value",
+      "base": "xsd:decimal",
+      "derived_from": [
+       "gen:decimalType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HLB00500",
+      "path": "HOI120/HLB00000/HLB00500",
+      "label": "売上（仲介）年月",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymm",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "HOI120/HLB00000/HLB00500/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "HOI120/HLB00000/HLB00500/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "HOI120/HLB00000/HLB00500/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "HLB00510",
+      "path": "HOI120/HLB00000/HLB00510",
+      "label": "登録番号（法人番号）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HLB00520",
+        "path": "HOI120/HLB00000/HLB00510/HLB00520",
+        "label": "登録番号",
+        "min": 0,
+        "max": 1,
+        "type": "HLB00520-5-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 13
+       },
+       {
+        "tag": "HLB00530",
+        "path": "HOI120/HLB00000/HLB00510/HLB00530",
+        "label": "法人番号",
+        "min": 0,
+        "max": 1,
+        "type": "gen:bango",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kojinbango",
+          "path": "HOI120/HLB00000/HLB00510/HLB00530/kojinbango",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:string",
+          "max_length": 12,
+          "choice": "HOI120/HLB00000/HLB00510/HLB00530#1"
+         },
+         {
+          "tag": "hojinbango",
+          "path": "HOI120/HLB00000/HLB00510/HLB00530/hojinbango",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:string",
+          "max_length": 13,
+          "choice": "HOI120/HLB00000/HLB00510/HLB00530#2"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "HLB00600",
+      "path": "HOI120/HLB00000/HLB00600",
+      "label": "売上（仲介）先",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HLB00610",
+        "path": "HOI120/HLB00000/HLB00600/HLB00610",
+        "label": "名称（氏名）",
+        "min": 0,
+        "max": 1,
+        "type": "HLB00610-5-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:in-string"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "HLB00620",
+        "path": "HOI120/HLB00000/HLB00600/HLB00620",
+        "label": "所在地（住所）",
+        "min": 0,
+        "max": 1,
+        "type": "HLB00620-5-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:in-string"
+        ],
+        "max_length": 100
+       }
+      ]
+     },
+     {
+      "tag": "HLB00700",
+      "path": "HOI120/HLB00000/HLB00700",
+      "label": "売上（仲介）面積",
+      "min": 0,
+      "max": 1,
+      "type": "HLB00700-5-0type",
+      "kind": "value",
+      "base": "xsd:decimal",
+      "derived_from": [
+       "gen:decimalType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HLB00800",
+      "path": "HOI120/HLB00000/HLB00800",
+      "label": "売上金額（仲介手数料）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HLB00810",
+        "path": "HOI120/HLB00000/HLB00800/HLB00810",
+        "label": "上段",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "HLB00820",
+        "path": "HOI120/HLB00000/HLB00800/HLB00820",
+        "label": "下段",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "HLB00900",
+      "path": "HOI120/HLB00000/HLB00900",
+      "label": "売上商品の取得年",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yy",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "HOI120/HLB00000/HLB00900/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "HOI120/HLB00000/HLB00900/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOI120-5-0VRtype",
+    "fixed": "5.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   },
+   {
+    "name": "csvFileNM",
+    "required": false,
+    "type": "gen:str"
+   }
+  ]
+ }
+}

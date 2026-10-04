@@ -4,7 +4,9 @@
   （parse_balance）。見本は架空のデータ（tests/cases/open-shoji-tokyo/科目残高一覧表_架空_TKC形式.txt など）
 - 科目 → 内訳書の振り分けは rules/uchiwake_accounts.json（初期値。supplement の accounts で上書き）
 - 科目残高にない欄（相手先の所在地・口座番号・利率など）は supplement で足す。足りない欄は missing で知らせる
-- 金額は期末残高（最後の「残高」の列）。補助科目があれば補助ごとに1行、なければ科目で1行
+- 金額は期末残高（最後の「残高」の列）。補助科目があれば補助ごとに1行、なければ科目で1行。
+  supplement の行の items で、1つの科目（補助）を何行かに分けられる（手形1枚ごと・品目ごと・物件ごと）
+- 土地の売上高等（HOI120）・売上高等の事業所別（HOI130）は科目残高から作れないので、supplement の land_sales・offices に書く
 """
 
 from __future__ import annotations
@@ -221,6 +223,13 @@ def _bank_branch(name: str) -> tuple[str, str]:
     return (parts[0].strip(), parts[1].strip() if len(parts) > 1 else "")
 
 
+def _where(a: Account, s: Sub | None) -> str:
+    return f"{a.name}{'／' + s.name if s else ''}"
+
+
+_DATE_FORMS = {"date": "YYYY-MM-DD", "month": "YYYY-MM", "year": "YYYY"}
+
+
 class _Builder:
     def __init__(self, supplement: dict):
         self.extra = {(r["account"], r.get("sub") or ""): r for r in supplement.get("rows", [])}
@@ -229,8 +238,80 @@ class _Builder:
     def get(self, a: Account, s: Sub | None, key: str, label: str, required: bool = True):
         v = self.extra.get((a.name, s.name if s else ""), {}).get(key)
         if v in (None, "") and required:
-            self.missing.append(f"{a.name}{'／' + s.name if s else ''}: {label}")
+            self.missing.append(f"{_where(a, s)}: {label}")
         return v or None
+
+    def pick(self, d: dict, where: str, key: str, label: str, required: bool = True, kind: str = "text"):
+        """補足の1行（d）から値を取る。kind: text（そのまま）・date（YYYY-MM-DD → date）・month（YYYY-MM → その月の1日）・
+        year（YYYY → その年の12月31日）・number（数量・面積。整数か小数）・amount（円の整数）"""
+        v = d.get(key)
+        if v in (None, ""):
+            if required:
+                self.missing.append(f"{where}: {label}")
+            return None
+        if kind == "text":
+            return v
+        if kind == "amount":
+            if isinstance(v, bool) or not isinstance(v, int):
+                self.missing.append(f"{where}: {label}（円の整数で入れてください: {v!r}）")
+                return None
+            return v
+        if kind == "number":
+            n = _number(v)
+            if n is None:
+                self.missing.append(f"{where}: {label}（数で入れてください。小数は2桁まで: {v!r}）")
+            return n
+        day = _to_date(v, kind)
+        if day is None:
+            self.missing.append(f"{where}: {label}（{_DATE_FORMS[kind]} の形で入れてください: {v!r}）")
+        return day
+
+    def items(self, a: Account, s: Sub | None) -> list[tuple[dict, str, int]]:
+        """科目（補助）の1行を、補足の items で何行かに分ける（手形1枚ごと・品目ごと・物件ごと）。
+        戻り値: [(補足の値, 場所の名前, 金額)]。items がなければ補足の行そのもので1行（金額は残高）。
+        items の金額（amount）の合計が残高と合わなければ missing に出す（金額は items のまま）。"""
+        base = self.extra.get((a.name, s.name if s else ""), {})
+        bal = (s or a).balance
+        items = base.get("items")
+        if not items:
+            return [(base, _where(a, s), bal)]
+        out = []
+        for n, it in enumerate(items, start=1):
+            amt = it.get("amount")
+            if isinstance(amt, bool) or not isinstance(amt, int):
+                self.missing.append(f"{_where(a, s)}: items の {n} 行目の金額（amount。円の整数）")
+                amt = 0
+            out.append(({**{k: v for k, v in base.items() if k != "items"}, **it}, f"{_where(a, s)}（{n}）", amt))
+        if sum(x for _, _, x in out) != bal:
+            self.missing.append(f"{_where(a, s)}: items の金額の合計（{sum(x for _, _, x in out):,}円）が残高（{bal:,}円）と合いません")
+        return out
+
+
+def _number(v) -> int | str | None:
+    """数量・面積（e-Tax の decimalType）。整数は int、小数は「12.5」の文字（小数点以下2桁まで）。"""
+    if isinstance(v, bool):
+        return None
+    t = str(v).strip().replace(",", "")
+    if not re.fullmatch(r"\d+(\.\d{1,2})?", t):
+        return None
+    if "." in t:
+        t = t.rstrip("0").rstrip(".")
+    return int(t) if "." not in t else t
+
+
+def _to_date(v, kind: str = "date") -> datetime.date | None:
+    if isinstance(v, datetime.date):
+        return v
+    t = str(v).strip()
+    try:
+        if kind == "month":
+            y, m = t.split("-")
+            return datetime.date(int(y), int(m), 1)
+        if kind == "year":       # 年だけの欄は12月31日とみる（元号の替わった年は新しい元号。1989年＝平成元年）
+            return datetime.date(int(t), 12, 31)
+        return datetime.date.fromisoformat(t)
+    except ValueError:
+        return None
 
 
 def build(accounts: list[Account], supplement: dict | None = None, mapping: dict | None = None) -> dict:
@@ -263,6 +344,25 @@ def build(accounts: list[Account], supplement: dict | None = None, mapping: dict
         r["HAB00300"].append(b.get(a, s, "account_number", "口座番号", required=False))
         r["HAB00400"].append((s or a).balance)
     put("HOI010", r, "HAC00100", "HAB00400")
+
+    # 受取手形・支払手形（手形1枚ごとに1行。補助科目が振出人・支払先。同じ相手の何枚かは補足の items で分ける）
+    for fid, p, total, discount, note, who in (("HOI020", "HBB00", "HBC00100", "HBB00610", "HBB00700", "振出人"),
+                                               ("HOI080", "HHB00", "HHC00100", None, "HHB00600", "支払先")):
+        r = {f"{p}100": [], f"{p}200": [], f"{p}300": [], f"{p}410": [], f"{p}420": [], f"{p}500": [], note: []}
+        if discount:
+            r[discount] = []
+        for a, s in _lines_of(accounts, names(fid)):
+            for d, where, amt in b.items(a, s):
+                r[f"{p}100"].append(s.name if s else b.pick(d, where, "name", who))
+                r[f"{p}200"].append(b.pick(d, where, "issue_date", "振出年月日", kind="date"))
+                r[f"{p}300"].append(b.pick(d, where, "due_date", "支払期日", kind="date"))
+                r[f"{p}410"].append(b.pick(d, where, "pay_bank", "支払銀行の名称"))
+                r[f"{p}420"].append(b.pick(d, where, "pay_branch", "支払銀行の支店名", required=False))
+                r[f"{p}500"].append(amt)
+                if discount:
+                    r[discount].append(b.pick(d, where, "discount_bank", "割引銀行名及び支店名", required=False))
+                r[note].append(b.pick(d, where, "note", "摘要", required=False))
+        put(fid, r, total, f"{p}500")
 
     # 売掛金・買掛金（同じ形）
     for fid, p, total in (("HOI030", "HCB00", "HCC00100"), ("HOI090", "HIB00", "HIC00100")):
@@ -300,6 +400,111 @@ def build(accounts: list[Account], supplement: dict | None = None, mapping: dict
         v.update(r)
         v["HDC02100"] = sum(r["HDC01400"])
         v["HDC02200"] = sum(x or 0 for x in r["HDC01500"]) or None
+
+    # 棚卸資産（品目ごとに1行。補助科目が品目。補助がなければ補足の item、品目が何種類かあれば items で分ける）
+    r = {"HEB00100": [], "HEB00200": [], "HEB00300": [], "HEB00400": [], "HEB00500": [], "HEB00600": []}
+    for a, s in _lines_of(accounts, names("HOI050")):
+        for d, where, amt in b.items(a, s):
+            r["HEB00100"].append(a.name)
+            r["HEB00200"].append(b.pick(d, where, "item", "品目", required=not s) or (s.name if s else None))
+            r["HEB00300"].append(b.pick(d, where, "quantity", "数量", required=False, kind="number"))
+            r["HEB00400"].append(b.pick(d, where, "unit_price", "単価", required=False, kind="number"))
+            r["HEB00500"].append(amt)
+            r["HEB00600"].append(b.pick(d, where, "note", "摘要", required=False))
+    put("HOI050", r, "HEC00100", "HEB00500")
+
+    # 有価証券（銘柄ごとに1行。補助科目が銘柄。期末現在高は下の欄＝帳簿価額。売買目的の時価評価の前の帳簿価額は上の欄）
+    rule = rules.get("HOI060", {})
+    r = {t: [] for t in ("HFB00120", "HFB00130", "HFB00140", "HFB00210", "HFB00220", "HFB00230", "HFB00310", "HFB00320",
+                         "HFB00330", "HFB00340", "HFB00350", "HFB00360", "HFB00400")}
+    for a, s in _lines_of(accounts, names("HOI060")):
+        kind0, type0 = rule.get("default_kind", {}).get(a.name), rule.get("default_type", {}).get(a.name)
+        for d, where, amt in b.items(a, s):
+            r["HFB00120"].append(b.pick(d, where, "kind", "区分（売買・満期・その他）", required=not kind0) or kind0)
+            r["HFB00130"].append(b.pick(d, where, "type", "種類（株式・出資金など）", required=not type0) or type0)
+            r["HFB00140"].append(s.name if s else b.pick(d, where, "name", "銘柄"))
+            r["HFB00210"].append(b.pick(d, where, "quantity", "数量", required=False, kind="number"))
+            r["HFB00220"].append(b.pick(d, where, "book_before_market", "時価評価の前の帳簿価額", required=False, kind="amount"))
+            r["HFB00230"].append(amt)
+            r["HFB00310"].append(b.pick(d, where, "change_date", "異動年月日", required=False, kind="date"))
+            r["HFB00320"].append(b.pick(d, where, "change_reason", "異動事由", required=False))
+            r["HFB00330"].append(b.pick(d, where, "change_quantity", "期中増減の数量", required=False, kind="number"))
+            r["HFB00340"].append(b.pick(d, where, "change_amount", "期中増減の金額", required=False, kind="amount"))
+            r["HFB00350"].append(b.pick(d, where, "counterparty", "売却（買入）先の名称", required=False))
+            r["HFB00360"].append(b.pick(d, where, "counterparty_address", "売却（買入）先の所在地", required=False))
+            r["HFB00400"].append(b.pick(d, where, "note", "摘要", required=False))
+    if r["HFB00230"]:
+        v = forms.setdefault("HOI060", {})
+        v.update(r)
+        v["HFC00100"] = sum(r["HFB00230"])
+        v["HFC00200"] = sum(x or 0 for x in r["HFB00340"]) or None
+
+    # 固定資産（土地・土地の上に存する権利・建物。物件ごとに1行。物件が何件かあれば補助科目か items で分ける）
+    rule = rules.get("HOI070", {})
+    r = {t: [] for t in ("HGB00100", "HGB00200", "HGB00300", "HGB00400", "HGB00500", "HGB00610", "HGB00620", "HGB00630",
+                         "HGB00640", "HGB00650", "HGB00660", "HGB00670")}
+    for a, s in _lines_of(accounts, names("HOI070")):
+        kind0 = rule.get("default_kind", {}).get(a.name)
+        for d, where, amt in b.items(a, s):
+            r["HGB00100"].append(b.pick(d, where, "kind", "種類・構造", required=not kind0) or kind0)
+            r["HGB00200"].append(b.pick(d, where, "use", "用途"))
+            r["HGB00300"].append(b.pick(d, where, "area", "面積（㎡）", kind="number"))
+            r["HGB00400"].append(b.pick(d, where, "property_address", "物件の所在地"))
+            r["HGB00500"].append(amt)
+            r["HGB00610"].append(b.pick(d, where, "change_date", "異動年月日", required=False, kind="date"))
+            r["HGB00620"].append(b.pick(d, where, "change_reason", "異動事由", required=False))
+            r["HGB00630"].append(b.pick(d, where, "change_amount", "取得（処分）価額", required=False, kind="amount"))
+            r["HGB00640"].append(b.pick(d, where, "change_book_value", "異動直前の帳簿価額", required=False, kind="amount"))
+            r["HGB00650"].append(b.pick(d, where, "counterparty", "売却（購入）先の名称", required=False))
+            r["HGB00660"].append(b.pick(d, where, "counterparty_address", "売却（購入）先の所在地", required=False))
+            r["HGB00670"].append(b.pick(d, where, "sold_acquired", "売却物件の取得年月（YYYY-MM）", required=False, kind="month"))
+    put("HOI070", r, None, "HGB00500")
+
+    # 土地の売上高等（科目残高からは作れない。supplement の land_sales に1件ずつ書く）
+    r = {t: [] for t in ("HLB00100", "HLB00200", "HLB00300", "HLB00400", "HLB00500", "HLB00610", "HLB00620", "HLB00700",
+                         "HLB00810", "HLB00820", "HLB00900")}
+    for n, d in enumerate(supplement.get("land_sales", []), start=1):
+        where = f"土地の売上高等（{n}件目）"
+        r["HLB00100"].append(b.pick(d, where, "kind", "区分（売上・仲介）"))
+        r["HLB00200"].append(b.pick(d, where, "address", "商品の所在地"))
+        r["HLB00300"].append(b.pick(d, where, "land_category", "地目", required=False))
+        r["HLB00400"].append(b.pick(d, where, "total_area", "総面積（㎡）", required=False, kind="number"))
+        r["HLB00500"].append(b.pick(d, where, "month", "売上（仲介）年月（YYYY-MM）", kind="month"))
+        r["HLB00610"].append(b.pick(d, where, "buyer", "売上（仲介）先の名称"))
+        r["HLB00620"].append(b.pick(d, where, "buyer_address", "売上（仲介）先の所在地"))
+        r["HLB00700"].append(b.pick(d, where, "area", "売上（仲介）面積（㎡）", kind="number"))
+        whole = b.pick(d, where, "amount_with_building", "売上金額（土地と建物の総額）", required=False, kind="amount")
+        r["HLB00810"].append(whole)
+        r["HLB00820"].append(b.pick(d, where, "amount", "売上金額（仲介手数料）", required=whole is None, kind="amount"))
+        r["HLB00900"].append(b.pick(d, where, "acquired_year", "売上商品の取得年（YYYY）", required=False, kind="year"))
+    if r["HLB00100"]:
+        forms["HOI120"] = r
+
+    # 売上高等の事業所別内訳書（科目残高からは作れない。supplement の offices に事業所ごとに書く）
+    r = {t: [] for t in ("HMB00100", "HMB00200", "HMB00300", "HMB00400", "HMB00500", "HMB00600", "HMB00700", "HMB00800",
+                         "HMB01000", "HMB01100")}
+    for n, d in enumerate(supplement.get("offices", []), start=1):
+        where = f"売上高等の事業所別（{n}件目）"
+        r["HMB00100"].append(b.pick(d, where, "name", "事業所の名称"))
+        r["HMB00200"].append(b.pick(d, where, "address", "所在地"))
+        r["HMB00300"].append(b.pick(d, where, "manager", "責任者氏名", required=False))
+        r["HMB00400"].append(b.pick(d, where, "relation", "代表者との関係", required=False))
+        r["HMB00500"].append(b.pick(d, where, "business", "事業等の内容"))
+        r["HMB00600"].append(b.pick(d, where, "sales", "売上高", kind="amount"))
+        r["HMB00700"].append(b.pick(d, where, "closing_inventory", "期末棚卸高", required=False, kind="amount"))
+        r["HMB00800"].append(b.pick(d, where, "employees", "期末従事員数", required=False, kind="amount"))
+        r["HMB01000"].append(b.pick(d, where, "withholding_office", "源泉所得税納付署", required=False))
+        r["HMB01100"].append(b.pick(d, where, "note", "摘要", required=False))
+    if r["HMB00100"]:
+        v = forms.setdefault("HOI130", {})
+        v.update(r)
+        v["HMC00200"] = sum(x or 0 for x in r["HMB00600"])
+        v["HMC00300"] = sum(x or 0 for x in r["HMB00700"]) or None
+        v["HMC00400"] = sum(x or 0 for x in r["HMB00800"]) or None
+        # 計は損益計算書の売上高と合うように書く（様式の注2）。科目残高の売上高と比べる
+        book = sum(a.balance for a in accounts if a.name in rules.get("HOI130", {}).get("sales_accounts", []))
+        if book and v["HMC00200"] != book:
+            b.missing.append(f"売上高等の事業所別: 売上高の計（{v['HMC00200']:,}円）が科目残高の売上高（{book:,}円）と合いません")
 
     # 仮受金・前受金・預り金（源泉所得税の預り金は下の欄へ）
     keyword = rules["HOI100"].get("withholding_sub_keyword", "源泉")

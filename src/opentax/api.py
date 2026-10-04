@@ -95,9 +95,9 @@ def preview(calculated: dict) -> list[dict]:
 
 
 def _wareki(d: datetime.date) -> str:
-    from .etax.xtx import to_wareki
+    from .etax.xtx import ERA_NAMES, to_wareki
     w = to_wareki(d)
-    return f"{'令和' if w['era'] == 5 else '平成'}{w['yy']}年{w['mm']}月{w['dd']}日"
+    return f"{ERA_NAMES[w['era']]}{w['yy']}年{w['mm']}月{w['dd']}日"
 
 
 def form_views(calculated: dict) -> list[dict]:

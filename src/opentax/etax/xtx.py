@@ -30,13 +30,19 @@ class XtxError(Exception):
     """申告データを組み立てられないとき。"""
 
 
+ERA_NAMES = {3: "昭和", 4: "平成", 5: "令和"}
+
+
 def to_wareki(d: datetime.date) -> dict[str, int]:
-    """和暦（元号コード・年・月・日）。元号コードは gen の era（4:平成、5:令和）。"""
+    """和暦（元号コード・年・月・日）。元号コードは gen の era（3:昭和、4:平成、5:令和）。
+    昭和は内訳書の土地・建物の取得年月などで使う。"""
     if d >= datetime.date(2019, 5, 1):
         return {"era": 5, "yy": d.year - 2018, "mm": d.month, "dd": d.day}
     if d >= datetime.date(1989, 1, 8):
         return {"era": 4, "yy": d.year - 1988, "mm": d.month, "dd": d.day}
-    raise XtxError(f"平成より前の日付には対応していません: {d}")
+    if d >= datetime.date(1926, 12, 25):
+        return {"era": 3, "yy": d.year - 1925, "mm": d.month, "dd": d.day}
+    raise XtxError(f"昭和より前の日付には対応していません: {d}")
 
 
 def check_text(text: str, where: str) -> None:

@@ -91,12 +91,14 @@ def main() -> int:
         if it["kind"] == "circle":
             d.ellipse(it["box"], outline=(0, 80, 220), width=4)
             continue
-        size = int(max(14, min(36, (y1 - y0) * 0.6)))
+        lines = it["text"].split("\n")      # 折り返した文字（text_wrap）は行ごとに置く
+        size = int(max(10, min(36, (y1 - y0) * 0.6, (y1 - y0 - 4) / len(lines))))
         font = ImageFont.truetype(FONT, size)
-        text = it["text"].replace("\n", " ")
-        tw = d.textlength(text, font=font)
-        x = {"amount": x1 - 10 - tw, "center": (x0 + x1 - tw) / 2}.get(it["kind"], x0 + 8)
-        d.text((x, (y0 + y1 - size) / 2 - 2), text, fill=(0, 80, 220), font=font)
+        top = (y0 + y1 - size * len(lines)) / 2 - 2
+        for j, text in enumerate(lines):
+            tw = d.textlength(text, font=font)
+            x = {"amount": x1 - 10 - tw, "center": (x0 + x1 - tw) / 2}.get(it["kind"], x0 + 8)
+            d.text((x, top + size * j), text, fill=(0, 80, 220), font=font)
     out = REPO / "private" / "paper" / f"{form_id}_check.png"
     out.parent.mkdir(parents=True, exist_ok=True)
     img.save(out)

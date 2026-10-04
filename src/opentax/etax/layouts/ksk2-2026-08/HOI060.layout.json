@@ -1,0 +1,397 @@
+{
+ "form_id": "HOI060",
+ "label": "有価証券の内訳書",
+ "version": "4.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOI060-4-0group",
+ "xsd": "19XMLスキーマ/hojin/HOI060-004.xsd",
+ "xsd_sha256": "4bef2e8065a9f5bda0cac0b575013f77e517558cd983cf74f374dcfcd8b89fb5",
+ "root": {
+  "tag": "HOI060",
+  "path": "HOI060",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "HFB00000",
+    "path": "HOI060/HFB00000",
+    "label": "有価証券　繰り返し",
+    "min": 0,
+    "max": 15,
+    "type": "HFB00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HFB00110",
+      "path": "HOI060/HFB00000/HFB00110",
+      "label": "区分・種類・銘柄",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HFB00120",
+        "path": "HOI060/HFB00000/HFB00110/HFB00120",
+        "label": "区分",
+        "min": 0,
+        "max": 1,
+        "type": "HFB00120-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 10
+       },
+       {
+        "tag": "HFB00130",
+        "path": "HOI060/HFB00000/HFB00110/HFB00130",
+        "label": "種類",
+        "min": 0,
+        "max": 1,
+        "type": "HFB00130-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 10
+       },
+       {
+        "tag": "HFB00140",
+        "path": "HOI060/HFB00000/HFB00110/HFB00140",
+        "label": "銘柄",
+        "min": 0,
+        "max": 1,
+        "type": "HFB00140-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 10
+       }
+      ]
+     },
+     {
+      "tag": "HFB00200",
+      "path": "HOI060/HFB00000/HFB00200",
+      "label": "期末現在高",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HFB00210",
+        "path": "HOI060/HFB00000/HFB00200/HFB00210",
+        "label": "数量",
+        "min": 0,
+        "max": 1,
+        "type": "HFB00210-4-0type",
+        "kind": "value",
+        "base": "xsd:decimal",
+        "derived_from": [
+         "gen:decimalType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "HFB00215",
+        "path": "HOI060/HFB00000/HFB00200/HFB00215",
+        "label": "金額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "HFB00220",
+          "path": "HOI060/HFB00000/HFB00200/HFB00215/HFB00220",
+          "label": "帳簿価額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "HFB00230",
+          "path": "HOI060/HFB00000/HFB00200/HFB00215/HFB00230",
+          "label": "時価及び帳簿価額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "HFB00300",
+      "path": "HOI060/HFB00000/HFB00300",
+      "label": "期中増（減）の明細",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "HFB00310",
+        "path": "HOI060/HFB00000/HFB00300/HFB00310",
+        "label": "異動年月日",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOI060/HFB00000/HFB00300/HFB00310/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOI060/HFB00000/HFB00300/HFB00310/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOI060/HFB00000/HFB00300/HFB00310/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOI060/HFB00000/HFB00300/HFB00310/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "HFB00320",
+        "path": "HOI060/HFB00000/HFB00300/HFB00320",
+        "label": "異動事由",
+        "min": 0,
+        "max": 1,
+        "type": "HFB00320-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 10
+       },
+       {
+        "tag": "HFB00330",
+        "path": "HOI060/HFB00000/HFB00300/HFB00330",
+        "label": "数量",
+        "min": 0,
+        "max": 1,
+        "type": "HFB00330-4-0type",
+        "kind": "value",
+        "base": "xsd:decimal",
+        "derived_from": [
+         "gen:decimalType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "HFB00340",
+        "path": "HOI060/HFB00000/HFB00300/HFB00340",
+        "label": "金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "HFB00350",
+        "path": "HOI060/HFB00000/HFB00300/HFB00350",
+        "label": "売却（買入）先の名称（氏名）",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "HFB00360",
+        "path": "HOI060/HFB00000/HFB00300/HFB00360",
+        "label": "売却（買入）先の所在地（住所）",
+        "min": 0,
+        "max": 1,
+        "type": "gen:address",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "HFB00400",
+      "path": "HOI060/HFB00000/HFB00400",
+      "label": "摘要",
+      "min": 0,
+      "max": 1,
+      "type": "HFB00400-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 50
+     }
+    ]
+   },
+   {
+    "tag": "HFC00000",
+    "path": "HOI060/HFC00000",
+    "label": "計",
+    "min": 0,
+    "max": 1,
+    "type": "HFC00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HFC00100",
+      "path": "HOI060/HFC00000/HFC00100",
+      "label": "期末現在高",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HFC00200",
+      "path": "HOI060/HFC00000/HFC00200",
+      "label": "期中増（減）の金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOI060-4-0VRtype",
+    "fixed": "4.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   },
+   {
+    "name": "csvFileNM",
+    "required": false,
+    "type": "gen:str"
+   }
+  ]
+ }
+}

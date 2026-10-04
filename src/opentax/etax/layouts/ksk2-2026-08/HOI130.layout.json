@@ -1,0 +1,296 @@
+{
+ "form_id": "HOI130",
+ "label": "売上高等の事業所別内訳書",
+ "version": "5.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOI130-5-0group",
+ "xsd": "19XMLスキーマ/hojin/HOI130-005.xsd",
+ "xsd_sha256": "a787793ec15c7a3f9815af318b594c78f1ef599b97b8d220353566e96fddefea",
+ "root": {
+  "tag": "HOI130",
+  "path": "HOI130",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "HMB00000",
+    "path": "HOI130/HMB00000",
+    "label": "売上高等　繰り返し",
+    "min": 0,
+    "max": 14,
+    "type": "HMB00000-5-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HMB00100",
+      "path": "HOI130/HMB00000/HMB00100",
+      "label": "事業所の名称",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "HMB00200",
+      "path": "HOI130/HMB00000/HMB00200",
+      "label": "所在地",
+      "min": 0,
+      "max": 1,
+      "type": "gen:address",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "HMB00300",
+      "path": "HOI130/HMB00000/HMB00300",
+      "label": "責任者氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "HMB00400",
+      "path": "HOI130/HMB00000/HMB00400",
+      "label": "代表者との関係",
+      "min": 0,
+      "max": 1,
+      "type": "HMB00400-5-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 10
+     },
+     {
+      "tag": "HMB00500",
+      "path": "HOI130/HMB00000/HMB00500",
+      "label": "事業等の内容",
+      "min": 0,
+      "max": 1,
+      "type": "HMB00500-5-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 30
+     },
+     {
+      "tag": "HMB00600",
+      "path": "HOI130/HMB00000/HMB00600",
+      "label": "売上高",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HMB00700",
+      "path": "HOI130/HMB00000/HMB00700",
+      "label": "期末棚卸高",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HMB00800",
+      "path": "HOI130/HMB00000/HMB00800",
+      "label": "期末従事員数",
+      "min": 0,
+      "max": 1,
+      "type": "HMB00800-5-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HMB01000",
+      "path": "HOI130/HMB00000/HMB01000",
+      "label": "源泉所得税納付署",
+      "min": 0,
+      "max": 1,
+      "type": "HMB01000-5-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 15
+     },
+     {
+      "tag": "HMB01100",
+      "path": "HOI130/HMB00000/HMB01100",
+      "label": "摘要",
+      "min": 0,
+      "max": 1,
+      "type": "HMB01100-5-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 30
+     }
+    ]
+   },
+   {
+    "tag": "HMC00000",
+    "path": "HOI130/HMC00000",
+    "label": "合計",
+    "min": 0,
+    "max": 1,
+    "type": "HMC00000-5-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HMC00100",
+      "path": "HOI130/HMC00000/HMC00100",
+      "label": "事業等の内容",
+      "min": 0,
+      "max": 1,
+      "type": "HMC00100-5-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 30
+     },
+     {
+      "tag": "HMC00200",
+      "path": "HOI130/HMC00000/HMC00200",
+      "label": "売上高",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HMC00300",
+      "path": "HOI130/HMC00000/HMC00300",
+      "label": "期末棚卸高",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HMC00400",
+      "path": "HOI130/HMC00000/HMC00400",
+      "label": "期末従事員数",
+      "min": 0,
+      "max": 1,
+      "type": "HMC00400-5-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOI130-5-0VRtype",
+    "fixed": "5.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   },
+   {
+    "name": "csvFileNM",
+    "required": false,
+    "type": "gen:str"
+   }
+  ]
+ }
+}

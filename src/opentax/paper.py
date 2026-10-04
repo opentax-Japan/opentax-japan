@@ -28,9 +28,9 @@ from typing import Callable
 
 PAPER_DIR = Path(__file__).parent / "etax" / "paper"
 def wareki(d: datetime.date) -> str:
-    from .etax.xtx import to_wareki
+    from .etax.xtx import ERA_NAMES, to_wareki
     w = to_wareki(d)
-    return f"{'令和' if w['era'] == 5 else '平成'}{w['yy']}年{w['mm']}月{w['dd']}日"
+    return f"{ERA_NAMES[w['era']]}{w['yy']}年{w['mm']}月{w['dd']}日"
 
 
 def editions() -> list[dict]:
@@ -85,13 +85,13 @@ def _date_items(box: list[int], d: datetime.date, columns: list[int] | None = No
                 parts: list[str] | None = None) -> list[dict]:
     """元号・年・月・日の枠に分けて置く。parts で一部だけ（例 ["era", "yy"]・["era", "yy", "mm"]）。
     columns は枠の境目の x（parts の数＋1）。なければ等分する。"""
-    from .etax.xtx import to_wareki
+    from .etax.xtx import ERA_NAMES, to_wareki
     w = to_wareki(d)
     x0, y0, x1, y1 = box
     names = parts or ["era", "yy", "mm", "dd"]
     n = len(names)
     xs = columns or [round(x0 + (x1 - x0) * i / n) for i in range(n + 1)]
-    text = {"era": "令和" if w["era"] == 5 else "平成", "yy": str(w["yy"]), "mm": str(w["mm"]), "dd": str(w["dd"])}
+    text = {"era": ERA_NAMES[w["era"]], "yy": str(w["yy"]), "mm": str(w["mm"]), "dd": str(w["dd"])}
     return [{"box": [xs[i], y0, xs[i + 1], y1], "text": text[k], "kind": "center"} for i, k in enumerate(names)]
 
 
