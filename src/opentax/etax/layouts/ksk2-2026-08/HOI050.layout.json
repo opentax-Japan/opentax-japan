@@ -1,0 +1,209 @@
+{
+ "form_id": "HOI050",
+ "label": "棚卸資産(商品又は製品、半製品、仕掛品、原材料、貯蔵品)の内訳書",
+ "version": "4.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOI050-4-0group",
+ "xsd": "19XMLスキーマ/hojin/HOI050-004.xsd",
+ "xsd_sha256": "91333e07bde8156a8919a61e5bccfb0c1d2ef91d246c6b917e02286f60397aab",
+ "root": {
+  "tag": "HOI050",
+  "path": "HOI050",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "HEB00000",
+    "path": "HOI050/HEB00000",
+    "label": "棚卸資産　繰り返し",
+    "min": 0,
+    "max": 24,
+    "type": "HEB00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HEB00100",
+      "path": "HOI050/HEB00000/HEB00100",
+      "label": "科目",
+      "min": 0,
+      "max": 1,
+      "type": "HEB00100-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 10
+     },
+     {
+      "tag": "HEB00200",
+      "path": "HOI050/HEB00000/HEB00200",
+      "label": "品目",
+      "min": 0,
+      "max": 1,
+      "type": "HEB00200-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 20
+     },
+     {
+      "tag": "HEB00300",
+      "path": "HOI050/HEB00000/HEB00300",
+      "label": "数量",
+      "min": 0,
+      "max": 1,
+      "type": "HEB00300-4-0type",
+      "kind": "value",
+      "base": "xsd:decimal",
+      "derived_from": [
+       "gen:decimalType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HEB00400",
+      "path": "HOI050/HEB00000/HEB00400",
+      "label": "単価",
+      "min": 0,
+      "max": 1,
+      "type": "HEB00400-4-0type",
+      "kind": "value",
+      "base": "xsd:decimal",
+      "derived_from": [
+       "gen:decimalType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HEB00500",
+      "path": "HOI050/HEB00000/HEB00500",
+      "label": "期末現在高",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HEB00600",
+      "path": "HOI050/HEB00000/HEB00600",
+      "label": "摘要",
+      "min": 0,
+      "max": 1,
+      "type": "HEB00600-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 30
+     }
+    ]
+   },
+   {
+    "tag": "HEC00000",
+    "path": "HOI050/HEC00000",
+    "label": "計",
+    "min": 0,
+    "max": 1,
+    "type": "HEC00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "HEC00100",
+      "path": "HOI050/HEC00000/HEC00100",
+      "label": "期末現在高",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "HEC00200",
+      "path": "HOI050/HEC00000/HEC00200",
+      "label": "摘要",
+      "min": 0,
+      "max": 1,
+      "type": "HEC00200-4-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 30
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOI050-4-0VRtype",
+    "fixed": "4.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   },
+   {
+    "name": "csvFileNM",
+    "required": false,
+    "type": "gen:str"
+   }
+  ]
+ }
+}
