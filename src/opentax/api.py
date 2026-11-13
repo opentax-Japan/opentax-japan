@@ -319,7 +319,8 @@ def kojin_calculate(raw_input: dict, balances: dict | None = None) -> dict:
         if not kind.startswith("white"):
             st["balance_sheet"], checks = aoiro.balance_sheet(accounts, kind, st["before_blue"])
             if k.get("depreciation"):
-                st["depreciation"], more = aoiro.depreciation_rows(k["depreciation"], aoiro.FORM_OF[kind], st["values"])
+                st["depreciation"], more = aoiro.depreciation_rows(k["depreciation"], aoiro.FORM_OF[kind], st["values"],
+                                                                 year=d.get("year"), sme=d.get("sme"))
                 checks += more
         d[key] = {**k, "income": st["income"], "before_blue": st["before_blue"], "family_salary": st["family_salary"], "statement": st}
         d.setdefault("_checks", []).extend(checks)

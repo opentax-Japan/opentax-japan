@@ -1,0 +1,1711 @@
+{
+ "note": "減価償却資産の耐用年数等に関する省令 別表第七〜第十の数字（tools/build_depreciation_rates.py で生成。手で直さない）",
+ "source": {
+  "title": "減価償却資産の耐用年数等に関する省令（昭和四十年大蔵省令第十五号）別表第七・第八・第九・第十",
+  "url": "https://laws.e-gov.go.jp/law/340M50000040015",
+  "checked": "2026-11-14"
+ },
+ "old": {
+  "title": "別表第七 平成十九年三月三十一日以前に取得をされた減価償却資産の償却率表（旧定額法・旧定率法）",
+  "rates": {
+   "2": {
+    "old_straight": "0.500",
+    "old_declining": "0.684"
+   },
+   "3": {
+    "old_straight": "0.333",
+    "old_declining": "0.536"
+   },
+   "4": {
+    "old_straight": "0.250",
+    "old_declining": "0.438"
+   },
+   "5": {
+    "old_straight": "0.200",
+    "old_declining": "0.369"
+   },
+   "6": {
+    "old_straight": "0.166",
+    "old_declining": "0.319"
+   },
+   "7": {
+    "old_straight": "0.142",
+    "old_declining": "0.280"
+   },
+   "8": {
+    "old_straight": "0.125",
+    "old_declining": "0.250"
+   },
+   "9": {
+    "old_straight": "0.111",
+    "old_declining": "0.226"
+   },
+   "10": {
+    "old_straight": "0.100",
+    "old_declining": "0.206"
+   },
+   "11": {
+    "old_straight": "0.090",
+    "old_declining": "0.189"
+   },
+   "12": {
+    "old_straight": "0.083",
+    "old_declining": "0.175"
+   },
+   "13": {
+    "old_straight": "0.076",
+    "old_declining": "0.162"
+   },
+   "14": {
+    "old_straight": "0.071",
+    "old_declining": "0.152"
+   },
+   "15": {
+    "old_straight": "0.066",
+    "old_declining": "0.142"
+   },
+   "16": {
+    "old_straight": "0.062",
+    "old_declining": "0.134"
+   },
+   "17": {
+    "old_straight": "0.058",
+    "old_declining": "0.127"
+   },
+   "18": {
+    "old_straight": "0.055",
+    "old_declining": "0.120"
+   },
+   "19": {
+    "old_straight": "0.052",
+    "old_declining": "0.114"
+   },
+   "20": {
+    "old_straight": "0.050",
+    "old_declining": "0.109"
+   },
+   "21": {
+    "old_straight": "0.048",
+    "old_declining": "0.104"
+   },
+   "22": {
+    "old_straight": "0.046",
+    "old_declining": "0.099"
+   },
+   "23": {
+    "old_straight": "0.044",
+    "old_declining": "0.095"
+   },
+   "24": {
+    "old_straight": "0.042",
+    "old_declining": "0.092"
+   },
+   "25": {
+    "old_straight": "0.040",
+    "old_declining": "0.088"
+   },
+   "26": {
+    "old_straight": "0.039",
+    "old_declining": "0.085"
+   },
+   "27": {
+    "old_straight": "0.037",
+    "old_declining": "0.082"
+   },
+   "28": {
+    "old_straight": "0.036",
+    "old_declining": "0.079"
+   },
+   "29": {
+    "old_straight": "0.035",
+    "old_declining": "0.076"
+   },
+   "30": {
+    "old_straight": "0.034",
+    "old_declining": "0.074"
+   },
+   "31": {
+    "old_straight": "0.033",
+    "old_declining": "0.072"
+   },
+   "32": {
+    "old_straight": "0.032",
+    "old_declining": "0.069"
+   },
+   "33": {
+    "old_straight": "0.031",
+    "old_declining": "0.067"
+   },
+   "34": {
+    "old_straight": "0.030",
+    "old_declining": "0.066"
+   },
+   "35": {
+    "old_straight": "0.029",
+    "old_declining": "0.064"
+   },
+   "36": {
+    "old_straight": "0.028",
+    "old_declining": "0.062"
+   },
+   "37": {
+    "old_straight": "0.027",
+    "old_declining": "0.060"
+   },
+   "38": {
+    "old_straight": "0.027",
+    "old_declining": "0.059"
+   },
+   "39": {
+    "old_straight": "0.026",
+    "old_declining": "0.057"
+   },
+   "40": {
+    "old_straight": "0.025",
+    "old_declining": "0.056"
+   },
+   "41": {
+    "old_straight": "0.025",
+    "old_declining": "0.055"
+   },
+   "42": {
+    "old_straight": "0.024",
+    "old_declining": "0.053"
+   },
+   "43": {
+    "old_straight": "0.024",
+    "old_declining": "0.052"
+   },
+   "44": {
+    "old_straight": "0.023",
+    "old_declining": "0.051"
+   },
+   "45": {
+    "old_straight": "0.023",
+    "old_declining": "0.050"
+   },
+   "46": {
+    "old_straight": "0.022",
+    "old_declining": "0.049"
+   },
+   "47": {
+    "old_straight": "0.022",
+    "old_declining": "0.048"
+   },
+   "48": {
+    "old_straight": "0.021",
+    "old_declining": "0.047"
+   },
+   "49": {
+    "old_straight": "0.021",
+    "old_declining": "0.046"
+   },
+   "50": {
+    "old_straight": "0.020",
+    "old_declining": "0.045"
+   },
+   "51": {
+    "old_straight": "0.020",
+    "old_declining": "0.044"
+   },
+   "52": {
+    "old_straight": "0.020",
+    "old_declining": "0.043"
+   },
+   "53": {
+    "old_straight": "0.019",
+    "old_declining": "0.043"
+   },
+   "54": {
+    "old_straight": "0.019",
+    "old_declining": "0.042"
+   },
+   "55": {
+    "old_straight": "0.019",
+    "old_declining": "0.041"
+   },
+   "56": {
+    "old_straight": "0.018",
+    "old_declining": "0.040"
+   },
+   "57": {
+    "old_straight": "0.018",
+    "old_declining": "0.040"
+   },
+   "58": {
+    "old_straight": "0.018",
+    "old_declining": "0.039"
+   },
+   "59": {
+    "old_straight": "0.017",
+    "old_declining": "0.038"
+   },
+   "60": {
+    "old_straight": "0.017",
+    "old_declining": "0.038"
+   },
+   "61": {
+    "old_straight": "0.017",
+    "old_declining": "0.037"
+   },
+   "62": {
+    "old_straight": "0.017",
+    "old_declining": "0.036"
+   },
+   "63": {
+    "old_straight": "0.016",
+    "old_declining": "0.036"
+   },
+   "64": {
+    "old_straight": "0.016",
+    "old_declining": "0.035"
+   },
+   "65": {
+    "old_straight": "0.016",
+    "old_declining": "0.035"
+   },
+   "66": {
+    "old_straight": "0.016",
+    "old_declining": "0.034"
+   },
+   "67": {
+    "old_straight": "0.015",
+    "old_declining": "0.034"
+   },
+   "68": {
+    "old_straight": "0.015",
+    "old_declining": "0.033"
+   },
+   "69": {
+    "old_straight": "0.015",
+    "old_declining": "0.033"
+   },
+   "70": {
+    "old_straight": "0.015",
+    "old_declining": "0.032"
+   },
+   "71": {
+    "old_straight": "0.014",
+    "old_declining": "0.032"
+   },
+   "72": {
+    "old_straight": "0.014",
+    "old_declining": "0.032"
+   },
+   "73": {
+    "old_straight": "0.014",
+    "old_declining": "0.031"
+   },
+   "74": {
+    "old_straight": "0.014",
+    "old_declining": "0.031"
+   },
+   "75": {
+    "old_straight": "0.014",
+    "old_declining": "0.030"
+   },
+   "76": {
+    "old_straight": "0.014",
+    "old_declining": "0.030"
+   },
+   "77": {
+    "old_straight": "0.013",
+    "old_declining": "0.030"
+   },
+   "78": {
+    "old_straight": "0.013",
+    "old_declining": "0.029"
+   },
+   "79": {
+    "old_straight": "0.013",
+    "old_declining": "0.029"
+   },
+   "80": {
+    "old_straight": "0.013",
+    "old_declining": "0.028"
+   },
+   "81": {
+    "old_straight": "0.013",
+    "old_declining": "0.028"
+   },
+   "82": {
+    "old_straight": "0.013",
+    "old_declining": "0.028"
+   },
+   "83": {
+    "old_straight": "0.012",
+    "old_declining": "0.027"
+   },
+   "84": {
+    "old_straight": "0.012",
+    "old_declining": "0.027"
+   },
+   "85": {
+    "old_straight": "0.012",
+    "old_declining": "0.026"
+   },
+   "86": {
+    "old_straight": "0.012",
+    "old_declining": "0.026"
+   },
+   "87": {
+    "old_straight": "0.012",
+    "old_declining": "0.026"
+   },
+   "88": {
+    "old_straight": "0.012",
+    "old_declining": "0.026"
+   },
+   "89": {
+    "old_straight": "0.012",
+    "old_declining": "0.026"
+   },
+   "90": {
+    "old_straight": "0.012",
+    "old_declining": "0.025"
+   },
+   "91": {
+    "old_straight": "0.011",
+    "old_declining": "0.025"
+   },
+   "92": {
+    "old_straight": "0.011",
+    "old_declining": "0.025"
+   },
+   "93": {
+    "old_straight": "0.011",
+    "old_declining": "0.025"
+   },
+   "94": {
+    "old_straight": "0.011",
+    "old_declining": "0.024"
+   },
+   "95": {
+    "old_straight": "0.011",
+    "old_declining": "0.024"
+   },
+   "96": {
+    "old_straight": "0.011",
+    "old_declining": "0.024"
+   },
+   "97": {
+    "old_straight": "0.011",
+    "old_declining": "0.023"
+   },
+   "98": {
+    "old_straight": "0.011",
+    "old_declining": "0.023"
+   },
+   "99": {
+    "old_straight": "0.011",
+    "old_declining": "0.023"
+   },
+   "100": {
+    "old_straight": "0.010",
+    "old_declining": "0.023"
+   }
+  }
+ },
+ "straight": {
+  "title": "別表第八 平成十九年四月一日以後に取得をされた減価償却資産の定額法の償却率表",
+  "rates": {
+   "2": {
+    "rate": "0.500"
+   },
+   "3": {
+    "rate": "0.334"
+   },
+   "4": {
+    "rate": "0.250"
+   },
+   "5": {
+    "rate": "0.200"
+   },
+   "6": {
+    "rate": "0.167"
+   },
+   "7": {
+    "rate": "0.143"
+   },
+   "8": {
+    "rate": "0.125"
+   },
+   "9": {
+    "rate": "0.112"
+   },
+   "10": {
+    "rate": "0.100"
+   },
+   "11": {
+    "rate": "0.091"
+   },
+   "12": {
+    "rate": "0.084"
+   },
+   "13": {
+    "rate": "0.077"
+   },
+   "14": {
+    "rate": "0.072"
+   },
+   "15": {
+    "rate": "0.067"
+   },
+   "16": {
+    "rate": "0.063"
+   },
+   "17": {
+    "rate": "0.059"
+   },
+   "18": {
+    "rate": "0.056"
+   },
+   "19": {
+    "rate": "0.053"
+   },
+   "20": {
+    "rate": "0.050"
+   },
+   "21": {
+    "rate": "0.048"
+   },
+   "22": {
+    "rate": "0.046"
+   },
+   "23": {
+    "rate": "0.044"
+   },
+   "24": {
+    "rate": "0.042"
+   },
+   "25": {
+    "rate": "0.040"
+   },
+   "26": {
+    "rate": "0.039"
+   },
+   "27": {
+    "rate": "0.038"
+   },
+   "28": {
+    "rate": "0.036"
+   },
+   "29": {
+    "rate": "0.035"
+   },
+   "30": {
+    "rate": "0.034"
+   },
+   "31": {
+    "rate": "0.033"
+   },
+   "32": {
+    "rate": "0.032"
+   },
+   "33": {
+    "rate": "0.031"
+   },
+   "34": {
+    "rate": "0.030"
+   },
+   "35": {
+    "rate": "0.029"
+   },
+   "36": {
+    "rate": "0.028"
+   },
+   "37": {
+    "rate": "0.028"
+   },
+   "38": {
+    "rate": "0.027"
+   },
+   "39": {
+    "rate": "0.026"
+   },
+   "40": {
+    "rate": "0.025"
+   },
+   "41": {
+    "rate": "0.025"
+   },
+   "42": {
+    "rate": "0.024"
+   },
+   "43": {
+    "rate": "0.024"
+   },
+   "44": {
+    "rate": "0.023"
+   },
+   "45": {
+    "rate": "0.023"
+   },
+   "46": {
+    "rate": "0.022"
+   },
+   "47": {
+    "rate": "0.022"
+   },
+   "48": {
+    "rate": "0.021"
+   },
+   "49": {
+    "rate": "0.021"
+   },
+   "50": {
+    "rate": "0.020"
+   },
+   "51": {
+    "rate": "0.020"
+   },
+   "52": {
+    "rate": "0.020"
+   },
+   "53": {
+    "rate": "0.019"
+   },
+   "54": {
+    "rate": "0.019"
+   },
+   "55": {
+    "rate": "0.019"
+   },
+   "56": {
+    "rate": "0.018"
+   },
+   "57": {
+    "rate": "0.018"
+   },
+   "58": {
+    "rate": "0.018"
+   },
+   "59": {
+    "rate": "0.017"
+   },
+   "60": {
+    "rate": "0.017"
+   },
+   "61": {
+    "rate": "0.017"
+   },
+   "62": {
+    "rate": "0.017"
+   },
+   "63": {
+    "rate": "0.016"
+   },
+   "64": {
+    "rate": "0.016"
+   },
+   "65": {
+    "rate": "0.016"
+   },
+   "66": {
+    "rate": "0.016"
+   },
+   "67": {
+    "rate": "0.015"
+   },
+   "68": {
+    "rate": "0.015"
+   },
+   "69": {
+    "rate": "0.015"
+   },
+   "70": {
+    "rate": "0.015"
+   },
+   "71": {
+    "rate": "0.015"
+   },
+   "72": {
+    "rate": "0.014"
+   },
+   "73": {
+    "rate": "0.014"
+   },
+   "74": {
+    "rate": "0.014"
+   },
+   "75": {
+    "rate": "0.014"
+   },
+   "76": {
+    "rate": "0.014"
+   },
+   "77": {
+    "rate": "0.013"
+   },
+   "78": {
+    "rate": "0.013"
+   },
+   "79": {
+    "rate": "0.013"
+   },
+   "80": {
+    "rate": "0.013"
+   },
+   "81": {
+    "rate": "0.013"
+   },
+   "82": {
+    "rate": "0.013"
+   },
+   "83": {
+    "rate": "0.013"
+   },
+   "84": {
+    "rate": "0.012"
+   },
+   "85": {
+    "rate": "0.012"
+   },
+   "86": {
+    "rate": "0.012"
+   },
+   "87": {
+    "rate": "0.012"
+   },
+   "88": {
+    "rate": "0.012"
+   },
+   "89": {
+    "rate": "0.012"
+   },
+   "90": {
+    "rate": "0.012"
+   },
+   "91": {
+    "rate": "0.011"
+   },
+   "92": {
+    "rate": "0.011"
+   },
+   "93": {
+    "rate": "0.011"
+   },
+   "94": {
+    "rate": "0.011"
+   },
+   "95": {
+    "rate": "0.011"
+   },
+   "96": {
+    "rate": "0.011"
+   },
+   "97": {
+    "rate": "0.011"
+   },
+   "98": {
+    "rate": "0.011"
+   },
+   "99": {
+    "rate": "0.011"
+   },
+   "100": {
+    "rate": "0.010"
+   }
+  }
+ },
+ "declining_250": {
+  "title": "別表第九 平成十九年四月一日から平成二十四年三月三十一日までの間に取得をされた減価償却資産の定率法の償却率、改定償却率及び保証率の表",
+  "rates": {
+   "2": {
+    "rate": "1.000",
+    "revised_rate": null,
+    "guarantee": null
+   },
+   "3": {
+    "rate": "0.833",
+    "revised_rate": "1.000",
+    "guarantee": "0.02789"
+   },
+   "4": {
+    "rate": "0.625",
+    "revised_rate": "1.000",
+    "guarantee": "0.05274"
+   },
+   "5": {
+    "rate": "0.500",
+    "revised_rate": "1.000",
+    "guarantee": "0.06249"
+   },
+   "6": {
+    "rate": "0.417",
+    "revised_rate": "0.500",
+    "guarantee": "0.05776"
+   },
+   "7": {
+    "rate": "0.357",
+    "revised_rate": "0.500",
+    "guarantee": "0.05496"
+   },
+   "8": {
+    "rate": "0.313",
+    "revised_rate": "0.334",
+    "guarantee": "0.05111"
+   },
+   "9": {
+    "rate": "0.278",
+    "revised_rate": "0.334",
+    "guarantee": "0.04731"
+   },
+   "10": {
+    "rate": "0.250",
+    "revised_rate": "0.334",
+    "guarantee": "0.04448"
+   },
+   "11": {
+    "rate": "0.227",
+    "revised_rate": "0.250",
+    "guarantee": "0.04123"
+   },
+   "12": {
+    "rate": "0.208",
+    "revised_rate": "0.250",
+    "guarantee": "0.03870"
+   },
+   "13": {
+    "rate": "0.192",
+    "revised_rate": "0.200",
+    "guarantee": "0.03633"
+   },
+   "14": {
+    "rate": "0.179",
+    "revised_rate": "0.200",
+    "guarantee": "0.03389"
+   },
+   "15": {
+    "rate": "0.167",
+    "revised_rate": "0.200",
+    "guarantee": "0.03217"
+   },
+   "16": {
+    "rate": "0.156",
+    "revised_rate": "0.167",
+    "guarantee": "0.03063"
+   },
+   "17": {
+    "rate": "0.147",
+    "revised_rate": "0.167",
+    "guarantee": "0.02905"
+   },
+   "18": {
+    "rate": "0.139",
+    "revised_rate": "0.143",
+    "guarantee": "0.02757"
+   },
+   "19": {
+    "rate": "0.132",
+    "revised_rate": "0.143",
+    "guarantee": "0.02616"
+   },
+   "20": {
+    "rate": "0.125",
+    "revised_rate": "0.143",
+    "guarantee": "0.02517"
+   },
+   "21": {
+    "rate": "0.119",
+    "revised_rate": "0.125",
+    "guarantee": "0.02408"
+   },
+   "22": {
+    "rate": "0.114",
+    "revised_rate": "0.125",
+    "guarantee": "0.02296"
+   },
+   "23": {
+    "rate": "0.109",
+    "revised_rate": "0.112",
+    "guarantee": "0.02226"
+   },
+   "24": {
+    "rate": "0.104",
+    "revised_rate": "0.112",
+    "guarantee": "0.02157"
+   },
+   "25": {
+    "rate": "0.100",
+    "revised_rate": "0.112",
+    "guarantee": "0.02058"
+   },
+   "26": {
+    "rate": "0.096",
+    "revised_rate": "0.100",
+    "guarantee": "0.01989"
+   },
+   "27": {
+    "rate": "0.093",
+    "revised_rate": "0.100",
+    "guarantee": "0.01902"
+   },
+   "28": {
+    "rate": "0.089",
+    "revised_rate": "0.091",
+    "guarantee": "0.01866"
+   },
+   "29": {
+    "rate": "0.086",
+    "revised_rate": "0.091",
+    "guarantee": "0.01803"
+   },
+   "30": {
+    "rate": "0.083",
+    "revised_rate": "0.084",
+    "guarantee": "0.01766"
+   },
+   "31": {
+    "rate": "0.081",
+    "revised_rate": "0.084",
+    "guarantee": "0.01688"
+   },
+   "32": {
+    "rate": "0.078",
+    "revised_rate": "0.084",
+    "guarantee": "0.01655"
+   },
+   "33": {
+    "rate": "0.076",
+    "revised_rate": "0.077",
+    "guarantee": "0.01585"
+   },
+   "34": {
+    "rate": "0.074",
+    "revised_rate": "0.077",
+    "guarantee": "0.01532"
+   },
+   "35": {
+    "rate": "0.071",
+    "revised_rate": "0.072",
+    "guarantee": "0.01532"
+   },
+   "36": {
+    "rate": "0.069",
+    "revised_rate": "0.072",
+    "guarantee": "0.01494"
+   },
+   "37": {
+    "rate": "0.068",
+    "revised_rate": "0.072",
+    "guarantee": "0.01425"
+   },
+   "38": {
+    "rate": "0.066",
+    "revised_rate": "0.067",
+    "guarantee": "0.01393"
+   },
+   "39": {
+    "rate": "0.064",
+    "revised_rate": "0.067",
+    "guarantee": "0.01370"
+   },
+   "40": {
+    "rate": "0.063",
+    "revised_rate": "0.067",
+    "guarantee": "0.01317"
+   },
+   "41": {
+    "rate": "0.061",
+    "revised_rate": "0.063",
+    "guarantee": "0.01306"
+   },
+   "42": {
+    "rate": "0.060",
+    "revised_rate": "0.063",
+    "guarantee": "0.01261"
+   },
+   "43": {
+    "rate": "0.058",
+    "revised_rate": "0.059",
+    "guarantee": "0.01248"
+   },
+   "44": {
+    "rate": "0.057",
+    "revised_rate": "0.059",
+    "guarantee": "0.01210"
+   },
+   "45": {
+    "rate": "0.056",
+    "revised_rate": "0.059",
+    "guarantee": "0.01175"
+   },
+   "46": {
+    "rate": "0.054",
+    "revised_rate": "0.056",
+    "guarantee": "0.01175"
+   },
+   "47": {
+    "rate": "0.053",
+    "revised_rate": "0.056",
+    "guarantee": "0.01153"
+   },
+   "48": {
+    "rate": "0.052",
+    "revised_rate": "0.053",
+    "guarantee": "0.01126"
+   },
+   "49": {
+    "rate": "0.051",
+    "revised_rate": "0.053",
+    "guarantee": "0.01102"
+   },
+   "50": {
+    "rate": "0.050",
+    "revised_rate": "0.053",
+    "guarantee": "0.01072"
+   },
+   "51": {
+    "rate": "0.049",
+    "revised_rate": "0.050",
+    "guarantee": "0.01053"
+   },
+   "52": {
+    "rate": "0.048",
+    "revised_rate": "0.050",
+    "guarantee": "0.01036"
+   },
+   "53": {
+    "rate": "0.047",
+    "revised_rate": "0.048",
+    "guarantee": "0.01028"
+   },
+   "54": {
+    "rate": "0.046",
+    "revised_rate": "0.048",
+    "guarantee": "0.01015"
+   },
+   "55": {
+    "rate": "0.045",
+    "revised_rate": "0.046",
+    "guarantee": "0.01007"
+   },
+   "56": {
+    "rate": "0.045",
+    "revised_rate": "0.046",
+    "guarantee": "0.00961"
+   },
+   "57": {
+    "rate": "0.044",
+    "revised_rate": "0.046",
+    "guarantee": "0.00952"
+   },
+   "58": {
+    "rate": "0.043",
+    "revised_rate": "0.044",
+    "guarantee": "0.00945"
+   },
+   "59": {
+    "rate": "0.042",
+    "revised_rate": "0.044",
+    "guarantee": "0.00934"
+   },
+   "60": {
+    "rate": "0.042",
+    "revised_rate": "0.044",
+    "guarantee": "0.00895"
+   },
+   "61": {
+    "rate": "0.041",
+    "revised_rate": "0.042",
+    "guarantee": "0.00892"
+   },
+   "62": {
+    "rate": "0.040",
+    "revised_rate": "0.042",
+    "guarantee": "0.00882"
+   },
+   "63": {
+    "rate": "0.040",
+    "revised_rate": "0.042",
+    "guarantee": "0.00847"
+   },
+   "64": {
+    "rate": "0.039",
+    "revised_rate": "0.040",
+    "guarantee": "0.00847"
+   },
+   "65": {
+    "rate": "0.038",
+    "revised_rate": "0.039",
+    "guarantee": "0.00847"
+   },
+   "66": {
+    "rate": "0.038",
+    "revised_rate": "0.039",
+    "guarantee": "0.00828"
+   },
+   "67": {
+    "rate": "0.037",
+    "revised_rate": "0.038",
+    "guarantee": "0.00828"
+   },
+   "68": {
+    "rate": "0.037",
+    "revised_rate": "0.038",
+    "guarantee": "0.00810"
+   },
+   "69": {
+    "rate": "0.036",
+    "revised_rate": "0.038",
+    "guarantee": "0.00800"
+   },
+   "70": {
+    "rate": "0.036",
+    "revised_rate": "0.038",
+    "guarantee": "0.00771"
+   },
+   "71": {
+    "rate": "0.035",
+    "revised_rate": "0.036",
+    "guarantee": "0.00771"
+   },
+   "72": {
+    "rate": "0.035",
+    "revised_rate": "0.036",
+    "guarantee": "0.00751"
+   },
+   "73": {
+    "rate": "0.034",
+    "revised_rate": "0.035",
+    "guarantee": "0.00751"
+   },
+   "74": {
+    "rate": "0.034",
+    "revised_rate": "0.035",
+    "guarantee": "0.00738"
+   },
+   "75": {
+    "rate": "0.033",
+    "revised_rate": "0.034",
+    "guarantee": "0.00738"
+   },
+   "76": {
+    "rate": "0.033",
+    "revised_rate": "0.034",
+    "guarantee": "0.00726"
+   },
+   "77": {
+    "rate": "0.032",
+    "revised_rate": "0.033",
+    "guarantee": "0.00726"
+   },
+   "78": {
+    "rate": "0.032",
+    "revised_rate": "0.033",
+    "guarantee": "0.00716"
+   },
+   "79": {
+    "rate": "0.032",
+    "revised_rate": "0.033",
+    "guarantee": "0.00693"
+   },
+   "80": {
+    "rate": "0.031",
+    "revised_rate": "0.032",
+    "guarantee": "0.00693"
+   },
+   "81": {
+    "rate": "0.031",
+    "revised_rate": "0.032",
+    "guarantee": "0.00683"
+   },
+   "82": {
+    "rate": "0.030",
+    "revised_rate": "0.031",
+    "guarantee": "0.00683"
+   },
+   "83": {
+    "rate": "0.030",
+    "revised_rate": "0.031",
+    "guarantee": "0.00673"
+   },
+   "84": {
+    "rate": "0.030",
+    "revised_rate": "0.031",
+    "guarantee": "0.00653"
+   },
+   "85": {
+    "rate": "0.029",
+    "revised_rate": "0.030",
+    "guarantee": "0.00653"
+   },
+   "86": {
+    "rate": "0.029",
+    "revised_rate": "0.030",
+    "guarantee": "0.00645"
+   },
+   "87": {
+    "rate": "0.029",
+    "revised_rate": "0.030",
+    "guarantee": "0.00627"
+   },
+   "88": {
+    "rate": "0.028",
+    "revised_rate": "0.029",
+    "guarantee": "0.00627"
+   },
+   "89": {
+    "rate": "0.028",
+    "revised_rate": "0.029",
+    "guarantee": "0.00620"
+   },
+   "90": {
+    "rate": "0.028",
+    "revised_rate": "0.029",
+    "guarantee": "0.00603"
+   },
+   "91": {
+    "rate": "0.027",
+    "revised_rate": "0.027",
+    "guarantee": "0.00649"
+   },
+   "92": {
+    "rate": "0.027",
+    "revised_rate": "0.027",
+    "guarantee": "0.00632"
+   },
+   "93": {
+    "rate": "0.027",
+    "revised_rate": "0.027",
+    "guarantee": "0.00615"
+   },
+   "94": {
+    "rate": "0.027",
+    "revised_rate": "0.027",
+    "guarantee": "0.00598"
+   },
+   "95": {
+    "rate": "0.026",
+    "revised_rate": "0.027",
+    "guarantee": "0.00594"
+   },
+   "96": {
+    "rate": "0.026",
+    "revised_rate": "0.027",
+    "guarantee": "0.00578"
+   },
+   "97": {
+    "rate": "0.026",
+    "revised_rate": "0.027",
+    "guarantee": "0.00563"
+   },
+   "98": {
+    "rate": "0.026",
+    "revised_rate": "0.027",
+    "guarantee": "0.00549"
+   },
+   "99": {
+    "rate": "0.025",
+    "revised_rate": "0.026",
+    "guarantee": "0.00549"
+   },
+   "100": {
+    "rate": "0.025",
+    "revised_rate": "0.026",
+    "guarantee": "0.00546"
+   }
+  }
+ },
+ "declining_200": {
+  "title": "別表第十 平成二十四年四月一日以後に取得をされた減価償却資産の定率法の償却率、改定償却率及び保証率の表",
+  "rates": {
+   "2": {
+    "rate": "1.000",
+    "revised_rate": null,
+    "guarantee": null
+   },
+   "3": {
+    "rate": "0.667",
+    "revised_rate": "1.000",
+    "guarantee": "0.11089"
+   },
+   "4": {
+    "rate": "0.500",
+    "revised_rate": "1.000",
+    "guarantee": "0.12499"
+   },
+   "5": {
+    "rate": "0.400",
+    "revised_rate": "0.500",
+    "guarantee": "0.10800"
+   },
+   "6": {
+    "rate": "0.333",
+    "revised_rate": "0.334",
+    "guarantee": "0.09911"
+   },
+   "7": {
+    "rate": "0.286",
+    "revised_rate": "0.334",
+    "guarantee": "0.08680"
+   },
+   "8": {
+    "rate": "0.250",
+    "revised_rate": "0.334",
+    "guarantee": "0.07909"
+   },
+   "9": {
+    "rate": "0.222",
+    "revised_rate": "0.250",
+    "guarantee": "0.07126"
+   },
+   "10": {
+    "rate": "0.200",
+    "revised_rate": "0.250",
+    "guarantee": "0.06552"
+   },
+   "11": {
+    "rate": "0.182",
+    "revised_rate": "0.200",
+    "guarantee": "0.05992"
+   },
+   "12": {
+    "rate": "0.167",
+    "revised_rate": "0.200",
+    "guarantee": "0.05566"
+   },
+   "13": {
+    "rate": "0.154",
+    "revised_rate": "0.167",
+    "guarantee": "0.05180"
+   },
+   "14": {
+    "rate": "0.143",
+    "revised_rate": "0.167",
+    "guarantee": "0.04854"
+   },
+   "15": {
+    "rate": "0.133",
+    "revised_rate": "0.143",
+    "guarantee": "0.04565"
+   },
+   "16": {
+    "rate": "0.125",
+    "revised_rate": "0.143",
+    "guarantee": "0.04294"
+   },
+   "17": {
+    "rate": "0.118",
+    "revised_rate": "0.125",
+    "guarantee": "0.04038"
+   },
+   "18": {
+    "rate": "0.111",
+    "revised_rate": "0.112",
+    "guarantee": "0.03884"
+   },
+   "19": {
+    "rate": "0.105",
+    "revised_rate": "0.112",
+    "guarantee": "0.03693"
+   },
+   "20": {
+    "rate": "0.100",
+    "revised_rate": "0.112",
+    "guarantee": "0.03486"
+   },
+   "21": {
+    "rate": "0.095",
+    "revised_rate": "0.100",
+    "guarantee": "0.03335"
+   },
+   "22": {
+    "rate": "0.091",
+    "revised_rate": "0.100",
+    "guarantee": "0.03182"
+   },
+   "23": {
+    "rate": "0.087",
+    "revised_rate": "0.091",
+    "guarantee": "0.03052"
+   },
+   "24": {
+    "rate": "0.083",
+    "revised_rate": "0.084",
+    "guarantee": "0.02969"
+   },
+   "25": {
+    "rate": "0.080",
+    "revised_rate": "0.084",
+    "guarantee": "0.02841"
+   },
+   "26": {
+    "rate": "0.077",
+    "revised_rate": "0.084",
+    "guarantee": "0.02716"
+   },
+   "27": {
+    "rate": "0.074",
+    "revised_rate": "0.077",
+    "guarantee": "0.02624"
+   },
+   "28": {
+    "rate": "0.071",
+    "revised_rate": "0.072",
+    "guarantee": "0.02568"
+   },
+   "29": {
+    "rate": "0.069",
+    "revised_rate": "0.072",
+    "guarantee": "0.02463"
+   },
+   "30": {
+    "rate": "0.067",
+    "revised_rate": "0.072",
+    "guarantee": "0.02366"
+   },
+   "31": {
+    "rate": "0.065",
+    "revised_rate": "0.067",
+    "guarantee": "0.02286"
+   },
+   "32": {
+    "rate": "0.063",
+    "revised_rate": "0.067",
+    "guarantee": "0.02216"
+   },
+   "33": {
+    "rate": "0.061",
+    "revised_rate": "0.063",
+    "guarantee": "0.02161"
+   },
+   "34": {
+    "rate": "0.059",
+    "revised_rate": "0.063",
+    "guarantee": "0.02097"
+   },
+   "35": {
+    "rate": "0.057",
+    "revised_rate": "0.059",
+    "guarantee": "0.02051"
+   },
+   "36": {
+    "rate": "0.056",
+    "revised_rate": "0.059",
+    "guarantee": "0.01974"
+   },
+   "37": {
+    "rate": "0.054",
+    "revised_rate": "0.056",
+    "guarantee": "0.01950"
+   },
+   "38": {
+    "rate": "0.053",
+    "revised_rate": "0.056",
+    "guarantee": "0.01882"
+   },
+   "39": {
+    "rate": "0.051",
+    "revised_rate": "0.053",
+    "guarantee": "0.01860"
+   },
+   "40": {
+    "rate": "0.050",
+    "revised_rate": "0.053",
+    "guarantee": "0.01791"
+   },
+   "41": {
+    "rate": "0.049",
+    "revised_rate": "0.050",
+    "guarantee": "0.01741"
+   },
+   "42": {
+    "rate": "0.048",
+    "revised_rate": "0.050",
+    "guarantee": "0.01694"
+   },
+   "43": {
+    "rate": "0.047",
+    "revised_rate": "0.048",
+    "guarantee": "0.01664"
+   },
+   "44": {
+    "rate": "0.045",
+    "revised_rate": "0.046",
+    "guarantee": "0.01664"
+   },
+   "45": {
+    "rate": "0.044",
+    "revised_rate": "0.046",
+    "guarantee": "0.01634"
+   },
+   "46": {
+    "rate": "0.043",
+    "revised_rate": "0.044",
+    "guarantee": "0.01601"
+   },
+   "47": {
+    "rate": "0.043",
+    "revised_rate": "0.044",
+    "guarantee": "0.01532"
+   },
+   "48": {
+    "rate": "0.042",
+    "revised_rate": "0.044",
+    "guarantee": "0.01499"
+   },
+   "49": {
+    "rate": "0.041",
+    "revised_rate": "0.042",
+    "guarantee": "0.01475"
+   },
+   "50": {
+    "rate": "0.040",
+    "revised_rate": "0.042",
+    "guarantee": "0.01440"
+   },
+   "51": {
+    "rate": "0.039",
+    "revised_rate": "0.040",
+    "guarantee": "0.01422"
+   },
+   "52": {
+    "rate": "0.038",
+    "revised_rate": "0.039",
+    "guarantee": "0.01422"
+   },
+   "53": {
+    "rate": "0.038",
+    "revised_rate": "0.039",
+    "guarantee": "0.01370"
+   },
+   "54": {
+    "rate": "0.037",
+    "revised_rate": "0.038",
+    "guarantee": "0.01370"
+   },
+   "55": {
+    "rate": "0.036",
+    "revised_rate": "0.038",
+    "guarantee": "0.01337"
+   },
+   "56": {
+    "rate": "0.036",
+    "revised_rate": "0.038",
+    "guarantee": "0.01288"
+   },
+   "57": {
+    "rate": "0.035",
+    "revised_rate": "0.036",
+    "guarantee": "0.01281"
+   },
+   "58": {
+    "rate": "0.034",
+    "revised_rate": "0.035",
+    "guarantee": "0.01281"
+   },
+   "59": {
+    "rate": "0.034",
+    "revised_rate": "0.035",
+    "guarantee": "0.01240"
+   },
+   "60": {
+    "rate": "0.033",
+    "revised_rate": "0.034",
+    "guarantee": "0.01240"
+   },
+   "61": {
+    "rate": "0.033",
+    "revised_rate": "0.034",
+    "guarantee": "0.01201"
+   },
+   "62": {
+    "rate": "0.032",
+    "revised_rate": "0.033",
+    "guarantee": "0.01201"
+   },
+   "63": {
+    "rate": "0.032",
+    "revised_rate": "0.033",
+    "guarantee": "0.01165"
+   },
+   "64": {
+    "rate": "0.031",
+    "revised_rate": "0.032",
+    "guarantee": "0.01165"
+   },
+   "65": {
+    "rate": "0.031",
+    "revised_rate": "0.032",
+    "guarantee": "0.01130"
+   },
+   "66": {
+    "rate": "0.030",
+    "revised_rate": "0.031",
+    "guarantee": "0.01130"
+   },
+   "67": {
+    "rate": "0.030",
+    "revised_rate": "0.031",
+    "guarantee": "0.01097"
+   },
+   "68": {
+    "rate": "0.029",
+    "revised_rate": "0.030",
+    "guarantee": "0.01097"
+   },
+   "69": {
+    "rate": "0.029",
+    "revised_rate": "0.030",
+    "guarantee": "0.01065"
+   },
+   "70": {
+    "rate": "0.029",
+    "revised_rate": "0.030",
+    "guarantee": "0.01034"
+   },
+   "71": {
+    "rate": "0.028",
+    "revised_rate": "0.029",
+    "guarantee": "0.01034"
+   },
+   "72": {
+    "rate": "0.028",
+    "revised_rate": "0.029",
+    "guarantee": "0.01006"
+   },
+   "73": {
+    "rate": "0.027",
+    "revised_rate": "0.027",
+    "guarantee": "0.01063"
+   },
+   "74": {
+    "rate": "0.027",
+    "revised_rate": "0.027",
+    "guarantee": "0.01035"
+   },
+   "75": {
+    "rate": "0.027",
+    "revised_rate": "0.027",
+    "guarantee": "0.01007"
+   },
+   "76": {
+    "rate": "0.026",
+    "revised_rate": "0.027",
+    "guarantee": "0.00980"
+   },
+   "77": {
+    "rate": "0.026",
+    "revised_rate": "0.027",
+    "guarantee": "0.00954"
+   },
+   "78": {
+    "rate": "0.026",
+    "revised_rate": "0.027",
+    "guarantee": "0.00929"
+   },
+   "79": {
+    "rate": "0.025",
+    "revised_rate": "0.026",
+    "guarantee": "0.00929"
+   },
+   "80": {
+    "rate": "0.025",
+    "revised_rate": "0.026",
+    "guarantee": "0.00907"
+   },
+   "81": {
+    "rate": "0.025",
+    "revised_rate": "0.026",
+    "guarantee": "0.00884"
+   },
+   "82": {
+    "rate": "0.024",
+    "revised_rate": "0.024",
+    "guarantee": "0.00929"
+   },
+   "83": {
+    "rate": "0.024",
+    "revised_rate": "0.024",
+    "guarantee": "0.00907"
+   },
+   "84": {
+    "rate": "0.024",
+    "revised_rate": "0.024",
+    "guarantee": "0.00885"
+   },
+   "85": {
+    "rate": "0.024",
+    "revised_rate": "0.024",
+    "guarantee": "0.00864"
+   },
+   "86": {
+    "rate": "0.023",
+    "revised_rate": "0.023",
+    "guarantee": "0.00885"
+   },
+   "87": {
+    "rate": "0.023",
+    "revised_rate": "0.023",
+    "guarantee": "0.00864"
+   },
+   "88": {
+    "rate": "0.023",
+    "revised_rate": "0.023",
+    "guarantee": "0.00844"
+   },
+   "89": {
+    "rate": "0.022",
+    "revised_rate": "0.022",
+    "guarantee": "0.00863"
+   },
+   "90": {
+    "rate": "0.022",
+    "revised_rate": "0.022",
+    "guarantee": "0.00844"
+   },
+   "91": {
+    "rate": "0.022",
+    "revised_rate": "0.022",
+    "guarantee": "0.00825"
+   },
+   "92": {
+    "rate": "0.022",
+    "revised_rate": "0.022",
+    "guarantee": "0.00807"
+   },
+   "93": {
+    "rate": "0.022",
+    "revised_rate": "0.022",
+    "guarantee": "0.00790"
+   },
+   "94": {
+    "rate": "0.021",
+    "revised_rate": "0.021",
+    "guarantee": "0.00807"
+   },
+   "95": {
+    "rate": "0.021",
+    "revised_rate": "0.021",
+    "guarantee": "0.00790"
+   },
+   "96": {
+    "rate": "0.021",
+    "revised_rate": "0.021",
+    "guarantee": "0.00773"
+   },
+   "97": {
+    "rate": "0.021",
+    "revised_rate": "0.021",
+    "guarantee": "0.00757"
+   },
+   "98": {
+    "rate": "0.020",
+    "revised_rate": "0.020",
+    "guarantee": "0.00773"
+   },
+   "99": {
+    "rate": "0.020",
+    "revised_rate": "0.020",
+    "guarantee": "0.00757"
+   },
+   "100": {
+    "rate": "0.020",
+    "revised_rate": "0.020",
+    "guarantee": "0.00742"
+   }
+  }
+ }
+}

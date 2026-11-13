@@ -52,7 +52,7 @@ _STATEMENT = {"bookkeeping", "income", "before_blue", "blue", "white", "family_s
 SCHEMA = {
     "": {"year", "taxpayer", "business", "real_estate", "blue_return", "dividends", "salary", "public_pension", "misc_business",
          "misc_other", "temporary", "family_employees", "spouse", "dependents", "deductions", "prepaid_tax", "filing",
-         "refund_account", "salary_adjustment_eligible", "note"} | set(OUT_OF_SCOPE),
+         "refund_account", "salary_adjustment_eligible", "note", "sme"} | set(OUT_OF_SCOPE),
     "taxpayer": {"name", "name_kana", "birth", "address", "address_jan1", "zip", "tax_office", "tax_office_code", "user_id",
                  "my_number", "occupation", "trade_name", "householder", "householder_relation", "phone", "widow",
                  "working_student", "disabled"},
@@ -75,7 +75,7 @@ SCHEMA = {
     "filing": {"submitted_on", "preparer", "tax_accountant_article30", "tax_accountant_article33_2"},
     "refund_account": {"bank", "bank_kind", "branch", "branch_kind", "type", "number"},
     "business.depreciation[]": {"name", "quantity", "acquired", "cost", "base", "method", "life", "rate", "months", "ordinary",
-                                "special", "ratio", "expense", "book", "note"},
+                                "special", "ratio", "expense", "book", "note", "in_service", "kind", "revised_cost", "new"},
 }
 SCHEMA["real_estate.depreciation[]"] = SCHEMA["business.depreciation[]"]
 

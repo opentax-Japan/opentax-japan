@@ -5,7 +5,7 @@
 区分を決められない科目・入りきらない科目があれば止める（黙って雑費にしない）。計算は足し引きだけ。
 - 損益計算書（青色 1ページ）・収支内訳書（白色 1ページ）: build
 - 貸借対照表（青色 4ページ。期末の欄）: balance_sheet
-- 減価償却費の計算（青色 3ページ・不動産所得用 2〜3ページ）: depreciation_rows（固定資産台帳の数字を写す。償却率では計算しない）
+- 減価償却費の計算（青色 3ページ・不動産所得用 2〜3ページ）: depreciation_rows（固定資産台帳の数字を写し、償却率で計算し直して違えば知らせる）
 """
 
 from __future__ import annotations
@@ -243,8 +243,9 @@ DEPRECIATION_TAGS = {
 }
 
 
-def depreciation_rows(assets: list[dict], form_id: str, pl_values: dict) -> tuple[dict, list[str]]:
-    """固定資産台帳の数字（assets）を減価償却費の計算の欄に写す。償却率では計算しない（DESIGN §15.6 と同じ考え）。
+def depreciation_rows(assets: list[dict], form_id: str, pl_values: dict, year: int | None = None,
+                      sme: bool | None = None) -> tuple[dict, list[str]]:
+    """固定資産台帳の数字（assets）を減価償却費の計算の欄に写す。year があれば償却率で計算し直して比べる（depreciation_checks）。
     行の合計が損益計算書の減価償却費と合わなければ知らせる。"""
     import datetime
     t = DEPRECIATION_TAGS[form_id]
@@ -266,4 +267,37 @@ def depreciation_rows(assets: list[dict], form_id: str, pl_values: dict) -> tupl
     expense = pl_values.get(t["expense_line"], 0)
     if v[t["sum"]["expense"]] != expense:
         checks.append(f"減価償却費の計算の必要経費算入額の計 {v[t['sum']['expense']]:,}円 が損益計算書の減価償却費 {expense:,}円 と合いません")
+    if year:
+        checks += depreciation_checks(assets, int(year), sme)
     return v, checks
+
+
+def depreciation_checks(assets: list[dict], year: int, sme: bool | None = None) -> list[str]:
+    """台帳の本年分の普通償却費を耐用年数省令の償却率で計算し直して比べる（所得税法第49条・同法施行令第120条の2・第132条・第134条）。
+    1円を超えて違えば知らせる。本年に業務の用に供した資産は適用漏れ点検（少額・一括・中小の少額特例・特別償却等の候補）を出す。
+    個人の償却費は強制償却なので、計算値と台帳の額の違いはそのまま必要経費の違いになる。"""
+    import datetime
+    from .. import depreciation as dep
+    from ..red.calculate import candidate_text
+    start, end = datetime.date(year, 1, 1), datetime.date(year, 12, 31)
+    out = []
+    for a in assets:
+        if not a.get("acquired") or a.get("method") not in dep.METHODS or not a.get("life"):
+            continue
+        label = a.get("name") or a.get("kind") or "資産"
+        ordinary = int(a.get("ordinary", 0) or 0)
+        book_begin = int(a.get("book", 0) or 0) + ordinary              # 期首（前年末）の未償却残高
+        try:
+            c = dep.compute({**a, "useful_life": a["life"], "tax_book_begin": min(book_begin, int(a["cost"]))}, start, end, individual=True)
+        except dep.DepreciationError as e:
+            out.append(f"減価償却（{label}）: 償却費を計算し直せませんでした（{e}）")
+            continue
+        out += [f"減価償却（{label}）: {n}" for n in c["notes"]]
+        if abs(c["limit"] - ordinary) > 1:
+            out.append(f"減価償却（{label}）: 本年分の普通償却費 {ordinary:,}円 が計算値 {c['limit']:,}円（{c['basis']}、耐用年数省令{c['table']}）と違います"
+                       "（個人は強制償却。取得年月・耐用年数・未償却残高・業務に使った月数を確かめてください）")
+    cands = dep.acquisition_candidates(
+        [{"name": a.get("name"), "kind": a.get("kind", a.get("name", "")), "cost": int(a["cost"]), "acquired": a["acquired"],
+          "in_service": a.get("in_service") or a["acquired"], "new": a.get("new")} for a in assets if a.get("acquired")],
+        start, end, individual=True, sme=sme)
+    return out + [candidate_text(c) for c in cands]

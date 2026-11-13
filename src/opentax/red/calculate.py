@@ -79,9 +79,41 @@ def schedule_15(data: dict, rules: dict) -> dict | None:
 # --- 別表十六(一)(二) ---
 
 def schedule_16(data: dict) -> dict:
-    """固定資産台帳の数字（資産ごと・種類ごとの合計）から、償却超過額・認容額を出す。償却限度額は台帳の計算を使う。"""
-    rows = []
-    for d in data.get("depreciation") or []:
+    """減価償却（資産ごと・種類ごとの合計）から、償却超過額・認容額を出す。
+    取得日（acquired）があれば、耐用年数省令の償却率で普通償却限度額を計算する（opentax.depreciation）。
+    台帳の限度額（limit）も書いてあれば比べ、1円を超えて違えば計算値を使って知らせる（1円の違いは端数の扱いの差として台帳の額）。
+    取得日がなければ台帳の限度額を写す（種類ごとの合計など）。"""
+    from .. import depreciation as dep
+    rows, checks = [], []
+    fp = data.get("fiscal_period") or {}
+    for i, d in enumerate(data.get("depreciation") or [], 1):
+        label = d.get("name") or d.get("detail") or d.get("kind") or f"{i}行目"
+        register = d.get("limit")
+        calc = None
+        if d.get("acquired"):
+            tax_book_begin = d["book_end"] + d["expensed"] + d["prior_excess"]   # 期首の税務上の未償却残額（当期取得は取得価額）
+            if tax_book_begin > d["cost"]:
+                checks.append(f"減価償却（{label}）: 期末帳簿価額＋当期償却額＋前期繰越超過額が取得価額を超えています（期中の資本的支出・取得は別の行に）")
+            try:
+                calc = dep.compute({**d, "tax_book_begin": min(tax_book_begin, d["cost"])}, fp["start"], fp["end"])
+            except dep.DepreciationError as e:
+                if register is None:
+                    raise OutOfScope(f"減価償却（{label}）: {e}")
+                checks.append(f"減価償却（{label}）: 償却限度額を計算できないので台帳の額 {register:,}円 を使いました（{e}）")
+        if calc is not None:
+            checks += [f"減価償却（{label}）: {n}" for n in calc["notes"]]
+            limit = calc["limit"]
+            if register is not None and register != limit:
+                if abs(register - limit) <= 1:
+                    checks.append(f"減価償却（{label}）: 台帳の償却限度額 {register:,}円 と計算値 {limit:,}円 の1円の違いは端数の扱いの差"
+                                  "（法令に端数の定めがない）として台帳の額を使いました")
+                    limit = register
+                else:
+                    checks.append(f"減価償却（{label}）: 台帳の償却限度額 {register:,}円 が計算値 {limit:,}円（{calc['basis']}、耐用年数省令{calc['table']}）"
+                                  "と違います。計算値を使いました（資本的支出・特別償却・増加償却・耐用年数・取得日を確かめてください）")
+            d = {**d, "limit": limit, "basis": calc["basis"], "months": calc["months"], "computed": True}
+        else:
+            d = {**d, "limit": int(register), "computed": False}
         short = max(d["limit"] - d["expensed"], 0)
         excess = max(d["expensed"] - d["limit"], 0)
         allowed = min(short, d["prior_excess"])                  # 当期認容額（償却不足によるもの）
@@ -93,9 +125,34 @@ def schedule_16(data: dict) -> dict:
     for name, rs in (("別表十六(一)", straight), ("別表十六(二)", declining)):
         if len(rs) > 5:
             raise OutOfScope(f"{name}の列が5を超えています（種類ごとの合計にまとめてください）")
+    candidates = acquisition_checks(data)
     return {"straight": straight, "declining": declining,
             "excess": sum(r["excess"] for r in rows), "allowed": sum(r["allowed"] for r in rows),
-            "prior_excess": sum(r["prior_excess"] for r in rows), "carry": sum(r["carry"] for r in rows)}
+            "prior_excess": sum(r["prior_excess"] for r in rows), "carry": sum(r["carry"] for r in rows),
+            "checks": checks, "candidates": candidates}
+
+
+def candidate_text(c: dict) -> str:
+    """適用漏れ点検の候補を1行にする（確かめてほしいことに出す）。"""
+    effect = f"・試算 {c['effect']:,}円" if c.get("effect") else ""
+    deadline = f"・期限 {c['deadline']} までの取得" if c.get("deadline") else ""
+    conds = f"。確かめること: {'／'.join(c['conditions'])}" if c.get("conditions") else ""
+    return (f"【適用漏れ点検】{c['asset']}（{c['cost']:,}円）: {c['title']}（{c['basis']}{deadline}{effect}。{c['effect_note']}）{conds}"
+            "。選ぶかどうかは税理士が決めてください")
+
+
+def acquisition_checks(data: dict) -> list[dict]:
+    """当期に事業の用に供した資産（depreciation の acquired・in_service が当期）について、
+    少額・一括・中小の少額特例・特別償却/税額控除の候補を出す（適用漏れ点検。選ぶのは人）。"""
+    from .. import depreciation as dep
+    fp = data.get("fiscal_period") or {}
+    assets = [{"name": d.get("name") or d.get("detail") or d.get("kind"), "kind": d.get("kind", ""), "cost": d["cost"],
+               "acquired": d["acquired"], "in_service": d.get("in_service") or d["acquired"], "new": d.get("new")}
+              for d in data.get("depreciation") or [] if d.get("acquired")]
+    if not assets or not fp:
+        return []
+    return dep.acquisition_candidates(assets, fp["start"], fp["end"], individual=False,
+                                      sme=data.get("sme"), blue=bool((data.get("company") or {}).get("blue_return", True)))
 
 
 # --- 別表四 ---
@@ -613,6 +670,8 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
     if s52["provision"]["closing"] < 0:
         warnings.append(f"期末の納税充当金がマイナスです（{s52['provision']['closing']:,}円）。中間納付を納税充当金の取崩しで払った額が、"
                         "納税充当金より多いためです（会計の処理と合っているか確かめてください）")
+    warnings += s16["checks"]
+    warnings += [candidate_text(c) for c in s16["candidates"]]
     refund = s1["refund_total"] + s1["refund_local"]
     if refund and not data.get("refund_account"):
         warnings.append(f"還付金（法人税・地方法人税 {refund:,}円）を受け取る口座（refund_account）が入力にありません")

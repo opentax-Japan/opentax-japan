@@ -73,10 +73,16 @@ _SCHEMA: dict[str, Any] = {
                 "市町村民税": {"法人税割": int, "均等割": int}, "事業税": int, "特別法人事業税": int, "method": str},
     # 交際費等（別表十五）。科目ごとに 支出額・交際費等から控除される費用の額・接待飲食費の額
     "entertainment": [{"account": str, "amount": int, "deductible": int, "dining": int}],
-    # 減価償却（別表十六(一)(二)）。固定資産台帳の数字を写す（資産ごと、または種類ごとの合計）。
-    # limit（当期分の普通償却限度額）は台帳で計算したもの。OpenTax は償却率から計算しない
-    "depreciation": [{"method": str, "kind": str, "structure": str, "detail": str, "useful_life": int, "cost": int,
-                      "book_end": int, "expensed": int, "limit": int, "prior_excess": int}],
+    # 減価償却（別表十六(一)(二)）。資産ごと（または種類ごとの合計）。
+    # acquired（取得日）があれば、耐用年数省令の償却率で当期分の普通償却限度額を計算する（opentax.depreciation）。
+    # limit（台帳の償却限度額）も書けば計算値と比べ、違えば知らせる。acquired がなければ limit を写す（種類ごとの合計など）。
+    # in_service: 事業の用に供した日（取得日と違うとき）。revised_cost: 定率法の改定取得価額（前期以前に切り替えたとき）。
+    # special: 特別償却限度額（台帳・別表の額。OpenTax は計算しない）
+    "depreciation": [{"method": str, "kind": str, "structure": str, "detail": str, "name": str, "useful_life": int, "cost": int,
+                      "book_end": int, "expensed": int, "limit": int, "prior_excess": int, "acquired": "date",
+                      "in_service": "date", "revised_cost": int, "special": int, "new": bool}],
+    # 取得した資産の適用漏れ点検に使う会社の区分（措置法の中小企業者等に当たるか。分からなければ書かない）
+    "sme": bool,
     # 寄附金（別表十四(二)）。科目残高から作る（DESIGN §19）。書けば科目残高の推定より優先する（合計は寄附金の科目と同じにする）。
     # kind: 指定寄附金等・特定公益増進法人等・公益信託・その他・完全支配関係・国外関連者
     "donations": [{"kind": str, "recipient": str, "amount": int, "date": "date", "address": str, "use": str,
@@ -383,7 +389,9 @@ def _check_values(data: dict) -> None:
     for i, d in enumerate(data["depreciation"], 1):
         if d["method"] not in DEPRECIATION_METHODS:
             errors.append(f"depreciation[{i}].method: {DEPRECIATION_METHODS} のどれかにしてください（ほかの償却方法は対象外）")
-        if min(d["cost"], d["book_end"], d["expensed"], d["limit"], d["prior_excess"]) < 0:
+        if d.get("limit") is None and not d.get("acquired"):
+            errors.append(f"depreciation[{i}]: acquired（取得日。償却率で計算する）か limit（台帳の償却限度額）を書いてください")
+        if min(d["cost"], d["book_end"], d["expensed"], d.get("limit") or 0, d["prior_excess"], d.get("special") or 0) < 0:
             errors.append(f"depreciation[{i}]: 金額は0以上にしてください")
     for i, d in enumerate(data["donations"], 1):
         if d["kind"] not in DONATION_KINDS:
