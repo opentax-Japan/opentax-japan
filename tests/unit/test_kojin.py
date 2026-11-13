@@ -296,6 +296,105 @@ class StatementsTest(unittest.TestCase):
             self.assertIn("<DHD00070>111400</DHD00070>", x.decode("utf-8"))
 
 
+def minimal(**kw) -> dict:
+    d = {"year": 2025, "taxpayer": {"name": "x", "birth": "1960-06-01"}}
+    d.update(kw)
+    return d
+
+
+class ReviewFindingsTest(unittest.TestCase):
+    """2026-11-14 の別モデルの検証報告の指摘（一次資料で確かめて直したもの）。"""
+
+    def test_tax_chain_matches_example(self):
+        # ㊹ 176,500 → ㊺ 3,706（手引き 復興特別所得税の設例）→ ㊻ 180,206 → ㊿ 167,900 → 第3期 47,900（記載例の数字）
+        d = minimal(salary=[{"income": 5_000_000, "withholding": 12_252, "payer": "a", "payer_id": "1"}],
+                    deductions={"social_insurance": [{"kind": "x", "amount": 140_000}]}, prepaid_tax=120_000)
+        L = calculate(d)["lines"]
+        self.assertEqual((L["31"], L["32"], L["44"], L["45"], L["46"], L["50"], L["52"]),
+                         (2_740_000, 176_500, 176_500, 3_706, 180_206, 167_900, 47_900))
+
+    def test_misc_loss_offsets_within_misc(self):      # 指摘1: 雑所得の中では通算（所得税法35条2項）
+        d = minimal(public_pension=[{"income": 3_000_000, "payer": "a", "payer_id": "1"}],
+                    misc_other=[{"income": 100_000, "expenses": 600_000, "payer": "b", "payer_id": "2"}])
+        L = calculate(d)["lines"]
+        self.assertEqual((L["7"], L["9"], L["10"]), (1_900_000, -500_000, 1_400_000))
+        d = minimal(misc_business=[{"income": 800_000, "payer": "a", "payer_id": "1"}],
+                    misc_other=[{"income": 0, "expenses": 500_000, "payer": "b", "payer_id": "2"}])
+        self.assertEqual(calculate(d)["lines"]["10"], 300_000)
+        d = minimal(misc_other=[{"income": 0, "expenses": 500_000, "payer": "b", "payer_id": "2"}],
+                    salary=[{"income": 3_000_000, "payer": "a", "payer_id": "1"}])
+        L = calculate(d)["lines"]
+        self.assertEqual((L["10"], L["12"]), (0, L["6"]))   # 雑所得の合計の赤字は0（他の所得とは通算しない）
+
+    def test_dividend_loss_is_zero(self):              # 指摘2: 配当所得の赤字は0
+        d = minimal(salary=[{"income": 5_000_000, "payer": "a", "payer_id": "1"}],
+                    dividends=[{"income": 100_000, "debt_interest": 300_000, "credit": "dividend", "payer": "b", "payer_id": "2"}])
+        L = calculate(d)["lines"]
+        self.assertEqual((L["5"], L["12"], L["33"]), (0, 3_560_000, 0))
+
+    def test_unknown_keys_stop(self):                  # 指摘3
+        for d in (minimal(housing_loan_credit=True), minimal(deductions={"housing": 1}),
+                  minimal(salary=[{"income": 1, "payr": "x"}])):
+            with self.assertRaisesRegex(KojinError, "知らない項目"):
+                calculate(d)
+        for key in ("interest_income", "specific_expenses", "disaster_relief", "housing_seismic", "home_worker", "medical_practice_special"):
+            with self.assertRaisesRegex(KojinError, "対象外"):
+                calculate(minimal(**{key: True}))
+
+    def test_casualty_over_income_stops(self):         # 指摘4
+        d = minimal(salary=[{"income": 3_000_000, "payer": "a", "payer_id": "1"}],
+                    deductions={"casualty": {"loss": 9_000_000, "reimbursed": 0, "disaster_expense": 0}})
+        with self.assertRaisesRegex(KojinError, "第四表"):
+            calculate(d)
+
+    def test_family_employee_not_spouse(self):         # 指摘5
+        d = sample()
+        d["family_employees"][0]["name"] = d["spouse"]["name"]
+        with self.assertRaisesRegex(KojinError, "事業専従者"):
+            calculate(d)
+
+    def test_salary_adjustment_from_dependents(self):  # 指摘6: 23歳未満の扶養親族で所得金額調整控除（1）
+        d = minimal(salary=[{"income": 12_000_000, "payer": "a", "payer_id": "1"}],
+                    dependents=[{"name": "子", "relation": "子", "birth": "2010-05-01", "income": 0}])
+        c = calculate(d)
+        self.assertEqual((c["lines"]["6"], c["detail"]["salary_adjustment_kubun"]), (9_900_000, 1))
+        d["dependents"][0]["birth"] = "2003-01-01"                        # 23歳 → 当たらない
+        self.assertEqual(calculate(d)["lines"]["6"], 10_050_000)
+
+    def test_dividend_credit_kinds(self):              # 指摘8: 区分は必須、一般外貨建等証券投資信託は半分（措置法9条4項）
+        d = minimal(dividends=[{"income": 100_000, "payer": "b", "payer_id": "2"}])
+        with self.assertRaisesRegex(KojinError, "区分"):
+            calculate(d)
+        from opentax.kojin.calculate import dividend_credit
+        self.assertEqual(dividend_credit(0, 5_000_000, R, 0, 100_000), 2_500)
+        self.assertEqual(dividend_credit(0, 10_300_000, R, 0, 1_000_000), 21_250)   # 30万円×1.25%＋70万円×2.5%
+        self.assertEqual(dividend_credit(1_000_000, 12_000_000, R, 500_000), 62_500)  # 3号: 100万円×5%＋50万円×2.5%
+        d["dividends"][0]["credit"] = "none"
+        self.assertEqual(calculate(d)["lines"]["33"], 0)
+
+    def test_self_medication_with_details_stops(self):  # 指摘9
+        d = sample()
+        d["deductions"]["medical"] = {"self_medication": True, "details": [{"patient": "a", "payee": "b", "kind": "医薬品購入", "paid": 50_000}]}
+        with self.assertRaisesRegex(KojinError, "セルフメディケーション"):
+            calculate(d)
+
+    def test_blue_55_needs_business_scale(self):       # 指摘10(a): 55万・65万円は事業的規模の不動産か事業
+        d = minimal(real_estate={"bookkeeping": 2, "income": 3_000_000, "before_blue": 1_000_000, "blue": True},
+                    blue_return={"deduction": 650_000})
+        with self.assertRaisesRegex(KojinError, "business_scale"):
+            calculate(d)
+        d["real_estate"]["business_scale"] = True
+        self.assertEqual(calculate(d)["lines"]["3"], 350_000)
+
+    def test_amount_types(self):                       # 指摘11
+        d = minimal(business={"bookkeeping": 2, "income": 1_000_000, "before_blue": "300000"})
+        with self.assertRaisesRegex(KojinError, "before_blue"):
+            calculate(d)
+        d["business"]["before_blue"] = 300_000.5
+        with self.assertRaisesRegex(KojinError, "before_blue"):
+            calculate(d)
+
+
 class ReportTest(unittest.TestCase):
     def test_report(self):
         c = api.kojin_calculate(sample(), balances())

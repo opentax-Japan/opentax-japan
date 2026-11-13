@@ -7,7 +7,7 @@
   "business": {"bookkeeping": 2, "income": 40572600, "before_blue": 5367200, "blue": true, "family_salary": 1020000},
   "real_estate": {"bookkeeping": 2, "income": 2257000, "before_blue": 1829200, "blue": true},
   "blue_return": {"deduction": 550000},
-  "dividends": [{"payer": "○○電子株式会社", "payer_id": "1234567890123", "kind": "株式の配当", "income": 80000, "withholding": 12252}],
+  "dividends": [{"payer": "○○電子株式会社", "payer_id": "1234567890123", "kind": "株式の配当", "credit": "dividend", "income": 80000, "withholding": 12252}],
   "salary": [{"payer": "○○電子株式会社", "payer_id": "1234567890123", "kind": "給料", "income": 1920500, "withholding": 0}],
   "public_pension": [{"payer": "厚生労働省", "payer_id": "千代田区霞が関1-2-2", "kind": "国民年金", "income": 780100, "withholding": 0}],
   "temporary": [{"kind": "生命保険一時金", "payer": "○○生命", "income": 2500000, "expenses": 1640000}],

@@ -187,6 +187,8 @@ def form_values(c: dict) -> dict[str, dict]:
             form_id = aoiro.FORM_OF[k["statement"]["kind"]]
             out[form_id] = _statement_values(c, k, key, form_id)
     med = (ded.get("medical") or {})
+    if med.get("self_medication") and (med.get("details") or med.get("notice")):
+        raise XtxError("セルフメディケーション税制の明細書は OpenTax 個人の対象外です（医療費控除の明細書とは別の様式）。details・notice を外し、paid・reimbursed で入れてください")
     if med.get("details") or med.get("notice"):
         out["KOB560"] = medical_values(c)
     return out

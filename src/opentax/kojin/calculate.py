@@ -38,7 +38,65 @@ OUT_OF_SCOPE = {
     "forestry": "山林所得",
     "nonresident": "非居住者の申告",
     "amended": "修正申告",
+    "interest_income": "総合課税の利子所得",
+    "specific_expenses": "給与所得者の特定支出控除",
+    "disaster_relief": "災害減免法による税額の減免",
+    "housing_seismic": "住宅耐震改修特別控除・認定住宅等新築等特別税額控除",
+    "home_worker": "家内労働者等の必要経費の特例（措置法27条）",
+    "medical_practice_special": "社会保険診療報酬の所得計算の特例（措置法26条）",
 }
+
+# 入力のキー（知らないキーは止める。打ち間違いや対象外の項目を黙って無視しないため）
+_PAYEE = {"payer", "payer_id", "kind", "income", "withholding", "expenses"}
+_STATEMENT = {"bookkeeping", "income", "before_blue", "blue", "white", "family_salary", "statement", "depreciation"}
+SCHEMA = {
+    "": {"year", "taxpayer", "business", "real_estate", "blue_return", "dividends", "salary", "public_pension", "misc_business",
+         "misc_other", "temporary", "family_employees", "spouse", "dependents", "deductions", "prepaid_tax", "filing",
+         "refund_account", "salary_adjustment_eligible", "note"} | set(OUT_OF_SCOPE),
+    "taxpayer": {"name", "name_kana", "birth", "address", "address_jan1", "zip", "tax_office", "tax_office_code", "user_id",
+                 "my_number", "occupation", "trade_name", "householder", "householder_relation", "phone", "widow",
+                 "working_student", "disabled"},
+    "business": _STATEMENT, "real_estate": _STATEMENT | {"land_debt_interest", "business_scale"},
+    "blue_return": {"deduction"},
+    "dividends[]": _PAYEE | {"debt_interest", "credit"}, "salary[]": _PAYEE, "public_pension[]": _PAYEE,
+    "misc_business[]": _PAYEE, "misc_other[]": _PAYEE, "temporary[]": _PAYEE,
+    "family_employees[]": {"name", "relation", "birth", "work", "salary", "spouse", "business"},
+    "spouse": {"name", "birth", "income", "disabled", "cohabiting", "abroad"},
+    "dependents[]": {"name", "relation", "birth", "income", "disabled", "cohabiting", "cohabiting_parent", "abroad"},
+    "deductions": {"social_insurance", "small_business", "life_insurance", "earthquake", "casualty", "medical", "donations"},
+    "deductions.social_insurance[]": {"kind", "amount"}, "deductions.small_business[]": {"kind", "amount"},
+    "deductions.life_insurance": {"new_life", "old_life", "new_pension", "old_pension", "care"},
+    "deductions.earthquake": {"earthquake", "old_long", "both_earthquake", "both_old_long"},
+    "deductions.casualty": {"cause", "date", "assets", "loss", "reimbursed", "disaster_expense"},
+    "deductions.medical": {"paid", "reimbursed", "self_medication", "details", "notice"},
+    "deductions.medical.details[]": {"patient", "payee", "kind", "paid", "reimbursed"},
+    "deductions.medical.notice": {"notice_total", "paid", "reimbursed"},
+    "deductions.donations[]": {"name", "amount", "address"},
+    "filing": {"submitted_on", "preparer", "tax_accountant_article30", "tax_accountant_article33_2"},
+    "refund_account": {"bank", "bank_kind", "branch", "branch_kind", "type", "number"},
+    "business.depreciation[]": {"name", "quantity", "acquired", "cost", "base", "method", "life", "rate", "months", "ordinary",
+                                "special", "ratio", "expense", "book", "note"},
+}
+SCHEMA["real_estate.depreciation[]"] = SCHEMA["business.depreciation[]"]
+
+
+def check_keys(d: dict) -> None:
+    """知らないキーがあれば止める。"""
+    def walk(obj, path):
+        if isinstance(obj, list):
+            for i, x in enumerate(obj):
+                walk(x, path + "[]")
+            return
+        if not isinstance(obj, dict) or path not in SCHEMA:
+            return
+        unknown = sorted(set(obj) - SCHEMA[path])
+        if unknown:
+            where = path.replace("[]", "") or "入力"
+            raise KojinError(f"{where}: 知らない項目があります: {unknown}（打ち間違いか、OpenTax 個人の対象外の項目です）")
+        for k, v in obj.items():
+            if k != "statement":
+                walk(v, f"{path}.{k}" if path else k)
+    walk(d, "")
 
 
 def load_rules(year: int) -> dict:
@@ -151,6 +209,8 @@ def earthquake(eq: dict, r: dict) -> int:
 
 def medical(med: dict, gross: int, r: dict) -> tuple[int, str | None]:
     t = r["medical"]
+    if med.get("self_medication") and (med.get("details") or med.get("notice")):
+        raise KojinError("セルフメディケーション税制の明細書は OpenTax 個人の対象外です。details・notice を外し、paid・reimbursed で入れてください")
     if med.get("details") or med.get("notice"):
         # 医療費控除の明細書から（明細の合計＋医療費通知の分）。paid・reimbursed を一緒に入れたら止める
         if med.get("paid") is not None or med.get("reimbursed") is not None:
@@ -217,19 +277,26 @@ def tax_on(taxable: int, r: dict) -> int:
     raise AssertionError
 
 
-def dividend_credit(dividend: int, taxable: int, r: dict, trust: int = 0) -> int:
-    """配当控除（所得税法92条1項）。dividend: 剰余金の配当等に係る配当所得、trust: 証券投資信託の収益の分配に係る配当所得、
-    taxable: 課税総所得金額。率ごとの金額の1円未満は切り捨て（定めなし。rules の rounding）。"""
+def dividend_credit(dividend: int, taxable: int, r: dict, trust: int = 0, fc: int = 0) -> int:
+    """配当控除（所得税法92条1項、一般外貨建等証券投資信託は措置法9条4項の読替え）。
+    dividend: 剰余金の配当等、trust: 証券投資信託（一般外貨建等以外）、fc: 一般外貨建等証券投資信託の各配当所得。taxable: 課税総所得金額。
+    率ごとの金額の1円未満は切り捨て（定めなし。rules の rounding）。"""
     t = r["dividend_credit"]
     th = t["threshold"]
-    f = lambda amount, rate: _floor(amount * _d(t[rate])) if amount > 0 else 0  # noqa: E731
-    if taxable <= th:                                                    # 1号
-        return f(dividend, "rate_within") + f(trust, "trust_within")
+    f = lambda amount, rate: _floor(amount * _d(rate)) if amount > 0 else 0  # noqa: E731
+    r10, r5, r25, r125 = t["rate_within"], t["rate_over"], t["trust_over"], t["fc_over"]
+    allt = trust + fc
+    if taxable <= th:                                                    # 1号（読替え後）
+        return f(dividend, r10) + f(trust, r5) + f(fc, r25)
     over = taxable - th
-    if taxable - trust <= th:                                            # 2号
-        return f(dividend, "rate_within") + f(min(trust, over), "trust_over") + f(trust - min(trust, over), "trust_within")
-    low = min(dividend, max(taxable - th - trust, 0))                    # 3号
-    return f(low, "rate_over") + f(dividend - low, "rate_within") + f(trust, "trust_over")
+    if taxable - allt <= th:                                             # 2号（読替え後）
+        if taxable - fc <= th:
+            low = min(fc, over)
+            return f(dividend, r10) + f(low, r125) + f(fc - low, r25) + f(trust, r5)
+        low = min(trust, taxable - th - fc)
+        return f(dividend, r10) + f(fc, r125) + f(low, r25) + f(trust - low, r5)
+    low = min(dividend, max(taxable - th - allt, 0))                     # 3号（読替え後）
+    return f(low, r5) + f(dividend - low, r10) + f(trust, r25) + f(fc, r125)
 
 
 # --- 全体 ---
@@ -248,6 +315,7 @@ def calculate(d: dict) -> dict:
     if not isinstance(year, int):
         raise KojinError("year: 年分（西暦の整数。令和7年分なら 2025）を入れてください")
     r = load_rules(year)
+    check_keys(d)
     for key, name in OUT_OF_SCOPE.items():
         if d.get(key):
             raise KojinError(f"{name}は OpenTax 個人の対象外です（{key}）")
@@ -271,6 +339,10 @@ def calculate(d: dict) -> dict:
         for f in ("income", "before_blue"):
             if f not in k:
                 raise KojinError(f"{key}.{f}: 収入金額と青色申告特別控除前の所得金額を入れてください（決算書から作るときは opentax kojin --balance）")
+        _amount(k["income"], f"{key}.income")
+        _amount(k.get("family_salary"), f"{key}.family_salary")
+        if isinstance(k["before_blue"], bool) or not isinstance(k["before_blue"], int):
+            raise KojinError(f"{key}.before_blue: 金額は整数（円。赤字はマイナス）で入れてください: {k['before_blue']!r}")
         return k
 
     biz, rent = kessan("business"), kessan("real_estate")
@@ -279,6 +351,9 @@ def calculate(d: dict) -> dict:
         blue_limit = (d.get("blue_return") or {}).get("deduction", 0)
         if blue_limit not in r["blue_return"]["amounts"]:
             raise KojinError(f"blue_return.deduction: 青色申告特別控除の限度額は {r['blue_return']['amounts']} のどれかです")
+    if blue_limit > 100000 and not (biz and biz.get("blue")) and not (rent and rent.get("blue") and rent.get("business_scale")):
+        raise KojinError("55万円・65万円の青色申告特別控除は、事業所得か事業的規模の不動産所得がある人だけです（措置法25条の2第3項）。"
+                         "不動産所得だけの人は real_estate.business_scale（事業的規模か。true/false）を入れてください")
     for key, k in (("business", biz), ("real_estate", rent)):
         if k and k.get("bookkeeping") not in (1, 2, 3, 4, 5):
             raise KojinError(f"{key}.bookkeeping: 記帳・帳簿の保存の状況を 1〜5 で入れてください（手引き 手順2「事業所得」の「区分」）")
@@ -313,22 +388,26 @@ def calculate(d: dict) -> dict:
             raise KojinError("real_estate.land_debt_interest: 不動産所得が赤字のときは、必要経費に入れた「土地等を取得するために要した負債の利子の額」"
                              "（なければ 0）を入れてください（措置法41条の4）")
         interest = _amount(rent["land_debt_interest"], "real_estate.land_debt_interest")
+        checks.append("不動産所得の損失: 国外中古建物の減価償却費（措置法41条の4の3）・特定組合員の損失（同41条の4の2）・生活に通常必要でない資産"
+                      "（所得税法69条2項）の分がないか確かめてください（あれば OpenTax 個人の対象外）")
         if interest:
             re_special = True
             re_income = min(re_income + interest, 0)
 
     divs = [dict(x) for x in d.get("dividends") or []]
     div_receipts = sum(_amount(x.get("income"), f"dividends[{i}].income") for i, x in enumerate(divs))
-    div_income = div_receipts - sum(_amount(x.get("debt_interest"), f"dividends[{i}].debt_interest") for i, x in enumerate(divs))
+    div_income = max(div_receipts - sum(_amount(x.get("debt_interest"), f"dividends[{i}].debt_interest") for i, x in enumerate(divs)), 0)  # 赤字は0（手引き 配当所得）
+    kinds = ("dividend", "investment_trust", "foreign_currency_trust", "none")
     for i, x in enumerate(divs):
-        if x.get("credit", "dividend") not in ("dividend", "investment_trust", "none"):
-            raise KojinError(f"dividends[{i}].credit: dividend（剰余金の配当等）・investment_trust（証券投資信託）・none（外国法人など対象外）のどれかです")
-        if x.get("credit_eligible") is False:
-            x = {**x, "credit": "none"}
-            divs[i] = x
+        if x.get("credit") not in kinds:
+            raise KojinError(f"dividends[{i}].credit: 配当控除の区分を入れてください。dividend（剰余金の配当等）・investment_trust（証券投資信託）・"
+                             "foreign_currency_trust（一般外貨建等証券投資信託。措置法9条4項）・none（外国法人・投資法人・特定外貨建等証券投資信託など対象外）")
+    if any(_amount(x.get("debt_interest"), "") for x in divs) and len({x["credit"] for x in divs}) > 1:
+        raise KojinError("負債の利子のある配当と、区分の違う配当があるときの配当控除の計算は OpenTax 個人の対象外です")
     net = lambda x: _amount(x.get("income"), "") - _amount(x.get("debt_interest"), "")  # noqa: E731
-    div_credit_base = sum(net(x) for x in divs if x.get("credit", "dividend") == "dividend")
-    div_credit_trust = sum(net(x) for x in divs if x.get("credit") == "investment_trust")
+    div_credit_base = max(sum(net(x) for x in divs if x["credit"] == "dividend"), 0)
+    div_credit_trust = max(sum(net(x) for x in divs if x["credit"] == "investment_trust"), 0)
+    div_credit_fc = max(sum(net(x) for x in divs if x["credit"] == "foreign_currency_trust"), 0)
 
     misc_b = d.get("misc_business") or []
     misc_o = d.get("misc_other") or []
@@ -336,9 +415,7 @@ def calculate(d: dict) -> dict:
     mo_receipts = sum(_amount(x.get("income"), f"misc_other[{i}].income") for i, x in enumerate(misc_o))
     mb_income = mb_receipts - sum(_amount(x.get("expenses"), "") for x in misc_b)
     mo_income = mo_receipts - sum(_amount(x.get("expenses"), "") for x in misc_o)
-    if mb_income < 0 or mo_income < 0:
-        warnings.append("雑所得の赤字は他の所得と通算できないので0にしました")
-    mb_income, mo_income = max(mb_income, 0), max(mo_income, 0)
+    # 業務・その他の雑所得は赤字のまま。雑所得の中では通算し、雑所得の合計が赤字のときだけ0（所得税法35条2項、手引き 雑所得 J・Step2）
 
     tmp = d.get("temporary") or []
     tmp_receipts = sum(_amount(x.get("income"), f"temporary[{i}].income") for i, x in enumerate(tmp))
@@ -349,14 +426,23 @@ def calculate(d: dict) -> dict:
     # 所得金額調整控除（1）（子ども・特別障害者等）
     adj = r["salary"]["adjustment"]
     adj_kubun, adj_amount = 0, 0
-    if sal_receipts > adj["over"] and d.get("salary_adjustment_eligible"):
+    under23 = datetime.date.fromisoformat(adj["under23_born_from"])
+    sp_in = d.get("spouse") or {}
+    eligible = (tp.get("disabled") == "special"
+                or (sp_in and _amount(sp_in.get("income"), "spouse.income") <= r["spouse"]["dependent_income_limit"] and sp_in.get("disabled") == "special")
+                or any(_amount(p.get("income"), "") <= r["dependent"]["income_limit"]
+                       and (p.get("disabled") == "special" or _date(p.get("birth"), "dependents.birth") >= under23)
+                       for p in d.get("dependents") or []))
+    if sal_receipts > adj["over"] and d.get("salary_adjustment_eligible") and not eligible:
+        checks.append("所得金額調整控除（1）: 入力の salary_adjustment_eligible で適用しました。他の納税者の扶養親族など、入力にない人で要件に当たるか確かめてください")
+    if sal_receipts > adj["over"] and (eligible or d.get("salary_adjustment_eligible")):
         adj_amount += _ceil((min(sal_receipts, adj["cap"]) - adj["over"]) * _d(adj["rate"]))
         adj_kubun += 1
 
     # 公的年金等に係る雑所得以外の合計所得金額（手引き 雑所得 Step2: 給与所得は C−F。所得金額調整控除（2）は引かない）
     pens = d.get("public_pension") or []
     pen_receipts = sum(_amount(x.get("income"), f"public_pension[{i}].income") for i, x in enumerate(pens))
-    other_than_pension = biz_income + re_income + div_income + max(sal_after - adj_amount, 0) + mb_income + mo_income + tmp_half
+    other_than_pension = biz_income + re_income + div_income + max(sal_after - adj_amount, 0) + max(mb_income + mo_income, 0) + tmp_half
     senior = birth <= datetime.date.fromisoformat(r["pension"]["senior_born_on_or_before"])
     pen_income = pension_income(pen_receipts, senior, other_than_pension, r) if pen_receipts else 0
 
@@ -366,7 +452,7 @@ def calculate(d: dict) -> dict:
         adj_kubun += 2
     sal_income = max(sal_after - adj_amount, 0)
 
-    misc_income = pen_income + mb_income + mo_income
+    misc_income = max(pen_income + mb_income + mo_income, 0)                                 # ⑩（赤字のときは0）
     # 損益通算（所得税法69条・施行令198条）: 事業・不動産の損失は、まず経常所得（配当・不動産・事業・給与・雑）の中で通算する。
     # 経常所得の合計が赤字になり一時所得などと通算したり純損失が残ったりするときは、第四表（損失申告用）が要るので対象外
     ordinary = biz_income + re_income + div_income + sal_income + misc_income
@@ -420,6 +506,11 @@ def calculate(d: dict) -> dict:
             return per["disabled"]
         raise KojinError(f"{where}.disabled: general か special を入れてください")
 
+    # 事業専従者は配偶者（特別）控除・扶養控除・特定親族特別控除の対象にならない（所得税法2条1項33号・34号ほか、手引き 配偶者（特別）控除）
+    staff_names = {f.get("name") for f in d.get("family_employees") or [] if f.get("name")}
+    for who, p in [("spouse", d.get("spouse") or {})] + [(f"dependents[{i}]", p) for i, p in enumerate(d.get("dependents") or [])]:
+        if p.get("name") and p["name"] in staff_names:
+            raise KojinError(f"{who}: 事業専従者（family_employees）の人は配偶者（特別）控除・扶養控除・特定親族特別控除の対象になりません（{p['name']}）")
     sp = d.get("spouse")
     spouse_amount, spouse_special = 0, False
     if sp:
@@ -460,6 +551,8 @@ def calculate(d: dict) -> dict:
 
     gross_for_floor = total                                 # 総所得金額等（退職・山林・分離課税なし）
     cas = casualty(ded["casualty"], gross_for_floor, r) if ded.get("casualty") else 0
+    if cas > max(gross_for_floor, 0):
+        raise KojinError("雑損控除額が所得金額の合計を超えます。引ききれない雑損失の繰越しは第四表（損失申告用）が要るので OpenTax 個人の対象外です（所得税法71条、手引き PDF版4ページ）")
     med_amount, med_kubun = medical(ded["medical"], gross_for_floor, r) if ded.get("medical") else (0, None)
     don_list = ded.get("donations") or []
     don_total = sum(_amount(x.get("amount"), f"deductions.donations[{i}].amount") for i, x in enumerate(don_list))
@@ -470,7 +563,7 @@ def calculate(d: dict) -> dict:
     taxable = max(total - deductions_total, 0) // 1000 * 1000                               # ㉛
     tax = tax_on(taxable, r)                                                                # ㉜
     # ㉝ は手引きの計算欄 G のまま（㉜を超えても書く。㊷で赤字なら0）。控えも同じ書き方
-    div_cr = dividend_credit(div_credit_base, taxable, r, div_credit_trust)                  # ㉝
+    div_cr = dividend_credit(div_credit_base, taxable, r, div_credit_trust, div_credit_fc)   # ㉝
     after_credits = max(tax - div_cr, 0)                                                    # ㊷
     base_tax = after_credits                                                                # ㊹（災害減免なし）
     recon = _floor(base_tax * _d(r["reconstruction"]["rate"]))                              # ㊺
