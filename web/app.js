@@ -182,6 +182,11 @@ function buildInput() {
       if (rows.length) setPath(input, s.list, rows);
     }
   }
+  // 画面に欄のない項目（交際費等・減価償却・源泉所得税・申告調整の確認など）は、開いた JSON のまま使う
+  const managed = new Set(allFields().map((f) => (f.list || f.path).split(".")[0]));
+  for (const [k, v] of Object.entries(state)) {
+    if (!managed.has(k) && v !== undefined) input[k] = JSON.parse(JSON.stringify(v));
+  }
   return { input, errors };
 }
 

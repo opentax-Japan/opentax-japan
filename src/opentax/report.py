@@ -101,6 +101,20 @@ def _form(title: str, sub: str, body: str, anchor: str = "") -> str:
     return f"<section class='form'{a}><h3>{_e(title)}</h3><p class='meta'>{_e(sub)}</p>{body}</section>"
 
 
+def _adjustments(calculated: dict) -> str:
+    """申告調整の漏れ止め（red.adjust）の結果。損益の科目は全部、貸借対照表の科目は数だけ。"""
+    rows = calculated["result"].get("adjustments")
+    if rows is None:
+        return ("<section class='form' id='adjust'><h3>申告調整の点検</h3><div class='warn'>"
+                + _e(api.NO_BALANCE_WARNING) + "</div></section>")
+    bs = [r for r in rows if r["detail"].startswith("貸借対照表")]
+    pl = [r for r in rows if r not in bs]
+    body = _table(["科目", "残高", "結果", "内容"], [[r["account"], r["amount"], r["status"], r["detail"]] for r in pl], {1})
+    return ("<section class='form' id='adjust'><h3>申告調整の点検（決算書の全科目）</h3>"
+            f"<p class='meta'>損益の科目 {len(pl)} 科目を、申告調整が要るかどうかで見ました。貸借対照表の科目 {len(bs)} 科目は損益の科目でないので対象外です。"
+            "申告調整の要る科目で作れないもの・入力や確認のないものがあれば、申告書は作らずに止めます。</p>" + body + "</section>")
+
+
 # --- 様式（内訳書・概況書）を帳票フィールド仕様書の項目名で並べる ---
 
 def _catalog() -> dict:
@@ -362,7 +376,7 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
             hojin.append(_paper_form(v["title"], v["form_id"], [sheets[v["form_id"]]]))
         else:
             hojin.append(on_paper(v["form_id"], v["title"], calculated["form_values"], _blocks(v["blocks"]), f"事業年度 {v['period']}"))
-    chapters["hojin"] = "".join(hojin)
+    chapters["hojin"] = _adjustments(calculated) + "".join(hojin)
     if shohi:
         from .etax.form_view import form_view
         from .shohi.etax import form_values, text_values
@@ -408,7 +422,7 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
         chapters["dairi"] = on_paper("SOZ074", "税務代理権限証書", dv_paper, _form_fields(catalog["SOZ074"], dv),
                                      "税理士法第30条", submitted=today)
 
-    checks = (attachments or {}).get("missing", []) + (attachments or {}).get("notes", [])
+    checks = (calculated["result"].get("warnings") or []) + (attachments or {}).get("missing", []) + (attachments or {}).get("notes", [])
     shown = [(k, t) for k, t in CHAPTERS if k not in PRO_CHAPTERS or k in chapters]
     toc = "".join(f"<li><a href='#{k}'>{_e(t)}</a>{'' if k in chapters else '（なし）'}</li>" for k, t in shown)
     parts = [f"<h1>申告書一式</h1><p class='meta'>{_e(company)}　事業年度 {_e(period)}　作成 {today.isoformat()}</p>",

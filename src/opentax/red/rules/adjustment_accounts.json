@@ -1,0 +1,178 @@
+{
+  "note": "申告調整の漏れ止め（DESIGN §19）。科目残高の損益の科目を、科目名で下の規則に当てる。当たった規則の handling で扱う: computed＝科目残高から別表を作る、input＝入力の項目で作る（入力がなければ止める）、confirm＝人の確認（adjustment_confirmations）がなければ止める、unsupported＝作れないので止める、check＝止めずに確かめてほしいことに出す。どの規則にも当たらない科目は「申告調整の要る科目ではない」とする。名前は exact（一致）・contains（含む）で当て、exclude（含む）は外す。貸借対照表の科目（資産・負債・純資産）は当てない（区分は概況書と同じ規則 red.gaikyo._classify）",
+  "checked": "2026-11-14",
+  "rules": [
+    {
+      "id": "donation",
+      "label": "寄附金",
+      "contains": ["寄附", "寄付"],
+      "handling": "computed",
+      "schedule": "別表十四(二)",
+      "source": "法人税法第37条（寄附金の損金不算入）、法人税法施行令第73条（一般寄附金の損金算入限度額）・第77条の2（特定公益増進法人に対する寄附金の特別損金算入限度額）。e-Gov 法令API https://laws.e-gov.go.jp/api/1/articles;lawId=340AC0000000034;article=37 、https://laws.e-gov.go.jp/api/1/articles;lawId=340CO0000000097;article=73 、https://laws.e-gov.go.jp/api/1/articles;lawId=340CO0000000097;article=77_2 。国税庁「別表十四(二)の記載の仕方」 https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/14(02)-ki.pdf"
+    },
+    {
+      "id": "dividend",
+      "label": "受取配当金",
+      "contains": ["配当", "収益分配"],
+      "exclude": ["支払配当", "未払配当"],
+      "handling": "computed",
+      "input": "dividends_received",
+      "schedule": "別表八(一)",
+      "source": "法人税法第23条（受取配当等の益金不算入）・法人税法施行令第19条（関連法人株式等に係る配当等の額から控除する利子の額）。e-Gov 法令API https://laws.e-gov.go.jp/api/1/articles;lawId=340AC0000000034;article=23 、https://laws.e-gov.go.jp/api/1/articles;lawId=340CO0000000097;article=19 。国税庁「別表八(一)の記載の仕方」 https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/08(01)-ki.pdf"
+    },
+    {
+      "id": "interest",
+      "label": "受取利息",
+      "contains": ["受取利息", "受取利子", "預金利息"],
+      "handling": "input",
+      "input": "income_tax_credit",
+      "answers": ["源泉徴収された所得税はない"],
+      "schedule": "別表六(一)",
+      "source": "法人税法第68条（所得税額の控除）・第40条（法人税額から控除する所得税額の損金不算入）。預貯金の利子は所得税法第174条・第212条第3項により源泉徴収される。e-Gov 法令API https://laws.e-gov.go.jp/api/1/articles;lawId=340AC0000000034;article=68"
+    },
+    {
+      "id": "entertainment",
+      "label": "交際費",
+      "contains": ["交際", "接待"],
+      "handling": "input",
+      "input": "entertainment",
+      "schedule": "別表十五",
+      "source": "租税特別措置法第61条の4（交際費等の損金不算入）。rules/corporate_tax.json の entertainment"
+    },
+    {
+      "id": "depreciation",
+      "label": "減価償却費",
+      "contains": ["減価償却費"],
+      "handling": "input",
+      "input": "depreciation",
+      "schedule": "別表十六(一)(二)",
+      "source": "法人税法第31条（減価償却資産の償却費の計算及びその償却の方法）。償却限度額は固定資産台帳の数字（DESIGN §15.6）"
+    },
+    {
+      "id": "corporate_tax",
+      "label": "法人税等",
+      "contains": ["法人税", "住民税", "事業税"],
+      "exclude": ["調整額"],
+      "classes": ["法人税等", "販管費", "営業外費用", "特別損失"],
+      "handling": "input",
+      "input": "accounting.tax_provision_charged・tax_payments・interim",
+      "answers": ["差額は、ほかの科目に入れた税・ほかの科目から振り替えた税の分で、入力（tax_payments・interim）に入っている"],
+      "schedule": "別表四 2〜4・13、別表五(二)",
+      "source": "法人税法第38条（法人税額等の損金不算入）。e-Gov 法令API https://laws.e-gov.go.jp/api/1/articles;lawId=340AC0000000034;article=38"
+    },
+    {
+      "id": "tax_dues",
+      "label": "租税公課",
+      "contains": ["租税公課", "公租公課"],
+      "handling": "input",
+      "input": "tax_dues",
+      "schedule": "別表四 5・10",
+      "source": "法人税法第38条（法人税額等の損金不算入）・第55条第4項（延滞税・加算税・延滞金・過怠税）・第5項（罰金・科料・過料・課徴金）。e-Gov 法令API https://laws.e-gov.go.jp/api/1/articles;lawId=340AC0000000034;article=55"
+    },
+    {
+      "id": "penalty",
+      "label": "延滞税・罰金など",
+      "contains": ["罰金", "科料", "過料", "反則金", "延滞税", "延滞金", "加算税", "加算金", "過怠税", "課徴金"],
+      "handling": "input",
+      "input": "tax_dues",
+      "schedule": "別表四 5・10",
+      "source": "法人税法第55条第4項・第5項。e-Gov 法令API https://laws.e-gov.go.jp/api/1/articles;lawId=340AC0000000034;article=55"
+    },
+    {
+      "id": "officer_pay",
+      "label": "役員給与",
+      "contains": ["役員報酬", "役員給与", "役員賞与"],
+      "handling": "confirm",
+      "answers": ["定期同額給与・事前確定届出給与のとおりで、損金不算入の額はない"],
+      "schedule": "別表四 7（役員給与の損金不算入額）",
+      "source": "法人税法第34条（役員給与の損金不算入）。e-Gov 法令API https://laws.e-gov.go.jp/api/1/articles;lawId=340AC0000000034;article=34"
+    },
+    {
+      "id": "officer_retirement",
+      "label": "役員退職給与",
+      "contains": ["役員退職"],
+      "handling": "confirm",
+      "answers": ["不相当に高額な部分はない"],
+      "schedule": "別表四 7",
+      "source": "法人税法第34条第2項。e-Gov 法令API https://laws.e-gov.go.jp/api/1/articles;lawId=340AC0000000034;article=34"
+    },
+    {
+      "id": "insurance",
+      "label": "保険料",
+      "contains": ["保険料"],
+      "exclude": ["法定福利", "社会保険"],
+      "handling": "confirm",
+      "answers": ["資産に計上すべき部分（前払・積立）はない"],
+      "schedule": "別表四（保険料の損金不算入）",
+      "source": "法人税法第22条第3項・第4項、法人税基本通達9-3-4〜9-3-6の2（養老保険・定期保険等の保険料の取扱い）"
+    },
+    {
+      "id": "bad_debt",
+      "label": "貸倒損失",
+      "contains": ["貸倒損失"],
+      "handling": "confirm",
+      "answers": ["法人税基本通達9-6-1〜9-6-3の要件を満たす"],
+      "schedule": "別表四（貸倒損失の否認）",
+      "source": "法人税法第22条第3項、法人税基本通達9-6-1〜9-6-3（貸倒損失）"
+    },
+    {
+      "id": "allowance",
+      "label": "引当金・準備金の繰入",
+      "contains": ["引当金繰入", "引当損", "準備金繰入", "退職給付費用"],
+      "handling": "unsupported",
+      "schedule": "別表十一(一)(一の二)・別表四（引当金の損金不算入）",
+      "source": "法人税法第52条（貸倒引当金）。それ以外の引当金（賞与・退職給付など）は損金の額に算入されない（法人税法第22条第3項第2号の債務の確定）"
+    },
+    {
+      "id": "deferred_tax",
+      "label": "法人税等調整額",
+      "contains": ["法人税等調整額"],
+      "handling": "unsupported",
+      "schedule": "別表四（法人税等調整額の加算・減算）",
+      "source": "法人税法第22条第3項（税効果会計の調整額は損金・益金にならない）"
+    },
+    {
+      "id": "lump_sum",
+      "label": "一括償却資産・少額減価償却資産",
+      "contains": ["一括償却", "少額減価償却", "少額資産"],
+      "handling": "unsupported",
+      "schedule": "別表十六(八)・別表十六(七)",
+      "source": "法人税法施行令第133条の2（一括償却資産の損金算入）、租税特別措置法第67条の5（中小企業者等の少額減価償却資産の取得価額の損金算入の特例）"
+    },
+    {
+      "id": "deferred_assets",
+      "label": "繰延資産の償却",
+      "contains": ["繰延資産償却", "創立費償却", "開業費償却", "開発費償却"],
+      "handling": "unsupported",
+      "schedule": "別表十六(六)",
+      "source": "法人税法第32条（繰延資産の償却費の計算及びその償却の方法）"
+    },
+    {
+      "id": "write_down",
+      "label": "評価損・減損",
+      "contains": ["評価損", "減損"],
+      "handling": "unsupported",
+      "schedule": "別表四（評価損の否認）",
+      "source": "法人税法第33条（資産の評価損）"
+    },
+    {
+      "id": "misc_loss",
+      "label": "雑損失",
+      "exact": ["雑損失", "雑損", "雑支出"],
+      "handling": "confirm",
+      "answers": ["寄附金・交際費等・罰金等・損金不算入の税を含まない"],
+      "schedule": "別表四",
+      "source": "法人税法第37条・第55条、租税特別措置法第61条の4（雑損失に含まれやすい損金不算入のもの）"
+    },
+    {
+      "id": "subsidy",
+      "label": "補助金・助成金",
+      "contains": ["補助金", "助成金"],
+      "handling": "check",
+      "schedule": "別表十三(一)（圧縮記帳）",
+      "note": "国庫補助金等で固定資産を取得したときは圧縮記帳ができます（選ぶのは人。法人税法第42条）",
+      "source": "法人税法第42条（国庫補助金等で取得した固定資産等の圧縮額の損金算入）"
+    }
+  ],
+  "pl_classes": ["売上", "売上原価", "販管費", "営業外収益", "営業外費用", "特別利益", "特別損失", "法人税等"]
+}

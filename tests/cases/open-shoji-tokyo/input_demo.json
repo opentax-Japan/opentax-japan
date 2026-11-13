@@ -99,6 +99,16 @@
       "tax": 1531
     }
   ],
+  "adjustment_confirmations": [
+    {
+      "account": "役員報酬",
+      "answer": "定期同額給与・事前確定届出給与のとおりで、損金不算入の額はない"
+    },
+    {
+      "account": "雑損失",
+      "answer": "寄附金・交際費等・罰金等・損金不算入の税を含まない"
+    }
+  ],
   "entertainment": [
     {
       "account": "交際費",

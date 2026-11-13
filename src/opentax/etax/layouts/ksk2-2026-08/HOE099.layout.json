@@ -1,0 +1,1662 @@
+{
+ "form_id": "HOE099",
+ "label": "別表十四(二)（寄附金の損金算入）",
+ "version": "14.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOE099-14-0group",
+ "xsd": "19XMLスキーマ/hojin/HOE099-014.xsd",
+ "xsd_sha256": "ace0fae24522a22a97a51cedba235717a9db6016ee684ae5932f4934b6537bcd",
+ "root": {
+  "tag": "HOE099",
+  "path": "HOE099",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "WWA00000",
+    "path": "HOE099/WWA00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "WWA00000-14-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "WWA00010",
+      "path": "HOE099/WWA00000/WWA00010",
+      "label": "事業年度",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "WWA00020",
+        "path": "HOE099/WWA00000/WWA00010/WWA00020",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_FROMref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_FROM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_FROM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "WWA00030",
+        "path": "HOE099/WWA00000/WWA00010/WWA00030",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_TOref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_TO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_TO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "WWA00040",
+      "path": "HOE099/WWA00000/WWA00040",
+      "label": "法人名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_NMref",
+      "kind": "idref",
+      "idref": "NOZEISHA_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "WWB00000",
+    "path": "HOE099/WWB00000",
+    "label": "公益法人等以外の法人の場合",
+    "min": 0,
+    "max": 1,
+    "type": "WWB00000-14-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "WWB00010",
+      "path": "HOE099/WWB00000/WWB00010",
+      "label": "一般寄附金の損金算入限度額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "WWB00020",
+        "path": "HOE099/WWB00000/WWB00010/WWB00020",
+        "label": "支出した寄附金の額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "WWB00030",
+          "path": "HOE099/WWB00000/WWB00010/WWB00020/WWB00030",
+          "label": "指定寄附金等の金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "WWB00040",
+          "path": "HOE099/WWB00000/WWB00010/WWB00020/WWB00040",
+          "label": "特定公益増進法人等に対する寄附金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "WWB00045",
+          "path": "HOE099/WWB00000/WWB00010/WWB00020/WWB00045",
+          "label": "公益信託に対する寄附金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "WWB00050",
+          "path": "HOE099/WWB00000/WWB00010/WWB00020/WWB00050",
+          "label": "その他の寄附金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "WWB00060",
+          "path": "HOE099/WWB00000/WWB00010/WWB00020/WWB00060",
+          "label": "計（5）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "WWB00070",
+          "path": "HOE099/WWB00000/WWB00010/WWB00020/WWB00070",
+          "label": "完全支配関係がある法人に対する寄附金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "WWB00080",
+          "path": "HOE099/WWB00000/WWB00010/WWB00020/WWB00080",
+          "label": "計（7）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "WWB00090",
+        "path": "HOE099/WWB00000/WWB00010/WWB00090",
+        "label": "所得金額仮計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "WWB00100",
+        "path": "HOE099/WWB00000/WWB00010/WWB00100",
+        "label": "寄附金支出前所得金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "WWB00105",
+        "path": "HOE099/WWB00000/WWB00010/WWB00105",
+        "label": "同上の2.5又は1.25／100相当額　区分",
+        "min": 0,
+        "max": 1,
+        "type": "WWB00105-14-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOE099/WWB00000/WWB00010/WWB00105/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOE099/WWB00000/WWB00010/WWB00105/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "WWB00110",
+        "path": "HOE099/WWB00000/WWB00010/WWB00110",
+        "label": "同上の2.5又は1.25／100相当額　金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "WWB00120",
+        "path": "HOE099/WWB00000/WWB00010/WWB00120",
+        "label": "期末の資本金の額及び資本準備金の額の合計額又は出資金の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "WWB00130",
+        "path": "HOE099/WWB00000/WWB00010/WWB00130",
+        "label": "同上の月数換算額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "WWB00140",
+          "path": "HOE099/WWB00000/WWB00010/WWB00130/WWB00140",
+          "label": "月数",
+          "min": 0,
+          "max": 1,
+          "type": "gen:mm",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "WWB00150",
+          "path": "HOE099/WWB00000/WWB00010/WWB00130/WWB00150",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "WWB00160",
+        "path": "HOE099/WWB00000/WWB00010/WWB00160",
+        "label": "同上の2.5／1,000相当額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "WWB00170",
+        "path": "HOE099/WWB00000/WWB00010/WWB00170",
+        "label": "一般寄附金の損金算入限度額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "WWB00180",
+      "path": "HOE099/WWB00000/WWB00180",
+      "label": "特定公益増進法人等に対する寄附金の特別損金算入限度額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "WWB00190",
+        "path": "HOE099/WWB00000/WWB00180/WWB00190",
+        "label": "寄附金支出前所得金額の6.25／100相当額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "WWB00200",
+        "path": "HOE099/WWB00000/WWB00180/WWB00200",
+        "label": "期末の資本金の額及び資本準備金の額の合計額又は出資金の額の月数換算額の3.75／1,000相当額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "WWB00210",
+        "path": "HOE099/WWB00000/WWB00180/WWB00210",
+        "label": "特定公益増進法人等に対する寄附金の特別損金算入限度額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "WWB00220",
+      "path": "HOE099/WWB00000/WWB00220",
+      "label": "特定公益増進法人等に対する寄附金の損金算入額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "WWB00225",
+      "path": "HOE099/WWB00000/WWB00225",
+      "label": "公益信託に対する寄附金の損金算入額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "WWB00230",
+      "path": "HOE099/WWB00000/WWB00230",
+      "label": "指定寄附金等の金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "WWB00240",
+      "path": "HOE099/WWB00000/WWB00240",
+      "label": "国外関連者に対する寄附金額及び本店等に対する内部寄附金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "WWB00250",
+      "path": "HOE099/WWB00000/WWB00250",
+      "label": "（5）の寄附金額のうち同上の寄附金以外の寄附金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "WWB00260",
+      "path": "HOE099/WWB00000/WWB00260",
+      "label": "損金不算入額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "WWB00270",
+        "path": "HOE099/WWB00000/WWB00260/WWB00270",
+        "label": "同上のうち損金の額に算入されない金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "WWB00280",
+        "path": "HOE099/WWB00000/WWB00260/WWB00280",
+        "label": "国外関連者に対する寄附金額及び本店等に対する内部寄附金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "WWB00290",
+        "path": "HOE099/WWB00000/WWB00260/WWB00290",
+        "label": "完全支配関係がある法人に対する寄附金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "WWB00300",
+        "path": "HOE099/WWB00000/WWB00260/WWB00300",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "WWC00000",
+    "path": "HOE099/WWC00000",
+    "label": "公益法人等の場合",
+    "min": 0,
+    "max": 1,
+    "type": "WWC00000-14-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "WWC00010",
+      "path": "HOE099/WWC00000/WWC00010",
+      "label": "損金算入限度額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "WWC00020",
+        "path": "HOE099/WWC00000/WWC00010/WWC00020",
+        "label": "支出した寄附金の額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "WWC00030",
+          "path": "HOE099/WWC00000/WWC00010/WWC00020/WWC00030",
+          "label": "長期給付事業への繰入利子額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "WWC00040",
+          "path": "HOE099/WWC00000/WWC00010/WWC00020/WWC00040",
+          "label": "同上以外のみなし寄附金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "WWC00050",
+          "path": "HOE099/WWC00000/WWC00010/WWC00020/WWC00050",
+          "label": "その他の寄附金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "WWC00060",
+          "path": "HOE099/WWC00000/WWC00010/WWC00020/WWC00060",
+          "label": "計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "WWC00070",
+        "path": "HOE099/WWC00000/WWC00010/WWC00070",
+        "label": "所得金額仮計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "WWC00080",
+        "path": "HOE099/WWC00000/WWC00010/WWC00080",
+        "label": "寄附金支出前所得金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "WWC00090",
+        "path": "HOE099/WWC00000/WWC00010/WWC00090",
+        "label": "同上の20又は50／100相当額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "WWC00100",
+          "path": "HOE099/WWC00000/WWC00010/WWC00090/WWC00100",
+          "label": "区分",
+          "min": 0,
+          "max": 1,
+          "type": "WWC00100-14-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOE099/WWC00000/WWC00010/WWC00090/WWC00100/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOE099/WWC00000/WWC00010/WWC00090/WWC00100/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "WWC00110",
+          "path": "HOE099/WWC00000/WWC00010/WWC00090/WWC00110",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "WWC00120",
+        "path": "HOE099/WWC00000/WWC00010/WWC00120",
+        "label": "公益社団法人又は公益財団法人の公益法人特別限度額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "WWC00130",
+        "path": "HOE099/WWC00000/WWC00010/WWC00130",
+        "label": "長期給付事業を行う共済組合等の損金算入限度額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "WWC00140",
+        "path": "HOE099/WWC00000/WWC00010/WWC00140",
+        "label": "損金算入限度額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "WWC00150",
+      "path": "HOE099/WWC00000/WWC00150",
+      "label": "指定寄附金等の金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "WWC00160",
+      "path": "HOE099/WWC00000/WWC00160",
+      "label": "国外関連者に対する寄附金額及び完全支配関係がある法人に対する寄附金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "WWC00170",
+      "path": "HOE099/WWC00000/WWC00170",
+      "label": "（30）の寄附金額のうち同上の寄附金以外の寄附金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "WWC00180",
+      "path": "HOE099/WWC00000/WWC00180",
+      "label": "損金不算入額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "WWC00190",
+        "path": "HOE099/WWC00000/WWC00180/WWC00190",
+        "label": "同上のうち損金の額に算入されない金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "WWC00200",
+        "path": "HOE099/WWC00000/WWC00180/WWC00200",
+        "label": "国外関連者に対する寄附金額及び完全支配関係がある法人に対する寄附金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "WWC00210",
+        "path": "HOE099/WWC00000/WWC00180/WWC00210",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "WWD00000",
+    "path": "HOE099/WWD00000",
+    "label": "指定寄附金等に関する明細",
+    "min": 0,
+    "max": 1,
+    "type": "WWD00000-14-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "WWD00010",
+      "path": "HOE099/WWD00000/WWD00010",
+      "label": "明細　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "WWD00020",
+        "path": "HOE099/WWD00000/WWD00010/WWD00020",
+        "label": "寄附した日",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOE099/WWD00000/WWD00010/WWD00020/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOE099/WWD00000/WWD00010/WWD00020/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOE099/WWD00000/WWD00010/WWD00020/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOE099/WWD00000/WWD00010/WWD00020/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "WWD00030",
+        "path": "HOE099/WWD00000/WWD00010/WWD00030",
+        "label": "寄附先",
+        "min": 0,
+        "max": 1,
+        "type": "WWD00030-14-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "WWD00040",
+        "path": "HOE099/WWD00000/WWD00010/WWD00040",
+        "label": "告示番号",
+        "min": 0,
+        "max": 1,
+        "type": "WWD00040-14-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 20
+       },
+       {
+        "tag": "WWD00050",
+        "path": "HOE099/WWD00000/WWD00010/WWD00050",
+        "label": "寄附金の使途",
+        "min": 0,
+        "max": 1,
+        "type": "WWD00050-14-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 20
+       },
+       {
+        "tag": "WWD00060",
+        "path": "HOE099/WWD00000/WWD00010/WWD00060",
+        "label": "寄附金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "WWD00070",
+      "path": "HOE099/WWD00000/WWD00070",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "WWE00000",
+    "path": "HOE099/WWE00000",
+    "label": "特定公益増進法人若しくは認定特定非営利活動法人等に対する寄附金又は認定特定公益信託に対する支出金の明細",
+    "min": 0,
+    "max": 1,
+    "type": "WWE00000-14-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "WWE00010",
+      "path": "HOE099/WWE00000/WWE00010",
+      "label": "明細　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "WWE00020",
+        "path": "HOE099/WWE00000/WWE00010/WWE00020",
+        "label": "寄附した日又は支出した日",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOE099/WWE00000/WWE00010/WWE00020/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOE099/WWE00000/WWE00010/WWE00020/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOE099/WWE00000/WWE00010/WWE00020/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOE099/WWE00000/WWE00010/WWE00020/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "WWE00030",
+        "path": "HOE099/WWE00000/WWE00010/WWE00030",
+        "label": "寄附先又は受託者",
+        "min": 0,
+        "max": 1,
+        "type": "WWE00030-14-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "WWE00040",
+        "path": "HOE099/WWE00000/WWE00010/WWE00040",
+        "label": "所在地",
+        "min": 0,
+        "max": 1,
+        "type": "gen:address",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "WWE00050",
+        "path": "HOE099/WWE00000/WWE00010/WWE00050",
+        "label": "寄附金の使途又は認定特定公益信託の名称",
+        "min": 0,
+        "max": 1,
+        "type": "WWE00050-14-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "WWE00060",
+        "path": "HOE099/WWE00000/WWE00010/WWE00060",
+        "label": "寄附金額又は支出金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "WWE00070",
+      "path": "HOE099/WWE00000/WWE00070",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "WWH00000",
+    "path": "HOE099/WWH00000",
+    "label": "公益信託に対する寄附金の明細",
+    "min": 0,
+    "max": 1,
+    "type": "WWH00000-14-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "WWH00010",
+      "path": "HOE099/WWH00000/WWH00010",
+      "label": "明細　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "WWH00020",
+        "path": "HOE099/WWH00000/WWH00010/WWH00020",
+        "label": "寄附した日",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOE099/WWH00000/WWH00010/WWH00020/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOE099/WWH00000/WWH00010/WWH00020/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOE099/WWH00000/WWH00010/WWH00020/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOE099/WWH00000/WWH00010/WWH00020/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "WWH00030",
+        "path": "HOE099/WWH00000/WWH00010/WWH00030",
+        "label": "受託者",
+        "min": 0,
+        "max": 1,
+        "type": "WWH00030-14-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "WWH00040",
+        "path": "HOE099/WWH00000/WWH00010/WWH00040",
+        "label": "所在地",
+        "min": 0,
+        "max": 1,
+        "type": "gen:address",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "WWH00050",
+        "path": "HOE099/WWH00000/WWH00010/WWH00050",
+        "label": "公益信託の名称",
+        "min": 0,
+        "max": 1,
+        "type": "WWH00050-14-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "WWH00060",
+        "path": "HOE099/WWH00000/WWH00010/WWH00060",
+        "label": "寄附金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "WWH00070",
+      "path": "HOE099/WWH00000/WWH00070",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "WWF00000",
+    "path": "HOE099/WWF00000",
+    "label": "その他の寄附金のうち特定公益信託（認定特定公益信託を除く。）に対する支出金の明細",
+    "min": 0,
+    "max": 1,
+    "type": "WWF00000-14-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "WWF00010",
+      "path": "HOE099/WWF00000/WWF00010",
+      "label": "明細　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "WWF00020",
+        "path": "HOE099/WWF00000/WWF00010/WWF00020",
+        "label": "支出した日",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOE099/WWF00000/WWF00010/WWF00020/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOE099/WWF00000/WWF00010/WWF00020/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOE099/WWF00000/WWF00010/WWF00020/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOE099/WWF00000/WWF00010/WWF00020/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "WWF00030",
+        "path": "HOE099/WWF00000/WWF00010/WWF00030",
+        "label": "受託者",
+        "min": 0,
+        "max": 1,
+        "type": "WWF00030-14-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "WWF00040",
+        "path": "HOE099/WWF00000/WWF00010/WWF00040",
+        "label": "所在地",
+        "min": 0,
+        "max": 1,
+        "type": "gen:address",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "WWF00050",
+        "path": "HOE099/WWF00000/WWF00010/WWF00050",
+        "label": "特定公益信託の名称",
+        "min": 0,
+        "max": 1,
+        "type": "WWF00050-14-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "WWF00060",
+        "path": "HOE099/WWF00000/WWF00010/WWF00060",
+        "label": "支出金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "WWG00000",
+    "path": "HOE099/WWG00000",
+    "label": "適用事業年度等",
+    "min": 0,
+    "max": 1,
+    "type": "WWG00000-14-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 15
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOE099-14-0VRtype",
+    "fixed": "14.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   },
+   {
+    "name": "csvFileNM",
+    "required": false,
+    "type": "gen:str"
+   }
+  ]
+ }
+}

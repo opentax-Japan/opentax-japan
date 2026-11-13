@@ -77,6 +77,23 @@ _SCHEMA: dict[str, Any] = {
     # limit（当期分の普通償却限度額）は台帳で計算したもの。OpenTax は償却率から計算しない
     "depreciation": [{"method": str, "kind": str, "structure": str, "detail": str, "useful_life": int, "cost": int,
                       "book_end": int, "expensed": int, "limit": int, "prior_excess": int}],
+    # 寄附金（別表十四(二)）。科目残高から作る（DESIGN §19）。書けば科目残高の推定より優先する（合計は寄附金の科目と同じにする）。
+    # kind: 指定寄附金等・特定公益増進法人等・公益信託・その他・完全支配関係・国外関連者
+    "donations": [{"kind": str, "recipient": str, "amount": int, "date": "date", "address": str, "use": str,
+                   "notice_no": str, "account": str}],
+    # 受取配当等（別表八(一)）。ratio は保有割合（%）。withholding は源泉徴収された所得税（別表六(一)）。
+    # wholly_owned: 計算期間を通じて完全支配関係がある（完全子法人株式等）。continuous: 関連法人株式等の保有の継続（令第22条第1項）。
+    # taxable: 短期保有株式等（法第23条第2項）で益金に算入する額。owned_whole_period: 配当の計算期間を通じて元本を所有していた
+    "dividends_received": [{"name": str, "address": str, "account": str, "ratio": (int, float), "amount": int,
+                            "withholding": int, "taxable": int, "wholly_owned": bool, "continuous": bool,
+                            "period_start": "date", "period_end": "date", "base_date": "date", "owned_whole_period": bool}],
+    # 当期に支払う利子等の額（別表八(一) 35。関連法人株式等があるとき）。書かなければ科目残高の支払利息などから作る
+    "interest_paid": int,
+    # 当期に損金経理で納付した、損金にならない附帯税等（別表四 5・別表五(二) 24〜27）と罰金等（別表四 10）。
+    # 延滞金は納期限の延長によるもの（損金になる）を除く。科目に租税公課・延滞税・罰金などがあれば、なくても 0 で書く（確かめた印）
+    "tax_dues": {"加算税及び加算金": int, "延滞税": int, "延滞金": int, "過怠税": int, "罰金等": int},
+    # 申告調整の要る科目を人が確かめた答え（adjustment_accounts.json の answers のどれか）
+    "adjustment_confirmations": [{"account": str, "answer": str}],
     # 還付を受ける金融機関（IT部 KANPU_KINYUKIKAN）
     "refund_account": {"bank": str, "bank_kind": str, "branch": str, "branch_kind": str, "type": str, "number": str},
     **{k: object for k in OUT_OF_SCOPE_KEYS},
@@ -94,6 +111,8 @@ UNPAID_TAXES = ("法人税等", "道府県民税", "市町村民税")   # 別表
 PAYMENT_METHODS = ("充当金取崩し", "損金経理")
 CREDIT_KINDS = ("利子",)
 DEPRECIATION_METHODS = ("定額法", "旧定額法", "定率法", "旧定率法")
+TAX_DUES = ("加算税及び加算金", "延滞税", "延滞金", "過怠税", "罰金等")
+DONATION_KINDS = ("指定寄附金等", "特定公益増進法人等", "公益信託", "その他", "完全支配関係", "国外関連者")
 FIVE_ONE_RESERVED = {"繰越損益金", "納税充当金", "未納道府県民税", "未納市町村民税", "未納法人税等"}
 FIVE_ONE_NOT_SUPPORTED = {"未払通算税効果額": "グループ通算", "未収還付法人税等": "前期の未収還付法人税等（還付を受けた期の減算）",
                           "未収還付道府県民税": "前期の未収還付道府県民税（還付を受けた期の減算）",
@@ -301,6 +320,18 @@ def _fill_defaults(data: dict) -> None:
     for e in data.setdefault("entertainment", []):
         e.setdefault("deductible", 0)
         e.setdefault("dining", 0)
+    for d in data.setdefault("donations", []):
+        for k in ("recipient", "address", "use", "notice_no", "account"):
+            d.setdefault(k, "")
+    for d in data.setdefault("dividends_received", []):
+        d.setdefault("taxable", 0)
+        d.setdefault("account", "")
+        d.setdefault("address", "")
+        d.setdefault("wholly_owned", False)
+    data.setdefault("adjustment_confirmations", [])
+    if data.get("tax_dues") is not None:
+        for k in TAX_DUES:
+            data["tax_dues"].setdefault(k, 0)
     for d in data.setdefault("depreciation", []):
         for k in ("structure", "detail"):
             d.setdefault(k, "")
@@ -354,6 +385,22 @@ def _check_values(data: dict) -> None:
             errors.append(f"depreciation[{i}].method: {DEPRECIATION_METHODS} のどれかにしてください（ほかの償却方法は対象外）")
         if min(d["cost"], d["book_end"], d["expensed"], d["limit"], d["prior_excess"]) < 0:
             errors.append(f"depreciation[{i}]: 金額は0以上にしてください")
+    for i, d in enumerate(data["donations"], 1):
+        if d["kind"] not in DONATION_KINDS:
+            errors.append(f"donations[{i}].kind: {DONATION_KINDS} のどれかにしてください")
+        if d["amount"] < 0:
+            errors.append(f"donations[{i}].amount: 0以上にしてください")
+    for i, d in enumerate(data["dividends_received"], 1):
+        for k in ("name", "amount", "withholding", "ratio"):
+            if d.get(k) is None:
+                errors.append(f"dividends_received[{i}].{k}: 必須の項目です（ratio は保有割合（%）、withholding は源泉徴収された所得税。なければ 0）")
+        if d.get("amount", 0) < 0 or d.get("withholding", 0) < 0 or not 0 <= d.get("taxable", 0) <= d.get("amount", 0):
+            errors.append(f"dividends_received[{i}]: 金額は0以上で、taxable は amount 以下にしてください")
+        if d.get("ratio") is not None and not 0 < d["ratio"] <= 100:
+            errors.append(f"dividends_received[{i}].ratio: 保有割合（%）は0を超え100以下にしてください")
+    for k, v in (data.get("tax_dues") or {}).items():
+        if v < 0:
+            errors.append(f"tax_dues.{k}: 0以上にしてください")
     interim = data["interim"]
     if interim and interim.get("method") not in PAYMENT_METHODS:
         errors.append(f"interim.method: 中間納付の経理を {PAYMENT_METHODS} のどれかで書いてください（仮払経理は対象外）")

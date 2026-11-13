@@ -29,8 +29,9 @@ def _dump(obj) -> str:
 
 def _error(e: Exception) -> str:
     from opentax.payroll.record import PayrollInputError
+    from opentax.red.adjust import AdjustmentStop
     from opentax.red.uchiwake import BalanceFormatError
-    kinds = [(OutOfScope, "out_of_scope"), (InputError, "input"), (BalanceFormatError, "input"),
+    kinds = [(OutOfScope, "out_of_scope"), (AdjustmentStop, "input"), (InputError, "input"), (BalanceFormatError, "input"),
              (PayrollInputError, "input"), (RuleError, "rule"), (LocalRuleError, "rule"),
              (SheetError, "rule"), (XtxError, "xtx"), (SpecError, "spec"), (ValidationUnavailable, "spec")]
     kind = next((k for t, k in kinds if isinstance(e, t)), "internal")
@@ -130,7 +131,8 @@ def ot_demo_report() -> str:
         def js(name):
             return json.loads((case / name).read_text(encoding="utf-8"))
 
-        calculated = api.calculate(js("input_demo.json"))   # 交際費・減価償却・源泉所得税も入れて、作れる別表を全部出す
+        # 交際費・減価償却・源泉所得税も入れて、作れる別表を全部出す。決算書（科目残高）で申告調整の漏れも点検する
+        calculated = api.calculate(js("input_demo.json"), balance=(case / "科目残高一覧表_架空_TKC形式.txt").read_bytes())
         info = js("gaikyo.json")
         info["monthly"].pop("months")
         html = api.report(calculated, (case / "科目残高一覧表_架空_TKC形式.txt").read_bytes(),
@@ -146,10 +148,10 @@ def ot_demo_report() -> str:
 def ot_report(input_json: str, trial: str, att_json: str) -> str:
     """今の入力と選んだファイル（内訳書・概況書の材料）から、申告書一式の HTML を作る（消費税は入れない）。"""
     try:
-        calculated = api.calculate(json.loads(input_json), trial or None)
         att = json.loads(att_json or "{}")
         balance = base64.b64decode(att["balance"]) if att.get("balance") else None
         trend = base64.b64decode(att["trend"]) if att.get("trend") else None
+        calculated = api.calculate(json.loads(input_json), trial or None, balance)
         html = api.report(calculated, balance, trend, att.get("payroll") or [], att.get("supplement"), att.get("gaikyo"),
                           office=att.get("office"))
         return _dump({"ok": True, "html": html, "company": calculated["input"]["company"]["name"]})
@@ -160,8 +162,9 @@ def ot_report(input_json: str, trial: str, att_json: str) -> str:
 def ot_attachments(input_json: str, trial: str, att_json: str) -> str:
     """内訳書・概況書を作り、作れた様式・足りない欄・確かめてほしいことを返す（.xtx は作らない）。"""
     try:
-        calculated = api.calculate(json.loads(input_json), trial or None)
         att = json.loads(att_json or "{}")
+        calculated = api.calculate(json.loads(input_json), trial or None,
+                                   base64.b64decode(att["balance"]) if att.get("balance") else None)
         uw = _attachments(calculated, att) or {"forms": {}, "missing": [], "notes": []}
         forms = [f"{ATTACHMENT_TITLES.get(f, f)}（{f}）" for f in sorted(uw["forms"])]
         missing = list(uw["missing"])
@@ -185,8 +188,9 @@ def ot_export(input_json: str, trial: str, cab, att_json: str = "") -> str:
         if _schema["sha256"] != digest:
             _schema["root"] = api.schema_from_cab(data, Path("/tmp/opentax-xsd"))
             _schema["sha256"] = digest
-        calculated = api.calculate(json.loads(input_json), trial or None)
         att = json.loads(att_json or "{}")
+        calculated = api.calculate(json.loads(input_json), trial or None,
+                                   base64.b64decode(att["balance"]) if att.get("balance") else None)
         uw = _attachments(calculated, att)
         xml = api.export_etax(calculated, _schema["root"], datetime.date.today(), uw, att.get("office"))
         errors = api.validate_xtx(xml, _schema["root"])

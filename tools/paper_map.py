@@ -426,6 +426,85 @@ FORMS["HOE200"] = {
     "header": {"period": (1366, 196, 1587, 340), "company": (1744, 196, 2342, 340)},
 }
 
+# ---- 別表十四(二)（公益法人等以外の法人の場合 1〜26 と、明細 43〜45） ----
+# 金額の欄（x 936〜1224）の横線（行 1〜26 の上下 27 本）。罫線から測った値
+_B142_Y = [318, 384, 448, 512, 576, 642, 706, 770, 834, 920, 992, 1092, 1194, 1270, 1372, 1500, 1616, 1704, 1768, 1832,
+           1898, 1962, 2026, 2090, 2176, 2242, 2318]
+_B142_TAGS = ["WWB00030", "WWB00040", "WWB00045", "WWB00050", "WWB00060", "WWB00070", "WWB00080", "WWB00090", "WWB00100",
+              "WWB00110", "WWB00120", "WWB00150", "WWB00160", "WWB00170", "WWB00190", "WWB00200", "WWB00210", "WWB00220",
+              "WWB00225", "WWB00230", "WWB00240", "WWB00250", "WWB00270", "WWB00280", "WWB00290", "WWB00300"]
+_B142_DETAIL = {"WWD": [2430, 2504, 2576, 2624], "WWE": [2736, 2808, 2882, 2928], "WWH": [3042, 3110, 3180, 3226]}
+FORMS["HOE099"] = {
+    "fixed": {
+        **{tag: (936, _B142_Y[i], 1224, _B142_Y[i + 1]) for i, tag in enumerate(_B142_TAGS)},
+        **{f"{p}00060": _rows_boxes(2008, 2384, ys[:3]) for p, ys in _B142_DETAIL.items()},
+        **{f"{p}00070": (2008, ys[2], 2384, ys[3]) for p, ys in _B142_DETAIL.items()},
+    },
+    "texts": [
+        # 12 の「(11) × ／12」の分子（月数）
+        {"source": "tag:WWB00140", "box": [520, 1198, 620, 1234], "align": "center"},
+        {"source": "tag:WWD00030", "boxes": _rows_boxes(616, 1022, _B142_DETAIL["WWD"][:3]), "align": "left"},
+        {"source": "tag:WWD00040", "boxes": _rows_boxes(1108, 1486, _B142_DETAIL["WWD"][:3]), "align": "left"},
+        {"source": "tag:WWD00050", "boxes": _rows_boxes(1572, 1920, _B142_DETAIL["WWD"][:3]), "align": "left"},
+        {"source": "tag:WWE00030", "boxes": _rows_boxes(616, 1022, _B142_DETAIL["WWE"][:3]), "align": "left"},
+        {"source": "tag:WWE00040", "boxes": _rows_boxes(1108, 1486, _B142_DETAIL["WWE"][:3]), "align": "left"},
+        {"source": "tag:WWE00050", "boxes": _rows_boxes(1572, 1920, _B142_DETAIL["WWE"][:3]), "align": "left"},
+        {"source": "tag:WWH00030", "boxes": _rows_boxes(616, 1022, _B142_DETAIL["WWH"][:3]), "align": "left"},
+        {"source": "tag:WWH00040", "boxes": _rows_boxes(1108, 1486, _B142_DETAIL["WWH"][:3]), "align": "left"},
+        {"source": "tag:WWH00050", "boxes": _rows_boxes(1572, 1920, _B142_DETAIL["WWH"][:3]), "align": "left"},
+    ],
+    "header": {"period": (1370, 133, 1631, 276), "company": (1776, 133, 2384, 276)},
+}
+
+# ---- 別表八(一)（1〜5 と、銘柄ごとの明細（4列＋計）） ----
+_B81_COLS = [(832, 978), (1156, 1314), (1500, 1660), (1846, 1998)]      # 金額（「円」の手前まで）
+_B81_TEXT_COLS = [(832, 1036), (1156, 1376), (1500, 1724), (1846, 2058)]
+_B81_TOTAL = (2116, 2306)
+_B81_ROWS = {"6": (770, 834), "7": (834, 898), "9": (1024, 1088), "10": (1088, 1152), "11": (1152, 1216), "13": (1342, 1406),
+             "14": (1406, 1470), "15": (1470, 1534), "16": (1534, 1598), "17": (1598, 1704), "18": (1704, 1806),
+             "19": (1806, 1908), "20": (1908, 1972), "21": (1972, 2036), "22": (2036, 2100), "23": (2100, 2164),
+             "24": (2164, 2228), "25": (2228, 2310), "26": (2310, 2382), "27": (2382, 2446), "28": (2446, 2510),
+             "30": (2606, 2670), "31": (2670, 2734), "32": (2734, 2798), "33": (2798, 2862)}
+
+
+def _b81(line: str, wide: bool = False) -> list[list[int]]:
+    y0, y1 = _B81_ROWS[line]
+    return [[x0, y0, x1, y1] for x0, x1 in (_B81_TEXT_COLS if wide else _B81_COLS)]
+
+
+def _b81_total(line: str) -> tuple:
+    y0, y1 = _B81_ROWS[line]
+    return (_B81_TOTAL[0], y0, _B81_TOTAL[1], y1)
+
+
+_B81_AMOUNTS = {"9": ("CBH00080", "CBH00090"), "14": ("CBH00180", "CBH00270"), "15": ("CBH00190", "CBH00280"),
+                "16": ("CBH00200", "CBH00290"), "17": ("CBH00210", "CBH00300"), "19": ("CBH00240", "CBH00330"),
+                "20": ("CBH00250", "CBH00340"), "24": ("CBH00400", "CBH00440"), "25": ("CBH00410", "CBH00450"),
+                "26": ("CBH00420", "CBH00460"), "31": ("CBH00530", "CBH00570"), "32": ("CBH00540", "CBH00580"),
+                "33": ("CBH00550", "CBH00590")}
+FORMS["HOB800"] = {
+    "fixed": {
+        "CBB00005": (830, 322, 1124, 450), "CBB00020": (830, 450, 1124, 578), "CBB00180": (830, 578, 1124, 706),
+        "CBB00143": (1970, 322, 2365, 450), "CBB00150": (1970, 450, 2365, 706),
+        **{tag: _b81(line) for line, (tag, _) in _B81_AMOUNTS.items()},
+        **{total: _b81_total(line) for line, (_, total) in _B81_AMOUNTS.items()},
+        "CBI00020": (830, 2990, 1124, 3130), "CBI00030": (830, 3130, 1124, 3451),
+        "CBI00040": (1970, 2990, 2365, 3226), "CBI00050": (1970, 3226, 2365, 3451),
+    },
+    "texts": [
+        *[{"source": f"tag:{tag}", "boxes": _b81(line, True), "align": "left"}
+          for tag, line in (("CBH00030", "6"), ("CBH00040", "7"), ("CBH00120", "10"), ("CBH00130", "11"), ("CBH00370", "21"),
+                            ("CBH00380", "22"), ("CBH00490", "27"), ("CBH00500", "28"))],
+        # 保有割合（%。小数3桁）・(16)/(16の計)
+        *[{"source": f"tag:{tag}", "boxes": _b81(line), "align": "right"}
+          for tag, line in (("CBH00165", "13"), ("CBH00385", "23"), ("CBH00515", "30"), ("CBH00230", "18"))],
+        {"source": "tag:CBH00320", "box": list(_b81_total("18")), "align": "right"},
+        # 34 令第19条第2項の計算（1 適用・2 不適用）
+        {"source": "tag:CBI00010", "box": [2198, 2926, 2365, 2990], "align": "center"},
+    ],
+    "header": {"period": (1251, 162, 1566, 322), "company": (1692, 162, 2365, 322)},
+}
+
 
 # ---- 別表十六(一)(二)（資産ごとの5列。行は仕様書の行番号、列ごとに位置のリスト） ----
 def _column_fields(form_id: str, spec: dict) -> tuple[dict, list]:
@@ -536,7 +615,12 @@ def period_slots(img: Image.Image, box) -> dict:
 def render_check(form_id: str) -> Path:
     """api.paper_sheets の出力（画面と同じもの）を様式の画像に描いて確かめる。private/ に出す。"""
     from opentax import api
-    calculated = api.calculate(json.loads((REPO / "tests/cases/open-shoji/input.json").read_text(encoding="utf-8")), "truncate")
+    if form_id in ("HOB800", "HOE099"):     # 寄附金・受取配当は科目残高のある見本（DESIGN §19）
+        case = REPO / "tests/cases/open-shoji-adjust"
+        calculated = api.calculate(json.loads((case / "input.json").read_text(encoding="utf-8")), "truncate",
+                                   (case / "残高試算表_架空.csv").read_bytes())
+    else:
+        calculated = api.calculate(json.loads((REPO / "tests/cases/open-shoji/input.json").read_text(encoding="utf-8")), "truncate")
     sheet = next(s for s in api.paper_sheets(calculated) if s["form_id"] == form_id)
     manifest = json.loads((PAPER / EDITION / "manifest.json").read_text(encoding="utf-8"))
     entry = manifest["forms"][form_id]

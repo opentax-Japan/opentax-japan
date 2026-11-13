@@ -3043,6 +3043,32 @@
       "field_spec_sheet": "HOB016"
     },
     {
+      "form_id": "HOB800",
+      "label": "別表八(一)（受取配当等の益金不算入）",
+      "mvp": false,
+      "stage": "red-plus",
+      "xsd": "19XMLスキーマ/hojin/HOB800-019.xsd",
+      "version": "19.1",
+      "xsd_documentation_date": "2026-07-16",
+      "group": "HOB800-19-1group",
+      "xsd_sha256": "b68669879508664418081746203a7e2b8dee4e576caa9dacd466c05ef4b8f0d8",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver19x.xlsx",
+      "field_spec_sheet": "HOB800"
+    },
+    {
+      "form_id": "HOE099",
+      "label": "別表十四(二)（寄附金の損金算入）",
+      "mvp": false,
+      "stage": "red-plus",
+      "xsd": "19XMLスキーマ/hojin/HOE099-014.xsd",
+      "version": "14.0",
+      "xsd_documentation_date": "2026-07-16",
+      "group": "HOE099-14-0group",
+      "xsd_sha256": "ace0fae24522a22a97a51cedba235717a9db6016ee684ae5932f4934b6537bcd",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver14x.xlsx",
+      "field_spec_sheet": "HOE099"
+    },
+    {
       "form_id": "HOI010",
       "label": "預貯金等の内訳書",
       "mvp": false,

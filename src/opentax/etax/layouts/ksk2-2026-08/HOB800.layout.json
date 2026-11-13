@@ -1,0 +1,1508 @@
+{
+ "form_id": "HOB800",
+ "label": "別表八(一)（受取配当等の益金不算入）",
+ "version": "19.1",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOB800-19-1group",
+ "xsd": "19XMLスキーマ/hojin/HOB800-019.xsd",
+ "xsd_sha256": "b68669879508664418081746203a7e2b8dee4e576caa9dacd466c05ef4b8f0d8",
+ "root": {
+  "tag": "HOB800",
+  "path": "HOB800",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "CBA00000",
+    "path": "HOB800/CBA00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "CBA00000-19-1type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "CBA00010",
+      "path": "HOB800/CBA00000/CBA00010",
+      "label": "事業年度",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "CBA00020",
+        "path": "HOB800/CBA00000/CBA00010/CBA00020",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_FROMref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_FROM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_FROM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "CBA00030",
+        "path": "HOB800/CBA00000/CBA00010/CBA00030",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_TOref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_TO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_TO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "CBA00040",
+      "path": "HOB800/CBA00000/CBA00040",
+      "label": "法人名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_NMref",
+      "kind": "idref",
+      "idref": "NOZEISHA_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "CBB00000",
+    "path": "HOB800/CBB00000",
+    "label": "明細",
+    "min": 0,
+    "max": 1,
+    "type": "CBB00000-19-1type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "CBB00005",
+      "path": "HOB800/CBB00000/CBB00005",
+      "label": "完全子法人株式等に係る受取配当等の額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "CBB00010",
+      "path": "HOB800/CBB00000/CBB00010",
+      "label": "明細",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "CBB00020",
+        "path": "HOB800/CBB00000/CBB00010/CBB00020",
+        "label": "関連法人株式等に係る受取配当等の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "CBB00180",
+      "path": "HOB800/CBB00000/CBB00180",
+      "label": "その他株式等に係る受取配当等の額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "CBB00143",
+      "path": "HOB800/CBB00000/CBB00143",
+      "label": "非支配目的株式等に係る受取配当等の額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "CBB00147",
+      "path": "HOB800/CBB00000/CBB00147",
+      "label": "受取配当等の益金不算入額　区分",
+      "min": 0,
+      "max": 1,
+      "type": "CBB00147-19-1Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HOB800/CBB00000/CBB00147/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HOB800/CBB00000/CBB00147/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "CBB00150",
+      "path": "HOB800/CBB00000/CBB00150",
+      "label": "受取配当等の益金不算入額　金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "CBH00000",
+    "path": "HOB800/CBH00000",
+    "label": "受取配当等の額の明細",
+    "min": 0,
+    "max": 1,
+    "type": "CBH00000-19-1type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "CBH00010",
+      "path": "HOB800/CBH00000/CBH00010",
+      "label": "完全子法人株式等",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "CBH00020",
+        "path": "HOB800/CBH00000/CBH00010/CBH00020",
+        "label": "明細　繰り返し",
+        "min": 0,
+        "max": 4,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "CBH00030",
+          "path": "HOB800/CBH00000/CBH00010/CBH00020/CBH00030",
+          "label": "法人名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "CBH00040",
+          "path": "HOB800/CBH00000/CBH00010/CBH00020/CBH00040",
+          "label": "本店の所在地",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "CBH00050",
+          "path": "HOB800/CBH00000/CBH00010/CBH00020/CBH00050",
+          "label": "受取配当等の額の計算期間",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "CBH00060",
+            "path": "HOB800/CBH00000/CBH00010/CBH00020/CBH00050/CBH00060",
+            "label": "自",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "HOB800/CBH00000/CBH00010/CBH00020/CBH00050/CBH00060/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "HOB800/CBH00000/CBH00010/CBH00020/CBH00050/CBH00060/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "HOB800/CBH00000/CBH00010/CBH00020/CBH00050/CBH00060/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "HOB800/CBH00000/CBH00010/CBH00020/CBH00050/CBH00060/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "CBH00070",
+            "path": "HOB800/CBH00000/CBH00010/CBH00020/CBH00050/CBH00070",
+            "label": "至",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "HOB800/CBH00000/CBH00010/CBH00020/CBH00050/CBH00070/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "HOB800/CBH00000/CBH00010/CBH00020/CBH00050/CBH00070/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "HOB800/CBH00000/CBH00010/CBH00020/CBH00050/CBH00070/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "HOB800/CBH00000/CBH00010/CBH00020/CBH00050/CBH00070/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "CBH00080",
+          "path": "HOB800/CBH00000/CBH00010/CBH00020/CBH00080",
+          "label": "受取配当等の額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "CBH00090",
+        "path": "HOB800/CBH00000/CBH00010/CBH00090",
+        "label": "計　受取配当等の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "CBH00100",
+      "path": "HOB800/CBH00000/CBH00100",
+      "label": "関連法人株式等",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "CBH00110",
+        "path": "HOB800/CBH00000/CBH00100/CBH00110",
+        "label": "明細　繰り返し",
+        "min": 0,
+        "max": 4,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "CBH00120",
+          "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00120",
+          "label": "法人名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "CBH00130",
+          "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00130",
+          "label": "本店の所在地",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "CBH00140",
+          "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00140",
+          "label": "受取配当等の額の計算期間",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "CBH00150",
+            "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00140/CBH00150",
+            "label": "自",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00140/CBH00150/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00140/CBH00150/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00140/CBH00150/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00140/CBH00150/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "CBH00160",
+            "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00140/CBH00160",
+            "label": "至",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00140/CBH00160/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00140/CBH00160/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00140/CBH00160/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00140/CBH00160/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "CBH00165",
+          "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00165",
+          "label": "保有割合",
+          "min": 0,
+          "max": 1,
+          "type": "CBH00165-19-1type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00180",
+          "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00180",
+          "label": "受取配当等の額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00190",
+          "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00190",
+          "label": "同上のうち益金の額に算入される金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00200",
+          "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00200",
+          "label": "益金不算入の対象となる金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00210",
+          "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00210",
+          "label": "(34)が「不適用」の場合又は別表八(一)付表「13」が「非該当」の場合",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00220",
+          "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00220",
+          "label": "同上以外の場合",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "CBH00230",
+            "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00220/CBH00230",
+            "label": "(16)／(16の計)",
+            "min": 0,
+            "max": 1,
+            "type": "CBH00230-19-1type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "CBH00240",
+            "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00220/CBH00240",
+            "label": "支払利子等の10％相当額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "CBH00250",
+          "path": "HOB800/CBH00000/CBH00100/CBH00110/CBH00250",
+          "label": "受取配当等の額から控除する支払利子等の額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "CBH00260",
+        "path": "HOB800/CBH00000/CBH00100/CBH00260",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "CBH00270",
+          "path": "HOB800/CBH00000/CBH00100/CBH00260/CBH00270",
+          "label": "受取配当等の額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00280",
+          "path": "HOB800/CBH00000/CBH00100/CBH00260/CBH00280",
+          "label": "同上のうち益金の額に算入される金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00290",
+          "path": "HOB800/CBH00000/CBH00100/CBH00260/CBH00290",
+          "label": "益金不算入の対象となる金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00300",
+          "path": "HOB800/CBH00000/CBH00100/CBH00260/CBH00300",
+          "label": "(34)が「不適用」の場合又は別表八(一)付表「13」が「非該当」の場合",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00310",
+          "path": "HOB800/CBH00000/CBH00100/CBH00260/CBH00310",
+          "label": "同上以外の場合",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "CBH00320",
+            "path": "HOB800/CBH00000/CBH00100/CBH00260/CBH00310/CBH00320",
+            "label": "(16)／(16の計)",
+            "min": 0,
+            "max": 1,
+            "type": "CBH00320-19-1type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "CBH00330",
+            "path": "HOB800/CBH00000/CBH00100/CBH00260/CBH00310/CBH00330",
+            "label": "支払利子等の10％相当額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "CBH00340",
+          "path": "HOB800/CBH00000/CBH00100/CBH00260/CBH00340",
+          "label": "受取配当等の額から控除する支払利子等の額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "CBH00350",
+      "path": "HOB800/CBH00000/CBH00350",
+      "label": "その他株式等",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "CBH00360",
+        "path": "HOB800/CBH00000/CBH00350/CBH00360",
+        "label": "明細　繰り返し",
+        "min": 0,
+        "max": 4,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "CBH00370",
+          "path": "HOB800/CBH00000/CBH00350/CBH00360/CBH00370",
+          "label": "法人名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "CBH00380",
+          "path": "HOB800/CBH00000/CBH00350/CBH00360/CBH00380",
+          "label": "本店の所在地",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "CBH00385",
+          "path": "HOB800/CBH00000/CBH00350/CBH00360/CBH00385",
+          "label": "保有割合",
+          "min": 0,
+          "max": 1,
+          "type": "CBH00385-19-1type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00400",
+          "path": "HOB800/CBH00000/CBH00350/CBH00360/CBH00400",
+          "label": "受取配当等の額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00410",
+          "path": "HOB800/CBH00000/CBH00350/CBH00360/CBH00410",
+          "label": "同上のうち益金の額に算入される金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00420",
+          "path": "HOB800/CBH00000/CBH00350/CBH00360/CBH00420",
+          "label": "益金不算入の対象となる金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "CBH00430",
+        "path": "HOB800/CBH00000/CBH00350/CBH00430",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "CBH00440",
+          "path": "HOB800/CBH00000/CBH00350/CBH00430/CBH00440",
+          "label": "受取配当等の額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00450",
+          "path": "HOB800/CBH00000/CBH00350/CBH00430/CBH00450",
+          "label": "同上のうち益金の額に算入される金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00460",
+          "path": "HOB800/CBH00000/CBH00350/CBH00430/CBH00460",
+          "label": "益金不算入の対象となる金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "CBH00470",
+      "path": "HOB800/CBH00000/CBH00470",
+      "label": "非支配目的株式等",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "CBH00480",
+        "path": "HOB800/CBH00000/CBH00470/CBH00480",
+        "label": "明細　繰り返し",
+        "min": 0,
+        "max": 4,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "CBH00490",
+          "path": "HOB800/CBH00000/CBH00470/CBH00480/CBH00490",
+          "label": "法人名又は銘柄",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "CBH00500",
+          "path": "HOB800/CBH00000/CBH00470/CBH00480/CBH00500",
+          "label": "本店の所在地",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "CBH00510",
+          "path": "HOB800/CBH00000/CBH00470/CBH00480/CBH00510",
+          "label": "基準日等",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB800/CBH00000/CBH00470/CBH00480/CBH00510/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB800/CBH00000/CBH00470/CBH00480/CBH00510/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB800/CBH00000/CBH00470/CBH00480/CBH00510/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB800/CBH00000/CBH00470/CBH00480/CBH00510/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "CBH00515",
+          "path": "HOB800/CBH00000/CBH00470/CBH00480/CBH00515",
+          "label": "保有割合",
+          "min": 0,
+          "max": 1,
+          "type": "CBH00515-19-1type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00530",
+          "path": "HOB800/CBH00000/CBH00470/CBH00480/CBH00530",
+          "label": "受取配当等の額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00540",
+          "path": "HOB800/CBH00000/CBH00470/CBH00480/CBH00540",
+          "label": "同上のうち益金の額に算入される金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00550",
+          "path": "HOB800/CBH00000/CBH00470/CBH00480/CBH00550",
+          "label": "益金不算入の対象となる金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "CBH00560",
+        "path": "HOB800/CBH00000/CBH00470/CBH00560",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "CBH00570",
+          "path": "HOB800/CBH00000/CBH00470/CBH00560/CBH00570",
+          "label": "受取配当等の額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00580",
+          "path": "HOB800/CBH00000/CBH00470/CBH00560/CBH00580",
+          "label": "同上のうち益金の額に算入される金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "CBH00590",
+          "path": "HOB800/CBH00000/CBH00470/CBH00560/CBH00590",
+          "label": "益金不算入の対象となる金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "CBI00000",
+    "path": "HOB800/CBI00000",
+    "label": "支払利子等の額の明細",
+    "min": 0,
+    "max": 1,
+    "type": "CBI00000-19-1type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "CBI00010",
+      "path": "HOB800/CBI00000/CBI00010",
+      "label": "令第19条第２項の規定による支払利子控除額の計算",
+      "min": 0,
+      "max": 1,
+      "type": "CBI00010-19-1Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HOB800/CBI00000/CBI00010/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HOB800/CBI00000/CBI00010/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "CBI00020",
+      "path": "HOB800/CBI00000/CBI00020",
+      "label": "当期に支払う利子等の額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "CBI00030",
+      "path": "HOB800/CBI00000/CBI00030",
+      "label": "国外支配株主等に係る負債の利子等の損金不算入額、対象純支払利子等の損金不算入額又は恒久的施設に帰せられるべき資本に対応する負債の利子の損金不算入額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "CBI00040",
+      "path": "HOB800/CBI00000/CBI00040",
+      "label": "超過利子額の損金算入額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "CBI00050",
+      "path": "HOB800/CBI00000/CBI00050",
+      "label": "支払利子等の額の合計額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "CBF00000",
+    "path": "HOB800/CBF00000",
+    "label": "適用事業年度等",
+    "min": 0,
+    "max": 1,
+    "type": "CBF00000-19-1Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 15
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOB800-19-1VRtype",
+    "enumeration": [
+     "19.0",
+     "19.1"
+    ]
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   },
+   {
+    "name": "csvFileNM",
+    "required": false,
+    "type": "gen:str"
+   }
+  ]
+ }
+}

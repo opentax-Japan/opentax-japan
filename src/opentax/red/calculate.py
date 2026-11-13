@@ -115,7 +115,10 @@ def _paid(data: dict, taxes: tuple, method: str) -> int:
     return sum(p["amount"] for p in data["tax_payments"] if p["tax"] in taxes and p["method"] == method)
 
 
-def schedule_04(data: dict, s15: dict | None = None, s16: dict | None = None) -> dict:
+def schedule_04(data: dict, s15: dict | None = None, s16: dict | None = None, s8: dict | None = None,
+                rules: dict | None = None) -> dict:
+    """別表四（簡易様式）。s8 は別表八(一)（受取配当等の益金不算入）。寄附金（別表十四(二)）は仮計から計算するので、
+    寄附金の明細（donations）があれば rules を渡す（戻り値の schedule_14_2）。"""
     acc = data["accounting"]
     im = interim_amounts(data)
     by_expense = im["method"] == "損金経理"
@@ -124,32 +127,135 @@ def schedule_04(data: dict, s15: dict | None = None, s16: dict | None = None) ->
     if acc.get("inhabitant_tax_expensed", 0) not in (0, expensed):
         raise InputError("accounting.inhabitant_tax_expensed が、損金経理をした住民税（tax_payments・interim）の合計と合いません")
     net = acc["net_income"]
+    dues = data.get("tax_dues") or {}
     # 2 損金経理をした法人税・地方法人税（留保）
     add_corporate = _paid(data, ("法人税等",), "損金経理") + (im["national"] if by_expense else 0)
     add_inhabitant = expensed                      # 3 損金経理をした道府県民税及び市町村民税（留保）
     add_provision = acc["tax_provision_charged"]   # 4 損金経理をした納税充当金（留保）
+    # 5 損金経理をした附帯税（利子税を除く。）、加算金、延滞金（延納分を除く。）及び過怠税（社外流出。法人税法第55条第4項）
+    add_surcharges = sum(dues.get(k, 0) for k in ("加算税及び加算金", "延滞税", "延滞金", "過怠税"))
     add_depreciation = (s16 or {}).get("excess", 0)        # 6 減価償却の償却超過額（留保）
     add_entertainment = (s15 or {}).get("disallowed", 0)   # 8 交際費等の損金不算入額（社外流出）
-    add_total = add_corporate + add_inhabitant + add_provision + add_depreciation + add_entertainment
+    add_fines = dues.get("罰金等", 0)                       # 10 罰金等の損金不算入額（社外流出。法人税法第55条第5項）
+    add_total = add_corporate + add_inhabitant + add_provision + add_surcharges + add_depreciation + add_entertainment + add_fines
     # 13 納税充当金から支出した事業税等（前期分の事業税・特別法人事業税と、当期の中間分を充当金で払ったもの）
     deduct_business = _paid(data, ("事業税等",), "充当金取崩し") + (im["business"] if im["method"] == "充当金取崩し" else 0)
     deduct_depreciation = (s16 or {}).get("allowed", 0)    # 12 減価償却超過額の当期認容額（留保）
-    deduct_total = deduct_business + deduct_depreciation
+    deduct_dividends = (s8 or {}).get("exclusion", 0)      # 14 受取配当等の益金不算入額（※）
+    deduct_total = deduct_business + deduct_depreciation + deduct_dividends
     provisional = net + add_total - deduct_total   # 23 仮計（26 仮計も同じ額）
-    credit = sum(c["tax"] for c in data.get("income_tax_credit", []))   # 29 法人税額から控除される所得税額（社外流出）
-    pre_deduction = provisional + credit           # 34 合計＝39＝43 差引計
+    s14 = schedule_14_2(data, provisional, rules) if data.get("donations") and rules else None
+    add_donation = s14["disallowed"] if s14 else 0          # 27 寄附金の損金不算入額（社外流出）
+    credit_interest = sum(c["tax"] for c in data.get("income_tax_credit", []))
+    credit_dividend = sum(d["withholding"] for d in data.get("dividends_received") or [])
+    credit = credit_interest + credit_dividend     # 29 法人税額から控除される所得税額（社外流出）
+    pre_deduction = provisional + add_donation + credit    # 34 合計＝39＝43 差引計
     income = pre_deduction                         # 44 欠損金等の当期控除額は 0（所得が0以下）
     if income > 0:
         raise OutOfScope(f"所得金額が0を超えています（{income:,}円。黒字法人）")
+    retained = net + add_corporate + add_inhabitant + add_provision + add_depreciation - deduct_business - deduct_depreciation
     return {
         "net_income": net, "add_corporate": add_corporate, "add_inhabitant": add_inhabitant, "add_provision": add_provision,
         "add_total": add_total, "deduct_business": deduct_business, "deduct_total": deduct_total,
         "provisional": provisional, "credit": credit, "pre_deduction": pre_deduction,
         "credit_income": sum(c["income"] for c in data.get("income_tax_credit", [])),
+        "credit_interest": credit_interest, "credit_dividend": credit_dividend,
+        "credit_dividend_income": sum(d["amount"] for d in data.get("dividends_received") or [] if d["withholding"]),
         "add_depreciation": add_depreciation, "add_entertainment": add_entertainment,
-        "deduct_depreciation": deduct_depreciation,
-        "loss_deduction": 0, "income": income, "retained": provisional - add_entertainment,
+        "add_surcharges": add_surcharges, "add_fines": add_fines, "add_donation": add_donation,
+        "deduct_depreciation": deduct_depreciation, "deduct_dividends": deduct_dividends,
+        "loss_deduction": 0, "income": income, "retained": retained, "schedule_14_2": s14,
     }
+
+
+# --- 別表十四(二) ---
+
+DONATION_COLUMNS = {"指定寄附金等": "designated", "特定公益増進法人等": "special", "公益信託": "trust", "その他": "other",
+                    "国外関連者": "other", "完全支配関係": "group"}
+
+
+def schedule_14_2(data: dict, provisional: int, rules: dict) -> dict:
+    """寄附金の損金不算入額（普通法人で資本を有するもの。法人税法第37条、施行令第73条・第77条の2）。
+    provisional は別表四 26①（寄附金を加算する前の仮計）。損金算入限度額の1円未満は切り捨て（rules の note）。"""
+    r = rules["donation"]
+    if not r.get("source"):
+        raise RuleError("寄附金の損金算入限度額の設定に出典がありません（rules/corporate_tax.json）")
+    rows = data["donations"]
+    by = {k: sum(d["amount"] for d in rows if DONATION_COLUMNS[d["kind"]] == k)
+          for k in ("designated", "special", "trust", "other", "group")}
+    foreign = sum(d["amount"] for d in rows if d["kind"] == "国外関連者")
+    total = by["designated"] + by["special"] + by["trust"] + by["other"]          # 5
+    with_group = total + by["group"]                                               # 7
+    pre = max(with_group + provisional, 0)                                        # 9 寄附金支出前所得金額（マイナスは0）
+    gi, gc = Fraction(r["general_income_percent"]) / 100, Fraction(r["general_capital_per_mille"]) / 1000
+    si, sc = Fraction(r["special_income_percent"]) / 100, Fraction(r["special_capital_per_mille"]) / 1000
+    # 11 期末の資本金の額及び資本準備金の額の合計額（別表五(一) 32④＋33④）
+    capital = sum(c["end"] for c in data["capital_items"] if c["item"] in ("資本金又は出資金", "資本準備金"))
+    from .model import _months
+    months = _months(data["fiscal_period"]["start"], data["fiscal_period"]["end"])   # 暦に従い1月未満切捨て（令第73条第5項）
+    capital_m = capital * months // 12                                            # 12
+    l10 = int(pre * gi)                                                           # 10
+    l13 = int(capital_m * gc)                                                     # 13
+    l14 = int(Fraction(l10 + l13, r["general_divisor"]))                         # 14 一般寄附金の損金算入限度額
+    special = bool(by["special"] or by["trust"])
+    l15 = int(pre * si) if special else 0                                         # 15
+    l16 = int(capital_m * sc) if special else 0                                   # 16
+    l17 = int(Fraction(l15 + l16, r["special_divisor"])) if special else 0      # 17
+    l18 = min(by["special"], l17)                                                 # 18
+    l19 = min(by["trust"], l17 - l18)                                             # 19
+    l22 = total - foreign                                                         # 22
+    l23 = max(l22 - l14 - l18 - l19 - by["designated"], 0)                        # 23
+    disallowed = l23 + foreign + by["group"]                                      # 26 → 別表四 27
+    return {"rows": rows, "designated": by["designated"], "special": by["special"], "trust": by["trust"], "other": by["other"],
+            "total": total, "group": by["group"], "with_group": with_group, "provisional": provisional, "pre": pre,
+            "general_income": l10, "capital": capital, "months": months, "capital_months": capital_m, "general_capital": l13,
+            "general_limit": l14, "special_income": l15, "special_capital": l16, "special_limit": l17, "special_allowed": l18,
+            "trust_allowed": l19, "foreign": foreign, "excluding_foreign": l22, "general_disallowed": l23,
+            "disallowed": disallowed, "has_special": special}
+
+
+# --- 別表八(一) ---
+
+def _ceil(x: Fraction) -> int:
+    return -((-x.numerator) // x.denominator)
+
+
+def schedule_08_1(data: dict, rules: dict, interest_paid: int | None) -> dict | None:
+    """受取配当等の益金不算入額（法人税法第23条、施行令第19条）。1円未満は益金不算入額を大きく書かない向き（rules の note）。"""
+    rows = data.get("dividends_received") or []
+    if not rows:
+        return None
+    from .adjust import _kind
+    r = rules["dividends"]
+    groups: dict[str, list] = {"完全子法人株式等": [], "関連法人株式等": [], "その他株式等": [], "非支配目的株式等": []}
+    for d in rows:
+        groups[_kind(d)].append({**d, "kind": _kind(d), "target": d["amount"] - d.get("taxable", 0)})
+    if any(len(v) > 4 for v in groups.values()):
+        raise OutOfScope("受取配当等の明細が、区分ごとに4銘柄を超えています（別表八(一)の欄の数）")
+    rel = groups["関連法人株式等"]
+    rel_total = sum(d["target"] for d in rel)
+    use_alt = False
+    paid = interest_paid or 0
+    if rel:
+        if interest_paid is None:
+            raise InputError("関連法人株式等の配当があるので、当期に支払う利子等の額（interest_paid）が要ります")
+        # 令第19条第2項: 支払利子等の額の合計額の10% が 関連法人株式等の配当等の額の合計額の4% 以下なら、10%×割合
+        use_alt = paid * r["related_interest_alt_percent"] <= rel_total * r["related_interest_percent"]
+    for d in rel:
+        d["share"] = _ceil(Fraction(d["target"] * 1000, rel_total)) if rel_total else 0          # 18（小数3桁。切り上げ）
+        if use_alt:
+            d["interest"] = _ceil(Fraction(paid * r["related_interest_alt_percent"], 100) * Fraction(d["share"], 1000))   # 19
+        else:
+            d["interest"] = _ceil(Fraction(d["target"] * r["related_interest_percent"], 100))       # 17
+    full = sum(d["target"] for d in groups["完全子法人株式等"])
+    other = sum(d["target"] for d in groups["その他株式等"])
+    nonc = sum(d["target"] for d in groups["非支配目的株式等"])
+    interest = sum(d["interest"] for d in rel)
+    exclusion = (full + (rel_total - interest) + int(Fraction(other * r["other_percent"], 100))
+                 + int(Fraction(nonc * r["non_controlling_percent"], 100)))
+    return {"groups": groups, "full": full, "related": rel_total, "other": other, "non_controlling": nonc,
+            "related_interest": interest, "use_alt": use_alt, "interest_paid": paid if rel else None,
+            "exclusion": exclusion}
 
 
 # --- 別表七(一) ---
@@ -302,9 +408,11 @@ def schedule_05_02(data: dict, per_capita: dict[str, int]) -> dict:
 
     # その他（損金不算入のもの）: 源泉所得税等（損金経理をしたもの）
     others = []
-    if data.get("income_tax_credit"):
-        credit = sum(c["tax"] for c in data["income_tax_credit"])
+    credit = sum(c["tax"] for c in data.get("income_tax_credit") or []) + sum(d["withholding"] for d in data.get("dividends_received") or [])
+    if credit:
         others.append({"item": "源泉所得税等", "opening": 0, "accrued": credit, "by_provision": 0, "by_expense": credit, "closing": 0})
+    # 損金不算入のもの 24〜27（加算税及び加算金・延滞税・延滞金・過怠税。損金経理で納付したもの）
+    dues = {k: v for k, v in (data.get("tax_dues") or {}).items() if k != "罰金等" and v}
 
     opening = _five_one_amount(data, "納税充当金")
     charged = data["accounting"]["tax_provision_charged"]
@@ -314,7 +422,7 @@ def schedule_05_02(data: dict, per_capita: dict[str, int]) -> dict:
                  "reversed_corporate_etc": reversed_tax, "reversed_business": reversed_business,
                  "reversed_total": reversed_tax + reversed_business,
                  "closing": opening + charged - reversed_tax - reversed_business}
-    return {"taxes": taxes, "business": business, "others": others, "provision": provision}
+    return {"taxes": taxes, "business": business, "others": others, "dues": dues, "provision": provision}
 
 
 # --- 別表五(一) ---
@@ -477,7 +585,8 @@ def _display(value: Fraction, digits: int, rounding: dict) -> str | None:
 TRIAL_ROUNDINGS = ("truncate", "round_half_up")
 
 
-def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str | None = None) -> dict:
+def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str | None = None,
+              interest_paid: int | None = None) -> dict:
     """trial_ratio_rounding: 試し用。別表二の割合の端数処理を仮に決める（結果に trial の印を付ける）。"""
     rules = load_rules("corporate_tax.json")
     if trial_ratio_rounding:
@@ -486,7 +595,8 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
         rules["family_company_ratio_display"] = {"mode": trial_ratio_rounding, "source": "試し用の仮の値（未確認）"}
     s15 = schedule_15(data, rules)
     s16 = schedule_16(data)
-    s4 = schedule_04(data, s15, s16)
+    s8 = schedule_08_1(data, rules, interest_paid if interest_paid is not None else data.get("interest_paid"))
+    s4 = schedule_04(data, s15, s16, s8, rules)
     s7 = schedule_07_01(data, s4, rules)
     s1 = schedule_01(data, s4, s7)
     s52 = schedule_05_02(data, per_capita)
@@ -510,5 +620,5 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
         label = {"truncate": "切り捨て", "round_half_up": "四捨五入"}[trial_ratio_rounding]
         warnings.insert(0, f"試し用: 別表二の割合の端数処理を仮に「{label}」にしています。本番の申告には使えません")
     return {"schedule_04": s4, "schedule_07_01": s7, "schedule_01": s1, "schedule_05_02": s52,
-            "schedule_15": s15, "schedule_16": s16,
+            "schedule_15": s15, "schedule_16": s16, "schedule_08_1": s8, "schedule_14_2": s4["schedule_14_2"],
             "schedule_05_01": s51, "schedule_02": s2, "warnings": warnings, "trial": bool(trial_ratio_rounding)}

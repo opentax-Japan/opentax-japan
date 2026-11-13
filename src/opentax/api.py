@@ -25,15 +25,30 @@ MANIFEST = Path(__file__).resolve().parents[2] / "spec-manifest" / f"{SPEC_SET}.
 ZEIMUSHO_XSD = "19XMLスキーマ/general/zeimusho.xsd"
 
 
-def calculate(raw_input: dict, trial_ratio_rounding: str | None = None) -> dict:
+NO_BALANCE_WARNING = ("科目残高（決算書）がないので、申告調整の漏れ（寄附金・受取配当・租税公課・役員給与など）を点検していません。"
+                      "決算書の残高試算表を渡すと、全科目を点検し、寄附金の別表も科目残高から作ります")
+
+
+def calculate(raw_input: dict, trial_ratio_rounding: str | None = None, balance: bytes | None = None) -> dict:
     """入力を点検し、均等割と別表を計算して、帳票の式・帳票間のチェックと突き合わせる。
-    trial_ratio_rounding は試し用（別表二の割合の端数処理を仮に決める）。"""
+    trial_ratio_rounding は試し用（別表二の割合の端数処理を仮に決める）。
+    balance は会計ソフトの残高試算表（CSV・TXT）。あれば申告調整の漏れ止め（red.adjust。DESIGN §19）を行い、
+    申告調整の要る科目で作れないもの・入力のないものがあれば AdjustmentStop で止める。寄附金の明細は科目残高から作る。"""
+    from .red import adjust, uchiwake
     data = model.validate(raw_input)
+    review = None
+    if balance:
+        review = adjust.review(uchiwake.parse_balance(balance), data)
+        if review["stops"]:
+            raise adjust.AdjustmentStop(review["stops"], review["rows"])
+        data["donations"] = review["donations"]
     local = local_tax(data)
     city_amount = local["municipality"]["amount"] if local["municipality"] else 0   # 23区は都民税に含まれる
     result = _calculate(data, {"道府県民税": local["prefecture"]["amount"], "市町村民税": city_amount},
-                        trial_ratio_rounding)
+                        trial_ratio_rounding, review["interest_paid"] if review else None)
     result["warnings"] = list(result.get("warnings", [])) + [c for c in local.get("cautions", []) if c not in result.get("warnings", [])]
+    result["warnings"] += review["notes"] if review else [NO_BALANCE_WARNING]
+    result["adjustments"] = review["rows"] if review else None
     values, problems = form_values(result)
     return {"input": data, "local_tax": local, "result": result, "form_values": values, "problems": problems}
 
@@ -65,7 +80,7 @@ def uchiwake_from_balance(balance: bytes, supplement: dict | None = None) -> dic
 
 FORM_TITLES = {"HOA112": "別表一", "HOA114": "別表一 次葉一", "HOA201": "別表二", "HOA420": "別表四（簡易様式）",
                "HOA511": "別表五(一)", "HOA522": "別表五(二)", "HOB016": "別表六(一)",
-               "HOB710": "別表七(一)", "HOE200": "別表十五", "HOE315": "別表十六(一)", "HOE325": "別表十六(二)"}
+               "HOB710": "別表七(一)", "HOB800": "別表八(一)", "HOE099": "別表十四(二)", "HOE200": "別表十五", "HOE315": "別表十六(一)", "HOE325": "別表十六(二)"}
 
 
 def preview(calculated: dict) -> list[dict]:

@@ -222,12 +222,12 @@ def _build_checks(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
-def run_red(path: Path, trial_ratio_rounding: str | None = None) -> dict:
-    """入力ファイルを読み、api.calculate を呼ぶ（Web 画面・API と同じ計算）。"""
+def run_red(path: Path, trial_ratio_rounding: str | None = None, balance: str | Path | None = None) -> dict:
+    """入力ファイルを読み、api.calculate を呼ぶ（Web 画面・API と同じ計算）。balance（残高試算表）があれば申告調整の漏れ止めも行う。"""
     from . import api
     from .red import model
 
-    return api.calculate(model.load(path), trial_ratio_rounding)
+    return api.calculate(model.load(path), trial_ratio_rounding, Path(balance).read_bytes() if balance else None)
 
 
 TRIAL_MARKS = ("試し用", "trial")
@@ -235,6 +235,7 @@ TRIAL_MARKS = ("試し用", "trial")
 
 def _export_etax(args: argparse.Namespace) -> int:
     from . import api
+    from .red.adjust import AdjustmentStop
     from .red.model import OutOfScope
 
     if args.trial_ratio_rounding and not any(m in Path(args.output).name for m in TRIAL_MARKS):
@@ -242,8 +243,8 @@ def _export_etax(args: argparse.Namespace) -> int:
     if args.trial_ratio_rounding:
         print(f"注意: 別表二の割合の端数処理を仮に「{args.trial_ratio_rounding}」にしています（試し用。本番には使えません）")
     try:
-        calculated = run_red(Path(args.input), args.trial_ratio_rounding)
-    except OutOfScope as e:
+        calculated = run_red(Path(args.input), args.trial_ratio_rounding, args.balance)
+    except (OutOfScope, AdjustmentStop) as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
     schema_root = Path(args.cache_dir) / "ksk2-2026-08" / "files" / "e-tax19"
@@ -296,11 +297,12 @@ def _export_etax(args: argparse.Namespace) -> int:
 
 
 def _calculate(args: argparse.Namespace) -> int:
+    from .red.adjust import AdjustmentStop
     from .red.model import OutOfScope
 
     try:
-        out = run_red(Path(args.input))
-    except OutOfScope as e:
+        out = run_red(Path(args.input), balance=args.balance)
+    except (OutOfScope, AdjustmentStop) as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
     text = json.dumps(out, ensure_ascii=False, indent=1, default=str) + "\n"
@@ -312,6 +314,9 @@ def _calculate(args: argparse.Namespace) -> int:
     print(f"均等割: {local['prefecture']['jurisdiction']} {local['prefecture']['amount']:,}円、"
           + (f"{local['municipality']['jurisdiction']} {local['municipality']['amount']:,}円" if local["municipality"]
              else f"（{local['prefecture'].get('special_ward', '')}: 市町村民税分を含む）"))
+    for row in r.get("adjustments") or []:
+        if row["status"] != "調整なし":
+            print(f"申告調整: {row['account']} {row['amount']:,}円 … {row['status']}（{row['detail']}）")
     for w in r["warnings"]:
         print(f"注意: {w}")
     if out["problems"]:
@@ -366,6 +371,7 @@ def _report(args: argparse.Namespace) -> int:
     import json as _json
 
     from . import api
+    from .red.adjust import AdjustmentStop
     from .red.model import OutOfScope
 
     read = lambda p: _json.loads(Path(p).read_text(encoding="utf-8"))  # noqa: E731
@@ -382,8 +388,8 @@ def _report(args: argparse.Namespace) -> int:
             return EXIT_ERROR
         info = read(args.gaikyo) if args.gaikyo else None
     try:
-        calculated = run_red(Path(args.input))
-    except OutOfScope as e:
+        calculated = run_red(Path(args.input), balance=args.balance)
+    except (OutOfScope, AdjustmentStop) as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
     html = api.report(calculated, Path(args.balance).read_bytes() if args.balance else None,
@@ -494,6 +500,7 @@ def main(argv: list[str] | None = None) -> int:
     r = sub.add_parser("calculate", help="OpenTax RED: 入力（JSON・CSV）から均等割と別表を計算する")
     r.add_argument("input")
     r.add_argument("--output", help="計算結果の JSON を書き出す先")
+    r.add_argument("--balance", help="会計ソフトの残高試算表（CSV・TXT）。あれば申告調整の漏れを全科目で点検し、寄附金の別表も作る")
 
     x = sub.add_parser("export-etax", help="OpenTax RED: e-Taxソフトに組み込める .xtx を作り、公式XSD で検証する")
     x.add_argument("input")

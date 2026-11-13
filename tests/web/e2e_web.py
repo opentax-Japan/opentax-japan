@@ -133,6 +133,15 @@ def main() -> int:
         page.click("#att-sample")
         expect(page.locator("#att-gaikyo-name")).to_contain_text("見本", timeout=30_000)
         page.click("#att-check")
+        # 見本の入力（画面の欄だけ）には交際費・減価償却・役員報酬の確認がないので、決算書（科目残高）の点検で止まる（DESIGN §19）
+        expect(page.locator("#att-result")).to_contain_text("申告調整の漏れ止めで止めました", timeout=120_000)
+        stop_text = page.locator("#att-result").inner_text()
+        check("決算書の交際費・減価償却費・役員報酬で申告調整の漏れ止めが止める", all(t in stop_text for t in ("交際費", "減価償却費", "役員報酬")))
+        # 交際費・減価償却・役員報酬の確認などを入れた見本（input_demo.json）を開くと作れる
+        page.set_input_files("#open-input", str(REPO / "tests/cases/open-shoji-tokyo/input_demo.json"))
+        page.click("#calculate")
+        expect(page.locator("#summary")).to_contain_text("△1,128,469", timeout=120_000)
+        page.click("#att-check")
         expect(page.locator("#att-result")).to_contain_text("作れる様式", timeout=120_000)
         att_text = page.locator("#att-result").inner_text()
         check("内訳書・概況書を確かめる（HOI010・HOI141・HOK010・税務代理権限証書）", all(f in att_text for f in ("HOI010", "HOI141", "HOK010", "SOZ074")))
@@ -186,8 +195,8 @@ def main() -> int:
     # 内訳書・概況書入りの .xtx も、同じ材料で手元で作ったものと同じ
     case = REPO / "tests/cases/open-shoji-tokyo"
     load = lambda n: json.loads((case / n).read_text(encoding="utf-8"))  # noqa: E731
-    calc = api.calculate(load("input.json"), "truncate")
     balance, trend = (case / "科目残高一覧表_架空_TKC形式.txt").read_bytes(), (case / "科目残高推移表_架空_TKC形式.txt").read_bytes()
+    calc = api.calculate(load("input_demo.json"), "truncate", balance)
     fp = calc["input"]["fiscal_period"]
     info = load("gaikyo.json")
     info["monthly"].pop("months")

@@ -19,9 +19,11 @@ PROCEDURE_ID = "RHO0012"
 PROCEDURE_NAME = "内国法人の確定申告(青色)"  # e-Taxソフトが切り出したファイルの TETSUZUKI/procedure_NM と同じ
 PROCEDURE_VR = "26.0.1"
 # 手続XSD（RHO0012-260.xsd）の CONTENTS の並び順。HOA114（別表一 次葉一）は手続XSD で必須
-FORMS = ("HOA112", "HOA114", "HOA201", "HOA420", "HOA511", "HOA522", "HOB016", "HOB710", "HOE200", "HOE315", "HOE325")
-# 値があるときだけ出す帳票（別表六(一)は所得税額の控除、別表十五は交際費等、別表十六は減価償却の入力があるときだけ）
-OPTIONAL_FORMS = ("HOB016", "HOE200", "HOE315", "HOE325")
+FORMS = ("HOA112", "HOA114", "HOA201", "HOA420", "HOA511", "HOA522", "HOB016", "HOB710", "HOB800", "HOE099", "HOE200",
+         "HOE315", "HOE325")
+# 値があるときだけ出す帳票（別表六(一)は所得税額の控除、別表八(一)は受取配当等、別表十四(二)は寄附金、別表十五は交際費等、
+# 別表十六は減価償却の入力があるときだけ）
+OPTIONAL_FORMS = ("HOB016", "HOB800", "HOE099", "HOE200", "HOE315", "HOE325")
 SOFT_NAME = "OpenTaxRED OpenTaxJapan"   # 「ソフト名△会社名」（e-tax01 表1-1）
 SHINKOKU_KBN_KAKUTEI = "30"           # 申告の種類「確定/確定」（e-tax10 帳票フィールド仕様書 Ver7x「HOA112別紙」申告の種類一覧）
 FAMILY_CODE_FOR_S1 = {"1": "4", "2": "1", "3": "3"}  # 別表二の判定結果 → 別表一の同非区分（1:同族 3:非同族 4:特定同族）
@@ -58,7 +60,13 @@ def base_values(result: dict) -> dict:
     v["ARC00170"] = s4["add_depreciation"]
     v["ARC00215"] = s4["add_entertainment"]
     v["ARD00020"] = s4["deduct_depreciation"]
+    v["ARC00140"] = s4.get("add_surcharges", 0)    # 5 損金経理をした附帯税等（社外流出）
+    v["ARC00270"] = s4.get("add_fines", 0)         # 10 罰金等の損金不算入額（社外流出 本書き。区分名は text_values）
+    v["ARD00080"] = s4.get("deduct_dividends", 0)  # 14 受取配当等の益金不算入額（※）
+    v["ARF00010"] = s4.get("add_donation", 0)      # 27 寄附金の損金不算入額（社外流出）
     v.update(_s15_values(result.get("schedule_15")))
+    v.update(_s14_2_values(result.get("schedule_14_2")))
+    v.update(_s8_1_values(result.get("schedule_08_1")))
     v.update(_s16_values(result.get("schedule_16")))
     v["ARI00010"] = s4["credit"]
     v["ART00010"] = s4["loss_deduction"]
@@ -83,9 +91,19 @@ def base_values(result: dict) -> dict:
     v["BGB00340"] = s1["refund_interim"]
     # 別表六(一)（預貯金の利子などの1行目だけ）
     if s4["credit"]:
-        income = s4["credit_income"]
-        v["FZC00020"], v["FZC00030"], v["FZC00040"] = income, s4["credit"], s4["credit"]
-        v["FZC00310"], v["FZC00320"], v["FZC00330"] = income, s4["credit"], s4["credit"]
+        ci, cd = s4.get("credit_interest", s4["credit"]), s4.get("credit_dividend", 0)
+        income, dincome = s4["credit_income"], s4.get("credit_dividend_income", 0)
+        if ci:
+            v["FZC00020"], v["FZC00030"], v["FZC00040"] = income, ci, ci
+        if cd:   # 2 剰余金の配当（元本を計算期間を通じて所有していたものだけ。所有期間割合 1.000）
+            v["FZC00060"], v["FZC00070"], v["FZC00080"] = dincome, cd, cd
+            # 個別法による場合 7〜12（施行令第140条の2第2項。計算の明細は法第68条第4項）。9・10 の月数は計算期間があるときだけ
+            rows = dividend_credit_rows(result)
+            v["FZF00040"] = [r["amount"] for r in rows]
+            v["FZF00050"] = v["FZF00090"] = [r["withholding"] for r in rows]
+            if any(r["months"] for r in rows):
+                v["FZF00060"] = v["FZF00070"] = [r["months"] for r in rows]
+        v["FZC00310"], v["FZC00320"], v["FZC00330"] = income + dincome, s4["credit"], s4["credit"]
     # 別表五(二)
     for tax, p in (("道府県民税", "IEC"), ("市町村民税", "IED")):
         t = s52["taxes"][tax]
@@ -118,6 +136,11 @@ def base_values(result: dict) -> dict:
         raise OutOfScope("別表五(二)のその他（損金不算入のもの）が2行を超えています")
     v["IEF01050"] = [r["accrued"] for r in s52["others"]]
     v["IEF01150"] = [r["by_expense"] for r in s52["others"]]
+    # 損金不算入のもの 24〜27（当期に損金経理で納付したもの: ②当期発生税額・⑤損金経理による納付）
+    for k, (acc, exp) in (("加算税及び加算金", ("IEF00480", "IEF00580")), ("延滞税", ("IEF00620", "IEF00720")),
+                          ("延滞金", ("IEF00760", "IEF00860")), ("過怠税", ("IEF00900", "IEF01000"))):
+        if s52.get("dues", {}).get(k):
+            v[acc] = v[exp] = s52["dues"][k]
     v["IEG00010"] = s52["provision"]["opening"]
     v["IEG00030"] = s52["provision"]["charged"]
     # 別表五(一)
@@ -160,6 +183,83 @@ def base_values(result: dict) -> dict:
     if s2["with_votes"]:
         v["VAB00060"], v["VAB00070"] = s2["total_votes"], s2["top3_votes"]
     return {k: val for k, val in v.items() if val != []}
+
+
+def dividend_credit_rows(result: dict) -> list[dict]:
+    """別表六(一) 個別法の行: 源泉徴収された配当（計算期間を通じて所有）。月数は暦に従い1月未満は1月（施行令第140条の2第6項）。"""
+    from .calculate import _months_ceil
+    s8 = result.get("schedule_08_1") or {"groups": {}}
+    rows = [d for g in s8["groups"].values() for d in g if d["withholding"]]
+    if len(rows) > 5:
+        from .model import OutOfScope
+        raise OutOfScope("別表六(一)の個別法の明細が5銘柄を超えています（欄の数）")
+    return [{**d, "months": _months_ceil(d["period_start"], d["period_end"]) if d.get("period_start") and d.get("period_end") else None}
+            for d in rows]
+
+
+def _s14_2_values(s14: dict | None) -> dict:
+    """別表十四(二)（公益法人等以外の法人の場合）。明細は text_values（日付・寄附先）と、ここ（金額）。"""
+    if not s14:
+        return {}
+    v = {"WWB00030": s14["designated"], "WWB00040": s14["special"], "WWB00045": s14["trust"],
+         "WWB00050": s14["other"] + s14["foreign"], "WWB00060": s14["total"], "WWB00070": s14["group"],
+         "WWB00080": s14["with_group"], "WWB00090": s14["provisional"], "WWB00100": s14["pre"],
+         "WWB00110": s14["general_income"], "WWB00120": s14["capital"], "WWB00150": s14["capital_months"],
+         "WWB00160": s14["general_capital"], "WWB00170": s14["general_limit"],
+         "WWB00220": s14["special_allowed"], "WWB00225": s14["trust_allowed"], "WWB00230": s14["designated"],
+         "WWB00240": s14["foreign"], "WWB00250": s14["excluding_foreign"], "WWB00270": s14["general_disallowed"],
+         "WWB00280": s14["foreign"], "WWB00290": s14["group"], "WWB00300": s14["disallowed"]}
+    if s14["has_special"]:   # 15〜17 は特定公益増進法人等・公益信託に対する寄附金があるときだけ（実務の申告書も空欄）
+        v.update({"WWB00190": s14["special_income"], "WWB00200": s14["special_capital"], "WWB00210": s14["special_limit"]})
+    for kind, amount_tag, total_tag, limit in (("指定寄附金等", "WWD00060", "WWD00070", DONATION_DETAIL_ROWS["WWD"]),
+                                               ("特定公益増進法人等", "WWE00060", "WWE00070", DONATION_DETAIL_ROWS["WWE"]),
+                                               ("公益信託", "WWH00060", "WWH00070", DONATION_DETAIL_ROWS["WWH"])):
+        rows = [d for d in s14["rows"] if d["kind"] == kind]
+        if len(rows) > limit:
+            from .model import OutOfScope
+            raise OutOfScope(f"別表十四(二)の{kind}の明細が{limit}行を超えています（欄の数）")
+        if rows:
+            v[amount_tag] = [d["amount"] for d in rows]
+            v[total_tag] = sum(d["amount"] for d in rows)
+    return v
+
+
+# 別表十四(二)の明細の行数（HOE099 の繰り返しの上限。layout の max）
+DONATION_DETAIL_ROWS = {"WWD": 2, "WWE": 2, "WWH": 2}
+
+
+def _s8_1_values(s8: dict | None) -> dict:
+    """別表八(一)。銘柄ごとの名前・所在地・保有割合・日付は text_values。"""
+    if not s8:
+        return {}
+    g = s8["groups"]
+    v = {"CBB00005": s8["full"], "CBB00020": s8["related"], "CBB00180": s8["other"], "CBB00143": s8["non_controlling"],
+         "CBB00150": s8["exclusion"]}
+    col = lambda rows, k: [d[k] for d in rows]  # noqa: E731
+    if g["完全子法人株式等"]:
+        v["CBH00080"] = col(g["完全子法人株式等"], "amount")
+        v["CBH00090"] = sum(v["CBH00080"])
+    rel = g["関連法人株式等"]
+    if rel:
+        v.update({"CBH00180": col(rel, "amount"), "CBH00190": col(rel, "taxable"), "CBH00200": col(rel, "target"),
+                  "CBH00250": col(rel, "interest")})
+        v.update({"CBH00270": sum(v["CBH00180"]), "CBH00280": sum(v["CBH00190"]), "CBH00290": sum(v["CBH00200"]),
+                  "CBH00340": sum(v["CBH00250"])})
+        if s8["use_alt"]:
+            v["CBH00240"] = v["CBH00250"]
+            v["CBH00330"] = v["CBH00340"]
+        else:
+            v["CBH00210"] = v["CBH00250"]
+            v["CBH00300"] = v["CBH00340"]
+        v["CBI00020"] = v["CBI00050"] = s8["interest_paid"]
+    for kind, (amt, tax, tgt, t_amt, t_tax, t_tgt) in (
+            ("その他株式等", ("CBH00400", "CBH00410", "CBH00420", "CBH00440", "CBH00450", "CBH00460")),
+            ("非支配目的株式等", ("CBH00530", "CBH00540", "CBH00550", "CBH00570", "CBH00580", "CBH00590"))):
+        rows = g[kind]
+        if rows:
+            v.update({amt: col(rows, "amount"), tax: col(rows, "taxable"), tgt: col(rows, "target")})
+            v.update({t_amt: sum(v[amt]), t_tax: sum(v[tax]), t_tgt: sum(v[tgt])})
+    return v
 
 
 def _s15_split(s15: dict) -> tuple[list, list]:
@@ -295,6 +395,46 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
             v[f"{p}00030"] = [r["period_end"] for r in rows]
     if s52["others"]:
         v["IEF01030"] = [r["item"] for r in s52["others"]]
+    s4 = result["schedule_04"]
+    if s4.get("add_fines"):
+        v["ARC00230"], v["ARC00260"] = "罰金等の損金不算入額", "その他"    # 別表四 10（余白）
+    s14 = result.get("schedule_14_2")
+    if s14:
+        v["WWB00105"] = "1"                                # 10 2.5/100（資本を有する法人）
+        v["WWB00140"] = s14["months"]                      # 12 月数
+        for kind, p, cols in (("指定寄附金等", "WWD", {"date": "020", "recipient": "030", "notice_no": "040", "use": "050"}),
+                              ("特定公益増進法人等", "WWE", {"date": "020", "recipient": "030", "address": "040", "use": "050"}),
+                              ("公益信託", "WWH", {"date": "020", "recipient": "030", "address": "040", "use": "050"})):
+            rows = [d for d in s14["rows"] if d["kind"] == kind]
+            for k, tag in cols.items():
+                if any(d.get(k) for d in rows):
+                    v[f"{p}00{tag}"] = [d.get(k) or None for d in rows]
+    s8 = result.get("schedule_08_1")
+    if s8 and result["schedule_04"].get("credit_dividend"):
+        credit_rows = dividend_credit_rows(result)
+        v["FZF00030"] = [d["name"] for d in credit_rows]
+        v["FZF00080"] = ["1.000" for _ in credit_rows]
+    if s8:
+        g = s8["groups"]
+        ratio = lambda d: f"{d['ratio']:.3f}"  # noqa: E731
+        for kind, tags in (("完全子法人株式等", {"name": "CBH00030", "address": "CBH00040", "period_start": "CBH00060",
+                                                  "period_end": "CBH00070"}),
+                           ("関連法人株式等", {"name": "CBH00120", "address": "CBH00130", "period_start": "CBH00150",
+                                                "period_end": "CBH00160", "ratio": "CBH00165"}),
+                           ("その他株式等", {"name": "CBH00370", "address": "CBH00380", "ratio": "CBH00385"}),
+                           ("非支配目的株式等", {"name": "CBH00490", "address": "CBH00500", "base_date": "CBH00510",
+                                                  "ratio": "CBH00515"})):
+            rows = g[kind]
+            for k, tag in tags.items():
+                if k == "ratio":
+                    v[tag] = [ratio(d) for d in rows] if rows else None
+                elif any(d.get(k) for d in rows):
+                    v[tag] = [d.get(k) or None for d in rows]
+        v["CBB00147"] = "1"                                # 5 20%（保険会社の40%は対象外）
+        if g["関連法人株式等"]:
+            v["CBI00010"] = "1" if s8["use_alt"] else "2"  # 34 令第19条第2項: 1 適用・2 不適用
+            v["CBH00230"] = [f"{d['share'] / 1000:.3f}" for d in g["関連法人株式等"]]
+            v["CBH00320"] = "1.000"
     s15, s16 = result.get("schedule_15"), result.get("schedule_16")
     if s15:
         v["EGC00017"] = "1"                                # 3 定額控除限度額: 800万円×月数／12
