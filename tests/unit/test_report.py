@@ -113,5 +113,18 @@ class EditionTest(unittest.TestCase):
         self.assertIsNone(self.edition("HOA112", "2024-04-01", "2025-03-31"))
 
 
+class SimplifiedConsumptionTaxTest(unittest.TestCase):
+    def test_simplified_chapter(self):
+        kani = json.loads((CASE.parent / "kasumi-shokai-kani" / "input.json").read_text(encoding="utf-8"))
+        html = api.report(api.calculate(load("input.json")), shohi_input=kani, today=datetime.date(2026, 11, 26))
+        chapter = html.split("id='shohi'>", 1)[1].split("<section class='chapter'", 1)[0]
+        text = re.sub(r"<[^>]+>", " ", chapter)
+        for title in ("申告書（簡易課税用）", "付表4-3", "付表5-3"):
+            self.assertIn(title, text)
+        for amount in ("1,439,680", "410,500", "1,389,985", "26,394,781", "87.9"):
+            self.assertIn(amount, text)
+        self.assertNotIn("付表2-3", text)
+
+
 if __name__ == "__main__":
     unittest.main()

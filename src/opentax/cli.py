@@ -416,7 +416,13 @@ def _shohi(args: argparse.Namespace) -> int:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
     f1 = c["form_1"]
-    print(f"課税標準額 {f1['1']:,}円  消費税額 {f1['2']:,}円  控除税額小計 {f1['7']:,}円  課税売上割合 {c['fuhyo_2_3']['8']}％")
+    if c["method"] == "simplified":
+        t5 = c["fuhyo_5_3"]
+        kinds = "・".join(f"第{t}種 {v['ratio']}％" for t, v in t5["by_type"].items())
+        print(f"簡易課税  事業区分 {kinds}  控除対象仕入税額の計算式区分 {t5['chosen']}")
+        print(f"課税標準額 {f1['1']:,}円  消費税額 {f1['2']:,}円  控除税額小計 {f1['7']:,}円")
+    else:
+        print(f"課税標準額 {f1['1']:,}円  消費税額 {f1['2']:,}円  控除税額小計 {f1['7']:,}円  課税売上割合 {c['fuhyo_2_3']['8']}％")
     print(f"差引税額 {f1['9']:,}円（中間 {f1['10']:,}円）  譲渡割額 {f1['20']:,}円（中間 {f1['21']:,}円）")
     print(f"消費税及び地方消費税の合計（納付又は還付）税額 {f1['26']:,}円")
     for w in c["warnings"]:
@@ -430,14 +436,16 @@ def _shohi(args: argparse.Namespace) -> int:
         raise SpecError("公式XSD がありません。opentax fetch-spec --set ksk2-2026-08 を実行するか、--cab で e-tax19.CAB を指定してください")
     office, engagement = _office(args)
     xml = api.shohi_export(c, schema_root, office=office, engagement=engagement)
-    errors = api.validate_xtx(xml, schema_root, "RSH0020")
+    from .shohi.etax import procedure
+    proc_id = procedure(c)[0]
+    errors = api.validate_xtx(xml, schema_root, proc_id)
     if errors:
         print(f"公式XSD の検証で誤りがあります（{len(errors)} 件）。.xtx は書き出しません")
         for e in errors[:20]:
             print(f"  {e}")
         return EXIT_CHANGED
     Path(args.output).write_bytes(xml)
-    print("公式XSD（手続 RSH0020）の検証: 誤りなし")
+    print(f"公式XSD（手続 {proc_id}）の検証: 誤りなし")
     print(f"書き出しました: {args.output}（{len(xml):,} バイト）")
     return EXIT_OK
 
@@ -510,7 +518,8 @@ def main(argv: list[str] | None = None) -> int:
     rp.add_argument("--shohi", help="消費税の入力 JSON")
     _office_args(rp)
 
-    sh = sub.add_parser("shohi", help="消費税の一般課税（法人・割戻し計算・全額控除）を計算し、-o で .xtx（手続 RSH0020）を作る")
+    sh = sub.add_parser("shohi", help="消費税（法人・割戻し計算）を計算し、-o で .xtx を作る。"
+                        "一般課税（全額控除）は手続 RSH0020、入力に method: simplified があれば簡易課税（手続 RSH0040）")
     sh.add_argument("input")
     sh.add_argument("-o", "--output", help="書き出す .xtx（省略時は計算結果だけ表示）")
     sh.add_argument("--cache-dir", default=".cache/etax")

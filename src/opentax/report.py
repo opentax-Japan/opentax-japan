@@ -28,6 +28,9 @@ UCHIWAKE_TITLES = {"HOI010": "預貯金等の内訳書", "HOI020": "受取手形
                    "HOI141": "役員給与等の内訳書・人件費の内訳書",
                    "HOI150": "地代家賃等の内訳書・工業所有権等の使用料の内訳書", "HOI160": "雑益、雑損失等の内訳書"}
 SHOHI_TITLES = {"SHA010": "申告書 第一表", "SHB017": "付表1-3（税率別消費税額計算表）", "SHB033": "付表2-3（課税売上割合・控除対象仕入税額等の計算表）"}
+SHOHI_SIMPLIFIED_TITLES = {"SHA020": "申告書（簡易課税用） 第一表・第二表",
+                           "SHB047": "付表4-3（税率別消費税額計算表 兼 地方消費税の課税標準となる消費税額計算表）",
+                           "SHB067": "付表5-3（控除対象仕入税額等の計算表）"}
 
 # 区分の欄のうち「1・2・3」に意味があるもの（それ以外の区分は「1」＝該当に ○ を付ける）
 _CODES = {"IAD02000": {"1": "固定給", "2": "歩合給", "3": "固定・歩合の併用"}, "IAF04300": {"1": "税抜経理", "2": "税込経理"},
@@ -336,7 +339,9 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
         vals = form_values(shohi)
         sp = shohi["input"]["period"]
         sp_span = (_date(sp["start"]), _date(sp["end"]))
-        paper_vals = {fid: {**v, **text_values(shohi)} if fid == "SHA010" else v for fid, v in vals.items()}
+        titles = SHOHI_SIMPLIFIED_TITLES if shohi.get("method") == "simplified" else SHOHI_TITLES
+        first = next(iter(titles))
+        paper_vals = {fid: {**v, **text_values(shohi)} if fid == first else v for fid, v in vals.items()}
         # 消費税の課税期間・会社の情報は消費税の入力から（法人税の事業年度と違うことがある）
         sh_company = shohi["input"].get("company", {})
         sh_phone = (sh_company.get("phone") or "").split("-")
@@ -350,8 +355,8 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
             if kind == "phone":
                 return sh_phone[int(name) - 1] if len(sh_phone) == 3 else None
             return None
-        chapters["shohi"] = "".join(on_paper(fid, SHOHI_TITLES[fid], paper_vals[fid], _blocks(form_view(catalog[fid], vals[fid], {})),
-                                             f"課税期間 {sp['start']} 〜 {sp['end']}", sp_span, sh_source) for fid in SHOHI_TITLES)
+        chapters["shohi"] = "".join(on_paper(fid, titles[fid], paper_vals[fid], _blocks(form_view(catalog[fid], vals[fid], {})),
+                                             f"課税期間 {sp['start']} 〜 {sp['end']}", sp_span, sh_source) for fid in titles)
         if shohi.get("warnings"):
             chapters["shohi"] = "".join(f"<div class='warn'>{_e(w)}</div>" for w in shohi["warnings"]) + chapters["shohi"]
     if "HOK010" in forms:

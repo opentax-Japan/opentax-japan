@@ -1,0 +1,2771 @@
+{
+ "form_id": "SHB067",
+ "label": "付表5-3 控除対象仕入税額等の計算表",
+ "version": "1.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shohi",
+ "group": "SHB067-1-0group",
+ "xsd": "19XMLスキーマ/shohi/SHB067-001.xsd",
+ "xsd_sha256": "43ccd8e2d01e22ca8c705b530aef4787a43752ab2ddcf14cac1075feb9bfe452",
+ "root": {
+  "tag": "SHB067",
+  "path": "SHB067",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "SHB067-1",
+    "path": "SHB067/SHB067-1",
+    "label": "一面",
+    "min": 0,
+    "max": 1,
+    "type": "SHB067-1-1-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DVA00000",
+      "path": "SHB067/SHB067-1/DVA00000",
+      "label": "納税者等部",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DVA00010",
+        "path": "SHB067/SHB067-1/DVA00000/DVA00010",
+        "label": "課税期間",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DVA00020",
+          "path": "SHB067/SHB067-1/DVA00000/DVA00010/DVA00020",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:KAZEI_KIKAN_FROMref",
+          "kind": "idref",
+          "idref": "KAZEI_KIKAN_FROM",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "KAZEI_KIKAN_FROM",
+            "type": "xsd:IDREF"
+           }
+          ]
+         },
+         {
+          "tag": "DVA00030",
+          "path": "SHB067/SHB067-1/DVA00000/DVA00010/DVA00030",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:KAZEI_KIKAN_TOref",
+          "kind": "idref",
+          "idref": "KAZEI_KIKAN_TO",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "KAZEI_KIKAN_TO",
+            "type": "xsd:IDREF"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "DVA00040",
+        "path": "SHB067/SHB067-1/DVA00000/DVA00040",
+        "label": "氏名又は名称",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_NMref",
+        "kind": "idref",
+        "idref": "NOZEISHA_NM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_NM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DVB00000",
+      "path": "SHB067/SHB067-1/DVB00000",
+      "label": "１　控除対象仕入税額の計算の基礎となる消費税額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DVB00010",
+        "path": "SHB067/SHB067-1/DVB00000/DVB00010",
+        "label": "課税標準額に対する消費税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DVB00020",
+          "path": "SHB067/SHB067-1/DVB00000/DVB00010/DVB00020",
+          "label": "税率6.24％適用分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "DVB00030",
+          "path": "SHB067/SHB067-1/DVB00000/DVB00010/DVB00030",
+          "label": "税率7.8％適用分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "DVB00040",
+          "path": "SHB067/SHB067-1/DVB00000/DVB00010/DVB00040",
+          "label": "合計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "DVB00050",
+        "path": "SHB067/SHB067-1/DVB00000/DVB00050",
+        "label": "貸倒回収に係る消費税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DVB00060",
+          "path": "SHB067/SHB067-1/DVB00000/DVB00050/DVB00060",
+          "label": "税率6.24％適用分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "DVB00070",
+          "path": "SHB067/SHB067-1/DVB00000/DVB00050/DVB00070",
+          "label": "税率7.8％適用分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "DVB00080",
+          "path": "SHB067/SHB067-1/DVB00000/DVB00050/DVB00080",
+          "label": "合計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "DVB00090",
+        "path": "SHB067/SHB067-1/DVB00000/DVB00090",
+        "label": "売上対価の返還等に係る消費税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DVB00100",
+          "path": "SHB067/SHB067-1/DVB00000/DVB00090/DVB00100",
+          "label": "税率6.24％適用分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "DVB00110",
+          "path": "SHB067/SHB067-1/DVB00000/DVB00090/DVB00110",
+          "label": "税率7.8％適用分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "DVB00120",
+          "path": "SHB067/SHB067-1/DVB00000/DVB00090/DVB00120",
+          "label": "合計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "DVB00130",
+        "path": "SHB067/SHB067-1/DVB00000/DVB00130",
+        "label": "控除対象仕入税額の計算の基礎となる消費税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DVB00140",
+          "path": "SHB067/SHB067-1/DVB00000/DVB00130/DVB00140",
+          "label": "税率6.24％適用分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "DVB00150",
+          "path": "SHB067/SHB067-1/DVB00000/DVB00130/DVB00150",
+          "label": "税率7.8％適用分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "DVB00160",
+          "path": "SHB067/SHB067-1/DVB00000/DVB00130/DVB00160",
+          "label": "合計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DVC00000",
+      "path": "SHB067/SHB067-1/DVC00000",
+      "label": "２　１種類の事業の専業者の場合の控除対象仕入税額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DVC00010",
+        "path": "SHB067/SHB067-1/DVC00000/DVC00010",
+        "label": "区分",
+        "min": 0,
+        "max": 1,
+        "type": "DVC00010-1-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SHB067/SHB067-1/DVC00000/DVC00010/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2",
+           "3",
+           "4",
+           "5",
+           "6"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SHB067/SHB067-1/DVC00000/DVC00010/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "DVC00020",
+        "path": "SHB067/SHB067-1/DVC00000/DVC00020",
+        "label": "税率6.24％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DVC00030",
+        "path": "SHB067/SHB067-1/DVC00000/DVC00030",
+        "label": "税率7.8％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DVC00040",
+        "path": "SHB067/SHB067-1/DVC00000/DVC00040",
+        "label": "合計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DVD00000",
+      "path": "SHB067/SHB067-1/DVD00000",
+      "label": "３　２種類以上の事業を営む事業者の場合の控除対象仕入税額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DVD00010",
+        "path": "SHB067/SHB067-1/DVD00000/DVD00010",
+        "label": "（１）　事業区分別の課税売上高（税抜き）の明細",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DVD00020",
+          "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00020",
+          "label": "事業区分別の合計額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DVD00030",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00020/DVD00030",
+            "label": "税率6.24％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00040",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00020/DVD00040",
+            "label": "税率7.8％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00050",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00020/DVD00050",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "DVD00060",
+          "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00060",
+          "label": "第一種事業",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DVD00070",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00060/DVD00070",
+            "label": "税率6.24％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00080",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00060/DVD00080",
+            "label": "税率7.8％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00090",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00060/DVD00090",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVD00100",
+              "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00060/DVD00090/DVD00100",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVD00110",
+              "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00060/DVD00090/DVD00110",
+              "label": "売上割合",
+              "min": 0,
+              "max": 1,
+              "type": "DVD00110-1-0type",
+              "kind": "value",
+              "base": "xsd:decimal",
+              "derived_from": [
+               "gen:decimalType"
+              ],
+              "min_inclusive": "0.0",
+              "max_inclusive": "100.0",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "DVD00120",
+          "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00120",
+          "label": "第二種事業",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DVD00130",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00120/DVD00130",
+            "label": "税率6.24％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00140",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00120/DVD00140",
+            "label": "税率7.8％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00150",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00120/DVD00150",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVD00160",
+              "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00120/DVD00150/DVD00160",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVD00170",
+              "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00120/DVD00150/DVD00170",
+              "label": "売上割合",
+              "min": 0,
+              "max": 1,
+              "type": "DVD00170-1-0type",
+              "kind": "value",
+              "base": "xsd:decimal",
+              "derived_from": [
+               "gen:decimalType"
+              ],
+              "min_inclusive": "0.0",
+              "max_inclusive": "100.0",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "DVD00180",
+          "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00180",
+          "label": "第三種事業",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DVD00190",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00180/DVD00190",
+            "label": "税率6.24％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00200",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00180/DVD00200",
+            "label": "税率7.8％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00210",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00180/DVD00210",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVD00220",
+              "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00180/DVD00210/DVD00220",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVD00230",
+              "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00180/DVD00210/DVD00230",
+              "label": "売上割合",
+              "min": 0,
+              "max": 1,
+              "type": "DVD00230-1-0type",
+              "kind": "value",
+              "base": "xsd:decimal",
+              "derived_from": [
+               "gen:decimalType"
+              ],
+              "min_inclusive": "0.0",
+              "max_inclusive": "100.0",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "DVD00240",
+          "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00240",
+          "label": "第四種事業",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DVD00250",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00240/DVD00250",
+            "label": "税率6.24％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00260",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00240/DVD00260",
+            "label": "税率7.8％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00270",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00240/DVD00270",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVD00280",
+              "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00240/DVD00270/DVD00280",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVD00290",
+              "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00240/DVD00270/DVD00290",
+              "label": "売上割合",
+              "min": 0,
+              "max": 1,
+              "type": "DVD00290-1-0type",
+              "kind": "value",
+              "base": "xsd:decimal",
+              "derived_from": [
+               "gen:decimalType"
+              ],
+              "min_inclusive": "0.0",
+              "max_inclusive": "100.0",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "DVD00300",
+          "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00300",
+          "label": "第五種事業",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DVD00310",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00300/DVD00310",
+            "label": "税率6.24％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00320",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00300/DVD00320",
+            "label": "税率7.8％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00330",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00300/DVD00330",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVD00340",
+              "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00300/DVD00330/DVD00340",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVD00350",
+              "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00300/DVD00330/DVD00350",
+              "label": "売上割合",
+              "min": 0,
+              "max": 1,
+              "type": "DVD00350-1-0type",
+              "kind": "value",
+              "base": "xsd:decimal",
+              "derived_from": [
+               "gen:decimalType"
+              ],
+              "min_inclusive": "0.0",
+              "max_inclusive": "100.0",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "DVD00360",
+          "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00360",
+          "label": "第六種事業",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DVD00370",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00360/DVD00370",
+            "label": "税率6.24％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00380",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00360/DVD00380",
+            "label": "税率7.8％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00390",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00360/DVD00390",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVD00400",
+              "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00360/DVD00390/DVD00400",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVD00410",
+              "path": "SHB067/SHB067-1/DVD00000/DVD00010/DVD00360/DVD00390/DVD00410",
+              "label": "売上割合",
+              "min": 0,
+              "max": 1,
+              "type": "DVD00410-1-0type",
+              "kind": "value",
+              "base": "xsd:decimal",
+              "derived_from": [
+               "gen:decimalType"
+              ],
+              "min_inclusive": "0.0",
+              "max_inclusive": "100.0",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "DVD00420",
+        "path": "SHB067/SHB067-1/DVD00000/DVD00420",
+        "label": "（２）　（１）の事業区分別の課税売上高に係る消費税額の明細",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DVD00430",
+          "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00430",
+          "label": "事業区分別の合計額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DVD00440",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00430/DVD00440",
+            "label": "税率6.24％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00450",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00430/DVD00450",
+            "label": "税率7.8％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00460",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00430/DVD00460",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "DVD00470",
+          "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00470",
+          "label": "第一種事業",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DVD00480",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00470/DVD00480",
+            "label": "税率6.24％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00490",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00470/DVD00490",
+            "label": "税率7.8％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00500",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00470/DVD00500",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "DVD00510",
+          "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00510",
+          "label": "第二種事業",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DVD00520",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00510/DVD00520",
+            "label": "税率6.24％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00530",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00510/DVD00530",
+            "label": "税率7.8％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00540",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00510/DVD00540",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "DVD00550",
+          "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00550",
+          "label": "第三種事業",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DVD00560",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00550/DVD00560",
+            "label": "税率6.24％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00570",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00550/DVD00570",
+            "label": "税率7.8％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00580",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00550/DVD00580",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "DVD00590",
+          "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00590",
+          "label": "第四種事業",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DVD00600",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00590/DVD00600",
+            "label": "税率6.24％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00610",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00590/DVD00610",
+            "label": "税率7.8％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00620",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00590/DVD00620",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "DVD00630",
+          "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00630",
+          "label": "第五種事業",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DVD00640",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00630/DVD00640",
+            "label": "税率6.24％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00650",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00630/DVD00650",
+            "label": "税率7.8％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00660",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00630/DVD00660",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "DVD00670",
+          "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00670",
+          "label": "第六種事業",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DVD00680",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00670/DVD00680",
+            "label": "税率6.24％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00690",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00670/DVD00690",
+            "label": "税率7.8％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVD00700",
+            "path": "SHB067/SHB067-1/DVD00000/DVD00420/DVD00670/DVD00700",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   },
+   {
+    "tag": "SHB067-2",
+    "path": "SHB067/SHB067-2",
+    "label": "二面",
+    "min": 0,
+    "max": 1,
+    "type": "SHB067-2-1-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DVE00000",
+      "path": "SHB067/SHB067-2/DVE00000",
+      "label": "（３）　控除対象仕入税額の計算式区分の明細",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DVE00010",
+        "path": "SHB067/SHB067-2/DVE00000/DVE00010",
+        "label": "イ　原則計算を適用する場合",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DVE00020",
+          "path": "SHB067/SHB067-2/DVE00000/DVE00010/DVE00020",
+          "label": "税率6.24％適用分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "DVE00030",
+          "path": "SHB067/SHB067-2/DVE00000/DVE00010/DVE00030",
+          "label": "税率7.8％適用分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "DVE00040",
+          "path": "SHB067/SHB067-2/DVE00000/DVE00010/DVE00040",
+          "label": "合計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "DVE00050",
+        "path": "SHB067/SHB067-2/DVE00000/DVE00050",
+        "label": "ロ　特例計算を適用する場合",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DVE00060",
+          "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00060",
+          "label": "（イ）　１種類の事業で75％以上",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DVE00070",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00060/DVE00070",
+            "label": "区分",
+            "min": 0,
+            "max": 1,
+            "type": "DVE00070-1-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00060/DVE00070/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2",
+               "3",
+               "4",
+               "5",
+               "6"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00060/DVE00070/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "DVE00080",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00060/DVE00080",
+            "label": "税率6.24％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVE00090",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00060/DVE00090",
+            "label": "税率7.8％適用分",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "DVE00100",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00060/DVE00100",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "DVE00110",
+          "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110",
+          "label": "（ロ）　２種類の事業で75％以上",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DVE00120",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00120",
+            "label": "第一種事業及び第二種事業",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVE00130",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00120/DVE00130",
+              "label": "税率6.24％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00140",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00120/DVE00140",
+              "label": "税率7.8％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00150",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00120/DVE00150",
+              "label": "合計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "DVE00160",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00160",
+            "label": "第一種事業及び第三種事業",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVE00170",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00160/DVE00170",
+              "label": "税率6.24％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00180",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00160/DVE00180",
+              "label": "税率7.8％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00190",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00160/DVE00190",
+              "label": "合計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "DVE00200",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00200",
+            "label": "第一種事業及び第四種事業",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVE00210",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00200/DVE00210",
+              "label": "税率6.24％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00220",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00200/DVE00220",
+              "label": "税率7.8％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00230",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00200/DVE00230",
+              "label": "合計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "DVE00240",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00240",
+            "label": "第一種事業及び第五種事業",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVE00250",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00240/DVE00250",
+              "label": "税率6.24％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00260",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00240/DVE00260",
+              "label": "税率7.8％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00270",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00240/DVE00270",
+              "label": "合計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "DVE00280",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00280",
+            "label": "第一種事業及び第六種事業",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVE00290",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00280/DVE00290",
+              "label": "税率6.24％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00300",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00280/DVE00300",
+              "label": "税率7.8％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00310",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00280/DVE00310",
+              "label": "合計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "DVE00320",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00320",
+            "label": "第二種事業及び第三種事業",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVE00330",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00320/DVE00330",
+              "label": "税率6.24％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00340",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00320/DVE00340",
+              "label": "税率7.8％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00350",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00320/DVE00350",
+              "label": "合計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "DVE00360",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00360",
+            "label": "第二種事業及び第四種事業",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVE00370",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00360/DVE00370",
+              "label": "税率6.24％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00380",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00360/DVE00380",
+              "label": "税率7.8％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00390",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00360/DVE00390",
+              "label": "合計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "DVE00400",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00400",
+            "label": "第二種事業及び第五種事業",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVE00410",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00400/DVE00410",
+              "label": "税率6.24％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00420",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00400/DVE00420",
+              "label": "税率7.8％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00430",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00400/DVE00430",
+              "label": "合計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "DVE00440",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00440",
+            "label": "第二種事業及び第六種事業",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVE00450",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00440/DVE00450",
+              "label": "税率6.24％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00460",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00440/DVE00460",
+              "label": "税率7.8％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00470",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00440/DVE00470",
+              "label": "合計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "DVE00480",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00480",
+            "label": "第三種事業及び第四種事業",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVE00490",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00480/DVE00490",
+              "label": "税率6.24％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00500",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00480/DVE00500",
+              "label": "税率7.8％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00510",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00480/DVE00510",
+              "label": "合計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "DVE00520",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00520",
+            "label": "第三種事業及び第五種事業",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVE00530",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00520/DVE00530",
+              "label": "税率6.24％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00540",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00520/DVE00540",
+              "label": "税率7.8％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00550",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00520/DVE00550",
+              "label": "合計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "DVE00560",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00560",
+            "label": "第三種事業及び第六種事業",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVE00570",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00560/DVE00570",
+              "label": "税率6.24％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00580",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00560/DVE00580",
+              "label": "税率7.8％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00590",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00560/DVE00590",
+              "label": "合計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "DVE00600",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00600",
+            "label": "第四種事業及び第五種事業",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVE00610",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00600/DVE00610",
+              "label": "税率6.24％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00620",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00600/DVE00620",
+              "label": "税率7.8％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00630",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00600/DVE00630",
+              "label": "合計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "DVE00640",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00640",
+            "label": "第四種事業及び第六種事業",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVE00650",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00640/DVE00650",
+              "label": "税率6.24％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00660",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00640/DVE00660",
+              "label": "税率7.8％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00670",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00640/DVE00670",
+              "label": "合計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "DVE00680",
+            "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00680",
+            "label": "第五種事業及び第六種事業",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "DVE00690",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00680/DVE00690",
+              "label": "税率6.24％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00700",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00680/DVE00700",
+              "label": "税率7.8％適用分",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "DVE00710",
+              "path": "SHB067/SHB067-2/DVE00000/DVE00050/DVE00110/DVE00680/DVE00710",
+              "label": "合計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "DVE00720",
+        "path": "SHB067/SHB067-2/DVE00000/DVE00720",
+        "label": "ハ　上記の計算式区分から選択した控除対象仕入税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DVE00730",
+          "path": "SHB067/SHB067-2/DVE00000/DVE00720/DVE00730",
+          "label": "税率6.24％適用分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "DVE00740",
+          "path": "SHB067/SHB067-2/DVE00000/DVE00720/DVE00740",
+          "label": "税率7.8％適用分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "DVE00750",
+          "path": "SHB067/SHB067-2/DVE00000/DVE00720/DVE00750",
+          "label": "合計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "SHB067-1-0VRtype",
+    "fixed": "1.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

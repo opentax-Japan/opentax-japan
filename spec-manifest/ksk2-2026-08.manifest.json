@@ -947,6 +947,10 @@
           "sha256": "4c666d5eb7d167ab713d4d1c365a066a1f3bd9254dca2281a7f36788eed00bd9"
         },
         {
+          "path": "19XMLスキーマ/kyotsu/RSH0040a-260.xsd",
+          "sha256": "4c666d5eb7d167ab713d4d1c365a066a1f3bd9254dca2281a7f36788eed00bd9"
+        },
+        {
           "path": "19XMLスキーマ/kyotsu/TEA050-002.xsd",
           "sha256": "d795c29e4a53719a5aee1dac9569585537408cebbbad79beb8d07cabdf4bb632"
         },
@@ -959,8 +963,16 @@
           "sha256": "91975cfaefb399504dd34393286bcf3ae9ffa680db82fbf03dd61d6ec193e1fb"
         },
         {
+          "path": "19XMLスキーマ/shohi/RSH0040-260.xsd",
+          "sha256": "62e1749576ca85a45cf70a94f2d698bf763da20ac89b4ffb2478a740633cf6d1"
+        },
+        {
           "path": "19XMLスキーマ/shohi/SHA010-011.xsd",
           "sha256": "955615125a1ef3855d655e0f2d111c25444e387a7c3a72ddfdc986a3faa8ff29"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHA020-010.xsd",
+          "sha256": "0fdfe85ae1dcd91764cb6dd8fff4a308210f6cc142c222e53033fafb0b4825f2"
         },
         {
           "path": "19XMLスキーマ/shohi/SHB013-003.xsd",
@@ -985,6 +997,30 @@
         {
           "path": "19XMLスキーマ/shohi/SHB033-002.xsd",
           "sha256": "2205915de109a05b86525c27a2e43a131d4730fdf3961b672f8733c022b51713"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHB043-002.xsd",
+          "sha256": "49b9634a145d40466dd2ce9364ef0fb6a1a419b58e7bd72e2833a545c7b7ca43"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHB045-003.xsd",
+          "sha256": "fdd36ecfeedf5e9ef6f3746172253e33e807f530b37728981119bbc143c94f9d"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHB047-001.xsd",
+          "sha256": "db0fb768bd9868a26d2b3ad8639c82c8c68b8a44b964fb845795f78f19719dbe"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHB055-002.xsd",
+          "sha256": "3027c9e1d61a48b78cbd8ef05266bd5e0e18711d28a91fe52c432626cea5053a"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHB065-003.xsd",
+          "sha256": "118aeeb20eaf1c9eb75558fb68445902c37435a1e5b1611e7eb567c7b2abd9dc"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHB067-001.xsd",
+          "sha256": "43ccd8e2d01e22ca8c705b530aef4787a43752ab2ddcf14cac1075feb9bfe452"
         },
         {
           "path": "19XMLスキーマ/shohi/SHC015-002.xsd",
@@ -2797,6 +2833,13 @@
       "xsd": "19XMLスキーマ/shohi/RSH0020-260.xsd",
       "xsd_sha256": "91975cfaefb399504dd34393286bcf3ae9ffa680db82fbf03dd61d6ec193e1fb",
       "version": "26.0.0"
+    },
+    {
+      "procedure_id": "RSH0040",
+      "label": "消費税及び地方消費税申告（簡易課税・法人）",
+      "xsd": "19XMLスキーマ/shohi/RSH0040-260.xsd",
+      "xsd_sha256": "62e1749576ca85a45cf70a94f2d698bf763da20ac89b4ffb2478a740633cf6d1",
+      "version": "26.0.0"
     }
   ],
   "forms": [
@@ -3218,6 +3261,45 @@
       "xsd_sha256": "d7db2d61a125c620aa8d7c38708e901604ce7438c846db6a9e8059c6d146f18f",
       "field_spec_workbook": "17XML構造設計書等【その他】/帳票フィールド仕様書（総務）Ver1x.xlsx",
       "field_spec_sheet": "SOZ074"
+    },
+    {
+      "form_id": "SHA020",
+      "label": "消費税及び地方消費税の申告書（簡易課税用）",
+      "mvp": false,
+      "stage": "shohi",
+      "xsd": "19XMLスキーマ/shohi/SHA020-010.xsd",
+      "version": "10.0",
+      "xsd_documentation_date": "2026-07-16",
+      "group": "SHA020-10-0group",
+      "xsd_sha256": "0fdfe85ae1dcd91764cb6dd8fff4a308210f6cc142c222e53033fafb0b4825f2",
+      "field_spec_workbook": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver10x.xlsx",
+      "field_spec_sheet": "SHA020"
+    },
+    {
+      "form_id": "SHB047",
+      "label": "付表4-3 税率別消費税額計算表兼地方消費税の課税標準となる消費税額計算表",
+      "mvp": false,
+      "stage": "shohi",
+      "xsd": "19XMLスキーマ/shohi/SHB047-001.xsd",
+      "version": "1.0",
+      "xsd_documentation_date": "2020-09-07",
+      "group": "SHB047-1-0group",
+      "xsd_sha256": "db0fb768bd9868a26d2b3ad8639c82c8c68b8a44b964fb845795f78f19719dbe",
+      "field_spec_workbook": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver1x.xlsx",
+      "field_spec_sheet": "SHB047"
+    },
+    {
+      "form_id": "SHB067",
+      "label": "付表5-3 控除対象仕入税額等の計算表",
+      "mvp": false,
+      "stage": "shohi",
+      "xsd": "19XMLスキーマ/shohi/SHB067-001.xsd",
+      "version": "1.0",
+      "xsd_documentation_date": "2020-09-07",
+      "group": "SHB067-1-0group",
+      "xsd_sha256": "43ccd8e2d01e22ca8c705b530aef4787a43752ab2ddcf14cac1075feb9bfe452",
+      "field_spec_workbook": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver1x.xlsx",
+      "field_spec_sheet": "SHB067"
     }
   ]
 }

@@ -240,7 +240,7 @@ def local_tax_sheet(calculated: dict, today: datetime.date | None = None) -> str
 
 
 def validate_xtx(xml: bytes, schema_root: Path, procedure_id: str = "RHO0012") -> list[str]:
-    """公式XSD で検証する。procedure_id: RHO0012（法人税）・RSH0020（消費税 一般・法人）。"""
+    """公式XSD で検証する。procedure_id: RHO0012（法人税）・RSH0020（消費税 一般・法人）・RSH0040（消費税 簡易課税・法人）。"""
     procedure = next(p for p in _manifest()["procedures"] if p["procedure_id"] == procedure_id)
     return _validate(xml, schema_root, procedure["xsd"])
 
@@ -248,14 +248,15 @@ def validate_xtx(xml: bytes, schema_root: Path, procedure_id: str = "RHO0012") -
 # --- 消費税（一般課税・法人） ---
 
 def shohi_calculate(raw_input: dict) -> dict:
-    """消費税の一般課税（割戻し計算・全額控除）の計算。申告書第一表・第二表・付表1-3・2-3 の数字を返す。"""
+    """消費税の計算。一般課税（割戻し計算・全額控除）は申告書第一表・第二表・付表1-3・2-3、
+    入力に method: "simplified" があれば簡易課税で申告書第一表・第二表・付表4-3・5-3 の数字を返す。"""
     from .shohi.calculate import calculate
     return calculate(raw_input)
 
 
 def shohi_export(calculated: dict, schema_root: Path, today: datetime.date | None = None,
                  office: dict | None = None, engagement: dict | None = None) -> bytes:
-    """消費税の .xtx（手続 RSH0020）。office があれば税務代理権限証書（消費税）を添付する（OpenTax プロ）。"""
+    """消費税の .xtx（一般課税は手続 RSH0020、簡易課税は RSH0040）。office があれば税務代理権限証書（消費税）を添付する（OpenTax プロ）。"""
     from .shohi.etax import build_xtx
     zeimusho = (schema_root / Path(*ZEIMUSHO_XSD.split("/"))).read_bytes()
     tenpu = None

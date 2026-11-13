@@ -453,6 +453,7 @@ IT_ELEMENTS_BY_PROCEDURE = {
                 "NOZEISHA_ZIP", "NOZEISHA_ADR", "NOZEISHA_TEL", "DAIHYO_NM_KN", "DAIHYO_NM", "KANPU_KINYUKIKAN",
                 "TETSUZUKI", "KAZEI_KIKAN_FROM", "KAZEI_KIKAN_TO", "SHINKOKU_KBN"],
 }
+IT_ELEMENTS_BY_PROCEDURE["RSH0040"] = IT_ELEMENTS_BY_PROCEDURE["RSH0020"]   # 簡易課税・法人（IT部は一般・法人と同じ）
 
 
 def it_layout_name(procedure_id: str, first: bool) -> str:

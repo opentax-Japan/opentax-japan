@@ -1,0 +1,2726 @@
+{
+ "form_id": "SHA020",
+ "label": "消費税及び地方消費税の申告書（簡易課税用）",
+ "version": "10.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shohi",
+ "group": "SHA020-10-0group",
+ "xsd": "19XMLスキーマ/shohi/SHA020-010.xsd",
+ "xsd_sha256": "0fdfe85ae1dcd91764cb6dd8fff4a308210f6cc142c222e53033fafb0b4825f2",
+ "root": {
+  "tag": "SHA020",
+  "path": "SHA020",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "SHA020-1",
+    "path": "SHA020/SHA020-1",
+    "label": "第一表",
+    "min": 0,
+    "max": 1,
+    "type": "SHA020-1-10-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ABH00000",
+      "path": "SHA020/SHA020-1/ABH00000",
+      "label": "納税者等部（第一表）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ABH00010",
+        "path": "SHA020/SHA020-1/ABH00000/ABH00010",
+        "label": "提出年月日",
+        "min": 0,
+        "max": 1,
+        "type": "gen:TEISYUTSU_DAYref",
+        "kind": "idref",
+        "idref": "TEISYUTSU_DAY",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "TEISYUTSU_DAY",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ABH00020",
+        "path": "SHA020/SHA020-1/ABH00000/ABH00020",
+        "label": "提出先税務署",
+        "min": 0,
+        "max": 1,
+        "type": "gen:ZEIMUSHOref",
+        "kind": "idref",
+        "idref": "ZEIMUSHO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "ZEIMUSHO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ABH00030",
+        "path": "SHA020/SHA020-1/ABH00000/ABH00030",
+        "label": "納税地",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_ADRref",
+        "kind": "idref",
+        "idref": "NOZEISHA_ADR",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_ADR",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ABH00040",
+        "path": "SHA020/SHA020-1/ABH00000/ABH00040",
+        "label": "電話番号",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_TELref",
+        "kind": "idref",
+        "idref": "NOZEISHA_TEL",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_TEL",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ABH00050",
+        "path": "SHA020/SHA020-1/ABH00000/ABH00050",
+        "label": "名称又は屋号（フリガナ）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ABH00060",
+          "path": "SHA020/SHA020-1/ABH00000/ABH00050/ABH00060",
+          "label": "フリガナ",
+          "min": 0,
+          "max": 1,
+          "type": "ABH00060-10-0IDREFtype",
+          "kind": "idref",
+          "idref": "NOZEISHA_NM_KN",
+          "idref_options": [
+           "NOZEISHA_NM_KN",
+           "NOZEISHA_YAGO_KN"
+          ],
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "enumeration": [
+             "NOZEISHA_NM_KN",
+             "NOZEISHA_YAGO_KN"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ABH00070",
+          "path": "SHA020/SHA020-1/ABH00000/ABH00050/ABH00070",
+          "label": "名称又は屋号",
+          "min": 0,
+          "max": 1,
+          "type": "ABH00070-10-0IDREFtype",
+          "kind": "idref",
+          "idref": "NOZEISHA_NM",
+          "idref_options": [
+           "NOZEISHA_NM",
+           "NOZEISHA_YAGO"
+          ],
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "enumeration": [
+             "NOZEISHA_NM",
+             "NOZEISHA_YAGO"
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ABH00080",
+        "path": "SHA020/SHA020-1/ABH00000/ABH00080",
+        "label": "個人番号又は法人番号",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_BANGOref",
+        "kind": "idref",
+        "idref": "NOZEISHA_BANGO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_BANGO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ABH00090",
+        "path": "SHA020/SHA020-1/ABH00000/ABH00090",
+        "label": "代表者氏名又は氏名（フリガナ）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ABH00100",
+          "path": "SHA020/SHA020-1/ABH00000/ABH00090/ABH00100",
+          "label": "フリガナ",
+          "min": 0,
+          "max": 1,
+          "type": "ABH00100-10-0IDREFtype",
+          "kind": "idref",
+          "idref": "DAIHYO_NM_KN",
+          "idref_options": [
+           "DAIHYO_NM_KN",
+           "NOZEISHA_NM_KN"
+          ],
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "enumeration": [
+             "DAIHYO_NM_KN",
+             "NOZEISHA_NM_KN"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ABH00110",
+          "path": "SHA020/SHA020-1/ABH00000/ABH00090/ABH00110",
+          "label": "代表者氏名又は氏名",
+          "min": 0,
+          "max": 1,
+          "type": "ABH00110-10-0IDREFtype",
+          "kind": "idref",
+          "idref": "DAIHYO_NM",
+          "idref_options": [
+           "DAIHYO_NM",
+           "NOZEISHA_NM"
+          ],
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "enumeration": [
+             "DAIHYO_NM",
+             "NOZEISHA_NM"
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ABH00120",
+        "path": "SHA020/SHA020-1/ABH00000/ABH00120",
+        "label": "課税期間",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ABH00130",
+          "path": "SHA020/SHA020-1/ABH00000/ABH00120/ABH00130",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:KAZEI_KIKAN_FROMref",
+          "kind": "idref",
+          "idref": "KAZEI_KIKAN_FROM",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "KAZEI_KIKAN_FROM",
+            "type": "xsd:IDREF"
+           }
+          ]
+         },
+         {
+          "tag": "ABH00140",
+          "path": "SHA020/SHA020-1/ABH00000/ABH00120/ABH00140",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:KAZEI_KIKAN_TOref",
+          "kind": "idref",
+          "idref": "KAZEI_KIKAN_TO",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "KAZEI_KIKAN_TO",
+            "type": "xsd:IDREF"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ABH00150",
+        "path": "SHA020/SHA020-1/ABH00000/ABH00150",
+        "label": "申告の種類",
+        "min": 0,
+        "max": 1,
+        "type": "gen:SHINKOKU_KBNref",
+        "kind": "idref",
+        "idref": "SHINKOKU_KBN",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "SHINKOKU_KBN",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ABH00160",
+        "path": "SHA020/SHA020-1/ABH00000/ABH00160",
+        "label": "中間申告の場合の対象期間",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ABH00170",
+          "path": "SHA020/SHA020-1/ABH00000/ABH00160/ABH00170",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "SHA020/SHA020-1/ABH00000/ABH00160/ABH00170/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "SHA020/SHA020-1/ABH00000/ABH00160/ABH00170/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "SHA020/SHA020-1/ABH00000/ABH00160/ABH00170/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "SHA020/SHA020-1/ABH00000/ABH00160/ABH00170/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "ABH00180",
+          "path": "SHA020/SHA020-1/ABH00000/ABH00160/ABH00180",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "SHA020/SHA020-1/ABH00000/ABH00160/ABH00180/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "SHA020/SHA020-1/ABH00000/ABH00160/ABH00180/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "SHA020/SHA020-1/ABH00000/ABH00160/ABH00180/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "SHA020/SHA020-1/ABH00000/ABH00160/ABH00180/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ABH00190",
+        "path": "SHA020/SHA020-1/ABH00000/ABH00190",
+        "label": "還付を受けようとする金融機関等",
+        "min": 0,
+        "max": 1,
+        "type": "gen:KANPU_KINYUKIKANref",
+        "kind": "idref",
+        "idref": "KANPU_KINYUKIKAN",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "KANPU_KINYUKIKAN",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ABH00250",
+        "path": "SHA020/SHA020-1/ABH00000/ABH00250",
+        "label": "口座情報利用同意区分",
+        "min": 0,
+        "max": 1,
+        "type": "ABH00250-10-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SHA020/SHA020-1/ABH00000/ABH00250/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SHA020/SHA020-1/ABH00000/ABH00250/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ABH00200",
+        "path": "SHA020/SHA020-1/ABH00000/ABH00200",
+        "label": "税理士署名",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ABH00210",
+          "path": "SHA020/SHA020-1/ABH00000/ABH00200/ABH00210",
+          "label": "税理士署名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:DAIRI_NMref",
+          "kind": "idref",
+          "idref": "DAIRI_NM",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "DAIRI_NM",
+            "type": "xsd:IDREF"
+           }
+          ]
+         },
+         {
+          "tag": "ABH00220",
+          "path": "SHA020/SHA020-1/ABH00000/ABH00200/ABH00220",
+          "label": "電話番号",
+          "min": 0,
+          "max": 1,
+          "type": "gen:DAIRI_TELref",
+          "kind": "idref",
+          "idref": "DAIRI_TEL",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "DAIRI_TEL",
+            "type": "xsd:IDREF"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ABH00230",
+        "path": "SHA020/SHA020-1/ABH00000/ABH00230",
+        "label": "税理士法第30条の書面提出有",
+        "min": 0,
+        "max": 1,
+        "type": "ABH00230-10-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SHA020/SHA020-1/ABH00000/ABH00230/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SHA020/SHA020-1/ABH00000/ABH00230/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ABH00240",
+        "path": "SHA020/SHA020-1/ABH00000/ABH00240",
+        "label": "税理士法第33条の２の書面提出有",
+        "min": 0,
+        "max": 1,
+        "type": "ABH00240-10-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SHA020/SHA020-1/ABH00000/ABH00240/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SHA020/SHA020-1/ABH00000/ABH00240/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ABI00000",
+      "path": "SHA020/SHA020-1/ABI00000",
+      "label": "この申告書による消費税の税額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ABI00010",
+        "path": "SHA020/SHA020-1/ABI00000/ABI00010",
+        "label": "課税標準額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABI00020",
+        "path": "SHA020/SHA020-1/ABI00000/ABI00020",
+        "label": "消費税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABI00030",
+        "path": "SHA020/SHA020-1/ABI00000/ABI00030",
+        "label": "貸倒回収に係る消費税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABI00040",
+        "path": "SHA020/SHA020-1/ABI00000/ABI00040",
+        "label": "控除税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ABI00050",
+          "path": "SHA020/SHA020-1/ABI00000/ABI00040/ABI00050",
+          "label": "控除対象仕入税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ABI00060",
+          "path": "SHA020/SHA020-1/ABI00000/ABI00040/ABI00060",
+          "label": "返還等対価に係る税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ABI00070",
+          "path": "SHA020/SHA020-1/ABI00000/ABI00040/ABI00070",
+          "label": "貸倒れに係る税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ABI00080",
+          "path": "SHA020/SHA020-1/ABI00000/ABI00040/ABI00080",
+          "label": "控除税額小計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ABI00090",
+        "path": "SHA020/SHA020-1/ABI00000/ABI00090",
+        "label": "控除不足還付税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABI00100",
+        "path": "SHA020/SHA020-1/ABI00000/ABI00100",
+        "label": "差引税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABI00110",
+        "path": "SHA020/SHA020-1/ABI00000/ABI00110",
+        "label": "中間納付税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABI00120",
+        "path": "SHA020/SHA020-1/ABI00000/ABI00120",
+        "label": "納付税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABI00130",
+        "path": "SHA020/SHA020-1/ABI00000/ABI00130",
+        "label": "中間納付還付税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABI00140",
+        "path": "SHA020/SHA020-1/ABI00000/ABI00140",
+        "label": "この申告書が修正申告である場合",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ABI00150",
+          "path": "SHA020/SHA020-1/ABI00000/ABI00140/ABI00150",
+          "label": "既確定税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ABI00160",
+          "path": "SHA020/SHA020-1/ABI00000/ABI00140/ABI00160",
+          "label": "差引納付税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ABI00170",
+        "path": "SHA020/SHA020-1/ABI00000/ABI00170",
+        "label": "この課税期間の課税売上高",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABI00180",
+        "path": "SHA020/SHA020-1/ABI00000/ABI00180",
+        "label": "基準期間の課税売上高",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ABJ00000",
+      "path": "SHA020/SHA020-1/ABJ00000",
+      "label": "この申告書による地方消費税の税額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ABJ00010",
+        "path": "SHA020/SHA020-1/ABJ00000/ABJ00010",
+        "label": "地方消費税の課税標準となる消費税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ABJ00020",
+          "path": "SHA020/SHA020-1/ABJ00000/ABJ00010/ABJ00020",
+          "label": "控除不足還付税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ABJ00030",
+          "path": "SHA020/SHA020-1/ABJ00000/ABJ00010/ABJ00030",
+          "label": "差引税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ABJ00040",
+        "path": "SHA020/SHA020-1/ABJ00000/ABJ00040",
+        "label": "譲渡割額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ABJ00050",
+          "path": "SHA020/SHA020-1/ABJ00000/ABJ00040/ABJ00050",
+          "label": "還付額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ABJ00060",
+          "path": "SHA020/SHA020-1/ABJ00000/ABJ00040/ABJ00060",
+          "label": "納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ABJ00070",
+        "path": "SHA020/SHA020-1/ABJ00000/ABJ00070",
+        "label": "中間納付譲渡割額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABJ00080",
+        "path": "SHA020/SHA020-1/ABJ00000/ABJ00080",
+        "label": "納付譲渡割額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABJ00090",
+        "path": "SHA020/SHA020-1/ABJ00000/ABJ00090",
+        "label": "中間納付還付譲渡割額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABJ00100",
+        "path": "SHA020/SHA020-1/ABJ00000/ABJ00100",
+        "label": "この申告書が修正申告である場合",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ABJ00110",
+          "path": "SHA020/SHA020-1/ABJ00000/ABJ00100/ABJ00110",
+          "label": "既確定譲渡割額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ABJ00120",
+          "path": "SHA020/SHA020-1/ABJ00000/ABJ00100/ABJ00120",
+          "label": "差引納付譲渡割額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ABJ00130",
+        "path": "SHA020/SHA020-1/ABJ00000/ABJ00130",
+        "label": "消費税及び地方消費税の合計（納付又は還付）税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ABK00000",
+      "path": "SHA020/SHA020-1/ABK00000",
+      "label": "付記事項",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ABK00010",
+        "path": "SHA020/SHA020-1/ABK00000/ABK00010",
+        "label": "割賦基準の適用",
+        "min": 0,
+        "max": 1,
+        "type": "ABK00010-10-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SHA020/SHA020-1/ABK00000/ABK00010/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SHA020/SHA020-1/ABK00000/ABK00010/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ABK00020",
+        "path": "SHA020/SHA020-1/ABK00000/ABK00020",
+        "label": "延払基準等の適用",
+        "min": 0,
+        "max": 1,
+        "type": "ABK00020-10-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SHA020/SHA020-1/ABK00000/ABK00020/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SHA020/SHA020-1/ABK00000/ABK00020/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ABK00030",
+        "path": "SHA020/SHA020-1/ABK00000/ABK00030",
+        "label": "工事進行基準の適用",
+        "min": 0,
+        "max": 1,
+        "type": "ABK00030-10-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SHA020/SHA020-1/ABK00000/ABK00030/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SHA020/SHA020-1/ABK00000/ABK00030/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ABK00040",
+        "path": "SHA020/SHA020-1/ABK00000/ABK00040",
+        "label": "現金主義会計の適用",
+        "min": 0,
+        "max": 1,
+        "type": "ABK00040-10-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SHA020/SHA020-1/ABK00000/ABK00040/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SHA020/SHA020-1/ABK00000/ABK00040/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ABL00000",
+      "path": "SHA020/SHA020-1/ABL00000",
+      "label": "参考事項",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ABL00010",
+        "path": "SHA020/SHA020-1/ABL00000/ABL00010",
+        "label": "売上税額の積上げ計算の適用",
+        "min": 0,
+        "max": 1,
+        "type": "ABL00010-10-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SHA020/SHA020-1/ABL00000/ABL00010/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SHA020/SHA020-1/ABL00000/ABL00010/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ABL00020",
+        "path": "SHA020/SHA020-1/ABL00000/ABL00020",
+        "label": "事業区分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ABL00030",
+          "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00030",
+          "label": "第１種",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ABL00040",
+            "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00030/ABL00040",
+            "label": "課税売上高",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ABL00050",
+            "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00030/ABL00050",
+            "label": "売上割合",
+            "min": 0,
+            "max": 1,
+            "type": "ABL00050-10-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "min_inclusive": "0.0",
+            "max_inclusive": "100.0",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ABL00060",
+          "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00060",
+          "label": "第２種",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ABL00070",
+            "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00060/ABL00070",
+            "label": "課税売上高",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ABL00080",
+            "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00060/ABL00080",
+            "label": "売上割合",
+            "min": 0,
+            "max": 1,
+            "type": "ABL00080-10-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "min_inclusive": "0.0",
+            "max_inclusive": "100.0",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ABL00090",
+          "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00090",
+          "label": "第３種",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ABL00100",
+            "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00090/ABL00100",
+            "label": "課税売上高",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ABL00110",
+            "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00090/ABL00110",
+            "label": "売上割合",
+            "min": 0,
+            "max": 1,
+            "type": "ABL00110-10-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "min_inclusive": "0.0",
+            "max_inclusive": "100.0",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ABL00120",
+          "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00120",
+          "label": "第４種",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ABL00130",
+            "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00120/ABL00130",
+            "label": "課税売上高",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ABL00140",
+            "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00120/ABL00140",
+            "label": "売上割合",
+            "min": 0,
+            "max": 1,
+            "type": "ABL00140-10-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "min_inclusive": "0.0",
+            "max_inclusive": "100.0",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ABL00150",
+          "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00150",
+          "label": "第５種",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ABL00160",
+            "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00150/ABL00160",
+            "label": "課税売上高",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ABL00170",
+            "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00150/ABL00170",
+            "label": "売上割合",
+            "min": 0,
+            "max": 1,
+            "type": "ABL00170-10-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "min_inclusive": "0.0",
+            "max_inclusive": "100.0",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ABL00180",
+          "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00180",
+          "label": "第６種",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ABL00190",
+            "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00180/ABL00190",
+            "label": "課税売上高",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ABL00200",
+            "path": "SHA020/SHA020-1/ABL00000/ABL00020/ABL00180/ABL00200",
+            "label": "売上割合",
+            "min": 0,
+            "max": 1,
+            "type": "ABL00200-10-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "min_inclusive": "0.0",
+            "max_inclusive": "100.0",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ABL00210",
+        "path": "SHA020/SHA020-1/ABL00000/ABL00210",
+        "label": "特例計算適用（令５７（３））",
+        "min": 0,
+        "max": 1,
+        "type": "ABL00210-10-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SHA020/SHA020-1/ABL00000/ABL00210/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SHA020/SHA020-1/ABL00000/ABL00210/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ABY00000",
+      "path": "SHA020/SHA020-1/ABY00000",
+      "label": "（個人の方）税額控除に係る経過措置の適用（３割特例）",
+      "min": 0,
+      "max": 1,
+      "type": "ABY00000-10-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "SHA020/SHA020-1/ABY00000/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "SHA020/SHA020-1/ABY00000/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "ABX00000",
+      "path": "SHA020/SHA020-1/ABX00000",
+      "label": "通知希望区分（還付金振込）",
+      "min": 0,
+      "max": 1,
+      "type": "ABX00000-10-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "SHA020/SHA020-1/ABX00000/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "SHA020/SHA020-1/ABX00000/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   },
+   {
+    "tag": "SHA020-2",
+    "path": "SHA020/SHA020-2",
+    "label": "第二表",
+    "min": 0,
+    "max": 1,
+    "type": "SHA020-2-10-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ABM00000",
+      "path": "SHA020/SHA020-2/ABM00000",
+      "label": "納税者等部（第二表）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ABM00010",
+        "path": "SHA020/SHA020-2/ABM00000/ABM00010",
+        "label": "納税地",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_ADRref",
+        "kind": "idref",
+        "idref": "NOZEISHA_ADR",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_ADR",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ABM00020",
+        "path": "SHA020/SHA020-2/ABM00000/ABM00020",
+        "label": "電話番号",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_TELref",
+        "kind": "idref",
+        "idref": "NOZEISHA_TEL",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_TEL",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ABM00030",
+        "path": "SHA020/SHA020-2/ABM00000/ABM00030",
+        "label": "名称又は屋号（フリガナ）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ABM00040",
+          "path": "SHA020/SHA020-2/ABM00000/ABM00030/ABM00040",
+          "label": "フリガナ",
+          "min": 0,
+          "max": 1,
+          "type": "ABM00040-10-0IDREFtype",
+          "kind": "idref",
+          "idref": "NOZEISHA_NM_KN",
+          "idref_options": [
+           "NOZEISHA_NM_KN",
+           "NOZEISHA_YAGO_KN"
+          ],
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "enumeration": [
+             "NOZEISHA_NM_KN",
+             "NOZEISHA_YAGO_KN"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ABM00050",
+          "path": "SHA020/SHA020-2/ABM00000/ABM00030/ABM00050",
+          "label": "名称又は屋号",
+          "min": 0,
+          "max": 1,
+          "type": "ABM00050-10-0IDREFtype",
+          "kind": "idref",
+          "idref": "NOZEISHA_NM",
+          "idref_options": [
+           "NOZEISHA_NM",
+           "NOZEISHA_YAGO"
+          ],
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "enumeration": [
+             "NOZEISHA_NM",
+             "NOZEISHA_YAGO"
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ABM00060",
+        "path": "SHA020/SHA020-2/ABM00000/ABM00060",
+        "label": "代表者氏名又は氏名（フリガナ）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ABM00070",
+          "path": "SHA020/SHA020-2/ABM00000/ABM00060/ABM00070",
+          "label": "フリガナ",
+          "min": 0,
+          "max": 1,
+          "type": "ABM00070-10-0IDREFtype",
+          "kind": "idref",
+          "idref": "DAIHYO_NM_KN",
+          "idref_options": [
+           "DAIHYO_NM_KN",
+           "NOZEISHA_NM_KN"
+          ],
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "enumeration": [
+             "DAIHYO_NM_KN",
+             "NOZEISHA_NM_KN"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ABM00080",
+          "path": "SHA020/SHA020-2/ABM00000/ABM00060/ABM00080",
+          "label": "代表者氏名又は氏名",
+          "min": 0,
+          "max": 1,
+          "type": "ABM00080-10-0IDREFtype",
+          "kind": "idref",
+          "idref": "DAIHYO_NM",
+          "idref_options": [
+           "DAIHYO_NM",
+           "NOZEISHA_NM"
+          ],
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "enumeration": [
+             "DAIHYO_NM",
+             "NOZEISHA_NM"
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ABM00090",
+        "path": "SHA020/SHA020-2/ABM00000/ABM00090",
+        "label": "課税期間",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ABM00100",
+          "path": "SHA020/SHA020-2/ABM00000/ABM00090/ABM00100",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:KAZEI_KIKAN_FROMref",
+          "kind": "idref",
+          "idref": "KAZEI_KIKAN_FROM",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "KAZEI_KIKAN_FROM",
+            "type": "xsd:IDREF"
+           }
+          ]
+         },
+         {
+          "tag": "ABM00110",
+          "path": "SHA020/SHA020-2/ABM00000/ABM00090/ABM00110",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:KAZEI_KIKAN_TOref",
+          "kind": "idref",
+          "idref": "KAZEI_KIKAN_TO",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "KAZEI_KIKAN_TO",
+            "type": "xsd:IDREF"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ABM00120",
+        "path": "SHA020/SHA020-2/ABM00000/ABM00120",
+        "label": "申告の種類",
+        "min": 0,
+        "max": 1,
+        "type": "gen:SHINKOKU_KBNref",
+        "kind": "idref",
+        "idref": "SHINKOKU_KBN",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "SHINKOKU_KBN",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ABM00130",
+        "path": "SHA020/SHA020-2/ABM00000/ABM00130",
+        "label": "中間申告の場合の対象期間",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ABM00140",
+          "path": "SHA020/SHA020-2/ABM00000/ABM00130/ABM00140",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "SHA020/SHA020-2/ABM00000/ABM00130/ABM00140/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "SHA020/SHA020-2/ABM00000/ABM00130/ABM00140/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "SHA020/SHA020-2/ABM00000/ABM00130/ABM00140/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "SHA020/SHA020-2/ABM00000/ABM00130/ABM00140/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "ABM00150",
+          "path": "SHA020/SHA020-2/ABM00000/ABM00130/ABM00150",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "SHA020/SHA020-2/ABM00000/ABM00130/ABM00150/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "SHA020/SHA020-2/ABM00000/ABM00130/ABM00150/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "SHA020/SHA020-2/ABM00000/ABM00130/ABM00150/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "SHA020/SHA020-2/ABM00000/ABM00130/ABM00150/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ABN00000",
+      "path": "SHA020/SHA020-2/ABN00000",
+      "label": "改正法附則による税額の特例計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ABN00010",
+        "path": "SHA020/SHA020-2/ABN00000/ABN00010",
+        "label": "軽減売上割合（10営業日）",
+        "min": 0,
+        "max": 1,
+        "type": "ABN00010-10-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SHA020/SHA020-2/ABN00000/ABN00010/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SHA020/SHA020-2/ABN00000/ABN00010/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "ABN00020",
+        "path": "SHA020/SHA020-2/ABN00000/ABN00020",
+        "label": "小売等軽減仕入割合",
+        "min": 0,
+        "max": 1,
+        "type": "ABN00020-10-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "SHA020/SHA020-2/ABN00000/ABN00020/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "SHA020/SHA020-2/ABN00000/ABN00020/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ABO00000",
+      "path": "SHA020/SHA020-2/ABO00000",
+      "label": "課税標準額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ABP00000",
+      "path": "SHA020/SHA020-2/ABP00000",
+      "label": "課税資産の譲渡等の対価の額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ABP00010",
+        "path": "SHA020/SHA020-2/ABP00000/ABP00010",
+        "label": "３％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABP00020",
+        "path": "SHA020/SHA020-2/ABP00000/ABP00020",
+        "label": "４％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABP00030",
+        "path": "SHA020/SHA020-2/ABP00000/ABP00030",
+        "label": "6.3％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABP00040",
+        "path": "SHA020/SHA020-2/ABP00000/ABP00040",
+        "label": "6.24％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABP00050",
+        "path": "SHA020/SHA020-2/ABP00000/ABP00050",
+        "label": "7.8％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABP00060",
+        "path": "SHA020/SHA020-2/ABP00000/ABP00060",
+        "label": "課税資産の譲渡等の対価の額の合計額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ABQ00000",
+      "path": "SHA020/SHA020-2/ABQ00000",
+      "label": "特定課税仕入れに係る支払対価の額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ABQ00010",
+        "path": "SHA020/SHA020-2/ABQ00000/ABQ00010",
+        "label": "6.3％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABQ00020",
+        "path": "SHA020/SHA020-2/ABQ00000/ABQ00020",
+        "label": "7.8％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABQ00030",
+        "path": "SHA020/SHA020-2/ABQ00000/ABQ00030",
+        "label": "特定課税仕入れに係る支払対価の額の合計額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ABR00000",
+      "path": "SHA020/SHA020-2/ABR00000",
+      "label": "消費税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ABS00000",
+      "path": "SHA020/SHA020-2/ABS00000",
+      "label": "(11)の内訳",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ABS00010",
+        "path": "SHA020/SHA020-2/ABS00000/ABS00010",
+        "label": "３％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABS00020",
+        "path": "SHA020/SHA020-2/ABS00000/ABS00020",
+        "label": "４％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABS00030",
+        "path": "SHA020/SHA020-2/ABS00000/ABS00030",
+        "label": "6.3％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABS00040",
+        "path": "SHA020/SHA020-2/ABS00000/ABS00040",
+        "label": "6.24％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABS00050",
+        "path": "SHA020/SHA020-2/ABS00000/ABS00050",
+        "label": "7.8％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ABT00000",
+      "path": "SHA020/SHA020-2/ABT00000",
+      "label": "返還等対価に係る税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ABU00000",
+      "path": "SHA020/SHA020-2/ABU00000",
+      "label": "(17)の内訳",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ABU00010",
+        "path": "SHA020/SHA020-2/ABU00000/ABU00010",
+        "label": "売上げの返還等対価に係る税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABU00020",
+        "path": "SHA020/SHA020-2/ABU00000/ABU00020",
+        "label": "特定課税仕入れの返還等対価に係る税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ABV00000",
+      "path": "SHA020/SHA020-2/ABV00000",
+      "label": "地方消費税の課税標準となる消費税額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ABV00010",
+        "path": "SHA020/SHA020-2/ABV00000/ABV00010",
+        "label": "地方消費税の課税標準となる消費税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABV00020",
+        "path": "SHA020/SHA020-2/ABV00000/ABV00020",
+        "label": "４％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABV00030",
+        "path": "SHA020/SHA020-2/ABV00000/ABV00030",
+        "label": "6.3％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ABV00040",
+        "path": "SHA020/SHA020-2/ABV00000/ABV00040",
+        "label": "6.24％及び7.8％適用分",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "SHA020-10-0VRtype",
+    "fixed": "10.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

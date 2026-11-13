@@ -1,4 +1,4 @@
-"""消費税の一般課税（法人・確定申告）の計算。
+"""消費税の一般課税（法人・確定申告）の計算。簡易課税は method: "simplified"（simplified.py）。
 
 対象: 割戻し計算（売上税額・仕入税額とも）、課税売上高5億円以下かつ課税売上割合95％以上（全額控除）。
 帳票: 申告書（一般用）第一表・第二表、付表1-3、付表2-3。
@@ -18,6 +18,7 @@
   interim: {consumption, local}（中間申告した消費税額・地方消費税額。納付した額ではなく申告した額）
   base_period_sales（基準期間の課税売上高。円）
   refund_account（還付を受ける口座。法人税の入力と同じ形）
+  method: "general"（一般課税。省略時）か "simplified"（簡易課税。入力の形は simplified.py）
 """
 
 from __future__ import annotations
@@ -68,16 +69,19 @@ def _yen(v, where: str) -> int:
     return v
 
 
-KNOWN = {"company", "period", "sales", "sales_returns", "purchases", "purchase_returns", "non_invoice_purchases",
+KNOWN = {"method", "business", "company", "period", "sales", "sales_returns", "purchases", "purchase_returns", "non_invoice_purchases",
          "bad_debts", "interim", "base_period_sales", "refund_account", "filing", "note"}
 OUT_OF_SCOPE = {"accumulation": "積上げ計算", "specific_purchases": "特定課税仕入れ（リバースチャージ）",
                 "import_tax": "課税貨物（輸入）に係る消費税額", "old_rates": "旧税率（3％・4％・6.3％）の取引",
                 "adjustments": "調整対象固定資産・居住用賃貸建物などの調整", "bad_debt_recovery": "貸倒回収",
-                "simplified": "簡易課税", "two_tenths": "2割特例"}
+                "two_tenths": "2割特例"}
+METHODS = ("general", "simplified")
 
 
 def validate(raw: dict) -> dict:
     """形を確かめ、日付を date にした写しを返す。"""
+    if raw.get("method", "general") not in METHODS:
+        raise ShohiInputError(f"method は {' か '.join(METHODS)} です: {raw.get('method')!r}")
     for k, label in OUT_OF_SCOPE.items():
         if raw.get(k):
             raise ShohiOutOfScope(label)
@@ -130,16 +134,34 @@ def _months(start: datetime.date, end: datetime.date) -> int:
     return n + (1 if end_excl.day > start.day else 0)
 
 
-def calculate(raw: dict, rules: dict | None = None) -> dict:
-    d = validate(raw)
-    rules = rules or load_rules()
+def factors(rules: dict) -> tuple[dict, dict, dict, Fraction]:
+    """税率から 100/108・100/110（税抜き）、6.24/108・7.8/110（含まれる消費税額）、6.24％・7.8％、22/78 を作る。"""
     rate = {k: rules["rates"][k] for k in KINDS}
-    excl = {k: Fraction(100, int(rate[k]["gross_percent"])) for k in KINDS}                      # 100/108・100/110
-    tax_in = {k: _frac(rate[k]["national_percent"]) / int(rate[k]["gross_percent"]) for k in KINDS}  # 6.24/108・7.8/110
-    nat = {k: _frac(rate[k]["national_percent"]) / 100 for k in KINDS}                           # 6.24％・7.8％
-    lr = Fraction(*rules["rates"]["local_ratio"])                                                 # 22/78
-    fl = lambda x: int(x // 1)  # noqa: E731  1円未満切捨て（いずれも0以上）
-    hund = lambda x: max(x, 0) // 100 * 100  # noqa: E731
+    excl = {k: Fraction(100, int(rate[k]["gross_percent"])) for k in KINDS}
+    tax_in = {k: _frac(rate[k]["national_percent"]) / int(rate[k]["gross_percent"]) for k in KINDS}
+    nat = {k: _frac(rate[k]["national_percent"]) / 100 for k in KINDS}
+    return excl, tax_in, nat, Fraction(*rules["rates"]["local_ratio"])
+
+
+def fl(x) -> int:
+    """1円未満切捨て（0以上の値に使う）。"""
+    return int(x // 1)
+
+
+def hund(x) -> int:
+    """百円未満切捨て（マイナスは0）。"""
+    return max(x, 0) // 100 * 100
+
+
+def calculate(raw: dict, rules: dict | None = None) -> dict:
+    if raw.get("method") == "simplified":
+        from .simplified import calculate as calculate_simplified
+        return calculate_simplified(raw, rules)
+    d = validate(raw)
+    if raw.get("business"):
+        raise ShohiInputError("business（事業区分別の売上げ）は簡易課税（method: simplified）の入力です")
+    rules = rules or load_rules()
+    excl, tax_in, nat, lr = factors(rules)
 
     s, sr, p, pr, bd = d["sales"], d["sales_returns"], d["purchases"], d["purchase_returns"], d["bad_debts"]
 
@@ -215,5 +237,5 @@ def calculate(raw: dict, rules: dict | None = None) -> dict:
     warnings = []
     if f1["26"] < 0 and not d.get("refund_account"):
         warnings.append(f"還付（{-f1['26']:,}円）を受け取る口座（refund_account）が入力にありません")
-    return {"input": d, "fuhyo_1_3": t1, "fuhyo_2_3": t2, "form_1": f1, "form_2": f2, "ratio": ratio,
+    return {"method": "general", "input": d, "fuhyo_1_3": t1, "fuhyo_2_3": t2, "form_1": f1, "form_2": f2, "ratio": ratio,
             "months": months, "warnings": warnings}

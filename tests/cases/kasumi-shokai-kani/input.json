@@ -1,0 +1,23 @@
+{
+  "note": "国税庁「消費税及び地方消費税の申告書（簡易課税用）の書き方（法人用）」（令和7年11月作成。令和7年10月1日以後に終了する課税期間用）12ページの設例（霞商会株式会社・割戻し計算）を入力にしたもの。基準期間の課税売上高は23ページの記載例から。住所・電話・利用者識別番号は架空。https://www.nta.go.jp/publication/pamph/shohi/kaisei/yoshiki/pdf/202411_02.pdf",
+  "method": "simplified",
+  "company": {
+    "name": "霞商会株式会社",
+    "name_kana": "カスミショウカイカブシキガイシャ",
+    "address": "東京都千代田区霞が関1-1-1",
+    "tax_office": "麹町",
+    "user_id": "0000000000000000",
+    "phone": "03-0000-0000",
+    "representative": "霞 太郎",
+    "representative_kana": "カスミ タロウ"
+  },
+  "period": {"start": "2025-01-01", "end": "2025-12-31"},
+  "business": {
+    "2": {"sales": {"reduced": 19192000, "standard": 7712000}, "returns": {"reduced": 1250000, "standard": 456000}},
+    "4": {"sales": {"standard": 3804000}, "returns": {"standard": 300000}}
+  },
+  "sales": {"reduced": 19192000, "standard": 11516000, "exports": 1100000},
+  "sales_returns": {"reduced": 1250000, "standard": 756000},
+  "bad_debts": {"standard": 560000},
+  "base_period_sales": 30000000
+}
