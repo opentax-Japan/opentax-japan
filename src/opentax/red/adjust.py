@@ -111,17 +111,7 @@ def review(accounts, data: dict) -> dict:
         notes.append(f"別表八(一) 35 当期に支払う利子等の額を、科目（{'・'.join(a.name for a in hits) or 'なし'}）から {interest_paid:,}円 にしました"
                      "（手形の割引料・利子に準ずるもの（令第19条第2項・第3項）が他の科目にあれば interest_paid に書いてください）")
 
-    for a, r, row in matched.get("interest", []):
-        ans = _confirmed(data, a.name, r)
-        if data.get("income_tax_credit"):
-            mark(row, "入力で作った", f"{r['schedule']}（income_tax_credit）")
-        elif ans:
-            mark(row, "確かめた", ans)
-        elif r["id"] == "interest" and "配当" in a.name and data.get("dividends_received"):
-            mark(row, "入力で作った", "配当の分は別表八(一)・別表六(一)（dividends_received）")
-        else:
-            stop(row, "源泉徴収された所得税（別表六(一)）が入力にありません。income_tax_credit に書くか、"
-                      f"源泉がなければ adjustment_confirmations に「{r['answers'][0]}」と書いてください")
+    credit_proposal = _interest(matched.get("interest", []), data, mark, notes)
 
     for key, rid, label in (("entertainment", "entertainment", "別表十五"),):
         for a, r, row in matched.get(rid, []):
@@ -179,7 +169,56 @@ def review(accounts, data: dict) -> dict:
             for a, _, row in matched.get(r["id"], []):
                 mark(row, "確かめてほしい", r["note"])
                 notes.append(f"{a.name}（{a.balance:,}円）: {r['note']}")
-    return {"rows": rows, "stops": stops, "notes": notes, "donations": donations, "interest_paid": interest_paid}
+    return {"rows": rows, "stops": stops, "notes": notes, "donations": donations, "interest_paid": interest_paid,
+            "income_tax_credit": credit_proposal}
+
+
+def withholding_on_interest(amount: int) -> int:
+    """利子等の源泉徴収税額（所得税及び復興特別所得税）＝支払金額×合計税率 15.315%、1円未満切り捨て。"""
+    from .calculate import load_rules
+    from fractions import Fraction
+    r = load_rules("corporate_tax.json")["interest_withholding"]
+    return int(amount * Fraction(r["rate_percent"]) / 100)
+
+
+def _interest(items, data: dict, mark, notes: list) -> list[dict] | None:
+    """受取利息の科目と別表六(一) 1。入力がなければ、税引前の額×15.315%（切り捨て）を提案値として入れ、確かめてほしいことに出す。
+    入力があれば計算値と比べ、違えば知らせる（別表には実際に引かれた額＝入力を書く）。戻り値は提案値の income_tax_credit（入力があれば None）。"""
+    if not items:
+        return None
+    given = data.get("income_tax_credit") or []
+    proposal = []
+    for a, r, row in items:
+        amount = a.balance - sum(d["amount"] for d in data.get("dividends_received") or [] if d.get("account") == a.name)
+        if amount <= 0:
+            mark(row, "入力で作った", "配当の分は別表八(一)・別表六(一)（dividends_received）")
+            continue
+        notes.append(f"{a.name}（{amount:,}円）: 源泉徴収後の手取り額で記帳していないか確かめてください。手取りで記帳しているときは、"
+                     "源泉所得税の分を加えた税引前の額を収入金額（income_tax_credit の income）にし、科目も税引前に直します")
+        ans = _confirmed(data, a.name, r)
+        if given:
+            mark(row, "入力で作った", f"{r['schedule']}（income_tax_credit）")
+            continue
+        if ans:
+            mark(row, "確かめた", ans)
+            continue
+        tax = withholding_on_interest(amount)
+        proposal.append({"kind": "利子", "income": amount, "tax": tax})
+        mark(row, "確かめてほしい", f"別表六(一) 1 に提案値（{amount:,}円×15.315%＝{tax:,}円）を入れました")
+        notes.append(f"{a.name}: 源泉所得税の入力がないので、{amount:,}円×15.315%（1円未満切り捨て）＝{tax:,}円 を別表六(一) 1 に入れました。"
+                     "通帳・支払通知で実際に引かれた額を確かめ、違えば income_tax_credit に実際の額を書いてください"
+                     f"（源泉がない利息なら adjustment_confirmations に「{r['answers'][0]}」）")
+    for c in given:
+        expected = withholding_on_interest(c["income"])
+        if c["tax"] != expected:
+            notes.append(f"別表六(一) 1: 入力の源泉所得税 {c['tax']:,}円 が、収入金額 {c['income']:,}円×15.315%（1円未満切り捨て）＝{expected:,}円 と違います"
+                         "（別表には入力の額＝実際に引かれた額を書きます。支払ごとに切り捨てると合計で数円違うことがあります）")
+    total_interest = sum(a.balance for a, _, _ in items) - sum(d["amount"] for d in data.get("dividends_received") or []
+                                                               if d.get("account") in {a.name for a, _, _ in items})
+    if given and sum(c["income"] for c in given) != total_interest:
+        notes.append(f"別表六(一) 1: 入力の収入金額の合計 {sum(c['income'] for c in given):,}円 が、受取利息の科目 {total_interest:,}円 と違います"
+                     "（源泉のない利息・手取り記帳がないか確かめてください）")
+    return proposal or None
 
 
 def _corporate_tax(items, data: dict, stop, mark) -> None:

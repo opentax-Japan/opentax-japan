@@ -162,6 +162,51 @@ class DividendFormulaTest(unittest.TestCase):
         self.assertEqual(s["related_interest"], 13_334)
 
 
+class InterestTest(unittest.TestCase):
+    """受取利息の源泉所得税: 支払金額×15.315%、1円未満切り捨て（国税庁 復興特別所得税（源泉徴収関係）Q&A Q5・Q6）。"""
+
+    def raw(self):
+        raw = sample()
+        raw["accounting"].update({"net_income": -1_130_001, "retained_earnings_end": -3_060_001})
+        return raw
+
+    def bal(self):
+        return balance("受取利息,,9999\n")
+
+    def test_rate(self):
+        from opentax.red.adjust import withholding_on_interest
+        self.assertEqual(withholding_on_interest(10_000), 1_531)       # 1,531.5 → 1,531
+        self.assertEqual(withholding_on_interest(9_999), 1_531)        # 1,531.34685 → 1,531
+        self.assertEqual(withholding_on_interest(222_222), 34_033)     # 34,033.29... → 34,033
+
+    def test_proposal(self):
+        from opentax import api
+        c = api.calculate(self.raw(), balance=self.bal())
+        self.assertEqual(c["input"]["income_tax_credit"], [{"kind": "利子", "income": 9_999, "tax": 1_531}])
+        self.assertEqual(c["result"]["schedule_04"]["credit_interest"], 1_531)
+        row = next(r for r in c["result"]["adjustments"] if r["account"] == "受取利息")
+        self.assertEqual(row["status"], "確かめてほしい")
+        w = "\n".join(c["result"]["warnings"])
+        self.assertIn("9,999円×15.315%", w)
+        self.assertIn("手取り額で記帳していないか", w)
+        self.assertEqual(c["problems"], [])
+
+    def test_input_differs(self):
+        from opentax import api
+        raw = self.raw()
+        raw["income_tax_credit"] = [{"kind": "利子", "income": 9_999, "tax": 1_530}]
+        c = api.calculate(raw, balance=self.bal())
+        self.assertEqual(c["result"]["schedule_04"]["credit_interest"], 1_530)     # 別表には実際に引かれた額
+        self.assertTrue(any("1,530円" in w and "1,531円" in w for w in c["result"]["warnings"]))
+
+    def test_no_withholding_confirmed(self):
+        from opentax import api
+        raw = self.raw()
+        raw["adjustment_confirmations"].append({"account": "受取利息", "answer": "源泉徴収された所得税はない"})
+        c = api.calculate(raw, balance=self.bal())
+        self.assertEqual(c["result"]["schedule_04"]["credit_interest"], 0)
+
+
 class StopTest(unittest.TestCase):
     def test_confirmation_needed(self):
         raw = sample()

@@ -42,6 +42,8 @@ def calculate(raw_input: dict, trial_ratio_rounding: str | None = None, balance:
         if review["stops"]:
             raise adjust.AdjustmentStop(review["stops"], review["rows"])
         data["donations"] = review["donations"]
+        if review["income_tax_credit"]:          # 受取利息の源泉の提案値（確かめてほしいことに出す）
+            data["income_tax_credit"] = review["income_tax_credit"]
     local = local_tax(data)
     city_amount = local["municipality"]["amount"] if local["municipality"] else 0   # 23区は都民税に含まれる
     result = _calculate(data, {"道府県民税": local["prefecture"]["amount"], "市町村民税": city_amount},
