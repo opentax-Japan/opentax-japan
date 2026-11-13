@@ -17,6 +17,8 @@
   split_fields: タグ → [位置…]（「03-0000-1111」のような値を「-」で分けて枠ごとに中央寄せで書く）
   labels:      タグ → {コード: 言葉}（text_fields のコードを言葉にして書く）
   dates の parts: ["era", "yy"] など（元号・年だけの欄。columns は parts の数＋1）
+  digit_cells: タグ → [[1桁ずつの枠…]（片ごと）…]（納付書の金額。右から1桁ずつ詰めて書く。0 は書かない）
+  digit_cells_split: タグ → [[1文字ずつの枠…]…]（団体コードなど。左から1文字ずつ書く）
 """
 
 from __future__ import annotations
@@ -152,6 +154,21 @@ def sheet(form_id: str, title: str, fiscal_period: tuple[datetime.date, datetime
                 n = drop.get(tag, 0)
                 shown = (abs(v) // 10 ** n) * (1 if v > 0 else -1) if n else v
                 items.append({"box": box, "text": _fmt(shown) if shown else "", "kind": "amount"})
+    for tag, copies in m.get("digit_cells", {}).items():   # 1桁ずつの枠（納付書の金額。右から詰める。0 は書かない）
+        v = values.get(tag)
+        if isinstance(v, int) and not isinstance(v, bool) and v > 0:
+            for cells in copies:
+                digits = str(v)
+                if len(digits) > len(cells):
+                    raise ValueError(f"{form_id}: {tag} の桁が枠より多い")
+                for box, ch in zip(cells[-len(digits):], digits):
+                    items.append({"box": box, "text": ch, "kind": "center"})
+    for tag, copies in m.get("digit_cells_split", {}).items():   # 1文字ずつの枠（団体コード。左から詰める）
+        v = get(f"tag:{tag}")
+        if isinstance(v, str) and v:
+            for cells in copies:
+                for box, ch in zip(cells, v):
+                    items.append({"box": box, "text": ch, "kind": "center"})
     align = m.get("text_align", {})
     wrap = set(m.get("text_wrap", []))   # 枠の中で折り返す文字の欄
     labels = m.get("labels", {})          # タグ → {コード: 紙に書く言葉}（役職名・代表者との関係など）
@@ -234,7 +251,7 @@ def svg(s: dict, image_href: str | None = None) -> str:
         lines = it["text"].split("\n")
         base = min(38, max(24, hgt * 0.64)) if it["kind"] == "amount" else min(40 if it["kind"] == "center" else 30, (hgt - 8) / len(lines))
         widest = max(sum(0.6 if ord(ch) < 0x2000 else 1 for ch in ln) for ln in lines) or 1
-        size = max(8, min(base, (x1 - x0 - 24) / widest))
+        size = max(8, min(base, (x1 - x0 - min(24, (x1 - x0) * 0.2)) / widest))   # 細い枠（1桁ずつの枠など）は余白を小さく
         anchor = {"amount": "end", "center": "middle"}.get(it["kind"], "start")
         x = {"amount": x1 - 14, "center": (x0 + x1) / 2}.get(it["kind"], x0 + 12)
         top = (y0 + y1) / 2 - size * len(lines) / 2

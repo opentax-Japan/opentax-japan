@@ -294,6 +294,34 @@ def _local_paper(calculated: dict, company: str, span, sources=None) -> str | No
     return "".join(pages) or None
 
 
+def _payment_slips(calculated: dict, span) -> str:
+    """地方税の納付書（第十二号の二様式・第二十二号の四様式）。納める額がなければ、その旨だけ書く。"""
+    from .red import noufusho
+    local = calculated["local_tax"]
+    out = []
+    for map_id, kind, title in (("N12_2", "pref", "納付書（第十二号の二様式　道府県民税・事業税・特別法人事業税）"),
+                                ("N22_4", "city", "納付書（第二十二号の四様式　市町村民税）")):
+        part = local["prefecture"] if kind == "pref" else local["municipality"]
+        if part is None:
+            continue
+        if kind == "pref" and part.get("special_ward"):
+            title = "納付書（第十二号の二様式　都民税（特別区）・事業税・特別法人事業税）"
+        values = noufusho.values(calculated, kind)
+        if values is None:
+            out.append(f"<section class='form' id='{map_id}'><h3>{_e(title)}</h3><p class='meta'>納める額がないので、納付書はありません。</p></section>")
+            continue
+        notes = values.pop("_notes")
+        s = paper.sheet(map_id, title, span, values)
+        if s is None:
+            continue
+        html_ = _paper_form(title, map_id, [s])
+        meta = "".join(f"<p class='meta'>{_e(n)}</p>" for n in
+                       ["3枚1組（第一片 領収証書・第二片 納付書・第三片 領収済通知書）の各片に同じ値を書いています。"
+                        "口座番号・加入者・課税事務所・管理番号は自治体ごとに違うので書いていません。eL-QR はありません。", *notes])
+        out.append(html_.replace("</h3>", "</h3>" + meta, 1))
+    return "".join(out)
+
+
 # --- 本体 ---
 
 def build(calculated: dict, attachments: dict | None = None, shohi: dict | None = None, accounts=None,
@@ -368,7 +396,7 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
     if uw:
         chapters["uchiwake"] = "".join(on_paper(fid, UCHIWAKE_TITLES[fid], forms[fid], _form_fields(catalog[fid], forms[fid]), "金額は円")
                                        for fid in uw)
-    chapters["chiho"] = _local_paper(calculated, company, span, sources) or _local(calculated, today)
+    chapters["chiho"] = (_local_paper(calculated, company, span, sources) or _local(calculated, today)) + _payment_slips(calculated, span)
     if office:
         from .pro import dairi
         sh_period = (_date(shohi["input"]["period"]["start"]), _date(shohi["input"]["period"]["end"])) if shohi else None
