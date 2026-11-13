@@ -1,7 +1,8 @@
 """個人の所得税の計算結果を、e-Tax 仕様セット ksk2-2026-08 の手続 RKO0010（所得税及び復興特別所得税申告）の帳票に割り当てる。
 
-帳票: KOA020（申告書 第一表・第二表。第三表・第四表は使わない）・KOA210（青色申告決算書（一般用）の損益計算書）・
-KOA220（青色申告決算書（不動産所得用）の損益計算書）。タグは e-Tax 帳票フィールド仕様書（所得-申告）Ver23x・Ver11x・Ver8x。
+帳票: KOA020（申告書 第一表・第二表。第三表・第四表は使わない）・KOA110/KOA130（収支内訳書 一般用・不動産所得用）・
+KOA210/KOA220（青色申告決算書 一般用・不動産所得用。損益計算書・減価償却費の計算・貸借対照表）・KOB560（医療費控除の明細書）。
+タグは e-Tax 帳票フィールド仕様書（所得-申告）Ver23x・Ver12x・Ver11x・Ver9x・Ver8x・Ver18x。
 令和7年分は手続の版 25.0.1（e-Tax 仕様書「手続一覧（申告）」Ver250x）。金額が 0 の欄は出さない（空欄）。
 """
 
@@ -109,7 +110,8 @@ def form_values(c: dict) -> dict[str, dict]:
         v["ABE00030"] = [datetime.date.fromisoformat(f["birth"]) for f in fam]
         v["ABE00040"] = [f.get("relation", "") for f in fam]
         v["ABE00060"] = [f.get("work", "") for f in fam]
-        v["ABE00070"] = [f["salary"] for f in fam]
+        each = det.get("white_each") or {}
+        v["ABE00070"] = [each.get(i, f.get("salary", 0)) for i, f in enumerate(fam)]   # 白色は事業専従者控除額
     # 雑損控除に関する事項
     ded = d.get("deductions") or {}
     cs = ded.get("casualty")
@@ -171,31 +173,76 @@ def form_values(c: dict) -> dict[str, dict]:
     v["ABS10020"] = KB[bool(filing.get("tax_accountant_article30"))]
     v["ABS10030"] = KB[bool(filing.get("tax_accountant_article33_2"))]
     out = {"KOA020": v}
-    for key, form_id in (("business", "KOA210"), ("real_estate", "KOA220")):
+    for key in ("business", "real_estate"):
         k = d.get(key)
         if k and k.get("statement"):
-            out[form_id] = _statement_values(c, k, form_id)
+            form_id = aoiro.FORM_OF[k["statement"]["kind"]]
+            out[form_id] = _statement_values(c, k, key, form_id)
+    med = (ded.get("medical") or {})
+    if med.get("details") or med.get("notice"):
+        out["KOB560"] = medical_values(c)
     return out
 
 
-def _statement_values(c: dict, k: dict, form_id: str) -> dict:
+def _statement_values(c: dict, k: dict, key: str, form_id: str) -> dict:
     st = k["statement"]
     det = c["detail"]
-    blue = det["blue_from_business"] if form_id == "KOA210" else det["blue_from_real_estate"]
-    v = {t: x for t, x in aoiro.with_blue(st, blue).items() if x}
+    if st["kind"].startswith("white"):
+        deduction = det["white_family"][key]
+    else:
+        deduction = det["blue_from_business"] if key == "business" else det["blue_from_real_estate"]
+    v = {t: x for t, x in aoiro.with_blue(st, deduction).items() if x}
     added = st.get("added") or []
+    names, amounts = {"KOA210": ("AMF00060", "AMF00360"), "KOA220": ("ANF00060", "ANF00200"),
+                      "KOA110": ("AIG00010", "AIG00330"), "KOA130": ("AKG00010", "AKG00190")}[form_id]
+    if added:
+        v[names], v[amounts] = [n for n, _ in added], [a for _, a in added]
+        if form_id == "KOA130":                                   # 収支内訳書（不動産所得用）の追加科目は1つの欄
+            v[names], v[amounts] = v[names][0], v[amounts][0]
     if form_id == "KOA210":
         v["AMB00010"] = c["input"]["taxpayer"]["address"]          # 住所（氏名・屋号などは IT部を参照する）
-        if added:
-            v["AMF00060"] = [n for n, _ in added]
-            v["AMF00360"] = [a for _, a in added]
-    else:
-        if added:
-            v["ANF00060"] = [n for n, _ in added]
-            v["ANF00200"] = [a for _, a in added]
-        if st.get("other_income"):
-            v["ANF00050"] = st["other_income"][0][0]
+    if form_id == "KOA220" and st.get("other_income"):
+        v["ANF00050"] = st["other_income"][0][0]
+    if form_id == "KOA110":
+        v["AIB00010"] = c["input"]["taxpayer"]["address"]
+        v["AIR00000"] = "1"                                        # 「営業等」（1）
+    v.update({t: x for t, x in (st.get("balance_sheet") or {}).items() if x not in (0, None)})
+    v.update(st.get("depreciation") or {})
     return v
+
+
+MEDICAL_KINDS = {"診療・治療": "DHC00230", "医薬品購入": "DHC00240", "介護保険サービス": "DHC00250", "その他の医療費": "DHC00260"}
+
+
+def medical_values(c: dict) -> dict:
+    """医療費控除の明細書（KOB560）。明細は16行まで（次葉は対象外）。D は第一表⑫（退職・山林・分離課税は対象外なので）。"""
+    med = c["input"]["deductions"]["medical"]
+    rows = med.get("details") or []
+    if len(rows) > 16:
+        raise XtxError("医療費控除の明細書は16行まで（次葉は OpenTax 個人の対象外）")
+    v: dict = {}
+    if rows:
+        v["DHC00020"] = [x.get("patient", "") for x in rows]
+        v["DHC00050"] = [x.get("payee", "") for x in rows]
+        for kind, tag in MEDICAL_KINDS.items():
+            v[tag] = ["1" if x.get("kind") == kind else None for x in rows]
+        bad = [x.get("kind") for x in rows if x.get("kind") not in MEDICAL_KINDS]
+        if bad:
+            raise XtxError(f"医療費の区分は {list(MEDICAL_KINDS)} のどれかです: {bad}")
+        v["DHC00080"] = [x["paid"] for x in rows]
+        v["DHC00090"] = [x.get("reimbursed", 0) for x in rows]
+        v["DHC00120"], v["DHC00130"] = sum(v["DHC00080"]), sum(v["DHC00090"])
+    n = med.get("notice") or {}
+    if n:
+        v.update({"DHE00010": n.get("notice_total", 0), "DHE00020": n.get("paid", 0), "DHE00030": n.get("reimbursed", 0)})
+    a = (n.get("paid", 0) if n else 0) + v.get("DHC00120", 0)
+    b = (n.get("reimbursed", 0) if n else 0) + v.get("DHC00130", 0)
+    gross = c["lines"]["12"]
+    e = gross * 5 // 100
+    f = min(e, 100000)
+    v.update({"DHC00280": a, "DHC00290": b, "DHD00010": a, "DHD00020": b, "DHD00030": max(a - b, 0), "DHD00040": gross,
+              "DHD00050": e, "DHD00060": f, "DHD00070": min(max(max(a - b, 0) - f, 0), 2000000)})
+    return {k: x for k, x in v.items() if x not in (0, None, [])}
 
 
 def it_values(c: dict, zeimusho_xsd: bytes) -> dict:
@@ -248,7 +295,7 @@ def build_xtx(c: dict, zeimusho_xsd: bytes, today: datetime.date) -> bytes:
     it, it_ids = build_it(load_layout(SPEC_SET, f"IT-{PROCEDURE_ID}"), it_values(c, zeimusho_xsd), {})
     preparer = (c["input"].get("filing") or {}).get("preparer") or c["input"]["taxpayer"]["name"]
     forms = []
-    for form_id in ("KOA020", "KOA210", "KOA220"):
+    for form_id in ("KOA020", "KOA110", "KOA130", "KOA210", "KOA220", "KOB560"):   # 手続XSD の並び順
         if form_id not in values:
             continue
         vals = {k: x for k, x in values[form_id].items() if x is not None and x != ""}

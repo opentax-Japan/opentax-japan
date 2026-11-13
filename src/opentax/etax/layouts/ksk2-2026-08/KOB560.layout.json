@@ -1,0 +1,774 @@
+{
+ "form_id": "KOB560",
+ "label": "医療費控除の明細書",
+ "version": "18.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shotoku",
+ "group": "KOB560-18-0group",
+ "xsd": "19XMLスキーマ/shotoku/KOB560-018.xsd",
+ "xsd_sha256": "b11400bb09ac4d3bec165b549616f4631abad2681239b0551a4d734b4bcf1cda",
+ "root": {
+  "tag": "KOB560",
+  "path": "KOB560",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "DHA00000",
+    "path": "KOB560/DHA00000",
+    "label": "年分",
+    "min": 0,
+    "max": 1,
+    "type": "gen:NENBUNref",
+    "kind": "idref",
+    "idref": "NENBUN",
+    "attributes": [
+     {
+      "name": "IDREF",
+      "required": true,
+      "fixed": "NENBUN",
+      "type": "xsd:IDREF"
+     }
+    ]
+   },
+   {
+    "tag": "DHB00000",
+    "path": "KOB560/DHB00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "DHB00000-18-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DHB00015",
+      "path": "KOB560/DHB00000/DHB00015",
+      "label": "住所",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_ADRref",
+      "kind": "idref",
+      "idref": "NOZEISHA_ADR",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_ADR",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "DHB00020",
+      "path": "KOB560/DHB00000/DHB00020",
+      "label": "氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_NMref",
+      "kind": "idref",
+      "idref": "NOZEISHA_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DHE00000",
+    "path": "KOB560/DHE00000",
+    "label": "１　医療費通知に関する事項",
+    "min": 0,
+    "max": 1,
+    "type": "DHE00000-18-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DHE00010",
+      "path": "KOB560/DHE00000/DHE00010",
+      "label": "医療費通知に記載された医療費の額（自己負担額）",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DHE00020",
+      "path": "KOB560/DHE00000/DHE00020",
+      "label": "（１）のうちその年中に実際に支払った医療費の額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DHE00030",
+      "path": "KOB560/DHE00000/DHE00030",
+      "label": "（２）のうち生命保険や社会保険（高額療養費など）などで補填される金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DHC00000",
+    "path": "KOB560/DHC00000",
+    "label": "２　医療費(上記１以外)の明細",
+    "min": 0,
+    "max": 1,
+    "type": "DHC00000-18-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DHC00010",
+      "path": "KOB560/DHC00000/DHC00010",
+      "label": "明細　繰り返し",
+      "min": 0,
+      "max": 16,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DHC00020",
+        "path": "KOB560/DHC00000/DHC00010/DHC00020",
+        "label": "医療を受けた方の氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "DHC00050",
+        "path": "KOB560/DHC00000/DHC00010/DHC00050",
+        "label": "病院・薬局などの支払先の名称",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "DHC00220",
+        "path": "KOB560/DHC00000/DHC00010/DHC00220",
+        "label": "医療費の区分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DHC00230",
+          "path": "KOB560/DHC00000/DHC00010/DHC00220/DHC00230",
+          "label": "診療・治療",
+          "min": 0,
+          "max": 1,
+          "type": "DHC00230-18-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KOB560/DHC00000/DHC00010/DHC00220/DHC00230/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KOB560/DHC00000/DHC00010/DHC00220/DHC00230/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "DHC00240",
+          "path": "KOB560/DHC00000/DHC00010/DHC00220/DHC00240",
+          "label": "医薬品購入",
+          "min": 0,
+          "max": 1,
+          "type": "DHC00240-18-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KOB560/DHC00000/DHC00010/DHC00220/DHC00240/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KOB560/DHC00000/DHC00010/DHC00220/DHC00240/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "DHC00250",
+          "path": "KOB560/DHC00000/DHC00010/DHC00220/DHC00250",
+          "label": "介護保険サービス",
+          "min": 0,
+          "max": 1,
+          "type": "DHC00250-18-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KOB560/DHC00000/DHC00010/DHC00220/DHC00250/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KOB560/DHC00000/DHC00010/DHC00220/DHC00250/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "DHC00260",
+          "path": "KOB560/DHC00000/DHC00010/DHC00220/DHC00260",
+          "label": "その他の医療費",
+          "min": 0,
+          "max": 1,
+          "type": "DHC00260-18-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KOB560/DHC00000/DHC00010/DHC00220/DHC00260/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KOB560/DHC00000/DHC00010/DHC00220/DHC00260/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "DHC00060",
+        "path": "KOB560/DHC00000/DHC00010/DHC00060",
+        "label": "明細",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DHC00080",
+          "path": "KOB560/DHC00000/DHC00010/DHC00060/DHC00080",
+          "label": "支払った医療費の額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "DHC00090",
+        "path": "KOB560/DHC00000/DHC00010/DHC00090",
+        "label": "（４）のうち生命保険や社会保険（高額療養費など）などで補填される金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DHC00140",
+      "path": "KOB560/DHC00000/DHC00140",
+      "label": "２の次葉合計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DHC00150",
+        "path": "KOB560/DHC00000/DHC00140/DHC00150",
+        "label": "明細",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DHC00160",
+          "path": "KOB560/DHC00000/DHC00140/DHC00150/DHC00160",
+          "label": "支払った医療費の額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "DHC00170",
+            "path": "KOB560/DHC00000/DHC00140/DHC00150/DHC00160/DHC00170",
+            "label": "項目名",
+            "min": 0,
+            "max": 1,
+            "type": "DHC00170-18-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 4
+           },
+           {
+            "tag": "DHC00180",
+            "path": "KOB560/DHC00000/DHC00140/DHC00150/DHC00160/DHC00180",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "DHC00190",
+        "path": "KOB560/DHC00000/DHC00140/DHC00190",
+        "label": "（４）のうち生命保険や社会保険（高額療養費など）などで補填される金額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DHC00200",
+          "path": "KOB560/DHC00000/DHC00140/DHC00190/DHC00200",
+          "label": "項目名",
+          "min": 0,
+          "max": 1,
+          "type": "DHC00200-18-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 4
+         },
+         {
+          "tag": "DHC00210",
+          "path": "KOB560/DHC00000/DHC00140/DHC00190/DHC00210",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DHC00100",
+      "path": "KOB560/DHC00000/DHC00100",
+      "label": "２の合計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DHC00110",
+        "path": "KOB560/DHC00000/DHC00100/DHC00110",
+        "label": "明細",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DHC00120",
+          "path": "KOB560/DHC00000/DHC00100/DHC00110/DHC00120",
+          "label": "支払った医療費の額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "DHC00130",
+        "path": "KOB560/DHC00000/DHC00100/DHC00130",
+        "label": "（４）のうち生命保険や社会保険（高額療養費など）などで補填される金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DHC00270",
+      "path": "KOB560/DHC00000/DHC00270",
+      "label": "医療費の合計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DHC00280",
+        "path": "KOB560/DHC00000/DHC00270/DHC00280",
+        "label": "A",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DHC00290",
+        "path": "KOB560/DHC00000/DHC00270/DHC00290",
+        "label": "B",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DHD00000",
+    "path": "KOB560/DHD00000",
+    "label": "３　控除額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "DHD00000-18-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DHD00010",
+      "path": "KOB560/DHD00000/DHD00010",
+      "label": "支払った医療費（合計）",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DHD00020",
+      "path": "KOB560/DHD00000/DHD00020",
+      "label": "保険金などで補填される金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DHD00030",
+      "path": "KOB560/DHD00000/DHD00030",
+      "label": "差引金額（A－B）",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DHD00040",
+      "path": "KOB560/DHD00000/DHD00040",
+      "label": "所得金額の合計額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DHD00050",
+      "path": "KOB560/DHD00000/DHD00050",
+      "label": "D*０．０５",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DHD00060",
+      "path": "KOB560/DHD00000/DHD00060",
+      "label": "Eと10万円のいずれか少ない方の金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DHD00070",
+      "path": "KOB560/DHD00000/DHD00070",
+      "label": "医療費控除額（C－F）",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KOB560-18-0VRtype",
+    "fixed": "18.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

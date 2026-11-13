@@ -151,8 +151,18 @@ def earthquake(eq: dict, r: dict) -> int:
 
 def medical(med: dict, gross: int, r: dict) -> tuple[int, str | None]:
     t = r["medical"]
-    paid = _amount(med.get("paid"), "medical.paid")
-    covered = _amount(med.get("reimbursed"), "medical.reimbursed")
+    if med.get("details") or med.get("notice"):
+        # 医療費控除の明細書から（明細の合計＋医療費通知の分）。paid・reimbursed を一緒に入れたら止める
+        if med.get("paid") is not None or med.get("reimbursed") is not None:
+            raise KojinError("medical: 明細（details・notice）と合計（paid・reimbursed）はどちらか一方だけ入れてください")
+        rows = med.get("details") or []
+        n = med.get("notice") or {}
+        paid = sum(_amount(x.get("paid"), f"medical.details[{i}].paid") for i, x in enumerate(rows)) + _amount(n.get("paid"), "medical.notice.paid")
+        covered = (sum(_amount(x.get("reimbursed"), f"medical.details[{i}].reimbursed") for i, x in enumerate(rows))
+                   + _amount(n.get("reimbursed"), "medical.notice.reimbursed"))
+    else:
+        paid = _amount(med.get("paid"), "medical.paid")
+        covered = _amount(med.get("reimbursed"), "medical.reimbursed")
     c = max(paid - covered, 0)
     if med.get("self_medication"):
         s = t["self_medication"]
@@ -271,7 +281,23 @@ def calculate(d: dict) -> dict:
     re_before = rent["before_blue"] if rent else 0
     biz_before = biz["before_blue"] if biz else 0
     blue_re, blue_biz = blue_deduction(blue_limit, re_before, biz_before)
-    biz_income, re_income = biz_before - blue_biz, re_before - blue_re
+    # 白色申告の事業専従者控除（所得税法57条3項。事業ごとに、各専従者につき 配偶者86万円・ほか50万円 と 所得÷(専従者数＋1) の低い方）
+    white_family = {"business": 0, "real_estate": 0}
+    white_each: dict[int, int] = {}                             # family_employees の番号 → 控除額
+    for key, k in (("business", biz), ("real_estate", rent)):
+        if not (k and k.get("white")):
+            continue
+        if k.get("blue"):
+            raise KojinError(f"{key}: blue と white は同時に指定できません")
+        staff = [(i, f) for i, f in enumerate(d.get("family_employees") or []) if f.get("business", "business") == key]
+        if staff:
+            t = r["family_white"]
+            per = k["before_blue"] // (len(staff) + 1)          # 1円未満の端数の定めは法令・手引きにない（切り捨て。DESIGN §20.6）
+            for i, f in staff:
+                white_each[i] = min(t["spouse"] if f.get("spouse") else t["other"], max(per, 0))
+            white_family[key] = sum(white_each[i] for i, _ in staff)
+    biz_income = biz_before - blue_biz - white_family["business"]
+    re_income = re_before - blue_re - white_family["real_estate"]
 
     divs = d.get("dividends") or []
     div_receipts = sum(_amount(x.get("income"), f"dividends[{i}].income") for i, x in enumerate(divs))
@@ -409,7 +435,8 @@ def calculate(d: dict) -> dict:
     # 税額
     taxable = max(total - deductions_total, 0) // 1000 * 1000                               # ㉛
     tax = tax_on(taxable, r)                                                                # ㉜
-    div_cr = min(dividend_credit(div_credit_base, taxable, r), tax) if div_credit_base else 0   # ㉝
+    # ㉝ は手引きの計算欄 G のまま（㉜を超えても書く。㊷で赤字なら0）。控えも同じ書き方
+    div_cr = dividend_credit(div_credit_base, taxable, r) if div_credit_base else 0          # ㉝
     after_credits = max(tax - div_cr, 0)                                                    # ㊷
     base_tax = after_credits                                                                # ㊹（災害減免なし）
     recon = _floor(base_tax * _d(r["reconstruction"]["rate"]))                              # ㊺
@@ -437,7 +464,7 @@ def calculate(d: dict) -> dict:
         "52": third if third >= 0 else 0, "53": -third if third < 0 else 0,
         "56": other_than_pension,                                    # 手引き 雑所得 Step2 の B
         "57": _amount(sp.get("income"), "") if sp else 0,
-        "58": (biz or {}).get("family_salary", 0) + (rent or {}).get("family_salary", 0),
+        "58": (biz or {}).get("family_salary", 0) + (rent or {}).get("family_salary", 0) + sum(white_family.values()),
         "59": blue_re + blue_biz,
         "60": sum(_amount(x.get("withholding"), "") for x in misc_b + misc_o + tmp),
     }
@@ -445,6 +472,6 @@ def calculate(d: dict) -> dict:
         "input": d, "year": year, "lines": lines, "warnings": warnings, "checks": checks,
         "detail": {"salary_adjustment_kubun": adj_kubun, "salary_adjustment": adj_amount, "medical_kubun": med_kubun,
                    "widow_kubun": widow_kubun, "spouse_special": spouse_special, "specific_count": specific_count,
-                   "blue_from_real_estate": blue_re, "blue_from_business": blue_biz, "donation_total": don_total,
+                   "blue_from_real_estate": blue_re, "blue_from_business": blue_biz, "white_family": white_family, "white_each": white_each, "donation_total": don_total,
                    "temporary_net": tmp_net, "real_estate_before_blue": re_before, "business_before_blue": biz_before},
     }

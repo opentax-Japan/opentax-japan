@@ -1788,12 +1788,24 @@
           "sha256": "77f36b1470f75fa2b5b890e8a37100afca417bc88a64810cd2d3f451f1e75e4d"
         },
         {
+          "path": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver12x.xlsx",
+          "sha256": "6f675c22bac4c963bcf69a510d26d1fc4fc7cd54cdca3c7b4f1146ea39cf2d3c"
+        },
+        {
+          "path": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver18x.xlsx",
+          "sha256": "12eeb970edb85c50ff8b22871866958f445d3de97b89365022e6aebf2d760cfd"
+        },
+        {
           "path": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver23x.xlsx",
           "sha256": "a595e57edba83ef408fb6ffadb8ba71653cfbc176659cb1014bc4b821279bf34"
         },
         {
           "path": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver8x.xlsx",
           "sha256": "c95324ce9304ab2dc61659358efda94c42d7400899a04408617bab401c286653"
+        },
+        {
+          "path": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver9x.xlsx",
+          "sha256": "2917ed3c412feea5d094b5d5b80177f6d6254cf78c5797edbcc3f041c78caccf"
         }
       ],
       "sha256": "aa46204f612c284d87933637ad7601a94079c935a43a9951e756293155812bde",
@@ -4155,6 +4167,48 @@
       "xsd_sha256": "7de9fd5faa8437ff5fcd0439564cc534d9388f0d04eb646e47b50f7c55892d78",
       "field_spec_workbook": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver8x.xlsx",
       "field_spec_sheet": "KOA220"
+    },
+    {
+      "form_id": "KOA110",
+      "label": "収支内訳書（一般用）",
+      "mvp": false,
+      "stage": "kojin",
+      "procedure": "RKO0010",
+      "xsd": "19XMLスキーマ/shotoku/KOA110-012.xsd",
+      "version": "12.0",
+      "xsd_documentation_date": "2023-09-27",
+      "group": "KOA110-12-0group",
+      "xsd_sha256": "cab3142f8ef4e520951010d95220ea9ef32af9c1fba678c78c590e2b6e80da3f",
+      "field_spec_workbook": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver12x.xlsx",
+      "field_spec_sheet": "KOA110"
+    },
+    {
+      "form_id": "KOA130",
+      "label": "収支内訳書（不動産所得用）",
+      "mvp": false,
+      "stage": "kojin",
+      "procedure": "RKO0010",
+      "xsd": "19XMLスキーマ/shotoku/KOA130-009.xsd",
+      "version": "9.0",
+      "xsd_documentation_date": "2020-09-09",
+      "group": "KOA130-9-0group",
+      "xsd_sha256": "e52eaa460b0f0d3ae6fc970657a57e1146bfd42dd5138fc532c25651d471ebdc",
+      "field_spec_workbook": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver9x.xlsx",
+      "field_spec_sheet": "KOA130"
+    },
+    {
+      "form_id": "KOB560",
+      "label": "医療費控除の明細書",
+      "mvp": false,
+      "stage": "kojin",
+      "procedure": "RKO0010",
+      "xsd": "19XMLスキーマ/shotoku/KOB560-018.xsd",
+      "version": "18.0",
+      "xsd_documentation_date": "2025-08-15",
+      "group": "KOB560-18-0group",
+      "xsd_sha256": "b11400bb09ac4d3bec165b549616f4631abad2681239b0551a4d734b4bcf1cda",
+      "field_spec_workbook": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver18x.xlsx",
+      "field_spec_sheet": "KOB560"
     }
   ]
 }

@@ -161,6 +161,12 @@
     "source": "手引き 手順4「復興特別所得税額」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order4/3-4_45.htm （設例 176,500円 → 3,706円。1円未満切り捨て）",
     "checked": "2026-11-14"
   },
+  "family_white": {
+    "spouse": 860000, "other": 500000,
+    "note": "白色申告の事業専従者控除。各専従者につき、配偶者86万円・それ以外50万円 と、その事業の所得（この控除の前）÷（専従者の数＋1）の低い方",
+    "source": "所得税法第57条第3項 https://laws.e-gov.go.jp/api/1/articles;lawId=340AC0000000033;article=57",
+    "checked": "2026-11-14"
+  },
   "filing_tax": {
     "note": "申告納税額は黒字なら100円未満切り捨て、赤字（還付）はそのまま",
     "source": "手引き 手順4「申告納税額」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order4/3-4_39.htm",

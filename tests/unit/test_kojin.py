@@ -197,11 +197,65 @@ class XtxTest(unittest.TestCase):
             api.kojin_export(calculate(d), SCHEMA, datetime.date(2026, 2, 16))
 
 
+class StatementsTest(unittest.TestCase):
+    """貸借対照表・減価償却費の計算・収支内訳書（白色）・医療費控除の明細書。"""
+
+    def test_balance_sheet(self):
+        c = api.kojin_calculate(sample(), balances())
+        bs = sample_bs = c["input"]["business"]["statement"]["balance_sheet"]
+        self.assertEqual(bs["AMG00440"], bs["AMG00760"])                     # 資産の部の合計 = 負債・資本の部の合計
+        self.assertEqual((bs["AMG00260"], bs["AMG00290"], bs["AMG00310"], bs["AMG00430"]), (350_000, 2_400_000, 1_200_000, 3_000_000))
+        self.assertEqual((bs["AMG00740"], bs["AMG00730"], bs["AMG00750"]), (1_082_800, 500_000, 5_367_200))
+        self.assertFalse([x for x in c["checks"] if "貸借対照表" in x])
+        del sample_bs
+
+    def test_depreciation_copy(self):
+        d = sample()
+        d["business"]["depreciation"] = [
+            {"name": "店舗", "quantity": "1", "acquired": "2015-04", "cost": 10_000_000, "base": 10_000_000, "method": "定額",
+             "life": 22, "rate": "0.046", "months": 12, "ordinary": 460_000, "special": 0, "ratio": "100", "expense": 460_000, "book": 5_000_000},
+            {"name": "レジ", "quantity": "1", "acquired": "2023-10", "cost": 300_000, "base": 300_000, "method": "定率",
+             "life": 5, "rate": "0.400", "months": 12, "ordinary": 40_000, "special": 0, "ratio": "100", "expense": 40_000, "book": 140_000}]
+        c = api.kojin_calculate(d, balances())
+        dep = c["input"]["business"]["statement"]["depreciation"]
+        self.assertEqual((dep["AMF01840"], dep["AMF01850"]), (500_000, 5_140_000))
+        self.assertFalse([x for x in c["checks"] if "減価償却" in x])        # 損益計算書の減価償却費 500,000円 と合う
+
+    def test_white_family_deduction(self):
+        # 所得税法57条3項: 配偶者86万円と 所得÷(専従者数＋1) の低い方
+        d = {"year": 2025, "taxpayer": {"name": "x", "birth": "1970-01-01", "address": "東京都千代田区", "tax_office": "麹町",
+                                        "user_id": "1234567890123456"},
+             "business": {"bookkeeping": 4, "white": True},
+             "family_employees": [{"name": "妻", "relation": "妻", "birth": "1972-01-01", "salary": 0, "spouse": True}]}
+        data = "勘定科目,期末残高\n売上高,3000000\n仕入高,1000000\n消耗品費,200000\n雑費,100000\n".encode("utf-8")
+        c = api.kojin_calculate(d, {"business": data})
+        st = c["input"]["business"]["statement"]
+        self.assertEqual((st["income"], st["before_blue"]), (3_000_000, 1_700_000))
+        self.assertEqual(c["lines"]["58"], 850_000)                         # 1,700,000÷2＝850,000 < 860,000
+        self.assertEqual(c["lines"]["1"], 850_000)
+        if SCHEMA.exists():
+            x = api.kojin_export(c, SCHEMA, datetime.date(2026, 3, 1))
+            self.assertEqual(api.validate_xtx(x, SCHEMA, "RKO0010"), [])
+            self.assertIn("<AIG00380>850000</AIG00380>", x.decode("utf-8"))
+
+    def test_medical_details(self):
+        d = sample()
+        d["deductions"]["medical"] = {"details": [
+            {"patient": "国税　太郎", "payee": "○○病院", "kind": "診療・治療", "paid": 150_000, "reimbursed": 0},
+            {"patient": "国税　春子", "payee": "△△薬局", "kind": "医薬品購入", "paid": 61_400, "reimbursed": 0}]}
+        c = calculate(d)
+        self.assertEqual(c["lines"]["28"], 111_400)
+        if SCHEMA.exists():
+            x = api.kojin_export(c, SCHEMA, datetime.date(2026, 2, 16))
+            self.assertEqual(api.validate_xtx(x, SCHEMA, "RKO0010"), [])
+            self.assertIn("<DHD00070>111400</DHD00070>", x.decode("utf-8"))
+
+
 class ReportTest(unittest.TestCase):
     def test_report(self):
         c = api.kojin_calculate(sample(), balances())
         html = api.kojin_report(c, datetime.date(2026, 2, 16))
-        for s in ("申告書一式（所得税）", "8,170,400", "5,210,312", "青色申告決算書（一般用） 損益計算書", "5,367,200", "1,829,200"):
+        for s in ("申告書一式（所得税）", "8,170,400", "5,210,312", "青色申告決算書（一般用）", "5,367,200", "1,829,200"):
             self.assertIn(s, html)
 
 

@@ -301,10 +301,23 @@ def kojin_calculate(raw_input: dict, balances: dict | None = None) -> dict:
         data = (balances or {}).get(key)
         if data is None:
             continue
-        st = aoiro.build(uchiwake.parse_balance(data), kind)
-        d[key] = {**(d.get(key) or {}), "income": st["income"], "before_blue": st["before_blue"],
-                  "family_salary": st["family_salary"], "statement": st}
-    return calculate(d)
+        k = dict(d.get(key) or {})
+        if k.get("white"):
+            kind = "white_" + kind
+        accounts = uchiwake.parse_balance(data)
+        st = aoiro.build(accounts, kind)
+        checks: list[str] = []
+        if not kind.startswith("white"):
+            st["balance_sheet"], checks = aoiro.balance_sheet(accounts, kind, st["before_blue"])
+            if k.get("depreciation"):
+                st["depreciation"], more = aoiro.depreciation_rows(k["depreciation"], aoiro.FORM_OF[kind], st["values"])
+                checks += more
+        d[key] = {**k, "income": st["income"], "before_blue": st["before_blue"], "family_salary": st["family_salary"], "statement": st}
+        d.setdefault("_checks", []).extend(checks)
+    extra = d.pop("_checks", [])
+    c = calculate(d)
+    c["checks"] = c["checks"] + extra
+    return c
 
 
 def kojin_export(calculated: dict, schema_root: Path, today: datetime.date | None = None) -> bytes:
