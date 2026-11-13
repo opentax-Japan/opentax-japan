@@ -943,7 +943,15 @@
           "sha256": "4c666d5eb7d167ab713d4d1c365a066a1f3bd9254dca2281a7f36788eed00bd9"
         },
         {
+          "path": "19XMLスキーマ/kyotsu/RSH0020a-232.xsd",
+          "sha256": "4c666d5eb7d167ab713d4d1c365a066a1f3bd9254dca2281a7f36788eed00bd9"
+        },
+        {
           "path": "19XMLスキーマ/kyotsu/RSH0020a-260.xsd",
+          "sha256": "4c666d5eb7d167ab713d4d1c365a066a1f3bd9254dca2281a7f36788eed00bd9"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/RSH0040a-232.xsd",
           "sha256": "4c666d5eb7d167ab713d4d1c365a066a1f3bd9254dca2281a7f36788eed00bd9"
         },
         {
@@ -959,16 +967,32 @@
           "sha256": "f4b42949eee989e412a64637993423c9ca6906d32aae9df4b833518a3a99bb5c"
         },
         {
+          "path": "19XMLスキーマ/shohi/RSH0020-232.xsd",
+          "sha256": "14fbd961baf3cc368cca0c255491880becdd4abd487d7a6242edc56e5c4b1d8a"
+        },
+        {
           "path": "19XMLスキーマ/shohi/RSH0020-260.xsd",
           "sha256": "91975cfaefb399504dd34393286bcf3ae9ffa680db82fbf03dd61d6ec193e1fb"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/RSH0040-232.xsd",
+          "sha256": "abcdf6209a54d2b0e02c6528a0d04f3a220aab8d66fe492e6a394c17aef9bd01"
         },
         {
           "path": "19XMLスキーマ/shohi/RSH0040-260.xsd",
           "sha256": "62e1749576ca85a45cf70a94f2d698bf763da20ac89b4ffb2478a740633cf6d1"
         },
         {
+          "path": "19XMLスキーマ/shohi/SHA010-010.xsd",
+          "sha256": "1da04ae0ceaa9608967b0f3dbf6e882bcbfbd1975c48d3e65bc376ac83ca6465"
+        },
+        {
           "path": "19XMLスキーマ/shohi/SHA010-011.xsd",
           "sha256": "955615125a1ef3855d655e0f2d111c25444e387a7c3a72ddfdc986a3faa8ff29"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHA020-009.xsd",
+          "sha256": "977957b3407eb3b1ac0888ae86ac77cb1e2b1bf048ef0b272db98a45e8968d53"
         },
         {
           "path": "19XMLスキーマ/shohi/SHA020-010.xsd",
@@ -1021,6 +1045,18 @@
         {
           "path": "19XMLスキーマ/shohi/SHB067-001.xsd",
           "sha256": "43ccd8e2d01e22ca8c705b530aef4787a43752ab2ddcf14cac1075feb9bfe452"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHB070-001.xsd",
+          "sha256": "25a603aa463d35803264ed2c55ad39a76146723fd6fa727b1a31a93bb6448fbc"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHB100-001.xsd",
+          "sha256": "03c7a928589516627773f582cb8e11291a78c77f860dc0396ff5a54e18f81391"
+        },
+        {
+          "path": "19XMLスキーマ/shohi/SHB110-001.xsd",
+          "sha256": "f55f2ec67870f8bb8c1dce8c3d1ab3e1fd49c2af9f550d55a11d298b3dd705b0"
         },
         {
           "path": "19XMLスキーマ/shohi/SHC015-002.xsd",
@@ -2840,6 +2876,22 @@
       "xsd": "19XMLスキーマ/shohi/RSH0040-260.xsd",
       "xsd_sha256": "62e1749576ca85a45cf70a94f2d698bf763da20ac89b4ffb2478a740633cf6d1",
       "version": "26.0.0"
+    },
+    {
+      "procedure_id": "RSH0020",
+      "key": "RSH0020-232",
+      "label": "消費税及び地方消費税申告（一般・法人）令和5年度版（令和8年9月30日以前に開始する課税期間）",
+      "xsd": "19XMLスキーマ/shohi/RSH0020-232.xsd",
+      "xsd_sha256": "14fbd961baf3cc368cca0c255491880becdd4abd487d7a6242edc56e5c4b1d8a",
+      "version": "23.2.0"
+    },
+    {
+      "procedure_id": "RSH0040",
+      "key": "RSH0040-232",
+      "label": "消費税及び地方消費税申告（簡易課税・法人）令和5年度版（令和8年9月30日以前に開始する課税期間）",
+      "xsd": "19XMLスキーマ/shohi/RSH0040-232.xsd",
+      "xsd_sha256": "abcdf6209a54d2b0e02c6528a0d04f3a220aab8d66fe492e6a394c17aef9bd01",
+      "version": "23.2.0"
     }
   ],
   "forms": [
@@ -3300,6 +3352,50 @@
       "xsd_sha256": "43ccd8e2d01e22ca8c705b530aef4787a43752ab2ddcf14cac1075feb9bfe452",
       "field_spec_workbook": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver1x.xlsx",
       "field_spec_sheet": "SHB067"
+    },
+    {
+      "form_id": "SHA010",
+      "label": "消費税及び地方消費税の申告書（一般用）（令和8年9月30日以前に開始する課税期間）",
+      "mvp": false,
+      "stage": "shohi",
+      "procedure": "RSH0020-232",
+      "layout": "SHA010-10",
+      "xsd": "19XMLスキーマ/shohi/SHA010-010.xsd",
+      "version": "10.0",
+      "xsd_documentation_date": "2023-06-26",
+      "group": "SHA010-10-0group",
+      "xsd_sha256": "1da04ae0ceaa9608967b0f3dbf6e882bcbfbd1975c48d3e65bc376ac83ca6465",
+      "field_spec_workbook": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver10x.xlsx",
+      "field_spec_sheet": "SHA010"
+    },
+    {
+      "form_id": "SHB070",
+      "label": "付表6 税率別消費税額計算表（2割特例）",
+      "mvp": false,
+      "stage": "shohi",
+      "procedure": "RSH0020-232",
+      "xsd": "19XMLスキーマ/shohi/SHB070-001.xsd",
+      "version": "1.0",
+      "xsd_documentation_date": "2023-06-26",
+      "group": "SHB070-1-0group",
+      "xsd_sha256": "25a603aa463d35803264ed2c55ad39a76146723fd6fa727b1a31a93bb6448fbc",
+      "field_spec_workbook": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver1x.xlsx",
+      "field_spec_sheet": "SHB070"
+    },
+    {
+      "form_id": "SHA020",
+      "label": "消費税及び地方消費税の申告書（簡易課税用）（令和8年9月30日以前に開始する課税期間）",
+      "mvp": false,
+      "stage": "shohi",
+      "procedure": "RSH0040-232",
+      "layout": "SHA020-9",
+      "xsd": "19XMLスキーマ/shohi/SHA020-009.xsd",
+      "version": "9.0",
+      "xsd_documentation_date": "2023-06-26",
+      "group": "SHA020-9-0group",
+      "xsd_sha256": "977957b3407eb3b1ac0888ae86ac77cb1e2b1bf048ef0b272db98a45e8968d53",
+      "field_spec_workbook": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver9x.xlsx",
+      "field_spec_sheet": "SHA020"
     }
   ]
 }

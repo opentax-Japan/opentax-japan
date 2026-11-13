@@ -1,0 +1,35 @@
+{
+  "note": "国税庁「消費税及び地方消費税の申告書（一般用）の書き方（法人用）」（令和7年11月作成。令和7年10月1日以後に終了する課税期間用）27〜36ページの設例（霞商会株式会社・売上税額と仕入税額の積上げ計算・個別対応方式・特定課税仕入れ）を入力にしたもの。基準期間の課税売上高は37ページの記載例（250,000千円）から。設例は課税仕入れの税込みの額（３）とインボイス発行事業者以外からの課税仕入れの額（４）を用途区分ごとに分けていないので、税込みの額は共通（common）に置いた（付表2-3 ⑨・⑪ は合計だけを使う）。住所・電話・利用者識別番号は架空。https://www.nta.go.jp/publication/pamph/shohi/kaisei/yoshiki/pdf/202411_01.pdf",
+  "company": {
+    "name": "霞商会株式会社",
+    "name_kana": "カスミショウカイカブシキガイシャ",
+    "address": "東京都千代田区霞が関1-1-1",
+    "tax_office": "麹町",
+    "user_id": "0000000000000000",
+    "phone": "03-0000-0000",
+    "representative": "霞 太郎",
+    "representative_kana": "カスミ タロウ"
+  },
+  "period": {"start": "2025-01-01", "end": "2025-12-31"},
+  "sales": {"standard": 308960000, "exports": 15000000, "exempt": 32000000},
+  "sales_invoice_tax": {"standard": 28086600},
+  "deduction": "individual",
+  "purchase_use": {
+    "taxable": {
+      "purchase_tax": {"invoice": {"standard": 12612408}, "book": {"standard": 986180}},
+      "non_invoice_purchases": [{"from": "2025-01-01", "to": "2025-12-31", "deemed_tax": {"standard": 314308}}]
+    },
+    "common": {
+      "purchases": {"reduced": 6160000, "standard": 185793600},
+      "purchase_tax": {"invoice": {"reduced": 456297, "standard": 2755874}, "book": {"standard": 239669}},
+      "non_invoice_purchases": [{"from": "2025-01-01", "to": "2025-12-31", "standard": 8033400, "deemed_tax": {"standard": 81993}}]
+    },
+    "exempt": {
+      "purchase_tax": {"invoice": {"standard": 185856}, "book": {"standard": 83819}},
+      "non_invoice_purchases": [{"from": "2025-01-01", "to": "2025-12-31", "deemed_tax": {"standard": 59219}}]
+    }
+  },
+  "specific_purchases": {"amount": 2400000, "use": "common"},
+  "interim": {"consumption": 4680300, "local": 1320000},
+  "base_period_sales": 250000000
+}

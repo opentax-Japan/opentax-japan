@@ -176,8 +176,9 @@ class CommittedLayoutTest(unittest.TestCase):
         if not schema_root.exists():
             self.skipTest("公式 XSD がありません（opentax fetch-spec --set ksk2-2026-08）")
         for form in manifest["forms"]:
-            with self.subTest(form=form["form_id"]):
-                committed = LAYOUT_DIR / manifest["spec_set"] / f"{form['form_id']}.layout.json"
+            key = form.get("layout", form["form_id"])     # 同じ帳票の別の版は layout の名前
+            with self.subTest(form=key):
+                committed = LAYOUT_DIR / manifest["spec_set"] / f"{key}.layout.json"
                 self.assertEqual(committed.read_text(encoding="utf-8"), dump_layout(build_layout(schema_root, form)))
 
 

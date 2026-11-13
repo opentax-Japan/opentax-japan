@@ -456,8 +456,15 @@ IT_ELEMENTS_BY_PROCEDURE = {
 IT_ELEMENTS_BY_PROCEDURE["RSH0040"] = IT_ELEMENTS_BY_PROCEDURE["RSH0020"]   # 簡易課税・法人（IT部は一般・法人と同じ）
 
 
-def it_layout_name(procedure_id: str, first: bool) -> str:
-    return "IT" if first else f"IT-{procedure_id}"
+def it_layout_name(procedure_id: str, first: bool, key: str | None = None) -> str:
+    """IT部の layout の名前。最初の手続（法人税）は IT、ほかは IT-<手続ID>。
+    同じ手続の別の版（manifest の procedures[].key。例 RSH0020-232）は IT-<key>。"""
+    return "IT" if first else f"IT-{key or procedure_id}"
+
+
+def layout_key(form: dict) -> str:
+    """manifest の forms[] の layout の名前。同じ帳票の別の版を並べるときは layout（例 SHA010-10）、ふだんは帳票ID。"""
+    return form.get("layout", form["form_id"])
 
 
 LAYOUT_DIR = Path(__file__).parent / "layouts"

@@ -31,6 +31,8 @@ SHOHI_TITLES = {"SHA010": "申告書 第一表", "SHB017": "付表1-3（税率�
 SHOHI_SIMPLIFIED_TITLES = {"SHA020": "申告書（簡易課税用） 第一表・第二表",
                            "SHB047": "付表4-3（税率別消費税額計算表 兼 地方消費税の課税標準となる消費税額計算表）",
                            "SHB067": "付表5-3（控除対象仕入税額等の計算表）"}
+SHOHI_TWO_TENTHS_TITLES = {"SHA010": "申告書 第一表（2割特例）",
+                           "SHB070": "付表6（税率別消費税額計算表〔小規模事業者に係る税額控除に関する経過措置を適用する課税期間用〕）"}
 
 # 区分の欄のうち「1・2・3」に意味があるもの（それ以外の区分は「1」＝該当に ○ を付ける）
 _CODES = {"IAD02000": {"1": "固定給", "2": "歩合給", "3": "固定・歩合の併用"}, "IAF04300": {"1": "税抜経理", "2": "税込経理"},
@@ -367,7 +369,7 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
         vals = form_values(shohi)
         sp = shohi["input"]["period"]
         sp_span = (_date(sp["start"]), _date(sp["end"]))
-        titles = SHOHI_SIMPLIFIED_TITLES if shohi.get("method") == "simplified" else SHOHI_TITLES
+        titles = {"simplified": SHOHI_SIMPLIFIED_TITLES, "two_tenths": SHOHI_TWO_TENTHS_TITLES}.get(shohi.get("method"), SHOHI_TITLES)
         first = next(iter(titles))
         paper_vals = {fid: {**v, **text_values(shohi)} if fid == first else v for fid, v in vals.items()}
         # 消費税の課税期間・会社の情報は消費税の入力から（法人税の事業年度と違うことがある）

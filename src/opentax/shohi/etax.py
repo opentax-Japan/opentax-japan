@@ -20,13 +20,37 @@ PROCEDURE_ID = "RSH0020"
 PROCEDURE_NAME = "消費税及び地方消費税申告(一般・法人)"   # 手続XSD の注記
 PROCEDURE_VR = "26.0.0"
 FORMS = ("SHA010", "SHB017", "SHB033")
-# 方法ごとの手続: (手続ID, 手続名（手続XSD の注記）, 版, 帳票)
-PROCEDURES = {"general": (PROCEDURE_ID, PROCEDURE_NAME, PROCEDURE_VR, FORMS),
-              "simplified": ("RSH0040", "消費税及び地方消費税申告(簡易課税・法人)", "26.0.0", ("SHA020", "SHB047", "SHB067"))}
+SIMPLIFIED_NAME = "消費税及び地方消費税申告(簡易課税・法人)"
+# 令和8年10月1日以後に開始する課税期間は令和8年度版（26.0.0。第一表が新様式）、それより前は令和5年度版（23.2.0）。
+# e-Tax 仕様書「手続一覧（申告）」Ver260x・Ver232x、「手続内帳票対応表（申告）」Ver260x・Ver232x。付表6（2割特例）は 23.2.0 にだけある
+NEW_VERSION_FROM = datetime.date(2026, 10, 1)
+# (方法, 令和8年度版か) → 手続ID・manifest の手続の key・手続名・版・帳票（帳票ID, layout の名前）
+PROCEDURES = {
+    ("general", True): (PROCEDURE_ID, "RSH0020", PROCEDURE_NAME, PROCEDURE_VR,
+                        (("SHA010", "SHA010"), ("SHB017", "SHB017"), ("SHB033", "SHB033"))),
+    ("general", False): (PROCEDURE_ID, "RSH0020-232", PROCEDURE_NAME, "23.2.0",
+                         (("SHA010", "SHA010-10"), ("SHB017", "SHB017"), ("SHB033", "SHB033"))),
+    ("simplified", True): ("RSH0040", "RSH0040", SIMPLIFIED_NAME, "26.0.0",
+                           (("SHA020", "SHA020"), ("SHB047", "SHB047"), ("SHB067", "SHB067"))),
+    ("simplified", False): ("RSH0040", "RSH0040-232", SIMPLIFIED_NAME, "23.2.0",
+                            (("SHA020", "SHA020-9"), ("SHB047", "SHB047"), ("SHB067", "SHB067"))),
+    ("two_tenths", False): (PROCEDURE_ID, "RSH0020-232", PROCEDURE_NAME, "23.2.0", (("SHA010", "SHA010-10"), ("SHB070", "SHB070"))),
+}
 
 
-def procedure(c: dict) -> tuple[str, str, str, tuple[str, ...]]:
-    return PROCEDURES[c.get("method", "general")]
+def is_new_version(c: dict) -> bool:
+    start = c["input"]["period"]["start"]
+    start = start if isinstance(start, datetime.date) else datetime.date.fromisoformat(str(start))
+    return start >= NEW_VERSION_FROM
+
+
+def procedure(c: dict) -> dict:
+    """その課税期間・方法の手続（id・key・name・vr・forms＝[(帳票ID, layout の名前)]）。"""
+    key = (c.get("method", "general"), is_new_version(c))
+    if key not in PROCEDURES:
+        raise XtxError("2割特例は令和8年9月30日以前に開始する課税期間だけです")
+    pid, pkey, name, vr, forms = PROCEDURES[key]
+    return {"id": pid, "key": pkey, "name": name, "vr": vr, "forms": forms}
 NAMESPACE = "http://xml.e-tax.nta.go.jp/XSD/shohi"
 SHINKOKU_KAKUTEI = "1"   # 申告の種類 1:確定（帳票フィールド仕様書（消費-申告）SHA010 の値の範囲）
 
@@ -38,6 +62,8 @@ def _ab(v: dict) -> tuple[int, int, int]:
 def form_values(c: dict) -> dict[str, dict]:
     if c.get("method") == "simplified":
         return _simplified_values(c)
+    if c.get("method") == "two_tenths":
+        return _two_tenths_values(c)
     t1, t2, f1, f2 = c["fuhyo_1_3"], c["fuhyo_2_3"], c["form_1"], c["form_2"]
     v17: dict = {}
     for tags, val in ((("DSB00010", "DSB00020", "DSB00030"), t1["1"]), (("DSC00020", "DSC00030", "DSC00040"), t1["1-1"]),
@@ -45,6 +71,7 @@ def form_values(c: dict) -> dict[str, dict]:
                       (("DSF00060", "DSF00070", "DSF00080"), t1["5"]), (("DSF00110", "DSF00120", "DSF00130"), t1["5-1"]),
                       (("DSF00180", "DSF00190", "DSF00200"), t1["6"]), (("DSF00220", "DSF00230", "DSF00240"), t1["7"])):
         v17.update(zip(tags, _ab(val)))
+    v17.update({"DSC00060": t1["1-2"], "DSC00070": t1["1-2"], "DSF00150": t1["5-2"], "DSF00160": t1["5-2"]})
     v17.update({"DSG00000": t1["8"], "DSH00000": t1["9"], "DSI00010": t1["10"], "DSI00020": t1["11"],
                 "DSJ00010": t1["12"], "DSJ00020": t1["13"]})
 
@@ -54,6 +81,11 @@ def form_values(c: dict) -> dict[str, dict]:
                       (("DTE00320", "DTE00330", "DTE00340"), t2["12"]), (("DTE00240", "DTE00250", "DTE00260"), t2["17"]),
                       (("DTF00010", "DTF00020", "DTF00030"), t2["18"]), (("DTI00020", "DTI00030", "DTI00040"), t2["26"])):
         v33.update(zip(tags, _ab(val)))
+    for line, tags in (("19", ("DTG00030", "DTG00040", "DTG00050")), ("20", ("DTG00070", "DTG00080", "DTG00090")),
+                       ("21", ("DTG00110", "DTG00120", "DTG00130")), ("22", ("DTG00150", "DTG00160", "DTG00170"))):
+        if line in t2:
+            v33.update(zip(tags, _ab(t2[line])))
+    v33.update({"DTE00100": t2["13"], "DTE00110": t2["13"], "DTE00130": t2["14"], "DTE00140": t2["14"]})
     v33.update({"DTB00050": t2["2"], "DTB00060": t2["3"], "DTB00070": t2["4"], "DTC00010": t2["5"], "DTC00020": t2["6"],
                 "DTC00030": t2["7"], "DTD00000": t2["8"]})
 
@@ -65,8 +97,28 @@ def form_values(c: dict) -> dict[str, dict]:
                 # 第二表
                 "AAP00000": f2["1"], "AAQ00040": f2["5"], "AAQ00050": f2["6"], "AAQ00060": f2["7"], "AAS00000": f2["11"],
                 "AAT00040": f2["15"], "AAT00050": f2["16"], "AAU00000": f2["17"], "AAV00010": f2["18"],
-                "AAW00010": f2["20"], "AAW00040": f2["23"]}
+                "AAW00010": f2["20"], "AAW00040": f2["23"],
+                "AAR00020": f2["9"], "AAR00030": f2["10"], "AAV00020": f2["19"]}
     return {"SHA010": vA, "SHB017": v17, "SHB033": v33}
+
+
+def _two_tenths_values(c: dict) -> dict[str, dict]:
+    t6, f1, f2 = c["fuhyo_6"], c["form_1"], c["form_2"]
+    v70: dict = {}
+    for tags, val in ((("AYB00020", "AYB00030", "AYB00040"), t6["1"]), (("AYB00060", "AYB00070", "AYB00080"), t6["2"]),
+                      (("AYB00100", "AYB00110", "AYB00120"), t6["3"]), (("AYB00140", "AYB00150", "AYB00160"), t6["4"]),
+                      (("AYB00180", "AYB00190", "AYB00200"), t6["5"]), (("AYB00220", "AYB00230", "AYB00240"), t6["6"]),
+                      (("AYC00020", "AYC00030", "AYC00040"), t6["7"]), (("AYD00020", "AYD00030", "AYD00040"), t6["8"])):
+        v70.update(zip(tags, _ab(val)))
+    vA = {"AAJ00010": f1["1"], "AAJ00020": f1["2"], "AAJ00030": f1["3"], "AAJ00050": f1["4"], "AAJ00060": f1["5"],
+          "AAJ00070": f1["6"], "AAJ00080": f1["7"], "AAJ00090": f1["8"], "AAJ00100": f1["9"], "AAJ00110": f1["10"],
+          "AAJ00120": f1["11"], "AAJ00130": f1["12"], "AAJ00180": f1["15"], "AAJ00190": f1["16"],
+          "AAK00020": f1["17"], "AAK00030": f1["18"], "AAK00050": f1["19"], "AAK00060": f1["20"], "AAK00070": f1["21"],
+          "AAK00080": f1["22"], "AAK00090": f1["23"], "AAK00130": f1["26"],
+          "AAP00000": f2["1"], "AAQ00040": f2["5"], "AAQ00050": f2["6"], "AAQ00060": f2["7"], "AAS00000": f2["11"],
+          "AAT00040": f2["15"], "AAT00050": f2["16"], "AAU00000": f2["17"], "AAV00010": f2["18"],
+          "AAW00010": f2["20"], "AAW00040": f2["23"]}
+    return {"SHA010": vA, "SHB070": v70}
 
 
 def _simplified_values(c: dict) -> dict[str, dict]:
@@ -127,12 +179,17 @@ def text_values(c: dict) -> dict:
     d = c["input"]
     filing = d.get("filing") or {}
     kb = lambda flag: "1" if flag else "2"  # noqa: E731
+    # 控除税額の計算方法: 1 個別対応方式・2 一括比例配分方式・3 全額控除・8 2割特例（令和5年度版の第一表）
+    way = "8" if c.get("method") == "two_tenths" else {"individual": "1", "lump_sum": "2"}.get(c.get("deduction"), "3")
     v = {"AAL00010": "2", "AAL00020": "2", "AAL00030": "2", "AAL00040": "2",     # 付記事項: 割賦・延払・工事進行・現金主義 なし
-         "AAM00010": "2",                                                         # 参考事項: 売上税額の積上げ計算 なし
-         "AAM00020": "3",                                                         # 控除税額の計算方法: 全額控除
+         "AAM00020": way,
          "AAO00010": "2", "AAO00020": "2",                                        # 改正法附則による税額の特例計算 なし
          "AAI00230": kb(filing.get("tax_accountant_article30")), "AAI00240": kb(filing.get("tax_accountant_article33_2")),
          "AAY00000": kb(filing.get("notify_refund"))}
+    if is_new_version(c):
+        # 令和8年度版の第一表: 参考事項「売上税額の積上げ計算の適用」。
+        # 令和5年度版の同じ欄は「課税標準額に対する消費税額の計算の特例の適用」で、使わない（一般用の書き方 21ページ）
+        v["AAM00010"] = kb(c.get("sales_accumulation"))
     if d["base_period_sales"]:
         v["AAM00030"] = d["base_period_sales"] // 1000                           # 基準期間の課税売上高（千円）
     return v
@@ -142,11 +199,11 @@ def _simplified_text(c: dict) -> dict:
     filing = c["input"].get("filing") or {}
     kb = lambda flag: "1" if flag else "2"  # noqa: E731
     return {"ABK00010": "2", "ABK00020": "2", "ABK00030": "2", "ABK00040": "2",   # 付記事項: 割賦・延払・工事進行・現金主義 なし
-            "ABL00010": "2",                                                      # 参考事項: 売上税額の積上げ計算 なし
             "ABL00210": kb(c["form_1"]["special"]),                               # 特例計算適用（令57③）
             "ABN00010": "2", "ABN00020": "2",                                     # 改正法附則による税額の特例計算 なし
             "ABH00230": kb(filing.get("tax_accountant_article30")), "ABH00240": kb(filing.get("tax_accountant_article33_2")),
-            "ABX00000": kb(filing.get("notify_refund"))}
+            "ABX00000": kb(filing.get("notify_refund")),
+            **({"ABL00010": "2"} if is_new_version(c) else {})}                   # 令和8年度版: 売上税額の積上げ計算 なし
 
 
 def it_values(c: dict, zeimusho_xsd: bytes) -> dict:
@@ -161,8 +218,8 @@ def it_values(c: dict, zeimusho_xsd: bytes) -> dict:
             raise XtxError(f"company.tax_office: 税務署「{co.get('tax_office')}」のコードを1つに決められません（{codes}）")
         code = codes[0]
     v: dict = {"zeimusho_CD": code, "zeimusho_NM": co["tax_office"], "NOZEISHA_ID": co["user_id"],
-               "NOZEISHA_NM": co["name"], "NOZEISHA_ADR": co["address"], "procedure_CD": procedure(c)[0],
-               "procedure_NM": procedure(c)[1], "KAZEI_KIKAN_FROM": period["start"], "KAZEI_KIKAN_TO": period["end"],
+               "NOZEISHA_NM": co["name"], "NOZEISHA_ADR": co["address"], "procedure_CD": procedure(c)["id"],
+               "procedure_NM": procedure(c)["name"], "KAZEI_KIKAN_FROM": period["start"], "KAZEI_KIKAN_TO": period["end"],
                "SHINKOKU_KBN": SHINKOKU_KAKUTEI}
     optional = {"NOZEISHA_NM_KN": co.get("name_kana"), "DAIHYO_NM": co.get("representative"),
                 "DAIHYO_NM_KN": co.get("representative_kana"), "hojinbango": co.get("corporate_number")}
@@ -185,15 +242,16 @@ def it_values(c: dict, zeimusho_xsd: bytes) -> dict:
 
 
 def build_xtx(c: dict, zeimusho_xsd: bytes, today: datetime.date, tenpu: dict | None = None) -> bytes:
-    proc_id, _, proc_vr, forms_of = procedure(c)
+    proc = procedure(c)
+    forms_of = proc["forms"]
     values = form_values(c)
-    values[forms_of[0]].update(text_values(c))
-    it, it_ids = build_it(load_layout(SPEC_SET, f"IT-{proc_id}"), it_values(c, zeimusho_xsd), {})
+    values[forms_of[0][0]].update(text_values(c))
+    it, it_ids = build_it(load_layout(SPEC_SET, f"IT-{proc['key']}"), it_values(c, zeimusho_xsd), {})
     preparer = (c["input"].get("filing") or {}).get("preparer") or c["input"]["company"]["name"]
     forms = []
-    for form_id in forms_of:
+    for form_id, layout in forms_of:
         vals = {k: x for k, x in values[form_id].items() if x not in (None, 0, "0.00", "0.0")}
         attrs = {"id": f"{form_id}-1", "page": "1", "softNM": SOFT_NAME, "sakuseiNM": preparer, "sakuseiDay": today.isoformat()}
-        forms.append(build_form(load_layout(SPEC_SET, form_id), vals, it_ids, attrs))
+        forms.append(build_form(load_layout(SPEC_SET, layout), vals, it_ids, attrs))
     from ..red.etax_ksk2_2026_08 import tenpu_forms
-    return build_document(proc_id, proc_vr, it, forms, NAMESPACE, tenpu_forms(tenpu, it_ids, preparer, today))
+    return build_document(proc["id"], proc["vr"], it, forms, NAMESPACE, tenpu_forms(tenpu, it_ids, preparer, today))

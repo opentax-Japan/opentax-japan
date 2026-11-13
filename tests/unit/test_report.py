@@ -125,6 +125,15 @@ class SimplifiedConsumptionTaxTest(unittest.TestCase):
             self.assertIn(amount, text)
         self.assertNotIn("付表2-3", text)
 
+    def test_two_tenths_chapter(self):
+        raw = json.loads((CASE.parent / "kokuzei-taro-niwari" / "input.json").read_text(encoding="utf-8"))
+        html = api.report(api.calculate(load("input.json")), shohi_input=raw, today=datetime.date(2026, 11, 26))
+        chapter = html.split("id='shohi'>", 1)[1].split("<section class='chapter'", 1)[0]
+        text = re.sub(r"<[^>]+>", " ", chapter)
+        self.assertIn("付表6", text)
+        self.assertIn("363,956", text)
+        self.assertNotIn("課税売上割合・控除対象仕入税額等の計算表", text)
+
 
 if __name__ == "__main__":
     unittest.main()

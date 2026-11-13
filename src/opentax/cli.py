@@ -10,7 +10,7 @@ from pathlib import Path
 from .etax.checks import LINKAGE_RE, CheckError, cross_form_checks, find_linkage_workbook, in_form_checks
 from .etax.fetch_spec import SpecError, SpecSet
 from .etax.field_catalog import WORKBOOK_RE, CatalogError, build_form_catalog, dump_catalog, find_sheet
-from .etax.xsd_layout import (IT_ELEMENTS_BY_PROCEDURE, LAYOUT_DIR, it_layout_name, LayoutError, build_it_layout, build_layout, dump_layout,
+from .etax.xsd_layout import (IT_ELEMENTS_BY_PROCEDURE, LAYOUT_DIR, it_layout_name, layout_key, LayoutError, build_it_layout, build_layout, dump_layout,
                               load_layout)
 
 EXIT_OK = 0
@@ -93,7 +93,7 @@ def _build_layout(args: argparse.Namespace) -> int:
         if "group" not in form and "element" not in form:
             raise SpecError(f"manifest に {form['form_id']} の XSD 情報がありません。先に fetch-spec --init を実行してください")
         text = dump_layout(build_layout(spec.schema_root(), form))
-        dest = out_dir / f"{form['form_id']}.layout.json"
+        dest = out_dir / f"{layout_key(form)}.layout.json"
         if args.check:
             if not dest.exists() or dest.read_text(encoding="utf-8") != text:
                 drift.append(dest)
@@ -101,19 +101,19 @@ def _build_layout(args: argparse.Namespace) -> int:
         dest.parent.mkdir(parents=True, exist_ok=True)
         with open(dest, "w", encoding="utf-8", newline="\n") as f:
             f.write(text)
-        print(f"{form['form_id']} {form['version']}: {dest}")
+        print(f"{layout_key(form)} {form['version']}: {dest}")
     if not args.form:
         for n, proc in enumerate(spec.manifest["procedures"]):
             names = IT_ELEMENTS_BY_PROCEDURE[proc["procedure_id"]]
             text = dump_layout(build_it_layout(spec.schema_root(), proc["xsd"], names))
-            dest = out_dir / f"{it_layout_name(proc['procedure_id'], n == 0)}.layout.json"
+            dest = out_dir / f"{it_layout_name(proc['procedure_id'], n == 0, proc.get('key'))}.layout.json"
             if args.check:
                 if not dest.exists() or dest.read_text(encoding="utf-8") != text:
                     drift.append(dest)
             else:
                 with open(dest, "w", encoding="utf-8", newline="\n") as f:
                     f.write(text)
-                print(f"IT部（{proc['procedure_id']}）: {dest}")
+                print(f"IT部（{proc.get('key', proc['procedure_id'])}）: {dest}")
     if args.check:
         if drift:
             print(f"変更あり（{len(drift)} 件）: XSD から作り直した layout がコミット済みのものと違います")
@@ -145,10 +145,10 @@ def _build_catalog(args: argparse.Namespace) -> int:
         if (form.get("field_spec_workbook"), form.get("field_spec_sheet")) != (source["path"], sheet):
             form["field_spec_workbook"], form["field_spec_sheet"] = source["path"], sheet
             manifest_changed = True
-        entry = build_form_catalog(workbook, sheet, form, load_layout(args.spec_set, form["form_id"]))
+        entry = build_form_catalog(workbook, sheet, form, load_layout(args.spec_set, layout_key(form)))
         entry["source"]["sha256"] = source["sha256"]
         forms.append(entry)
-        print(f"{form['form_id']} {form['version']}: {entry['field_count']} 項目（{workbook.name} / {sheet}）")
+        print(f"{layout_key(form)} {form['version']}: {entry['field_count']} 項目（{workbook.name} / {sheet}）")
         if entry["unmatched_columns"]:
             print(f"  列を決められなかった項目: 項番 {entry['unmatched_columns']}")
         if entry["not_in_layout"]:
@@ -187,7 +187,10 @@ def _build_checks(args: argparse.Namespace) -> int:
     forms = {f["form_id"] for f in spec.manifest["forms"] if f.get("mvp")}
 
     tag_forms: dict[str, str] = {}
+    variants = {f["layout"] for f in spec.manifest["forms"] if f.get("layout")}   # 同じ帳票の別の版（XMLタグが同じ）は見ない
     for form in catalog["forms"]:
+        if form["form_id"] in variants:
+            continue
         for f in form["fields"]:
             other = tag_forms.setdefault(f["xml_tag"], form["form_id"])
             if other != form["form_id"]:
@@ -421,8 +424,12 @@ def _shohi(args: argparse.Namespace) -> int:
         kinds = "・".join(f"第{t}種 {v['ratio']}％" for t, v in t5["by_type"].items())
         print(f"簡易課税  事業区分 {kinds}  控除対象仕入税額の計算式区分 {t5['chosen']}")
         print(f"課税標準額 {f1['1']:,}円  消費税額 {f1['2']:,}円  控除税額小計 {f1['7']:,}円")
+    elif c["method"] == "two_tenths":
+        print(f"2割特例  課税標準額 {f1['1']:,}円  消費税額 {f1['2']:,}円  特別控除税額 {f1['4']:,}円")
     else:
-        print(f"課税標準額 {f1['1']:,}円  消費税額 {f1['2']:,}円  控除税額小計 {f1['7']:,}円  課税売上割合 {c['fuhyo_2_3']['8']}％")
+        ways = {"full": "全額控除", "individual": "個別対応方式", "lump_sum": "一括比例配分方式"}
+        print(f"課税標準額 {f1['1']:,}円  消費税額 {f1['2']:,}円  控除税額小計 {f1['7']:,}円  "
+              f"課税売上割合 {c['fuhyo_2_3']['8']}％（{ways[c['deduction']]}）")
     print(f"差引税額 {f1['9']:,}円（中間 {f1['10']:,}円）  譲渡割額 {f1['20']:,}円（中間 {f1['21']:,}円）")
     print(f"消費税及び地方消費税の合計（納付又は還付）税額 {f1['26']:,}円")
     for w in c["warnings"]:
@@ -437,15 +444,15 @@ def _shohi(args: argparse.Namespace) -> int:
     office, engagement = _office(args)
     xml = api.shohi_export(c, schema_root, office=office, engagement=engagement)
     from .shohi.etax import procedure
-    proc_id = procedure(c)[0]
-    errors = api.validate_xtx(xml, schema_root, proc_id)
+    proc = procedure(c)
+    errors = api.validate_xtx(xml, schema_root, proc["key"])
     if errors:
         print(f"公式XSD の検証で誤りがあります（{len(errors)} 件）。.xtx は書き出しません")
         for e in errors[:20]:
             print(f"  {e}")
         return EXIT_CHANGED
     Path(args.output).write_bytes(xml)
-    print(f"公式XSD（手続 {proc_id}）の検証: 誤りなし")
+    print(f"公式XSD（手続 {proc['id']} 版 {proc['vr']}）の検証: 誤りなし")
     print(f"書き出しました: {args.output}（{len(xml):,} バイト）")
     return EXIT_OK
 
@@ -519,7 +526,8 @@ def main(argv: list[str] | None = None) -> int:
     _office_args(rp)
 
     sh = sub.add_parser("shohi", help="消費税（法人・割戻し計算）を計算し、-o で .xtx を作る。"
-                        "一般課税（全額控除）は手続 RSH0020、入力に method: simplified があれば簡易課税（手続 RSH0040）")
+                        "一般課税・2割特例は手続 RSH0020、簡易課税（method: simplified）は RSH0040。"
+                        "令和8年10月1日より前に始まる課税期間は令和5年度版（23.2.0）")
     sh.add_argument("input")
     sh.add_argument("-o", "--output", help="書き出す .xtx（省略時は計算結果だけ表示）")
     sh.add_argument("--cache-dir", default=".cache/etax")

@@ -299,7 +299,7 @@ def build_form_catalog(workbook: Path, sheet: str, form: dict, layout: dict) -> 
                  if form["form_id"] in COLUMN_RULES and f["line_no"] is not None and f["column"] is None]
     not_in_layout = sorted({f["xml_tag"] for f in fields if f["layout_path"] is None})
     return {
-        "form_id": form["form_id"],
+        "form_id": form.get("layout", form["form_id"]),     # 同じ帳票の別の版は layout の名前（例 SHA010-10）
         "label": form.get("label"),
         "version": form["version"],
         "source": {"workbook": workbook.name, "sheet": sheet},

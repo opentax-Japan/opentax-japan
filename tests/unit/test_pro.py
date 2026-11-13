@@ -58,7 +58,7 @@ class XtxTest(unittest.TestCase):
     def test_consumption_tax_with_power_of_attorney(self):
         calc = api.shohi_calculate(json.loads((CASE / "open-shoji-tokyo" / "shohi.json").read_text(encoding="utf-8")))
         xml = api.shohi_export(calc, ROOT, datetime.date(2026, 11, 26), OFFICE)
-        self.assertEqual(api.validate_xtx(xml, ROOT, "RSH0020"), [])
+        self.assertEqual(api.validate_xtx(xml, ROOT, "RSH0020-232"), [])
         self.assertIn("<som:ATC00100>", xml.decode("utf-8"))
 
     def test_without_office_unchanged(self):

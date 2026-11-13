@@ -166,12 +166,13 @@ class CommittedCatalogTest(unittest.TestCase):
                 for f in pkg["files"]:
                     sha[f["path"]], where[f["path"]] = f["sha256"], files / pkg["name"]
         for form in manifest["forms"]:
-            with self.subTest(form=form["form_id"]):
+            key = form.get("layout", form["form_id"])
+            with self.subTest(form=key):
                 path = where[form["field_spec_workbook"]] / Path(*form["field_spec_workbook"].split("/"))
                 entry = build_form_catalog(path, form["field_spec_sheet"], form,
-                                           load_layout(manifest["spec_set"], form["form_id"]))
+                                           load_layout(manifest["spec_set"], key))
                 entry["source"]["sha256"] = sha[form["field_spec_workbook"]]
-                self.assertEqual(dump_catalog(entry), dump_catalog(by_id[form["form_id"]]))
+                self.assertEqual(dump_catalog(entry), dump_catalog(by_id[key]))
 
 
 if __name__ == "__main__":

@@ -207,7 +207,8 @@ class SpecSet:
 
     def _fill_forms(self, files: dict[str, bytes]) -> None:
         # 手続XSD が直接 include している帳票XSD を現行版とする（フォルダ内の最大番号では判定しない）
-        included = []
+        # 版を分けた手続（key あり）の帳票は、forms[].procedure でその手続を指す。ほかは key のない手続から探す
+        included, by_key = [], {}
         for proc in self.manifest["procedures"]:
             data = files[proc["xsd"]]
             proc["xsd_sha256"] = sha256_bytes(data)
@@ -215,9 +216,13 @@ class SpecSet:
             if not version:
                 raise SpecError(f"手続XSD の版を読めません: {proc['xsd']}")
             proc["version"] = version.group(1)
-            included += xsd_references(data, proc["xsd"])
+            refs = xsd_references(data, proc["xsd"])
+            if proc.get("key"):
+                by_key[proc["key"]] = refs
+            else:
+                included += refs
         for form in self.manifest["forms"]:
-            hits = [p for p in included if posixpath.basename(p).startswith(form["form_id"] + "-")]
+            hits = [p for p in (by_key[form["procedure"]] if form.get("procedure") else included) if posixpath.basename(p).startswith(form["form_id"] + "-")]
             if len(hits) != 1:
                 raise SpecError(f"手続XSD から帳票XSD を1つに決められません: {form['form_id']} {hits}")
             form.update(form_info(form["form_id"], hits[0], files[hits[0]]))

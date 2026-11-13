@@ -242,7 +242,8 @@ def local_tax_sheet(calculated: dict, today: datetime.date | None = None) -> str
 
 def validate_xtx(xml: bytes, schema_root: Path, procedure_id: str = "RHO0012") -> list[str]:
     """公式XSD で検証する。procedure_id: RHO0012（法人税）・RSH0020（消費税 一般・法人）・RSH0040（消費税 簡易課税・法人）。"""
-    procedure = next(p for p in _manifest()["procedures"] if p["procedure_id"] == procedure_id)
+    procs = _manifest()["procedures"]
+    procedure = next((p for p in procs if p.get("key") == procedure_id), None)         or next(p for p in procs if p["procedure_id"] == procedure_id and not p.get("key"))
     return _validate(xml, schema_root, procedure["xsd"])
 
 
