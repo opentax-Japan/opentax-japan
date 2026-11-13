@@ -24,8 +24,9 @@ class DueDateTest(unittest.TestCase):
         self.assertEqual(noufusho.due_date(D(2026, 8, 31)), D(2026, 11, 2))    # 10/31 土・11/1 日
         self.assertEqual(noufusho.due_date(D(2025, 12, 30)), D(2026, 3, 2))    # 応当日がない月は末日（2/28 土）
         self.assertEqual(noufusho.due_date(D(2026, 6, 15)), D(2026, 8, 17))    # 8/15 土・8/16 日
-        self.assertIsNone(noufusho.due_date(D(2026, 10, 31)))                  # 12/31 → 1/1 祝日 → 1/2 は書かない
-        self.assertIsNone(noufusho.due_date(D(2026, 11, 2)))                   # 1/2 は書かない
+        self.assertEqual(noufusho.due_date(D(2026, 10, 31)), D(2027, 1, 4))    # 12/31 → 1/1〜1/3 → 1/4（10月決算）
+        self.assertEqual(noufusho.due_date(D(2025, 10, 31)), D(2026, 1, 5))    # 1/4 は日曜日
+        self.assertEqual(noufusho.due_date(D(2026, 11, 2)), D(2027, 1, 4))
         self.assertIsNone(noufusho.due_date(D(2027, 11, 30)))                  # 祝日の一覧（2027年まで）の外
 
     def test_holiday(self):

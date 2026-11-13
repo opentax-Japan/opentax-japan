@@ -23,6 +23,8 @@ SPECIAL_WARD_KIND = "都民税（特別区）"
 # 新しい版の一覧が出る（毎年9月ごろ）までの余裕。4月1日現在の版を、その日から1年6か月より後に終わる事業年度には使わない
 EDITION_VALID_MONTHS = 18
 EMPLOYEES_THRESHOLD = 50   # 地方税法第312条第1項の表（従業者数の合計数 50人）
+# 地方税法第312条第1項の標準税率（第1号〜第9号）。これと違えば超過課税
+CITY_STANDARD = [50_000, 120_000, 130_000, 150_000, 160_000, 400_000, 410_000, 1_750_000, 3_000_000]
 
 _LAW_URL = "https://laws.e-gov.go.jp/law/325AC0000000226"
 _MONTHS = {
@@ -106,9 +108,10 @@ def municipality_by_code(code: str) -> dict | None:
     return None
 
 
-def _caution(ed: dict, name: str) -> str:
+def _caution(ed: dict, name: str, city: bool = False) -> str:
     return (f"{name}の均等割の税率は、総務省「{ed['source'][0]['title'].split('（')[0]}」（{ed['survey_note']}）によります。"
-            f"一覧の注記のとおり、申告の前に{name}の資料で確かめてください")
+            f"一覧の注記のとおり、申告の前に{name}の資料で確かめてください"
+            + ("（市町村の超過課税の適用期間は一覧に載っていません）" if city else ""))
 
 
 def _source(ed: dict) -> list[dict]:
@@ -155,7 +158,7 @@ def _generated_city(prefecture: str | None, name: str, ed: dict) -> dict | None:
     return {
         "jurisdiction": c["name"], "prefecture": c["prefecture"], "kind": "市町村民税", "code": c["code"],
         "designated_city": c["designated_city"], "wards": c.get("wards", []),
-        "_file": ed["_file"], "_generated": True, "caution": _caution(ed, c["name"]),
+        "_file": ed["_file"], "_generated": True, "caution": _caution(ed, c["name"], city=c["annual"] != CITY_STANDARD),
         "per_capita": {"source": _source(ed), "periods": [{
             "from": None, "to": None, "note": ed["survey_note"], "employees_threshold": EMPLOYEES_THRESHOLD, "brackets": brackets}]},
         "months": _MONTHS["市町村民税"], "rounding": _ROUNDING,
@@ -169,19 +172,57 @@ def supported() -> list[str]:
     return out
 
 
-def find_rules(kind: str, name: str, prefecture: str | None = None, end: datetime.date | None = None) -> dict:
-    """手で書いた設定があればそれを、なければ総務省の一覧から作った設定を返す。end（事業年度の末日）を省くと一番新しい版。"""
+@lru_cache(maxsize=None)
+def _rate_changes() -> dict:
+    """一覧の版の間で均等割が変わった団体の、条例の附則で確かめた適用の始まり（rules/local_rate_changes.json）。"""
+    return json.loads((Path(__file__).parent / "rules" / "local_rate_changes.json").read_text(encoding="utf-8"))["changes"]
+
+
+def _generated(kind: str, name: str, prefecture: str | None, ed: dict) -> dict | None:
+    if kind == "道府県民税":
+        return _generated_pref(name, ed)
+    if kind == "市町村民税":
+        return _generated_city(prefecture, name, ed)
+    return None
+
+
+def _same_rates(a: dict, b: dict) -> bool:
+    """均等割の年額（超過課税を含む）が同じか。超過課税の適用期間の違いは比べない（期間で別に判定する）。"""
+    pa, pb = a["per_capita"]["periods"][0]["brackets"], b["per_capita"]["periods"][0]["brackets"]
+    sa, sb = (a.get("surcharge") or {}).get("brackets"), (b.get("surcharge") or {}).get("brackets")
+    return pa == pb and sa == sb
+
+
+def find_rules(kind: str, name: str, prefecture: str | None = None, end: datetime.date | None = None,
+               start: datetime.date | None = None) -> dict:
+    """手で書いた設定があればそれを、なければ総務省の一覧から作った設定を返す。end（事業年度の末日）を省くと一番新しい版。
+    事業年度が一覧の版の調査日（4月1日）をまたぎ、前の版と年額が違うときは、どちらの税率になるかを条例の附則で決める
+    （「○年4月1日以後に開始する事業年度分から」など）。確かめた団体は rules/local_rate_changes.json にあり、ほかは止める。"""
     rules = _hand_rules().get((kind, name))
     if rules is not None:
         return rules
     ed = edition_for(end) if end else latest_edition()
-    if kind == "道府県民税":
-        rules = _generated_pref(name, ed)
-    elif kind == "市町村民税":
-        rules = _generated_city(prefecture, name, ed)
+    rules = _generated(kind, name, prefecture, ed)
     if rules is None:
         raise OutOfScope(f"税率の一覧にない自治体です: {(prefecture or '')}{name}（{kind}）。都道府県・市町村の名前を確かめてください"
                          f"（総務省の税率一覧 {ed['as_of']} 現在・東京都の特別区）")
+    eds = _editions()
+    i = eds.index(ed)
+    as_of = datetime.date.fromisoformat(ed["as_of"])
+    if start and i > 0 and start < as_of:
+        prev = _generated(kind, name, prefecture, eds[i - 1])
+        if prev is not None and not _same_rates(prev, rules):
+            change = _rate_changes().get(rules["code"])
+            if change is None:
+                raise LocalRuleError(
+                    f"{name}の均等割は {eds[i - 1]['as_of']} 現在と {ed['as_of']} 現在の一覧で違います。事業年度（{start}〜{end}）が"
+                    f"その間をまたぐので、どちらの税率になるかを{name}の条例の附則（適用する事業年度）で確かめてください"
+                    "（rules/local_rate_changes.json に書けば計算します）")
+            applies = datetime.date.fromisoformat(change["applies_to_fiscal_years_starting_on_or_after"])
+            if start < applies:
+                prev["caution"] = (prev["caution"] + f"。{name}は{applies}以後に開始する事業年度から税率が変わりますが（{change['source'][0]['title']}）、"
+                                   "この事業年度は前の税率です")
+                return prev
     return rules
 
 
@@ -270,6 +311,23 @@ def special_ward_rules(prefecture: str, municipality: str) -> dict | None:
     return None
 
 
+def capital_basis(company: dict) -> tuple[int, str | None]:
+    """均等割の区分を決める額。資本金等の額が資本金の額と資本準備金の額の合算額に満たなければ、合算額
+    （地方税法第52条第4項・第312条第6項。事業年度の末日現在の額）。資本準備金が未入力なら確かめられないことを知らせる。"""
+    capital_etc, capital, reserve = company["capital_etc"], company.get("capital") or 0, company.get("capital_reserve")
+    if reserve is None:
+        if capital > capital_etc:
+            return capital, (f"均等割の区分は資本金の額 {capital:,}円で決めました（資本金等の額 {capital_etc:,}円より大きいため。"
+                             "地方税法第52条第4項・第312条第6項）。資本準備金（company.capital_reserve）を入れると合算額で確かめます")
+        return capital_etc, ("資本準備金（company.capital_reserve）が未入力のため、資本金等の額が資本金と資本準備金の合算額に満たないか"
+                             "（地方税法第52条第4項・第312条第6項。満たなければ合算額で均等割の区分を決める）を確かめていません")
+    total = capital + reserve
+    if total > capital_etc:
+        return total, (f"均等割の区分は資本金と資本準備金の合算額 {total:,}円で決めました（資本金等の額 {capital_etc:,}円に満たないため。"
+                       "地方税法第52条第4項・第312条第6項）")
+    return capital_etc, None
+
+
 def local_tax(data: dict) -> dict:
     """道府県民税・市町村民税の均等割。法人税割・事業税は赤字法人なので 0。
     東京都の特別区（23区）は、市町村民税分も含めて都民税として都に申告する（municipality は None）。"""
@@ -277,18 +335,19 @@ def local_tax(data: dict) -> dict:
     office = data["offices"][0]
     start, end = data["fiscal_period"]["start"], data["fiscal_period"]["end"]
     months = max(o["months"] for o in data["offices"])
+    basis, basis_note = capital_basis(company)
     ward_rules = special_ward_rules(office["prefecture"], office["municipality"])
     if ward_rules:
-        tokyo = per_capita(ward_rules, start, company["capital_etc"], company["employees"], months, end)
+        tokyo = per_capita(ward_rules, start, basis, company["employees"], months, end)
         return {
             "prefecture": {**tokyo, "corporate_tax_levy": 0, "submission_office": office["pref_office"],
                            "special_ward": office["municipality"]},
             "municipality": None,
             "business_tax": {"income_levy": 0, "special_business_tax": 0},
-            "cautions": [c for c in (tokyo["caution"],) if c],
+            "cautions": [c for c in (tokyo["caution"], basis_note) if c],
         }
-    pref_rules = find_rules("道府県民税", office["prefecture"], end=end)
-    city_rules = find_rules("市町村民税", office["municipality"], office["prefecture"], end=end)
+    pref_rules = find_rules("道府県民税", office["prefecture"], end=end, start=start)
+    city_rules = find_rules("市町村民税", office["municipality"], office["prefecture"], end=end, start=start)
     if city_rules.get("prefecture") and city_rules["prefecture"] != office["prefecture"]:
         raise LocalRuleError(f"{office['municipality']} は {city_rules['prefecture']} の市町村です（入力は {office['prefecture']}）")
     if city_rules.get("designated_city"):
@@ -301,11 +360,11 @@ def local_tax(data: dict) -> dict:
         if known and next(iter(wards)) not in known:
             raise LocalRuleError(f"{office['municipality']}に「{next(iter(wards))}」という区はありません（{'・'.join(known)}）")
     # 同じ市町村に事務所等が2つ以上あるときは、いずれかの事務所等を有していた月数（最も長いもの）
-    pref = per_capita(pref_rules, start, company["capital_etc"], company["employees"], months, end)
-    city = per_capita(city_rules, start, company["capital_etc"], company["employees"], months, end)
+    pref = per_capita(pref_rules, start, basis, company["employees"], months, end)
+    city = per_capita(city_rules, start, basis, company["employees"], months, end)
     return {
         "prefecture": {**pref, "corporate_tax_levy": 0, "submission_office": office["pref_office"]},
         "municipality": {**city, "ward": office.get("ward"), "corporate_tax_levy": 0, "submission_office": office["city_office"]},
         "business_tax": {"income_levy": 0, "special_business_tax": 0},
-        "cautions": [c for c in (pref["caution"], city["caution"]) if c],
+        "cautions": [c for c in (pref["caution"], city["caution"], basis_note) if c],
     }

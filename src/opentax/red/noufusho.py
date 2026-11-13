@@ -47,16 +47,16 @@ def _two_months_after(end: datetime.date) -> datetime.date:
 def due_date(end: datetime.date) -> datetime.date | None:
     """法人の住民税・事業税の納期限（法人税の申告書の提出期限。地方税法第53条第1項・第72条の25第1項・第321条の8第1項）。
     休日は翌日にずらす（地方税法第20条の5第2項・同法施行令第6条の18第2項・民法第142条: 日曜日・国民の祝日に関する法律に規定する休日・
-    土曜日・12月29日〜31日）。1月2日・3日（民法第142条の「その他の休日」）に当たるか、祝日の一覧の外の日なら None（書かない）。
+    土曜日・12月29日〜31日、1月2日・3日（民法第142条の「その他の休日」。広島県「県税を納める時期」（注２）「納期限が、土曜日、日曜日、
+    祝日、または12月29日から1月3日までの間にある場合は、その翌日が納期限」 https://www.pref.hiroshima.lg.jp/site/zei/1169704326374.html））。
+    祝日の一覧の外の日なら None（書かない）。
     申告期限の延長（法人税法第75条の2）は扱わない。"""
     h = _holidays()
     d = _two_months_after(end)
     while True:
         if d > datetime.date.fromisoformat(h["covers_through"]):
             return None
-        if (d.month, d.day) in ((1, 2), (1, 3)):
-            return None
-        if d.weekday() >= 5 or d.isoformat() in h["holidays"] or (d.month == 12 and d.day >= 29) or (d.month, d.day) == (1, 1):
+        if d.weekday() >= 5 or d.isoformat() in h["holidays"] or (d.month == 12 and d.day >= 29) or (d.month == 1 and d.day <= 3):
             d += datetime.timedelta(days=1)
             continue
         return d
@@ -126,7 +126,7 @@ def values(calculated: dict, kind: str, today: datetime.date | None = None) -> d
     if rule and filed:
         out["year"] = three(_fiscal_year(filed))
     out["_notes"] = [n for n in (
-        None if due else "納期限は書いていません（休日の一覧の外か、1月2日・3日に当たるため）。",
+        None if due else "納期限は書いていません（祝日の一覧の外の日に当たるため）。",
         None if (rule and filed) else (f"年度の欄は書いていません（{jurisdiction}の書き方を確かめていません）。" if not rule
                                        else "年度の欄は、提出日（filing.submitted_on）がないので書いていません。"),
     ) if n]

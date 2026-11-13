@@ -166,5 +166,60 @@ class CalculateTest(unittest.TestCase):
         self.assertFalse(any("総務省" in w for w in c["result"]["warnings"]))
 
 
+
+class EditionChangeTest(unittest.TestCase):
+    """一覧の版の間で年額が変わった団体（南丹市・西予市。条例の附則で「令和8年4月1日以後に開始する事業年度分から」）。"""
+
+    def city(self, name, pref, start, end):
+        rules = find_rules("市町村民税", name, pref, end=end, start=start)
+        return per_capita(rules, start, 10_000_000, 5, 12, end)["annual"]
+
+    def test_starting_before_change(self):
+        for name, pref in (("南丹市", "京都府"), ("西予市", "愛媛県")):
+            self.assertEqual(self.city(name, pref, D(2025, 5, 1), D(2026, 4, 30)), 50_000)
+            self.assertEqual(self.city(name, pref, D(2026, 1, 1), D(2026, 12, 31)), 50_000)
+            self.assertEqual(self.city(name, pref, D(2026, 4, 1), D(2027, 3, 31)), 60_000)
+            self.assertEqual(self.city(name, pref, D(2025, 4, 1), D(2026, 3, 31)), 50_000)
+
+    def test_unknown_change_stops(self):
+        import opentax.red.local_tax as lt
+        saved = lt._rate_changes()
+        try:
+            lt._rate_changes.cache_clear()
+            lt._rate_changes = lambda: {}   # 附則を確かめていない団体
+            with self.assertRaisesRegex(LocalRuleError, "条例の附則"):
+                self.city("南丹市", "京都府", D(2025, 5, 1), D(2026, 4, 30))
+            self.assertEqual(self.city("南丹市", "京都府", D(2026, 4, 1), D(2027, 3, 31)), 60_000)
+            self.assertEqual(self.city("岡山市", "岡山県", D(2025, 5, 1), D(2026, 4, 30)), 50_000)   # 変わっていない団体は止めない
+        finally:
+            from functools import lru_cache
+            lt._rate_changes = lru_cache(maxsize=None)(lambda: saved)
+
+
+class CapitalBasisTest(unittest.TestCase):
+    """資本金等の額が資本金と資本準備金の合算額に満たなければ、合算額で区分を決める（地方税法第52条第4項・第312条第6項）。"""
+
+    def test_reserve(self):
+        raw = sample()
+        raw["company"].update({"capital": 10_000_000, "capital_reserve": 5_000_000, "capital_etc": 10_000_000})
+        c = api.calculate(raw)
+        local = c["local_tax"]
+        self.assertEqual((local["prefecture"]["amount"], local["municipality"]["amount"]), (52_500, 130_000))
+        self.assertTrue(any("合算額 15,000,000円" in w for w in c["result"]["warnings"]))
+
+    def test_no_reserve_input(self):
+        raw = sample()
+        raw["company"].pop("capital_reserve", None)
+        c = api.calculate(raw)
+        self.assertTrue(any("資本準備金（company.capital_reserve）が未入力" in w for w in c["result"]["warnings"]))
+
+    def test_capital_etc_larger(self):
+        raw = sample()
+        raw["company"].update({"capital": 10_000_000, "capital_reserve": 0, "capital_etc": 10_000_000})
+        c = api.calculate(raw)
+        self.assertEqual(c["local_tax"]["municipality"]["amount"], 50_000)
+        self.assertFalse(any("資本準備金" in w for w in c["result"]["warnings"]))
+
+
 if __name__ == "__main__":
     unittest.main()
