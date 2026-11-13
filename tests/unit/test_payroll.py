@@ -94,6 +94,6 @@ class OfficersUchiwakeTest(unittest.TestCase):
             api.uchiwake_from_balance((case / "科目残高一覧表_架空_TKC形式.txt").read_bytes(),
                                       json.loads((case / "uchiwake_supplement.json").read_text(encoding="utf-8"))),
             api.uchiwake_officers([sample()], datetime.date(2025, 10, 1), datetime.date(2026, 9, 30)))
-        xml = api.export_etax(c, root, datetime.date(2026, 11, 26), uw)
+        xml = api.export_etax(c, root, datetime.date(2026, 11, 26), uw, without_balance=True)
         self.assertEqual(api.validate_xtx(xml, root), [])
         self.assertIn('about="#HOI141-1"', xml.decode("utf-8"))

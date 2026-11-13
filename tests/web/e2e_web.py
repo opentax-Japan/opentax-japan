@@ -112,6 +112,10 @@ def main() -> int:
         check("地方税の一覧の保存", (OUT / "local-tax.html").read_text(encoding="utf-8").count("均等割額") >= 1)
 
         page.set_input_files("#cab", str(CAB))
+        page.click("#export-etax")
+        expect(page.locator("#export-result")).to_contain_text("決算書（残高試算表）がない", timeout=300_000)
+        check("決算書なしでは .xtx を作らない（申告調整の漏れ止め）", True)
+        page.check("#without-balance")
         with page.expect_download(timeout=300_000) as dl:
             page.click("#export-etax")
         check(f"試し用にしなくても .xtx を作れる（{dl.value.suggested_filename}）", "_trial" not in dl.value.suggested_filename)
@@ -188,7 +192,7 @@ def main() -> int:
     xml = xtx_path.read_bytes()
     check("手元の公式XSD でも誤りなし", api.validate_xtx(xml, root) == [])
     cli = api.export_etax(api.calculate(json.loads((REPO / "tests/cases/open-shoji-tokyo/input.json").read_text(encoding="utf-8")),
-                                        "truncate"), root)
+                                        "truncate"), root, without_balance=True)
     strip = lambda b: re.sub(rb'sakuseiDay="[^"]*"', b"", b)
     check("CLI の試し用の出力と同じ内容（作成日を除く）", strip(xml) == strip(cli))
 

@@ -60,7 +60,7 @@ class TokyoWardTest(unittest.TestCase):
         root = REPO / ".cache" / "etax" / "ksk2-2026-08" / "files" / "e-tax19"
         if not root.exists():
             self.skipTest("公式XSD がありません")
-        xml = api.export_etax(api.calculate(sample(), "truncate"), root, datetime.date(2026, 11, 26)).decode("utf-8")
+        xml = api.export_etax(api.calculate(sample(), "truncate"), root, datetime.date(2026, 11, 26), without_balance=True).decode("utf-8")
         self.assertIn("<gen:zeimusho_CD>01101</gen:zeimusho_CD>", xml)          # 麹町
         self.assertIn("霞が関3-1-1", xml)
 

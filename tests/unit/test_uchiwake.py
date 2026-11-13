@@ -223,7 +223,7 @@ class XtxTest(unittest.TestCase):
             self.skipTest("公式XSD がありません")
         c = api.calculate(json.loads((CASE / "input.json").read_text(encoding="utf-8")), "truncate")
         uw = api.uchiwake_from_balance(BALANCE, SUPPLEMENT)
-        xml = api.export_etax(c, root, datetime.date(2026, 11, 26), uw)
+        xml = api.export_etax(c, root, datetime.date(2026, 11, 26), uw, without_balance=True)
         self.assertEqual(api.validate_xtx(xml, root), [])
         text = xml.decode("utf-8")
         for fid in ("HOI010", "HOI020", "HOI030", "HOI040", "HOI050", "HOI080", "HOI090", "HOI100", "HOI110", "HOI150", "HOI160"):
@@ -247,7 +247,7 @@ class XtxTest(unittest.TestCase):
                          "counterparty": "見本不動産株式会社", "counterparty_address": "東京都港区見本1-1", "sold_acquired": "1985-06"}]}
         sup["land_sales"], sup["offices"] = NewFormsTest.LAND_SALES, NewFormsTest.OFFICES
         uw = u.build(u.parse_balance(data), sup)
-        xml = api.export_etax(c, root, datetime.date(2026, 11, 26), uw)
+        xml = api.export_etax(c, root, datetime.date(2026, 11, 26), uw, without_balance=True)
         self.assertEqual(api.validate_xtx(xml, root), [])
         text = xml.decode("utf-8")
         for fid in ("HOI060", "HOI070", "HOI120", "HOI130"):

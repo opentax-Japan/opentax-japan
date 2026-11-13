@@ -144,7 +144,7 @@ class SampleXtxTest(unittest.TestCase):
         raw = json.loads((REPO / "tests" / "cases" / "open-shoji" / "input.json").read_text(encoding="utf-8"))
         with mock.patch.object(calc, "load_rules", patched):
             calculated = api.calculate(raw)
-        xml = api.export_etax(calculated, root, datetime.date(2026, 11, 26))
+        xml = api.export_etax(calculated, root, datetime.date(2026, 11, 26), without_balance=True)
         self.assertEqual(api.validate_xtx(xml, root), [])
         doc = ET.fromstring(xml)
         forms = [c.tag.replace(H, "") for c in doc.find(f"{H}RHO0012/{H}CONTENTS")]

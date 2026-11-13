@@ -347,12 +347,12 @@ class InterimRefundTest(unittest.TestCase):
         if not root.exists():
             self.skipTest("公式XSD がありません")
         c = api.calculate(interim_sample())
-        xml = api.export_etax(c, root, datetime.date(2026, 11, 26))
+        xml = api.export_etax(c, root, datetime.date(2026, 11, 26), without_balance=True)
         self.assertEqual(api.validate_xtx(xml, root), [])
         text = xml.decode("utf-8")
         self.assertIn('about="#HOB016-1"', text)
         self.assertIn('kinyukikan_KB="1"', text)
-        self.assertNotIn('HOB016', api.export_etax(api.calculate(sample()), root, datetime.date(2026, 11, 26)).decode("utf-8"))
+        self.assertNotIn('HOB016', api.export_etax(api.calculate(sample()), root, datetime.date(2026, 11, 26), without_balance=True).decode("utf-8"))
 
 
 class EntertainmentDepreciationTest(unittest.TestCase):
@@ -414,7 +414,7 @@ class EntertainmentDepreciationTest(unittest.TestCase):
         root = REPO / ".cache" / "etax" / "ksk2-2026-08" / "files" / "e-tax19"
         if not root.exists():
             self.skipTest("公式XSD がありません")
-        xml = api.export_etax(c, root, datetime.date(2026, 11, 26))
+        xml = api.export_etax(c, root, datetime.date(2026, 11, 26), without_balance=True)
         self.assertEqual(api.validate_xtx(xml, root), [])
         text = xml.decode("utf-8")
         for fid in ("HOE200", "HOE315"):

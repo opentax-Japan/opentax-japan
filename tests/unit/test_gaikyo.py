@@ -179,7 +179,7 @@ class XtxTest(unittest.TestCase):
         if not root.exists():
             self.skipTest("公式XSD がありません")
         uw = api.merge_uchiwake(api.uchiwake_from_balance(BALANCE, load("uchiwake_supplement.json")), build())
-        xml = api.export_etax(CALC, root, datetime.date(2026, 11, 26), uw)
+        xml = api.export_etax(CALC, root, datetime.date(2026, 11, 26), uw, without_balance=True)
         self.assertEqual(api.validate_xtx(xml, root), [])
         text = xml.decode("utf-8")
         body = text[text.index("<HOK010 "):text.index("</HOK010>")]

@@ -55,13 +55,22 @@ def calculate(raw_input: dict, trial_ratio_rounding: str | None = None, balance:
     return {"input": data, "local_tax": local, "result": result, "form_values": values, "problems": problems}
 
 
+NO_BALANCE_STOP = ("決算書（残高試算表）がないので、申告調整の漏れ（寄附金・受取配当・租税公課・役員給与など）を点検できず、.xtx は作りません。"
+                   "残高試算表を渡すか、点検しないで作ることを明示してください（CLI は --without-balance、画面は「決算書なしで作る」）")
+
+
 def export_etax(calculated: dict, schema_root: Path, today: datetime.date | None = None,
-                uchiwake: dict | None = None, office: dict | None = None, engagement: dict | None = None) -> bytes:
+                uchiwake: dict | None = None, office: dict | None = None, engagement: dict | None = None,
+                without_balance: bool = False) -> bytes:
     """calculate の結果から .xtx を作る。一致しない項目が残っていたら作らない。
     uchiwake: uchiwake_from_balance の結果。あれば内訳書も入れる。
     office: 税理士事務所の設定（OpenTax プロ）。あれば税務代理権限証書（法人税）を添付する。engagement は pro.dairi を参照"""
     if calculated["problems"]:
         raise SpecError("一致しない項目があるため .xtx を作りません: " + "; ".join(calculated["problems"][:3]))
+    if calculated["result"].get("adjustments") is None and not without_balance:
+        # 科目残高なしでは申告調整の漏れ止め（DESIGN §19）が動かないので、明示の指定がなければ作らない
+        from .red.adjust import AdjustmentStop
+        raise AdjustmentStop([NO_BALANCE_STOP], [])
     zeimusho = (schema_root / Path(*ZEIMUSHO_XSD.split("/"))).read_bytes()
     tenpu = None
     if office:

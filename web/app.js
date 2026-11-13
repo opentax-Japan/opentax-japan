@@ -455,7 +455,8 @@ async function exportEtax() {
   out.textContent = "";
   setStatus("公式XSD で検証して .xtx を作っています（1分ほどかかることがあります）…");
   const bytes = new Uint8Array(await cabFile.arrayBuffer());
-  const res = await call("ot_export", [JSON.stringify(lastInput), trialMode(), bytes, JSON.stringify(att)], [bytes.buffer]);
+  const noBalance = document.getElementById("without-balance").checked;
+  const res = await call("ot_export", [JSON.stringify(lastInput), trialMode(), bytes, JSON.stringify(att), noBalance], [bytes.buffer]);
   setStatus(res.ok ? ".xtx を作りました。" : ".xtx を作れませんでした。", !res.ok);
   out.scrollIntoView({ behavior: "smooth", block: "center" });
   if (!res.ok) {
@@ -467,7 +468,8 @@ async function exportEtax() {
   const name = `OpenTaxRED_${end}${res.trial ? "_trial" : ""}.xtx`;
   download(new Blob([bin], { type: "application/xml" }), name);
   out.append(el("div", { class: "msg ok" }, `公式XSD（手続 RHO0012）の検証: 誤りなし。${name}（${res.size.toLocaleString("ja-JP")} バイト）を保存しました。`
-    + (res.trial ? "\n試し用です。本番の申告には使わないでください。" : "")));
+    + (res.trial ? "\n試し用です。本番の申告には使わないでください。" : "")
+    + (noBalance && !att.balance ? "\n決算書なしで作りました。申告調整の漏れ（寄附金・受取配当・租税公課・役員給与など）は点検していません。" : "")));
 }
 
 // ---- 内訳書・概況書の材料（選んだファイルの中身。この変数にだけ置く） ----

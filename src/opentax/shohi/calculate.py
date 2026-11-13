@@ -84,7 +84,7 @@ def _yen(v, where: str) -> int:
 PURCHASE_KEYS = ("purchases", "purchase_returns", "purchase_tax", "non_invoice_purchases")
 KNOWN = {"method", "business", "company", "period", "sales", "sales_invoice_tax", "sales_returns", "sales_returns_invoice_tax",
          *PURCHASE_KEYS, "purchase_use", "deduction", "specific_purchases", "bad_debts", "interim", "base_period_sales",
-         "refund_account", "filing", "note"}
+         "refund_account", "filing", "note", "non_invoice_max_per_supplier", "two_tenths_checks"}
 OUT_OF_SCOPE = {"import_tax": "課税貨物（輸入）に係る消費税額", "old_rates": "旧税率（3％・4％・6.3％）の取引",
                 "adjustments": "調整対象固定資産・居住用賃貸建物などの調整", "bad_debt_recovery": "貸倒回収"}
 METHODS = ("general", "simplified", "two_tenths")
@@ -238,6 +238,26 @@ def _zero() -> dict:
     return {k: 0 for k in KINDS}
 
 
+def check_transitional_cap(d: dict, raw: dict, rules: dict) -> None:
+    """経過措置の年の上限（一の免税事業者等ごと。令和6年10月1日以後に開始する課税期間は10億円、令和8年10月1日以後は1億円）。
+    経過措置の対象の課税仕入れ（税込み）の合計が上限以下なら、一の者ごとの額も上限を超えない。超えるときは
+    一の者ごとの最大額（non_invoice_max_per_supplier）を書いてもらい、上限を超える者があれば止める（超えた部分の計算は対象外）。"""
+    total = sum(e[k] for e in d["non_invoice_purchases"] for k in KINDS)
+    start = d["period"]["start"]
+    cap = next((c["limit"] for c in rules["transitional_cap"]["limits"]
+                if start >= datetime.date.fromisoformat(c["period_start_from"])
+                and (c["period_start_before"] is None or start < datetime.date.fromisoformat(c["period_start_before"]))), None)
+    if cap is None or total <= cap:
+        return
+    mx = raw.get("non_invoice_max_per_supplier")
+    if mx is None:
+        raise ShohiInputError(f"経過措置の対象の課税仕入れの合計 {total:,}円 が、一の免税事業者等ごとの上限 {cap:,}円（税込み）を超えています。"
+                              "一の者からの最大の額を non_invoice_max_per_supplier に書いてください（国税庁 インボイスQ&A 問113）")
+    if mx > cap:
+        raise ShohiOutOfScope(f"一の免税事業者等からの経過措置の対象の課税仕入れが上限 {cap:,}円 を超えています（超えた部分は経過措置を使えない。"
+                              "その計算は OpenTax ではまだ作れません）")
+
+
 def calculate(raw: dict, rules: dict | None = None) -> dict:
     if raw.get("method") == "simplified":
         from .simplified import calculate as calculate_simplified
@@ -249,6 +269,7 @@ def calculate(raw: dict, rules: dict | None = None) -> dict:
     if raw.get("business"):
         raise ShohiInputError("business（事業区分別の売上げ）は簡易課税（method: simplified）の入力です")
     rules = rules or load_rules()
+    check_transitional_cap(d, raw, rules)
     excl, tax_in, nat, lr = factors(rules)
     acc = Fraction(*rules["accumulation"]["ratio"])                              # 積上げ計算の 78/100
     sp_rate = _frac(rules["specific_purchase"]["national_percent"]) / 100       # 特定課税仕入れの 7.8％

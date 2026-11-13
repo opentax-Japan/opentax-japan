@@ -179,7 +179,7 @@ def ot_attachments(input_json: str, trial: str, att_json: str) -> str:
         return _error(e)
 
 
-def ot_export(input_json: str, trial: str, cab, att_json: str = "") -> str:
+def ot_export(input_json: str, trial: str, cab, att_json: str = "", without_balance: bool = False) -> str:
     """cab: 画面で選んだ e-tax19.CAB（JS の Uint8Array）。検証を通ったときだけ .xtx を返す。
     att_json: 内訳書・概況書の材料（_attachments の att）。空なら別表だけ。"""
     try:
@@ -192,7 +192,8 @@ def ot_export(input_json: str, trial: str, cab, att_json: str = "") -> str:
         calculated = api.calculate(json.loads(input_json), trial or None,
                                    base64.b64decode(att["balance"]) if att.get("balance") else None)
         uw = _attachments(calculated, att)
-        xml = api.export_etax(calculated, _schema["root"], datetime.date.today(), uw, att.get("office"))
+        xml = api.export_etax(calculated, _schema["root"], datetime.date.today(), uw, att.get("office"),
+                              without_balance=bool(without_balance))
         errors = api.validate_xtx(xml, _schema["root"])
         if errors:
             return _dump({"ok": False, "kind": "xsd", "message": "公式XSD の検証で誤りがあります。.xtx は書き出しません",

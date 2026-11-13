@@ -29,6 +29,14 @@ def calculate(raw: dict, rules: dict | None = None) -> dict:
         raise ShohiOutOfScope(f"2割特例は {lo}〜{hi} の日を含む課税期間だけです（課税期間 {start}〜{end}）")
     if d["base_period_sales"] > tt["base_period_sales_limit"]:
         raise ShohiOutOfScope(f"基準期間の課税売上高が{tt['base_period_sales_limit'] // 10_000:,}万円を超えるため、2割特例は使えません")
+    checks = raw.get("two_tenths_checks") or {}
+    missing = [label for k, label in tt["exclusions"].items() if k not in checks]
+    if missing:
+        raise ShohiInputError("2割特例を使えない場合に当たらないか確かめて、two_tenths_checks に true / false で書いてください: "
+                              + "／".join(f"{k}（{label}）" for k, label in tt["exclusions"].items() if k not in checks))
+    hit = [label for k, label in tt["exclusions"].items() if checks.get(k)]
+    if hit:
+        raise ShohiOutOfScope("2割特例は使えません: " + "／".join(hit))
     if raw.get("sales_invoice_tax") or raw.get("sales_returns_invoice_tax"):
         raise ShohiOutOfScope("2割特例の売上税額の積上げ計算")
     warnings = []

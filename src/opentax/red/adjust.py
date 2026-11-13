@@ -79,10 +79,13 @@ def review(accounts, data: dict) -> dict:
 
     matched: dict[str, list] = {}       # 規則の id → [(科目, 規則)]
     for a in accounts:
-        if cls[a] and cls[a] not in pl:
+        bs = bool(cls[a]) and cls[a] not in pl
+        # 貸借対照表の科目は bs の規則（仮払税金・引当金・圧縮積立金など）だけを当てる。区分の分からない科目は全部の規則を当てる
+        hits = [r for r in rules["rules"] if _match(r, a.name) and (r.get("bs") if bs else (not r.get("bs") or not cls[a]))
+                and (bs or not r.get("classes") or not cls[a] or cls[a] in r["classes"])]
+        if bs and not (hits and a.balance):
             rows.append({"account": a.name, "amount": a.balance, "status": "調整なし", "detail": PL_SKIP_NOTE})
             continue
-        hits = [r for r in rules["rules"] if _match(r, a.name) and (not r.get("classes") or not cls[a] or cls[a] in r["classes"])]
         if not hits or not a.balance:
             rows.append({"account": a.name, "amount": a.balance, "status": "調整なし",
                          "detail": NONE_NOTE if not hits else "残高が0"})
@@ -152,7 +155,7 @@ def review(accounts, data: dict) -> dict:
             else:
                 mark(row, "入力で作った", "別表四 5・10、別表五(二)（tax_dues）")
 
-    for rid in ("officer_pay", "officer_retirement", "insurance", "bad_debt", "misc_loss"):
+    for rid in [r["id"] for r in rules["rules"] if r["handling"] == "confirm"]:
         for a, r, row in matched.get(rid, []):
             ans = _confirmed(data, a.name, r)
             if ans:

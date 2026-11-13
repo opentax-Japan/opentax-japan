@@ -48,7 +48,7 @@ class XtxTest(unittest.TestCase):
 
     def test_corporate_tax_with_power_of_attorney(self):
         calc = api.calculate(json.loads((CASE / "open-shoji-tokyo" / "input.json").read_text(encoding="utf-8")))
-        xml = api.export_etax(calc, ROOT, datetime.date(2026, 11, 26), None, OFFICE, {"date": "2026-11-01"})
+        xml = api.export_etax(calc, ROOT, datetime.date(2026, 11, 26), None, OFFICE, {"date": "2026-11-01"}, without_balance=True)
         self.assertEqual(api.validate_xtx(xml, ROOT), [])
         text = xml.decode("utf-8")
         self.assertIn('<TENPU id="TENPU">', text)
@@ -63,7 +63,7 @@ class XtxTest(unittest.TestCase):
 
     def test_without_office_unchanged(self):
         calc = api.calculate(json.loads((CASE / "open-shoji-tokyo" / "input.json").read_text(encoding="utf-8")))
-        self.assertNotIn(b"TENPU id", api.export_etax(calc, ROOT, datetime.date(2026, 11, 26)))
+        self.assertNotIn(b"TENPU id", api.export_etax(calc, ROOT, datetime.date(2026, 11, 26), without_balance=True))
 
 
 if __name__ == "__main__":

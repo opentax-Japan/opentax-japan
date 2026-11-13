@@ -414,3 +414,38 @@ class VersionXtxTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class VerifyFindingsTest(unittest.TestCase):
+    """検証報告（2026-11-14）の指摘: 経過措置の上限（インボイスQ&A 問113）・2割特例の使えない場合（書き方 5ページ 注2）。"""
+
+    def test_transitional_cap_1oku_from_2026_10(self):
+        raw = sample()
+        raw["period"] = {"start": "2026-10-01", "end": "2027-09-30"}
+        raw["non_invoice_purchases"] = [{"from": "2026-10-01", "to": "2027-09-30", "standard": 100_000_001}]
+        with self.assertRaisesRegex(ShohiInputError, "non_invoice_max_per_supplier"):
+            calculate(raw)
+        raw["non_invoice_max_per_supplier"] = 60_000_000          # 一の者ごとは上限以下（複数の免税事業者等の合計）
+        calculate(raw)
+        raw["non_invoice_max_per_supplier"] = 100_000_001
+        with self.assertRaisesRegex(ShohiOutOfScope, "上限"):
+            calculate(raw)
+
+    def test_transitional_cap_10oku_before_2026_10(self):
+        raw = sample()
+        raw["period"] = {"start": "2025-10-01", "end": "2026-09-30"}
+        raw["non_invoice_purchases"] = [{"from": "2025-10-01", "to": "2026-09-30", "standard": 100_000_001}]
+        calculate(raw)                                             # 令和8年9月30日までに開始: 上限は10億円
+        raw["non_invoice_purchases"][0]["standard"] = 1_000_000_001
+        with self.assertRaisesRegex(ShohiInputError, "1,000,000,000円"):
+            calculate(raw)
+
+    def test_two_tenths_exclusions(self):
+        raw = niwari()
+        del raw["two_tenths_checks"]["shortened_period"]
+        with self.assertRaisesRegex(ShohiInputError, "shortened_period"):
+            calculate(raw)
+        raw = niwari()
+        raw["two_tenths_checks"]["new_corporation"] = True
+        with self.assertRaisesRegex(ShohiOutOfScope, "新設法人"):
+            calculate(raw)

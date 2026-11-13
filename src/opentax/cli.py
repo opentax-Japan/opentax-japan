@@ -284,7 +284,14 @@ def _export_etax(args: argparse.Namespace) -> int:
             print(f"  概況書で足りない欄: {m}")
         uw = api.merge_uchiwake(uw or {}, gk)
     office, engagement = _office(args)
-    xml = api.export_etax(calculated, schema_root, uchiwake=uw, office=office, engagement=engagement)
+    if args.without_balance and not args.balance:
+        print(f"注意: {api.NO_BALANCE_WARNING}")
+    try:
+        xml = api.export_etax(calculated, schema_root, uchiwake=uw, office=office, engagement=engagement,
+                              without_balance=args.without_balance)
+    except AdjustmentStop as e:
+        print(f"エラー: {e}", file=sys.stderr)
+        return EXIT_ERROR
     errors = api.validate_xtx(xml, schema_root)
     if errors:
         print(f"公式XSD の検証で誤りがあります（{len(errors)} 件）。.xtx は書き出しません")
@@ -549,7 +556,9 @@ def main(argv: list[str] | None = None) -> int:
     x.add_argument("--cab", help="国税庁から取った e-tax19.CAB（キャッシュの代わりに使う）")
     x.add_argument("--trial-ratio-rounding", choices=["truncate", "round_half_up"],
                    help="試し用: 別表二の割合の端数処理を仮に決める。書き出すファイル名に「試し用」か「trial」が必要")
-    x.add_argument("--balance", help="内訳書も作る: 会計ソフトの残高試算表（CSV・TXT。見出しに勘定科目と期末残高の列）")
+    x.add_argument("--balance", help="会計ソフトの残高試算表（CSV・TXT。見出しに勘定科目と期末残高の列）。申告調整の漏れを点検し、内訳書も作る")
+    x.add_argument("--without-balance", action="store_true",
+                   help="残高試算表なしで作る（申告調整の漏れを点検しない。確かめてほしいことに出す）")
     x.add_argument("--supplement", help="内訳書の足りない欄を足す JSON（相手先の所在地・口座番号など）")
     x.add_argument("--payroll", nargs="+", help="役員給与等・人件費の内訳書も作る: 給与の記録ファイル（事業年度にかかる年の分）")
     x.add_argument("--gaikyo", help="法人事業概況説明書も作る: 手入力の欄の JSON（主要科目は --balance、従事員・人件費は --payroll から）")

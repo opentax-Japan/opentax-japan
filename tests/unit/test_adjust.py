@@ -207,6 +207,44 @@ class InterestTest(unittest.TestCase):
         self.assertEqual(c["result"]["schedule_04"]["credit_interest"], 0)
 
 
+class VerifyFindingsTest(unittest.TestCase):
+    """検証報告（2026-11-14）の指摘: 残高なしの .xtx・規則にない科目・貸借の科目。"""
+
+    def test_export_needs_balance(self):
+        from opentax import api
+        from opentax.red.adjust import AdjustmentStop
+        root = REPO / ".cache" / "etax" / "ksk2-2026-08" / "files" / "e-tax19"
+        if not root.exists():
+            self.skipTest("公式XSD がありません")
+        raw = sample()
+        raw["interest_paid"] = 0
+        c = api.calculate(raw)
+        with self.assertRaisesRegex(AdjustmentStop, "決算書（残高試算表）がない"):
+            api.export_etax(c, root, datetime.date(2026, 11, 26))
+        self.assertIn(api.NO_BALANCE_WARNING, c["result"]["warnings"])        # 明示して作るときも確かめてほしいことに出る
+        self.assertTrue(api.export_etax(c, root, datetime.date(2026, 11, 26), without_balance=True))
+
+    def stops(self, line: str) -> list[str]:
+        return stops_of(sample(), balance(line))
+
+    def test_more_accounts_stop_or_ask(self):
+        for line, word in (("特別償却費,,100000\n", "特別償却費"), ("役員給料,,100000\n", "役員給料"),
+                           ("前期損益修正損,,100000\n", "前期損益修正損"), ("消耗品費,,100000\n", "消耗品費"),
+                           ("会議費,,100000\n", "会議費"), ("諸会費,,100000\n", "諸会費"),
+                           ("仮払税金,,100000\n", "仮払税金"), ("賞与引当金,,100000\n", "賞与引当金"),
+                           ("一括償却資産,,100000\n", "一括償却資産"), ("圧縮積立金,,100000\n", "圧縮積立金"),
+                           ("繰延税金資産,,100000\n", "繰延税金資産"), ("未払寄附金,,100000\n", "未払寄附金")):
+            with self.subTest(line=line):
+                self.assertTrue(any(s.startswith(word) for s in self.stops(line)), self.stops(line))
+
+    def test_unpaid_donation_not_in_schedule(self):
+        from opentax.red import adjust, uchiwake
+        from opentax.red import model
+        data = model.validate(sample())
+        rv = adjust.review(uchiwake.parse_balance(balance("未払寄附金,,100000\n")), data)
+        self.assertEqual(sum(d["amount"] for d in rv["donations"]), 450_000)   # 未払寄附金は寄附金の明細に入れない
+
+
 class StopTest(unittest.TestCase):
     def test_confirmation_needed(self):
         raw = sample()

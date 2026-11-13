@@ -14,5 +14,7 @@
   "period": {"start": "2026-01-01", "end": "2026-12-31"},
   "sales": {"standard": 6609330},
   "sales_returns": {"standard": 192900},
-  "base_period_sales": 8321760
+  "base_period_sales": 8321760,
+  "two_tenths_checks": {"specified_period_over": false, "new_corporation": false, "adjustment_assets": false,
+                        "shortened_period": false, "foreign_no_pe": false}
 }
