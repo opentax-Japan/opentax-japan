@@ -33,6 +33,7 @@ def calculate(raw_input: dict, trial_ratio_rounding: str | None = None) -> dict:
     city_amount = local["municipality"]["amount"] if local["municipality"] else 0   # 23区は都民税に含まれる
     result = _calculate(data, {"道府県民税": local["prefecture"]["amount"], "市町村民税": city_amount},
                         trial_ratio_rounding)
+    result["warnings"] = list(result.get("warnings", [])) + [c for c in local.get("cautions", []) if c not in result.get("warnings", [])]
     values, problems = form_values(result)
     return {"input": data, "local_tax": local, "result": result, "form_values": values, "problems": problems}
 

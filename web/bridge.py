@@ -16,7 +16,7 @@ from opentax.etax.validate import ValidationUnavailable
 from opentax.etax.xtx import XtxError
 from opentax.red.calculate import RuleError
 from opentax.red.local_sheet import SheetError
-from opentax.red.local_tax import SPECIAL_WARD_KIND, LocalRuleError, _rules_by_name
+from opentax.red.local_tax import SPECIAL_WARD_KIND, LocalRuleError, _rules_by_name, latest_edition
 from opentax.red.model import InputError, OutOfScope
 
 APP_ROOT = Path("/home/pyodide/app")
@@ -39,14 +39,13 @@ def _error(e: Exception) -> str:
 
 
 def ot_info() -> str:
-    rules = _rules_by_name()
-    prefs = sorted({name for kind, name in rules if kind in ("道府県民税", SPECIAL_WARD_KIND)})
-    cities = [{"name": r["jurisdiction"], "prefecture": r.get("prefecture"), "designated_city": r.get("designated_city", False)}
-              for (kind, _), r in rules.items() if kind == "市町村民税"]
-    for (kind, name), r in rules.items():
+    # 都道府県・市町村は総務省の税率一覧（一番新しい版）の全団体。東京都の特別区（23区）は都民税の設定から
+    ed = latest_edition()
+    prefs = list(ed["prefectures"])
+    cities = [{"name": c["name"], "prefecture": c["prefecture"], "designated_city": c["designated_city"]} for c in ed["municipalities"]]
+    for (kind, name), r in _rules_by_name().items():
         if kind == SPECIAL_WARD_KIND:  # 東京都の特別区（23区）
             cities += [{"name": w, "prefecture": name, "designated_city": False} for w in r["special_wards"]]
-    cities.sort(key=lambda c: (c["prefecture"] or "", c["name"]))
     sample = (APP_ROOT / "tests" / "cases" / "open-shoji-tokyo" / "input.json").read_text(encoding="utf-8")
     return _dump({"prefectures": prefs, "cities": cities, "sample": json.loads(sample)})
 

@@ -44,3 +44,14 @@ Web 画面の「申告書（紙の様式）」は、国税庁ホームページ�
 - 出典：国税庁ホームページ（https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/01.htm ほか各様式の URL）を加工して作成
 - 利用条件：公共データ利用規約（第1.0版）（https://www.nta.go.jp/chuijiko/copy.htm）
 - 国税庁が作成したものではありません。様式の PDF はリポジトリに含めず、サイトを組み立てるときに国税庁のサイトから取得し、SHA256 で照合しています
+
+## 総務省 法人住民税・法人事業税 税率一覧表・全国地方公共団体コード
+
+全都道府県・全市町村の均等割の税率（src/opentax/red/rules/local_rates/）は、総務省の公表資料を加工して作成しています。
+
+- 出典：「令和７年度 法人住民税・法人事業税 税率一覧表」（総務省自治税務局、令和７年９月）（https://www.soumu.go.jp/main_content/001032861.pdf）を加工して作成
+- 出典：「令和８年度 法人住民税・法人事業税 税率一覧表」（総務省自治税務局、令和８年９月）（https://www.soumu.go.jp/main_content/001092939.pdf）を加工して作成
+- 出典：「都道府県コード及び市区町村コード」（令和6年1月1日更新）（総務省 全国地方公共団体コード https://www.soumu.go.jp/denshijiti/code.html）を加工して作成
+- 利用条件：公共データ利用規約（第1.0版）（総務省ホームページ「当省ホームページについて」著作権について https://www.soumu.go.jp/menu_kyotsuu/policy/tyosaku.html）。2026年11月14日に利用
+- 総務省が作成したものではありません。元の PDF・Excel はリポジトリに含めず、tools/build_local_rates.py が総務省のサイトから取得し、SHA256 で照合してから表を読み取ります
+- 一覧の注記のとおり、税率は各年4月1日時点の採用税率です。申告の際は各都道府県・市町村の資料で確かめてください

@@ -133,8 +133,8 @@ class OutOfScopeTest(unittest.TestCase):
 
     def test_unsupported_municipality(self):
         raw = sample()
-        raw["offices"][0]["municipality"] = "津山市"
-        self.assertOut(raw, "設定ファイルのない自治体")
+        raw["offices"][0]["municipality"] = "架空市"
+        self.assertOut(raw, "税率の一覧にない自治体")
 
     def test_large_capital_and_white_return(self):
         raw = sample()

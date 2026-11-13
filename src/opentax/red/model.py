@@ -44,7 +44,7 @@ _SCHEMA: dict[str, Any] = {
         "notify_penalty": bool, "notify_refund": bool,
     },
     "fiscal_period": {"start": "date", "end": "date"},
-    "offices": [{"prefecture": str, "municipality": str, "ward": str, "pref_office": str, "city_office": str, "months": int}],
+    "offices": [{"code": str, "prefecture": str, "municipality": str, "ward": str, "pref_office": str, "city_office": str, "months": int}],
     "shareholders": [{"name": str, "address": str, "relation": str, "group": int, "shares": int, "votes": int}],
     "issued_shares": int,
     "total_votes": int,
@@ -217,6 +217,7 @@ def validate(raw: dict) -> dict:
     """形を確かめ、日付を date にした入力を返す。対象外なら OutOfScope。"""
     errors: list[str] = []
     data = _check_shape(raw, _SCHEMA, "", errors)
+    _resolve_office_codes(data, errors)
     for key in REQUIRED:
         if _get(data, key) in (None, ""):
             errors.append(f"{key}: 必須の項目です")
@@ -227,6 +228,29 @@ def validate(raw: dict) -> dict:
     _fill_defaults(data)
     _check_values(data)
     return data
+
+
+def _resolve_office_codes(data: dict, errors: list[str]) -> None:
+    """offices[].code（全国地方公共団体コード）から都道府県・市町村・区を埋める。名前も書いてあれば同じか確かめる。"""
+    from .local_tax import municipality_by_code
+    for i, o in enumerate(data.get("offices") or [], 1):
+        if not isinstance(o, dict):
+            continue
+        if not o.get("code"):
+            for k in ("prefecture", "municipality"):
+                if not o.get(k):
+                    errors.append(f"offices[{i}].{k}: 必須の項目です（code に団体コードを書いてもよい）")
+            continue
+        found = municipality_by_code(o["code"])
+        if found is None:
+            errors.append(f"offices[{i}].code: 市町村の団体コードではありません（{o['code']}）")
+            continue
+        for k, v in found.items():
+            if v is None:
+                continue
+            if o.get(k) and o[k] != v:
+                errors.append(f"offices[{i}].{k}: 団体コード {o['code']} は「{v}」です（入力は「{o[k]}」）")
+            o[k] = v
 
 
 def _nonempty(value: Any) -> bool:

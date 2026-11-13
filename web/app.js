@@ -38,7 +38,7 @@ const SECTIONS = [
   { title: "事務所・事業所（1つの市町村だけ）", list: "offices", addLabel: "事務所を足す", fields: [
     { key: "prefecture", label: "都道府県", type: "prefecture", required: true },
     { key: "municipality", label: "市町村", type: "city", required: true },
-    { key: "ward", label: "区（政令指定都市）", type: "text", hint: "岡山市は必須。例 北区" },
+    { key: "ward", label: "区（政令指定都市）", type: "text", hint: "政令指定都市は必須。例 北区" },
     { key: "pref_office", label: "県の提出先（PCdesk に登録した名称）", type: "text" },
     { key: "city_office", label: "市の提出先（PCdesk に登録した名称）", type: "text" },
     { key: "months", label: "事務所等を有していた月数", type: "int", hint: "空欄なら事業年度の月数" },
@@ -211,7 +211,7 @@ function el(tag, attrs, ...children) {
   return e;
 }
 
-function control(f, value, onChange, errorKey) {
+function control(f, value, onChange, errorKey, row) {
   const id = `f-${errorKey.replace(/[^\w]/g, "_")}`;
   let input;
   if (f.type === "bool") {
@@ -221,7 +221,8 @@ function control(f, value, onChange, errorKey) {
   } else if (["select", "prefecture", "city"].includes(f.type)) {
     let options = f.options || [];
     if (f.type === "prefecture") options = info.prefectures;
-    if (f.type === "city") options = info.cities.map((c) => c.name);
+    // 市町村は、同じ行で選んだ都道府県のものだけを出す（同じ名前の市町村がほかの都道府県にもある）
+    if (f.type === "city") options = info.cities.filter((c) => !row || !row.prefecture || c.prefecture === row.prefecture).map((c) => c.name);
     input = el("select", { id }, el("option", { value: "" }, "選んでください"), options.map((o) => el("option", { value: o }, o)));
     if (value && !options.includes(value)) input.append(el("option", { value }, `${value}（未対応）`));
     input.value = value || "";
@@ -264,7 +265,7 @@ function render() {
       const block = el("div", { class: "list-block" });
       rows.forEach((row, i) => {
         block.append(el("div", { class: "list-row" },
-          el("div", { class: "fields" }, items.map((f) => control(f, row[f.key], (v) => { row[f.key] = v; changed(); }, `${s.list}[${i + 1}].${f.key}`))),
+          el("div", { class: "fields" }, items.map((f) => control(f, row[f.key], (v) => { row[f.key] = v; changed(); if (f.type === "prefecture") render(); }, `${s.list}[${i + 1}].${f.key}`, row))),
           el("button", { type: "button", class: "remove", onclick: () => { rows.splice(i, 1); changed(); render(); } }, "この行を消す")));
       });
       block.append(el("button", { type: "button", onclick: () => { rows.push({}); changed(); render(); } }, s.addLabel));

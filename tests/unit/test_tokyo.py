@@ -48,8 +48,8 @@ class TokyoWardTest(unittest.TestCase):
 
     def test_outside_wards_and_two_wards_stop(self):
         raw = sample()
-        raw["offices"][0]["municipality"] = "八王子市"
-        with self.assertRaisesRegex(model.OutOfScope, "設定ファイルのない自治体"):
+        raw["offices"][0]["municipality"] = "架空区"
+        with self.assertRaisesRegex(model.OutOfScope, "税率の一覧にない自治体"):
             api.calculate(raw)
         raw = sample()
         raw["offices"].append({**raw["offices"][0], "municipality": "港区"})
