@@ -4,12 +4,14 @@ e-Gov 法令API から取り、src/opentax/depreciation/rules/rates.json を作�
     python tools/build_depreciation_rates.py [--xml 取得済みのXML]
 
 出典: e-Gov 法令検索 減価償却資産の耐用年数等に関する省令（昭和四十年大蔵省令第十五号）
-https://laws.e-gov.go.jp/law/340M50000040015 （API: https://laws.e-gov.go.jp/api/1/lawdata/340M50000040015）
+https://laws.e-gov.go.jp/law/340M50000040015 （法令API v2: https://laws.e-gov.go.jp/api/2/law_data/340M50000040015 。
+v1 は改正の反映が遅れることがあったので、その日の現行の条文を返す v2 を asof 付きで使う）
 省令の数字（漢数字）をそのまま数に直すだけで、計算はしない。
 """
 from __future__ import annotations
 
 import argparse
+import base64
 import datetime
 import json
 import re
@@ -17,7 +19,7 @@ import urllib.request
 from pathlib import Path
 
 LAW_ID = "340M50000040015"
-API = f"https://laws.e-gov.go.jp/api/1/lawdata/{LAW_ID}"
+API = f"https://laws.e-gov.go.jp/api/2/law_data/{LAW_ID}?law_full_text_format=xml&asof={{asof}}"
 OUT = Path(__file__).resolve().parents[1] / "src" / "opentax" / "depreciation" / "rules" / "rates.json"
 KANJI = {"〇": "0", "一": "1", "二": "2", "三": "3", "四": "4", "五": "5", "六": "6", "七": "7", "八": "8", "九": "9", "・": "."}
 
@@ -65,8 +67,8 @@ def main() -> None:
     if a.xml:
         xml = Path(a.xml).read_text(encoding="utf-8")
     else:
-        with urllib.request.urlopen(API, timeout=60) as r:
-            xml = r.read().decode("utf-8")
+        with urllib.request.urlopen(API.format(asof=datetime.date.today().isoformat()), timeout=120) as r:
+            xml = base64.b64decode(json.loads(r.read().decode("utf-8"))["law_full_text"]).decode("utf-8")
     tables = parse(xml)
     for k, v in tables.items():
         if len(v) < 40:

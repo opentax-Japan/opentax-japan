@@ -286,13 +286,20 @@ def depreciation_checks(assets: list[dict], year: int, sme: bool | None = None) 
             continue
         label = a.get("name") or a.get("kind") or "資産"
         ordinary = int(a.get("ordinary", 0) or 0)
-        book_begin = int(a.get("book", 0) or 0) + ordinary              # 期首（前年末）の未償却残高
+        special = int(a.get("special", 0) or 0)
+        book_begin = int(a.get("book", 0) or 0) + ordinary + special    # 期首（前年末）の未償却残高
         try:
             c = dep.compute({**a, "useful_life": a["life"], "tax_book_begin": min(book_begin, int(a["cost"]))}, start, end, individual=True)
         except dep.DepreciationError as e:
             out.append(f"減価償却（{label}）: 償却費を計算し直せませんでした（{e}）")
             continue
         out += [f"減価償却（{label}）: {n}" for n in c["notes"]]
+        months = a.get("months")
+        if months not in (None, "", 0) and int(months) != c["months"]:
+            # 年の中途の譲渡・業務外への転用・死亡など（所得税法施行令第132条第1項）。月数が違えば金額は比べない
+            out.append(f"減価償却（{label}）: 台帳の償却期間 {int(months)}か月 が計算の {c['months']}か月 と違います"
+                       "（年の中途の譲渡・転用などなら台帳のまま。そうでなければ取得年月を確かめてください）")
+            continue
         if abs(c["limit"] - ordinary) > 1:
             out.append(f"減価償却（{label}）: 本年分の普通償却費 {ordinary:,}円 が計算値 {c['limit']:,}円（{c['basis']}、耐用年数省令{c['table']}）と違います"
                        "（個人は強制償却。取得年月・耐用年数・未償却残高・業務に使った月数を確かめてください）")

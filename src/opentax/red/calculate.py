@@ -81,7 +81,7 @@ def schedule_15(data: dict, rules: dict) -> dict | None:
 def schedule_16(data: dict) -> dict:
     """減価償却（資産ごと・種類ごとの合計）から、償却超過額・認容額を出す。
     取得日（acquired）があれば、耐用年数省令の償却率で普通償却限度額を計算する（opentax.depreciation）。
-    台帳の限度額（limit）も書いてあれば比べ、1円を超えて違えば計算値を使って知らせる（1円の違いは端数の扱いの差として台帳の額）。
+    台帳の限度額（limit）も書いてあれば比べ、違えば台帳の額を使って知らせる（計算の対象外の事情を見分けられないため）。
     取得日がなければ台帳の限度額を写す（種類ごとの合計など）。"""
     from .. import depreciation as dep
     rows, checks = [], []
@@ -110,7 +110,9 @@ def schedule_16(data: dict) -> dict:
                     limit = register
                 else:
                     checks.append(f"減価償却（{label}）: 台帳の償却限度額 {register:,}円 が計算値 {limit:,}円（{calc['basis']}、耐用年数省令{calc['table']}）"
-                                  "と違います。計算値を使いました（資本的支出・特別償却・増加償却・耐用年数・取得日を確かめてください）")
+                                  "と違います。台帳の額を使いました。計算の対象外の事情（平成24年改正の経過措置の届出・資本的支出・増加償却・"
+                                  "中古の耐用年数・圧縮記帳など）がなければ台帳を直してください")
+                    limit = register
             d = {**d, "limit": limit, "basis": calc["basis"], "months": calc["months"], "computed": True}
         else:
             d = {**d, "limit": int(register), "computed": False}
