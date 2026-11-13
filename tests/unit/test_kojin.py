@@ -127,8 +127,53 @@ class ScopeTest(unittest.TestCase):
     def test_loss(self):
         d = sample()
         d["business"]["before_blue"] = -1
-        with self.assertRaisesRegex(KojinError, "赤字"):
+        with self.assertRaisesRegex(KojinError, "公的年金等と損失"):   # 損失と公的年金等がある人は別の計算書（対象外）
             calculate(d)
+
+
+class LossOffsetTest(unittest.TestCase):
+    """損益通算（所得税法69条）と土地等の負債利子の特例（措置法41条の4。青色申告決算書（不動産所得用）の書き方 2ページの例）。"""
+
+    def base(self, before, interest=0):
+        return {"year": 2025, "taxpayer": {"name": "x", "birth": "1980-01-01"},
+                "real_estate": {"bookkeeping": 2, "income": 5_000_000, "before_blue": before, "blue": True, "land_debt_interest": interest},
+                "blue_return": {"deduction": 100_000},
+                "salary": [{"income": 6_000_000, "payer": "a", "payer_id": "1"}]}
+
+    def test_offset_with_salary(self):
+        c = calculate(self.base(-1_000_000))
+        L = c["lines"]
+        self.assertEqual((L["3"], L["6"], L["12"]), (-1_000_000, 4_360_000, 3_360_000))
+        self.assertEqual(c["detail"]["blue_from_real_estate"], 0)     # 不動産所得が赤字なら青色申告特別控除は引けない（赤字のときは0）
+        self.assertEqual(L["25"], 880_000)
+
+    def test_land_interest_larger(self):
+        c = calculate(self.base(-100, 90))                             # 書き方の例: △100 と 90 → △10
+        self.assertEqual(c["lines"]["3"], -10)
+        self.assertTrue(c["detail"]["real_estate_loss_special"])
+        c = calculate(self.base(-80, 90))                              # 損失が利子以下 → 0
+        self.assertEqual(c["lines"]["3"], 0)
+
+    def test_interest_required(self):
+        d = self.base(-1_000_000)
+        del d["real_estate"]["land_debt_interest"]
+        with self.assertRaisesRegex(KojinError, "land_debt_interest"):
+            calculate(d)
+
+    def test_net_loss_stops(self):
+        with self.assertRaisesRegex(KojinError, "第四表"):
+            calculate(self.base(-9_000_000))
+
+    @unittest.skipUnless(SCHEMA.exists(), "XMLスキーマがありません")
+    def test_xtx(self):
+        d = self.base(-1_000_000, 300_000)
+        d["taxpayer"].update({"address": "東京都千代田区", "tax_office": "麹町", "user_id": "1234567890123456"})
+        c = calculate(d)
+        x = api.kojin_export(c, SCHEMA, datetime.date(2026, 3, 1))
+        self.assertEqual(api.validate_xtx(x, SCHEMA, "RKO0010"), [])
+        t = x.decode("utf-8")
+        for s_ in ("<ABB00330>不</ABB00330>", "<ABB00340>-700000</ABB00340>", "<ABI00150>-1000000</ABI00150>"):
+            self.assertIn(s_, t)
 
 
 class FamilyTest(unittest.TestCase):

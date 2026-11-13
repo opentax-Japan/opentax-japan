@@ -217,11 +217,19 @@ def tax_on(taxable: int, r: dict) -> int:
     raise AssertionError
 
 
-def dividend_credit(dividend: int, taxable: int, r: dict) -> int:
+def dividend_credit(dividend: int, taxable: int, r: dict, trust: int = 0) -> int:
+    """配当控除（所得税法92条1項）。dividend: 剰余金の配当等に係る配当所得、trust: 証券投資信託の収益の分配に係る配当所得、
+    taxable: 課税総所得金額。率ごとの金額の1円未満は切り捨て（定めなし。rules の rounding）。"""
     t = r["dividend_credit"]
-    c = max(taxable - t["threshold"], 0)
-    d = max(dividend - c, 0)
-    return _floor(d * _d(t["rate_within"])) + _floor((dividend - d) * _d(t["rate_over"]))
+    th = t["threshold"]
+    f = lambda amount, rate: _floor(amount * _d(t[rate])) if amount > 0 else 0  # noqa: E731
+    if taxable <= th:                                                    # 1号
+        return f(dividend, "rate_within") + f(trust, "trust_within")
+    over = taxable - th
+    if taxable - trust <= th:                                            # 2号
+        return f(dividend, "rate_within") + f(min(trust, over), "trust_over") + f(trust - min(trust, over), "trust_within")
+    low = min(dividend, max(taxable - th - trust, 0))                    # 3号
+    return f(low, "rate_over") + f(dividend - low, "rate_within") + f(trust, "trust_over")
 
 
 # --- 全体 ---
@@ -266,8 +274,6 @@ def calculate(d: dict) -> dict:
         return k
 
     biz, rent = kessan("business"), kessan("real_estate")
-    if (biz and biz["before_blue"] < 0) or (rent and rent["before_blue"] < 0):
-        raise KojinError("事業所得・不動産所得の赤字（損益通算・損失申告）は OpenTax 個人の対象外です")
     blue_limit = 0
     if (biz and biz.get("blue")) or (rent and rent.get("blue")):
         blue_limit = (d.get("blue_return") or {}).get("deduction", 0)
@@ -298,11 +304,31 @@ def calculate(d: dict) -> dict:
             white_family[key] = sum(white_each[i] for i, _ in staff)
     biz_income = biz_before - blue_biz - white_family["business"]
     re_income = re_before - blue_re - white_family["real_estate"]
+    # 不動産所得の損失のうち土地等を取得するために要した負債の利子の部分は損益通算しない（措置法41条の4）。
+    # 申告書③は、損失が利子以下なら0、多ければ差額（△）。青色申告決算書（不動産所得用）の書き方 2ページ
+    re_before_special = re_income
+    re_special = False
+    if rent and re_income < 0:
+        if "land_debt_interest" not in rent:
+            raise KojinError("real_estate.land_debt_interest: 不動産所得が赤字のときは、必要経費に入れた「土地等を取得するために要した負債の利子の額」"
+                             "（なければ 0）を入れてください（措置法41条の4）")
+        interest = _amount(rent["land_debt_interest"], "real_estate.land_debt_interest")
+        if interest:
+            re_special = True
+            re_income = min(re_income + interest, 0)
 
-    divs = d.get("dividends") or []
+    divs = [dict(x) for x in d.get("dividends") or []]
     div_receipts = sum(_amount(x.get("income"), f"dividends[{i}].income") for i, x in enumerate(divs))
     div_income = div_receipts - sum(_amount(x.get("debt_interest"), f"dividends[{i}].debt_interest") for i, x in enumerate(divs))
-    div_credit_base = sum(_amount(x.get("income"), "") - _amount(x.get("debt_interest"), "") for x in divs if x.get("credit_eligible", True))
+    for i, x in enumerate(divs):
+        if x.get("credit", "dividend") not in ("dividend", "investment_trust", "none"):
+            raise KojinError(f"dividends[{i}].credit: dividend（剰余金の配当等）・investment_trust（証券投資信託）・none（外国法人など対象外）のどれかです")
+        if x.get("credit_eligible") is False:
+            x = {**x, "credit": "none"}
+            divs[i] = x
+    net = lambda x: _amount(x.get("income"), "") - _amount(x.get("debt_interest"), "")  # noqa: E731
+    div_credit_base = sum(net(x) for x in divs if x.get("credit", "dividend") == "dividend")
+    div_credit_trust = sum(net(x) for x in divs if x.get("credit") == "investment_trust")
 
     misc_b = d.get("misc_business") or []
     misc_o = d.get("misc_other") or []
@@ -341,7 +367,15 @@ def calculate(d: dict) -> dict:
     sal_income = max(sal_after - adj_amount, 0)
 
     misc_income = pen_income + mb_income + mo_income
-    total = biz_income + re_income + div_income + sal_income + misc_income + tmp_half          # ⑫（損益通算なし）
+    # 損益通算（所得税法69条・施行令198条）: 事業・不動産の損失は、まず経常所得（配当・不動産・事業・給与・雑）の中で通算する。
+    # 経常所得の合計が赤字になり一時所得などと通算したり純損失が残ったりするときは、第四表（損失申告用）が要るので対象外
+    ordinary = biz_income + re_income + div_income + sal_income + misc_income
+    if (biz_income < 0 or re_income < 0) and ordinary < 0:
+        raise KojinError("損益通算しても経常所得が赤字になる（一時所得などとの通算・純損失の繰越し。第四表）のは OpenTax 個人の対象外です")
+    if (biz_income < 0 or re_income < 0) and pen_receipts:
+        raise KojinError("損失のある人の公的年金等に係る雑所得以外の合計所得金額は国税庁の別の計算書で計算するので、公的年金等と損失がある申告は"
+                         " OpenTax 個人の対象外です（手引き 雑所得 Step2 の※）")
+    total = ordinary + tmp_half                                                             # ⑫
 
     # 所得控除
     ded = d.get("deductions") or {}
@@ -436,7 +470,7 @@ def calculate(d: dict) -> dict:
     taxable = max(total - deductions_total, 0) // 1000 * 1000                               # ㉛
     tax = tax_on(taxable, r)                                                                # ㉜
     # ㉝ は手引きの計算欄 G のまま（㉜を超えても書く。㊷で赤字なら0）。控えも同じ書き方
-    div_cr = dividend_credit(div_credit_base, taxable, r) if div_credit_base else 0          # ㉝
+    div_cr = dividend_credit(div_credit_base, taxable, r, div_credit_trust)                  # ㉝
     after_credits = max(tax - div_cr, 0)                                                    # ㊷
     base_tax = after_credits                                                                # ㊹（災害減免なし）
     recon = _floor(base_tax * _d(r["reconstruction"]["rate"]))                              # ㊺
@@ -462,7 +496,7 @@ def calculate(d: dict) -> dict:
         "31": taxable, "32": tax, "33": div_cr, "42": after_credits, "44": base_tax, "45": recon, "46": tax_total,
         "49": withheld, "50": filing_tax, "51": prepaid,
         "52": third if third >= 0 else 0, "53": -third if third < 0 else 0,
-        "56": other_than_pension,                                    # 手引き 雑所得 Step2 の B
+        "56": other_than_pension if pen_receipts else 0,                                   # 手引き 雑所得 Step2 の B
         "57": _amount(sp.get("income"), "") if sp else 0,
         "58": (biz or {}).get("family_salary", 0) + (rent or {}).get("family_salary", 0) + sum(white_family.values()),
         "59": blue_re + blue_biz,
@@ -472,6 +506,6 @@ def calculate(d: dict) -> dict:
         "input": d, "year": year, "lines": lines, "warnings": warnings, "checks": checks,
         "detail": {"salary_adjustment_kubun": adj_kubun, "salary_adjustment": adj_amount, "medical_kubun": med_kubun,
                    "widow_kubun": widow_kubun, "spouse_special": spouse_special, "specific_count": specific_count,
-                   "blue_from_real_estate": blue_re, "blue_from_business": blue_biz, "white_family": white_family, "white_each": white_each, "donation_total": don_total,
+                   "real_estate_loss_special": re_special, "real_estate_before_special": re_before_special, "blue_from_real_estate": blue_re, "blue_from_business": blue_biz, "white_family": white_family, "white_each": white_each, "donation_total": don_total,
                    "temporary_net": tmp_net, "real_estate_before_blue": re_before, "business_before_blue": biz_before},
     }

@@ -68,6 +68,14 @@ def form_values(c: dict) -> dict[str, dict]:
         v["ABB00495"] = int(det["widow_kubun"])
     if L.get("21") and det["spouse_special"]:
         v["ABB00515"] = 1
+    if det.get("real_estate_loss_special"):
+        # 損益通算の特例（措置法41条の4）: ③の頭に「不」、第二表の事業税の欄に特例適用前の不動産所得（青色申告決算書（不動産所得用）の書き方 2ページ）
+        v["ABB00330"] = "不"
+        v["ABI00150"] = det["real_estate_before_special"]
+        if "ABB00340" not in v:
+            v["ABB00340"] = 0
+    if det.get("blue_from_real_estate"):
+        v["ABI00170"] = det["blue_from_real_estate"]               # 事業税: 不動産所得から差し引いた青色申告特別控除額
     if L.get("24"):
         v["ABB00546"] = det["specific_count"]
     if tp.get("occupation"):
@@ -201,6 +209,8 @@ def _statement_values(c: dict, k: dict, key: str, form_id: str) -> dict:
             v[names], v[amounts] = v[names][0], v[amounts][0]
     if form_id == "KOA210":
         v["AMB00010"] = c["input"]["taxpayer"]["address"]          # 住所（氏名・屋号などは IT部を参照する）
+    if form_id == "KOA220" and k.get("land_debt_interest") and det.get("real_estate_loss_special"):
+        v["ANF00280"] = k["land_debt_interest"]                   # 土地等を取得するために要した負債の利子の額
     if form_id == "KOA220" and st.get("other_income"):
         v["ANF00050"] = st["other_income"][0][0]
     if form_id == "KOA110":
