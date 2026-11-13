@@ -256,7 +256,7 @@ def local_tax_sheet(calculated: dict, today: datetime.date | None = None) -> str
 
 
 def validate_xtx(xml: bytes, schema_root: Path, procedure_id: str = "RHO0012") -> list[str]:
-    """公式XSD で検証する。procedure_id: RHO0012（法人税）・RSH0020（消費税 一般・法人）・RSH0040（消費税 簡易課税・法人）。"""
+    """公式XSD で検証する。procedure_id: RHO0012（法人税）・RSH0020（消費税 一般・法人）・RSH0040（消費税 簡易課税・法人）・RKO0010（所得税）。"""
     procs = _manifest()["procedures"]
     procedure = next((p for p in procs if p.get("key") == procedure_id), None)         or next(p for p in procs if p["procedure_id"] == procedure_id and not p.get("key"))
     return _validate(xml, schema_root, procedure["xsd"])
@@ -283,6 +283,39 @@ def shohi_export(calculated: dict, schema_root: Path, today: datetime.date | Non
         period = tuple(x if isinstance(x, datetime.date) else datetime.date.fromisoformat(str(x)) for x in (p["start"], p["end"]))
         tenpu = {"SOZ074": dairi.values(office, calculated["input"]["company"], consumption=period, engagement=engagement)}
     return build_xtx(calculated, zeimusho, today or datetime.date.today(), tenpu)
+
+
+# --- 個人の所得税（確定申告） ---
+
+def kojin_calculate(raw_input: dict, balances: dict | None = None) -> dict:
+    """個人の所得税及び復興特別所得税の確定申告（申告書 第一表・第二表）の計算。
+    balances: {"business": 残高試算表のバイト列, "real_estate": …}。あれば青色申告決算書（損益計算書）を組み、
+    入力の business・real_estate の income・before_blue・family_salary をそこから入れる。"""
+    from .kojin import aoiro
+    from .kojin.calculate import calculate
+    from .red import uchiwake
+    d = dict(raw_input)
+    for key, kind in (("business", "general"), ("real_estate", "real_estate")):
+        data = (balances or {}).get(key)
+        if data is None:
+            continue
+        st = aoiro.build(uchiwake.parse_balance(data), kind)
+        d[key] = {**(d.get(key) or {}), "income": st["income"], "before_blue": st["before_blue"],
+                  "family_salary": st["family_salary"], "statement": st}
+    return calculate(d)
+
+
+def kojin_export(calculated: dict, schema_root: Path, today: datetime.date | None = None) -> bytes:
+    """個人の所得税の .xtx（手続 RKO0010。申告書 第一表・第二表、青色申告決算書（一般用・不動産所得用）の損益計算書）。"""
+    from .kojin.etax import build_xtx
+    zeimusho = (schema_root / Path(*ZEIMUSHO_XSD.split("/"))).read_bytes()
+    return build_xtx(calculated, zeimusho, today or datetime.date.today())
+
+
+def kojin_report(calculated: dict, today: datetime.date | None = None) -> str:
+    """個人の申告書一式（HTML 1枚）: 申告書 第一表・第二表 → 青色申告決算書（損益計算書）。"""
+    from . import report as rp
+    return rp.build_kojin(calculated, today)
 
 
 def schema_from_cab(cab: bytes, workdir: Path | None = None) -> Path:

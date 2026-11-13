@@ -1,0 +1,6136 @@
+{
+ "form_id": "KOA210",
+ "label": "所得税青色申告決算書（一般用）",
+ "version": "11.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shotoku",
+ "group": "KOA210-11-0group",
+ "xsd": "19XMLスキーマ/shotoku/KOA210-011.xsd",
+ "xsd_sha256": "806d4a5e3ee8e33ef82ec5904e12088e6c1f9e37ac0eedeb549facecadf60313",
+ "root": {
+  "tag": "KOA210",
+  "path": "KOA210",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "KOA210-1",
+    "path": "KOA210/KOA210-1",
+    "label": "１ページ目",
+    "min": 0,
+    "max": 1,
+    "type": "KOA210-1-11-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "AMI00000",
+      "path": "KOA210/KOA210-1/AMI00000",
+      "label": "有限責任事業組合",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "AMA00000",
+      "path": "KOA210/KOA210-1/AMA00000",
+      "label": "年分",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NENBUNref",
+      "kind": "idref",
+      "idref": "NENBUN",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NENBUN",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "AMB00000",
+      "path": "KOA210/KOA210-1/AMB00000",
+      "label": "納税者等部",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMB00010",
+        "path": "KOA210/KOA210-1/AMB00000/AMB00010",
+        "label": "住所",
+        "min": 0,
+        "max": 1,
+        "type": "gen:address",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "AMB00020",
+        "path": "KOA210/KOA210-1/AMB00000/AMB00020",
+        "label": "（フリガナ）氏名",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMB00030",
+          "path": "KOA210/KOA210-1/AMB00000/AMB00020/AMB00030",
+          "label": "フリガナ",
+          "min": 0,
+          "max": 1,
+          "type": "gen:NOZEISHA_NM_KNref",
+          "kind": "idref",
+          "idref": "NOZEISHA_NM_KN",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "NOZEISHA_NM_KN",
+            "type": "xsd:IDREF"
+           }
+          ]
+         },
+         {
+          "tag": "AMB00040",
+          "path": "KOA210/KOA210-1/AMB00000/AMB00020/AMB00040",
+          "label": "氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:NOZEISHA_NMref",
+          "kind": "idref",
+          "idref": "NOZEISHA_NM",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "NOZEISHA_NM",
+            "type": "xsd:IDREF"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMB00050",
+        "path": "KOA210/KOA210-1/AMB00000/AMB00050",
+        "label": "事業所所在地",
+        "min": 0,
+        "max": 1,
+        "type": "gen:address",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "AMB00060",
+        "path": "KOA210/KOA210-1/AMB00000/AMB00060",
+        "label": "電話番号",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMB00070",
+          "path": "KOA210/KOA210-1/AMB00000/AMB00060/AMB00070",
+          "label": "自宅電話番号",
+          "min": 0,
+          "max": 1,
+          "type": "gen:tel-number",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "tel1",
+            "path": "KOA210/KOA210-1/AMB00000/AMB00060/AMB00070/tel1",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 6
+           },
+           {
+            "tag": "tel2",
+            "path": "KOA210/KOA210-1/AMB00000/AMB00060/AMB00070/tel2",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 4
+           },
+           {
+            "tag": "tel3",
+            "path": "KOA210/KOA210-1/AMB00000/AMB00060/AMB00070/tel3",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 4
+           }
+          ]
+         },
+         {
+          "tag": "AMB00080",
+          "path": "KOA210/KOA210-1/AMB00000/AMB00060/AMB00080",
+          "label": "事業所電話番号",
+          "min": 0,
+          "max": 1,
+          "type": "gen:tel-number",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "tel1",
+            "path": "KOA210/KOA210-1/AMB00000/AMB00060/AMB00080/tel1",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 6
+           },
+           {
+            "tag": "tel2",
+            "path": "KOA210/KOA210-1/AMB00000/AMB00060/AMB00080/tel2",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 4
+           },
+           {
+            "tag": "tel3",
+            "path": "KOA210/KOA210-1/AMB00000/AMB00060/AMB00080/tel3",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:string",
+            "max_length": 4
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMB00090",
+        "path": "KOA210/KOA210-1/AMB00000/AMB00090",
+        "label": "業種名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:SHOKUGYOref",
+        "kind": "idref",
+        "idref": "SHOKUGYO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "SHOKUGYO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "AMB00100",
+        "path": "KOA210/KOA210-1/AMB00000/AMB00100",
+        "label": "屋号",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_YAGOref",
+        "kind": "idref",
+        "idref": "NOZEISHA_YAGO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_YAGO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "AMB00110",
+        "path": "KOA210/KOA210-1/AMB00000/AMB00110",
+        "label": "加入団体名",
+        "min": 0,
+        "max": 1,
+        "type": "AMB00110-11-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 20
+       }
+      ]
+     },
+     {
+      "tag": "AMC00000",
+      "path": "KOA210/KOA210-1/AMC00000",
+      "label": "依頼税理士等",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMC00010",
+        "path": "KOA210/KOA210-1/AMC00000/AMC00010",
+        "label": "事務所所在地",
+        "min": 0,
+        "max": 1,
+        "type": "gen:DAIRI_ADRref",
+        "kind": "idref",
+        "idref": "DAIRI_ADR",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "DAIRI_ADR",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "AMC00020",
+        "path": "KOA210/KOA210-1/AMC00000/AMC00020",
+        "label": "氏名（名称）",
+        "min": 0,
+        "max": 1,
+        "type": "gen:DAIRI_NMref",
+        "kind": "idref",
+        "idref": "DAIRI_NM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "DAIRI_NM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "AMC00030",
+        "path": "KOA210/KOA210-1/AMC00000/AMC00030",
+        "label": "電話番号",
+        "min": 0,
+        "max": 1,
+        "type": "gen:DAIRI_TELref",
+        "kind": "idref",
+        "idref": "DAIRI_TEL",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "DAIRI_TEL",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "AME00000",
+      "path": "KOA210/KOA210-1/AME00000",
+      "label": "提出年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:TEISYUTSU_DAYref",
+      "kind": "idref",
+      "idref": "TEISYUTSU_DAY",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "TEISYUTSU_DAY",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "AMF00000",
+      "path": "KOA210/KOA210-1/AMF00000",
+      "label": "損益計算書",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMF00010",
+        "path": "KOA210/KOA210-1/AMF00000/AMF00010",
+        "label": "損益計算書の内訳",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF00020",
+          "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00020",
+          "label": "事業期間",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMF00030",
+            "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00020/AMF00030",
+            "label": "事業期間（自）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:mmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "mm",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00020/AMF00030/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00020/AMF00030/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "AMF00040",
+            "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00020/AMF00040",
+            "label": "事業期間（至）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:mmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "mm",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00020/AMF00040/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00020/AMF00040/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AMF00090",
+          "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMF00100",
+            "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00100",
+            "label": "売上（収入）金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF00110",
+            "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00110",
+            "label": "売上原価",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "AMF00120",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00110/AMF00120",
+              "label": "期首商品（製品）棚卸高",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00130",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00110/AMF00130",
+              "label": "仕入金額（製品製造原価）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00140",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00110/AMF00140",
+              "label": "小計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00150",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00110/AMF00150",
+              "label": "期末商品（製品）棚卸高",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00160",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00110/AMF00160",
+              "label": "差引原価",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "AMF00170",
+            "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00170",
+            "label": "差引金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF00180",
+            "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180",
+            "label": "経費",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "AMF00190",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00190",
+              "label": "租税公課",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00200",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00200",
+              "label": "荷造運賃",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00210",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00210",
+              "label": "水道光熱費",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00220",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00220",
+              "label": "旅費交通費",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00230",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00230",
+              "label": "通信費",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00240",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00240",
+              "label": "広告宣伝費",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00250",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00250",
+              "label": "接待交際費",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00260",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00260",
+              "label": "損害保険料",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00270",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00270",
+              "label": "修繕費",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00280",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00280",
+              "label": "消耗品費",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00290",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00290",
+              "label": "減価償却費",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00300",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00300",
+              "label": "福利厚生費",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00310",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00310",
+              "label": "給料賃金",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00320",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00320",
+              "label": "外注工賃",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00330",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00330",
+              "label": "利子割引料",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00340",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00340",
+              "label": "地代家賃",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00350",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00350",
+              "label": "貸倒金",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00355",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00355",
+              "label": "追加科目　繰り返し",
+              "min": 0,
+              "max": 6,
+              "kind": "group",
+              "children": [
+               {
+                "tag": "AMF00060",
+                "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00355/AMF00060",
+                "label": "経費（科目名）",
+                "min": 0,
+                "max": 1,
+                "type": "AMF00060-11-0Rtype",
+                "kind": "value",
+                "base": "xsd:string",
+                "derived_from": [
+                 "gen:str"
+                ],
+                "max_length": 10
+               },
+               {
+                "tag": "AMF00360",
+                "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00355/AMF00360",
+                "label": "金額",
+                "min": 0,
+                "max": 1,
+                "type": "gen:kingaku",
+                "kind": "amount",
+                "base": "xsd:long",
+                "attributes": [
+                 {
+                  "name": "AutoCalc",
+                  "required": false,
+                  "type": "xsd:string"
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "tag": "AMF00370",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00370",
+              "label": "雑費",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMF00380",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00180/AMF00380",
+              "label": "計",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "AMF00390",
+            "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00390",
+            "label": "差引金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF00400",
+            "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00400",
+            "label": "各種引当金・準備金等",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "AMF00410",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00400/AMF00410",
+              "label": "繰戻額等",
+              "min": 0,
+              "max": 1,
+              "kind": "group",
+              "children": [
+               {
+                "tag": "AMF00420",
+                "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00400/AMF00410/AMF00420",
+                "label": "貸倒引当金",
+                "min": 0,
+                "max": 1,
+                "type": "gen:kingaku",
+                "kind": "amount",
+                "base": "xsd:long",
+                "attributes": [
+                 {
+                  "name": "AutoCalc",
+                  "required": false,
+                  "type": "xsd:string"
+                 }
+                ]
+               },
+               {
+                "tag": "AMF00425",
+                "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00400/AMF00410/AMF00425",
+                "label": "追加科目　繰り返し",
+                "min": 0,
+                "max": 2,
+                "kind": "group",
+                "children": [
+                 {
+                  "tag": "AMF00070",
+                  "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00400/AMF00410/AMF00425/AMF00070",
+                  "label": "各種引当金・準備金等：繰戻額等（科目名）",
+                  "min": 0,
+                  "max": 1,
+                  "type": "AMF00070-11-0Rtype",
+                  "kind": "value",
+                  "base": "xsd:string",
+                  "derived_from": [
+                   "gen:str"
+                  ],
+                  "max_length": 10
+                 },
+                 {
+                  "tag": "AMF00430",
+                  "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00400/AMF00410/AMF00425/AMF00430",
+                  "label": "金額",
+                  "min": 0,
+                  "max": 1,
+                  "type": "gen:kingaku",
+                  "kind": "amount",
+                  "base": "xsd:long",
+                  "attributes": [
+                   {
+                    "name": "AutoCalc",
+                    "required": false,
+                    "type": "xsd:string"
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "AMF00440",
+                "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00400/AMF00410/AMF00440",
+                "label": "計",
+                "min": 0,
+                "max": 1,
+                "type": "gen:kingaku",
+                "kind": "amount",
+                "base": "xsd:long",
+                "attributes": [
+                 {
+                  "name": "AutoCalc",
+                  "required": false,
+                  "type": "xsd:string"
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "tag": "AMF00450",
+              "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00400/AMF00450",
+              "label": "繰入額等",
+              "min": 0,
+              "max": 1,
+              "kind": "group",
+              "children": [
+               {
+                "tag": "AMF00460",
+                "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00400/AMF00450/AMF00460",
+                "label": "専従者給与",
+                "min": 0,
+                "max": 1,
+                "type": "gen:kingaku",
+                "kind": "amount",
+                "base": "xsd:long",
+                "attributes": [
+                 {
+                  "name": "AutoCalc",
+                  "required": false,
+                  "type": "xsd:string"
+                 }
+                ]
+               },
+               {
+                "tag": "AMF00470",
+                "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00400/AMF00450/AMF00470",
+                "label": "貸倒引当金",
+                "min": 0,
+                "max": 1,
+                "type": "gen:kingaku",
+                "kind": "amount",
+                "base": "xsd:long",
+                "attributes": [
+                 {
+                  "name": "AutoCalc",
+                  "required": false,
+                  "type": "xsd:string"
+                 }
+                ]
+               },
+               {
+                "tag": "AMF00475",
+                "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00400/AMF00450/AMF00475",
+                "label": "追加科目　繰り返し",
+                "min": 0,
+                "max": 2,
+                "kind": "group",
+                "children": [
+                 {
+                  "tag": "AMF00080",
+                  "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00400/AMF00450/AMF00475/AMF00080",
+                  "label": "各種引当金・準備金等：繰入額等（科目名）",
+                  "min": 0,
+                  "max": 1,
+                  "type": "AMF00080-11-0Rtype",
+                  "kind": "value",
+                  "base": "xsd:string",
+                  "derived_from": [
+                   "gen:str"
+                  ],
+                  "max_length": 10
+                 },
+                 {
+                  "tag": "AMF00480",
+                  "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00400/AMF00450/AMF00475/AMF00480",
+                  "label": "金額",
+                  "min": 0,
+                  "max": 1,
+                  "type": "gen:kingaku",
+                  "kind": "amount",
+                  "base": "xsd:long",
+                  "attributes": [
+                   {
+                    "name": "AutoCalc",
+                    "required": false,
+                    "type": "xsd:string"
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "tag": "AMF00490",
+                "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00400/AMF00450/AMF00490",
+                "label": "計",
+                "min": 0,
+                "max": 1,
+                "type": "gen:kingaku",
+                "kind": "amount",
+                "base": "xsd:long",
+                "attributes": [
+                 {
+                  "name": "AutoCalc",
+                  "required": false,
+                  "type": "xsd:string"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "AMF00500",
+            "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00500",
+            "label": "青色申告特別控除前の所得金額(上段)",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF00505",
+            "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00505",
+            "label": "青色申告特別控除前の所得金額(下段)",
+            "min": 0,
+            "max": 1,
+            "type": "AMF00505-11-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "AMF00510",
+            "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00510",
+            "label": "青色申告特別控除額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF00520",
+            "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00520",
+            "label": "所得金額（特例表示）",
+            "min": 0,
+            "max": 1,
+            "type": "AMF00520-11-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 3
+           },
+           {
+            "tag": "AMF00530",
+            "path": "KOA210/KOA210-1/AMF00000/AMF00010/AMF00090/AMF00530",
+            "label": "所得金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "AMF00532",
+      "path": "KOA210/KOA210-1/AMF00532",
+      "label": "必要経費不算入損失額・措置法差額",
+      "min": 0,
+      "max": 1,
+      "type": "AMF00532-11-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 30
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   },
+   {
+    "tag": "KOA210-2",
+    "path": "KOA210/KOA210-2",
+    "label": "２ページ目",
+    "min": 0,
+    "max": null,
+    "type": "KOA210-2-11-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "AMF00538",
+      "path": "KOA210/KOA210-2/AMF00538",
+      "label": "年分",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NENBUNref",
+      "kind": "idref",
+      "idref": "NENBUN",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NENBUN",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "AMF00540",
+      "path": "KOA210/KOA210-2/AMF00540",
+      "label": "（フリガナ）氏名",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMF00550",
+        "path": "KOA210/KOA210-2/AMF00540/AMF00550",
+        "label": "フリガナ",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_NM_KNref",
+        "kind": "idref",
+        "idref": "NOZEISHA_NM_KN",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_NM_KN",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "AMF00560",
+        "path": "KOA210/KOA210-2/AMF00540/AMF00560",
+        "label": "氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_NMref",
+        "kind": "idref",
+        "idref": "NOZEISHA_NM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_NM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "AMF00580",
+      "path": "KOA210/KOA210-2/AMF00580",
+      "label": "月別売上（収入）金額及び仕入金額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMF00590",
+        "path": "KOA210/KOA210-2/AMF00580/AMF00590",
+        "label": "１月",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF00600",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00590/AMF00600",
+          "label": "売上（収入）金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF00610",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00590/AMF00610",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF00620",
+        "path": "KOA210/KOA210-2/AMF00580/AMF00620",
+        "label": "２月",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF00630",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00620/AMF00630",
+          "label": "売上（収入）金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF00640",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00620/AMF00640",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF00650",
+        "path": "KOA210/KOA210-2/AMF00580/AMF00650",
+        "label": "３月",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF00660",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00650/AMF00660",
+          "label": "売上（収入）金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF00670",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00650/AMF00670",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF00680",
+        "path": "KOA210/KOA210-2/AMF00580/AMF00680",
+        "label": "４月",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF00690",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00680/AMF00690",
+          "label": "売上（収入）金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF00700",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00680/AMF00700",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF00710",
+        "path": "KOA210/KOA210-2/AMF00580/AMF00710",
+        "label": "５月",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF00720",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00710/AMF00720",
+          "label": "売上（収入）金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF00730",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00710/AMF00730",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF00740",
+        "path": "KOA210/KOA210-2/AMF00580/AMF00740",
+        "label": "６月",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF00750",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00740/AMF00750",
+          "label": "売上（収入）金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF00760",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00740/AMF00760",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF00770",
+        "path": "KOA210/KOA210-2/AMF00580/AMF00770",
+        "label": "７月",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF00780",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00770/AMF00780",
+          "label": "売上（収入）金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF00790",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00770/AMF00790",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF00800",
+        "path": "KOA210/KOA210-2/AMF00580/AMF00800",
+        "label": "８月",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF00810",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00800/AMF00810",
+          "label": "売上（収入）金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF00820",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00800/AMF00820",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF00830",
+        "path": "KOA210/KOA210-2/AMF00580/AMF00830",
+        "label": "９月",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF00840",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00830/AMF00840",
+          "label": "売上（収入）金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF00850",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00830/AMF00850",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF00860",
+        "path": "KOA210/KOA210-2/AMF00580/AMF00860",
+        "label": "１０月",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF00870",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00860/AMF00870",
+          "label": "売上（収入）金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF00880",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00860/AMF00880",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF00890",
+        "path": "KOA210/KOA210-2/AMF00580/AMF00890",
+        "label": "１１月",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF00900",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00890/AMF00900",
+          "label": "売上（収入）金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF00910",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00890/AMF00910",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF00920",
+        "path": "KOA210/KOA210-2/AMF00580/AMF00920",
+        "label": "１２月",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF00930",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00920/AMF00930",
+          "label": "売上（収入）金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF00940",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00920/AMF00940",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF00950",
+        "path": "KOA210/KOA210-2/AMF00580/AMF00950",
+        "label": "家事消費等（売上（収入）金額）",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AMF00960",
+        "path": "KOA210/KOA210-2/AMF00580/AMF00960",
+        "label": "雑収入（売上（収入）金額）",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AMF00970",
+        "path": "KOA210/KOA210-2/AMF00580/AMF00970",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF00980",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00970/AMF00980",
+          "label": "売上（収入）金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF00990",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00970/AMF00990",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF00993",
+        "path": "KOA210/KOA210-2/AMF00580/AMF00993",
+        "label": "うち軽減税率対象",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF00995",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00993/AMF00995",
+          "label": "売上（収入）金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF00997",
+          "path": "KOA210/KOA210-2/AMF00580/AMF00993/AMF00997",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "AMF01000",
+      "path": "KOA210/KOA210-2/AMF01000",
+      "label": "貸倒引当金繰入額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMF01010",
+        "path": "KOA210/KOA210-2/AMF01000/AMF01010",
+        "label": "個別評価による本年分繰入額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AMF01020",
+        "path": "KOA210/KOA210-2/AMF01000/AMF01020",
+        "label": "一括評価による本年分繰入額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF01030",
+          "path": "KOA210/KOA210-2/AMF01000/AMF01020/AMF01030",
+          "label": "年末における一括評価による貸倒引当金の繰入れの対象となる貸金の合計額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01040",
+          "path": "KOA210/KOA210-2/AMF01000/AMF01020/AMF01040",
+          "label": "本年分繰入限度額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01050",
+          "path": "KOA210/KOA210-2/AMF01000/AMF01020/AMF01050",
+          "label": "本年分繰入額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF01060",
+        "path": "KOA210/KOA210-2/AMF01000/AMF01060",
+        "label": "本年分の貸倒引当金繰入額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "AMF01070",
+      "path": "KOA210/KOA210-2/AMF01070",
+      "label": "給料賃金の内訳",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMF01080",
+        "path": "KOA210/KOA210-2/AMF01070/AMF01080",
+        "label": "給料賃金明細行　繰り返し",
+        "min": 0,
+        "max": 4,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF01090",
+          "path": "KOA210/KOA210-2/AMF01070/AMF01080/AMF01090",
+          "label": "氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "AMF01100",
+          "path": "KOA210/KOA210-2/AMF01070/AMF01080/AMF01100",
+          "label": "年齢",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01100-11-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 1,
+          "max_inclusive": 999,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01110",
+          "path": "KOA210/KOA210-2/AMF01070/AMF01080/AMF01110",
+          "label": "従事月数",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01110-11-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 1,
+          "max_inclusive": 12,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01120",
+          "path": "KOA210/KOA210-2/AMF01070/AMF01080/AMF01120",
+          "label": "支給額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMF01130",
+            "path": "KOA210/KOA210-2/AMF01070/AMF01080/AMF01120/AMF01130",
+            "label": "給料賃金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF01140",
+            "path": "KOA210/KOA210-2/AMF01070/AMF01080/AMF01120/AMF01140",
+            "label": "賞与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF01150",
+            "path": "KOA210/KOA210-2/AMF01070/AMF01080/AMF01120/AMF01150",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AMF01160",
+          "path": "KOA210/KOA210-2/AMF01070/AMF01080/AMF01160",
+          "label": "所得税及び復興特別所得税の源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF01170",
+        "path": "KOA210/KOA210-2/AMF01070/AMF01170",
+        "label": "その他",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF01180",
+          "path": "KOA210/KOA210-2/AMF01070/AMF01170/AMF01180",
+          "label": "人数",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01180-11-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 1,
+          "max_inclusive": 999,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01190",
+          "path": "KOA210/KOA210-2/AMF01070/AMF01170/AMF01190",
+          "label": "従事月数",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01190-11-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 1,
+          "max_inclusive": 9999,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01200",
+          "path": "KOA210/KOA210-2/AMF01070/AMF01170/AMF01200",
+          "label": "支給額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMF01210",
+            "path": "KOA210/KOA210-2/AMF01070/AMF01170/AMF01200/AMF01210",
+            "label": "給料賃金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF01220",
+            "path": "KOA210/KOA210-2/AMF01070/AMF01170/AMF01200/AMF01220",
+            "label": "賞与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF01230",
+            "path": "KOA210/KOA210-2/AMF01070/AMF01170/AMF01200/AMF01230",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AMF01240",
+          "path": "KOA210/KOA210-2/AMF01070/AMF01170/AMF01240",
+          "label": "所得税及び復興特別所得税の源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF01250",
+        "path": "KOA210/KOA210-2/AMF01070/AMF01250",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF01260",
+          "path": "KOA210/KOA210-2/AMF01070/AMF01250/AMF01260",
+          "label": "延べ従事月数",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01260-11-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01270",
+          "path": "KOA210/KOA210-2/AMF01070/AMF01250/AMF01270",
+          "label": "支給額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMF01280",
+            "path": "KOA210/KOA210-2/AMF01070/AMF01250/AMF01270/AMF01280",
+            "label": "給料賃金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF01290",
+            "path": "KOA210/KOA210-2/AMF01070/AMF01250/AMF01270/AMF01290",
+            "label": "賞与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF01300",
+            "path": "KOA210/KOA210-2/AMF01070/AMF01250/AMF01270/AMF01300",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AMF01310",
+          "path": "KOA210/KOA210-2/AMF01070/AMF01250/AMF01310",
+          "label": "所得税及び復興特別所得税の源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "AMF01320",
+      "path": "KOA210/KOA210-2/AMF01320",
+      "label": "専従者給与の内訳",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMF01330",
+        "path": "KOA210/KOA210-2/AMF01320/AMF01330",
+        "label": "専従者給与明細行　繰り返し",
+        "min": 0,
+        "max": 4,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF01340",
+          "path": "KOA210/KOA210-2/AMF01320/AMF01330/AMF01340",
+          "label": "氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "AMF01350",
+          "path": "KOA210/KOA210-2/AMF01320/AMF01330/AMF01350",
+          "label": "続柄",
+          "min": 0,
+          "max": 1,
+          "type": "gen:zokugara",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 5
+         },
+         {
+          "tag": "AMF01360",
+          "path": "KOA210/KOA210-2/AMF01320/AMF01330/AMF01360",
+          "label": "年齢",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01360-11-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 1,
+          "max_inclusive": 999,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01370",
+          "path": "KOA210/KOA210-2/AMF01320/AMF01330/AMF01370",
+          "label": "従事月数",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01370-11-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 1,
+          "max_inclusive": 12,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01380",
+          "path": "KOA210/KOA210-2/AMF01320/AMF01330/AMF01380",
+          "label": "支給額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMF01390",
+            "path": "KOA210/KOA210-2/AMF01320/AMF01330/AMF01380/AMF01390",
+            "label": "給料",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF01400",
+            "path": "KOA210/KOA210-2/AMF01320/AMF01330/AMF01380/AMF01400",
+            "label": "賞与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF01410",
+            "path": "KOA210/KOA210-2/AMF01320/AMF01330/AMF01380/AMF01410",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AMF01420",
+          "path": "KOA210/KOA210-2/AMF01320/AMF01330/AMF01420",
+          "label": "所得税及び復興特別所得税の源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF01421",
+        "path": "KOA210/KOA210-2/AMF01320/AMF01421",
+        "label": "次葉合計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF01422",
+          "path": "KOA210/KOA210-2/AMF01320/AMF01421/AMF01422",
+          "label": "項目名",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01422-11-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 4
+         },
+         {
+          "tag": "AMF01423",
+          "path": "KOA210/KOA210-2/AMF01320/AMF01421/AMF01423",
+          "label": "延べ従事月数",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01423-11-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01424",
+          "path": "KOA210/KOA210-2/AMF01320/AMF01421/AMF01424",
+          "label": "支給額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMF01425",
+            "path": "KOA210/KOA210-2/AMF01320/AMF01421/AMF01424/AMF01425",
+            "label": "給料",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF01426",
+            "path": "KOA210/KOA210-2/AMF01320/AMF01421/AMF01424/AMF01426",
+            "label": "賞与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF01427",
+            "path": "KOA210/KOA210-2/AMF01320/AMF01421/AMF01424/AMF01427",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AMF01428",
+          "path": "KOA210/KOA210-2/AMF01320/AMF01421/AMF01428",
+          "label": "所得税及び復興特別所得税の源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF01430",
+        "path": "KOA210/KOA210-2/AMF01320/AMF01430",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF01440",
+          "path": "KOA210/KOA210-2/AMF01320/AMF01430/AMF01440",
+          "label": "延べ従事月数",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01440-11-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01450",
+          "path": "KOA210/KOA210-2/AMF01320/AMF01430/AMF01450",
+          "label": "支給額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMF01460",
+            "path": "KOA210/KOA210-2/AMF01320/AMF01430/AMF01450/AMF01460",
+            "label": "給料",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF01470",
+            "path": "KOA210/KOA210-2/AMF01320/AMF01430/AMF01450/AMF01470",
+            "label": "賞与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMF01480",
+            "path": "KOA210/KOA210-2/AMF01320/AMF01430/AMF01450/AMF01480",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AMF01490",
+          "path": "KOA210/KOA210-2/AMF01320/AMF01430/AMF01490",
+          "label": "所得税及び復興特別所得税の源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "AMF02120",
+      "path": "KOA210/KOA210-2/AMF02120",
+      "label": "地代家賃の内訳　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMF02130",
+        "path": "KOA210/KOA210-2/AMF02120/AMF02130",
+        "label": "支払先の住所・氏名",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF02140",
+          "path": "KOA210/KOA210-2/AMF02120/AMF02130/AMF02140",
+          "label": "支払先の住所",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "AMF02150",
+          "path": "KOA210/KOA210-2/AMF02120/AMF02130/AMF02150",
+          "label": "支払先の氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF02160",
+        "path": "KOA210/KOA210-2/AMF02120/AMF02160",
+        "label": "賃借物件",
+        "min": 0,
+        "max": 1,
+        "type": "AMF02160-11-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 14
+       },
+       {
+        "tag": "AMF02170",
+        "path": "KOA210/KOA210-2/AMF02120/AMF02170",
+        "label": "本年中の賃借料・権利金等",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF02180",
+          "path": "KOA210/KOA210-2/AMF02120/AMF02170/AMF02180",
+          "label": "権利金",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF02190",
+          "path": "KOA210/KOA210-2/AMF02120/AMF02170/AMF02190",
+          "label": "更新料",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF02200",
+          "path": "KOA210/KOA210-2/AMF02120/AMF02170/AMF02200",
+          "label": "賃借料",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF02210",
+        "path": "KOA210/KOA210-2/AMF02120/AMF02210",
+        "label": "左の賃借料のうち必要経費算入額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "AMF01500",
+      "path": "KOA210/KOA210-2/AMF01500",
+      "label": "青色申告特別控除額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMF01510",
+        "path": "KOA210/KOA210-2/AMF01500/AMF01510",
+        "label": "本年分の不動産所得の金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AMF01520",
+        "path": "KOA210/KOA210-2/AMF01500/AMF01520",
+        "label": "青色申告特別控除前の所得金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AMF01530",
+        "path": "KOA210/KOA210-2/AMF01500/AMF01530",
+        "label": "65万円又は55万円の青色申告特別控除を受ける場合",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF01540",
+          "path": "KOA210/KOA210-2/AMF01500/AMF01530/AMF01540",
+          "label": "65万円又は55万円と（６）のいずれか少ない方の金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01550",
+          "path": "KOA210/KOA210-2/AMF01500/AMF01530/AMF01550",
+          "label": "青色申告特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF01560",
+        "path": "KOA210/KOA210-2/AMF01500/AMF01560",
+        "label": "上記以外の場合",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF01570",
+          "path": "KOA210/KOA210-2/AMF01500/AMF01560/AMF01570",
+          "label": "10万円と（６）のいずれか少ない方の金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01580",
+          "path": "KOA210/KOA210-2/AMF01500/AMF01560/AMF01580",
+          "label": "青色申告特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   },
+   {
+    "tag": "KOA210-3",
+    "path": "KOA210/KOA210-3",
+    "label": "３ページ目",
+    "min": 0,
+    "max": null,
+    "type": "KOA210-3-11-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "AMF02220",
+      "path": "KOA210/KOA210-3/AMF02220",
+      "label": "売上（収入）金額の明細",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMF02230",
+        "path": "KOA210/KOA210-3/AMF02220/AMF02230",
+        "label": "明細　繰り返し",
+        "min": 0,
+        "max": 4,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF02240",
+          "path": "KOA210/KOA210-3/AMF02220/AMF02230/AMF02240",
+          "label": "売上先名",
+          "min": 0,
+          "max": 1,
+          "type": "AMF02240-11-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:in-string"
+          ],
+          "max_length": 30
+         },
+         {
+          "tag": "AMF02250",
+          "path": "KOA210/KOA210-3/AMF02220/AMF02230/AMF02250",
+          "label": "所在地",
+          "min": 0,
+          "max": 1,
+          "type": "AMF02250-11-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:in-string"
+          ],
+          "max_length": 100
+         },
+         {
+          "tag": "AMF02260",
+          "path": "KOA210/KOA210-3/AMF02220/AMF02230/AMF02260",
+          "label": "登録番号（法人番号）",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMF02270",
+            "path": "KOA210/KOA210-3/AMF02220/AMF02230/AMF02260/AMF02270",
+            "label": "登録番号",
+            "min": 0,
+            "max": 1,
+            "type": "AMF02270-11-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 13
+           },
+           {
+            "tag": "AMF02280",
+            "path": "KOA210/KOA210-3/AMF02220/AMF02230/AMF02260/AMF02280",
+            "label": "法人番号",
+            "min": 0,
+            "max": 1,
+            "type": "gen:bango",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kojinbango",
+              "path": "KOA210/KOA210-3/AMF02220/AMF02230/AMF02260/AMF02280/kojinbango",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:string",
+              "max_length": 12,
+              "choice": "KOA210/KOA210-3/AMF02220/AMF02230/AMF02260/AMF02280#1"
+             },
+             {
+              "tag": "hojinbango",
+              "path": "KOA210/KOA210-3/AMF02220/AMF02230/AMF02260/AMF02280/hojinbango",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:string",
+              "max_length": 13,
+              "choice": "KOA210/KOA210-3/AMF02220/AMF02230/AMF02260/AMF02280#2"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AMF02290",
+          "path": "KOA210/KOA210-3/AMF02220/AMF02230/AMF02290",
+          "label": "売上（収入）金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF02300",
+        "path": "KOA210/KOA210-3/AMF02220/AMF02300",
+        "label": "上記以外の売上先の計（雑収入を含む）",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AMF02310",
+        "path": "KOA210/KOA210-3/AMF02220/AMF02310",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "AMF02320",
+      "path": "KOA210/KOA210-3/AMF02320",
+      "label": "仕入金額の明細",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMF02330",
+        "path": "KOA210/KOA210-3/AMF02320/AMF02330",
+        "label": "明細　繰り返し",
+        "min": 0,
+        "max": 4,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF02340",
+          "path": "KOA210/KOA210-3/AMF02320/AMF02330/AMF02340",
+          "label": "仕入先名",
+          "min": 0,
+          "max": 1,
+          "type": "AMF02340-11-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:in-string"
+          ],
+          "max_length": 30
+         },
+         {
+          "tag": "AMF02350",
+          "path": "KOA210/KOA210-3/AMF02320/AMF02330/AMF02350",
+          "label": "所在地",
+          "min": 0,
+          "max": 1,
+          "type": "AMF02350-11-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:in-string"
+          ],
+          "max_length": 100
+         },
+         {
+          "tag": "AMF02360",
+          "path": "KOA210/KOA210-3/AMF02320/AMF02330/AMF02360",
+          "label": "登録番号（法人番号）",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMF02370",
+            "path": "KOA210/KOA210-3/AMF02320/AMF02330/AMF02360/AMF02370",
+            "label": "登録番号",
+            "min": 0,
+            "max": 1,
+            "type": "AMF02370-11-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 13
+           },
+           {
+            "tag": "AMF02380",
+            "path": "KOA210/KOA210-3/AMF02320/AMF02330/AMF02360/AMF02380",
+            "label": "法人番号",
+            "min": 0,
+            "max": 1,
+            "type": "gen:bango",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kojinbango",
+              "path": "KOA210/KOA210-3/AMF02320/AMF02330/AMF02360/AMF02380/kojinbango",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:string",
+              "max_length": 12,
+              "choice": "KOA210/KOA210-3/AMF02320/AMF02330/AMF02360/AMF02380#1"
+             },
+             {
+              "tag": "hojinbango",
+              "path": "KOA210/KOA210-3/AMF02320/AMF02330/AMF02360/AMF02380/hojinbango",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:string",
+              "max_length": 13,
+              "choice": "KOA210/KOA210-3/AMF02320/AMF02330/AMF02360/AMF02380#2"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AMF02390",
+          "path": "KOA210/KOA210-3/AMF02320/AMF02330/AMF02390",
+          "label": "仕入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF02400",
+        "path": "KOA210/KOA210-3/AMF02320/AMF02400",
+        "label": "上記以外の仕入先の計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AMF02410",
+        "path": "KOA210/KOA210-3/AMF02320/AMF02410",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "AMF01590",
+      "path": "KOA210/KOA210-3/AMF01590",
+      "label": "減価償却費の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMF01600",
+        "path": "KOA210/KOA210-3/AMF01590/AMF01600",
+        "label": "減価償却費の明細　繰り返し",
+        "min": 0,
+        "max": 7,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF01610",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01610",
+          "label": "減価償却資産の名称等（繰延資産を含む）",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01610-11-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 16
+         },
+         {
+          "tag": "AMF01620",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01620",
+          "label": "面積又は数量",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01620-11-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 13
+         },
+         {
+          "tag": "AMF01630",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01630",
+          "label": "取得年月",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymm",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01630/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01630/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01630/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "AMF01640",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01640",
+          "label": "取得価額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01645",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01645",
+          "label": "（償却保証額）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01650",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01650",
+          "label": "償却の基礎になる金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01660",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01660",
+          "label": "償却方法",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01660-11-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 10
+         },
+         {
+          "tag": "AMF01670",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01670",
+          "label": "耐用年数",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01670-11-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 2,
+          "max_inclusive": 100,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01680",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01680",
+          "label": "償却率又は改定償却率",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMF01690",
+            "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01680/AMF01690",
+            "label": "償却率又は改定償却率",
+            "min": 0,
+            "max": 1,
+            "type": "AMF01690-11-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AMF01720",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01720",
+          "label": "本年中の償却期間",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01720-11-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 1,
+          "max_inclusive": 12,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01730",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01730",
+          "label": "本年分の普通償却費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01740",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01740",
+          "label": "割増（特別）償却費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01750",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01750",
+          "label": "本年分の償却費合計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01760",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01760",
+          "label": "事業専用割合",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01760-11-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01770",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01770",
+          "label": "本年分の必要経費算入額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01780",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01780",
+          "label": "未償却残高（期末残高）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01790",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01600/AMF01790",
+          "label": "摘要",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01790-11-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 15
+         }
+        ]
+       },
+       {
+        "tag": "AMF01791",
+        "path": "KOA210/KOA210-3/AMF01590/AMF01791",
+        "label": "次葉合計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF01792",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01791/AMF01792",
+          "label": "項目名",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01792-11-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 4
+         },
+         {
+          "tag": "AMF01793",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01791/AMF01793",
+          "label": "本年分の普通償却費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01794",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01791/AMF01794",
+          "label": "割増（特別）償却費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01795",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01791/AMF01795",
+          "label": "本年分の償却費合計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01796",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01791/AMF01796",
+          "label": "本年分の必要経費算入額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01797",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01791/AMF01797",
+          "label": "未償却残高（期末残高）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF01800",
+        "path": "KOA210/KOA210-3/AMF01590/AMF01800",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF01810",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01800/AMF01810",
+          "label": "本年分の普通償却費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01820",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01800/AMF01820",
+          "label": "割増（特別）償却費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01830",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01800/AMF01830",
+          "label": "本年分の償却費合計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01840",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01800/AMF01840",
+          "label": "本年分の必要経費算入額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01850",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01800/AMF01850",
+          "label": "未償却残高（期末残高）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMF01860",
+          "path": "KOA210/KOA210-3/AMF01590/AMF01800/AMF01860",
+          "label": "摘要",
+          "min": 0,
+          "max": 1,
+          "type": "AMF01860-11-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 15
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "AMF01870",
+      "path": "KOA210/KOA210-3/AMF01870",
+      "label": "利子割引料の内訳　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMF01880",
+        "path": "KOA210/KOA210-3/AMF01870/AMF01880",
+        "label": "支払先の住所・氏名",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF01890",
+          "path": "KOA210/KOA210-3/AMF01870/AMF01880/AMF01890",
+          "label": "支払先の住所",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "AMF01900",
+          "path": "KOA210/KOA210-3/AMF01870/AMF01880/AMF01900",
+          "label": "支払先の氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF01910",
+        "path": "KOA210/KOA210-3/AMF01870/AMF01910",
+        "label": "期末現在の借入金等の金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AMF01920",
+        "path": "KOA210/KOA210-3/AMF01870/AMF01920",
+        "label": "本年中の利子割引料",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AMF01930",
+        "path": "KOA210/KOA210-3/AMF01870/AMF01930",
+        "label": "左のうち必要経費算入額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "AMF02040",
+      "path": "KOA210/KOA210-3/AMF02040",
+      "label": "税理士・弁護士等の報酬・料金の内訳　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMF02050",
+        "path": "KOA210/KOA210-3/AMF02040/AMF02050",
+        "label": "支払先の住所・氏名",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMF02060",
+          "path": "KOA210/KOA210-3/AMF02040/AMF02050/AMF02060",
+          "label": "支払先の住所",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "AMF02070",
+          "path": "KOA210/KOA210-3/AMF02040/AMF02050/AMF02070",
+          "label": "支払先の氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMF02080",
+        "path": "KOA210/KOA210-3/AMF02040/AMF02080",
+        "label": "本年中の報酬等の金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AMF02090",
+        "path": "KOA210/KOA210-3/AMF02040/AMF02090",
+        "label": "左のうち必要経費算入額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AMF02100",
+        "path": "KOA210/KOA210-3/AMF02040/AMF02100",
+        "label": "所得税及び復興特別所得税の源泉徴収税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "AMF02110",
+      "path": "KOA210/KOA210-3/AMF02110",
+      "label": "本年中における特殊事情",
+      "min": 0,
+      "max": 1,
+      "type": "AMF02110-11-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 275
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   },
+   {
+    "tag": "KOA210-4",
+    "path": "KOA210/KOA210-4",
+    "label": "４ページ目",
+    "min": 0,
+    "max": 1,
+    "type": "KOA210-4-11-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "AMG00000",
+      "path": "KOA210/KOA210-4/AMG00000",
+      "label": "貸借対照表",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMG00010",
+        "path": "KOA210/KOA210-4/AMG00000/AMG00010",
+        "label": "期末年月日",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "KOA210/KOA210-4/AMG00000/AMG00010/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "KOA210/KOA210-4/AMG00000/AMG00010/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "KOA210/KOA210-4/AMG00000/AMG00010/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "KOA210/KOA210-4/AMG00000/AMG00010/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "AMG00020",
+        "path": "KOA210/KOA210-4/AMG00000/AMG00020",
+        "label": "資産の部",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMG00025",
+          "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00025",
+          "label": "追加科目　繰り返し",
+          "min": 0,
+          "max": 7,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMG00030",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00025/AMG00030",
+            "label": "科目名",
+            "min": 0,
+            "max": 1,
+            "type": "AMG00030-11-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 10
+           },
+           {
+            "tag": "AMG00220",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00025/AMG00220",
+            "label": "金額（期首）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00420",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00025/AMG00420",
+            "label": "金額（期末）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AMG00040",
+          "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040",
+          "label": "期首",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMG00050",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00050",
+            "label": "期首月日",
+            "min": 0,
+            "max": 1,
+            "type": "gen:mmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "mm",
+              "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00050/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00050/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "AMG00060",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00060",
+            "label": "現金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00070",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00070",
+            "label": "当座預金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00080",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00080",
+            "label": "定期預金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00090",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00090",
+            "label": "その他の預金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00100",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00100",
+            "label": "受取手形",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00110",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00110",
+            "label": "売掛金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00120",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00120",
+            "label": "有価証券",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00130",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00130",
+            "label": "棚卸資産",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00140",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00140",
+            "label": "前払金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00150",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00150",
+            "label": "貸付金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00160",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00160",
+            "label": "建物",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00170",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00170",
+            "label": "建物附属設備",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00180",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00180",
+            "label": "機械装置",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00190",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00190",
+            "label": "車両運搬具",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00200",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00200",
+            "label": "工具　器具　備品",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00210",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00210",
+            "label": "土地",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00230",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00040/AMG00230",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AMG00240",
+          "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240",
+          "label": "期末",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMG00250",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00250",
+            "label": "期末月日",
+            "min": 0,
+            "max": 1,
+            "type": "gen:mmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "mm",
+              "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00250/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00250/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "AMG00260",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00260",
+            "label": "現金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00270",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00270",
+            "label": "当座預金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00280",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00280",
+            "label": "定期預金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00290",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00290",
+            "label": "その他の預金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00300",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00300",
+            "label": "受取手形",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00310",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00310",
+            "label": "売掛金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00320",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00320",
+            "label": "有価証券",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00330",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00330",
+            "label": "棚卸資産",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00340",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00340",
+            "label": "前払金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00350",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00350",
+            "label": "貸付金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00360",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00360",
+            "label": "建物",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00370",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00370",
+            "label": "建物附属設備",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00380",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00380",
+            "label": "機械装置",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00390",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00390",
+            "label": "車両運搬具",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00400",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00400",
+            "label": "工具　器具　備品",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00410",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00410",
+            "label": "土地",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00430",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00430",
+            "label": "事業主貸",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00440",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00020/AMG00240/AMG00440",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMG00450",
+        "path": "KOA210/KOA210-4/AMG00000/AMG00450",
+        "label": "負債・資本の部",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMG00460",
+          "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00460",
+          "label": "科目",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMG00465",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00460/AMG00465",
+            "label": "追加科目１　繰り返し",
+            "min": 0,
+            "max": 7,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "AMG00470",
+              "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00460/AMG00465/AMG00470",
+              "label": "科目名",
+              "min": 0,
+              "max": 1,
+              "type": "AMG00470-11-0Rtype",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ],
+              "max_length": 10
+             },
+             {
+              "tag": "AMG00570",
+              "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00460/AMG00465/AMG00570",
+              "label": "金額（期首）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMG00700",
+              "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00460/AMG00465/AMG00700",
+              "label": "金額（期末）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "AMG00475",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00460/AMG00475",
+            "label": "追加科目２　繰り返し",
+            "min": 0,
+            "max": 7,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "AMG00480",
+              "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00460/AMG00475/AMG00480",
+              "label": "科目名",
+              "min": 0,
+              "max": 1,
+              "type": "AMG00480-11-0Rtype",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ],
+              "max_length": 10
+             },
+             {
+              "tag": "AMG00590",
+              "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00460/AMG00475/AMG00590",
+              "label": "金額（期首）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AMG00720",
+              "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00460/AMG00475/AMG00720",
+              "label": "金額（期末）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AMG00490",
+          "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00490",
+          "label": "期首",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMG00500",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00490/AMG00500",
+            "label": "期首月日",
+            "min": 0,
+            "max": 1,
+            "type": "gen:mmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "mm",
+              "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00490/AMG00500/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00490/AMG00500/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "AMG00510",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00490/AMG00510",
+            "label": "支払手形",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00520",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00490/AMG00520",
+            "label": "買掛金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00530",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00490/AMG00530",
+            "label": "借入金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00540",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00490/AMG00540",
+            "label": "未払金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00550",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00490/AMG00550",
+            "label": "前受金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00560",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00490/AMG00560",
+            "label": "預り金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00580",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00490/AMG00580",
+            "label": "貸倒引当金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00600",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00490/AMG00600",
+            "label": "元入金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00610",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00490/AMG00610",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AMG00620",
+          "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00620",
+          "label": "期末",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMG00630",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00620/AMG00630",
+            "label": "期末月日",
+            "min": 0,
+            "max": 1,
+            "type": "gen:mmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "mm",
+              "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00620/AMG00630/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00620/AMG00630/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "AMG00640",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00620/AMG00640",
+            "label": "支払手形",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00650",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00620/AMG00650",
+            "label": "買掛金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00660",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00620/AMG00660",
+            "label": "借入金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00670",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00620/AMG00670",
+            "label": "未払金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00680",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00620/AMG00680",
+            "label": "前受金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00690",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00620/AMG00690",
+            "label": "預り金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00710",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00620/AMG00710",
+            "label": "貸倒引当金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00730",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00620/AMG00730",
+            "label": "事業主借",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00740",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00620/AMG00740",
+            "label": "元入金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00750",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00620/AMG00750",
+            "label": "青色申告特別控除前の所得金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AMG00760",
+            "path": "KOA210/KOA210-4/AMG00000/AMG00450/AMG00620/AMG00760",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "AMH00000",
+      "path": "KOA210/KOA210-4/AMH00000",
+      "label": "製造原価の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AMH00020",
+        "path": "KOA210/KOA210-4/AMH00000/AMH00020",
+        "label": "原材料費",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMH00030",
+          "path": "KOA210/KOA210-4/AMH00000/AMH00020/AMH00030",
+          "label": "期首原材料棚卸高",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMH00040",
+          "path": "KOA210/KOA210-4/AMH00000/AMH00020/AMH00040",
+          "label": "原材料仕入高",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMH00050",
+          "path": "KOA210/KOA210-4/AMH00000/AMH00020/AMH00050",
+          "label": "小計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMH00060",
+          "path": "KOA210/KOA210-4/AMH00000/AMH00020/AMH00060",
+          "label": "期末原材料棚卸高",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMH00070",
+          "path": "KOA210/KOA210-4/AMH00000/AMH00020/AMH00070",
+          "label": "差引原材料費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMH00080",
+        "path": "KOA210/KOA210-4/AMH00000/AMH00080",
+        "label": "労務費",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AMH00090",
+        "path": "KOA210/KOA210-4/AMH00000/AMH00090",
+        "label": "その他の製造経費",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AMH00100",
+          "path": "KOA210/KOA210-4/AMH00000/AMH00090/AMH00100",
+          "label": "外注工賃",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMH00110",
+          "path": "KOA210/KOA210-4/AMH00000/AMH00090/AMH00110",
+          "label": "電力費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMH00120",
+          "path": "KOA210/KOA210-4/AMH00000/AMH00090/AMH00120",
+          "label": "水道光熱費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMH00130",
+          "path": "KOA210/KOA210-4/AMH00000/AMH00090/AMH00130",
+          "label": "修繕費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMH00140",
+          "path": "KOA210/KOA210-4/AMH00000/AMH00090/AMH00140",
+          "label": "減価償却費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMH00145",
+          "path": "KOA210/KOA210-4/AMH00000/AMH00090/AMH00145",
+          "label": "追加科目　繰り返し",
+          "min": 0,
+          "max": 8,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AMH00010",
+            "path": "KOA210/KOA210-4/AMH00000/AMH00090/AMH00145/AMH00010",
+            "label": "科目名",
+            "min": 0,
+            "max": 1,
+            "type": "AMH00010-11-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 10
+           },
+           {
+            "tag": "AMH00150",
+            "path": "KOA210/KOA210-4/AMH00000/AMH00090/AMH00145/AMH00150",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AMH00160",
+          "path": "KOA210/KOA210-4/AMH00000/AMH00090/AMH00160",
+          "label": "雑費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AMH00170",
+          "path": "KOA210/KOA210-4/AMH00000/AMH00090/AMH00170",
+          "label": "計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AMH00180",
+        "path": "KOA210/KOA210-4/AMH00000/AMH00180",
+        "label": "総製造費",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AMH00190",
+        "path": "KOA210/KOA210-4/AMH00000/AMH00190",
+        "label": "期首半製品・仕掛品棚卸高",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AMH00200",
+        "path": "KOA210/KOA210-4/AMH00000/AMH00200",
+        "label": "小計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AMH00210",
+        "path": "KOA210/KOA210-4/AMH00000/AMH00210",
+        "label": "期末半製品・仕掛品棚卸高",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AMH00220",
+        "path": "KOA210/KOA210-4/AMH00000/AMH00220",
+        "label": "製品製造原価",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KOA210-11-0VRtype",
+    "fixed": "11.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

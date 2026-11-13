@@ -1,0 +1,31 @@
+{
+  "note": "国税庁「令和7年分 所得税及び復興特別所得税の確定申告の手引き」5〜6ページ「申告書の記載例」（国税 太郎）と各項目の設例の数字。架空の人。住所・電話は記載例の伏せ字に合わせて架空のもの。政党等寄附金等特別控除（記載例では14,000円）は OpenTax 個人の対象外なので入れていない",
+  "year": 2025,
+  "taxpayer": {"name": "国税　太郎", "name_kana": "コクゼイ　タロウ", "birth": "1958-09-01", "address": "東京都千代田区霞が関三丁目1番1号",
+               "zip": "100-0013", "tax_office": "麹町", "user_id": "1234567890123456", "occupation": "小売業", "trade_name": "国税商店",
+               "householder": "国税　太郎", "householder_relation": "本人", "phone": "03-0000-0000"},
+  "business": {"bookkeeping": 2, "income": 40572600, "before_blue": 5367200, "blue": true, "family_salary": 1020000},
+  "real_estate": {"bookkeeping": 2, "income": 2257000, "before_blue": 1829200, "blue": true},
+  "blue_return": {"deduction": 550000},
+  "dividends": [{"payer": "○○電子株式会社", "payer_id": "1234567890123", "kind": "株式の配当", "income": 80000, "withholding": 12252}],
+  "salary": [{"payer": "○○電子株式会社", "payer_id": "1234567890123", "kind": "給料", "income": 1920500, "withholding": 0}],
+  "public_pension": [{"payer": "厚生労働省", "payer_id": "千代田区霞が関1-2-2", "kind": "国民年金", "income": 780100, "withholding": 0}],
+  "temporary": [{"kind": "生命保険一時金", "payer": "○○生命", "income": 2500000, "expenses": 1640000}],
+  "family_employees": [{"name": "国税　一郎", "relation": "子", "birth": "2000-05-10", "work": "12月", "salary": 1020000}],
+  "spouse": {"name": "国税　春子", "birth": "1966-06-01", "income": 0},
+  "dependents": [
+    {"name": "国税　ハナ", "relation": "母", "birth": "1934-03-03", "income": 0, "cohabiting_parent": true, "disabled": "special", "cohabiting": true},
+    {"name": "国税　次郎", "relation": "子", "birth": "2003-09-01", "income": 0},
+    {"name": "国税　三郎", "relation": "子", "birth": "2005-11-02", "income": 1180000}
+  ],
+  "deductions": {
+    "social_insurance": [{"kind": "国民健康保険", "amount": 801582}, {"kind": "国民年金", "amount": 430330}, {"kind": "介護保険", "amount": 149000}],
+    "small_business": [{"kind": "小規模企業共済", "amount": 180000}],
+    "life_insurance": {"new_life": 204000},
+    "earthquake": {"earthquake": 25000},
+    "casualty": {"cause": "火災", "date": "2025-07-05", "assets": "住宅・家財", "loss": 5800000, "reimbursed": 4800000, "disaster_expense": 280000},
+    "medical": {"paid": 211400, "reimbursed": 0},
+    "donations": [{"name": "□□市", "amount": 265000}]
+  },
+  "prepaid_tax": 120000
+}

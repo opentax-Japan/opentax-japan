@@ -1,0 +1,169 @@
+{
+  "note": "個人の所得税（令和7年分）で使う数字。値ごとに出典と確認日を書く。記憶の数字は使わない。手引き＝国税庁「令和7年分 所得税及び復興特別所得税の確定申告の手引き」（HTML版 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/index.htm 、PDF版 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/pdf/001.pdf）",
+  "year": 2025,
+  "salary": {
+    "note": "給与所得控除後の給与等の金額。A＝収入金額。B＝A÷4（千円未満切り捨て）。1円未満は切り捨て",
+    "brackets": [
+      {"upto": 650999, "kind": "zero"},
+      {"upto": 1899999, "kind": "minus", "minus": 650000},
+      {"upto": 3599999, "kind": "quarter", "mul": "2.8", "minus": 80000},
+      {"upto": 6599999, "kind": "quarter", "mul": "3.2", "minus": 440000},
+      {"upto": 8499999, "kind": "rate", "mul": "0.9", "minus": 1100000},
+      {"upto": null, "kind": "minus", "minus": 1950000}
+    ],
+    "adjustment": {
+      "note": "所得金額調整控除。(1) 収入850万円超で本人・同一生計配偶者・扶養親族が特別障害者、又は23歳未満の扶養親族がいる: (収入（最高1,000万円）−850万円)×10%（1円未満切り上げ）。(2) 給与と公的年金等の雑所得があり合計が10万円超: 給与所得控除後（最高10万円）＋公的年金等の雑所得（最高10万円）−10万円",
+      "over": 8500000, "cap": 10000000, "rate": "0.1", "pension_cap": 100000
+    },
+    "source": "手引き 手順2「給与所得」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order2/3-2_06.htm （設例 収入1,920,500円 → 1,264,000円）",
+    "checked": "2026-11-14"
+  },
+  "pension": {
+    "note": "公的年金等の雑所得。年齢は65歳以上＝昭和36年1月1日以前生まれ。行は収入金額の区分、列は公的年金等に係る雑所得以外の合計所得金額（1,000万円以下・2,000万円以下・2,000万円超）。値は [掛ける率, 引く額]。1円未満は切り捨て、赤字は0",
+    "senior_born_on_or_before": "1961-01-01",
+    "other_income_limits": [10000000, 20000000],
+    "under65": [
+      {"upto": 1299999, "rows": [["1", 600000], ["1", 500000], ["1", 400000]]},
+      {"upto": 4099999, "rows": [["0.75", 275000], ["0.75", 175000], ["0.75", 75000]]},
+      {"upto": 7699999, "rows": [["0.85", 685000], ["0.85", 585000], ["0.85", 485000]]},
+      {"upto": 9999999, "rows": [["0.95", 1455000], ["0.95", 1355000], ["0.95", 1255000]]},
+      {"upto": null, "rows": [["1", 1955000], ["1", 1855000], ["1", 1755000]]}
+    ],
+    "over65": [
+      {"upto": 3299999, "rows": [["1", 1100000], ["1", 1000000], ["1", 900000]]},
+      {"upto": 4099999, "rows": [["0.75", 275000], ["0.75", 175000], ["0.75", 75000]]},
+      {"upto": 7699999, "rows": [["0.85", 685000], ["0.85", 585000], ["0.85", 485000]]},
+      {"upto": 9999999, "rows": [["0.95", 1455000], ["0.95", 1355000], ["0.95", 1255000]]},
+      {"upto": null, "rows": [["1", 1955000], ["1", 1855000], ["1", 1755000]]}
+    ],
+    "source": "手引き（PDF版）11〜12ページ「雑所得」Step3 公的年金等の雑所得の計算 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/pdf/001.pdf",
+    "checked": "2026-11-14"
+  },
+  "temporary": {
+    "special_deduction": 500000,
+    "note": "一時所得＝収入−支出（最高50万円の特別控除を引く）。総所得金額に入るのはその2分の1",
+    "source": "手引き 手順2「総合課税の譲渡所得・一時所得」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order2/3-2_08_1.htm （設例 2,500,000−1,640,000＝860,000 → 360,000 → 180,000）",
+    "checked": "2026-11-14"
+  },
+  "blue_return": {
+    "amounts": [650000, 550000, 100000],
+    "note": "青色申告特別控除。控除額は 不動産所得・事業所得の合計額が上限で、不動産所得の金額、事業所得の金額から順次控除する。65万円・55万円は帳簿書類の要件（複式簿記・貸借対照表の添付・期限内申告。65万円は e-Tax か優良な電子帳簿）",
+    "source": "租税特別措置法第25条の2（第2項・第5項 順次控除） https://laws.e-gov.go.jp/api/1/articles;lawId=332AC0000000026;article=25_2 、国税庁「令和7年分 青色申告決算書（一般用）の書き方」1ページ https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/pdf/037.pdf",
+    "checked": "2026-11-14"
+  },
+  "medical": {
+    "floor": 100000, "floor_rate": "0.05", "max": 2000000,
+    "self_medication": {"floor": 12000, "max": 88000},
+    "source": "手引き 手順3「医療費控除」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order3/3-3_24.htm",
+    "checked": "2026-11-14"
+  },
+  "donation": {
+    "income_rate": "0.4", "floor": 2000,
+    "source": "手引き 手順3「寄附金控除」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order3/3-3_25.htm （設例 265,000円 → 263,000円）",
+    "checked": "2026-11-14"
+  },
+  "casualty": {
+    "income_rate": "0.1", "disaster_floor": 50000,
+    "source": "手引き 手順3「雑損控除」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order3/3-3_23.htm （設例 230,000円）",
+    "checked": "2026-11-14"
+  },
+  "life_insurance": {
+    "note": "旧（平成23年12月31日以前の契約）: 〜25,000円は全額、〜50,000円は×0.5＋12,500円、それ超は×0.25＋25,000円（最高5万円）。新: 〜20,000円は全額、〜40,000円は×0.5＋10,000円、それ超は×0.25＋20,000円（最高4万円）。新旧両方は合計で最高4万円（旧だけで計算した方が多ければそちら）。合計は最高12万円。1円未満は切り上げ（差し支えない）",
+    "old": [[25000, "1", 0], [50000, "0.5", 12500], [null, "0.25", 25000]], "old_max": 50000,
+    "new": [[20000, "1", 0], [40000, "0.5", 10000], [null, "0.25", 20000]], "new_max": 40000,
+    "combined_max": 40000, "total_max": 120000,
+    "source": "手引き 手順3「生命保険料控除」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order3/3-3_12.htm （設例 新生命保険料204,000円 → 40,000円、もう1つの設例 → 120,000円）",
+    "checked": "2026-11-14"
+  },
+  "earthquake": {
+    "max": 50000, "old_long": [[10000, "1", 0], [null, "0.5", 5000]], "old_long_max": 15000,
+    "source": "手引き 手順3「地震保険料控除」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order3/3-3_13.htm",
+    "checked": "2026-11-14"
+  },
+  "personal": {
+    "widow": 270000, "single_parent": 350000, "widow_income_limit": 5000000,
+    "working_student": 270000, "working_student_income_limit": 850000, "working_student_non_work_limit": 100000,
+    "disabled": 270000, "special_disabled": 400000, "cohabiting_special_disabled": 750000,
+    "source": "手引き 手順3「寡婦・ひとり親控除」「勤労学生控除」「障害者控除」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order3/3-3_14.htm 、3-3_15.htm 、3-3_15_2.htm",
+    "checked": "2026-11-14"
+  },
+  "spouse": {
+    "note": "列は本人の合計所得金額 900万円以下・950万円以下・1,000万円以下。1,000万円超は0。配偶者の合計所得金額が58万円以下なら配偶者控除（70歳以上は老人控除対象配偶者）、58万円超133万円以下は配偶者特別控除",
+    "taxpayer_limits": [9000000, 9500000, 10000000],
+    "dependent_income_limit": 580000,
+    "senior_born_on_or_before": "1956-01-01",
+    "general": [380000, 260000, 130000],
+    "senior": [480000, 320000, 160000],
+    "special": [
+      {"upto": 950000, "amounts": [380000, 260000, 130000]},
+      {"upto": 1000000, "amounts": [360000, 240000, 120000]},
+      {"upto": 1050000, "amounts": [310000, 210000, 110000]},
+      {"upto": 1100000, "amounts": [260000, 180000, 90000]},
+      {"upto": 1150000, "amounts": [210000, 140000, 70000]},
+      {"upto": 1200000, "amounts": [160000, 110000, 60000]},
+      {"upto": 1250000, "amounts": [110000, 80000, 40000]},
+      {"upto": 1300000, "amounts": [60000, 40000, 20000]},
+      {"upto": 1330000, "amounts": [30000, 20000, 10000]}
+    ],
+    "source": "手引き 手順3「配偶者（特別）控除」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order3/3-3_17.htm 、老人控除対象配偶者は昭和31年1月1日以前生まれ（手引き PDF版 39ページ）",
+    "checked": "2026-11-14"
+  },
+  "dependent": {
+    "note": "控除対象扶養親族は平成22年1月1日以前生まれ（16歳以上）。特定扶養親族は平成15年1月2日〜平成19年1月1日生まれ。老人扶養親族は昭和31年1月1日以前生まれ。扶養親族の合計所得金額は58万円以下",
+    "income_limit": 580000,
+    "eligible_born_on_or_before": "2010-01-01",
+    "specific_born_from": "2003-01-02", "specific_born_to": "2007-01-01",
+    "senior_born_on_or_before": "1956-01-01",
+    "general": 380000, "specific": 630000, "senior_cohabiting": 580000, "senior": 480000,
+    "source": "手引き 手順3「扶養控除」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order3/3-3_19.htm 、年齢の区分は手引き PDF版 39〜40ページ",
+    "checked": "2026-11-14"
+  },
+  "specific_relative": {
+    "note": "特定親族特別控除。平成15年1月2日〜平成19年1月1日生まれで合計所得金額58万円超123万円以下の親族（配偶者以外）",
+    "brackets": [
+      {"upto": 850000, "amount": 630000}, {"upto": 900000, "amount": 610000}, {"upto": 950000, "amount": 510000},
+      {"upto": 1000000, "amount": 410000}, {"upto": 1050000, "amount": 310000}, {"upto": 1100000, "amount": 210000},
+      {"upto": 1150000, "amount": 110000}, {"upto": 1200000, "amount": 60000}, {"upto": 1230000, "amount": 30000}
+    ],
+    "source": "手引き 手順3「特定親族特別控除」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order3/3-3_20.htm 、手引き PDF版 40ページ「特定親族」",
+    "checked": "2026-11-14"
+  },
+  "basic": {
+    "brackets": [
+      {"upto": 1320000, "amount": 950000}, {"upto": 3360000, "amount": 880000}, {"upto": 4890000, "amount": 680000},
+      {"upto": 6550000, "amount": 630000}, {"upto": 23500000, "amount": 580000}, {"upto": 24000000, "amount": 480000},
+      {"upto": 24500000, "amount": 320000}, {"upto": 25000000, "amount": 160000}, {"upto": null, "amount": 0}
+    ],
+    "source": "手引き 手順3「基礎控除」（居住者） https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order3/3-3_21.htm",
+    "checked": "2026-11-14"
+  },
+  "tax": {
+    "note": "課税される所得金額は千円未満切り捨て。税額＝課税所得×税率−控除額",
+    "brackets": [
+      {"upto": 1949000, "rate": "0.05", "minus": 0},
+      {"upto": 3299000, "rate": "0.1", "minus": 97500},
+      {"upto": 6949000, "rate": "0.2", "minus": 427500},
+      {"upto": 8999000, "rate": "0.23", "minus": 636000},
+      {"upto": 17999000, "rate": "0.33", "minus": 1536000},
+      {"upto": 39999000, "rate": "0.4", "minus": 2796000},
+      {"upto": null, "rate": "0.45", "minus": 4796000}
+    ],
+    "source": "手引き 手順4「課税される所得金額に対する税額」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order4/3-4_26.htm （設例 2,960,000円 → 198,500円）",
+    "checked": "2026-11-14"
+  },
+  "dividend_credit": {
+    "threshold": 10000000, "rate_within": "0.1", "rate_over": "0.05",
+    "source": "手引き 手順4「配当控除」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order4/3-4_28.htm",
+    "checked": "2026-11-14"
+  },
+  "reconstruction": {
+    "rate": "0.021",
+    "source": "手引き 手順4「復興特別所得税額」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order4/3-4_45.htm （設例 176,500円 → 3,706円。1円未満切り捨て）",
+    "checked": "2026-11-14"
+  },
+  "filing_tax": {
+    "note": "申告納税額は黒字なら100円未満切り捨て、赤字（還付）はそのまま",
+    "source": "手引き 手順4「申告納税額」 https://www.nta.go.jp/taxes/shiraberu/shinkoku/tebiki/2025/03/order4/3-4_39.htm",
+    "checked": "2026-11-14"
+  }
+}

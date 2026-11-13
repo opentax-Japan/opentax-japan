@@ -442,6 +442,45 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
             "申告の内容と責任は利用者にあります。</p></main></body></html>")
 
 
+# --- 個人の所得税（確定申告） ---
+
+KOJIN_CHAPTERS = [("shinkoku", "所得税及び復興特別所得税の申告書（第一表・第二表）"),
+                  ("aoiro", "青色申告決算書（損益計算書）")]
+KOJIN_TITLES = {"KOA020": "申告書 第一表・第二表", "KOA210": "青色申告決算書（一般用） 損益計算書",
+                "KOA220": "青色申告決算書（不動産所得用） 損益計算書"}
+
+
+def build_kojin(calculated: dict, today: datetime.date | None = None) -> str:
+    """個人の申告書一式（HTML 1枚）。申告書 → 青色申告決算書の順に、帳票フィールド仕様書の行番号・項目名で表にする。"""
+    from .etax.form_view import form_view
+    from .kojin.etax import form_values
+    today = today or datetime.date.today()
+    catalog = _catalog()
+    tp = calculated["input"]["taxpayer"]
+    vals = form_values(calculated)
+    chapters = {"shinkoku": _form(KOJIN_TITLES["KOA020"], f"{calculated['year']}年分　金額は円",
+                                  _blocks(form_view(catalog["KOA020"], vals["KOA020"], {})))}
+    aoiro_forms = [fid for fid in ("KOA210", "KOA220") if fid in vals]
+    if aoiro_forms:
+        chapters["aoiro"] = "".join(_form(KOJIN_TITLES[fid], "金額は円", _blocks(form_view(catalog[fid], vals[fid], {})))
+                                    for fid in aoiro_forms)
+    notes = calculated.get("warnings", []) + calculated.get("checks", [])
+    toc = "".join(f"<li><a href='#{k}'>{_e(t)}</a>{'' if k in chapters else '（なし）'}</li>" for k, t in KOJIN_CHAPTERS)
+    parts = [f"<h1>申告書一式（所得税）</h1><p class='meta'>{_e(tp['name'])}　{calculated['year']}年分　作成 {today.isoformat()}</p>",
+             f"<nav><ol>{toc}</ol></nav>"]
+    if notes:
+        parts.append("<details class='checks'><summary>確かめてほしいこと（" + str(len(notes)) + " 件）</summary><ul>"
+                     + "".join(f"<li>{_e(c)}</li>" for c in notes) + "</ul></details>")
+    for i, (k, t) in enumerate(KOJIN_CHAPTERS, start=1):
+        body = chapters.get(k) or "<p class='note'>材料がないため作っていません</p>"
+        parts.append(f"<section class='chapter' id='{k}'><h2>{i}. {_e(t)}</h2>{body}</section>")
+    return ("<!DOCTYPE html><html lang='ja'><head><meta charset='utf-8'>"
+            "<meta name='viewport' content='width=device-width,initial-scale=1'>"
+            f"<title>申告書一式 {_e(tp['name'])}</title><style>{_CSS}</style></head><body><main>{''.join(parts)}"
+            "<p class='src'>OpenTax（https://github.com/opentax-Japan/opentax-japan）で作成。計算結果の正しさは保証しません。"
+            "申告の内容と責任は利用者にあります。</p></main></body></html>")
+
+
 _CSS = """
 body{margin:0;background:#fff;color:#222;font-family:"BIZ UDGothic","Yu Gothic",sans-serif;line-height:1.6;overflow-wrap:anywhere}
 main{max-width:980px;margin:0 auto;padding:16px}

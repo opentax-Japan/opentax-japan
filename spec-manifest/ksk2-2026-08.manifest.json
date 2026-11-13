@@ -35,6 +35,10 @@
           "sha256": "09117f8c211ed60d1b86284da56593da55f1e0405c0bcd74d306ec2178e1c8d4"
         },
         {
+          "path": "19XMLスキーマ/general/TEG910a-001.xsd",
+          "sha256": "f91ceef6a7b77599904fb18c479d8cb88c617ca40e70081b9f852ee348e8fd76"
+        },
+        {
           "path": "19XMLスキーマ/general/XBRL060.xsd",
           "sha256": "bcaa828fd9e3177ce50d39e136b6c1fcc3c16029fd8e7488456acd5c0c2daa2a"
         },
@@ -943,6 +947,10 @@
           "sha256": "4c666d5eb7d167ab713d4d1c365a066a1f3bd9254dca2281a7f36788eed00bd9"
         },
         {
+          "path": "19XMLスキーマ/kyotsu/RKO0010a-250.xsd",
+          "sha256": "42249b8a67a058d6277c3f8628945be8eb7c15f796715c8323f3d99f8ee6a3f2"
+        },
+        {
           "path": "19XMLスキーマ/kyotsu/RSH0020a-232.xsd",
           "sha256": "4c666d5eb7d167ab713d4d1c365a066a1f3bd9254dca2281a7f36788eed00bd9"
         },
@@ -963,8 +971,208 @@
           "sha256": "d795c29e4a53719a5aee1dac9569585537408cebbbad79beb8d07cabdf4bb632"
         },
         {
+          "path": "19XMLスキーマ/kyotsu/TEA060-015.xsd",
+          "sha256": "3ae65f7dadd706b1c435b4ff71652e4263e8201d22c74a4ae4f1442d27d01603"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG101-001.xsd",
+          "sha256": "a9bce39629b89a2cb65f64beec183e2da707474ea57a108973002a57f6ab05d2"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG102-001.xsd",
+          "sha256": "79f35baecd37c7c81f8205515aec2d1244e925ea7d22d608f50531a791d353e2"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG103-001.xsd",
+          "sha256": "ff6f70ddd608752c50e78ef768618642f55683e7f9d3281b3d9d36af52ab30a6"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG104-001.xsd",
+          "sha256": "da735e083f928b8ddd91f64c6447ef854a11ab5d529d97c518d3b67d385d96aa"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG105-001.xsd",
+          "sha256": "69e86ba94a0d9d1ec12f5f3b33b8ea1ea5b9bb23435355af79551e22f70cf12d"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG106-001.xsd",
+          "sha256": "2f1c46327c312e7d572b97f543e09406a13a930607f35d3a1825c91590ddacf9"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG107-001.xsd",
+          "sha256": "e57202e0d6e15d31b3efcb2cb89d3089dc6721ad93265aa0e43686f2a86737d4"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG108-001.xsd",
+          "sha256": "02bba3a7b767fee3cf1984d0c11c49eae1fbf6d39ac79d526ddf6d74e1117ee9"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG109-001.xsd",
+          "sha256": "6bb557fc728872dc1b12c5f65133193f356599bdcd098350c7979bc6d7d424f6"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG158-001.xsd",
+          "sha256": "9e713eca137b6b664c717f149257a0c785ca60dde7f1d7f79fa6e95278597a0b"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG159-001.xsd",
+          "sha256": "f023babae1d192b37d142328114f47df0263b5f5587ce2e09209616fb38e1266"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG202-001.xsd",
+          "sha256": "9a68cdecd777881a9a26aad096de8521edefb60c76e390fdc447307128e159b7"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG203-001.xsd",
+          "sha256": "4614577e22f6451539088c02227b00ccedaaf8b5bf270dbd22ac370357240306"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG204-001.xsd",
+          "sha256": "e5aedc4a2608704410004c0edb76a3dd535ac010734ab71430d1ef68c3b1caed"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG300-001.xsd",
+          "sha256": "ea7a4eaeee69aada36cb2ade3550138c6dc8df3d70b5258a45a55544f391f9d5"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG400-001.xsd",
+          "sha256": "08513a7e1b2106f9594f8b3c0e5a9292e57904ecff1d33c998e93dbbfd22d026"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG401-001.xsd",
+          "sha256": "88a47e4c4c69ef917355b844be57f17c93510660493a79bbe0a82c20954415b2"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG402-001.xsd",
+          "sha256": "376a79b06c9ef6704e3b76588f605bc574bc8c4488711222605f77319e866414"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG403-001.xsd",
+          "sha256": "668db0d060b3e6db27969c0b0c1a4aab18e6e1110651ac4e03ebfbc20558c19f"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG404-001.xsd",
+          "sha256": "088a9ca9b30e9939cf41e62db3d309620106854da04690ee7f3fac780c310e94"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG405-001.xsd",
+          "sha256": "afc6b784260fa5d4b2368fce5a98dd3c1915c34d2de805509c7668c2cde42ad8"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG406-001.xsd",
+          "sha256": "11d150b5c262f156ce717a265769c26d5216cfc03de0ab65093de0d929810c90"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG407-001.xsd",
+          "sha256": "24d6daad234cbc4a522cbc178f99705c08e9d395386ce68d69b5b75db8566253"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG408-001.xsd",
+          "sha256": "f292bdae20e933386f13f468540f64e6363a3d06c509d3162b6089d2926479f5"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG500-001.xsd",
+          "sha256": "74b76c5a74956ab8d3604903c8aeead5d9b462b7e85d2ce62ae975180eebde7d"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG501-001.xsd",
+          "sha256": "8bab3890ec0e1d55677f466fa82ec1b7578144e00c25f42bad672801ee48d6f3"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG600-001.xsd",
+          "sha256": "b7f700e502c9e8b4e211672cd04dfbe24ec3622613a15c4a3e00f46fe5d0fe7e"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG601-001.xsd",
+          "sha256": "ba216933709cf71bf8f879dc6777439cc8d9a126f86c0a18e78a1c7247c55759"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG602-001.xsd",
+          "sha256": "a3077cf13c7e233c639ac3c333a2c7d0e8f858203afada1fb540afb3fab749c9"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG700-001.xsd",
+          "sha256": "aa318b0c69919b2c7ecb0652b8cb659a0ba62360ff6c38f8cd69837796578ead"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG800-001.xsd",
+          "sha256": "b2c1ee50d45386d8a92a4f30c5153f94ee3917d24acbe5ccc518b2e40e3104b3"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG810-001.xsd",
+          "sha256": "d947b224e95c71e039990e8fe012aa5fa8a5a66171af17536905d1ce486b57db"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG820-001.xsd",
+          "sha256": "df3d8f5ff90f7df10615c7bffec7f73792b978dac44e40118ff48bc4ce1e4a1d"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG821-001.xsd",
+          "sha256": "16c150e9085592561b52b743425a94017f0954779cf9e50501e11b5c944946fb"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG822-001.xsd",
+          "sha256": "afdebeae3acd2dcd64372508e8baab78a47ae41464d86e23a7493de61daa7a9f"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG830-001.xsd",
+          "sha256": "eb00cefecbd06d30d78c3de128aed2d2e72307298f23dec21118c7727a4cf834"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG840-001.xsd",
+          "sha256": "ffa28739fcd03708a094fff67b9883c75a9101e05c28975fb14bb73aedec860e"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG850-001.xsd",
+          "sha256": "47c73c055f9b358f243e2b6e17528aecac09f437a844470b31f710234a7dbc74"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG900-001.xsd",
+          "sha256": "8a33c14f3fe533ef7dede9cad1147dcca16aede2fefb9f6b3560e0248bde683f"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG901-001.xsd",
+          "sha256": "6f2b36a1c9da4e6f55179ddf6e57f9c62646934052b2fb4a70ea9da3180b7942"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG910-001.xsd",
+          "sha256": "f2ddc5f3e6f1d1ad6357381d3d9d2f3cdd88109fc58a1a75fba53a330fc718a8"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG911-001.xsd",
+          "sha256": "6bd9da9cebb20421fb8d9d9f08dadf9b0adb622f323a1cf7d6490c95bd01d474"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG912-001.xsd",
+          "sha256": "7826e7988d62ba2580eda6dc2246f42dbf007ddcb1ba6a3efc03fef7a358a173"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG913-001.xsd",
+          "sha256": "a4ed146fead060471a134e101eaddbc3421c5cba4b242ce94ee5ac65a51143da"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG916-001.xsd",
+          "sha256": "f3d46b53e0e08bbf10b29bdaad5419779b3770d0b456e147317c0b7ca727df21"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG917-001.xsd",
+          "sha256": "b234c3f33efebcd01b3c826892266693c217605c4b3c483d4bb9cf9d838d8c89"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG918-001.xsd",
+          "sha256": "7e8a4ab038f5ce78c4df3a5b2d8a9cc52613ba513365b0b533b9dcf09bf77e22"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEG919-001.xsd",
+          "sha256": "82aafab9216477d6996e86ddc263637f53c2249cefedd8d3c8651f4b73ba7919"
+        },
+        {
           "path": "19XMLスキーマ/kyotsu/TEI010-001.xsd",
           "sha256": "f4b42949eee989e412a64637993423c9ca6906d32aae9df4b833518a3a99bb5c"
+        },
+        {
+          "path": "19XMLスキーマ/kyotsu/TEZ310-009.xsd",
+          "sha256": "9d99b196acfd6bab0de198a0fd9c09d8e15e22a4826b7eb4f556fa6c24718ddc"
         },
         {
           "path": "19XMLスキーマ/shohi/RSH0020-232.xsd",
@@ -1063,6 +1271,458 @@
           "sha256": "da1f53925fbfaa1a4c205290297c3b46ee5dffec2682410e25eb98e528c52a6c"
         },
         {
+          "path": "19XMLスキーマ/shotoku/KOA020-023.xsd",
+          "sha256": "8de959bacc36112f0ae6972dadc809a9f793dd30da169af98f83ee5c91107d0d"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOA050-017.xsd",
+          "sha256": "c71e3b517cb4f39d58bdd9c2da306e35bcc54f3f8d4e7665b0b9f7ce51ccb2df"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOA060-006.xsd",
+          "sha256": "858f8931b5b47101628904940693e739234c1ce93cf33e839506d8dcb73ccf71"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOA070-016.xsd",
+          "sha256": "8b26e8ef52941f88a1257d556671f9a939a3de7b4cca43d297aa251db31058de"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOA080-005.xsd",
+          "sha256": "ffc870c8dc20d0f1e52b00e4f756f73cc24979c8c3d9dbeb0a28a1bdf8a3cd87"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOA090-016.xsd",
+          "sha256": "9a5eab7a88e78c44744a2b0a2581597b780d3a2f65ac087ed927bd1a74c28a1e"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOA110-012.xsd",
+          "sha256": "cab3142f8ef4e520951010d95220ea9ef32af9c1fba678c78c590e2b6e80da3f"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOA120-009.xsd",
+          "sha256": "0260f093bc15d0e9be9c88424555da181cc852a0f18aadf15f6a491f87ddffbb"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOA130-009.xsd",
+          "sha256": "e52eaa460b0f0d3ae6fc970657a57e1146bfd42dd5138fc532c25651d471ebdc"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOA140-006.xsd",
+          "sha256": "df401ce56a5bad3fcc694ab5279ab6e0633267e578b5fb502c3f020b4f072616"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOA210-011.xsd",
+          "sha256": "806d4a5e3ee8e33ef82ec5904e12088e6c1f9e37ac0eedeb549facecadf60313"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOA220-008.xsd",
+          "sha256": "7de9fd5faa8437ff5fcd0439564cc534d9388f0d04eb646e47b50f7c55892d78"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOA230-010.xsd",
+          "sha256": "933710ee8c5c4a6205113a2f87fc8d3a5c0b28ab9c3d4b0bbe58cbaf472b305f"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOA240-008.xsd",
+          "sha256": "af43691b489cac8bad109a4810bdbaf2dca291ed061249a5483e581972ab6c03"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOA250-006.xsd",
+          "sha256": "c9c06a586bd3ea858a341d03d8d0259eeed7afda15050e7b19834df41e71db56"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB010-011.xsd",
+          "sha256": "1a8694e9c5083345a29014a2a3aac270ff401fdbad632b6c04486aa629e4be9a"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB040-017.xsd",
+          "sha256": "d97f3ac9770c73c7852647c86fae744e92b3dbee8298df88f2de29bfbb887faa"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB060-006.xsd",
+          "sha256": "56b612dfc219f67337544367be5a14e8b4b5e24ceddc924de68e29ee31326554"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB070-007.xsd",
+          "sha256": "7027184b48d4bfb5f2577376232962cff746d67434dc3674b71e2f8ef25d7acf"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB090-001.xsd",
+          "sha256": "c35ec483f1d3cfbbc62c6277c4e8efe8bb894033521214229f13c7fdd8305f3d"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB100-006.xsd",
+          "sha256": "b56ce2493a353e698f7b53c9d4908aab57d134c85149c3898f9b8f37f2f995e6"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB110-019.xsd",
+          "sha256": "fcc9348d2c942397a619f535bc4b027bc4be8a8c06a6b68c985ade1df24c0ef7"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB120-001.xsd",
+          "sha256": "16fa167f169710da9d03a415bad789b3305d20787c0dfcc1a9d19789afc241c1"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB130-021.xsd",
+          "sha256": "7d59f9ef10610d31f67d47154e208b4d12fea4cdbd3bab19073ee7d4143ef40c"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB131-014.xsd",
+          "sha256": "05ecfb3a102b3119dc0348f47c197764d7dc86d4e1c270ec9a4df6f2d05b3c90"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB140-006.xsd",
+          "sha256": "874ec5f5dbe93fe1aaed7d8f34613a219d79aa5683be8d9ec6da5d84c31fdf57"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB200-017.xsd",
+          "sha256": "be6a37e1fc9ffdbc9b745b5963ffde97e721509b1ace5a25cd0d681f60c434bb"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB210-003.xsd",
+          "sha256": "1463e80096f95f1ca1432f247b12dff3e53d1913bfb30191dbc4e64c1967a93c"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB220-001.xsd",
+          "sha256": "721be83a72dffbaeaec7c6b34c6787e3569b782497ab20a2bb4b32a0bf809aa2"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB230-003.xsd",
+          "sha256": "391225cefbbcf0187cfa5b89ad6549a6d4ae360e40f34119c0bb8e2817891498"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB240-016.xsd",
+          "sha256": "30024290371061468827a4fd201bdaeb7778cc3da28cdf463a8f13740e67cb68"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB245-007.xsd",
+          "sha256": "88640af26fe001c96bef9aa1ec075197e9783a21a7744aaa3b2a6abf439de109"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB270-003.xsd",
+          "sha256": "e02393dae20f083bc1f7bfafa0e22822b3996d282993806d5c195afff7978872"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB280-007.xsd",
+          "sha256": "b2abb54c45d876471931be66bd397c5f22136de2400d8e4e2a54630852d0875b"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB300-003.xsd",
+          "sha256": "996d52b9d02e21e6b198653736b88d00f5ebf5141bb437f4bf093f6872c47e58"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB330-004.xsd",
+          "sha256": "4a3dd5666b03296c12c727cfb9b6830cce8d16935568e2e424482b1776ed0dcf"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB360-006.xsd",
+          "sha256": "f0a3a6ef670fb56f0a757a40da22f727c14c6d41ccfc5cf9687b0538e5a8cb48"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB405-001.xsd",
+          "sha256": "ae0d912c66cd3a57abd3f9441fbec9e38d4cd7e694f131bb4d30c9cf0c303e63"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB440-005.xsd",
+          "sha256": "e2012d2cb653b5112c8a5b96dc4b21a379145a96bd808e798beaee44c60d004c"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB540-021.xsd",
+          "sha256": "c0f536b68ec2e0bfdb78a9934ba29f01ba8646fa02ee2cff5b6a0e9ba4e174e9"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB550-014.xsd",
+          "sha256": "30bb869b05e4d76386c136fbfc71831f0c54f66883360c94d30ec9350c28cd68"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB560-018.xsd",
+          "sha256": "b11400bb09ac4d3bec165b549616f4631abad2681239b0551a4d734b4bcf1cda"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB565-018.xsd",
+          "sha256": "0a6d29f0e494b902026693dbde7c46b512653f96c55fd32f45a72e1d4c72cb44"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB570-006.xsd",
+          "sha256": "9ee463c5609406917ec4d6e66f0b401b57725d185fb9cb03b00be75ec61a5b1e"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB575-006.xsd",
+          "sha256": "24ac0154372101856829be151e6c56cab53311339c232f32be6a8186293eacdc"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB670-004.xsd",
+          "sha256": "0590955c40d1b9dcb278651db66b18ad93bb7c5dabc646056b43af1267c2beab"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB690-002.xsd",
+          "sha256": "e5bec998e4347ee7c251b3e6de83256df9da2da72437b74739104c67d8c5e98f"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB750-010.xsd",
+          "sha256": "d3034299fb0d4c51ef36c82b0716a5e6eb06d028b01ce9ca20be42c4801a51a0"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB760-011.xsd",
+          "sha256": "09cbc5e2ceb3af9cd38383f539cc134590ac7a0718466702f930c8ac6b3f7087"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB770-004.xsd",
+          "sha256": "1eb59df3dfbe8fd5ed12eecd3397c62da467ef55948c3623a5b86bb47db6bcbb"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB780-002.xsd",
+          "sha256": "14c1e9be2089b3a120039c4e7c5b0b3f0d7e40c37b56c5c1b667512216d09660"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB790-012.xsd",
+          "sha256": "36437708a9d34f1df736bb53d12f39f5e5b5dc42ebb73fb1419e609167b8dcd2"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB810-002.xsd",
+          "sha256": "caa624c54ca37a1eebad13e2bac13749481505c8724d659dc6ee156919eb94d6"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB815-003.xsd",
+          "sha256": "463062e88faa25f09cc62f644416de52bdf84538b5400a48a77fcc53471c5036"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB827-006.xsd",
+          "sha256": "ca51fe540be79e778cc97891f04f8ec065241dd928feadaa1629ea32bcc3f003"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB835-006.xsd",
+          "sha256": "1ab64256d96bcc42ecefb11ebb963400ef1471adb194fbaae6ffa6c392f03cba"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB840-003.xsd",
+          "sha256": "d9778687f2deafdefff4395968e9ec59c6761fccc9f622a20129ff613a5223ca"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB890-003.xsd",
+          "sha256": "7d1035d23ec3f7295ca95614392da9c0bc621d0aafa4bc012a10fbc7bea2b118"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB900-002.xsd",
+          "sha256": "d825c0c0566c206ce01af8a93c36544808508fdd399131a8acf0520b5e568964"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB920-009.xsd",
+          "sha256": "613068911110f89f87c494cba8cc3c8ae7e064d94a70a54cafb315bd61a146ac"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB930-010.xsd",
+          "sha256": "4028e6ef44b934ed57a53cc4f62f7a0da56c45bc08c78acf11114b072201a99b"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB940-002.xsd",
+          "sha256": "6d0dd93ea3d22497ac4106648fe19affcd53fa831cb487ea7693f6de488d598a"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB950-003.xsd",
+          "sha256": "5030c8883ef0f95b8071b41674ae1e6104c3094aeaf99c3f7365fe4395b3f739"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB960-002.xsd",
+          "sha256": "e91ab7ab33b6112836ea4a962fc9dcdc2e645244b9e95b1ea68ae1651bbed6c9"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB961-001.xsd",
+          "sha256": "2e48d878370629861e250b0d66535df8af7c3ffa56e603a1f02ab45522d24900"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB974-003.xsd",
+          "sha256": "6fd1c5969441cef3c18c156347ae60a128126d1890bb39f9e59a493ebaf3be07"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB975-004.xsd",
+          "sha256": "da0af52fe4951506f3a3a13306ecdef9f2d05763cb010d58225c6a2f00df1497"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB976-001.xsd",
+          "sha256": "07ac7c88d571fd6ec8347d76c6cebb12613c00ce6306eab9c8a6cd29f2291ea9"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB977-004.xsd",
+          "sha256": "32437927169b6d5fa83ae13f6ed100ddf5e0f54fa84a8d72833501ca9e4ea6f7"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB982-001.xsd",
+          "sha256": "6d02e6c3811e97e2b27569d832460fb8992ffd823c8dd20c764e2bb555344632"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB983-005.xsd",
+          "sha256": "7dc791b3655959ac15683d5c1dc657d5ae39b5579340a6829703f319d13f36df"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB984-008.xsd",
+          "sha256": "3520642382a2f71bf254b42bfe54be55afd7e51f9ebba63daff955e28b50a5a3"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB986-001.xsd",
+          "sha256": "e72ffe091f7d18b8680cf38348d761196285de3d739528ffcd6957c116e25554"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB988-001.xsd",
+          "sha256": "dec439fefd5d6c7e2a0299141c9a17811b306079cfc41cac9b7821e1c4ea0dbc"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB989-001.xsd",
+          "sha256": "198faf9c0468fe269fa9eb03e9fd9895e5a6698162c5987861b6e3c79501dc35"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB993-005.xsd",
+          "sha256": "9864cd51c92343a34505b81d2c32b22e17d29d8411fb78eeef3b8f343bfbaedb"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB994-001.xsd",
+          "sha256": "e42fcf7ac6475d4517f4b6aaecb2a684dfb0d00d57e691320e1719023603e32f"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB995-001.xsd",
+          "sha256": "ad8ccb8f535787e014021a6a7197074459d81822737d25e2638beda9befd0571"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB996-004.xsd",
+          "sha256": "2d1b3548e320cbb5478cd1eeab36562e672dcdb62ef2cc598ac21ae2d7fd0b63"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB997-001.xsd",
+          "sha256": "b067485dfccf657b20dbae16004bc9027fc6a9939a01d5682674e5fb3b073d27"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOB998-001.xsd",
+          "sha256": "09049e08b303fa48d87e7539131ef076c2c2d49ceae5a90feb4e35988a2397a7"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC010-011.xsd",
+          "sha256": "1efa010a8031370da2bd8f4f4077c0a819dc89000a346b88d3bfe31e81f00b0c"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC020-008.xsd",
+          "sha256": "195f7e01aecd38b6a88cf187218b84ed1fe9e90a320bad195b3d8e8265fb6fb1"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC036-005.xsd",
+          "sha256": "c728b32fb5db2d07801dc395e804766bc8e028c00b49014aa55016ec94da2aac"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC038-002.xsd",
+          "sha256": "8e35c13e0854f97074e0cf150987c748bbe12c6031b7616bc3dea96b32a9d5c5"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC039-001.xsd",
+          "sha256": "345f76a6f2e95555cfa24e3d913f64ad592fb52134d837361e38fb855378e475"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC040-013.xsd",
+          "sha256": "8c42d6c671c1777b8f62fc5154f2f2bf04a911db7c89b6391c6b1fe6d14cbe67"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC050-019.xsd",
+          "sha256": "c5dc2cfdf40aa87b8932b9c0aa916941b6ba59220ead242f232ff12e62c64dc8"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC070-009.xsd",
+          "sha256": "c4b40250021899050688804f08a4d11e96190428311f36ff34a8cb4074020636"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC080-019.xsd",
+          "sha256": "0601cf824e9b6d729e9ea1dab4af35914a7689654bdac950a3a79160f678743f"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC090-004.xsd",
+          "sha256": "2ec9bd3c4abd44ba0941d7989f9841ccae3a449cea9bccc8e90e646935c1dd8e"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC100-011.xsd",
+          "sha256": "2a8de21be899d80f4e6df587381180af86bd0f77f17e1533561a3c37ab4c265b"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC110-020.xsd",
+          "sha256": "8a141997a130cf873048762b8d4998cf7df7ec2383d76a0c569148f1eef5614f"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC130-013.xsd",
+          "sha256": "481ce92e9fd2bf12ba4ef660d55ca57108900906613b2813dd9d41a6bde1a623"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC140-011.xsd",
+          "sha256": "0136df1981281c642bc3d0564e4529ed41290b007d9215f5534bc39ff44278c7"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC150-008.xsd",
+          "sha256": "7f978c48f7d9c0931edf671fe1c759954ef5620031d317ab6fd7b37c24282d4d"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC160-011.xsd",
+          "sha256": "b2b0d54a5661e1b0ff4f25dc670eb87f54841620e100c5ff442df1ee5414a53f"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC180-006.xsd",
+          "sha256": "681641eff67c0fe02031cbafcb3048309520d7d07d638cfc9fbe3ba427e794bd"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC190-005.xsd",
+          "sha256": "34544cfce7c78cb56ccd12063f7fff545235272802d0bf3f2be991ac9d1a593a"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC200-008.xsd",
+          "sha256": "0bc6447ed2f7aad698e26d930c36d913a834651bfbe0c3d9cfe4d5569354ba38"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC210-004.xsd",
+          "sha256": "b787ed31c02c3713b1c756b4ad2bb6ee323c40e94e9068ef5a9297ffe609d9dd"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC220-001.xsd",
+          "sha256": "2e653363a7a454e0faffc55022cfc5b8483345604f44c1258e5adce0bdc04464"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC230-002.xsd",
+          "sha256": "f78e75e8e9883bc373b572466126356c7211112dd26ef0cc12d80625b4839a6d"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC240-001.xsd",
+          "sha256": "42d5008027baee44f4ad1426853a1a983ed3edaa72c71091b93a4b8e0e42ad8e"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOC250-001.xsd",
+          "sha256": "dc36c43512fad7f430b3cdcde01528f536789b3f7eed3953fc40ea439f09425b"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOD010-006.xsd",
+          "sha256": "3a2401c7c522422ead42272ed8c265b29210c7235eb2a773ac3937449c790a4c"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOD020-006.xsd",
+          "sha256": "58ffb179bbae31e39b1661f9bba7558c5b5d6b329fee17bd2711e45e18da33dc"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOE040-003.xsd",
+          "sha256": "34323e5500a47f1f5f43a107e5b37366bbac41c4bbbd62794a48b557236a717c"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOE050-004.xsd",
+          "sha256": "50abeb8eec36f1425667b2d8e2baf6a66b165a332c389764a04e9b41b89a7aff"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOE060-001.xsd",
+          "sha256": "948e1f74345139645bcef1cea9d2698aa6b15f533354ffe9014e5c8f17b8d216"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOE070-005.xsd",
+          "sha256": "3f14cb170fe078797cff8be61b95817aef1a73f905f91422e62c03ee77408982"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/KOE080-003.xsd",
+          "sha256": "45c2d5ce9393f2707bbc8f4570a2e8747a95642eccc7a641961326eddf6297fe"
+        },
+        {
+          "path": "19XMLスキーマ/shotoku/RKO0010-250.xsd",
+          "sha256": "ff20aba7b0e5cd9fc3d673e11622e84c624372ec8890a963a462b2f9bf5f6aac"
+        },
+        {
           "path": "19XMLスキーマ/somu/SOZ-001.xsd",
           "sha256": "60b99927a323ed4cee2e869aaeb081bbdbfa157b46edcf361b133288ba60bcfc"
         },
@@ -1115,6 +1775,29 @@
           "sha256": "bc1e730e7af4ab2ecabb02dacaa1a1014141fea38b447c3ab639e8456e3b6b15"
         }
       ]
+    },
+    {
+      "name": "e-tax09",
+      "role": "XML構造設計書・帳票フィールド仕様書【所得税関係】",
+      "url": "https://www.e-tax.nta.go.jp/shiyo/ksk2/download/e-tax09.CAB",
+      "published": "2026-01-30",
+      "extract": "listed",
+      "files": [
+        {
+          "path": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver11x.xlsx",
+          "sha256": "77f36b1470f75fa2b5b890e8a37100afca417bc88a64810cd2d3f451f1e75e4d"
+        },
+        {
+          "path": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver23x.xlsx",
+          "sha256": "a595e57edba83ef408fb6ffadb8ba71653cfbc176659cb1014bc4b821279bf34"
+        },
+        {
+          "path": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver8x.xlsx",
+          "sha256": "c95324ce9304ab2dc61659358efda94c42d7400899a04408617bab401c286653"
+        }
+      ],
+      "sha256": "aa46204f612c284d87933637ad7601a94079c935a43a9951e756293155812bde",
+      "size_bytes": 8509024
     },
     {
       "name": "e-tax10",
@@ -2892,6 +3575,14 @@
       "xsd": "19XMLスキーマ/shohi/RSH0040-232.xsd",
       "xsd_sha256": "abcdf6209a54d2b0e02c6528a0d04f3a220aab8d66fe492e6a394c17aef9bd01",
       "version": "23.2.0"
+    },
+    {
+      "procedure_id": "RKO0010",
+      "key": "RKO0010",
+      "label": "所得税及び復興特別所得税申告",
+      "xsd": "19XMLスキーマ/shotoku/RKO0010-250.xsd",
+      "xsd_sha256": "ff20aba7b0e5cd9fc3d673e11622e84c624372ec8890a963a462b2f9bf5f6aac",
+      "version": "25.0.1"
     }
   ],
   "forms": [
@@ -3422,6 +4113,48 @@
       "xsd_sha256": "977957b3407eb3b1ac0888ae86ac77cb1e2b1bf048ef0b272db98a45e8968d53",
       "field_spec_workbook": "11XML構造設計書等【消費税】/帳票フィールド仕様書(消費-申告)Ver9x.xlsx",
       "field_spec_sheet": "SHA020"
+    },
+    {
+      "form_id": "KOA020",
+      "label": "所得税及び復興特別所得税の申告書（第一表・第二表）",
+      "mvp": false,
+      "stage": "kojin",
+      "procedure": "RKO0010",
+      "xsd": "19XMLスキーマ/shotoku/KOA020-023.xsd",
+      "version": "23.0",
+      "xsd_documentation_date": "2025-08-15",
+      "group": "KOA020-23-0group",
+      "xsd_sha256": "8de959bacc36112f0ae6972dadc809a9f793dd30da169af98f83ee5c91107d0d",
+      "field_spec_workbook": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver23x.xlsx",
+      "field_spec_sheet": "KOA020"
+    },
+    {
+      "form_id": "KOA210",
+      "label": "所得税青色申告決算書（一般用）",
+      "mvp": false,
+      "stage": "kojin",
+      "procedure": "RKO0010",
+      "xsd": "19XMLスキーマ/shotoku/KOA210-011.xsd",
+      "version": "11.0",
+      "xsd_documentation_date": "2023-09-27",
+      "group": "KOA210-11-0group",
+      "xsd_sha256": "806d4a5e3ee8e33ef82ec5904e12088e6c1f9e37ac0eedeb549facecadf60313",
+      "field_spec_workbook": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver11x.xlsx",
+      "field_spec_sheet": "KOA210"
+    },
+    {
+      "form_id": "KOA220",
+      "label": "所得税青色申告決算書（不動産所得用）",
+      "mvp": false,
+      "stage": "kojin",
+      "procedure": "RKO0010",
+      "xsd": "19XMLスキーマ/shotoku/KOA220-008.xsd",
+      "version": "8.0",
+      "xsd_documentation_date": "2020-08-31",
+      "group": "KOA220-8-0group",
+      "xsd_sha256": "7de9fd5faa8437ff5fcd0439564cc534d9388f0d04eb646e47b50f7c55892d78",
+      "field_spec_workbook": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver8x.xlsx",
+      "field_spec_sheet": "KOA220"
     }
   ]
 }

@@ -127,8 +127,8 @@ def _build_layout(args: argparse.Namespace) -> int:
 def _build_catalog(args: argparse.Namespace) -> int:
     manifest = Path(args.manifest_dir) / f"{args.spec_set}.manifest.json"
     spec = SpecSet(manifest, Path(args.cache_dir))
-    # 帳票フィールド仕様書: e-tax10（法人税）・e-tax11（消費税）・e-tax17（総務。税務代理権限証書など）
-    pkgs = [p for p in spec.manifest["packages"] if p["name"] in ("e-tax10", "e-tax11", "e-tax17") and p.get("files")]
+    # 帳票フィールド仕様書: e-tax10（法人税）・e-tax11（消費税）・e-tax09（所得税）・e-tax17（総務。税務代理権限証書など）
+    pkgs = [p for p in spec.manifest["packages"] if p["name"] in ("e-tax10", "e-tax11", "e-tax09", "e-tax17") and p.get("files")]
     if not any(p["name"] == "e-tax10" for p in pkgs):
         raise SpecError("manifest に e-tax10 がありません。先に fetch-spec --init を実行してください")
     sources = {spec.file_path(p, f["path"]): f for p in pkgs for f in p["files"] if WORKBOOK_RE.search(f["path"])}
@@ -137,8 +137,8 @@ def _build_catalog(args: argparse.Namespace) -> int:
     forms = []
     manifest_changed = False
     for form in spec.manifest["forms"]:
-        # 消費税の様式は消費税の仕様書、総務の様式（SOZ）は総務の仕様書、ほかは法人税の仕様書から探す
-        kind = "消費" if form["form_id"].startswith("SH") else "総務" if form["form_id"].startswith("SO") else "法人"
+        # 消費税の様式（SH）は消費税、総務の様式（SOZ）は総務、所得税の様式（KO）は所得税、ほかは法人税の仕様書から探す
+        kind = {"SH": "消費", "SO": "総務", "KO": "所得"}.get(form["form_id"][:2], "法人")
         books = [w for w in workbooks if kind in w.name]
         workbook, sheet = find_sheet(books, form["form_id"], form["version"])
         source = sources[workbook]
@@ -188,8 +188,10 @@ def _build_checks(args: argparse.Namespace) -> int:
 
     tag_forms: dict[str, str] = {}
     variants = {f["layout"] for f in spec.manifest["forms"] if f.get("layout")}   # 同じ帳票の別の版（XMLタグが同じ）は見ない
+    # 所得税の様式（名前空間 shotoku）は XMLタグの番号の付け方が別で、消費税の様式とタグが重なる。法人税の一致チェックには使わない
+    other_ns = {f["form_id"] for f in spec.manifest["forms"] if f.get("stage") == "kojin"}
     for form in catalog["forms"]:
-        if form["form_id"] in variants:
+        if form["form_id"] in variants or form["form_id"] in other_ns:
             continue
         for f in form["fields"]:
             other = tag_forms.setdefault(f["xml_tag"], form["form_id"])
@@ -463,6 +465,44 @@ def _shohi(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def _kojin(args: argparse.Namespace) -> int:
+    import json as _json
+    from . import api
+
+    balances = {k: Path(v).read_bytes() for k, v in (("business", args.business), ("real_estate", args.real_estate)) if v}
+    c = api.kojin_calculate(_json.loads(Path(args.input).read_text(encoding="utf-8")), balances)
+    L = c["lines"]
+    print(f"{c['year']}年分  所得金額の合計 ⑫ {L['12']:,}円  所得から差し引かれる金額 ㉚ {L['30']:,}円")
+    print(f"課税される所得金額 ㉛ {L['31']:,}円  税額 ㉜ {L['32']:,}円  復興特別所得税 ㊺ {L['45']:,}円  源泉徴収税額 ㊾ {L['49']:,}円")
+    print(f"申告納税額 ㊿ {L['50']:,}円  予定納税額 {L['51']:,}円  第3期分 納める税金 {L['52']:,}円  還付される税金 {L['53']:,}円")
+    for w in c["warnings"]:
+        print(f"注意: {w}")
+    for k in c["checks"]:
+        print(f"確かめてください: {k}")
+    if args.report:
+        with open(args.report, "w", encoding="utf-8", newline="\n") as f:
+            f.write(api.kojin_report(c))
+        print(f"申告書一式を書き出しました: {args.report}")
+    if not args.output:
+        return EXIT_OK
+    schema_root = Path(args.cache_dir) / "ksk2-2026-08" / "files" / "e-tax19"
+    if args.cab:
+        schema_root = api.schema_from_cab(Path(args.cab).read_bytes())
+    if not schema_root.exists():
+        raise SpecError("公式XSD がありません。opentax fetch-spec --set ksk2-2026-08 を実行するか、--cab で e-tax19.CAB を指定してください")
+    xml = api.kojin_export(c, schema_root)
+    errors = api.validate_xtx(xml, schema_root, "RKO0010")
+    if errors:
+        print(f"公式XSD の検証で誤りがあります（{len(errors)} 件）。.xtx は書き出しません")
+        for e in errors[:20]:
+            print(f"  {e}")
+        return EXIT_CHANGED
+    Path(args.output).write_bytes(xml)
+    print("公式XSD（手続 RKO0010）の検証: 誤りなし")
+    print(f"書き出しました: {args.output}（{len(xml):,} バイト）")
+    return EXIT_OK
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="opentax")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -541,21 +581,32 @@ def main(argv: list[str] | None = None) -> int:
     sh.add_argument("--cab", help="国税庁から取った e-tax19.CAB（キャッシュの代わりに使う）")
     _office_args(sh)
 
+    kj = sub.add_parser("kojin", help="個人の所得税及び復興特別所得税の確定申告（令和7年分。申告書 第一表・第二表、青色申告決算書の損益計算書）を"
+                        "計算し、-o で .xtx（手続 RKO0010）を作る")
+    kj.add_argument("input")
+    kj.add_argument("-o", "--output", help="書き出す .xtx（省略時は計算結果だけ表示）")
+    kj.add_argument("--business", help="事業所得の残高試算表（CSV・TXT）。青色申告決算書（一般用）を作る")
+    kj.add_argument("--real-estate", dest="real_estate", help="不動産所得の残高試算表（CSV・TXT）。青色申告決算書（不動産所得用）を作る")
+    kj.add_argument("--report", help="申告書一式（HTML 1枚）を書き出す先")
+    kj.add_argument("--cache-dir", default=".cache/etax")
+    kj.add_argument("--cab", help="国税庁から取った e-tax19.CAB（キャッシュの代わりに使う）")
+
     args = parser.parse_args(argv)
     command = {"fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
                "build-checks": _build_checks, "calculate": _calculate, "export-etax": _export_etax,
-               "local-tax": _local_tax, "shohi": _shohi, "report": _report}[args.command]
+               "local-tax": _local_tax, "shohi": _shohi, "kojin": _kojin, "report": _report}[args.command]
     from .etax.validate import ValidationUnavailable
     from .etax.xtx import XtxError
     from .red.calculate import RuleError
     from .red.local_tax import LocalRuleError
     from .red.local_sheet import SheetError
     from .red.model import InputError
+    from .kojin.calculate import KojinError
     from .shohi.calculate import ShohiInputError
     try:
         return command(args)
     except (SpecError, LayoutError, CatalogError, CheckError, InputError, RuleError, LocalRuleError, XtxError,
-            ValidationUnavailable, SheetError, ShohiInputError, OSError) as e:
+            ValidationUnavailable, SheetError, ShohiInputError, KojinError, OSError) as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
 

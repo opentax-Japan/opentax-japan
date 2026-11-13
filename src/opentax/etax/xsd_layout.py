@@ -454,6 +454,11 @@ IT_ELEMENTS_BY_PROCEDURE = {
                 "TETSUZUKI", "KAZEI_KIKAN_FROM", "KAZEI_KIKAN_TO", "SHINKOKU_KBN"],
 }
 IT_ELEMENTS_BY_PROCEDURE["RSH0040"] = IT_ELEMENTS_BY_PROCEDURE["RSH0020"]   # 簡易課税・法人（IT部は一般・法人と同じ）
+# 所得税及び復興特別所得税申告（個人）。申告書・青色申告決算書の欄が IDREF で参照する要素（帳票フィールド仕様書（所得-申告））
+IT_ELEMENTS_BY_PROCEDURE["RKO0010"] = ["NENBUN", "SHINKOKU_KBN", "ZEIMUSHO", "TEISYUTSU_DAY", "NOZEISHA_ID", "NOZEISHA_BANGO",
+                                       "NOZEISHA_NM_KN", "NOZEISHA_NM", "NOZEISHA_ZIP", "NOZEISHA_ADR", "ICHIGATSUIPPI_ADR",
+                                       "NOZEISHA_TEL", "SHOKUGYO", "NOZEISHA_YAGO", "SETAINUSHI_NM", "SETAINUSHI_ZOKU",
+                                       "BIRTHDAY", "KANPU_KINYUKIKAN", "TETSUZUKI"]
 
 
 def it_layout_name(procedure_id: str, first: bool, key: str | None = None) -> str:

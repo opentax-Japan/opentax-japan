@@ -46,6 +46,9 @@
 - 消費税（2割特例・法人）: 付表6 と申告書（一般用）の .xtx（入力に `"method": "two_tenths"`。令和8年9月30日を含む課税期間まで）
 - 消費税（簡易課税・法人）: 申告書（簡易課税用）第一表・第二表・付表4-3・付表5-3 の .xtx（入力に `"method": "simplified"` と事業区分ごとの売上げ）。
   原則計算・75%以上の特例計算から有利なものを選びます。国税庁の「申告書（簡易課税用）の書き方」の設例と数字が一致します
+- 所得税（個人・令和7年分）: 申告書 第一表・第二表と青色申告決算書（一般用・不動産所得用）の損益計算書の .xtx（`opentax kojin`。手続 RKO0010）。
+  事業・不動産（残高試算表から決算書を作ります）・配当・給与・雑（公的年金等など）・一時の所得と、主な所得控除（特定親族特別控除を含む）・配当控除・復興特別所得税。
+  国税庁「確定申告の手引き」の申告書の記載例・設例と数字が一致します。分離課税・損失申告・住宅借入金等特別控除などは対象外で止まります。令和8年分は国税庁の仕様の公表待ちです
 
 ### 対象外
 
@@ -69,7 +72,8 @@
 - 赤字の法人でまだ扱えないもの: 前期の未収還付税金、仮払経理による中間納付、別表十六の6列目以降（2枚目）
 - 概況書の手入力の欄を Web 画面で書けるようにすること（今は JSON のファイル）
 - 地方税（eLTAX）の取込ファイル、分割法人
-- 消費税の旧税率の取引・課税貨物・調整対象固定資産の調整、所得税
+- 消費税の旧税率の取引・課税貨物・調整対象固定資産の調整
+- 所得税の分離課税（第三表）・損失申告（第四表）・住宅借入金等特別控除・収支内訳書（白色）・令和8年分
 
 ## 国税庁の仕様書について
 
@@ -103,6 +107,7 @@ opentax export-etax company.json -o out.xtx # e-Taxソフト（ダウンロー�
   #   --trend 月次推移表.csv                            概況書の月別の売上・仕入を推移表から作る
 opentax local-tax company.json -o out.html  # 地方税の一覧（第六号様式・第二十号様式の欄ごとの金額。スマホで見られる HTML）
 opentax shohi shohi.json -o shohi.xtx       # 消費税（法人）の .xtx（見本: 一般 tests/cases/kokuzei-shoji-shohi/input.json・簡易 tests/cases/kasumi-shokai-kani/input.json）
+opentax kojin tests/cases/kokuzei-taro-kojin/input.json --business tests/cases/kokuzei-taro-kojin/business_balance.csv --real-estate tests/cases/kokuzei-taro-kojin/real_estate_balance.csv -o kojin.xtx --report 個人.html   # 所得税（個人）
 opentax report --demo -o 一式.html         # 申告書一式（HTML 1枚）。自社の分は input.json --balance --trend --payroll --supplement --gaikyo --shohi
 ```
 

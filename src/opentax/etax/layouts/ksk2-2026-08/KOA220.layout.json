@@ -1,0 +1,4217 @@
+{
+ "form_id": "KOA220",
+ "label": "所得税青色申告決算書（不動産所得用）",
+ "version": "8.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shotoku",
+ "group": "KOA220-8-0group",
+ "xsd": "19XMLスキーマ/shotoku/KOA220-008.xsd",
+ "xsd_sha256": "7de9fd5faa8437ff5fcd0439564cc534d9388f0d04eb646e47b50f7c55892d78",
+ "root": {
+  "tag": "KOA220",
+  "path": "KOA220",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "KOA220-1",
+    "path": "KOA220/KOA220-1",
+    "label": "１ページ目",
+    "min": 0,
+    "max": 1,
+    "type": "KOA220-1-8-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ANH00000",
+      "path": "KOA220/KOA220-1/ANH00000",
+      "label": "有限責任事業組合",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "ANA00000",
+      "path": "KOA220/KOA220-1/ANA00000",
+      "label": "年分",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NENBUNref",
+      "kind": "idref",
+      "idref": "NENBUN",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NENBUN",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "ANB00000",
+      "path": "KOA220/KOA220-1/ANB00000",
+      "label": "納税者等部",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ANB00010",
+        "path": "KOA220/KOA220-1/ANB00000/ANB00010",
+        "label": "住所",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_ADRref",
+        "kind": "idref",
+        "idref": "NOZEISHA_ADR",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_ADR",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ANB00020",
+        "path": "KOA220/KOA220-1/ANB00000/ANB00020",
+        "label": "（フリガナ）氏名",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANB00030",
+          "path": "KOA220/KOA220-1/ANB00000/ANB00020/ANB00030",
+          "label": "フリガナ",
+          "min": 0,
+          "max": 1,
+          "type": "gen:NOZEISHA_NM_KNref",
+          "kind": "idref",
+          "idref": "NOZEISHA_NM_KN",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "NOZEISHA_NM_KN",
+            "type": "xsd:IDREF"
+           }
+          ]
+         },
+         {
+          "tag": "ANB00040",
+          "path": "KOA220/KOA220-1/ANB00000/ANB00020/ANB00040",
+          "label": "氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:NOZEISHA_NMref",
+          "kind": "idref",
+          "idref": "NOZEISHA_NM",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "NOZEISHA_NM",
+            "type": "xsd:IDREF"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ANB00050",
+        "path": "KOA220/KOA220-1/ANB00000/ANB00050",
+        "label": "職業",
+        "min": 0,
+        "max": 1,
+        "type": "gen:SHOKUGYOref",
+        "kind": "idref",
+        "idref": "SHOKUGYO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "SHOKUGYO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ANB00060",
+        "path": "KOA220/KOA220-1/ANB00000/ANB00060",
+        "label": "電話番号",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_TELref",
+        "kind": "idref",
+        "idref": "NOZEISHA_TEL",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_TEL",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ANC00000",
+      "path": "KOA220/KOA220-1/ANC00000",
+      "label": "依頼税理士等",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ANC00010",
+        "path": "KOA220/KOA220-1/ANC00000/ANC00010",
+        "label": "事務所所在地",
+        "min": 0,
+        "max": 1,
+        "type": "gen:DAIRI_ADRref",
+        "kind": "idref",
+        "idref": "DAIRI_ADR",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "DAIRI_ADR",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ANC00020",
+        "path": "KOA220/KOA220-1/ANC00000/ANC00020",
+        "label": "氏名（名称）",
+        "min": 0,
+        "max": 1,
+        "type": "gen:DAIRI_NMref",
+        "kind": "idref",
+        "idref": "DAIRI_NM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "DAIRI_NM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ANC00030",
+        "path": "KOA220/KOA220-1/ANC00000/ANC00030",
+        "label": "電話番号",
+        "min": 0,
+        "max": 1,
+        "type": "gen:DAIRI_TELref",
+        "kind": "idref",
+        "idref": "DAIRI_TEL",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "DAIRI_TEL",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ANE00000",
+      "path": "KOA220/KOA220-1/ANE00000",
+      "label": "提出年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:TEISYUTSU_DAYref",
+      "kind": "idref",
+      "idref": "TEISYUTSU_DAY",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "TEISYUTSU_DAY",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "ANF00000",
+      "path": "KOA220/KOA220-1/ANF00000",
+      "label": "損益計算書",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ANF00010",
+        "path": "KOA220/KOA220-1/ANF00000/ANF00010",
+        "label": "損益計算書の内訳",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANF00020",
+          "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00020",
+          "label": "事業期間",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ANF00030",
+            "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00020/ANF00030",
+            "label": "事業期間（自）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:mmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "mm",
+              "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00020/ANF00030/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00020/ANF00030/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "ANF00040",
+            "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00020/ANF00040",
+            "label": "事業期間（至）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:mmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "mm",
+              "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00020/ANF00040/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00020/ANF00040/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ANF00050",
+          "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00050",
+          "label": "収入金額（追加科目名）",
+          "min": 0,
+          "max": 1,
+          "type": "ANF00050-8-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 10
+         },
+         {
+          "tag": "ANF00070",
+          "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00070",
+          "label": "収入金額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ANF00080",
+            "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00070/ANF00080",
+            "label": "賃貸料",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00090",
+            "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00070/ANF00090",
+            "label": "礼金・権利金・更新料",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00100",
+            "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00070/ANF00100",
+            "label": "追加科目の金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00110",
+            "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00070/ANF00110",
+            "label": "計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ANF00120",
+          "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00120",
+          "label": "必要経費",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ANF00130",
+            "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00120/ANF00130",
+            "label": "租税公課",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00140",
+            "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00120/ANF00140",
+            "label": "損害保険料",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00150",
+            "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00120/ANF00150",
+            "label": "修繕費",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00160",
+            "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00120/ANF00160",
+            "label": "減価償却費",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00170",
+            "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00120/ANF00170",
+            "label": "借入金利子",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00180",
+            "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00120/ANF00180",
+            "label": "地代家賃",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00190",
+            "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00120/ANF00190",
+            "label": "給料賃金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00195",
+            "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00120/ANF00195",
+            "label": "追加科目　繰り返し",
+            "min": 0,
+            "max": 5,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "ANF00060",
+              "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00120/ANF00195/ANF00060",
+              "label": "必要経費（科目名）",
+              "min": 0,
+              "max": 1,
+              "type": "ANF00060-8-0Rtype",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ],
+              "max_length": 10
+             },
+             {
+              "tag": "ANF00200",
+              "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00120/ANF00195/ANF00200",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "ANF00210",
+            "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00120/ANF00210",
+            "label": "その他の経費",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00220",
+            "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00120/ANF00220",
+            "label": "計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ANF00230",
+          "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00230",
+          "label": "差引金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00240",
+          "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00240",
+          "label": "専従者給与",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00250",
+          "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00250",
+          "label": "青色申告特別控除前の所得金額(上段)",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00255",
+          "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00255",
+          "label": "青色申告特別控除前の所得金額(下段)",
+          "min": 0,
+          "max": 1,
+          "type": "ANF00255-8-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "ANF00260",
+          "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00260",
+          "label": "青色申告特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00270",
+          "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00270",
+          "label": "所得金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00280",
+          "path": "KOA220/KOA220-1/ANF00000/ANF00010/ANF00280",
+          "label": "土地等を取得するために要した負債の利子の額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ANF00282",
+      "path": "KOA220/KOA220-1/ANF00282",
+      "label": "必要経費不算入損失額",
+      "min": 0,
+      "max": 1,
+      "type": "ANF00282-8-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 30
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   },
+   {
+    "tag": "KOA220-2",
+    "path": "KOA220/KOA220-2",
+    "label": "２ページ目",
+    "min": 0,
+    "max": null,
+    "type": "KOA220-2-8-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ANF00288",
+      "path": "KOA220/KOA220-2/ANF00288",
+      "label": "年分",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NENBUNref",
+      "kind": "idref",
+      "idref": "NENBUN",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NENBUN",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "ANF00290",
+      "path": "KOA220/KOA220-2/ANF00290",
+      "label": "（フリガナ）氏名",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ANF00300",
+        "path": "KOA220/KOA220-2/ANF00290/ANF00300",
+        "label": "フリガナ",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_NM_KNref",
+        "kind": "idref",
+        "idref": "NOZEISHA_NM_KN",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_NM_KN",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ANF00310",
+        "path": "KOA220/KOA220-2/ANF00290/ANF00310",
+        "label": "氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_NMref",
+        "kind": "idref",
+        "idref": "NOZEISHA_NM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_NM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ANF00330",
+      "path": "KOA220/KOA220-2/ANF00330",
+      "label": "不動産所得の収入の内訳",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ANF00340",
+        "path": "KOA220/KOA220-2/ANF00330/ANF00340",
+        "label": "不動産所得の収入の内訳明細　繰り返し",
+        "min": 0,
+        "max": 15,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANF00350",
+          "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00350",
+          "label": "貸家貸地等の別",
+          "min": 0,
+          "max": 1,
+          "type": "ANF00350-8-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 10
+         },
+         {
+          "tag": "ANF00355",
+          "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00355",
+          "label": "用途(住宅用、住宅用以外等の別)",
+          "min": 0,
+          "max": 1,
+          "type": "ANF00355-8-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 10
+         },
+         {
+          "tag": "ANF00360",
+          "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00360",
+          "label": "不動産の所在地",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "ANF00370",
+          "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00370",
+          "label": "賃借人の住所・氏名",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ANF00380",
+            "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00370/ANF00380",
+            "label": "賃借人の住所",
+            "min": 0,
+            "max": 1,
+            "type": "gen:address",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           },
+           {
+            "tag": "ANF00390",
+            "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00370/ANF00390",
+            "label": "賃借人の氏名",
+            "min": 0,
+            "max": 1,
+            "type": "gen:name",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ANF00400",
+          "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00400",
+          "label": "賃貸契約期間",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ANF00410",
+            "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00400/ANF00410",
+            "label": "賃貸契約期間（自）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymm",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00400/ANF00410/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00400/ANF00410/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00400/ANF00410/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "ANF00420",
+            "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00400/ANF00420",
+            "label": "賃貸契約期間（至）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymm",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00400/ANF00420/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00400/ANF00420/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00400/ANF00420/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ANF00430",
+          "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00430",
+          "label": "貸付面積",
+          "min": 0,
+          "max": 1,
+          "type": "ANF00430-8-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00440",
+          "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00440",
+          "label": "本年中の収入金額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ANF00450",
+            "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00440/ANF00450",
+            "label": "賃貸料",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "ANF00460",
+              "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00440/ANF00450/ANF00460",
+              "label": "月額、__月分まで（上段）",
+              "min": 0,
+              "max": 1,
+              "type": "ANF00460-8-0Rtype",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ],
+              "max_length": 12
+             },
+             {
+              "tag": "ANF00470",
+              "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00440/ANF00450/ANF00470",
+              "label": "月額（上段）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "ANF00480",
+              "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00440/ANF00450/ANF00480",
+              "label": "月額、__月分から（下段）",
+              "min": 0,
+              "max": 1,
+              "type": "ANF00480-8-0Rtype",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ],
+              "max_length": 12
+             },
+             {
+              "tag": "ANF00490",
+              "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00440/ANF00450/ANF00490",
+              "label": "月額（下段）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "ANF00500",
+              "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00440/ANF00450/ANF00500",
+              "label": "年額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "ANF00510",
+            "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00440/ANF00510",
+            "label": "礼金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00520",
+            "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00440/ANF00520",
+            "label": "権利金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00530",
+            "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00440/ANF00530",
+            "label": "更新料",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00540",
+            "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00440/ANF00540",
+            "label": "名義書換料その他",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00550",
+            "path": "KOA220/KOA220-2/ANF00330/ANF00340/ANF00440/ANF00550",
+            "label": "保証金・敷金（期末残高）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ANF00551",
+        "path": "KOA220/KOA220-2/ANF00330/ANF00551",
+        "label": "次葉合計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANF00552",
+          "path": "KOA220/KOA220-2/ANF00330/ANF00551/ANF00552",
+          "label": "項目名",
+          "min": 0,
+          "max": 1,
+          "type": "ANF00552-8-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 4
+         },
+         {
+          "tag": "ANF00553",
+          "path": "KOA220/KOA220-2/ANF00330/ANF00551/ANF00553",
+          "label": "賃貸料の年額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00554",
+          "path": "KOA220/KOA220-2/ANF00330/ANF00551/ANF00554",
+          "label": "礼金・権利金・更新料",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00555",
+          "path": "KOA220/KOA220-2/ANF00330/ANF00551/ANF00555",
+          "label": "名義書換料その他",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00556",
+          "path": "KOA220/KOA220-2/ANF00330/ANF00551/ANF00556",
+          "label": "保証金・敷金（期末残高）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ANF00560",
+        "path": "KOA220/KOA220-2/ANF00330/ANF00560",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANF00570",
+          "path": "KOA220/KOA220-2/ANF00330/ANF00560/ANF00570",
+          "label": "賃貸料の年額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00580",
+          "path": "KOA220/KOA220-2/ANF00330/ANF00560/ANF00580",
+          "label": "礼金・権利金・更新料",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00590",
+          "path": "KOA220/KOA220-2/ANF00330/ANF00560/ANF00590",
+          "label": "名義書換料その他",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00600",
+          "path": "KOA220/KOA220-2/ANF00330/ANF00560/ANF00600",
+          "label": "保証金・敷金（期末残高）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ANF00610",
+      "path": "KOA220/KOA220-2/ANF00610",
+      "label": "給料賃金の内訳",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ANF00620",
+        "path": "KOA220/KOA220-2/ANF00610/ANF00620",
+        "label": "給料賃金明細行　繰り返し",
+        "min": 0,
+        "max": 2,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANF00630",
+          "path": "KOA220/KOA220-2/ANF00610/ANF00620/ANF00630",
+          "label": "氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "ANF00640",
+          "path": "KOA220/KOA220-2/ANF00610/ANF00620/ANF00640",
+          "label": "年齢",
+          "min": 0,
+          "max": 1,
+          "type": "ANF00640-8-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 1,
+          "max_inclusive": 999,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00650",
+          "path": "KOA220/KOA220-2/ANF00610/ANF00620/ANF00650",
+          "label": "従事月数",
+          "min": 0,
+          "max": 1,
+          "type": "ANF00650-8-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 1,
+          "max_inclusive": 12,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00660",
+          "path": "KOA220/KOA220-2/ANF00610/ANF00620/ANF00660",
+          "label": "支給額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ANF00670",
+            "path": "KOA220/KOA220-2/ANF00610/ANF00620/ANF00660/ANF00670",
+            "label": "給料賃金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00680",
+            "path": "KOA220/KOA220-2/ANF00610/ANF00620/ANF00660/ANF00680",
+            "label": "賞与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00690",
+            "path": "KOA220/KOA220-2/ANF00610/ANF00620/ANF00660/ANF00690",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ANF00700",
+          "path": "KOA220/KOA220-2/ANF00610/ANF00620/ANF00700",
+          "label": "所得税及び復興特別所得税の源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ANF00701",
+        "path": "KOA220/KOA220-2/ANF00610/ANF00701",
+        "label": "次葉合計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANF00702",
+          "path": "KOA220/KOA220-2/ANF00610/ANF00701/ANF00702",
+          "label": "項目名",
+          "min": 0,
+          "max": 1,
+          "type": "ANF00702-8-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 4
+         },
+         {
+          "tag": "ANF00703",
+          "path": "KOA220/KOA220-2/ANF00610/ANF00701/ANF00703",
+          "label": "延べ従事月数",
+          "min": 0,
+          "max": 1,
+          "type": "ANF00703-8-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00704",
+          "path": "KOA220/KOA220-2/ANF00610/ANF00701/ANF00704",
+          "label": "支給額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ANF00705",
+            "path": "KOA220/KOA220-2/ANF00610/ANF00701/ANF00704/ANF00705",
+            "label": "給料賃金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00706",
+            "path": "KOA220/KOA220-2/ANF00610/ANF00701/ANF00704/ANF00706",
+            "label": "賞与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00707",
+            "path": "KOA220/KOA220-2/ANF00610/ANF00701/ANF00704/ANF00707",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ANF00708",
+          "path": "KOA220/KOA220-2/ANF00610/ANF00701/ANF00708",
+          "label": "所得税及び復興特別所得税の源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ANF00710",
+        "path": "KOA220/KOA220-2/ANF00610/ANF00710",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANF00720",
+          "path": "KOA220/KOA220-2/ANF00610/ANF00710/ANF00720",
+          "label": "延べ従事月数",
+          "min": 0,
+          "max": 1,
+          "type": "ANF00720-8-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00730",
+          "path": "KOA220/KOA220-2/ANF00610/ANF00710/ANF00730",
+          "label": "支給額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ANF00740",
+            "path": "KOA220/KOA220-2/ANF00610/ANF00710/ANF00730/ANF00740",
+            "label": "給料賃金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00750",
+            "path": "KOA220/KOA220-2/ANF00610/ANF00710/ANF00730/ANF00750",
+            "label": "賞与",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANF00760",
+            "path": "KOA220/KOA220-2/ANF00610/ANF00710/ANF00730/ANF00760",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ANF00770",
+          "path": "KOA220/KOA220-2/ANF00610/ANF00710/ANF00770",
+          "label": "所得税及び復興特別所得税の源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ANF00780",
+      "path": "KOA220/KOA220-2/ANF00780",
+      "label": "専従者給与の内訳",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ANF00790",
+        "path": "KOA220/KOA220-2/ANF00780/ANF00790",
+        "label": "氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "ANF00800",
+        "path": "KOA220/KOA220-2/ANF00780/ANF00800",
+        "label": "続柄",
+        "min": 0,
+        "max": 1,
+        "type": "gen:zokugara",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 5
+       },
+       {
+        "tag": "ANF00810",
+        "path": "KOA220/KOA220-2/ANF00780/ANF00810",
+        "label": "年齢",
+        "min": 0,
+        "max": 1,
+        "type": "ANF00810-8-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "min_inclusive": 1,
+        "max_inclusive": 999,
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ANF00820",
+        "path": "KOA220/KOA220-2/ANF00780/ANF00820",
+        "label": "従事月数",
+        "min": 0,
+        "max": 1,
+        "type": "ANF00820-8-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "min_inclusive": 1,
+        "max_inclusive": 99,
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ANF00830",
+        "path": "KOA220/KOA220-2/ANF00780/ANF00830",
+        "label": "支給額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANF00840",
+          "path": "KOA220/KOA220-2/ANF00780/ANF00830/ANF00840",
+          "label": "給料",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00850",
+          "path": "KOA220/KOA220-2/ANF00780/ANF00830/ANF00850",
+          "label": "賞与",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00860",
+          "path": "KOA220/KOA220-2/ANF00780/ANF00830/ANF00860",
+          "label": "合計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ANF00870",
+        "path": "KOA220/KOA220-2/ANF00780/ANF00870",
+        "label": "所得税及び復興特別所得税の源泉徴収税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   },
+   {
+    "tag": "KOA220-3",
+    "path": "KOA220/KOA220-3",
+    "label": "３ページ目",
+    "min": 0,
+    "max": null,
+    "type": "KOA220-3-8-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ANF00880",
+      "path": "KOA220/KOA220-3/ANF00880",
+      "label": "減価償却費の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ANF00890",
+        "path": "KOA220/KOA220-3/ANF00880/ANF00890",
+        "label": "減価償却費の明細　繰り返し",
+        "min": 0,
+        "max": 13,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANF00900",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF00900",
+          "label": "減価償却資産の名称等（繰延資産を含む）",
+          "min": 0,
+          "max": 1,
+          "type": "ANF00900-8-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 16
+         },
+         {
+          "tag": "ANF00910",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF00910",
+          "label": "面積又は数量",
+          "min": 0,
+          "max": 1,
+          "type": "ANF00910-8-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 13
+         },
+         {
+          "tag": "ANF00920",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF00920",
+          "label": "取得年月",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymm",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF00920/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF00920/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF00920/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "ANF00930",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF00930",
+          "label": "取得価額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00935",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF00935",
+          "label": "（償却保証額）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00940",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF00940",
+          "label": "償却の基礎になる金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00950",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF00950",
+          "label": "償却方法",
+          "min": 0,
+          "max": 1,
+          "type": "ANF00950-8-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 10
+         },
+         {
+          "tag": "ANF00960",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF00960",
+          "label": "耐用年数",
+          "min": 0,
+          "max": 1,
+          "type": "ANF00960-8-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 2,
+          "max_inclusive": 100,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF00970",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF00970",
+          "label": "償却率又は改定償却率",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ANF00980",
+            "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF00970/ANF00980",
+            "label": "償却率又は改定償却率",
+            "min": 0,
+            "max": 1,
+            "type": "ANF00980-8-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ANF01010",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF01010",
+          "label": "本年中の償却期間",
+          "min": 0,
+          "max": 1,
+          "type": "ANF01010-8-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 1,
+          "max_inclusive": 12,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01020",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF01020",
+          "label": "本年分の普通償却費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01030",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF01030",
+          "label": "割増（特別）償却費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01040",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF01040",
+          "label": "本年分の償却費合計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01050",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF01050",
+          "label": "貸付割合",
+          "min": 0,
+          "max": 1,
+          "type": "ANF01050-8-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01060",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF01060",
+          "label": "本年分の必要経費算入額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01070",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF01070",
+          "label": "未償却残高（期末残高）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01080",
+          "path": "KOA220/KOA220-3/ANF00880/ANF00890/ANF01080",
+          "label": "摘要",
+          "min": 0,
+          "max": 1,
+          "type": "ANF01080-8-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 15
+         }
+        ]
+       },
+       {
+        "tag": "ANF01081",
+        "path": "KOA220/KOA220-3/ANF00880/ANF01081",
+        "label": "次葉合計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANF01082",
+          "path": "KOA220/KOA220-3/ANF00880/ANF01081/ANF01082",
+          "label": "項目名",
+          "min": 0,
+          "max": 1,
+          "type": "ANF01082-8-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 4
+         },
+         {
+          "tag": "ANF01083",
+          "path": "KOA220/KOA220-3/ANF00880/ANF01081/ANF01083",
+          "label": "本年分の普通償却費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01084",
+          "path": "KOA220/KOA220-3/ANF00880/ANF01081/ANF01084",
+          "label": "割増（特別）償却費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01085",
+          "path": "KOA220/KOA220-3/ANF00880/ANF01081/ANF01085",
+          "label": "本年分の償却費合計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01086",
+          "path": "KOA220/KOA220-3/ANF00880/ANF01081/ANF01086",
+          "label": "本年分の必要経費算入額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01087",
+          "path": "KOA220/KOA220-3/ANF00880/ANF01081/ANF01087",
+          "label": "未償却残高（期末残高）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ANF01090",
+        "path": "KOA220/KOA220-3/ANF00880/ANF01090",
+        "label": "計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANF01100",
+          "path": "KOA220/KOA220-3/ANF00880/ANF01090/ANF01100",
+          "label": "本年分の普通償却費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01110",
+          "path": "KOA220/KOA220-3/ANF00880/ANF01090/ANF01110",
+          "label": "割増（特別）償却費",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01120",
+          "path": "KOA220/KOA220-3/ANF00880/ANF01090/ANF01120",
+          "label": "本年分の償却費合計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01130",
+          "path": "KOA220/KOA220-3/ANF00880/ANF01090/ANF01130",
+          "label": "本年分の必要経費算入額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01140",
+          "path": "KOA220/KOA220-3/ANF00880/ANF01090/ANF01140",
+          "label": "未償却残高（期末残高）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01150",
+          "path": "KOA220/KOA220-3/ANF00880/ANF01090/ANF01150",
+          "label": "摘要",
+          "min": 0,
+          "max": 1,
+          "type": "ANF01150-8-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 15
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ANF01160",
+      "path": "KOA220/KOA220-3/ANF01160",
+      "label": "地代家賃の内訳　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ANF01170",
+        "path": "KOA220/KOA220-3/ANF01160/ANF01170",
+        "label": "支払先の住所・氏名",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANF01180",
+          "path": "KOA220/KOA220-3/ANF01160/ANF01170/ANF01180",
+          "label": "支払先の住所",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "ANF01190",
+          "path": "KOA220/KOA220-3/ANF01160/ANF01170/ANF01190",
+          "label": "支払先の氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ANF01200",
+        "path": "KOA220/KOA220-3/ANF01160/ANF01200",
+        "label": "賃借物件",
+        "min": 0,
+        "max": 1,
+        "type": "ANF01200-8-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 14
+       },
+       {
+        "tag": "ANF01210",
+        "path": "KOA220/KOA220-3/ANF01160/ANF01210",
+        "label": "本年中の賃借料・権利金等",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANF01220",
+          "path": "KOA220/KOA220-3/ANF01160/ANF01210/ANF01220",
+          "label": "権利金",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01230",
+          "path": "KOA220/KOA220-3/ANF01160/ANF01210/ANF01230",
+          "label": "更新料",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ANF01240",
+          "path": "KOA220/KOA220-3/ANF01160/ANF01210/ANF01240",
+          "label": "賃借料",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ANF01250",
+        "path": "KOA220/KOA220-3/ANF01160/ANF01250",
+        "label": "左の賃借料のうち必要経費算入額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ANF01260",
+      "path": "KOA220/KOA220-3/ANF01260",
+      "label": "借入金利子の内訳　繰り返し",
+      "min": 0,
+      "max": 3,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ANF01270",
+        "path": "KOA220/KOA220-3/ANF01260/ANF01270",
+        "label": "支払先の住所・氏名",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANF01280",
+          "path": "KOA220/KOA220-3/ANF01260/ANF01270/ANF01280",
+          "label": "支払先の住所",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "ANF01290",
+          "path": "KOA220/KOA220-3/ANF01260/ANF01270/ANF01290",
+          "label": "支払先の氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ANF01300",
+        "path": "KOA220/KOA220-3/ANF01260/ANF01300",
+        "label": "期末現在の借入金等の金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ANF01310",
+        "path": "KOA220/KOA220-3/ANF01260/ANF01310",
+        "label": "本年中の借入金利子",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ANF01320",
+        "path": "KOA220/KOA220-3/ANF01260/ANF01320",
+        "label": "左のうち必要経費算入額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ANF01330",
+      "path": "KOA220/KOA220-3/ANF01330",
+      "label": "税理士・弁護士等の報酬・料金の内訳　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ANF01340",
+        "path": "KOA220/KOA220-3/ANF01330/ANF01340",
+        "label": "支払先の住所・氏名",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANF01350",
+          "path": "KOA220/KOA220-3/ANF01330/ANF01340/ANF01350",
+          "label": "支払先の住所",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "ANF01360",
+          "path": "KOA220/KOA220-3/ANF01330/ANF01340/ANF01360",
+          "label": "支払先の氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ANF01370",
+        "path": "KOA220/KOA220-3/ANF01330/ANF01370",
+        "label": "本年中の報酬等の金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ANF01380",
+        "path": "KOA220/KOA220-3/ANF01330/ANF01380",
+        "label": "左のうち必要経費算入額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ANF01390",
+        "path": "KOA220/KOA220-3/ANF01330/ANF01390",
+        "label": "所得税及び復興特別所得税の源泉徴収税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   },
+   {
+    "tag": "KOA220-4",
+    "path": "KOA220/KOA220-4",
+    "label": "４ページ目",
+    "min": 0,
+    "max": 1,
+    "type": "KOA220-4-8-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ANG00000",
+      "path": "KOA220/KOA220-4/ANG00000",
+      "label": "貸借対照表",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ANG00010",
+        "path": "KOA220/KOA220-4/ANG00000/ANG00010",
+        "label": "期末年月日",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "KOA220/KOA220-4/ANG00000/ANG00010/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "KOA220/KOA220-4/ANG00000/ANG00010/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "KOA220/KOA220-4/ANG00000/ANG00010/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "KOA220/KOA220-4/ANG00000/ANG00010/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "ANG00020",
+        "path": "KOA220/KOA220-4/ANG00000/ANG00020",
+        "label": "資産の部",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANG00025",
+          "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00025",
+          "label": "追加科目　繰り返し",
+          "min": 0,
+          "max": 5,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ANG00030",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00025/ANG00030",
+            "label": "科目名",
+            "min": 0,
+            "max": 1,
+            "type": "ANG00030-8-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 10
+           },
+           {
+            "tag": "ANG00240",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00025/ANG00240",
+            "label": "金額（期首）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00460",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00025/ANG00460",
+            "label": "金額（期末）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ANG00040",
+          "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040",
+          "label": "期首",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ANG00050",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00050",
+            "label": "期首月日",
+            "min": 0,
+            "max": 1,
+            "type": "gen:mmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "mm",
+              "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00050/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00050/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "ANG00060",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00060",
+            "label": "現金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00070",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00070",
+            "label": "普通預金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00080",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00080",
+            "label": "定期預金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00090",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00090",
+            "label": "その他の預金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00100",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00100",
+            "label": "受取手形",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00110",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00110",
+            "label": "未収賃貸料",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00120",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00120",
+            "label": "未収金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00130",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00130",
+            "label": "有価証券",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00140",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00140",
+            "label": "前払金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00150",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00150",
+            "label": "貸付金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00160",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00160",
+            "label": "建物",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00170",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00170",
+            "label": "建物附属設備",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00180",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00180",
+            "label": "構築物",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00190",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00190",
+            "label": "船舶",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00200",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00200",
+            "label": "工具　器具　備品",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00210",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00210",
+            "label": "土地",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00220",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00220",
+            "label": "借地権",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00230",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00230",
+            "label": "公共施設負担金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00250",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00040/ANG00250",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ANG00260",
+          "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260",
+          "label": "期末",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ANG00270",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00270",
+            "label": "期末月日",
+            "min": 0,
+            "max": 1,
+            "type": "gen:mmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "mm",
+              "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00270/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00270/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "ANG00280",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00280",
+            "label": "現金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00290",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00290",
+            "label": "普通預金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00300",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00300",
+            "label": "定期預金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00310",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00310",
+            "label": "その他の預金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00320",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00320",
+            "label": "受取手形",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00330",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00330",
+            "label": "未収賃貸料",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00340",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00340",
+            "label": "未収金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00350",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00350",
+            "label": "有価証券",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00360",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00360",
+            "label": "前払金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00370",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00370",
+            "label": "貸付金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00380",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00380",
+            "label": "建物",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00390",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00390",
+            "label": "建物附属設備",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00400",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00400",
+            "label": "構築物",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00410",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00410",
+            "label": "船舶",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00420",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00420",
+            "label": "工具　器具　備品",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00430",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00430",
+            "label": "土地",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00440",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00440",
+            "label": "借地権",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00450",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00450",
+            "label": "公共施設負担金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00470",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00470",
+            "label": "事業主貸",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00480",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00020/ANG00260/ANG00480",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ANG00490",
+        "path": "KOA220/KOA220-4/ANG00000/ANG00490",
+        "label": "負債・資本の部",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ANG00495",
+          "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00495",
+          "label": "追加科目　繰り返し",
+          "min": 0,
+          "max": 18,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ANG00500",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00495/ANG00500",
+            "label": "科目名",
+            "min": 0,
+            "max": 1,
+            "type": "ANG00500-8-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 10
+           },
+           {
+            "tag": "ANG00560",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00495/ANG00560",
+            "label": "金額（期首）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00640",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00495/ANG00640",
+            "label": "金額（期末）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ANG00510",
+          "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00510",
+          "label": "期首",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ANG00520",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00510/ANG00520",
+            "label": "期首月日",
+            "min": 0,
+            "max": 1,
+            "type": "gen:mmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "mm",
+              "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00510/ANG00520/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00510/ANG00520/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "ANG00530",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00510/ANG00530",
+            "label": "借入金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00540",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00510/ANG00540",
+            "label": "未払金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00550",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00510/ANG00550",
+            "label": "保証金・敷金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00570",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00510/ANG00570",
+            "label": "元入金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00580",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00510/ANG00580",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ANG00590",
+          "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00590",
+          "label": "期末",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ANG00600",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00590/ANG00600",
+            "label": "期末月日",
+            "min": 0,
+            "max": 1,
+            "type": "gen:mmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "mm",
+              "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00590/ANG00600/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00590/ANG00600/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "ANG00610",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00590/ANG00610",
+            "label": "借入金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00620",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00590/ANG00620",
+            "label": "未払金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00630",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00590/ANG00630",
+            "label": "保証金・敷金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00650",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00590/ANG00650",
+            "label": "事業主借",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00660",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00590/ANG00660",
+            "label": "元入金",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00670",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00590/ANG00670",
+            "label": "青色申告特別控除前の所得金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ANG00680",
+            "path": "KOA220/KOA220-4/ANG00000/ANG00490/ANG00590/ANG00680",
+            "label": "合計",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ANG00690",
+        "path": "KOA220/KOA220-4/ANG00000/ANG00690",
+        "label": "本年中における特殊事情・保証金等の運用状況",
+        "min": 0,
+        "max": 1,
+        "type": "ANG00690-8-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 750
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KOA220-8-0VRtype",
+    "fixed": "8.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}
