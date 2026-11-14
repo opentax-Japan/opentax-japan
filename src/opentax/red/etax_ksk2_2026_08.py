@@ -20,10 +20,10 @@ PROCEDURE_NAME = "内国法人の確定申告(青色)"  # e-Taxソフトが切�
 PROCEDURE_VR = "26.0.1"
 # 手続XSD（RHO0012-260.xsd）の CONTENTS の並び順。HOA114（別表一 次葉一）は手続XSD で必須
 FORMS = ("HOA112", "HOA114", "HOA116", "HOA201", "HOA420", "HOA511", "HOA522", "HOB016", "HOB710", "HOB800", "HOE099", "HOE200",
-         "HOE315", "HOE325")
+         "HOE315", "HOE325", "HOE990")
 # 値があるときだけ出す帳票（別表六(一)は所得税額の控除、別表八(一)は受取配当等、別表十四(二)は寄附金、別表十五は交際費等、
 # 別表十六は減価償却の入力があるときだけ。別表一 次葉二は黒字のときだけ）
-OPTIONAL_FORMS = ("HOA116", "HOB016", "HOB800", "HOE099", "HOE200", "HOE315", "HOE325")
+OPTIONAL_FORMS = ("HOA116", "HOB016", "HOB800", "HOE099", "HOE200", "HOE315", "HOE325", "HOE990")
 SOFT_NAME = "OpenTaxRED OpenTaxJapan"   # 「ソフト名△会社名」（e-tax01 表1-1）
 SHINKOKU_KBN_KAKUTEI = "30"           # 申告の種類「確定/確定」（e-tax10 帳票フィールド仕様書 Ver7x「HOA112別紙」申告の種類一覧）
 FAMILY_CODE_FOR_S1 = {"1": "4", "2": "1", "3": "3"}  # 別表二の判定結果 → 別表一の同非区分（1:同族 3:非同族 4:特定同族）
@@ -78,6 +78,9 @@ def base_values(result: dict) -> dict:
         v["MCB00100"] = last[0]["deducted"]
     v["MCB00190"] = _s7_rows(rest, lambda i: i["balance"])
     v["MCB00200"] = _s7_rows(rest, lambda i: i["deducted"])
+    if s7["deducted_total"]:
+        v["MCB00002"] = s7["pre_deduction_income"]     # 1 控除前所得金額（別表四 43①）
+        v["MCB00008"] = s7["limit"]                    # 2 損金算入限度額（(1)×100/100。中小法人等）
     v["MCB00270"] = s7["current_loss"]
     v["MCB00340"] = s7["current_loss"]
     v["MCB00360"] = s7["current_loss"]
@@ -112,6 +115,12 @@ def base_values(result: dict) -> dict:
         v["KZB00370"] = ct["defense_tax"]              # 68 同上の4％相当額
         v["KZB00130"] = ct["defense_tax"]              # 50 防衛特別法人税額
         v["KZB00210"] = s1["interim_defense"]          # 58 中間申告分の防衛特別法人税額
+    # 適用額明細書（HOE990）: 所得金額と明細の適用額
+    rows = result.get("special_measures") or []
+    if rows:
+        v["MAA00130"] = s4["income"]
+        v["MAB00080"] = [r["amount"] for r in rows]
+        v["MAA00150"], v["MAA00160"] = 1, 1             # 提出枚数 総数・うち1枚目（明細は20行まで）
     # 12 控除税額（【計算】は「(9)−(10)−(11) と (18) の少ない金額」で式を読み取れないので入れる）
     v["BGB00180"] = s1.get("credited", 0)
     # 別表六(一)（預貯金の利子などの1行目だけ）
@@ -392,7 +401,7 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
         "BGA00220": _kubun(att["balance_sheet"]), "BGA00230": _kubun(att["profit_loss"]),
         "BGA00240": _kubun(att["equity_changes"]), "BGA00250": _kubun(att["account_details"]),
         "BGA00260": _kubun(att["business_overview"]), "BGA00270": "2", "BGA00280": "2",   # 組織再編成の書類はなし
-        "BGA00300": "2",                                   # 適用額明細書: 無（特別措置は RED の対象外）
+        "BGA00300": "1" if result.get("special_measures") else "2",   # 適用額明細書提出の有無
         "BGA00310": _kubun(filing["tax_accountant_article30"]), "BGA00320": _kubun(filing["tax_accountant_article33_2"]),
         "BGA00365": "1",                                   # 申告の種類（防衛分）: 確定
         "BGF00000": _kubun(filing["notify_penalty"]), "BGG00000": _kubun(filing["notify_refund"]),
@@ -407,10 +416,19 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
     if result["schedule_01"]["detail"].get("defense_applies") and result["schedule_01"]["corporate_tax"]:
         v["KZB00060"] = "1"                                # 47 (500万円×＿／12)
         v["KZB00100"] = "1"                                # 48 ((47)－(45))
+    measures = result.get("special_measures") or []
+    if measures:
+        # 適用額明細書（国税庁「適用額明細書の記載の手引（令和8年版）」）。条項は 第＿条・条＿・第＿項・第＿号 に分けて書く
+        v["MAA00040"] = "1"                                # 提出区分: 当初提出分
+        if data["company"].get("industry_code"):
+            v["MAA00180"] = data["company"]["industry_code"]
+        for i, tag in enumerate(("MAB00020", "MAB00030", "MAB00040", "MAB00050")):
+            v[tag] = [r["parts"][i] or None for r in measures]
+        v["MAB00070"] = [r["code"] for r in measures]
     if result["schedule_01"]["corporate_tax"]:
         # 別表一 次葉二の区分（帳票フィールド仕様書 HOA116 の値の範囲）
         v["QHB00015"] = "1"                                # 74 ((1)と800万円×＿／12のうち少ない金額)
-        v["QHB00090"] = "1" if result["schedule_01"]["detail"]["sme_percent"] == "15" else None   # 77 15％
+        v["QHB00090"] = {"15": "1", "19": "2", "17": "3"}.get(result["schedule_01"]["detail"]["sme_percent"])   # 77 15％・19％
         v["QHB00130"] = "2"                                # 79 23.2％（普通法人）
         if v["QHB00090"] is None:
             raise XtxError("別表一 次葉二 77 の税率区分を決められません")

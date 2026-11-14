@@ -3733,6 +3733,19 @@
       "field_spec_sheet": "HOE325"
     },
     {
+      "form_id": "HOE990",
+      "label": "適用額明細書（租税特別措置の適用状況の透明化等に関する法律第3条）",
+      "mvp": false,
+      "stage": "red-plus",
+      "xsd": "19XMLスキーマ/hojin/HOE990-007.xsd",
+      "version": "7.0",
+      "xsd_documentation_date": "2023-04-11",
+      "group": "HOE990-7-0group",
+      "xsd_sha256": "ea42ad1cb89a25a2f88fa21314e24ac53e6b565e236deca994d6695660764fc7",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver7x.xlsx",
+      "field_spec_sheet": "HOE990"
+    },
+    {
       "form_id": "HOB710",
       "label": "別表七(一)（欠損金）",
       "mvp": true,

@@ -490,7 +490,7 @@ def business_tax(data: dict, pre_deduction: int) -> dict:
     bt, sp = pr["business_tax"], pr["special_business_tax"]
     start, end = data["fiscal_period"]["start"], data["fiscal_period"]["end"]
     months = _months_ceil(start, end)
-    losses = data["prior"].get("business_losses") or data["prior"]["losses"]
+    losses = data["prior"]["business_losses"] if data["prior"].get("business_losses") is not None else data["prior"]["losses"]
     s9 = schedule_07_01({**data, "prior": {**data["prior"], "losses": losses}},
                         {"pre_deduction": pre_deduction, "income": pre_deduction}, load_rules("corporate_tax.json"))
     income = pre_deduction - s9["deducted_total"]
@@ -525,6 +525,15 @@ def business_tax(data: dict, pre_deduction: int) -> dict:
     if data["company"].get("utility_or_insurance_business") is None:
         unknown_kind = ("事業税は、電気供給業・ガス供給業・保険業・貿易保険業を行わない法人として所得割だけで計算しました。"
                         "行う法人は収入割などがかかり対象外です（company.utility_or_insurance_business を false にするとこの注意は出ません）")
+    medical = None
+    if data["company"].get("medical_corporation") is None:
+        medical = ("事業税は医療法人でない法人として計算しました（医療法人は事業税の特別法人で税率などが違い対象外。"
+                   "company.medical_corporation を false にするとこの注意は出ません）")
+    pro_forma = None
+    if data["company"].get("business_tax_pro_forma_standard") is None:
+        pro_forma = ("事業税は外形標準課税の対象でない法人として所得割だけで計算しました。資本金1億円以下でも、払込資本50億円超の法人の完全子法人で"
+                     "払込資本2億円超のもの（地方税法第72条の2第1項第1号ロ(1)(2)）や、前事業年度に外形標準課税の対象だった法人が減資したものなどは"
+                     "対象になります（company.business_tax_pro_forma_standard を false にするとこの注意は出ません）")
     out.update({"taxable": taxable, "brackets": rows, "total": total, "special_base": special_base, "special": special,
-                "notes": [n for n in (note, unknown_kind) if n]})
+                "notes": [n for n in (note, unknown_kind, medical, pro_forma) if n]})
     return out

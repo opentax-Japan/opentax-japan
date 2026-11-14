@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import datetime
 import json
+import re
 from fractions import Fraction
 from pathlib import Path
 
@@ -420,6 +421,9 @@ def corporate_tax(data: dict, income: int, prules: dict) -> dict:
                 None)
     if rule is None:
         raise RuleError(f"事業年度開始 {start} の中小法人の軽減税率の設定がありません（rules/profit_tax.json）")
+    if (data.get("company") or {}).get("excluded_business_operator"):
+        # 適用除外事業者は租税特別措置法第42条の3の2の特例を使えず、法人税法第66条第2項の 19%
+        rule = {"percent": ct["sme_rate_without_special_measure"], "special_measure": False}
     threshold = _floor(Fraction(ct["sme_threshold_annual"] * months, 12), 1000)   # 年800万円相当額（千円未満切捨て。HOA116 74）
     sme_portion = min(taxable, threshold)
     other_portion = taxable - sme_portion
@@ -433,7 +437,7 @@ def corporate_tax(data: dict, income: int, prules: dict) -> dict:
     defense_base = _floor(Fraction(corporate) - deduction, 1000) if defense_applies and corporate > deduction else 0
     defense_tax = _floor(Fraction(defense_base) * Fraction(df["percent"]) / 100)
     return {"months": months, "taxable": taxable, "sme_portion": sme_portion, "other_portion": other_portion,
-            "sme_percent": rule["percent"], "sme_tax": sme_tax, "other_tax": other_tax, "corporate_tax": corporate,
+            "sme_percent": rule["percent"], "special_measure": rule.get("special_measure", True), "sme_tax": sme_tax, "other_tax": other_tax, "corporate_tax": corporate,
             "local_base": local_base, "local_corporate_tax": local_tax_amount,
             "defense_applies": defense_applies, "defense_deduction": deduction, "defense_base": defense_base,
             "defense_tax": defense_tax}
@@ -469,6 +473,33 @@ def schedule_01(data: dict, s4: dict, s7: dict, prules: dict | None = None) -> d
             "interim_local": im["local_corporate"], "refund_local": refund_local,
             "defense_tax": defense, "defense_after": defense_after, "final_defense": defense_final,
             "interim_defense": im["defense"], "refund_defense": refund_defense}
+
+
+# --- 適用額明細書 ---
+
+_ARTICLE = re.compile(r"第(\d+)条((?:の\d+)*)第(\d+)項(?:の表の)?(?:第(\d+)号)?")
+
+
+def special_measures(data: dict, s4: dict, s1: dict) -> list[dict]:
+    """適用額明細書（租税特別措置の適用状況の透明化等に関する法律第3条第1項）に載せる特別措置。
+    中小企業者等の法人税率の特例（措置法第42条の3の2第1項の表の第1号、区分番号 00380、適用額は別表一 次葉二 74。
+    別表一 1 が0以下なら載せない。国税庁「適用額明細書の記載の手引（令和8年版）」）と、入力の special_measures_reported。"""
+    rows = []
+    ct = s1.get("detail") or {}
+    if s4["income"] > 0 and ct.get("sme_portion") and ct.get("special_measure", True):
+        rows.append({"article": "第42条の3の2第1項の表の第1号", "parts": ("42", "の3の2", "1", "1"), "code": "00380",
+                     "amount": ct["sme_portion"], "label": "中小企業者等の法人税率の特例"})
+    for i, m in enumerate(data.get("special_measures_reported") or []):
+        g = _ARTICLE.fullmatch(m["article"].replace(" ", ""))
+        if not g:
+            raise InputError(f"special_measures_reported[{i}].article: 「第67条の5第1項」のように書いてください: {m['article']}")
+        if not re.fullmatch(r"\d{5}", m["code"]):
+            raise InputError(f"special_measures_reported[{i}].code: 区分番号は5桁の数字です: {m['code']}")
+        rows.append({"article": m["article"], "parts": (g[1], g[2] or "", g[3], g[4] or ""), "code": m["code"],
+                     "amount": m["amount"], "label": m["article"]})
+    if len(rows) > 20:
+        raise OutOfScope("適用額明細書の明細が20行を超えています（2枚目以降）")
+    return rows
 
 
 # --- 別表五(二) ---
@@ -746,6 +777,7 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
     if levy is None and s1["corporate_tax"]:
         raise RuleError("黒字の法人は法人税割を計算します（levy_of を渡してください）")
     s52 = schedule_05_02(data, per_capita, levy, s1)
+    measures = special_measures(data, s4, s1)
     s51 = schedule_05_01(data, s4, s52)
     s2 = schedule_02(data, rules)
     warnings = [f"繰越期間を過ぎた欠損金を切り捨てました: {e['period_start']}〜{e['period_end']} {e['amount']:,}円（{e['years']}年）"
@@ -760,6 +792,11 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
         warnings.append(f"期末の納税充当金がマイナスです（{s52['provision']['closing']:,}円）。中間納付を納税充当金の取崩しで払った額が、"
                         "納税充当金より多いためです（会計の処理と合っているか確かめてください）")
     warnings += s16["checks"]
+    if s1["corporate_tax"] and data["company"].get("excluded_business_operator") is None:
+        warnings.append("年800万円以下の所得に15%（租税特別措置法第42条の3の2）を使いました。適用除外事業者（前3事業年度の所得の平均が年15億円超。"
+                        "第42条の4第19項第8号）でないことを確かめてください（company.excluded_business_operator を false にするとこの注意は出ません）")
+    if measures and not data["company"].get("industry_code"):
+        warnings.append("適用額明細書の業種番号（company.industry_code。国税庁「適用額明細書の記載の手引」の事業種目・業種番号一覧表の2桁）が入力にありません")
     warnings += [candidate_text(c) for c in s16["candidates"]]
     refund = s1["refund_total"] + s1["refund_local"] + s1["refund_defense"]
     if refund and not data.get("refund_account"):
@@ -769,4 +806,4 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
         warnings.insert(0, f"試し用: 別表二の割合の端数処理を仮に「{label}」にしています。本番の申告には使えません")
     return {"schedule_04": s4, "schedule_07_01": s7, "schedule_01": s1, "schedule_05_02": s52,
             "schedule_15": s15, "schedule_16": s16, "schedule_08_1": s8, "schedule_14_2": s4["schedule_14_2"],
-            "schedule_05_01": s51, "schedule_02": s2, "warnings": warnings, "trial": bool(trial_ratio_rounding)}
+            "schedule_05_01": s51, "schedule_02": s2, "special_measures": measures, "warnings": warnings, "trial": bool(trial_ratio_rounding)}

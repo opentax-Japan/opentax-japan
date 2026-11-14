@@ -231,5 +231,126 @@ class ProfitReturnTest(unittest.TestCase):
             self.assertIn(s, h)
 
 
+def profit_data(**company) -> dict:
+    raw = sample()
+    raw["company"].update(company)
+    return raw
+
+
+class ReviewFindingsTest(unittest.TestCase):
+    """別の検証（private/verify/検証報告_黒字法人_2026-11-14.md）の指摘ごとのテスト。"""
+
+    def test_special_measures_statement(self):
+        # 15% を使えば適用額明細書（区分番号 00380、適用額＝別表一 次葉二 74）を付け、別表一の提出の有無を「有」
+        c = api.calculate(profit_data(industry_code="50"))
+        rows = c["result"]["special_measures"]
+        self.assertEqual([(r["code"], r["amount"], r["parts"]) for r in rows], [("00380", 8_000_000, ("42", "の3の2", "1", "1"))])
+        from opentax.red.etax_ksk2_2026_08 import text_values
+        tv = text_values(c["input"], c["result"])
+        self.assertEqual((tv["BGA00300"], tv["MAB00070"], tv["MAA00180"]), ("1", ["00380"], "50"))
+        self.assertEqual(c["form_values"]["MAB00080"], [8_000_000])
+        # 赤字（別表一 1 が0以下）なら載せない
+        c = api.calculate(json.loads(SAMPLE.read_text(encoding="utf-8")))
+        self.assertEqual(c["result"]["special_measures"], [])
+        from opentax.red.etax_ksk2_2026_08 import text_values as tv2
+        self.assertEqual(tv2(c["input"], c["result"], require_ratios=False)["BGA00300"], "2")
+
+    def test_reported_special_measures_and_industry_warning(self):
+        raw = sample()
+        raw["special_measures_reported"] = [{"article": "第67条の5第1項", "code": "00277", "amount": 250_000}]
+        c = api.calculate(raw)
+        self.assertEqual([r["code"] for r in c["result"]["special_measures"]], ["00380", "00277"])
+        self.assertEqual(c["result"]["special_measures"][1]["parts"], ("67", "の5", "1", ""))
+        self.assertTrue(any("業種番号" in w for w in c["result"]["warnings"]))
+        raw["special_measures_reported"][0]["code"] = "277"
+        with self.assertRaises(model.InputError):
+            api.calculate(raw)
+
+    def test_schedule_07_lines_1_2(self):
+        v = api.calculate(sample())["form_values"]
+        self.assertEqual((v["MCB00002"], v["MCB00008"]), (13_871_000, 13_871_000))
+
+    def test_medical_corporation_and_pro_forma(self):
+        for key in ("medical_corporation", "business_tax_pro_forma_standard"):
+            with self.assertRaises(model.OutOfScope):
+                api.calculate(profit_data(**{key: True}))
+        w = api.calculate(sample())["result"]["warnings"]
+        self.assertTrue(any("医療法人" in x for x in w))
+        self.assertTrue(any("外形標準課税" in x for x in w))
+        w = api.calculate(profit_data(medical_corporation=False, business_tax_pro_forma_standard=False))["result"]["warnings"]
+        self.assertFalse(any("医療法人でない" in x or "外形標準課税の対象でない" in x for x in w))
+
+    def test_excluded_business_operator(self):
+        # 適用除外事業者は 19%（法人税法第66条第2項）で、適用額明細書に 00380 を載せない
+        c = api.calculate(profit_data(excluded_business_operator=True))
+        d = c["result"]["schedule_01"]["detail"]
+        self.assertEqual((d["sme_percent"], d["sme_tax"]), ("19", 1_520_000))
+        self.assertEqual(c["result"]["special_measures"], [])
+        self.assertTrue(any("適用除外事業者" in w for w in api.calculate(sample())["result"]["warnings"]))
+
+    def test_business_losses_empty_list(self):
+        # 事業税の欠損金を「なし」（空のリスト）と書けば、法人税の欠損金を使わない
+        raw = sample()
+        raw["prior"]["business_losses"] = []
+        bt = api.calculate(raw)["local_tax"]["business_tax"]
+        self.assertEqual((bt["loss_deduction"], bt["taxable"]), (0, 13_871_000))
+
+    def test_stops(self):
+        rules = load_rules("profit_tax.json")
+        with self.assertRaises(model.OutOfScope):
+            corporate_tax(period("2025-10-01", "2026-09-30"), 1_000_000_001_000, rules)
+        with self.assertRaises(model.OutOfScope):
+            corporate_tax(period("2019-04-01", "2020-03-31"), 10_000_000, rules)
+
+    def test_income_tax_over_corporate_tax(self):
+        raw = sample(15_000_000 - 9_852_000)       # 所得 1,019,000 → 法人税額 152,850
+        raw["income_tax_credit"] = [{"kind": "利子", "income": 2_000_000, "tax": 306_300}]
+        c = api.calculate(raw)
+        s1 = c["result"]["schedule_01"]
+        self.assertEqual(s1["credited"], s1["corporate_tax"])
+        self.assertEqual(s1["refund_income_tax"], 306_300 - s1["corporate_tax"])
+        self.assertEqual((s1["after_credit"], c["problems"]), (0, []))
+
+    def test_prefecture_conditions(self):
+        from opentax.red.local_tax import _pref_levy_percent, edition_for, LocalRuleError
+        ed = edition_for(datetime.date(2026, 9, 30))
+        co = {"capital": 10_000_000, "capital_etc": 10_000_000, "employees": 5}
+        args = (12, datetime.date(2025, 10, 1), datetime.date(2026, 9, 30))
+        # 広島県: 資本金2千万円以下なら法人税額によらず 1.0%（「又は」）
+        self.assertEqual(_pref_levy_percent("広島県", ed, co, 20_000_000, *args)[0], "1.0")
+        self.assertEqual(_pref_levy_percent("広島県", ed, {**co, "capital": 30_000_000}, 20_000_000, *args)[0], "1.8")
+        # 山梨県: 資本金1億円ちょうどは従業者300人以下なら 1.0%
+        big = {**co, "capital": 100_000_000, "employees": 301}
+        self.assertEqual(_pref_levy_percent("山梨県", ed, big, 1_000_000, *args)[0], "1.8")
+        # 京都府（資本金3億円・中小企業団体の法人）・熊本県（①②）は読めずに止める
+        for pref in ("京都府", "熊本県"):
+            with self.assertRaises((model.OutOfScope, LocalRuleError)):
+                _pref_levy_percent(pref, ed, co, 1_000_000, *args)
+        # 「法人税額年○円」は1年に満たないときは月数で換算（6か月なら岡山県の1,500万円は750万円）
+        six = (6, datetime.date(2025, 10, 1), datetime.date(2026, 3, 31))
+        self.assertEqual(_pref_levy_percent("岡山県", ed, co, 7_500_000, *six)[0], "1.0")
+        self.assertEqual(_pref_levy_percent("岡山県", ed, co, 7_501_000, *six)[0], "1.8")
+
+    def test_business_excess_prefectures(self):
+        from opentax.red.local_tax import _business_standard_note, edition_for
+        ed = edition_for(datetime.date(2026, 9, 30))
+        co = {"capital": 10_000_000}
+        self.assertIn("標準税率", _business_standard_note("愛知県", ed, co, 50_000_000, 12))
+        with self.assertRaises(model.OutOfScope):
+            _business_standard_note("愛知県", ed, co, 50_001_000, 12)
+        self.assertIsNone(_business_standard_note("岡山県", ed, co, 50_001_000, 12))
+
+    def test_interim_by_provision(self):
+        raw = sample()
+        raw["interim"] = {"method": "充当金取崩し", "法人税": 900_000, "地方法人税": 90_000,
+                          "道府県民税": {"法人税割": 9_000, "均等割": 10_500}, "市町村民税": {"法人税割": 75_000, "均等割": 25_000},
+                          "事業税": 270_000, "特別法人事業税": 100_000}
+        raw["prior"]["schedule_05_01"][1]["amount"] = 2_000_000
+        c = api.calculate(raw)
+        self.assertEqual(c["problems"], [])
+        s1 = c["result"]["schedule_01"]
+        self.assertEqual(s1["final_corporate"], s1["after_credit"] - 900_000)
+
+
 if __name__ == "__main__":
     unittest.main()

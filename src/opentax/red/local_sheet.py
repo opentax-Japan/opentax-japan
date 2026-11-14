@@ -123,7 +123,7 @@ def loss_values(calculated: dict) -> dict | None:
     from .calculate import load_rules, schedule_07_01
     data = calculated["input"]
     provisional = calculated["form_values"].get("ARK00010", 0)
-    losses = data["prior"].get("business_losses") or data["prior"]["losses"]
+    losses = data["prior"]["business_losses"] if data["prior"].get("business_losses") is not None else data["prior"]["losses"]
     s9 = schedule_07_01({**data, "prior": {**data["prior"], "losses": losses}},
                         {"pre_deduction": provisional, "income": provisional}, load_rules("corporate_tax.json"))
     if not s9["items"] and not s9["current_loss"]:
@@ -152,7 +152,7 @@ def loss_schedule(calculated: dict) -> list[tuple[str, str, str, str]] | None:
     from .calculate import load_rules, schedule_07_01
     data = calculated["input"]
     provisional = calculated["form_values"].get("ARK00010", 0)     # 第六号様式 ⑥⑧ 仮計（別表四の34から加減算なし）
-    losses = data["prior"].get("business_losses") or data["prior"]["losses"]
+    losses = data["prior"]["business_losses"] if data["prior"].get("business_losses") is not None else data["prior"]["losses"]
     s9 = schedule_07_01({**data, "prior": {**data["prior"], "losses": losses}},
                         {"pre_deduction": provisional, "income": provisional}, load_rules("corporate_tax.json"))
     if not s9["items"] and not s9["current_loss"]:

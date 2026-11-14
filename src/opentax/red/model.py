@@ -37,6 +37,15 @@ _SCHEMA: dict[str, Any] = {
         "blue_return": bool, "wholly_owned_by_large_corp": bool,
         # 事業税の所得割以外が課される事業（電気供給業・ガス供給業・保険業・貿易保険業。地方税法第72条の2第1項第2号〜第4号）を行うか
         "utility_or_insurance_business": bool,
+        # 医療法人（事業税の特別法人。地方税法第72条の24の7第7項第10号）か
+        "medical_corporation": bool,
+        # 適用除外事業者（前3事業年度の所得の平均が年15億円超。租税特別措置法第42条の4第19項第8号）か
+        "excluded_business_operator": bool,
+        # 事業税の外形標準課税の対象（地方税法第72条の2第1項第1号イ）か。資本金1億円以下でも、払込資本50億円超の法人の
+        # 完全子法人で払込資本2億円超のもの（同号ロ(1)(2)）などは対象になる
+        "business_tax_pro_forma_standard": bool,
+        # 適用額明細書の業種番号（国税庁「適用額明細書の記載の手引」の事業種目・業種番号一覧表。2桁）
+        "industry_code": str,
     },
     "filing": {
         "settled_on": "date", "submitted_on": "date", "preparer": str,
@@ -99,6 +108,9 @@ _SCHEMA: dict[str, Any] = {
     "interest_paid": int,
     # 当期に損金経理で納付した、損金にならない附帯税等（別表四 5・別表五(二) 24〜27）と罰金等（別表四 10）。
     # 延滞金は納期限の延長によるもの（損金になる）を除く。科目に租税公課・延滞税・罰金などがあれば、なくても 0 で書く（確かめた印）
+    # 会計の数字に入っている租税特別措置で、適用額明細書に載せるもの（例: 少額減価償却資産の取得価額の損金算入の特例を
+    # 減価償却費で処理した額）。条項は「第67条の5第1項」のように書く。税額の計算を変える特別措置は今までどおり対象外
+    "special_measures_reported": [{"article": str, "code": str, "amount": int}],
     "tax_dues": {"加算税及び加算金": int, "延滞税": int, "延滞金": int, "過怠税": int, "罰金等": int},
     # 申告調整の要る科目を人が確かめた答え（adjustment_accounts.json の answers のどれか）
     "adjustment_confirmations": [{"account": str, "answer": str}],
@@ -293,6 +305,10 @@ def _check_scope(data: dict) -> None:
         raise OutOfScope("青色申告でない法人（手続 RHO0012 は青色申告）")
     if company["capital"] > SME_CAPITAL_LIMIT:
         raise OutOfScope("資本金が1億円を超える法人（中小法人でない・外形標準課税）")
+    if company.get("medical_corporation"):
+        raise OutOfScope("医療法人（事業税の特別法人。所得割の税率・特別法人事業税の税率・社会保険診療の扱いが違う）")
+    if company.get("business_tax_pro_forma_standard"):
+        raise OutOfScope("事業税の外形標準課税の対象の法人（付加価値割・資本割）")
     if company.get("utility_or_insurance_business"):
         raise OutOfScope("電気供給業・ガス供給業・保険業・貿易保険業を行う法人（事業税の収入割など）")
     if company.get("wholly_owned_by_large_corp"):

@@ -1,0 +1,539 @@
+{
+ "form_id": "HOE990",
+ "label": "適用額明細書（租税特別措置の適用状況の透明化等に関する法律第3条）",
+ "version": "7.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOE990-7-0group",
+ "xsd": "19XMLスキーマ/hojin/HOE990-007.xsd",
+ "xsd_sha256": "ea42ad1cb89a25a2f88fa21314e24ac53e6b565e236deca994d6695660764fc7",
+ "root": {
+  "tag": "HOE990",
+  "path": "HOE990",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "MAA00000",
+    "path": "HOE990/MAA00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "MAA00000-7-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "MAA00010",
+      "path": "HOE990/MAA00000/MAA00010",
+      "label": "事業年度",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "MAA00020",
+        "path": "HOE990/MAA00000/MAA00010/MAA00020",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_FROMref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_FROM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_FROM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "MAA00030",
+        "path": "HOE990/MAA00000/MAA00010/MAA00030",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_TOref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_TO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_TO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "MAA00040",
+      "path": "HOE990/MAA00000/MAA00040",
+      "label": "提出区分",
+      "min": 0,
+      "max": 1,
+      "type": "MAA00040-7-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HOE990/MAA00000/MAA00040/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HOE990/MAA00000/MAA00040/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "MAA00050",
+      "path": "HOE990/MAA00000/MAA00050",
+      "label": "提出年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:TEISYUTSU_DAYref",
+      "kind": "idref",
+      "idref": "TEISYUTSU_DAY",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "TEISYUTSU_DAY",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "MAA00060",
+      "path": "HOE990/MAA00000/MAA00060",
+      "label": "提出先税務署",
+      "min": 0,
+      "max": 1,
+      "type": "gen:ZEIMUSHOref",
+      "kind": "idref",
+      "idref": "ZEIMUSHO",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "ZEIMUSHO",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "MAA00070",
+      "path": "HOE990/MAA00000/MAA00070",
+      "label": "納税地",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_ADRref",
+      "kind": "idref",
+      "idref": "NOZEISHA_ADR",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_ADR",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "MAA00080",
+      "path": "HOE990/MAA00000/MAA00080",
+      "label": "電話",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_TELref",
+      "kind": "idref",
+      "idref": "NOZEISHA_TEL",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_TEL",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "MAA00090",
+      "path": "HOE990/MAA00000/MAA00090",
+      "label": "（フリガナ）法人名",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "MAA00100",
+        "path": "HOE990/MAA00000/MAA00090/MAA00100",
+        "label": "フリガナ",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_NM_KNref",
+        "kind": "idref",
+        "idref": "NOZEISHA_NM_KN",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_NM_KN",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "MAA00110",
+        "path": "HOE990/MAA00000/MAA00090/MAA00110",
+        "label": "法人名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_NMref",
+        "kind": "idref",
+        "idref": "NOZEISHA_NM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_NM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "MAA00115",
+      "path": "HOE990/MAA00000/MAA00115",
+      "label": "法人番号",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_BANGOref",
+      "kind": "idref",
+      "idref": "NOZEISHA_BANGO",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_BANGO",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "MAA00120",
+      "path": "HOE990/MAA00000/MAA00120",
+      "label": "期末現在の資本金の額又は出資金の額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:SHIHON_KINref",
+      "kind": "idref",
+      "idref": "SHIHON_KIN",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "SHIHON_KIN",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "MAA00130",
+      "path": "HOE990/MAA00000/MAA00130",
+      "label": "所得金額又は欠損金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "MAA00140",
+      "path": "HOE990/MAA00000/MAA00140",
+      "label": "提出枚数",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "MAA00150",
+        "path": "HOE990/MAA00000/MAA00140/MAA00150",
+        "label": "総数",
+        "min": 0,
+        "max": 1,
+        "type": "MAA00150-7-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "MAA00160",
+        "path": "HOE990/MAA00000/MAA00140/MAA00160",
+        "label": "うち＿枚目",
+        "min": 0,
+        "max": 1,
+        "type": "MAA00160-7-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "MAA00170",
+      "path": "HOE990/MAA00000/MAA00170",
+      "label": "事業種目",
+      "min": 0,
+      "max": 1,
+      "type": "gen:JIGYO_NAIYOref",
+      "kind": "idref",
+      "idref": "JIGYO_NAIYO",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "JIGYO_NAIYO",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "MAA00180",
+      "path": "HOE990/MAA00000/MAA00180",
+      "label": "業種番号",
+      "min": 0,
+      "max": 1,
+      "type": "MAA00180-7-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 2
+     }
+    ]
+   },
+   {
+    "tag": "MAB00000",
+    "path": "HOE990/MAB00000",
+    "label": "明細　繰り返し",
+    "min": 0,
+    "max": 20,
+    "type": "MAB00000-7-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "MAB00010",
+      "path": "HOE990/MAB00000/MAB00010",
+      "label": "租税特別措置法の条項",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "MAB00015",
+        "path": "HOE990/MAB00000/MAB00010/MAB00015",
+        "label": "旧条項",
+        "min": 0,
+        "max": 1,
+        "type": "MAB00015-7-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 80
+       },
+       {
+        "tag": "MAB00020",
+        "path": "HOE990/MAB00000/MAB00010/MAB00020",
+        "label": "第＿条",
+        "min": 0,
+        "max": 1,
+        "type": "MAB00020-7-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 3
+       },
+       {
+        "tag": "MAB00030",
+        "path": "HOE990/MAB00000/MAB00010/MAB00030",
+        "label": "条＿",
+        "min": 0,
+        "max": 1,
+        "type": "MAB00030-7-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 10
+       },
+       {
+        "tag": "MAB00040",
+        "path": "HOE990/MAB00000/MAB00010/MAB00040",
+        "label": "第＿項",
+        "min": 0,
+        "max": 1,
+        "type": "MAB00040-7-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 3
+       },
+       {
+        "tag": "MAB00050",
+        "path": "HOE990/MAB00000/MAB00010/MAB00050",
+        "label": "第＿号",
+        "min": 0,
+        "max": 1,
+        "type": "MAB00050-7-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 3
+       },
+       {
+        "tag": "MAB00060",
+        "path": "HOE990/MAB00000/MAB00010/MAB00060",
+        "label": "号＿",
+        "min": 0,
+        "max": 1,
+        "type": "MAB00060-7-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 2
+       }
+      ]
+     },
+     {
+      "tag": "MAB00070",
+      "path": "HOE990/MAB00000/MAB00070",
+      "label": "区分番号",
+      "min": 0,
+      "max": 1,
+      "type": "MAB00070-7-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 5
+     },
+     {
+      "tag": "MAB00080",
+      "path": "HOE990/MAB00000/MAB00080",
+      "label": "適用額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOE990-7-0VRtype",
+    "fixed": "7.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}
