@@ -245,6 +245,30 @@ def main() -> int:
         expect(page.locator("#out")).to_be_visible(timeout=120_000)
         check("かんたん入口（PC）: 申告書一式ができた", "1. 法人税（別表）" in page.frame_locator("#report").locator("body").inner_text())
         page.screenshot(path=str(OUT / "00-easy-pc.png"), full_page=True)
+
+        # フォルダごと（DESIGN §24.8）: いろいろな申告の書類が混ざったフォルダから、中身で見分けて要るものだけを選ぶ
+        import tempfile
+        tmp = Path(tempfile.mkdtemp(prefix="opentax-folder-"))
+        (tmp / "書類" / "下").mkdir(parents=True)
+        mix = [("open-shoji-tokyo", "前期の申告データ_架空.xtx"), ("open-shoji-tokyo", "科目残高一覧表_架空_TKC形式.txt"),
+               ("kokuzei-taro-kojin", "input.json"), ("kokuzei-taro-kojin", "business_balance.csv"),
+               ("kokuzei-taro-kojin", "real_estate_balance.csv"), ("shukuhaku-nagano", "shisetsu.json"), ("shukuhaku-nagano", "meisai_2026-06.csv")]
+        for i, (c_, n) in enumerate(mix):
+            (tmp / "書類" / ("下" if i % 2 else "") / f"{i:02d}.{n.rsplit('.', 1)[1]}").write_bytes((REPO / "tests" / "cases" / c_ / n).read_bytes())
+        page.goto(base)
+        expect(page.locator("#status")).to_contain_text("準備ができました", timeout=180_000)
+        page.set_input_files("#pick-folder", str(tmp / "書類"))
+        expect(page.locator("#collected h3")).to_be_visible(timeout=120_000)
+        coll = page.locator("#collected").inner_text()
+        check("フォルダごと: 中身で見分けて申告の種類を決め、要る書類だけ選んだ", "要る書類を選びました" in coll)
+        check("フォルダごと: ほかの申告で集め直すボタンが出る", page.locator("#collected button").count() >= 1)
+        page.locator("#collected button", has_text="宿泊税").click()
+        expect(page.locator("#collected h3")).to_contain_text("宿泊税", timeout=60_000)
+        check("フォルダごと: 宿泊税で集め直すと施設と明細の2つだけ使う", page.locator("#collected li.done").count() == 2)
+        page.click("#make-other")
+        expect(page.frame_locator("#report").locator("body")).to_contain_text("宿泊税納入申告書", timeout=60_000)
+        check("フォルダごと: 宿泊税の申告書一式ができた", True)
+        page.screenshot(path=str(OUT / "00-easy-folder.png"), full_page=True)
         browser.close()
     if server:
         server.shutdown()

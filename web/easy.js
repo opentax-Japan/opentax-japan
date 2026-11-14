@@ -58,10 +58,14 @@ async function addFiles(list) {
   for (const f of list) {
     const name = f.webkitRelativePath || f.name;
     if (st.files.some((x) => x.name === name)) continue;
-    added.push({ name, b64: b64(await f.arrayBuffer()), type: f.type, size: f.size });
+    if (f.size > 20 * 1024 * 1024) continue;   // 大きすぎるもの（動画など）は読まない
+    added.push({ name, b64: b64(await f.arrayBuffer()), type: f.type, size: f.size, mtime: (f.lastModified || 0) / 1000 });
   }
   st.files.push(...added);
   st.target = null;
+  // フォルダごと入れたとき（またはたくさん入れたとき）は、中身で見分けて要るものだけを選ぶ（DESIGN §24.8）
+  st.collect = added.some((x) => x.name.includes("/")) || st.files.length > 12;
+  st.task = "";
   await readAll();
 }
 
@@ -90,7 +94,9 @@ async function filesFromDrop(dt) {
 async function readAll() {
   setStatus(`${st.files.length}個のファイルを読んでいます…`);
   st.choices = {}; st.answers = {}; st.follow = {};
-  const res = await call("ot_intake_read", [JSON.stringify(st.files.map(({ name, b64 }) => ({ name, b64 })))]);
+  const res = st.collect
+    ? await call("ot_intake_collect", [JSON.stringify(st.files.map(({ name, b64, mtime }) => ({ name, b64, mtime }))), st.task || "", ""])
+    : await call("ot_intake_read", [JSON.stringify(st.files.map(({ name, b64 }) => ({ name, b64 })))]);
   if (!res.ok) { setStatus(`読めませんでした: ${res.message}`, true); return; }
   render(res);
   if (st.sample) {
@@ -145,6 +151,7 @@ function render(res) {
   window.OpenTaxAI && window.OpenTaxAI.setTargets(aiTargets.map((f) => st.files.find((x) => x.name === f.name)).filter(Boolean));
 
   renderNeeds(res.checklist || []);
+  renderCollected(res.collected);
   const kinds = (res.taxes || []).map((t) => t.kind);
   if (!kinds.includes(st.target)) st.target = kinds[0] || null;
   renderTaxes(res.taxes || []);
@@ -208,9 +215,27 @@ function showTarget(res) {
     : questionBox(q))));
 }
 
+function renderCollected(c) {
+  const box = $("collected");
+  if (!c) { box.replaceChildren(); return; }
+  const kids = [el("h3", {}, c.task ? `フォルダから「${c.label}」に要る書類を選びました` : "フォルダの中に、作れる申告の書類が見つかりませんでした")];
+  if (c.used.length) kids.push(el("ul", { class: "needs-list" }, ...c.used.map((u) => el("li", { class: "done" },
+    el("span", { class: "chk" }, "✓"), " ", el("b", {}, u.label), " ", el("span", { class: "fname" }, u.name), u.period ? `（${u.period}）` : ""))));
+  if (c.unused.length) kids.push(el("details", {}, el("summary", {}, `使わなかったファイル（同じ種類のほかの期・古いもの） ${c.unused.length} 件`),
+    el("ul", {}, ...c.unused.map((u) => el("li", {}, `${u.name}（${u.why}）`)))));
+  if (c.other) kids.push(el("p", { class: "note" }, `ほかの申告の書類が ${c.other} 件あります。`));
+  if ((c.tasks_found || []).length > 1) {
+    kids.push(el("div", { class: "row" }, "ほかの申告で集め直す: ", ...c.tasks_found.filter((t) => t.task !== c.task).map((t) => el("button", {
+      type: "button", class: "small", onclick: async () => { st.task = t.task; st.target = null; await readAll(); } }, t.label))));
+  }
+  if (c.ai_targets.length) kids.push(el("p", { class: "note" }, `PDF・写真・Excel ${c.ai_targets.length} 件はプログラムでは読めません（下の「AI で読む」か CSV に）。`));
+  box.replaceChildren(el("div", { class: "msg ok" }, ...kids));
+}
+
 async function trySample(which) {
   st.files = (await call("ot_intake_samples", [which])).map((f) => ({ ...f }));
   st.sample = true;
+  st.collect = false;
   st.target = { corporate: "corporate", platinum: "corporate", personal: "personal", personal_white: "personal",
     souzoku: "souzoku", green: "shukuhaku" }[which] || null;
   $("drop").scrollIntoView({ behavior: "smooth" });

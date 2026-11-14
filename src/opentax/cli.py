@@ -701,8 +701,16 @@ def main(argv: list[str] | None = None) -> int:
     sz.add_argument("--cache-dir", default=".cache/etax")
     sz.add_argument("--cab", help="国税庁から取った e-tax19.CAB（キャッシュの代わりに使う）")
 
+    co = sub.add_parser("collect", help="フォルダ（サブフォルダも）から要る書類を中身で見分けて選び、申告書一式まで一気に作る（DESIGN §24.8）")
+    co.add_argument("folder", help="書類の入ったフォルダ")
+    co.add_argument("--task", help="申告の種類: 法人・個人・相続・宿泊税・事業所税（省略すると見つかった書類から決める）")
+    co.add_argument("--period", help="使う期（例 2026-09-30・2025・2026-06。省略するといちばん新しい期）")
+    co.add_argument("--answers", help="問いの答えの JSON（{\"answers\": {欄: 値}, \"follow\": {…}}。画面と同じ形）")
+    co.add_argument("-o", "--report", help="申告書一式の HTML を書き出す先")
+    co.add_argument("--json", help="一覧（使ったもの・使わなかったもの・足りないもの）を JSON で書き出す先")
+
     args = parser.parse_args(argv)
-    command = {"intake": _intake, "fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
+    command = {"collect": _collect, "intake": _intake, "fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
                "build-checks": _build_checks, "calculate": _calculate, "export-etax": _export_etax,
                "local-tax": _local_tax, "shohi": _shohi, "kojin": _kojin, "report": _report,
                "jigyosho": _jigyosho, "shukuhaku": _shukuhaku, "souzoku": _souzoku}[args.command]
@@ -723,6 +731,27 @@ def main(argv: list[str] | None = None) -> int:
             ValidationUnavailable, SheetError, ShohiInputError, KojinError, JigyoshoError, ShukuhakuError, SouzokuError, OSError) as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
+
+
+def _collect(args) -> int:
+    """フォルダから集めて一気に作る（DESIGN §24.8）。ファイル名・フォルダ名ではなく中身で見分ける。"""
+    import json as _json
+    from . import collect
+    folder = Path(args.folder)
+    if not folder.is_dir():
+        print(f"フォルダがありません: {folder}")
+        return EXIT_CHANGED
+    extra = _json.loads(Path(args.answers).read_text(encoding="utf-8")) if args.answers else {}
+    out = collect.run(collect.read_folder(folder), args.task, args.period, extra.get("answers"), extra.get("follow"))
+    print(collect.summary_text(out))
+    if args.json:
+        Path(args.json).write_text(_json.dumps({k: v for k, v in out.items() if k != "html"}, ensure_ascii=False, indent=1),
+                                   encoding="utf-8", newline="\n")
+    if out.get("html") and args.report:
+        with open(args.report, "w", encoding="utf-8", newline="\n") as f:
+            f.write(out["html"])
+        print(f"書き出しました: {args.report}")
+    return EXIT_OK if out.get("html") else EXIT_CHANGED
 
 
 def _intake(args) -> int:

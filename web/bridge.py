@@ -275,6 +275,30 @@ def ot_intake_other_export(state_json: str, cab) -> str:
         return _error(e)
 
 
+def ot_intake_collect(files_json: str, task: str = "", period: str = "") -> str:
+    """フォルダごと入れたとき（DESIGN §24.8）: 中身で種類を見分け、申告の種類に要るものだけを選んで読む。
+    files_json: [{"name", "b64", "mtime"}]。task を省くと見つかった書類から決める。"""
+    from opentax import collect, intake
+    try:
+        files = [(f["name"], base64.b64decode(f["b64"]), float(f.get("mtime") or 0)) for f in json.loads(files_json)]
+        found, ai, unknown = collect.scan(files)
+        t = collect.TASK_ALIASES.get(task, task) if task else collect.guess_task(found)
+        if t not in collect.TASK_KINDS:
+            _intake["draft"] = intake.read_files([])
+            return _dump({"ok": True, **_intake_state({}, {}, {}),
+                          "collected": {"task": None, "used": [], "unused": [], "ai_targets": ai, "unknown": unknown, "tasks_found": []}})
+        c = collect.select(found, t, period or None)
+        _intake["draft"] = intake.read_files([(f.name, f.data) for f in c.used] + [(n, b"%PDF") for n in ai])
+        tasks_found = sorted({x for x, k in collect.TASK_KINDS.items() for f in found if f.kind in k["single"] + k["all"]})
+        return _dump({"ok": True, **_intake_state({}, {}, {}), "collected": {
+            "task": t, "label": collect.TASK_LABELS[t], "tasks_found": [{"task": x, "label": collect.TASK_LABELS[x]} for x in tasks_found],
+            "used": [{"name": f.name, "label": f.label, "period": f.period} for f in c.used],
+            "unused": [{"name": f.name, "label": f.label, "why": w} for f, w in c.unused if not w.startswith("この申告では使わない")],
+            "other": sum(1 for _, w in c.unused if w.startswith("この申告では使わない")), "ai_targets": ai, "unknown": unknown}})
+    except Exception as e:  # noqa: BLE001
+        return _error(e)
+
+
 def ot_intake_read(files_json: str) -> str:
     """files_json: [{"name", "b64"}]。全部読み、下書き・食い違い・足りない欄・追加の問いを返す。"""
     from opentax import intake
