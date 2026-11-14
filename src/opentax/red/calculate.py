@@ -477,26 +477,46 @@ def schedule_01(data: dict, s4: dict, s7: dict, prules: dict | None = None) -> d
 
 # --- 適用額明細書 ---
 
-_ARTICLE = re.compile(r"第(\d+)条((?:の\d+)*)第(\d+)項(?:の表の)?(?:第(\d+)号)?")
+_ARTICLE = re.compile(r"第(\d+)条((?:の\d+)*)第(\d+)項(?:の表の)?(?:第(\d+)号(?:の(\d+))?)?")
+_NPO_MEASURES = (("特例認定特定非営利活動法人", "00424"), ("認定特定非営利活動法人", "00394"))
 
 
-def special_measures(data: dict, s4: dict, s1: dict) -> list[dict]:
+def special_measures(data: dict, s4: dict, s1: dict, notes: list[str] | None = None) -> list[dict]:
     """適用額明細書（租税特別措置の適用状況の透明化等に関する法律第3条第1項）に載せる特別措置。
     中小企業者等の法人税率の特例（措置法第42条の3の2第1項の表の第1号、区分番号 00380、適用額は別表一 次葉二 74。
     別表一 1 が0以下なら載せない。国税庁「適用額明細書の記載の手引（令和8年版）」）と、入力の special_measures_reported。"""
     rows = []
     ct = s1.get("detail") or {}
     if s4["income"] > 0 and ct.get("sme_portion") and ct.get("special_measure", True):
-        rows.append({"article": "第42条の3の2第1項の表の第1号", "parts": ("42", "の3の2", "1", "1"), "code": "00380",
+        rows.append({"article": "第42条の3の2第1項の表の第1号", "parts": ("42", "の3の2", "1", "1", ""), "code": "00380",
                      "amount": ct["sme_portion"], "label": "中小企業者等の法人税率の特例"})
+    # 認定NPO法人等への寄附金（措置法第66条の11の3第2項。手引 P71: 適用額は別表十四(二) 44 のうち寄附先に
+    # 「認定特定非営利活動法人」（00394）・「特例認定特定非営利活動法人」（00424）とあるものの合計）
+    npo = {code: 0 for _, code in _NPO_MEASURES}
+    for d in data.get("donations") or []:
+        if d["kind"] != "特定公益増進法人等":
+            continue
+        rec = d["recipient"].replace(" ", "").replace("　", "")
+        code = next((c for marker, c in _NPO_MEASURES if marker in rec), None)
+        if code:
+            npo[code] += d["amount"]
+        elif notes is not None and ("特定非営利活動法人" in rec or "NPO" in rec.upper()):
+            notes.append(f"寄附金（{d['recipient']}）: 認定・特例認定の特定非営利活動法人なら、寄附先に「認定特定非営利活動法人」"
+                         "「特例認定特定非営利活動法人」と書いてください。適用額明細書（措置法第66条の11の3第2項）に載せます")
+    for code, amount in npo.items():
+        if amount:
+            rows.append({"article": "第66条の11の3第2項", "parts": ("66", "の11の3", "2", "", ""), "code": code, "amount": amount,
+                         "label": "認定特定非営利活動法人等に対する寄附金の損金算入等の特例"})
     for i, m in enumerate(data.get("special_measures_reported") or []):
         g = _ARTICLE.fullmatch(m["article"].replace(" ", ""))
         if not g:
             raise InputError(f"special_measures_reported[{i}].article: 「第67条の5第1項」のように書いてください: {m['article']}")
+        if m["amount"] <= 0:
+            raise InputError(f"special_measures_reported[{i}].amount: 適用額は正の金額です: {m['amount']}")
         if not re.fullmatch(r"\d{5}", m["code"]):
             raise InputError(f"special_measures_reported[{i}].code: 区分番号は5桁の数字です: {m['code']}")
-        rows.append({"article": m["article"], "parts": (g[1], g[2] or "", g[3], g[4] or ""), "code": m["code"],
-                     "amount": m["amount"], "label": m["article"]})
+        rows.append({"article": m["article"], "parts": (g[1], g[2] or "", g[3], g[4] or "", g[5] or ""), "code": m["code"],
+                     "amount": m["amount"], "label": m["article"], "old": m.get("old") or ""})
     if len(rows) > 20:
         raise OutOfScope("適用額明細書の明細が20行を超えています（2枚目以降）")
     return rows
@@ -777,7 +797,8 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
     if levy is None and s1["corporate_tax"]:
         raise RuleError("黒字の法人は法人税割を計算します（levy_of を渡してください）")
     s52 = schedule_05_02(data, per_capita, levy, s1)
-    measures = special_measures(data, s4, s1)
+    measure_notes: list[str] = []
+    measures = special_measures(data, s4, s1, measure_notes)
     s51 = schedule_05_01(data, s4, s52)
     s2 = schedule_02(data, rules)
     warnings = [f"繰越期間を過ぎた欠損金を切り捨てました: {e['period_start']}〜{e['period_end']} {e['amount']:,}円（{e['years']}年）"
@@ -792,6 +813,7 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
         warnings.append(f"期末の納税充当金がマイナスです（{s52['provision']['closing']:,}円）。中間納付を納税充当金の取崩しで払った額が、"
                         "納税充当金より多いためです（会計の処理と合っているか確かめてください）")
     warnings += s16["checks"]
+    warnings += measure_notes
     if s1["corporate_tax"] and data["company"].get("excluded_business_operator") is None:
         warnings.append("年800万円以下の所得に15%（租税特別措置法第42条の3の2）を使いました。適用除外事業者（前3事業年度の所得の平均が年15億円超。"
                         "第42条の4第19項第8号）でないことを確かめてください（company.excluded_business_operator を false にするとこの注意は出ません）")

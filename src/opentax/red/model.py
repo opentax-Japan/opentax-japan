@@ -110,7 +110,7 @@ _SCHEMA: dict[str, Any] = {
     # 延滞金は納期限の延長によるもの（損金になる）を除く。科目に租税公課・延滞税・罰金などがあれば、なくても 0 で書く（確かめた印）
     # 会計の数字に入っている租税特別措置で、適用額明細書に載せるもの（例: 少額減価償却資産の取得価額の損金算入の特例を
     # 減価償却費で処理した額）。条項は「第67条の5第1項」のように書く。税額の計算を変える特別措置は今までどおり対象外
-    "special_measures_reported": [{"article": str, "code": str, "amount": int}],
+    "special_measures_reported": [{"article": str, "code": str, "amount": int, "old": str}],
     "tax_dues": {"加算税及び加算金": int, "延滞税": int, "延滞金": int, "過怠税": int, "罰金等": int},
     # 申告調整の要る科目を人が確かめた答え（adjustment_accounts.json の answers のどれか）
     "adjustment_confirmations": [{"account": str, "answer": str}],

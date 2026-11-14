@@ -46,6 +46,17 @@
     "source": "地方税法第72条の24の7第1項第3号（外形標準課税・特別法人以外の法人の所得割の標準税率。年四百万円以下 百分の三・五、年四百万円超年八百万円以下 百分の五・三、年八百万円超 百分の七）・第6項（事業年度が1年に満たないときの月割り）・第5項（三以上の道府県に事務所等があり資本金1千万円以上の法人は軽減税率を使わない。OpenTax は事務所等が1つの都道府県の法人だけ）。e-Gov 法令API https://laws.e-gov.go.jp/api/1/articles;lawId=325AC0000000226;article=72_24_7",
     "income_source": "地方税法第72条の23第1項第1号（法人税の課税標準である所得の計算の例による）・地方税法施行令第21条の2の2（法人税で控除を受けない所得税額も損金に算入しない）。第六号様式の「所得金額の計算の内訳」は別表4の(34)から始まる",
     "rounding": "地方税法第20条の4の2第1項（課税標準の1,000円未満は切り捨て）・第3項（確定金額の100円未満は切り捨て）。第六号様式の所得割の各段の税額欄は百円未満が印刷済み（0,0）なので、段ごとに100円未満を切り捨てる。事業年度が1年に満たないときの段の区切りは月数で換算して円単位まで、各段は切り捨てる前の所得から切り捨てる前の下の段を引いてから千円未満切捨て（大阪府「申告書（第6号様式）記載の手引」（https://www.pref.osaka.lg.jp/documents/525/6tebiki_1.pdf）の事業税の課税標準の書き方（2）(ホ)・1年に満たない場合の㉘〜㉚。一覧の軽減の条件の「年○円」も月数で換算する（同手引の注2））",
+    "short_year_bands_confirmed": {
+      "大阪府": "https://www.pref.osaka.lg.jp/documents/525/6tebiki_1.pdf",
+      "和歌山県": "https://www.pref.wakayama.lg.jp/prefg/010500/sinsei/index_d/fil/6gouyousikikisaitebiki.pdf",
+      "岐阜県": "https://www.pref.gifu.lg.jp/uploaded/attachment/288979.pdf",
+      "静岡県": "https://www.pref.shizuoka.jp/_res/projects/default_project/_page_/001/011/835/shizuoka_kisainotebiki.pdf"
+    },
+    "short_year_bands_note": "1年に満たない事業年度の所得割の段（下の段は端数を切り捨てる前の額を引く）を第6号様式記載の手引で確かめた都道府県（2026-11-14）。ほかの都道府県は「確かめてほしいこと」に出す",
+    "short_year_conditions_confirmed": {
+      "大阪府": "https://www.pref.osaka.lg.jp/documents/525/6tebiki_1.pdf"
+    },
+    "short_year_conditions_note": "超過課税・不均一課税の「法人税額年○円」「年所得○円」を1年に満たない事業年度で月数換算することを確かめた都道府県。ほかは「確かめてほしいこと」に出す",
     "checked": "2026-11-14"
   },
   "special_business_tax": {

@@ -244,7 +244,7 @@ class ReviewFindingsTest(unittest.TestCase):
         # 15% を使えば適用額明細書（区分番号 00380、適用額＝別表一 次葉二 74）を付け、別表一の提出の有無を「有」
         c = api.calculate(profit_data(industry_code="50"))
         rows = c["result"]["special_measures"]
-        self.assertEqual([(r["code"], r["amount"], r["parts"]) for r in rows], [("00380", 8_000_000, ("42", "の3の2", "1", "1"))])
+        self.assertEqual([(r["code"], r["amount"], r["parts"]) for r in rows], [("00380", 8_000_000, ("42", "の3の2", "1", "1", ""))])
         from opentax.red.etax_ksk2_2026_08 import text_values
         tv = text_values(c["input"], c["result"])
         self.assertEqual((tv["BGA00300"], tv["MAB00070"], tv["MAA00180"]), ("1", ["00380"], "50"))
@@ -260,7 +260,7 @@ class ReviewFindingsTest(unittest.TestCase):
         raw["special_measures_reported"] = [{"article": "第67条の5第1項", "code": "00277", "amount": 250_000}]
         c = api.calculate(raw)
         self.assertEqual([r["code"] for r in c["result"]["special_measures"]], ["00380", "00277"])
-        self.assertEqual(c["result"]["special_measures"][1]["parts"], ("67", "の5", "1", ""))
+        self.assertEqual(c["result"]["special_measures"][1]["parts"], ("67", "の5", "1", "", ""))
         self.assertTrue(any("業種番号" in w for w in c["result"]["warnings"]))
         raw["special_measures_reported"][0]["code"] = "277"
         with self.assertRaises(model.InputError):
@@ -350,6 +350,89 @@ class ReviewFindingsTest(unittest.TestCase):
         self.assertEqual(c["problems"], [])
         s1 = c["result"]["schedule_01"]
         self.assertEqual(s1["final_corporate"], s1["after_credit"] - 900_000)
+
+
+def r8(raw: dict) -> dict:
+    """事業年度を令和8年10月1日開始（防衛特別法人税の課税事業年度）にずらす。"""
+    raw["fiscal_period"] = {"start": "2026-10-01", "end": "2027-09-30"}
+    raw["prior"]["losses"] = [{"period_start": "2024-10-01", "period_end": "2025-09-30", "amount": 3_000_000}]
+    for r in raw["prior"]["schedule_05_02"]:
+        r["period_start"], r["period_end"] = "2025-10-01", "2026-09-30"
+    for p in raw["tax_payments"]:
+        p["period_end"] = "2026-09-30"
+    return raw
+
+
+class DefenseReviewTest(unittest.TestCase):
+    """別の検証（private/verify/検証報告_防衛特別法人税_2026-11-14.md）の指摘ごとのテスト。"""
+
+    @unittest.skipUnless(SCHEMA.exists(), "e-Tax の XML スキーマ（.cache）がない")
+    def test_zero_defense_lines_written(self):
+        # 欠損でも課税事業年度なら 50・53 などに「0」を書く（国税庁パンフ 1(6)）
+        c = api.calculate(r8(json.loads(SAMPLE.read_text(encoding="utf-8"))))
+        x = api.export_etax(c, SCHEMA, datetime.date(2027, 11, 20), without_balance=True).decode("utf-8")
+        for tag in ("KZB00130", "KZB00160", "KZB00360", "KZB00030"):
+            self.assertIn(f"<{tag}>0</{tag}>", x)
+        self.assertIn("<KZB00070>12</KZB00070>", x)
+        self.assertIn("BGA00365", x)
+
+    @unittest.skipUnless(SCHEMA.exists(), "e-Tax の XML スキーマ（.cache）がない")
+    def test_pre_r8_no_defense_kind(self):
+        c = api.calculate(json.loads(SAMPLE.read_text(encoding="utf-8")))
+        x = api.export_etax(c, SCHEMA, datetime.date(2026, 11, 20), without_balance=True).decode("utf-8")
+        self.assertNotIn("BGA00365", x)
+        self.assertNotIn("<KZB00130>", x)
+
+    def test_interim_defense_refund_on_loss(self):
+        raw = r8(json.loads(SAMPLE.read_text(encoding="utf-8")))
+        raw["interim"] = {"method": "損金経理", "法人税": 0, "地方法人税": 0, "防衛特別法人税": 50_000,
+                          "道府県民税": {"法人税割": 0, "均等割": 0}, "市町村民税": {"法人税割": 0, "均等割": 0},
+                          "事業税": 0, "特別法人事業税": 0}
+        raw["accounting"]["net_income"] -= 50_000
+        raw["accounting"]["retained_earnings_end"] -= 50_000
+        c = api.calculate(raw)
+        self.assertEqual(c["problems"], [])
+        self.assertEqual(c["result"]["schedule_01"]["refund_defense"], 50_000)
+        self.assertEqual((c["form_values"]["KZB00210"], c["form_values"]["KZB00250"]), (50_000, 50_000))
+
+    def test_npo_donation_measures(self):
+        raw = sample()
+        raw["donations"] = [
+            {"kind": "特定公益増進法人等", "recipient": "認定特定非営利活動法人 架空の会", "amount": 30_000, "date": "2026-03-01",
+             "address": "架空市", "use": "活動"},
+            {"kind": "特定公益増進法人等", "recipient": "特例認定特定非営利活動法人 架空の家", "amount": 20_000, "date": "2026-03-01",
+             "address": "架空市", "use": "活動"},
+            {"kind": "その他", "recipient": "架空町内会", "amount": 10_000, "date": "2026-03-01",
+             "address": "架空市", "use": "活動"}]
+        c = api.calculate(raw)
+        rows = {r["code"]: r for r in c["result"]["special_measures"]}
+        self.assertEqual((rows["00394"]["amount"], rows["00424"]["amount"]), (30_000, 20_000))
+        self.assertEqual(rows["00394"]["parts"], ("66", "の11の3", "2", "", ""))
+        # 認定の印のない特定非営利活動法人は確かめてほしいことに出す
+        raw["donations"][1]["recipient"] = "特定非営利活動法人 架空の森"
+        c = api.calculate(raw)
+        self.assertNotIn("00424", {r["code"] for r in c["result"]["special_measures"]})
+        self.assertTrue(any("架空の森" in w for w in c["result"]["warnings"]))
+
+    def test_reported_article_branch_and_old(self):
+        raw = sample()
+        raw["special_measures_reported"] = [{"article": "第42条の12の5第1項第2号の3", "code": "00699", "amount": 1_000,
+                                             "old": "令和8年旧措置法"}]
+        rows = api.calculate(raw)["result"]["special_measures"]
+        self.assertEqual((rows[-1]["parts"], rows[-1]["old"]), (("42", "の12の5", "1", "2", "3"), "令和8年旧措置法"))
+        raw["special_measures_reported"][0]["amount"] = 0
+        with self.assertRaises(model.InputError):
+            api.calculate(raw)
+
+    def test_short_year_unconfirmed_prefecture_note(self):
+        from opentax.red.local_tax import business_tax
+        data = model.validate(json.loads(SAMPLE.read_text(encoding="utf-8")))
+        data["prior"]["losses"] = []
+        data["fiscal_period"] = {"start": datetime.date(2025, 10, 1), "end": datetime.date(2026, 4, 30)}
+        self.assertTrue(any("岡山県の手引" in n for n in business_tax(data, 5_000_500)["notes"]))
+        data["offices"][0].update({"prefecture": "岐阜県", "municipality": "岐阜市"})
+        data["offices"][0].pop("ward", None)
+        self.assertFalse(any("手引で同じか" in n for n in business_tax(data, 5_000_500)["notes"]))
 
 
 if __name__ == "__main__":

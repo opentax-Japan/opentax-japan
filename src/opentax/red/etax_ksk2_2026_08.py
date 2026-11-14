@@ -106,7 +106,9 @@ def base_values(result: dict) -> dict:
         v["BGC00030"] = s1["corporate_tax"]            # 28 所得の金額に対する法人税額
         v["BGC00060"] = s1["local_corporate_tax"]      # 31 地方法人税額（＝82）
     # 防衛特別法人税（別表一 次葉一 45〜68。令和8年4月1日以後に開始する事業年度で法人税額があるとき）
-    if ct.get("defense_applies") and s1["corporate_tax"]:
+    # 法人税額が0・課税標準法人税額が0でも、課税事業年度なら各欄を書き、50・53 は「0」（国税庁「防衛特別法人税が創設されました」1(6)。
+    # 0 を出す欄は defense_zero_tags）
+    if ct.get("defense_applies"):
         v["KZB00030"] = s1["corporate_tax"]            # 45 所得の金額に対する法人税額（基準法人税額）
         v["KZB00070"] = ct["months"]                   # 47 基礎控除額の月数
         v["KZB00080"] = int(ct["defense_deduction"])   # 47 基礎控除額（500万円×月数／12）
@@ -403,7 +405,6 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
         "BGA00260": _kubun(att["business_overview"]), "BGA00270": "2", "BGA00280": "2",   # 組織再編成の書類はなし
         "BGA00300": "1" if result.get("special_measures") else "2",   # 適用額明細書提出の有無
         "BGA00310": _kubun(filing["tax_accountant_article30"]), "BGA00320": _kubun(filing["tax_accountant_article33_2"]),
-        "BGA00365": "1",                                   # 申告の種類（防衛分）: 確定
         "BGF00000": _kubun(filing["notify_penalty"]), "BGG00000": _kubun(filing["notify_refund"]),
         # 別表七(一)
         "MCB00007": "5",                                   # 損金算入限度額: 100/100（中小法人）
@@ -413,7 +414,11 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
     }
     if filing.get("settled_on"):
         v["BGA00410"] = filing["settled_on"]
-    if result["schedule_01"]["detail"].get("defense_applies") and result["schedule_01"]["corporate_tax"]:
+    if result["schedule_01"].get("detail", {}).get("defense_applies"):
+        # 申告の種類（防衛分）: 確定。令和8年3月31日以前に開始した事業年度は防衛特別法人税の申告が要らず、防衛特別法人税の
+        # 各欄を書かない（国税庁「防衛特別法人税が創設されました」2（注））ので入れない（公式XSD では省略できる）
+        v["BGA00365"] = "1"
+    if result["schedule_01"]["detail"].get("defense_applies"):
         v["KZB00060"] = "1"                                # 47 (500万円×＿／12)
         v["KZB00100"] = "1"                                # 48 ((47)－(45))
     measures = result.get("special_measures") or []
@@ -422,8 +427,11 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
         v["MAA00040"] = "1"                                # 提出区分: 当初提出分
         if data["company"].get("industry_code"):
             v["MAA00180"] = data["company"]["industry_code"]
-        for i, tag in enumerate(("MAB00020", "MAB00030", "MAB00040", "MAB00050")):
-            v[tag] = [r["parts"][i] or None for r in measures]
+        for i, tag in enumerate(("MAB00020", "MAB00030", "MAB00040", "MAB00050", "MAB00060")):
+            if any(len(r["parts"]) > i and r["parts"][i] for r in measures):
+                v[tag] = [(r["parts"][i] if len(r["parts"]) > i else "") or None for r in measures]
+        if any(r.get("old") for r in measures):            # 旧条項（「令和8年旧措置法」など。手引 P11）
+            v["MAB00015"] = [r.get("old") or None for r in measures]
         v["MAB00070"] = [r["code"] for r in measures]
     if result["schedule_01"]["corporate_tax"]:
         # 別表一 次葉二の区分（帳票フィールド仕様書 HOA116 の値の範囲）
@@ -604,12 +612,22 @@ UCHIWAKE_FORMS = ("HOI010", "HOI020", "HOI030", "HOI040", "HOI050", "HOI060", "H
 ATTACH_FORMS = UCHIWAKE_FORMS + ("HOK010",)
 
 
+# 防衛特別法人税の課税事業年度で「0」を書く欄（別表一 次葉一 45・48・49・50・53・67・68。国税庁「防衛特別法人税が創設されました」1(6)
+# 「『課税標準法人税額の計算』及び『防衛特別法人税額の計算』の各欄を記載し…『防衛特別法人税額』及び『防衛特別法人税額計』の各欄に『０』」）
+DEFENSE_ZERO_TAGS = ("KZB00030", "KZB00110", "KZB00120", "KZB00130", "KZB00160", "KZB00360", "KZB00370")
+
+
+def defense_zero_tags(result: dict) -> tuple:
+    return DEFENSE_ZERO_TAGS if result["schedule_01"].get("detail", {}).get("defense_applies") else ()
+
+
 def build_xtx(data: dict, result: dict, numbers: dict, zeimusho_xsd: bytes, today: datetime.date,
               uchiwake: dict | None = None, tenpu: dict | None = None) -> bytes:
-    """numbers: form_values の結果（タグ → 金額）。0 の金額は出さない（空欄）。
+    """numbers: form_values の結果（タグ → 金額）。0 の金額は出さない（空欄）。ただし defense_zero_tags の欄は 0 も書く。
     uchiwake: 内訳書・概況書の値（様式ID → タグ → 値。red.uchiwake.build・red.gaikyo.build の forms）。ある様式だけ別表のあとに入れる。"""
+    keep_zero = set(defense_zero_tags(result))
     nums = {k: ([x or None for x in v] if isinstance(v, list) else v) for k, v in numbers.items()
-            if (isinstance(v, list) and any(v)) or (not isinstance(v, list) and v)}
+            if (isinstance(v, list) and any(v)) or (not isinstance(v, list) and (v or k in keep_zero))}
     values = _forms_of({**nums, **text_values(data, result)})
     it_layout = load_layout(SPEC_SET, "IT")
     it, it_ids = build_it(it_layout, it_values(data, zeimusho_xsd), {})
@@ -657,6 +675,7 @@ def verify(result: dict, values: dict) -> list[str]:
         ("別表一 38 差引地方法人税額", "BGC00120", result["schedule_01"].get("local_after", 0)),
         ("別表一 次葉一 57 差引防衛特別法人税額", "KZB00200", result["schedule_01"].get("defense_after", 0)),
         ("別表一 次葉一 59 差引確定防衛特別法人税額", "KZB00220", result["schedule_01"].get("final_defense", 0)),
+        ("別表一 次葉一 61 中間納付額の還付", "KZB00250", result["schedule_01"].get("refund_defense", 0)),
         ("別表七(一) 合計⑤ 翌期繰越額", "MCB00370", s7["carry_total"]),
         ("別表一 27 翌期へ繰り越す欠損金額", "BGB00470", result["schedule_01"]["loss_carry"]),
         ("別表五(二) 10⑥ 道府県民税 期末未納", "IEC00650", s52["taxes"]["道府県民税"]["total"]["closing"]),

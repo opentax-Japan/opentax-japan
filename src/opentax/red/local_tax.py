@@ -429,8 +429,10 @@ def _pref_levy_percent(pref: str, ed: dict, company: dict, tax_base: int, months
     else:
         raise OutOfScope(f"{pref}の法人税割の軽減の条件を読めません（{lv['reduced_condition']}）")
     pct = lv["reduced_rate_text"] if reduced else lv["rate_text"]
-    return pct, (f"{pref}の法人税割 {pct}%（総務省の一覧。軽減の条件「{cond}」に"
-                           f"{'当たる' if reduced else '当たらない'}）")
+    note = (f"{pref}の法人税割 {pct}%（総務省の一覧。軽減の条件「{cond}」に{'当たる' if reduced else '当たらない'}）")
+    if months != 12 and "年" in cond and pref not in _profit_rules()["business_tax"]["short_year_conditions_confirmed"]:
+        note += f"。1年に満たない事業年度なので「年○円」は月数で換算しました（大阪府の手引による）。{pref}の資料で確かめてください"
+    return pct, note
 
 
 def corporate_levy(data: dict, corporate_tax: int) -> dict:
@@ -477,7 +479,10 @@ def _business_standard_note(pref: str, ed: dict, company: dict, income: int, mon
         raise OutOfScope(f"{pref}の事業税の超過課税の軽減の条件を読めません（{e['reduced_condition']}）")
     # 「年所得○円」は、事業年度が1年に満たないときは月数で換算した額と比べる（大阪府「申告書（第6号様式）記載の手引」）
     if company["capital"] <= _amount(m[1]) and income // 1000 * 1000 <= Fraction(_amount(m[2]) * months, 12):
-        return f"{pref}の事業税は超過課税がありますが、「{m[0]}」の法人なので標準税率です（総務省の一覧）"
+        extra = ""
+        if months != 12 and pref not in _profit_rules()["business_tax"]["short_year_conditions_confirmed"]:
+            extra = f"。1年に満たない事業年度なので「年所得」は月数で換算しました（大阪府の手引による）。{pref}の資料で確かめてください"
+        return f"{pref}の事業税は超過課税がありますが、「{m[0]}」の法人なので標準税率です（総務省の一覧）" + extra
     raise OutOfScope(f"{pref}の事業税の超過課税（資本金・年所得が軽減の条件「{m[0]}」を超える法人）")
 
 
@@ -518,6 +523,10 @@ def business_tax(data: dict, pre_deduction: int) -> dict:
         tax = int(base * Fraction(pct) / 100) // 100 * 100
         rows.append({"base": base, "percent": pct, "tax": tax})
     taxable = sum(r["base"] for r in rows)                 # ㉜ 計（㉙＋㉚＋㉛）
+    short_note = None
+    if months != 12 and income > limits[0] and office["prefecture"] not in bt["short_year_bands_confirmed"]:
+        short_note = (f"1年に満たない事業年度の所得割の段は、各段を千円未満切捨てする前の額で引く書き方（大阪府・和歌山県・岐阜県・静岡県の"
+                      f"第6号様式記載の手引）で計算しました。{office['prefecture']}の手引で同じか確かめてください")
     total = sum(r["tax"] for r in rows)
     special_base = total                                   # 基準法人所得割額（標準税率で計算した所得割額）
     special = int(special_base * Fraction(sp["percent"]) / 100) // 100 * 100
@@ -535,5 +544,5 @@ def business_tax(data: dict, pre_deduction: int) -> dict:
                      "払込資本2億円超のもの（地方税法第72条の2第1項第1号ロ(1)(2)）や、前事業年度に外形標準課税の対象だった法人が減資したものなどは"
                      "対象になります（company.business_tax_pro_forma_standard を false にするとこの注意は出ません）")
     out.update({"taxable": taxable, "brackets": rows, "total": total, "special_base": special_base, "special": special,
-                "notes": [n for n in (note, unknown_kind, medical, pro_forma) if n]})
+                "notes": [n for n in (note, unknown_kind, medical, pro_forma, short_note) if n]})
     return out
