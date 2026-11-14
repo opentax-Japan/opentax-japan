@@ -86,10 +86,30 @@ def building_depreciation(b: dict, sold: datetime.date, rr: dict, where: str) ->
     cost = _amount(b.get("cost"), f"{where}.cost")
     if b.get("structure") not in nb["rates"]:
         raise SeparateError(f"{where}.structure: 建物の構造を {sorted(nb['rates'])} のどれかで入れてください"
-                            "（非業務用建物の償却率。譲渡所得の申告のしかた 23ページ）")
+                            "（非業務用建物の償却率。譲渡所得の申告のしかた 23ページ）。表にない構造は、償却費相当額を引いた取得費を cost で入れてください")
     years = elapsed_years(_date(b.get("acquired"), f"{where}.acquired"), sold)
     dep = _floor(_d(cost) * _d(nb["residual"]) * _d(nb["rates"][b["structure"]]) * years)
     return min(dep, _floor(_d(cost) * _d(nb["cap_rate"])))
+
+
+def inheritance_limit(start: datetime.date) -> datetime.date:
+    """相続財産の取得費加算の期限（措置法39条1項）。相続税の申告期限は相続開始を知った日の翌日から10か月（相続税法27条1項）。
+    期間は翌日から数え、月の初日から始まるときは10か月目の月の末日、それ以外は応当日の前日（民法140条・143条）。
+    その翌日以後3年を経過する日まで。期限が休日のときの延長（国税通則法10条2項）と、知った日が開始日と違う場合は見ない（安全側）。"""
+    s = start + datetime.timedelta(days=1)
+
+    def end_of(first: datetime.date, months: int) -> datetime.date:
+        if first.day == 1:
+            nxt = _add_months(first.replace(day=1), months)
+            return nxt - datetime.timedelta(days=1)
+        y, m = divmod(first.month - 1 + months, 12)
+        y, m = first.year + y, m + 1
+        try:
+            return datetime.date(y, m, first.day) - datetime.timedelta(days=1)
+        except ValueError:                                     # 応当日がないときはその月の末日
+            return _add_months(datetime.date(y, m, 1), 1) - datetime.timedelta(days=1)
+    deadline = end_of(s, 10)
+    return end_of(deadline + datetime.timedelta(days=1), 36)
 
 
 def land_building(items: list, year: int, r: dict, checks: list) -> dict:
@@ -99,7 +119,6 @@ def land_building(items: list, year: int, r: dict, checks: list) -> dict:
     cats = {"67": 0, "69": 0, "70": 0, "71": 0}
     receipts = {"67": 0, "69": 0, "70": 0, "71": 0}
     before_special = {"67": 0, "69": 0, "70": 0, "71": 0}
-    special_left = rr["residential_special"]
     rows = []
     for i, x in enumerate(items):
         where = f"land_building[{i}]"
@@ -110,14 +129,28 @@ def land_building(items: list, year: int, r: dict, checks: list) -> dict:
         if sold.year != year:
             raise SeparateError(f"{where}.sold: {year}年中の譲渡を入れてください: {sold}")
         acquired = _date(x.get("acquired"), f"{where}.acquired")
+        if acquired >= sold:
+            raise SeparateError(f"{where}.acquired: 取得日（{acquired}）が譲渡日（{sold}）より後か同じです")
         price = _amount(x.get("price"), f"{where}.price")
         if not price:
             raise SeparateError(f"{where}.price: 譲渡価額（収入金額）を入れてください")
         expenses = _amount(x.get("expenses"), f"{where}.expenses")
         b = x.get("building")
+        residential = x.get("use") == "residential"
+        # 所有期間は土地等と建物等それぞれで、譲渡の年の1月1日で数える（措置法31条1項・2項・32条1項）。
+        # 区分が違うときは1件にまとめず、土地分と建物分に分けて入れてもらう（譲渡価額・取得費・譲渡費用を分ける）
+        b_acquired = _date(b["acquired"], f"{where}.building.acquired") if b and b.get("acquired") else acquired
+        if b_acquired >= sold:
+            raise SeparateError(f"{where}.building.acquired: 建物の取得日（{b_acquired}）が譲渡日（{sold}）より後か同じです")
+        if (acquired <= long_before) != (b_acquired <= long_before):
+            raise SeparateError(f"{where}: 土地と建物で長期・短期が違います（土地 {acquired}・建物 {b_acquired}）。土地分と建物分に分けて2件で入れてください"
+                                "（譲渡価額・取得費・譲渡費用を分ける。措置法31条・32条）")
         if "cost" in x:
             cost = _amount(x["cost"], f"{where}.cost")
             dep = 0
+            if residential or b:
+                checks.append(f"{where}: 取得費を cost で入れました。建物の分は、取得価額から償却費相当額（非業務用は 取得価額×0.9×償却率×経過年数、"
+                              "業務用は償却費の累積額）を引いた額か確かめてください（所得税法38条2項、譲渡所得の申告のしかた 23ページ）")
         else:
             land_cost = _amount(x.get("land_cost"), f"{where}.land_cost")
             dep, bcost = 0, 0
@@ -125,7 +158,7 @@ def land_building(items: list, year: int, r: dict, checks: list) -> dict:
                 if b.get("business"):
                     raise SeparateError(f"{where}.building: 業務用の建物は、取得費（未償却残高を含む）を cost で入れてください（償却費は事業・不動産所得の累積額。譲渡所得の申告のしかた 23ページ）")
                 bcost = _amount(b.get("cost"), f"{where}.building.cost")
-                dep = building_depreciation(b, sold, rr, f"{where}.building")
+                dep = building_depreciation(dict(b, acquired=b_acquired.isoformat()), sold, rr, f"{where}.building")
             cost = land_cost + bcost - dep
         estimated = _floor(_d(price) * _d(rr["estimated_cost_rate"]))
         used_estimate = cost < estimated
@@ -137,43 +170,58 @@ def land_building(items: list, year: int, r: dict, checks: list) -> dict:
         addition = 0
         if inh:
             start = _date(inh.get("start"), f"{where}.inheritance.start")
-            limit = _add_months(start, r["inheritance_addition"]["months_after_start"])
+            limit = inheritance_limit(start)
             if not (start < sold <= limit):
                 raise SeparateError(f"{where}.inheritance: 相続財産の取得費加算は、相続開始の翌日から申告期限の翌日以後3年を経過する日まで"
-                                    f"（{limit} まで）の譲渡に限ります（措置法39条1項）")
+                                    f"（{limit} まで）の譲渡に限ります（措置法39条1項。申告期限が休日で延びる場合・相続を知った日が違う場合は見ていません）")
             addition = min(_amount(inh.get("addition"), f"{where}.inheritance.addition"), max(gain, 0))
-            checks.append(f"{where}: 相続財産の取得費加算（措置法39条）。加算額は「相続財産の取得費に加算される相続税の計算明細書」の額か確かめてください")
+            checks.append(f"{where}: 相続財産の取得費加算（措置法39条）。加算額は「相続財産の取得費に加算される相続税の計算明細書」の額か確かめ、"
+                          "その計算明細書を申告書に添付してください（措置法39条2項。OpenTax はこの明細書を作りません）")
         gain -= addition
         if gain < 0:
             raise SeparateError(f"{where}: 土地・建物等の譲渡損失は OpenTax 個人の対象外です（他の所得と通算できず、居住用財産の損益通算の特例は別の付表が要るため）")
         long_term = acquired <= long_before
-        residential = x.get("use") == "residential"
-        if x.get("reduced_rate") and not (residential and acquired <= reduced_before):
-            raise SeparateError(f"{where}.reduced_rate: 軽減税率の特例（措置法31条の3）は所有期間が10年を超える居住用財産だけです"
-                                f"（{reduced_before} 以前の取得）")
-        if x.get("specific") and (not long_term or x.get("reduced_rate") or x.get("residential_special")):
-            raise SeparateError(f"{where}.specific: 優良住宅地等のための譲渡の軽減税率（措置法31条の2。特定分）は長期譲渡所得だけで、軽課分・3,000万円の特別控除とは重ねません")
+        if x.get("reduced_rate") and not (residential and acquired <= reduced_before and b_acquired <= reduced_before):
+            raise SeparateError(f"{where}.reduced_rate: 軽減税率の特例（措置法31条の3）は、家屋と敷地の所有期間がともに10年を超える居住用財産だけです"
+                                f"（{reduced_before} 以前の取得。タックスアンサー No.3305 要件(2)）")
         if x.get("specific"):
+            if not long_term or x.get("reduced_rate") or x.get("residential_special"):
+                raise SeparateError(f"{where}.specific: 優良住宅地等のための譲渡の軽減税率（措置法31条の2。特定分）は長期譲渡所得だけで、"
+                                    "軽課分・3,000万円の特別控除とは重ねません")
+            if b:
+                raise SeparateError(f"{where}.specific: 特定分（措置法31条の2）は土地等の譲渡だけです。建物の分は分けて入れてください")
             checks.append(f"{where}: 長期譲渡所得の特定分（優良住宅地の造成等のための譲渡。措置法31条の2）。買取り等の証明書など特例の要件を確かめてください")
+        if x.get("residential_special") and not residential:
+            raise SeparateError(f"{where}.residential_special: 3,000万円の特別控除（措置法35条1項）は居住用財産（use: residential）だけです")
         cat = "67" if not long_term else ("71" if x.get("reduced_rate") else ("70" if x.get("specific") else "69"))
-        special = 0
-        if x.get("residential_special"):
-            if not residential:
-                raise SeparateError(f"{where}.residential_special: 3,000万円の特別控除（措置法35条1項）は居住用財産（use: residential）だけです")
-            special = min(gain, special_left)
-            special_left -= special
-            checks.append(f"{where}: 居住用財産の3,000万円の特別控除（措置法35条1項）を使いました。親族等への譲渡でないこと・前年と前々年に"
-                          "同じ特例を受けていないこと・住まなくなった日から3年目の年末までの譲渡であることを確かめてください")
-        elif residential:
+        if x.get("reduced_rate") and not x.get("residential_special"):
+            checks.append(f"{where}: 軽減税率の特例（措置法31条の3）。前年・前々年にこの特例を受けていないこと・親族等への譲渡でないことを確かめてください"
+                          "（タックスアンサー No.3305）")
+        if residential and not x.get("residential_special"):
             checks.append(f"{where}: 居住用財産です。3,000万円の特別控除（措置法35条1項）"
-                          + ("・軽減税率の特例（措置法31条の3）" if long_term and acquired <= reduced_before else "")
+                          + ("・軽減税率の特例（措置法31条の3）" if long_term and acquired <= reduced_before and b_acquired <= reduced_before
+                             and not x.get("reduced_rate") else "")
                           + "を使えるか確かめてください（使うなら residential_special／reduced_rate。選ぶのは人）")
-        receipts[cat] += price
-        before_special[cat] += gain
-        cats[cat] += gain - special
         rows.append({"category": cat, "location": x.get("location", ""), "price": price, "cost": cost, "expenses": expenses,
-                     "depreciation": dep, "addition": addition, "estimated": used_estimate, "gain": gain, "special": special,
-                     "income": gain - special, "acquired": acquired, "sold": sold, "long": long_term})
+                     "depreciation": dep, "addition": addition, "estimated": used_estimate, "gain": gain, "special": 0,
+                     "income": gain, "acquired": acquired, "sold": sold, "long": long_term, "wants_special": bool(x.get("residential_special")),
+                     "inheritance": bool(inh)})
+    # 3,000万円の特別控除は、まず短期譲渡所得から、残りを長期譲渡所得から引く（措置法35条1項2号・1号）
+    special_left = rr["residential_special"]
+    for want_long in (False, True):
+        for row in rows:
+            if row["wants_special"] and row["long"] == want_long:
+                row["special"] = min(row["gain"], special_left)
+                special_left -= row["special"]
+                row["income"] = row["gain"] - row["special"]
+    if any(row["wants_special"] for row in rows):
+        checks.append("居住用財産の3,000万円の特別控除（措置法35条1項）を使いました（短期譲渡所得から先に引きます）。親族等への譲渡でないこと・前年と前々年に"
+                      "同じ特例を受けていないこと・住まなくなった日から3年目の年末までの譲渡であることを確かめてください（タックスアンサー No.3302）")
+    for row in rows:
+        cat = row["category"]
+        receipts[cat] += row["price"]
+        before_special[cat] += row["gain"]
+        cats[cat] += row["income"]
     return {"income": cats, "receipts": receipts, "before_special": before_special, "rows": rows,
             "special_total": sum(r_["special"] for r_ in rows)}
 
@@ -211,6 +259,7 @@ def stocks(d: dict, year: int, r: dict, checks: list) -> dict | None:
     l_other = total(lst, "other_expenses", "listed_stocks")
     l_net = l_receipts - l_cost - l_comm - l_other
     l_withheld = total(lst, "withheld", "listed_stocks")
+    l_local = total(lst, "withheld_local", "listed_stocks")          # 株式等譲渡所得割（住民税5%）
     if any(x["account"] == "withholding" for x in lst):
         checks.append("源泉徴収ありの特定口座の譲渡所得等は、申告しないこと（申告不要制度。措置法37条の11の5）も選べます。申告するかは人が決めてください"
                       "（申告すると合計所得金額に入り、配偶者控除・扶養控除などの判定にも影響します）")
@@ -220,10 +269,21 @@ def stocks(d: dict, year: int, r: dict, checks: list) -> dict | None:
     d_income = total(divs, "income", "separate_dividends")
     d_interest = total(divs, "debt_interest", "separate_dividends")
     d_withheld = total(divs, "withheld", "separate_dividends")
+    d_local = total(divs, "withheld_local", "separate_dividends")     # 配当割（住民税5%）
+    if (l_withheld and not l_local) or (d_withheld and not d_local):
+        checks.append("特別徴収された住民税（株式等譲渡所得割・配当割の5%）を withheld_local に入れると、第二表の「株式等譲渡所得割額控除額」"
+                      "「配当割額控除額」欄に書きます（株式等の譲渡所得等の申告のしかた 41ページ）")
     d_net = max(d_income - d_interest, 0)          # 付表④（赤字は0）
     if divs:
         checks.append("上場株式等の配当等を申告分離課税にしました（措置法8条の4）。配当控除はありません。総合課税・申告不要（措置法8条の5）も選べるので、"
-                      "どれにするかは人が決めてください")
+                      "どれにするかは人が決めてください。発行済株式等の3%以上を持つ大口株主等の配当は申告分離課税にできません（措置法8条の4第1項、"
+                      "株式等の譲渡所得等の申告のしかた 45ページ）")
+        if d.get("dividends"):
+            checks.append("総合課税の配当（dividends）と申告分離課税の配当（separate_dividends）の両方があります。申告する上場株式等の配当等は、全部を総合課税か"
+                          "申告分離課税のどちらかにそろえます（申告のしかた 9ページ・45ページ）。総合課税の側が上場株式等でないものか確かめてください")
+    if any(x["account"] == "other" for x in lst) and l_net < 0:
+        checks.append("特定口座以外の上場株式等の譲渡損失です。損益通算・繰越しができるのは金融商品取引業者等への売委託などによる譲渡の損失だけです"
+                      "（措置法37条の12の2第2項）。相対取引の損失でないか確かめてください")
 
     # 損益通算（付表 1面 (1)〜(3)）
     loss3 = max(-l_net, 0)                          # ③
@@ -253,9 +313,10 @@ def stocks(d: dict, year: int, r: dict, checks: list) -> dict | None:
     return {
         "general": {"receipts": g_receipts, "cost": g_cost, "commission": g_comm, "other": g_other, "net": g_net, "income": g_income},
         "listed": {"receipts": l_receipts, "cost": l_cost, "commission": l_comm, "other": l_other, "net": l_net, "withheld": l_withheld,
+                   "withheld_local": l_local,
                    "after_offset": l_pos, "carry_used": from_l, "income": l_pos - from_l},
         "dividends": {"income": d_income, "interest": d_interest, "net": d_net, "after_offset": after6, "carry_used": from_d,
-                      "taxable_income": after6 - from_d, "withheld": d_withheld},
+                      "taxable_income": after6 - from_d, "withheld": d_withheld, "withheld_local": d_local},
         "offset": {"loss3": loss3, "after5": after5, "after6": after6},
         "carry": {"years": years, "in": carry, "used": used, "out": carry_out},
         "gokei": g_income + l_pos + after6,              # 合計所得金額（繰越控除前）
@@ -269,10 +330,12 @@ def futures(items: list, checks: list) -> dict | None:
     rec = sum(_amount(x.get("income"), f"futures[{i}].income") for i, x in enumerate(items))
     exp = sum(_amount(x.get("expenses"), f"futures[{i}].expenses") for i, x in enumerate(items))
     net = rec - exp
+    carry = any(x.get("carry_forward") for x in items)
     if net < 0:
-        checks.append(f"先物取引の損失 {-net:,}円は他の所得と通算できません。翌年以後に繰り越すとき（措置法41条の15）は付表（先物取引に係る繰越損失用）"
-                      "を添付します。その付表は OpenTax 個人ではまだ作れません")
-    return {"receipts": rec, "expenses": exp, "net": net, "income": max(net, 0), "carry_out": max(-net, 0)}
+        checks.append(f"先物取引の損失 {-net:,}円は他の所得と通算できません。翌年以後に繰り越すには、損失の計算の明細書（付表（先物取引に係る繰越損失用））を"
+                      "申告書に添付します（措置法41条の15第3項）。その付表は OpenTax 個人ではまだ作れないので、別に作って添付してください"
+                      + ("（carry_forward: true なので第三表99欄に書きました）" if carry else "（繰り越すなら futures[].carry_forward: true。いまは99欄に書いていません）"))
+    return {"receipts": rec, "expenses": exp, "net": net, "income": max(net, 0), "carry_out": max(-net, 0) if carry else 0}
 
 
 def calculate(d: dict, year: int, checks: list) -> dict | None:
@@ -290,7 +353,7 @@ def calculate(d: dict, year: int, checks: list) -> dict | None:
         inc["67"], inc["69"], inc["70"], inc["71"] = lb["income"]["67"], lb["income"]["69"], lb["income"]["70"], lb["income"]["71"]
         rec["シ"], rec["セ"], rec["ソ"], rec["タ"] = lb["receipts"]["67"], lb["receipts"]["69"], lb["receipts"]["70"], lb["receipts"]["71"]
         gokei += sum(lb["before_special"].values())     # 土地・建物等は特別控除前（申告のしかた 11ページ）
-        soshotoku += sum(lb["income"].values())
+        soshotoku += sum(lb["before_special"].values())  # 総所得金額等も特別控除前（措置法31条3項3号、手引き 用語「総所得金額等」）
     if st:
         inc["72"], inc["73"], inc["74"] = st["general"]["income"], st["listed"]["income"], st["dividends"]["taxable_income"]
         rec["チ"], rec["ツ"], rec["テ"] = st["general"]["receipts"], st["listed"]["receipts"], st["dividends"]["income"]

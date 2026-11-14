@@ -89,10 +89,10 @@ SCHEMA.update({
     "land_building.inheritance": {"start", "addition"},
     "general_stocks[]": {"name", "proceeds", "cost", "commission", "other_expenses", "sold", "acquired", "quantity", "broker",
                          "managed_loss", "specified_investment"},
-    "listed_stocks[]": {"account", "broker", "branch", "name", "proceeds", "cost", "commission", "other_expenses", "withheld", "sold",
+    "listed_stocks[]": {"account", "broker", "branch", "name", "proceeds", "cost", "commission", "other_expenses", "withheld", "withheld_local", "sold",
                         "acquired", "quantity", "managed_loss", "specified_investment"},
-    "separate_dividends[]": {"payer", "payer_id", "kind", "income", "debt_interest", "withheld", "account"},
-    "futures[]": {"name", "income", "expenses"},
+    "separate_dividends[]": {"payer", "payer_id", "kind", "income", "debt_interest", "withheld", "withheld_local", "account"},
+    "futures[]": {"name", "income", "expenses", "carry_forward"},
 })
 
 

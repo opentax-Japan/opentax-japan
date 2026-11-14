@@ -240,6 +240,11 @@ def third_values(c: dict) -> dict:
             v["ABL00937"] = st["dividends"]["carry_used"]              # 97 本年分の74から差し引く繰越損失額
         if st["listed"]["withheld"]:
             v["ABL00867"] = st["listed"]["withheld"]                   # 上場株式等の譲渡所得等の源泉徴収税額の合計額
+        # 第二表 住民税に関する事項（特別徴収された住民税5%。株式等の譲渡所得等の申告のしかた 41ページ）
+        if st["dividends"]["withheld_local"]:
+            v["ABI00104"] = st["dividends"]["withheld_local"]          # 配当割額控除額
+        if st["listed"]["withheld_local"]:
+            v["ABI00106"] = st["listed"]["withheld_local"]             # 株式等譲渡所得割額控除額
     fu = det.get("futures")
     if fu and fu["carry_out"]:
         v["ABL00960"] = fu["carry_out"]                                # 99 先物取引の翌年以後に繰り越される損失の金額
@@ -259,10 +264,14 @@ def third_values(c: dict) -> dict:
         laws = []                                                      # 特例適用条文（措法 35条1項・31条の3第1項）
         if any(x["special"] for x in rows):
             laws.append(("2", 35, None, 1))
+        if any(x["inheritance"] for x in rows):
+            laws.append(("2", 39, None, 1))                            # 相続財産の取得費加算（措置法39条1項。2項: 申告書への記載が要件）
         if any(x["category"] == "70" for x in rows):
             laws.append(("2", 31, 2, 1))
         if any(x["category"] == "71" for x in rows):
             laws.append(("2", 31, 3, 1))
+        if len(laws) > 3:
+            raise XtxError("第三表の特例適用条文は3つまで（OpenTax 個人の対象外）")
         if laws:
             v["ABL00660"] = [x[0] for x in laws]
             v["ABL00670"] = [x[1] for x in laws]
@@ -319,6 +328,8 @@ def land_statement_values(c: dict) -> dict:
     if x["special"]:
         v["EEH00310"] = [x["special"]]
         laws.append((35, None))
+    if x["inheritance"]:
+        laws.append((39, None))
     if x["category"] == "70":
         laws.append((31, 2))
     if x["category"] == "71":
@@ -326,6 +337,8 @@ def land_statement_values(c: dict) -> dict:
     if laws:
         v["EEH00014"], v["EEH00016"], v["EEH00017"] = ["2"], ["1"], ["2"]
         v["EEH00020"], v["EEH00024"] = [laws[0][0]], [laws[0][1]]
+        if len(laws) > 2:
+            raise XtxError("譲渡所得の内訳書の特例適用条文は2つまで（OpenTax 個人の対象外）")
         if len(laws) > 1:
             v["EEH00032"], v["EEH00036"] = [laws[1][0]], [laws[1][1]]
     return {k: x_ for k, x_ in v.items() if x_ not in (None, [None])}

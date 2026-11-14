@@ -85,6 +85,69 @@ class LandBuildingTest(unittest.TestCase):
             calculate(d)
 
 
+class ReviewFindingsTest(unittest.TestCase):
+    """別の検証（2026-11-14）の指摘。"""
+
+    def test_soshotoku_before_special(self):                   # 指摘1: 総所得金額等は特別控除前（措置法31条3項3号、手引き 用語「総所得金額等」）
+        d = case("joto2")
+        d["deductions"]["medical"] = {"paid": 95_000}
+        self.assertEqual(calculate(d)["lines"]["28"], 0)         # 足切りは10万円（31,503,940×5%＞10万円）
+        d = case("joto2")
+        d["deductions"]["donations"] = [{"name": "見本市", "amount": 5_000_000}]
+        self.assertEqual(calculate(d)["lines"]["29"], 4_998_000)
+
+    def test_building_term(self):                              # 指摘2: 土地と建物で長期・短期が違えば分けて入れる。軽課は家屋・敷地とも10年超
+        d = case("joto2")
+        d["land_building"][0]["building"]["acquired"] = "2021-03-01"
+        with self.assertRaisesRegex(KojinError, "分けて"):
+            calculate(d)
+        d["land_building"][0]["building"]["acquired"] = "2016-03-01"
+        with self.assertRaisesRegex(KojinError, "ともに10年"):
+            calculate(d)
+
+    def test_special_short_first(self):                        # 指摘3: 3,000万円は短期から（措置法35条1項2号・1号）
+        d = case("joto2")
+        long_ = {"location": "a", "use": "residential", "acquired": "2000-01-01", "sold": "2025-02-03", "price": 40_000_000,
+                 "cost": 10_000_000, "residential_special": True}
+        short = dict(long_, location="b", acquired="2022-01-01")
+        d["land_building"] = [long_, short]                     # 長期を先に入れても短期から引く
+        c = calculate(d)
+        rows = c["separate"]["detail"]["land"]["rows"]
+        self.assertEqual((rows[0]["special"], rows[1]["special"]), (0, 30_000_000))
+        self.assertEqual(c["separate"]["detail"]["income"]["67"], 0)
+
+    def test_inheritance_limit(self):                          # 指摘7: 月末に始まった相続
+        for start, limit in (("2022-01-15", "2025-11-15"), ("2022-02-28", "2025-12-31"), ("2021-09-30", "2025-07-31")):
+            self.assertEqual(separate.inheritance_limit(datetime.date.fromisoformat(start)), datetime.date.fromisoformat(limit))
+
+    def test_input_checks(self):                               # 指摘6・8・10・11
+        d = case("joto1")
+        d["land_building"][0].update({"use": "residential", "cost": 30_000_000})
+        self.assertIn("償却費相当額", " ".join(calculate(d)["checks"]))
+        d = case("joto1")
+        d["land_building"][0]["acquired"] = "2025-10-01"
+        with self.assertRaisesRegex(KojinError, "より後"):
+            calculate(d)
+        d = case("joto2")
+        x = d["land_building"][0]
+        x.update({"residential_special": False, "reduced_rate": True})
+        self.assertIn("No.3305", " ".join(calculate(d)["checks"]))
+        x.update({"reduced_rate": False, "use": "other", "specific": True})
+        with self.assertRaisesRegex(KojinError, "土地等の譲渡だけ"):
+            calculate(d)
+        d = case("joto2")
+        d["land_building"][0]["building"]["structure"] = "steel"
+        with self.assertRaisesRegex(KojinError, "cost"):
+            calculate(d)
+
+    def test_dividend_checks(self):                            # 指摘9
+        d = case("kabu3")
+        d["dividends"] = [{"payer": "見本", "payer_id": "東京都千代田区", "income": 10_000, "credit": "dividend"}]
+        text = " ".join(calculate(d)["checks"])
+        self.assertIn("そろえます", text)
+        self.assertIn("3%以上", text)
+
+
 class StocksTest(unittest.TestCase):
     def test_kabu1(self):                                      # 【事例1】一般株式等と上場株式等。72・73欄はそれぞれ千円未満切り捨て
         c = calculate(case("kabu1"))
@@ -135,8 +198,10 @@ class FuturesTest(unittest.TestCase):
         d["futures"] = [{"income": 1_000_000, "expenses": 1_500_000}]
         c = calculate(d)
         fu = c["separate"]["detail"]["futures"]
-        self.assertEqual((fu["income"], fu["carry_out"]), (0, 500_000))
-        self.assertIn("先物取引の損失", " ".join(c["checks"]))
+        self.assertEqual((fu["income"], fu["carry_out"]), (0, 0))      # 付表を添付すると決めるまで99欄に書かない（措置法41条の15第3項）
+        self.assertIn("41条の15第3項", " ".join(c["checks"]))
+        d["futures"][0]["carry_forward"] = True
+        self.assertEqual(calculate(d)["separate"]["detail"]["futures"]["carry_out"], 500_000)
 
 
 @unittest.skipUnless(SCHEMA.exists(), "XMLスキーマがありません")
@@ -157,6 +222,19 @@ class XtxTest(unittest.TestCase):
         t = api.kojin_export(calculate(case("kabu4")), SCHEMA, datetime.date(2026, 2, 16)).decode("utf-8")
         for s_ in ("<KOC080", "<KOA090", "<AHH00190>890000</AHH00190>", "<ABL00930>890000</ABL00930>"):
             self.assertIn(s_, t)
+
+    def test_local_tax_and_inheritance_law(self):              # 指摘4・5: 第二表の住民税の欄、特例適用条文に39条
+        d = case("kabu4")
+        d["listed_stocks"][0]["withheld_local"] = 20_000
+        d["separate_dividends"][0]["withheld_local"] = 3_000
+        t = api.kojin_export(calculate(d), SCHEMA, datetime.date(2026, 2, 16)).decode("utf-8")
+        self.assertIn("<ABI00104>3000</ABI00104>", t)
+        self.assertIn("<ABI00106>20000</ABI00106>", t)
+        d = case("joto1")
+        d["land_building"][0]["inheritance"] = {"start": "2022-01-15", "addition": 3_000_000}
+        x = api.kojin_export(calculate(d), SCHEMA, datetime.date(2026, 2, 16))
+        self.assertEqual(api.validate_xtx(x, SCHEMA, "RKO0010"), [])
+        self.assertIn("<ABL00670>39</ABL00670>", x.decode("utf-8"))
 
     def test_two_sales_need_two_statements(self):
         d = case("joto1")
