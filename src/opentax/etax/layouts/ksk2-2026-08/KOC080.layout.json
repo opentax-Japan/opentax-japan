@@ -1,0 +1,3586 @@
+{
+ "form_id": "KOC080",
+ "label": "株式等に係る譲渡所得等の金額の計算明細書",
+ "version": "19.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shotoku",
+ "group": "KOC080-19-0group",
+ "xsd": "19XMLスキーマ/shotoku/KOC080-019.xsd",
+ "xsd_sha256": "0601cf824e9b6d729e9ea1dab4af35914a7689654bdac950a3a79160f678743f",
+ "root": {
+  "tag": "KOC080",
+  "path": "KOC080",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "KOC080-1",
+    "path": "KOC080/KOC080-1",
+    "label": "１面",
+    "min": 0,
+    "max": 1,
+    "type": "KOC080-1-19-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "EHN00000",
+      "path": "KOC080/KOC080-1/EHN00000",
+      "label": "申告等対象年分",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NENBUNref",
+      "kind": "idref",
+      "idref": "NENBUN",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NENBUN",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "EHP00000",
+      "path": "KOC080/KOC080-1/EHP00000",
+      "label": "提出税務署",
+      "min": 0,
+      "max": 1,
+      "type": "gen:ZEIMUSHOref",
+      "kind": "idref",
+      "idref": "ZEIMUSHO",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "ZEIMUSHO",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "EHB00000",
+      "path": "KOC080/KOC080-1/EHB00000",
+      "label": "納税者等部",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "EHB00010",
+        "path": "KOC080/KOC080-1/EHB00000/EHB00010",
+        "label": "住所",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_ADRref",
+        "kind": "idref",
+        "idref": "NOZEISHA_ADR",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_ADR",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "EHB00020",
+        "path": "KOC080/KOC080-1/EHB00000/EHB00020",
+        "label": "（前住所）",
+        "min": 0,
+        "max": 1,
+        "type": "gen:address",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "EHB00030",
+        "path": "KOC080/KOC080-1/EHB00000/EHB00030",
+        "label": "（フリガナ）氏名",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EHB00040",
+          "path": "KOC080/KOC080-1/EHB00000/EHB00030/EHB00040",
+          "label": "フリガナ",
+          "min": 0,
+          "max": 1,
+          "type": "gen:NOZEISHA_NM_KNref",
+          "kind": "idref",
+          "idref": "NOZEISHA_NM_KN",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "NOZEISHA_NM_KN",
+            "type": "xsd:IDREF"
+           }
+          ]
+         },
+         {
+          "tag": "EHB00050",
+          "path": "KOC080/KOC080-1/EHB00000/EHB00030/EHB00050",
+          "label": "氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:NOZEISHA_NMref",
+          "kind": "idref",
+          "idref": "NOZEISHA_NM",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "NOZEISHA_NM",
+            "type": "xsd:IDREF"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "EHB00060",
+        "path": "KOC080/KOC080-1/EHB00000/EHB00060",
+        "label": "電話番号",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_TELref",
+        "kind": "idref",
+        "idref": "NOZEISHA_TEL",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_TEL",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "EHB00070",
+        "path": "KOC080/KOC080-1/EHB00000/EHB00070",
+        "label": "職業",
+        "min": 0,
+        "max": 1,
+        "type": "gen:SHOKUGYOref",
+        "kind": "idref",
+        "idref": "SHOKUGYO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "SHOKUGYO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "EHC00000",
+        "path": "KOC080/KOC080-1/EHB00000/EHC00000",
+        "label": "関与税理士名",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EHC00010",
+          "path": "KOC080/KOC080-1/EHB00000/EHC00000/EHC00010",
+          "label": "氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:DAIRI_NMref",
+          "kind": "idref",
+          "idref": "DAIRI_NM",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "DAIRI_NM",
+            "type": "xsd:IDREF"
+           }
+          ]
+         },
+         {
+          "tag": "EHC00020",
+          "path": "KOC080/KOC080-1/EHB00000/EHC00000/EHC00020",
+          "label": "電話番号",
+          "min": 0,
+          "max": 1,
+          "type": "gen:DAIRI_TELref",
+          "kind": "idref",
+          "idref": "DAIRI_TEL",
+          "attributes": [
+           {
+            "name": "IDREF",
+            "required": true,
+            "fixed": "DAIRI_TEL",
+            "type": "xsd:IDREF"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "EHD00000",
+      "path": "KOC080/KOC080-1/EHD00000",
+      "label": "1　所得金額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "EHD00005",
+        "path": "KOC080/KOC080-1/EHD00000/EHD00005",
+        "label": "必要経費又は譲渡に要した費用等（項目）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EHD00010",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00005/EHD00010",
+          "label": "その他の費用項目",
+          "min": 0,
+          "max": 1,
+          "type": "EHD00010-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         }
+        ]
+       },
+       {
+        "tag": "EHD00030",
+        "path": "KOC080/KOC080-1/EHD00000/EHD00030",
+        "label": "一般株式等",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EHD00040",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00040",
+          "label": "収入金額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EHD00380",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00040/EHD00380",
+            "label": "譲渡による収入金額　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00380-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00390",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00040/EHD00390",
+            "label": "譲渡による収入金額　外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00400",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00040/EHD00400",
+            "label": "譲渡による収入金額　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00400-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00050",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00040/EHD00050",
+            "label": "譲渡による収入金額　本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00410",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00040/EHD00410",
+            "label": "その他の収入　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00410-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00420",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00040/EHD00420",
+            "label": "その他の収入　外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00430",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00040/EHD00430",
+            "label": "その他の収入　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00430-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00060",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00040/EHD00060",
+            "label": "その他の収入　本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00440",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00040/EHD00440",
+            "label": "小計　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00440-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00450",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00040/EHD00450",
+            "label": "小計　外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00460",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00040/EHD00460",
+            "label": "小計　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00460-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00070",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00040/EHD00070",
+            "label": "小計　本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EHD00080",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080",
+          "label": "必要経費又は譲渡に要した費用等",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EHD00470",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080/EHD00470",
+            "label": "取得費（取得価額）　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00470-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00480",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080/EHD00480",
+            "label": "取得費（取得価額）　外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00490",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080/EHD00490",
+            "label": "取得費（取得価額）　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00490-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00090",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080/EHD00090",
+            "label": "取得費（取得価額）　本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00500",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080/EHD00500",
+            "label": "譲渡のための委託手数料　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00500-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00510",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080/EHD00510",
+            "label": "譲渡のための委託手数料　外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00520",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080/EHD00520",
+            "label": "譲渡のための委託手数料　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00520-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00100",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080/EHD00100",
+            "label": "譲渡のための委託手数料　本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00530",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080/EHD00530",
+            "label": "その他の費用　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00530-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00540",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080/EHD00540",
+            "label": "その他の費用　外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00550",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080/EHD00550",
+            "label": "その他の費用　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00550-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00110",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080/EHD00110",
+            "label": "その他の費用　本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00560",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080/EHD00560",
+            "label": "小計　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00560-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00570",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080/EHD00570",
+            "label": "小計　外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00580",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080/EHD00580",
+            "label": "小計　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00580-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00130",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00080/EHD00130",
+            "label": "小計　本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EHD00620",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00620",
+          "label": "差引金額　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD00620-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD00630",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00630",
+          "label": "差引金額　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD00640",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00640",
+          "label": "差引金額　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD00640-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD00140",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00140",
+          "label": "差引金額　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD00650",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00650",
+          "label": "特定投資株式の取得に要した金額等の控除　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD00650-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD00660",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00660",
+          "label": "特定投資株式の取得に要した金額等の控除　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD00670",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00670",
+          "label": "特定投資株式の取得に要した金額等の控除　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD00670-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD00150",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00150",
+          "label": "特定投資株式の取得に要した金額等の控除　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD00680",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00680",
+          "label": "所得金額　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD00680-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD00690",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00690",
+          "label": "所得金額　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD00700",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00700",
+          "label": "所得金額　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD00700-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD00160",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00160",
+          "label": "所得金額　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD00740",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00740",
+          "label": "繰越控除後の所得金額　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD00740-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD00750",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00750",
+          "label": "繰越控除後の所得金額　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD00760",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00760",
+          "label": "繰越控除後の所得金額　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD00760-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD00180",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00030/EHD00180",
+          "label": "繰越控除後の所得金額　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "EHD00190",
+        "path": "KOC080/KOC080-1/EHD00000/EHD00190",
+        "label": "上場株式等",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EHD00200",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200",
+          "label": "収入金額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EHD00770",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD00770",
+            "label": "譲渡による収入金額　外書き　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00770-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00780",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD00780",
+            "label": "譲渡による収入金額　外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00790",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD00790",
+            "label": "譲渡による収入金額　外書き　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00790-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD01170",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD01170",
+            "label": "譲渡による収入金額　内書き　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD01170-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD01180",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD01180",
+            "label": "譲渡による収入金額　内書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD01190",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD01190",
+            "label": "譲渡による収入金額　内書き　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD01190-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00210",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD00210",
+            "label": "譲渡による収入金額　本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00800",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD00800",
+            "label": "その他の収入　外書き　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00800-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00810",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD00810",
+            "label": "その他の収入　外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00820",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD00820",
+            "label": "その他の収入　外書き　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00820-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD01200",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD01200",
+            "label": "その他の収入　内書き　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD01200-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD01210",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD01210",
+            "label": "その他の収入　内書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD01220",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD01220",
+            "label": "その他の収入　内書き　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD01220-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00220",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD00220",
+            "label": "その他の収入　本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00830",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD00830",
+            "label": "小計　外書き　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00830-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00840",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD00840",
+            "label": "小計　外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00850",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD00850",
+            "label": "小計　外書き　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00850-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD01230",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD01230",
+            "label": "小計　内書き　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD01230-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD01240",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD01240",
+            "label": "小計　内書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD01250",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD01250",
+            "label": "小計　内書き　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD01250-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00230",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00200/EHD00230",
+            "label": "小計　本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EHD00240",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240",
+          "label": "必要経費又は譲渡に要した費用等",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EHD00860",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD00860",
+            "label": "取得費（取得価額）　外書き　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00860-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00870",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD00870",
+            "label": "取得費（取得価額）　外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00880",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD00880",
+            "label": "取得費（取得価額）　外書き　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00880-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD01260",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD01260",
+            "label": "取得費（取得価額）　内書き　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD01260-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD01270",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD01270",
+            "label": "取得費（取得価額）　内書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD01280",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD01280",
+            "label": "取得費（取得価額）　内書き　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD01280-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00250",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD00250",
+            "label": "取得費（取得価額）　本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00890",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD00890",
+            "label": "譲渡のための委託手数料　外書き　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00890-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00900",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD00900",
+            "label": "譲渡のための委託手数料　外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00910",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD00910",
+            "label": "譲渡のための委託手数料　外書き　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00910-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD01290",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD01290",
+            "label": "譲渡のための委託手数料　内書き　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD01290-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD01300",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD01300",
+            "label": "譲渡のための委託手数料　内書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD01310",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD01310",
+            "label": "譲渡のための委託手数料　内書き　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD01310-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00260",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD00260",
+            "label": "譲渡のための委託手数料　本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00920",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD00920",
+            "label": "その他の費用　外書き　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00920-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00930",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD00930",
+            "label": "その他の費用　外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00940",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD00940",
+            "label": "その他の費用　外書き　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00940-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD01320",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD01320",
+            "label": "その他の費用　内書き　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD01320-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD01330",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD01330",
+            "label": "その他の費用　内書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD01340",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD01340",
+            "label": "その他の費用　内書き　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD01340-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00270",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD00270",
+            "label": "その他の費用　本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00950",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD00950",
+            "label": "小計　外書き　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00950-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00960",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD00960",
+            "label": "小計　外書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD00970",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD00970",
+            "label": "小計　外書き　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD00970-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD01350",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD01350",
+            "label": "小計　内書き　開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD01350-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD01360",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD01360",
+            "label": "小計　内書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EHD01370",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD01370",
+            "label": "小計　内書き　終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "EHD01370-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "EHD00290",
+            "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00240/EHD00290",
+            "label": "小計　本書き",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EHD01130",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01130",
+          "label": "特定管理株式等のみなし譲渡損失の金額　外書き　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD01130-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD01140",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01140",
+          "label": "特定管理株式等のみなし譲渡損失の金額　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD01150",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01150",
+          "label": "特定管理株式等のみなし譲渡損失の金額　外書き　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD01150-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD01380",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01380",
+          "label": "特定管理株式等のみなし譲渡損失の金額　内書き　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD01380-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD01390",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01390",
+          "label": "特定管理株式等のみなし譲渡損失の金額　内書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD01400",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01400",
+          "label": "特定管理株式等のみなし譲渡損失の金額　内書き　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD01400-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD01160",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01160",
+          "label": "特定管理株式等のみなし譲渡損失の金額　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD00980",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00980",
+          "label": "差引金額　外書き　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD00980-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD00990",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00990",
+          "label": "差引金額　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD01000",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01000",
+          "label": "差引金額　外書き　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD01000-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD01410",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01410",
+          "label": "差引金額　内書き　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD01410-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD01420",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01420",
+          "label": "差引金額　内書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD01430",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01430",
+          "label": "差引金額　内書き　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD01430-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD00300",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00300",
+          "label": "差引金額　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD01010",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01010",
+          "label": "特定投資株式の取得に要した金額等の控除　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD01010-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD01020",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01020",
+          "label": "特定投資株式の取得に要した金額等の控除　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD01030",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01030",
+          "label": "特定投資株式の取得に要した金額等の控除　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD01030-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD00310",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00310",
+          "label": "特定投資株式の取得に要した金額等の控除　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD01040",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01040",
+          "label": "所得金額　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD01040-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD01050",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01050",
+          "label": "所得金額　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD01060",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01060",
+          "label": "所得金額　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD01060-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD00320",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00320",
+          "label": "所得金額　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD01070",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01070",
+          "label": "本年分で差し引く上場株式等に係る繰越損失の金額　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD01070-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD01080",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01080",
+          "label": "本年分で差し引く上場株式等に係る繰越損失の金額　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD01090",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01090",
+          "label": "本年分で差し引く上場株式等に係る繰越損失の金額　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD01090-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD00330",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00330",
+          "label": "本年分で差し引く上場株式等に係る繰越損失の金額　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD01100",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01100",
+          "label": "繰越控除後の所得金額　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD01100-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD01110",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01110",
+          "label": "繰越控除後の所得金額　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHD01120",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD01120",
+          "label": "繰越控除後の所得金額　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHD01120-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHD00340",
+          "path": "KOC080/KOC080-1/EHD00000/EHD00190/EHD00340",
+          "label": "繰越控除後の所得金額　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "EHD00350",
+      "path": "KOC080/KOC080-1/EHD00350",
+      "label": "特例適用条文　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "EHD00360",
+        "path": "KOC080/KOC080-1/EHD00350/EHD00360",
+        "label": "条１",
+        "min": 0,
+        "max": 1,
+        "type": "EHD00360-19-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "EHD00370",
+        "path": "KOC080/KOC080-1/EHD00350/EHD00370",
+        "label": "条２",
+        "min": 0,
+        "max": 1,
+        "type": "EHD00370-19-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 10
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   },
+   {
+    "tag": "KOC080-2",
+    "path": "KOC080/KOC080-2",
+    "label": "２面",
+    "min": 0,
+    "max": null,
+    "type": "KOC080-2-19-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "EHQ00000",
+      "path": "KOC080/KOC080-2/EHQ00000",
+      "label": "２　申告する特定口座の上場株式等に係る譲渡所得等の金額の合計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "EHQ00010",
+        "path": "KOC080/KOC080-2/EHQ00000/EHQ00010",
+        "label": "明細　繰り返し",
+        "min": 0,
+        "max": 5,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EHQ00020",
+          "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00020",
+          "label": "口座の区分",
+          "min": 0,
+          "max": 1,
+          "type": "EHQ00020-19-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00020/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00020/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "EHQ00030",
+          "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00030",
+          "label": "取引先",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EHQ00040",
+            "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00030/EHQ00040",
+            "label": "名称",
+            "min": 0,
+            "max": 1,
+            "type": "EHQ00040-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 40
+           },
+           {
+            "tag": "EHQ00050",
+            "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00030/EHQ00050",
+            "label": "取引先区分",
+            "min": 0,
+            "max": 1,
+            "type": "EHQ00050-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00030/EHQ00050/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2",
+               "3"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00030/EHQ00050/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EHQ00060",
+            "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00030/EHQ00060",
+            "label": "その他取引先区分（＿）",
+            "min": 0,
+            "max": 1,
+            "type": "EHQ00060-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 10
+           },
+           {
+            "tag": "EHQ00070",
+            "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00030/EHQ00070",
+            "label": "支店名",
+            "min": 0,
+            "max": 1,
+            "type": "EHQ00070-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 40
+           },
+           {
+            "tag": "EHQ00080",
+            "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00030/EHQ00080",
+            "label": "本支店区分",
+            "min": 0,
+            "max": 1,
+            "type": "EHQ00080-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00030/EHQ00080/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2",
+               "3",
+               "4"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00030/EHQ00080/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EHQ00090",
+            "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00030/EHQ00090",
+            "label": "その他本支店区分（＿）",
+            "min": 0,
+            "max": 1,
+            "type": "EHQ00090-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 10
+           }
+          ]
+         },
+         {
+          "tag": "EHQ00100",
+          "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00100",
+          "label": "譲渡の対価の額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHQ00110",
+          "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00110",
+          "label": "取得費及び譲渡に要した費用の額等",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHQ00120",
+          "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00120",
+          "label": "差引金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHQ00130",
+          "path": "KOC080/KOC080-2/EHQ00000/EHQ00010/EHQ00130",
+          "label": "源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "EHQ00140",
+        "path": "KOC080/KOC080-2/EHQ00000/EHQ00140",
+        "label": "合計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EHQ00150",
+          "path": "KOC080/KOC080-2/EHQ00000/EHQ00140/EHQ00150",
+          "label": "譲渡の対価の額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHQ00160",
+          "path": "KOC080/KOC080-2/EHQ00000/EHQ00140/EHQ00160",
+          "label": "取得費及び譲渡に要した費用の額等",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHQ00170",
+          "path": "KOC080/KOC080-2/EHQ00000/EHQ00140/EHQ00170",
+          "label": "差引金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHQ00180",
+          "path": "KOC080/KOC080-2/EHQ00000/EHQ00140/EHQ00180",
+          "label": "源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "EHE00110",
+      "path": "KOC080/KOC080-2/EHE00110",
+      "label": "【参考】　特定口座以外で譲渡した株式等の明細　繰り返し",
+      "min": 0,
+      "max": 5,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "EHE00120",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00120",
+        "label": "区分",
+        "min": 0,
+        "max": 1,
+        "type": "EHE00120-19-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "KOC080/KOC080-2/EHE00110/EHE00120/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "KOC080/KOC080-2/EHE00110/EHE00120/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "EHE00130",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00130",
+        "label": "譲渡年月日(償還日)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "KOC080/KOC080-2/EHE00110/EHE00130/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "KOC080/KOC080-2/EHE00110/EHE00130/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "KOC080/KOC080-2/EHE00110/EHE00130/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "KOC080/KOC080-2/EHE00110/EHE00130/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "EHE00140",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00140",
+        "label": "譲渡した株式等の銘柄",
+        "min": 0,
+        "max": 1,
+        "type": "EHE00140-19-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 60
+       },
+       {
+        "tag": "EHE00220",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00220",
+        "label": "数量　開始括弧",
+        "min": 0,
+        "max": 1,
+        "type": "EHE00220-19-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 1
+       },
+       {
+        "tag": "EHE00340",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00340",
+        "label": "数量　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "EHE00340-19-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 20
+       },
+       {
+        "tag": "EHE00240",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00240",
+        "label": "数量　終了括弧",
+        "min": 0,
+        "max": 1,
+        "type": "EHE00240-19-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 1
+       },
+       {
+        "tag": "EHE00350",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00350",
+        "label": "数量　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "EHE00350-19-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 20
+       },
+       {
+        "tag": "EHE00160",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00160",
+        "label": "譲渡先(金融商品取引業者等)の名称・所在地等",
+        "min": 0,
+        "max": 1,
+        "type": "EHE00160-19-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 100
+       },
+       {
+        "tag": "EHE00250",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00250",
+        "label": "譲渡による収入金額　開始括弧",
+        "min": 0,
+        "max": 1,
+        "type": "EHE00250-19-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 1
+       },
+       {
+        "tag": "EHE00260",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00260",
+        "label": "譲渡による収入金額　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "EHE00270",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00270",
+        "label": "譲渡による収入金額　終了括弧",
+        "min": 0,
+        "max": 1,
+        "type": "EHE00270-19-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 1
+       },
+       {
+        "tag": "EHE00170",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00170",
+        "label": "譲渡による収入金額　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "EHE00280",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00280",
+        "label": "取得費（取得価額）　開始括弧",
+        "min": 0,
+        "max": 1,
+        "type": "EHE00280-19-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 1
+       },
+       {
+        "tag": "EHE00290",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00290",
+        "label": "取得費（取得価額）　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "EHE00300",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00300",
+        "label": "取得費（取得価額）　終了括弧",
+        "min": 0,
+        "max": 1,
+        "type": "EHE00300-19-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 1
+       },
+       {
+        "tag": "EHE00200",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00200",
+        "label": "取得費（取得価額）　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "EHE00310",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00310",
+        "label": "譲渡のための委託手数料　開始括弧",
+        "min": 0,
+        "max": 1,
+        "type": "EHE00310-19-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 1
+       },
+       {
+        "tag": "EHE00320",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00320",
+        "label": "譲渡のための委託手数料　外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "EHE00330",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00330",
+        "label": "譲渡のための委託手数料　終了括弧",
+        "min": 0,
+        "max": 1,
+        "type": "EHE00330-19-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 1
+       },
+       {
+        "tag": "EHE00210",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00210",
+        "label": "譲渡のための委託手数料　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "EHE00175",
+        "path": "KOC080/KOC080-2/EHE00110/EHE00175",
+        "label": "取得年月日",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EHE00180",
+          "path": "KOC080/KOC080-2/EHE00110/EHE00175/EHE00180",
+          "label": "取得年月日",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KOC080/KOC080-2/EHE00110/EHE00175/EHE00180/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KOC080/KOC080-2/EHE00110/EHE00175/EHE00180/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "KOC080/KOC080-2/EHE00110/EHE00175/EHE00180/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "KOC080/KOC080-2/EHE00110/EHE00175/EHE00180/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "EHE00190",
+          "path": "KOC080/KOC080-2/EHE00110/EHE00175/EHE00190",
+          "label": "（取得年月日）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KOC080/KOC080-2/EHE00110/EHE00175/EHE00190/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KOC080/KOC080-2/EHE00110/EHE00175/EHE00190/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "KOC080/KOC080-2/EHE00110/EHE00175/EHE00190/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "KOC080/KOC080-2/EHE00110/EHE00175/EHE00190/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "EHR00000",
+      "path": "KOC080/KOC080-2/EHR00000",
+      "label": "【参考】　特定口座以外で譲渡した株式等の明細　合計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "EHR00010",
+        "path": "KOC080/KOC080-2/EHR00000/EHR00010",
+        "label": "一般株式等",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EHR00090",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00010/EHR00090",
+          "label": "譲渡による収入金額　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHR00090-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHR00100",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00010/EHR00100",
+          "label": "譲渡による収入金額　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHR00110",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00010/EHR00110",
+          "label": "譲渡による収入金額　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHR00110-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHR00020",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00010/EHR00020",
+          "label": "譲渡による収入金額　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHR00120",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00010/EHR00120",
+          "label": "取得費　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHR00120-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHR00130",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00010/EHR00130",
+          "label": "取得費　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHR00140",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00010/EHR00140",
+          "label": "取得費　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHR00140-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHR00030",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00010/EHR00030",
+          "label": "取得費　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHR00150",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00010/EHR00150",
+          "label": "譲渡のための委託手数料　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHR00150-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHR00160",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00010/EHR00160",
+          "label": "譲渡のための委託手数料　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHR00170",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00010/EHR00170",
+          "label": "譲渡のための委託手数料　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHR00170-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHR00040",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00010/EHR00040",
+          "label": "譲渡のための委託手数料　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "EHR00050",
+        "path": "KOC080/KOC080-2/EHR00000/EHR00050",
+        "label": "上場株式等",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EHR00180",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00050/EHR00180",
+          "label": "譲渡による収入金額　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHR00180-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHR00190",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00050/EHR00190",
+          "label": "譲渡による収入金額　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHR00200",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00050/EHR00200",
+          "label": "譲渡による収入金額　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHR00200-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHR00060",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00050/EHR00060",
+          "label": "譲渡による収入金額　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHR00210",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00050/EHR00210",
+          "label": "取得費（取得価額）　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHR00210-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHR00220",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00050/EHR00220",
+          "label": "取得費（取得価額）　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHR00230",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00050/EHR00230",
+          "label": "取得費（取得価額）　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHR00230-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHR00070",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00050/EHR00070",
+          "label": "取得費（取得価額）　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHR00240",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00050/EHR00240",
+          "label": "譲渡のための委託手数料　開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHR00240-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHR00250",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00050/EHR00250",
+          "label": "譲渡のための委託手数料　外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EHR00260",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00050/EHR00260",
+          "label": "譲渡のための委託手数料　終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "EHR00260-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "EHR00080",
+          "path": "KOC080/KOC080-2/EHR00000/EHR00050/EHR00080",
+          "label": "譲渡のための委託手数料　本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KOC080-19-0VRtype",
+    "fixed": "19.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

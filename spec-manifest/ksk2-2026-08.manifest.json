@@ -1792,8 +1792,16 @@
           "sha256": "6f675c22bac4c963bcf69a510d26d1fc4fc7cd54cdca3c7b4f1146ea39cf2d3c"
         },
         {
+          "path": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver16x.xlsx",
+          "sha256": "9d4537b50eeb51167e9a499943fd57955ae365da72f078ef8fe159d536498320"
+        },
+        {
           "path": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver18x.xlsx",
           "sha256": "12eeb970edb85c50ff8b22871866958f445d3de97b89365022e6aebf2d760cfd"
+        },
+        {
+          "path": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver19x.xlsx",
+          "sha256": "d3884c1d6c21d50f03609e3ba11511296a4a579dce39b9c40832f584f7633c31"
         },
         {
           "path": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver23x.xlsx",
@@ -4234,6 +4242,48 @@
       "xsd_sha256": "b11400bb09ac4d3bec165b549616f4631abad2681239b0551a4d734b4bcf1cda",
       "field_spec_workbook": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver18x.xlsx",
       "field_spec_sheet": "KOB560"
+    },
+    {
+      "form_id": "KOC050",
+      "label": "譲渡所得の内訳書（確定申告書付表兼計算明細書）【土地・建物用】",
+      "mvp": false,
+      "stage": "kojin",
+      "procedure": "RKO0010",
+      "xsd": "19XMLスキーマ/shotoku/KOC050-019.xsd",
+      "version": "19.0",
+      "xsd_documentation_date": "2025-08-15",
+      "group": "KOC050-19-0group",
+      "xsd_sha256": "c5dc2cfdf40aa87b8932b9c0aa916941b6ba59220ead242f232ff12e62c64dc8",
+      "field_spec_workbook": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver19x.xlsx",
+      "field_spec_sheet": "KOC050"
+    },
+    {
+      "form_id": "KOC080",
+      "label": "株式等に係る譲渡所得等の金額の計算明細書",
+      "mvp": false,
+      "stage": "kojin",
+      "procedure": "RKO0010",
+      "xsd": "19XMLスキーマ/shotoku/KOC080-019.xsd",
+      "version": "19.0",
+      "xsd_documentation_date": "2025-08-15",
+      "group": "KOC080-19-0group",
+      "xsd_sha256": "0601cf824e9b6d729e9ea1dab4af35914a7689654bdac950a3a79160f678743f",
+      "field_spec_workbook": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver19x.xlsx",
+      "field_spec_sheet": "KOC080"
+    },
+    {
+      "form_id": "KOA090",
+      "label": "確定申告書付表（上場株式等に係る譲渡損失の損益通算及び繰越控除用）",
+      "mvp": false,
+      "stage": "kojin",
+      "procedure": "RKO0010",
+      "xsd": "19XMLスキーマ/shotoku/KOA090-016.xsd",
+      "version": "16.0",
+      "xsd_documentation_date": "2025-08-15",
+      "group": "KOA090-16-0group",
+      "xsd_sha256": "9a5eab7a88e78c44744a2b0a2581597b780d3a2f65ac087ed927bd1a74c28a1e",
+      "field_spec_workbook": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver16x.xlsx",
+      "field_spec_sheet": "KOA090"
     }
   ]
 }

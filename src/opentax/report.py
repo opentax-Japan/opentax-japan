@@ -444,11 +444,12 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
 
 # --- 個人の所得税（確定申告） ---
 
-KOJIN_CHAPTERS = [("shinkoku", "所得税及び復興特別所得税の申告書（第一表・第二表）"),
-                  ("aoiro", "青色申告決算書・収支内訳書"), ("fuhyo", "医療費控除の明細書")]
+KOJIN_CHAPTERS = [("shinkoku", "所得税及び復興特別所得税の申告書（第一表・第二表・第三表）"),
+                  ("aoiro", "青色申告決算書・収支内訳書"), ("fuhyo", "付表・明細書（医療費控除・譲渡所得・株式等・繰越損失）")]
 KOJIN_TITLES = {"KOA020": "申告書 第一表・第二表", "KOA210": "青色申告決算書（一般用）",
                 "KOA220": "青色申告決算書（不動産所得用）", "KOA110": "収支内訳書（一般用）", "KOA130": "収支内訳書（不動産所得用）",
-                "KOB560": "医療費控除の明細書"}
+                "KOB560": "医療費控除の明細書", "KOC050": "譲渡所得の内訳書【土地・建物用】",
+                "KOC080": "株式等に係る譲渡所得等の金額の計算明細書", "KOA090": "付表（上場株式等に係る譲渡損失の損益通算及び繰越控除用）"}
 
 
 def build_kojin(calculated: dict, today: datetime.date | None = None) -> str:
@@ -462,8 +463,9 @@ def build_kojin(calculated: dict, today: datetime.date | None = None) -> str:
     chapters = {"shinkoku": _form(KOJIN_TITLES["KOA020"], f"{calculated['year']}年分　金額は円",
                                   _blocks(form_view(catalog["KOA020"], vals["KOA020"], {})))}
     aoiro_forms = [fid for fid in ("KOA210", "KOA220", "KOA110", "KOA130") if fid in vals]
-    if "KOB560" in vals:
-        chapters["fuhyo"] = _form(KOJIN_TITLES["KOB560"], "金額は円", _blocks(form_view(catalog["KOB560"], vals["KOB560"], {})))
+    fuhyo = [fid for fid in ("KOB560", "KOC050", "KOC080", "KOA090") if fid in vals]
+    if fuhyo:
+        chapters["fuhyo"] = "".join(_form(KOJIN_TITLES[fid], "金額は円", _blocks(form_view(catalog[fid], vals[fid], {}))) for fid in fuhyo)
     if aoiro_forms:
         chapters["aoiro"] = "".join(_form(KOJIN_TITLES[fid], "金額は円", _blocks(form_view(catalog[fid], vals[fid], {})))
                                     for fid in aoiro_forms)

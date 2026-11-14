@@ -1,0 +1,42 @@
+{
+ "year": 2025,
+ "taxpayer": {
+  "name": "見本　一郎",
+  "name_kana": "ミホン　イチロウ",
+  "birth": "1970-01-01",
+  "address": "東京都千代田区霞が関三丁目1番1号",
+  "tax_office": "麹町",
+  "user_id": "1234567890123456"
+ },
+ "salary": [
+  {
+   "payer": "株式会社見本",
+   "payer_id": "東京都千代田区",
+   "income": 6000000,
+   "withholding": 150000
+  }
+ ],
+ "listed_stocks": [
+  {
+   "account": "withholding",
+   "broker": "見本証券",
+   "proceeds": 5000000,
+   "cost": 4600000,
+   "withheld": 61260
+  }
+ ],
+ "separate_dividends": [
+  {
+   "payer": "見本証券",
+   "payer_id": "東京都千代田区",
+   "kind": "配当",
+   "income": 60000,
+   "withheld": 9189
+  }
+ ],
+ "listed_loss_carryforward": {
+  "2022": 250000,
+  "2023": 300000,
+  "2024": 800000
+ }
+}

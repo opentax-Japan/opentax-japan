@@ -1,0 +1,5694 @@
+{
+ "form_id": "KOC050",
+ "label": "譲渡所得の内訳書（確定申告書付表兼計算明細書）【土地・建物用】",
+ "version": "19.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shotoku",
+ "group": "KOC050-19-0group",
+ "xsd": "19XMLスキーマ/shotoku/KOC050-019.xsd",
+ "xsd_sha256": "c5dc2cfdf40aa87b8932b9c0aa916941b6ba59220ead242f232ff12e62c64dc8",
+ "root": {
+  "tag": "KOC050",
+  "path": "KOC050",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "KOC050-1",
+    "path": "KOC050/KOC050-1",
+    "label": "１面",
+    "min": 0,
+    "max": 1,
+    "type": "KOC050-1-19-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "EEK00000",
+      "path": "KOC050/KOC050-1/EEK00000",
+      "label": "申告等対象年分",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NENBUNref",
+      "kind": "idref",
+      "idref": "NENBUN",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NENBUN",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "EEL00000",
+      "path": "KOC050/KOC050-1/EEL00000",
+      "label": "提出税務署",
+      "min": 0,
+      "max": 1,
+      "type": "gen:ZEIMUSHOref",
+      "kind": "idref",
+      "idref": "ZEIMUSHO",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "ZEIMUSHO",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "EEA00000",
+      "path": "KOC050/KOC050-1/EEA00000",
+      "label": "提出枚数",
+      "min": 0,
+      "max": 1,
+      "type": "EEA00000-19-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "EEB00000",
+      "path": "KOC050/KOC050-1/EEB00000",
+      "label": "当明細数",
+      "min": 0,
+      "max": 1,
+      "type": "EEB00000-19-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "EEC00000",
+      "path": "KOC050/KOC050-1/EEC00000",
+      "label": "納税者等部",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "EEC00010",
+        "path": "KOC050/KOC050-1/EEC00000/EEC00010",
+        "label": "現住所",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_ADRref",
+        "kind": "idref",
+        "idref": "NOZEISHA_ADR",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_ADR",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "EEC00020",
+        "path": "KOC050/KOC050-1/EEC00000/EEC00020",
+        "label": "前住所",
+        "min": 0,
+        "max": 1,
+        "type": "gen:address",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "EEC00030",
+        "path": "KOC050/KOC050-1/EEC00000/EEC00030",
+        "label": "フリガナ",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_NM_KNref",
+        "kind": "idref",
+        "idref": "NOZEISHA_NM_KN",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_NM_KN",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "EEC00040",
+        "path": "KOC050/KOC050-1/EEC00000/EEC00040",
+        "label": "氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_NMref",
+        "kind": "idref",
+        "idref": "NOZEISHA_NM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_NM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "EEC00050",
+        "path": "KOC050/KOC050-1/EEC00000/EEC00050",
+        "label": "電話番号（連絡先）",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_TELref",
+        "kind": "idref",
+        "idref": "NOZEISHA_TEL",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_TEL",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "EEC00060",
+        "path": "KOC050/KOC050-1/EEC00000/EEC00060",
+        "label": "職業",
+        "min": 0,
+        "max": 1,
+        "type": "gen:SHOKUGYOref",
+        "kind": "idref",
+        "idref": "SHOKUGYO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "SHOKUGYO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "EED00000",
+      "path": "KOC050/KOC050-1/EED00000",
+      "label": "関与税理士名",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "EED00010",
+        "path": "KOC050/KOC050-1/EED00000/EED00010",
+        "label": "氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:DAIRI_NMref",
+        "kind": "idref",
+        "idref": "DAIRI_NM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "DAIRI_NM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "EED00020",
+        "path": "KOC050/KOC050-1/EED00000/EED00020",
+        "label": "電話番号",
+        "min": 0,
+        "max": 1,
+        "type": "gen:DAIRI_TELref",
+        "kind": "idref",
+        "idref": "DAIRI_TEL",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "DAIRI_TEL",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "EEM00000",
+      "path": "KOC050/KOC050-1/EEM00000",
+      "label": "５面　区分",
+      "min": 0,
+      "max": 1,
+      "type": "EEM00000-19-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "KOC050/KOC050-1/EEM00000/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "KOC050/KOC050-1/EEM00000/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   },
+   {
+    "tag": "KOC050-2",
+    "path": "KOC050/KOC050-2",
+    "label": "２面",
+    "min": 0,
+    "max": null,
+    "type": "KOC050-2-19-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "EEE00000",
+      "path": "KOC050/KOC050-2/EEE00000",
+      "label": "譲渡（売却）された土地・建物について",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "EEE00010",
+        "path": "KOC050/KOC050-2/EEE00000/EEE00010",
+        "label": "どこの土地・建物を譲渡（売却）されましたか。",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEE00020",
+          "path": "KOC050/KOC050-2/EEE00000/EEE00010/EEE00020",
+          "label": "所在地",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEE00030",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00010/EEE00020/EEE00030",
+            "label": "所在地番",
+            "min": 0,
+            "max": 1,
+            "type": "gen:address",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           },
+           {
+            "tag": "EEE00040",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00010/EEE00020/EEE00040",
+            "label": "（住居表示）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:address",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "EEE00050",
+        "path": "KOC050/KOC050-2/EEE00000/EEE00050",
+        "label": "どのような土地・建物をいつ譲渡（売却）されましたか。",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEE00060",
+          "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060",
+          "label": "土地",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEE00070",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00070",
+            "label": "宅地",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00070-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00070/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00070/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00080",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00080",
+            "label": "田",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00080-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00080/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00080/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00090",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00090",
+            "label": "山林",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00090-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00090/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00090/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00100",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00100",
+            "label": "畑",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00100-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00100/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00100/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00110",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00110",
+            "label": "雑種地",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00110-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00110/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00110/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00120",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00120",
+            "label": "借地権",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00120-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00120/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00120/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00130",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00130",
+            "label": "その他",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00130-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00130/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00130/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00140",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00140",
+            "label": "その他の内容",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00140-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 8
+           },
+           {
+            "tag": "EEE00150",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00150",
+            "label": "（実測）",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00150-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 30
+           },
+           {
+            "tag": "EEE00160",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00060/EEE00160",
+            "label": "（公簿等）",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00160-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "EEE00170",
+          "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170",
+          "label": "建物",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEE00180",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00180",
+            "label": "居宅",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00180-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00180/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00180/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00190",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00190",
+            "label": "マンション",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00190-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00190/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00190/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00200",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00200",
+            "label": "店舗",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00200-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00200/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00200/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00210",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00210",
+            "label": "事務所",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00210-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00210/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00210/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00220",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00220",
+            "label": "その他",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00220-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00220/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00220/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00230",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00230",
+            "label": "その他の内容",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00230-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "EEE00240",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00170/EEE00240",
+            "label": "面積",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00240-19-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEE00250",
+          "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250",
+          "label": "利用状況",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEE00260",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00260",
+            "label": "自己の居住用",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00260-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00260/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00260/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00263",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00263",
+            "label": "居住期間(自)",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymm",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00263/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00263/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00263/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "EEE00266",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00266",
+            "label": "居住期間(至)",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymm",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00266/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00266/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00266/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "EEE00270",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00270",
+            "label": "自己の事業用",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00270-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00270/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00270/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00280",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00280",
+            "label": "貸付用",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00280-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00280/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00280/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00290",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00290",
+            "label": "未利用",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00290-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00290/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00290/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00300",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00300",
+            "label": "その他",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00300-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00300/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00300/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00310",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00250/EEE00310",
+            "label": "その他の内容",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00310-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 15
+           }
+          ]
+         },
+         {
+          "tag": "EEE00320",
+          "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00320",
+          "label": "売買契約日",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00320/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00320/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00320/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00320/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "EEE00330",
+          "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00330",
+          "label": "引き渡した日",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00330/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00330/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00330/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00330/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "EEE00340",
+          "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00340",
+          "label": "あなたの持分",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEE00350",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00340/EEE00350",
+            "label": "土地等（分子）",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00350-19-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EEE00355",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00340/EEE00355",
+            "label": "土地等（分母）",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00355-19-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EEE00360",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00340/EEE00360",
+            "label": "建物（分子）",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00360-19-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EEE00365",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00340/EEE00365",
+            "label": "建物（分母）",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00365-19-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEE00370",
+          "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00370",
+          "label": "共有者　繰り返し",
+          "min": 0,
+          "max": 2,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEE00380",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00370/EEE00380",
+            "label": "住所",
+            "min": 0,
+            "max": 1,
+            "type": "gen:address",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           },
+           {
+            "tag": "EEE00390",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00370/EEE00390",
+            "label": "氏名",
+            "min": 0,
+            "max": 1,
+            "type": "gen:name",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           },
+           {
+            "tag": "EEE00400",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00370/EEE00400",
+            "label": "土地等（分子）",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00400-19-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EEE00405",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00370/EEE00405",
+            "label": "土地等（分母）",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00405-19-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EEE00406",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00370/EEE00406",
+            "label": "建物（分子）",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00406-19-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EEE00407",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00050/EEE00370/EEE00407",
+            "label": "建物（分母）",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00407-19-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "EEE00410",
+        "path": "KOC050/KOC050-2/EEE00000/EEE00410",
+        "label": "どなたに譲渡（売却）されましたか。",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEE00420",
+          "path": "KOC050/KOC050-2/EEE00000/EEE00410/EEE00420",
+          "label": "買主",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEE00430",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00410/EEE00420/EEE00430",
+            "label": "住所（所在地）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:address",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           },
+           {
+            "tag": "EEE00440",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00410/EEE00420/EEE00440",
+            "label": "氏名（名称）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:name",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           },
+           {
+            "tag": "EEE00450",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00410/EEE00420/EEE00450",
+            "label": "職業（業種）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:shokugyo",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "EEE00460",
+        "path": "KOC050/KOC050-2/EEE00000/EEE00460",
+        "label": "いくらで譲渡（売却）されましたか。",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEE00470",
+          "path": "KOC050/KOC050-2/EEE00000/EEE00460/EEE00470",
+          "label": "譲渡価額",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEE00473",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00460/EEE00470/EEE00473",
+            "label": "上段",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00473-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 70
+           },
+           {
+            "tag": "EEE00476",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00460/EEE00470/EEE00476",
+            "label": "下段",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "EEE00480",
+        "path": "KOC050/KOC050-2/EEE00000/EEE00480",
+        "label": "参考事項",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEE00490",
+          "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490",
+          "label": "代金の受領状況",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEE00500",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00500",
+            "label": "１回目",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "EEE00510",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00500/EEE00510",
+              "label": "受領年月日",
+              "min": 0,
+              "max": 1,
+              "type": "gen:yymmdd",
+              "kind": "group",
+              "children": [
+               {
+                "tag": "era",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00500/EEE00510/era",
+                "label": null,
+                "min": 1,
+                "max": 1,
+                "ns": "gen",
+                "kind": "value",
+                "base": "xsd:nonNegativeInteger"
+               },
+               {
+                "tag": "yy",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00500/EEE00510/yy",
+                "label": null,
+                "min": 1,
+                "max": 1,
+                "ns": "gen",
+                "kind": "value",
+                "base": "xsd:nonNegativeInteger",
+                "max_inclusive": 99,
+                "min_inclusive": 1
+               },
+               {
+                "tag": "mm",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00500/EEE00510/mm",
+                "label": null,
+                "min": 1,
+                "max": 1,
+                "ns": "gen",
+                "kind": "value",
+                "base": "xsd:nonNegativeInteger",
+                "max_inclusive": 12,
+                "min_inclusive": 1
+               },
+               {
+                "tag": "dd",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00500/EEE00510/dd",
+                "label": null,
+                "min": 1,
+                "max": 1,
+                "ns": "gen",
+                "kind": "value",
+                "base": "xsd:nonNegativeInteger",
+                "max_inclusive": 31,
+                "min_inclusive": 1
+               }
+              ]
+             },
+             {
+              "tag": "EEE00520",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00500/EEE00520",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "kind": "group",
+              "children": [
+               {
+                "tag": "EEE00523",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00500/EEE00520/EEE00523",
+                "label": "上段",
+                "min": 0,
+                "max": 1,
+                "type": "EEE00523-19-0Rtype",
+                "kind": "value",
+                "base": "xsd:string",
+                "derived_from": [
+                 "gen:str"
+                ],
+                "max_length": 70
+               },
+               {
+                "tag": "EEE00526",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00500/EEE00520/EEE00526",
+                "label": "下段",
+                "min": 0,
+                "max": 1,
+                "type": "gen:kingaku",
+                "kind": "amount",
+                "base": "xsd:long",
+                "attributes": [
+                 {
+                  "name": "AutoCalc",
+                  "required": false,
+                  "type": "xsd:string"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "EEE00530",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00530",
+            "label": "２回目",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "EEE00540",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00530/EEE00540",
+              "label": "受領年月日",
+              "min": 0,
+              "max": 1,
+              "type": "gen:yymmdd",
+              "kind": "group",
+              "children": [
+               {
+                "tag": "era",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00530/EEE00540/era",
+                "label": null,
+                "min": 1,
+                "max": 1,
+                "ns": "gen",
+                "kind": "value",
+                "base": "xsd:nonNegativeInteger"
+               },
+               {
+                "tag": "yy",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00530/EEE00540/yy",
+                "label": null,
+                "min": 1,
+                "max": 1,
+                "ns": "gen",
+                "kind": "value",
+                "base": "xsd:nonNegativeInteger",
+                "max_inclusive": 99,
+                "min_inclusive": 1
+               },
+               {
+                "tag": "mm",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00530/EEE00540/mm",
+                "label": null,
+                "min": 1,
+                "max": 1,
+                "ns": "gen",
+                "kind": "value",
+                "base": "xsd:nonNegativeInteger",
+                "max_inclusive": 12,
+                "min_inclusive": 1
+               },
+               {
+                "tag": "dd",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00530/EEE00540/dd",
+                "label": null,
+                "min": 1,
+                "max": 1,
+                "ns": "gen",
+                "kind": "value",
+                "base": "xsd:nonNegativeInteger",
+                "max_inclusive": 31,
+                "min_inclusive": 1
+               }
+              ]
+             },
+             {
+              "tag": "EEE00550",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00530/EEE00550",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "kind": "group",
+              "children": [
+               {
+                "tag": "EEE00553",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00530/EEE00550/EEE00553",
+                "label": "上段",
+                "min": 0,
+                "max": 1,
+                "type": "EEE00553-19-0Rtype",
+                "kind": "value",
+                "base": "xsd:string",
+                "derived_from": [
+                 "gen:str"
+                ],
+                "max_length": 70
+               },
+               {
+                "tag": "EEE00556",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00530/EEE00550/EEE00556",
+                "label": "下段",
+                "min": 0,
+                "max": 1,
+                "type": "gen:kingaku",
+                "kind": "amount",
+                "base": "xsd:long",
+                "attributes": [
+                 {
+                  "name": "AutoCalc",
+                  "required": false,
+                  "type": "xsd:string"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "EEE00560",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00560",
+            "label": "３回目",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "EEE00570",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00560/EEE00570",
+              "label": "受領年月日",
+              "min": 0,
+              "max": 1,
+              "type": "gen:yymmdd",
+              "kind": "group",
+              "children": [
+               {
+                "tag": "era",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00560/EEE00570/era",
+                "label": null,
+                "min": 1,
+                "max": 1,
+                "ns": "gen",
+                "kind": "value",
+                "base": "xsd:nonNegativeInteger"
+               },
+               {
+                "tag": "yy",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00560/EEE00570/yy",
+                "label": null,
+                "min": 1,
+                "max": 1,
+                "ns": "gen",
+                "kind": "value",
+                "base": "xsd:nonNegativeInteger",
+                "max_inclusive": 99,
+                "min_inclusive": 1
+               },
+               {
+                "tag": "mm",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00560/EEE00570/mm",
+                "label": null,
+                "min": 1,
+                "max": 1,
+                "ns": "gen",
+                "kind": "value",
+                "base": "xsd:nonNegativeInteger",
+                "max_inclusive": 12,
+                "min_inclusive": 1
+               },
+               {
+                "tag": "dd",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00560/EEE00570/dd",
+                "label": null,
+                "min": 1,
+                "max": 1,
+                "ns": "gen",
+                "kind": "value",
+                "base": "xsd:nonNegativeInteger",
+                "max_inclusive": 31,
+                "min_inclusive": 1
+               }
+              ]
+             },
+             {
+              "tag": "EEE00580",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00560/EEE00580",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "kind": "group",
+              "children": [
+               {
+                "tag": "EEE00583",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00560/EEE00580/EEE00583",
+                "label": "上段",
+                "min": 0,
+                "max": 1,
+                "type": "EEE00583-19-0Rtype",
+                "kind": "value",
+                "base": "xsd:string",
+                "derived_from": [
+                 "gen:str"
+                ],
+                "max_length": 70
+               },
+               {
+                "tag": "EEE00586",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00560/EEE00580/EEE00586",
+                "label": "下段",
+                "min": 0,
+                "max": 1,
+                "type": "gen:kingaku",
+                "kind": "amount",
+                "base": "xsd:long",
+                "attributes": [
+                 {
+                  "name": "AutoCalc",
+                  "required": false,
+                  "type": "xsd:string"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "EEE00590",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00590",
+            "label": "未収金",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "EEE00600",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00590/EEE00600",
+              "label": "受領年月日",
+              "min": 0,
+              "max": 1,
+              "type": "gen:yymmdd",
+              "kind": "group",
+              "children": [
+               {
+                "tag": "era",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00590/EEE00600/era",
+                "label": null,
+                "min": 1,
+                "max": 1,
+                "ns": "gen",
+                "kind": "value",
+                "base": "xsd:nonNegativeInteger"
+               },
+               {
+                "tag": "yy",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00590/EEE00600/yy",
+                "label": null,
+                "min": 1,
+                "max": 1,
+                "ns": "gen",
+                "kind": "value",
+                "base": "xsd:nonNegativeInteger",
+                "max_inclusive": 99,
+                "min_inclusive": 1
+               },
+               {
+                "tag": "mm",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00590/EEE00600/mm",
+                "label": null,
+                "min": 1,
+                "max": 1,
+                "ns": "gen",
+                "kind": "value",
+                "base": "xsd:nonNegativeInteger",
+                "max_inclusive": 12,
+                "min_inclusive": 1
+               },
+               {
+                "tag": "dd",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00590/EEE00600/dd",
+                "label": null,
+                "min": 1,
+                "max": 1,
+                "ns": "gen",
+                "kind": "value",
+                "base": "xsd:nonNegativeInteger",
+                "max_inclusive": 31,
+                "min_inclusive": 1
+               }
+              ]
+             },
+             {
+              "tag": "EEE00610",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00590/EEE00610",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "kind": "group",
+              "children": [
+               {
+                "tag": "EEE00613",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00590/EEE00610/EEE00613",
+                "label": "上段",
+                "min": 0,
+                "max": 1,
+                "type": "EEE00613-19-0Rtype",
+                "kind": "value",
+                "base": "xsd:string",
+                "derived_from": [
+                 "gen:str"
+                ],
+                "max_length": 70
+               },
+               {
+                "tag": "EEE00616",
+                "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00490/EEE00590/EEE00610/EEE00616",
+                "label": "下段",
+                "min": 0,
+                "max": 1,
+                "type": "gen:kingaku",
+                "kind": "amount",
+                "base": "xsd:long",
+                "attributes": [
+                 {
+                  "name": "AutoCalc",
+                  "required": false,
+                  "type": "xsd:string"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEE00620",
+          "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620",
+          "label": "お売りになった理由",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEE00630",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620/EEE00630",
+            "label": "買主から頼まれたため",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00630-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620/EEE00630/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620/EEE00630/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00640",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620/EEE00640",
+            "label": "他の資産を購入するため",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00640-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620/EEE00640/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620/EEE00640/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00650",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620/EEE00650",
+            "label": "事業資金を捻出するため",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00650-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620/EEE00650/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620/EEE00650/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00660",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620/EEE00660",
+            "label": "借入金を返済するため",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00660-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620/EEE00660/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620/EEE00660/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00670",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620/EEE00670",
+            "label": "その他",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00670-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620/EEE00670/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620/EEE00670/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEE00680",
+            "path": "KOC050/KOC050-2/EEE00000/EEE00480/EEE00620/EEE00680",
+            "label": "その他の内容",
+            "min": 0,
+            "max": 1,
+            "type": "EEE00680-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   },
+   {
+    "tag": "KOC050-3",
+    "path": "KOC050/KOC050-3",
+    "label": "３面",
+    "min": 0,
+    "max": null,
+    "type": "KOC050-3-19-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "EEF00000",
+      "path": "KOC050/KOC050-3/EEF00000",
+      "label": "譲渡（売却）された土地・建物の購入（建築）代金などについて",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "EEF00010",
+        "path": "KOC050/KOC050-3/EEF00000/EEF00010",
+        "label": "譲渡（売却）された土地・建物は、どなたから、いつ、いくらで購入（建築）されましたか。",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEF00020",
+          "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00020",
+          "label": "土地",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEF00030",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00020/EEF00030",
+            "label": "購入（建築）先・支払先",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "EEF00040",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00020/EEF00030/EEF00040",
+              "label": "住所（所在地）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:address",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ]
+             },
+             {
+              "tag": "EEF00050",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00020/EEF00030/EEF00050",
+              "label": "氏名（名称）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:name",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "EEF00060",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00020/EEF00060",
+            "label": "購入・建築年月日",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00020/EEF00060/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00020/EEF00060/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00020/EEF00060/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00020/EEF00060/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "EEF00070",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00020/EEF00070",
+            "label": "購入・建築代金又は譲渡価額の５％",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEF00080",
+          "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00080",
+          "label": "その他土地　繰り返し",
+          "min": 0,
+          "max": 2,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEF00090",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00080/EEF00090",
+            "label": "購入・建築価額の内訳",
+            "min": 0,
+            "max": 1,
+            "type": "EEF00090-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "EEF00100",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00080/EEF00100",
+            "label": "購入（建築）先・支払先",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "EEF00110",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00080/EEF00100/EEF00110",
+              "label": "住所（所在地）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:address",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ]
+             },
+             {
+              "tag": "EEF00120",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00080/EEF00100/EEF00120",
+              "label": "氏名（名称）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:name",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "EEF00130",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00080/EEF00130",
+            "label": "購入・建築年月日",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00080/EEF00130/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00080/EEF00130/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00080/EEF00130/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00080/EEF00130/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "EEF00140",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00080/EEF00140",
+            "label": "購入・建築代金又は譲渡価額の５％",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEF00150",
+          "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00150",
+          "label": "小計　（イ）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EEF00160",
+          "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00160",
+          "label": "建物",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEF00170",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00160/EEF00170",
+            "label": "購入（建築）先・支払先",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "EEF00180",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00160/EEF00170/EEF00180",
+              "label": "住所（所在地）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:address",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ]
+             },
+             {
+              "tag": "EEF00190",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00160/EEF00170/EEF00190",
+              "label": "氏名（名称）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:name",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "EEF00200",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00160/EEF00200",
+            "label": "購入・建築年月日",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00160/EEF00200/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00160/EEF00200/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00160/EEF00200/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00160/EEF00200/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "EEF00210",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00160/EEF00210",
+            "label": "購入・建築代金又は譲渡価額の５％",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEF00220",
+          "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00220",
+          "label": "その他建物　繰り返し",
+          "min": 0,
+          "max": 2,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEF00230",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00220/EEF00230",
+            "label": "購入・建築価額の内訳",
+            "min": 0,
+            "max": 1,
+            "type": "EEF00230-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "EEF00240",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00220/EEF00240",
+            "label": "購入（建築）先・支払先",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "EEF00250",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00220/EEF00240/EEF00250",
+              "label": "住所（所在地）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:address",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ]
+             },
+             {
+              "tag": "EEF00260",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00220/EEF00240/EEF00260",
+              "label": "氏名（名称）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:name",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "EEF00270",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00220/EEF00270",
+            "label": "購入・建築年月日",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00220/EEF00270/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00220/EEF00270/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00220/EEF00270/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00220/EEF00270/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "EEF00280",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00220/EEF00280",
+            "label": "購入・建築代金又は譲渡価額の５％",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEF00290",
+          "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00290",
+          "label": "建物の構造",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEF00300",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00290/EEF00300",
+            "label": "木造",
+            "min": 0,
+            "max": 1,
+            "type": "EEF00300-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00290/EEF00300/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00290/EEF00300/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEF00302",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00290/EEF00302",
+            "label": "木骨モルタル",
+            "min": 0,
+            "max": 1,
+            "type": "EEF00302-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00290/EEF00302/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00290/EEF00302/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEF00304",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00290/EEF00304",
+            "label": "（鉄骨）鉄筋",
+            "min": 0,
+            "max": 1,
+            "type": "EEF00304-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00290/EEF00304/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00290/EEF00304/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEF00306",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00290/EEF00306",
+            "label": "金属造",
+            "min": 0,
+            "max": 1,
+            "type": "EEF00306-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00290/EEF00306/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00290/EEF00306/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEF00308",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00290/EEF00308",
+            "label": "その他",
+            "min": 0,
+            "max": 1,
+            "type": "EEF00308-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00290/EEF00308/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00290/EEF00308/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEF00310",
+          "path": "KOC050/KOC050-3/EEF00000/EEF00010/EEF00310",
+          "label": "小計　（ロ）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "EEF00320",
+        "path": "KOC050/KOC050-3/EEF00000/EEF00320",
+        "label": "建物の償却費相当額を計算します。",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEF00325",
+          "path": "KOC050/KOC050-3/EEF00000/EEF00320/EEF00325",
+          "label": "建物の購入・建築価額標準の区分",
+          "min": 0,
+          "max": 1,
+          "type": "EEF00325-19-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00320/EEF00325/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00320/EEF00325/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "EEF00330",
+          "path": "KOC050/KOC050-3/EEF00000/EEF00320/EEF00330",
+          "label": "建物の購入・建築価額（ロ）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EEF00340",
+          "path": "KOC050/KOC050-3/EEF00000/EEF00320/EEF00340",
+          "label": "償却率",
+          "min": 0,
+          "max": 1,
+          "type": "EEF00340-19-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EEF00350",
+          "path": "KOC050/KOC050-3/EEF00000/EEF00320/EEF00350",
+          "label": "経過年数",
+          "min": 0,
+          "max": 1,
+          "type": "EEF00350-19-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EEF00360",
+          "path": "KOC050/KOC050-3/EEF00000/EEF00320/EEF00360",
+          "label": "償却費相当額（ハ）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "EEF00370",
+        "path": "KOC050/KOC050-3/EEF00000/EEF00370",
+        "label": "取得費を計算します。",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEF00380",
+          "path": "KOC050/KOC050-3/EEF00000/EEF00370/EEF00380",
+          "label": "取得費",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEF00383",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00370/EEF00380/EEF00383",
+            "label": "上段",
+            "min": 0,
+            "max": 1,
+            "type": "EEF00383-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 70
+           },
+           {
+            "tag": "EEF00384",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00370/EEF00380/EEF00384",
+            "label": "中段",
+            "min": 0,
+            "max": 1,
+            "type": "EEF00384-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "EEF00386",
+            "path": "KOC050/KOC050-3/EEF00000/EEF00370/EEF00380/EEF00386",
+            "label": "下段",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "EEG00000",
+      "path": "KOC050/KOC050-3/EEG00000",
+      "label": "譲渡（売却）するために支払った費用について",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "EEG00010",
+        "path": "KOC050/KOC050-3/EEG00000/EEG00010",
+        "label": "仲介手数料",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEG00020",
+          "path": "KOC050/KOC050-3/EEG00000/EEG00010/EEG00020",
+          "label": "支払先",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEG00030",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00010/EEG00020/EEG00030",
+            "label": "住所（所在地）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:address",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           },
+           {
+            "tag": "EEG00040",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00010/EEG00020/EEG00040",
+            "label": "氏名（名称）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:name",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEG00050",
+          "path": "KOC050/KOC050-3/EEG00000/EEG00010/EEG00050",
+          "label": "支払年月日",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00010/EEG00050/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00010/EEG00050/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00010/EEG00050/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00010/EEG00050/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "EEG00060",
+          "path": "KOC050/KOC050-3/EEG00000/EEG00010/EEG00060",
+          "label": "支払金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "EEG00070",
+        "path": "KOC050/KOC050-3/EEG00000/EEG00070",
+        "label": "収入印紙代",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEG00080",
+          "path": "KOC050/KOC050-3/EEG00000/EEG00070/EEG00080",
+          "label": "支払先",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEG00090",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00070/EEG00080/EEG00090",
+            "label": "住所（所在地）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:address",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           },
+           {
+            "tag": "EEG00100",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00070/EEG00080/EEG00100",
+            "label": "氏名（名称）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:name",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEG00110",
+          "path": "KOC050/KOC050-3/EEG00000/EEG00070/EEG00110",
+          "label": "支払年月日",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00070/EEG00110/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00070/EEG00110/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00070/EEG00110/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00070/EEG00110/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "EEG00120",
+          "path": "KOC050/KOC050-3/EEG00000/EEG00070/EEG00120",
+          "label": "支払金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "EEG00130",
+        "path": "KOC050/KOC050-3/EEG00000/EEG00130",
+        "label": "その他費用　繰り返し",
+        "min": 0,
+        "max": 2,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEG00140",
+          "path": "KOC050/KOC050-3/EEG00000/EEG00130/EEG00140",
+          "label": "費用の種類",
+          "min": 0,
+          "max": 1,
+          "type": "EEG00140-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "EEG00150",
+          "path": "KOC050/KOC050-3/EEG00000/EEG00130/EEG00150",
+          "label": "支払先",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEG00160",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00130/EEG00150/EEG00160",
+            "label": "住所（所在地）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:address",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           },
+           {
+            "tag": "EEG00170",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00130/EEG00150/EEG00170",
+            "label": "氏名（名称）",
+            "min": 0,
+            "max": 1,
+            "type": "gen:name",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEG00180",
+          "path": "KOC050/KOC050-3/EEG00000/EEG00130/EEG00180",
+          "label": "支払年月日",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00130/EEG00180/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00130/EEG00180/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00130/EEG00180/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "KOC050/KOC050-3/EEG00000/EEG00130/EEG00180/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "EEG00190",
+          "path": "KOC050/KOC050-3/EEG00000/EEG00130/EEG00190",
+          "label": "支払金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "EEG00200",
+        "path": "KOC050/KOC050-3/EEG00000/EEG00200",
+        "label": "譲渡費用",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEG00203",
+          "path": "KOC050/KOC050-3/EEG00000/EEG00200/EEG00203",
+          "label": "上段",
+          "min": 0,
+          "max": 1,
+          "type": "EEG00203-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 70
+         },
+         {
+          "tag": "EEG00206",
+          "path": "KOC050/KOC050-3/EEG00000/EEG00200/EEG00206",
+          "label": "下段",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "EEH00000",
+      "path": "KOC050/KOC050-3/EEH00000",
+      "label": "譲渡所得金額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "EEH00005",
+        "path": "KOC050/KOC050-3/EEH00000/EEH00005",
+        "label": "譲渡所得金額の計算　繰り返し",
+        "min": 0,
+        "max": 3,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEH00010",
+          "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00010",
+          "label": "短期・長期の区分",
+          "min": 0,
+          "max": 1,
+          "type": "EEH00010-19-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00010/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00010/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "EEH00012",
+          "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00012",
+          "label": "特例適用条文",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEH00014",
+            "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00012/EEH00014",
+            "label": "特例適用条文の区分(所法)",
+            "min": 0,
+            "max": 1,
+            "type": "EEH00014-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00012/EEH00014/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00012/EEH00014/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEH00016",
+            "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00012/EEH00016",
+            "label": "特例適用条文の区分(措法)",
+            "min": 0,
+            "max": 1,
+            "type": "EEH00016-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00012/EEH00016/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00012/EEH00016/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEH00017",
+            "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00012/EEH00017",
+            "label": "特例適用条文の区分(震法)",
+            "min": 0,
+            "max": 1,
+            "type": "EEH00017-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00012/EEH00017/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00012/EEH00017/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEH00018",
+            "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00012/EEH00018",
+            "label": "条文１",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "EEH00020",
+              "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00012/EEH00018/EEH00020",
+              "label": "条１",
+              "min": 0,
+              "max": 1,
+              "type": "EEH00020-19-0type",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:nonNegativeType"
+              ],
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "EEH00024",
+              "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00012/EEH00018/EEH00024",
+              "label": "条２",
+              "min": 0,
+              "max": 1,
+              "type": "EEH00024-19-0type",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:nonNegativeType"
+              ],
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "EEH00028",
+            "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00012/EEH00028",
+            "label": "条文２",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "EEH00032",
+              "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00012/EEH00028/EEH00032",
+              "label": "条１",
+              "min": 0,
+              "max": 1,
+              "type": "EEH00032-19-0type",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:nonNegativeType"
+              ],
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "EEH00036",
+              "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00012/EEH00028/EEH00036",
+              "label": "条２",
+              "min": 0,
+              "max": 1,
+              "type": "EEH00036-19-0type",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:nonNegativeType"
+              ],
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEH00040",
+          "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00040",
+          "label": "収入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EEH00220",
+          "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00220",
+          "label": "必要経費",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEH00240",
+            "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00220/EEH00240",
+            "label": "上段金額",
+            "min": 0,
+            "max": 1,
+            "type": "EEH00240-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "EEH00250",
+            "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00220/EEH00250",
+            "label": "下段金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEH00280",
+          "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00280",
+          "label": "差引金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EEH00310",
+          "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00310",
+          "label": "特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EEH00340",
+          "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00340",
+          "label": "譲渡所得金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EEH00030",
+          "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00030",
+          "label": "収入金額（上段合計額）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EEH00180",
+          "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00180",
+          "label": "必要経費（上段合計額）",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEH00200",
+            "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00180/EEH00200",
+            "label": "上段金額",
+            "min": 0,
+            "max": 1,
+            "type": "EEH00200-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "EEH00210",
+            "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00180/EEH00210",
+            "label": "下段金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEH00270",
+          "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00270",
+          "label": "差引金額（上段合計額）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EEH00300",
+          "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00300",
+          "label": "特別控除額（上段合計額）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EEH00330",
+          "path": "KOC050/KOC050-3/EEH00000/EEH00005/EEH00330",
+          "label": "譲渡所得金額（上段合計額）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   },
+   {
+    "tag": "KOC050-4",
+    "path": "KOC050/KOC050-4",
+    "label": "４面",
+    "min": 0,
+    "max": null,
+    "type": "KOC050-4-19-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "EEI00000",
+      "path": "KOC050/KOC050-4/EEI00000",
+      "label": "交換・買換（代替）資産として取得された（される）資産について",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "EEI00010",
+        "path": "KOC050/KOC050-4/EEI00000/EEI00010",
+        "label": "資産明細　繰り返し",
+        "min": 0,
+        "max": 2,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEI00020",
+          "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00020",
+          "label": "物件の所在地",
+          "min": 0,
+          "max": 1,
+          "type": "EEI00020-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 60
+         },
+         {
+          "tag": "EEI00030",
+          "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00030",
+          "label": "種類",
+          "min": 0,
+          "max": 1,
+          "type": "EEI00030-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "EEI00040",
+          "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00040",
+          "label": "面積",
+          "min": 0,
+          "max": 1,
+          "type": "EEI00040-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 30
+         },
+         {
+          "tag": "EEI00050",
+          "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00050",
+          "label": "用途",
+          "min": 0,
+          "max": 1,
+          "type": "EEI00050-19-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "EEI00060",
+          "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00060",
+          "label": "契約（予定）年月日",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00060/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00060/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00060/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00060/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "EEI00070",
+          "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00070",
+          "label": "取得（予定）日",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00070/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00070/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00070/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00070/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "EEI00080",
+          "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00080",
+          "label": "使用開始（予定）日",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00080/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00080/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00080/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00010/EEI00080/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "EEI00090",
+        "path": "KOC050/KOC050-4/EEI00000/EEI00090",
+        "label": "取得された（される）資産の購入代金など（取得価額）についての明細",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEI00100",
+          "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00100",
+          "label": "土地",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEI00110",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00100/EEI00110",
+            "label": "支払先住所（所在地）及び氏名（名称）",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "EEI00120",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00100/EEI00110/EEI00120",
+              "label": "支払先住所（所在地）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:address",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ]
+             },
+             {
+              "tag": "EEI00130",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00100/EEI00110/EEI00130",
+              "label": "氏名（名称）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:name",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "EEI00140",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00100/EEI00140",
+            "label": "支払年月日",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00100/EEI00140/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00100/EEI00140/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00100/EEI00140/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00100/EEI00140/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "EEI00150",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00100/EEI00150",
+            "label": "支払金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEI00152",
+          "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00152",
+          "label": "その他費用　繰り返し(1)",
+          "min": 0,
+          "max": 2,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEI00153",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00152/EEI00153",
+            "label": "費用の内容",
+            "min": 0,
+            "max": 1,
+            "type": "EEI00153-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "EEI00154",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00152/EEI00154",
+            "label": "支払先住所（所在地）及び氏名（名称）",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "EEI00155",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00152/EEI00154/EEI00155",
+              "label": "支払先住所（所在地）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:address",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ]
+             },
+             {
+              "tag": "EEI00156",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00152/EEI00154/EEI00156",
+              "label": "氏名（名称）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:name",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "EEI00157",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00152/EEI00157",
+            "label": "支払年月日",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00152/EEI00157/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00152/EEI00157/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00152/EEI00157/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00152/EEI00157/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "EEI00158",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00152/EEI00158",
+            "label": "支払金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEI00160",
+          "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00160",
+          "label": "建物",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEI00170",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00160/EEI00170",
+            "label": "支払先住所（所在地）及び氏名（名称）",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "EEI00180",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00160/EEI00170/EEI00180",
+              "label": "支払先住所（所在地）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:address",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ]
+             },
+             {
+              "tag": "EEI00190",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00160/EEI00170/EEI00190",
+              "label": "氏名（名称）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:name",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "EEI00200",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00160/EEI00200",
+            "label": "支払年月日",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00160/EEI00200/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00160/EEI00200/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00160/EEI00200/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00160/EEI00200/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "EEI00210",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00160/EEI00210",
+            "label": "支払金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEI00220",
+          "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00220",
+          "label": "その他費用　繰り返し(2)",
+          "min": 0,
+          "max": 2,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEI00230",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00220/EEI00230",
+            "label": "費用の内容",
+            "min": 0,
+            "max": 1,
+            "type": "EEI00230-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "EEI00240",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00220/EEI00240",
+            "label": "支払先住所（所在地）及び氏名（名称）",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "EEI00250",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00220/EEI00240/EEI00250",
+              "label": "支払先住所（所在地）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:address",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ]
+             },
+             {
+              "tag": "EEI00260",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00220/EEI00240/EEI00260",
+              "label": "氏名（名称）",
+              "min": 0,
+              "max": 1,
+              "type": "gen:name",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "EEI00270",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00220/EEI00270",
+            "label": "支払年月日",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00220/EEI00270/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00220/EEI00270/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00220/EEI00270/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00220/EEI00270/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "EEI00280",
+            "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00220/EEI00280",
+            "label": "支払金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEI00290",
+          "path": "KOC050/KOC050-4/EEI00000/EEI00090/EEI00290",
+          "label": "買換（代替）資産・交換取得資産の取得価額の合計額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "EEJ00000",
+      "path": "KOC050/KOC050-4/EEJ00000",
+      "label": "譲渡所得金額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "EEJ00010",
+        "path": "KOC050/KOC050-4/EEJ00000/EEJ00010",
+        "label": "（２）以外の交換・買換え（代替）の場合［交換（所法58）・収用代替（措法33）・居住用買換え（措法36の２）など］",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEJ00022",
+          "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00022",
+          "label": "短期・長期の区分",
+          "min": 0,
+          "max": 1,
+          "type": "EEJ00022-19-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00022/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00022/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "EEJ00024",
+          "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00024",
+          "label": "特例適用条文",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEJ00025",
+            "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00024/EEJ00025",
+            "label": "特例適用条文の区分(所法)",
+            "min": 0,
+            "max": 1,
+            "type": "EEJ00025-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00024/EEJ00025/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00024/EEJ00025/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEJ00026",
+            "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00024/EEJ00026",
+            "label": "特例適用条文の区分(措法)",
+            "min": 0,
+            "max": 1,
+            "type": "EEJ00026-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00024/EEJ00026/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00024/EEJ00026/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEJ00240",
+            "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00024/EEJ00240",
+            "label": "特例適用条文の区分(震法)",
+            "min": 0,
+            "max": 1,
+            "type": "EEJ00240-19-0Rtype",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "kubun_CD",
+              "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00024/EEJ00240/kubun_CD",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:kubun_CD"
+              ],
+              "enumeration": [
+               "1",
+               "2"
+              ]
+             },
+             {
+              "tag": "kubun_NM",
+              "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00024/EEJ00240/kubun_NM",
+              "label": null,
+              "min": 0,
+              "max": 1,
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:kubun_NM",
+               "gen:str"
+              ],
+              "max_length": 30
+             }
+            ]
+           },
+           {
+            "tag": "EEJ00027",
+            "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00024/EEJ00027",
+            "label": "特例適用条文　繰り返し",
+            "min": 0,
+            "max": 2,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "EEJ00028",
+              "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00024/EEJ00027/EEJ00028",
+              "label": "条１",
+              "min": 0,
+              "max": 1,
+              "type": "EEJ00028-19-0type",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:nonNegativeType"
+              ],
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "EEJ00029",
+              "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00024/EEJ00027/EEJ00029",
+              "label": "条２",
+              "min": 0,
+              "max": 1,
+              "type": "EEJ00029-19-0type",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:nonNegativeType"
+              ],
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEJ00030",
+          "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00030",
+          "label": "収入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EEJ00040",
+          "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00040",
+          "label": "必要経費",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEJ00050",
+            "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00040/EEJ00050",
+            "label": "上段",
+            "min": 0,
+            "max": 1,
+            "type": "EEJ00050-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "EEJ00060",
+            "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00040/EEJ00060",
+            "label": "中段",
+            "min": 0,
+            "max": 1,
+            "type": "EEJ00060-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "EEJ00070",
+            "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00040/EEJ00070",
+            "label": "下段",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEJ00100",
+          "path": "KOC050/KOC050-4/EEJ00000/EEJ00010/EEJ00100",
+          "label": "譲渡所得金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "EEJ00160",
+        "path": "KOC050/KOC050-4/EEJ00000/EEJ00160",
+        "label": "特定の事業用資産の買換え・交換　（措法３７・３７の４）などの場合",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "EEJ00172",
+          "path": "KOC050/KOC050-4/EEJ00000/EEJ00160/EEJ00172",
+          "label": "短期・長期の区分",
+          "min": 0,
+          "max": 1,
+          "type": "EEJ00172-19-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KOC050/KOC050-4/EEJ00000/EEJ00160/EEJ00172/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KOC050/KOC050-4/EEJ00000/EEJ00160/EEJ00172/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "EEJ00174",
+          "path": "KOC050/KOC050-4/EEJ00000/EEJ00160/EEJ00174",
+          "label": "特例適用条文 繰り返し",
+          "min": 0,
+          "max": 2,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEJ00176",
+            "path": "KOC050/KOC050-4/EEJ00000/EEJ00160/EEJ00174/EEJ00176",
+            "label": "条１",
+            "min": 0,
+            "max": 1,
+            "type": "EEJ00176-19-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "EEJ00178",
+            "path": "KOC050/KOC050-4/EEJ00000/EEJ00160/EEJ00174/EEJ00178",
+            "label": "条２",
+            "min": 0,
+            "max": 1,
+            "type": "EEJ00178-19-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEJ00180",
+          "path": "KOC050/KOC050-4/EEJ00000/EEJ00160/EEJ00180",
+          "label": "収入金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "EEJ00190",
+          "path": "KOC050/KOC050-4/EEJ00000/EEJ00160/EEJ00190",
+          "label": "必要経費",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "EEJ00200",
+            "path": "KOC050/KOC050-4/EEJ00000/EEJ00160/EEJ00190/EEJ00200",
+            "label": "上段",
+            "min": 0,
+            "max": 1,
+            "type": "EEJ00200-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "EEJ00210",
+            "path": "KOC050/KOC050-4/EEJ00000/EEJ00160/EEJ00190/EEJ00210",
+            "label": "中段",
+            "min": 0,
+            "max": 1,
+            "type": "EEJ00210-19-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 20
+           },
+           {
+            "tag": "EEJ00220",
+            "path": "KOC050/KOC050-4/EEJ00000/EEJ00160/EEJ00190/EEJ00220",
+            "label": "下段",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "EEJ00230",
+          "path": "KOC050/KOC050-4/EEJ00000/EEJ00160/EEJ00230",
+          "label": "譲渡所得金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KOC050-19-0VRtype",
+    "fixed": "19.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

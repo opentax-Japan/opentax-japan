@@ -1,0 +1,2295 @@
+{
+ "form_id": "KOA090",
+ "label": "確定申告書付表（上場株式等に係る譲渡損失の損益通算及び繰越控除用）",
+ "version": "16.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shotoku",
+ "group": "KOA090-16-0group",
+ "xsd": "19XMLスキーマ/shotoku/KOA090-016.xsd",
+ "xsd_sha256": "9a5eab7a88e78c44744a2b0a2581597b780d3a2f65ac087ed927bd1a74c28a1e",
+ "root": {
+  "tag": "KOA090",
+  "path": "KOA090",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "KOA090-1",
+    "path": "KOA090/KOA090-1",
+    "label": "年分の所得税の確定申告書付表(一面)",
+    "min": 0,
+    "max": null,
+    "type": "KOA090-1-16-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "AHE00000",
+      "path": "KOA090/KOA090-1/AHE00000",
+      "label": "年分",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NENBUNref",
+      "kind": "idref",
+      "idref": "NENBUN",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NENBUN",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "AHF00000",
+      "path": "KOA090/KOA090-1/AHF00000",
+      "label": "納税者等部",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AHF00010",
+        "path": "KOA090/KOA090-1/AHF00000/AHF00010",
+        "label": "納税地区分",
+        "min": 0,
+        "max": 1,
+        "type": "AHF00010-16-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "KOA090/KOA090-1/AHF00000/AHF00010/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "5",
+           "6"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "KOA090/KOA090-1/AHF00000/AHF00010/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "AHF00020",
+        "path": "KOA090/KOA090-1/AHF00000/AHF00020",
+        "label": "住所(上段)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_ADRref",
+        "kind": "idref",
+        "idref": "NOZEISHA_ADR",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_ADR",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "AHF00030",
+        "path": "KOA090/KOA090-1/AHF00000/AHF00030",
+        "label": "住所(下段)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:address",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "AHF00040",
+        "path": "KOA090/KOA090-1/AHF00000/AHF00040",
+        "label": "フリガナ",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_NM_KNref",
+        "kind": "idref",
+        "idref": "NOZEISHA_NM_KN",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_NM_KN",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "AHF00050",
+        "path": "KOA090/KOA090-1/AHF00000/AHF00050",
+        "label": "氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_NMref",
+        "kind": "idref",
+        "idref": "NOZEISHA_NM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_NM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "AHG00000",
+      "path": "KOA090/KOA090-1/AHG00000",
+      "label": "１　本年分の上場株式等に係る譲渡損失の金額及び分離課税配当所得等金額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AHG00010",
+        "path": "KOA090/KOA090-1/AHG00000/AHG00010",
+        "label": "(１)　本年分の損益通算前の上場株式等に係る譲渡損失の金額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AHG00012",
+          "path": "KOA090/KOA090-1/AHG00000/AHG00010/AHG00012",
+          "label": "上場株式等に係る譲渡所得等の金額　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHG00014",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00010/AHG00012/AHG00014",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHG00014-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHG00016",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00010/AHG00012/AHG00016",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHG00018",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00010/AHG00012/AHG00018",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHG00018-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHG00020",
+          "path": "KOA090/KOA090-1/AHG00000/AHG00010/AHG00020",
+          "label": "上場株式等に係る譲渡所得等の金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AHG00022",
+          "path": "KOA090/KOA090-1/AHG00000/AHG00010/AHG00022",
+          "label": "上場株式等に係る譲渡損失の金額　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHG00024",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00010/AHG00022/AHG00024",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHG00024-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHG00026",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00010/AHG00022/AHG00026",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHG00028",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00010/AHG00022/AHG00028",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHG00028-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHG00030",
+          "path": "KOA090/KOA090-1/AHG00000/AHG00010/AHG00030",
+          "label": "上場株式等に係る譲渡損失の金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AHG00032",
+          "path": "KOA090/KOA090-1/AHG00000/AHG00010/AHG00032",
+          "label": "本年分の損益通算前の上場株式等に係る譲渡損失の金額　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHG00034",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00010/AHG00032/AHG00034",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHG00034-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHG00036",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00010/AHG00032/AHG00036",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHG00038",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00010/AHG00032/AHG00038",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHG00038-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHG00040",
+          "path": "KOA090/KOA090-1/AHG00000/AHG00010/AHG00040",
+          "label": "本年分の損益通算前の上場株式等に係る譲渡損失の金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AHG00050",
+        "path": "KOA090/KOA090-1/AHG00000/AHG00050",
+        "label": "(２)　本年分の損益通算前の分離課税配当所得等金額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AHG00060",
+          "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00060",
+          "label": "分離課税配当所得等金額明細　繰り返し",
+          "min": 0,
+          "max": 5,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHG00070",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00060/AHG00070",
+            "label": "種目・所得の生ずる場所",
+            "min": 0,
+            "max": 1,
+            "type": "AHG00070-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 100
+           },
+           {
+            "tag": "AHG00072",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00060/AHG00072",
+            "label": "利子等・配当等の収入金額　外書き",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "AHG00074",
+              "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00060/AHG00072/AHG00074",
+              "label": "開始括弧",
+              "min": 0,
+              "max": 1,
+              "type": "AHG00074-16-0Rtype",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ],
+              "max_length": 1
+             },
+             {
+              "tag": "AHG00076",
+              "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00060/AHG00072/AHG00076",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AHG00078",
+              "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00060/AHG00072/AHG00078",
+              "label": "終了括弧",
+              "min": 0,
+              "max": 1,
+              "type": "AHG00078-16-0Rtype",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ],
+              "max_length": 1
+             }
+            ]
+           },
+           {
+            "tag": "AHG00080",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00060/AHG00080",
+            "label": "利子等・配当等の収入金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHG00082",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00060/AHG00082",
+            "label": "配当所得に係る負債の利子　外書き",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "AHG00084",
+              "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00060/AHG00082/AHG00084",
+              "label": "開始括弧",
+              "min": 0,
+              "max": 1,
+              "type": "AHG00084-16-0Rtype",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ],
+              "max_length": 1
+             },
+             {
+              "tag": "AHG00086",
+              "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00060/AHG00082/AHG00086",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AHG00088",
+              "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00060/AHG00082/AHG00088",
+              "label": "終了括弧",
+              "min": 0,
+              "max": 1,
+              "type": "AHG00088-16-0Rtype",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ],
+              "max_length": 1
+             }
+            ]
+           },
+           {
+            "tag": "AHG00090",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00060/AHG00090",
+            "label": "配当所得に係る負債の利子",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AHG00100",
+          "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00100",
+          "label": "次葉合計",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHG00110",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00100/AHG00110",
+            "label": "項目名",
+            "min": 0,
+            "max": 1,
+            "type": "AHG00110-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 4
+           },
+           {
+            "tag": "AHG00120",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00100/AHG00120",
+            "label": "利子等・配当等の収入金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHG00130",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00100/AHG00130",
+            "label": "配当所得に係る負債の利子",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AHG00140",
+          "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00140",
+          "label": "合計",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHG00142",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00140/AHG00142",
+            "label": "利子等・配当等の収入金額　外書き",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "AHG00144",
+              "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00140/AHG00142/AHG00144",
+              "label": "開始括弧",
+              "min": 0,
+              "max": 1,
+              "type": "AHG00144-16-0Rtype",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ],
+              "max_length": 1
+             },
+             {
+              "tag": "AHG00146",
+              "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00140/AHG00142/AHG00146",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AHG00148",
+              "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00140/AHG00142/AHG00148",
+              "label": "終了括弧",
+              "min": 0,
+              "max": 1,
+              "type": "AHG00148-16-0Rtype",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ],
+              "max_length": 1
+             }
+            ]
+           },
+           {
+            "tag": "AHG00150",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00140/AHG00150",
+            "label": "利子等・配当等の収入金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHG00152",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00140/AHG00152",
+            "label": "配当所得に係る負債の利子　外書き",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "AHG00154",
+              "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00140/AHG00152/AHG00154",
+              "label": "開始括弧",
+              "min": 0,
+              "max": 1,
+              "type": "AHG00154-16-0Rtype",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ],
+              "max_length": 1
+             },
+             {
+              "tag": "AHG00156",
+              "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00140/AHG00152/AHG00156",
+              "label": "金額",
+              "min": 0,
+              "max": 1,
+              "type": "gen:kingaku",
+              "kind": "amount",
+              "base": "xsd:long",
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             },
+             {
+              "tag": "AHG00158",
+              "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00140/AHG00152/AHG00158",
+              "label": "終了括弧",
+              "min": 0,
+              "max": 1,
+              "type": "AHG00158-16-0Rtype",
+              "kind": "value",
+              "base": "xsd:string",
+              "derived_from": [
+               "gen:str"
+              ],
+              "max_length": 1
+             }
+            ]
+           },
+           {
+            "tag": "AHG00160",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00140/AHG00160",
+            "label": "配当所得に係る負債の利子",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "AHG00162",
+          "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00162",
+          "label": "本年分の損益通算前の分離課税配当所得等金額　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHG00164",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00162/AHG00164",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHG00164-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHG00166",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00162/AHG00166",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHG00168",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00162/AHG00168",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHG00168-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHG00170",
+          "path": "KOA090/KOA090-1/AHG00000/AHG00050/AHG00170",
+          "label": "本年分の損益通算前の分離課税配当所得等金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AHG00180",
+        "path": "KOA090/KOA090-1/AHG00000/AHG00180",
+        "label": "(３)　本年分の損益通算後の上場株式等に係る譲渡損失の金額又は分離課税配当所得等金額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AHG00182",
+          "path": "KOA090/KOA090-1/AHG00000/AHG00180/AHG00182",
+          "label": "本年分の損益通算後の上場株式等に係る譲渡損失の金額　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHG00184",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00180/AHG00182/AHG00184",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHG00184-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHG00186",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00180/AHG00182/AHG00186",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHG00188",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00180/AHG00182/AHG00188",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHG00188-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHG00190",
+          "path": "KOA090/KOA090-1/AHG00000/AHG00180/AHG00190",
+          "label": "本年分の損益通算後の上場株式等に係る譲渡損失の金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AHG00192",
+          "path": "KOA090/KOA090-1/AHG00000/AHG00180/AHG00192",
+          "label": "本年分の損益通算後の分離課税配当所得等金額　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHG00194",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00180/AHG00192/AHG00194",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHG00194-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHG00196",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00180/AHG00192/AHG00196",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHG00198",
+            "path": "KOA090/KOA090-1/AHG00000/AHG00180/AHG00192/AHG00198",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHG00198-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHG00200",
+          "path": "KOA090/KOA090-1/AHG00000/AHG00180/AHG00200",
+          "label": "本年分の損益通算後の分離課税配当所得等金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   },
+   {
+    "tag": "KOA090-2",
+    "path": "KOA090/KOA090-2",
+    "label": "年分の所得税の確定申告書付表(二面)",
+    "min": 0,
+    "max": 1,
+    "type": "KOA090-2-16-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "AHH00000",
+      "path": "KOA090/KOA090-2/AHH00000",
+      "label": "２　翌年以後に繰り越される上場株式等に係る譲渡損失の金額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AHH00010",
+        "path": "KOA090/KOA090-2/AHH00000/AHH00010",
+        "label": "本年の３年前分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AHH00020",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00020",
+          "label": "年分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yy",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00020/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00020/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHH00022",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00022",
+          "label": "前年から繰り越された上場株式等に係る譲渡損失の金額　(A)　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHH00024",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00022/AHH00024",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00024-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHH00026",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00022/AHH00026",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHH00028",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00022/AHH00028",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00028-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHH00030",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00030",
+          "label": "前年から繰り越された上場株式等に係る譲渡損失の金額　(A)",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AHH00032",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00032",
+          "label": "本年分で差し引く上場株式等に係る譲渡損失の金額　(D)　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHH00034",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00032/AHH00034",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00034-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHH00036",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00032/AHH00036",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHH00038",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00032/AHH00038",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00038-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHH00040",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00040",
+          "label": "本年分で差し引く上場株式等に係る譲渡損失の金額　(D)",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AHH00042",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00042",
+          "label": "本年分で差し引く上場株式等に係る譲渡損失の金額　(E)　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHH00044",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00042/AHH00044",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00044-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHH00046",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00042/AHH00046",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHH00048",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00042/AHH00048",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00048-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHH00050",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00010/AHH00050",
+          "label": "本年分で差し引く上場株式等に係る譲渡損失の金額　(E)",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AHH00060",
+        "path": "KOA090/KOA090-2/AHH00000/AHH00060",
+        "label": "本年の２年前分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AHH00070",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00070",
+          "label": "年分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yy",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00070/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00070/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHH00072",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00072",
+          "label": "前年から繰り越された上場株式等に係る譲渡損失の金額　(B)　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHH00074",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00072/AHH00074",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00074-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHH00076",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00072/AHH00076",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHH00078",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00072/AHH00078",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00078-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHH00080",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00080",
+          "label": "前年から繰り越された上場株式等に係る譲渡損失の金額　(B)",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AHH00082",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00082",
+          "label": "本年分で差し引く上場株式等に係る譲渡損失の金額　(F)　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHH00084",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00082/AHH00084",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00084-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHH00086",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00082/AHH00086",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHH00088",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00082/AHH00088",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00088-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHH00090",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00090",
+          "label": "本年分で差し引く上場株式等に係る譲渡損失の金額　(F)",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AHH00092",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00092",
+          "label": "本年分で差し引く上場株式等に係る譲渡損失の金額　(G)　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHH00094",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00092/AHH00094",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00094-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHH00096",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00092/AHH00096",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHH00098",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00092/AHH00098",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00098-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHH00100",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00100",
+          "label": "本年分で差し引く上場株式等に係る譲渡損失の金額　(G)",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AHH00102",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00102",
+          "label": "本年分で差し引くことのできなかった上場株式等に係る譲渡損失の金額　(7)　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHH00104",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00102/AHH00104",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00104-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHH00106",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00102/AHH00106",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHH00108",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00102/AHH00108",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00108-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHH00110",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00060/AHH00110",
+          "label": "本年分で差し引くことのできなかった上場株式等に係る譲渡損失の金額　(7)",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AHH00120",
+        "path": "KOA090/KOA090-2/AHH00000/AHH00120",
+        "label": "本年の前年分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AHH00130",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00130",
+          "label": "年分",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yy",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00130/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00130/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHH00132",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00132",
+          "label": "前年から繰り越された上場株式等に係る譲渡損失の金額　(C)　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHH00134",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00132/AHH00134",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00134-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHH00136",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00132/AHH00136",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHH00138",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00132/AHH00138",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00138-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHH00140",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00140",
+          "label": "前年から繰り越された上場株式等に係る譲渡損失の金額　(C)",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AHH00142",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00142",
+          "label": "本年分で差し引く上場株式等に係る譲渡損失の金額　(H)　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHH00144",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00142/AHH00144",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00144-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHH00146",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00142/AHH00146",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHH00148",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00142/AHH00148",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00148-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHH00150",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00150",
+          "label": "本年分で差し引く上場株式等に係る譲渡損失の金額　(H)",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AHH00152",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00152",
+          "label": "本年分で差し引く上場株式等に係る譲渡損失の金額　(I)　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHH00154",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00152/AHH00154",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00154-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHH00156",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00152/AHH00156",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHH00158",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00152/AHH00158",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00158-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHH00160",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00160",
+          "label": "本年分で差し引く上場株式等に係る譲渡損失の金額　(I)",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AHH00162",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00162",
+          "label": "本年分で差し引くことのできなかった上場株式等に係る譲渡損失の金額　(8)　外書き",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "AHH00164",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00162/AHH00164",
+            "label": "開始括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00164-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           },
+           {
+            "tag": "AHH00166",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00162/AHH00166",
+            "label": "金額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "AHH00168",
+            "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00162/AHH00168",
+            "label": "終了括弧",
+            "min": 0,
+            "max": 1,
+            "type": "AHH00168-16-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 1
+           }
+          ]
+         },
+         {
+          "tag": "AHH00170",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00120/AHH00170",
+          "label": "本年分で差し引くことのできなかった上場株式等に係る譲渡損失の金額　(8)",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "AHH00171",
+        "path": "KOA090/KOA090-2/AHH00000/AHH00171",
+        "label": "本年分で上場株式等に係る譲渡所得等の金額から差し引く上場株式等に係る譲渡損失の金額の合計額　外書き",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AHH00172",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00171/AHH00172",
+          "label": "開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "AHH00172-16-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "AHH00173",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00171/AHH00173",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AHH00174",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00171/AHH00174",
+          "label": "終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "AHH00174-16-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         }
+        ]
+       },
+       {
+        "tag": "AHH00175",
+        "path": "KOA090/KOA090-2/AHH00000/AHH00175",
+        "label": "本年分で上場株式等に係る譲渡所得等の金額から差し引く上場株式等に係る譲渡損失の金額の合計額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AHH00176",
+        "path": "KOA090/KOA090-2/AHH00000/AHH00176",
+        "label": "本年分で分離課税配当所得等金額から差し引く上場株式等に係る譲渡損失の金額の合計額　外書き",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AHH00177",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00176/AHH00177",
+          "label": "開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "AHH00177-16-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "AHH00178",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00176/AHH00178",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AHH00179",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00176/AHH00179",
+          "label": "終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "AHH00179-16-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         }
+        ]
+       },
+       {
+        "tag": "AHH00180",
+        "path": "KOA090/KOA090-2/AHH00000/AHH00180",
+        "label": "本年分で分離課税配当所得等金額から差し引く上場株式等に係る譲渡損失の金額の合計額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AHH00182",
+        "path": "KOA090/KOA090-2/AHH00000/AHH00182",
+        "label": "翌年以後に繰り越される上場株式等に係る譲渡損失の金額　外書き",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "AHH00184",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00182/AHH00184",
+          "label": "開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "AHH00184-16-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         },
+         {
+          "tag": "AHH00186",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00182/AHH00186",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "AHH00188",
+          "path": "KOA090/KOA090-2/AHH00000/AHH00182/AHH00188",
+          "label": "終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "AHH00188-16-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 1
+         }
+        ]
+       },
+       {
+        "tag": "AHH00190",
+        "path": "KOA090/KOA090-2/AHH00000/AHH00190",
+        "label": "翌年以後に繰り越される上場株式等に係る譲渡損失の金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "AHH00192",
+      "path": "KOA090/KOA090-2/AHH00192",
+      "label": "３　前年から繰り越された上場株式等に係る譲渡損失の金額を控除した後の本年分の分離課税配当所得等金額の計算　外書き",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "AHH00194",
+        "path": "KOA090/KOA090-2/AHH00192/AHH00194",
+        "label": "開始括弧",
+        "min": 0,
+        "max": 1,
+        "type": "AHH00194-16-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 1
+       },
+       {
+        "tag": "AHH00196",
+        "path": "KOA090/KOA090-2/AHH00192/AHH00196",
+        "label": "金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "AHH00198",
+        "path": "KOA090/KOA090-2/AHH00192/AHH00198",
+        "label": "終了括弧",
+        "min": 0,
+        "max": 1,
+        "type": "AHH00198-16-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 1
+       }
+      ]
+     },
+     {
+      "tag": "AHI00000",
+      "path": "KOA090/KOA090-2/AHI00000",
+      "label": "３　前年から繰り越された上場株式等に係る譲渡損失の金額を控除した後の本年分の分離課税配当所得等金額の計算",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ],
+    "attributes": [
+     {
+      "name": "page",
+      "required": false,
+      "type": "xsd:positiveInteger"
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KOA090-16-0VRtype",
+    "fixed": "16.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

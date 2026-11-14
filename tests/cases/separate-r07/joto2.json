@@ -1,0 +1,44 @@
+{
+ "year": 2025,
+ "taxpayer": {
+  "name": "見本　一郎",
+  "name_kana": "ミホン　イチロウ",
+  "birth": "1954-09-01",
+  "address": "東京都千代田区霞が関三丁目1番1号",
+  "tax_office": "麹町",
+  "user_id": "1234567890123456"
+ },
+ "public_pension": [
+  {
+   "payer": "日本年金機構",
+   "payer_id": "東京都杉並区",
+   "income": 1480000
+  }
+ ],
+ "deductions": {
+  "social_insurance": [
+   {
+    "kind": "国民健康保険",
+    "amount": 34500
+   }
+  ]
+ },
+ "land_building": [
+  {
+   "location": "見本市見本町2-2-201",
+   "use": "residential",
+   "acquired": "1986-03-01",
+   "sold": "2025-02-03",
+   "price": 69000000,
+   "land_cost": 30040000,
+   "building": {
+    "cost": 11960000,
+    "structure": "rc",
+    "acquired": "1986-03-01"
+   },
+   "expenses": 2373000,
+   "residential_special": true,
+   "reduced_rate": true
+  }
+ ]
+}

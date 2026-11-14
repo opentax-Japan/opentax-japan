@@ -6,7 +6,8 @@
 - 所得控除: 雑損・医療費（又はセルフメディケーション）・社会保険料・小規模企業共済等掛金・生命保険料・地震保険料・寄附金・
   寡婦/ひとり親・勤労学生/障害者・配偶者（特別）・扶養・特定親族特別・基礎
 - 税額: 税額表・配当控除・復興特別所得税・源泉徴収税額・予定納税額
-対象外（入力にあれば止める）: 分離課税（第三表）・損失申告（第四表）・純損失の繰越・住宅借入金等特別控除・政党等寄附金等特別控除・
+分離課税（第三表）は separate.py（2026-11-14）。
+対象外（入力にあれば止める）: 損失申告（第四表）・純損失の繰越・住宅借入金等特別控除・政党等寄附金等特別控除・
   外国税額控除・変動/臨時所得の平均課税・総合譲渡・農業所得・退職/山林・国外居住親族・非居住者・修正申告
 """
 
@@ -17,6 +18,8 @@ import json
 from decimal import ROUND_CEILING, ROUND_FLOOR, Decimal
 from pathlib import Path
 
+from . import separate
+
 RULES_DIR = Path(__file__).parent / "rules"
 SUPPORTED_YEARS = {2025: "r07.json"}
 
@@ -26,7 +29,8 @@ class KojinError(Exception):
 
 
 OUT_OF_SCOPE = {
-    "separate_taxation": "分離課税の所得（土地・建物・株式等の譲渡、上場株式等の配当の分離課税、先物取引）",
+    "separate_taxation": "分離課税の所得（入力は land_building・general_stocks・listed_stocks・separate_dividends・futures で書いてください）",
+    "futures_loss_carryforward": "先物取引の差金等決済に係る損失の繰越控除（付表）",
     "loss_carryforward": "純損失・雑損失の繰越控除",
     "housing_loan": "住宅借入金等特別控除",
     "political_donation_credit": "政党等寄附金等特別控除（認定NPO法人等・公益社団法人等を含む）",
@@ -52,7 +56,7 @@ _STATEMENT = {"bookkeeping", "income", "before_blue", "blue", "white", "family_s
 SCHEMA = {
     "": {"year", "taxpayer", "business", "real_estate", "blue_return", "dividends", "salary", "public_pension", "misc_business",
          "misc_other", "temporary", "family_employees", "spouse", "dependents", "deductions", "prepaid_tax", "filing",
-         "refund_account", "salary_adjustment_eligible", "note", "sme"} | set(OUT_OF_SCOPE),
+         "refund_account", "salary_adjustment_eligible", "note", "sme"} | set(OUT_OF_SCOPE) | separate.KEYS,
     "taxpayer": {"name", "name_kana", "birth", "address", "address_jan1", "zip", "tax_office", "tax_office_code", "user_id",
                  "my_number", "occupation", "trade_name", "householder", "householder_relation", "phone", "widow",
                  "working_student", "disabled"},
@@ -78,6 +82,18 @@ SCHEMA = {
                                 "special", "ratio", "expense", "book", "note", "in_service", "kind", "revised_cost", "new"},
 }
 SCHEMA["real_estate.depreciation[]"] = SCHEMA["business.depreciation[]"]
+SCHEMA.update({
+    "land_building[]": {"location", "use", "acquired", "sold", "price", "cost", "land_cost", "building", "expenses", "residential_special",
+                        "reduced_rate", "inheritance", "short_reduced", "specific", "replacement", "exchange", "loss_special", "note"},
+    "land_building.building": {"cost", "structure", "acquired", "business"},
+    "land_building.inheritance": {"start", "addition"},
+    "general_stocks[]": {"name", "proceeds", "cost", "commission", "other_expenses", "sold", "acquired", "quantity", "broker",
+                         "managed_loss", "specified_investment"},
+    "listed_stocks[]": {"account", "broker", "branch", "name", "proceeds", "cost", "commission", "other_expenses", "withheld", "sold",
+                        "acquired", "quantity", "managed_loss", "specified_investment"},
+    "separate_dividends[]": {"payer", "payer_id", "kind", "income", "debt_interest", "withheld", "account"},
+    "futures[]": {"name", "income", "expenses"},
+})
 
 
 def check_keys(d: dict) -> None:
@@ -326,6 +342,12 @@ def calculate(d: dict) -> dict:
     birth = _date(tp["birth"], "taxpayer.birth")
     warnings: list[str] = []
     checks: list[str] = []
+    try:
+        sep = separate.calculate(d, year, checks)
+    except separate.SeparateError as e:
+        raise KojinError(str(e)) from e
+    sep_gokei = sep["gokei"] if sep else 0           # 合計所得金額に足す分離課税の所得（土地等は特別控除前、上場株式等は繰越控除前）
+    sep_soshotoku = sep["soshotoku"] if sep else 0   # 総所得金額等に足す分（特別控除後・繰越控除後）
 
     # 収入・所得
     sal = d.get("salary") or []
@@ -442,7 +464,8 @@ def calculate(d: dict) -> dict:
     # 公的年金等に係る雑所得以外の合計所得金額（手引き 雑所得 Step2: 給与所得は C−F。所得金額調整控除（2）は引かない）
     pens = d.get("public_pension") or []
     pen_receipts = sum(_amount(x.get("income"), f"public_pension[{i}].income") for i, x in enumerate(pens))
-    other_than_pension = biz_income + re_income + div_income + max(sal_after - adj_amount, 0) + max(mb_income + mo_income, 0) + tmp_half
+    other_than_pension = (biz_income + re_income + div_income + max(sal_after - adj_amount, 0) + max(mb_income + mo_income, 0) + tmp_half
+                          + sep_gokei)   # 分離課税の所得も入る（合計所得金額。譲渡所得の申告のしかた【事例2】）
     senior = birth <= datetime.date.fromisoformat(r["pension"]["senior_born_on_or_before"])
     pen_income = pension_income(pen_receipts, senior, other_than_pension, r) if pen_receipts else 0
 
@@ -462,6 +485,7 @@ def calculate(d: dict) -> dict:
         raise KojinError("損失のある人の公的年金等に係る雑所得以外の合計所得金額は国税庁の別の計算書で計算するので、公的年金等と損失がある申告は"
                          " OpenTax 個人の対象外です（手引き 雑所得 Step2 の※）")
     total = ordinary + tmp_half                                                             # ⑫
+    gokei = total + sep_gokei                                                               # 合計所得金額（所得控除の判定）
 
     # 所得控除
     ded = d.get("deductions") or {}
@@ -474,7 +498,7 @@ def calculate(d: dict) -> dict:
     widow_kubun, widow_amount = None, 0
     wd = tp.get("widow")
     if wd in ("single_parent", "widow"):
-        if total > per["widow_income_limit"]:
+        if gokei > per["widow_income_limit"]:
             warnings.append("合計所得金額が500万円を超えるので、寡婦・ひとり親控除は受けられません")
         elif wd == "single_parent":
             widow_kubun, widow_amount = "1", per["single_parent"]
@@ -485,7 +509,7 @@ def calculate(d: dict) -> dict:
 
     student_disabled = 0
     if tp.get("working_student"):
-        if total > per["working_student_income_limit"]:
+        if gokei > per["working_student_income_limit"]:
             warnings.append("合計所得金額が85万円を超えるので、勤労学生控除は受けられません")
         else:
             student_disabled += per["working_student"]
@@ -516,7 +540,7 @@ def calculate(d: dict) -> dict:
     if sp:
         if sp.get("abroad"):
             raise KojinError("国外居住親族は OpenTax 個人の対象外です（spouse.abroad）")
-        spouse_amount, spouse_special = spouse(sp, total, r)
+        spouse_amount, spouse_special = spouse(sp, gokei, r)
         if _amount(sp.get("income"), "spouse.income") <= r["spouse"]["dependent_income_limit"]:
             student_disabled += relative_disabled(sp, "spouse")
 
@@ -546,10 +570,10 @@ def calculate(d: dict) -> dict:
                     specific_count += 1
                     break
 
-    base = basic(total, r)
+    base = basic(gokei, r)
     sub26 = social + small + life + quake + widow_amount + student_disabled + spouse_amount + dep_amount + specific_amount + base
 
-    gross_for_floor = total                                 # 総所得金額等（退職・山林・分離課税なし）
+    gross_for_floor = total + sep_soshotoku                 # 総所得金額等（分離課税は特別控除後・繰越控除後。退職・山林なし）
     cas = casualty(ded["casualty"], gross_for_floor, r) if ded.get("casualty") else 0
     if cas > max(gross_for_floor, 0):
         raise KojinError("雑損控除額が所得金額の合計を超えます。引ききれない雑損失の繰越しは第四表（損失申告用）が要るので OpenTax 個人の対象外です（所得税法71条、手引き PDF版4ページ）")
@@ -560,17 +584,25 @@ def calculate(d: dict) -> dict:
     deductions_total = sub26 + cas + med_amount + don                                       # ㉚
 
     # 税額
-    taxable = max(total - deductions_total, 0) // 1000 * 1000                               # ㉛
-    tax = tax_on(taxable, r)                                                                # ㉜
+    t3 = separate.tax_lines(total, deductions_total, sep, lambda x: tax_on(x, r)) if sep else None
+    if t3:
+        taxable = t3["78"]                                                               # 第三表78（第一表㉛は書かない）
+        tax = t3["94"]                                                                      # ㉜＝第三表94
+        credit_base = t3["credit_base"]
+    else:
+        taxable = max(total - deductions_total, 0) // 1000 * 1000                           # ㉛
+        tax = tax_on(taxable, r)                                                            # ㉜
+        credit_base = taxable
     # ㉝ は手引きの計算欄 G のまま（㉜を超えても書く。㊷で赤字なら0）。控えも同じ書き方
-    div_cr = dividend_credit(div_credit_base, taxable, r, div_credit_trust, div_credit_fc)   # ㉝
+    div_cr = dividend_credit(div_credit_base, credit_base, r, div_credit_trust, div_credit_fc)   # ㉝
     after_credits = max(tax - div_cr, 0)                                                    # ㊷
     base_tax = after_credits                                                                # ㊹（災害減免なし）
     recon = _floor(base_tax * _d(r["reconstruction"]["rate"]))                              # ㊺
     tax_total = base_tax + recon                                                            # ㊻
     withheld = (sum(_amount(x.get("withholding"), "") for x in sal) + sum(_amount(x.get("withholding"), "") for x in pens)
                 + sum(_amount(x.get("withholding"), "") for x in divs) + sum(_amount(x.get("withholding"), "") for x in misc_b)
-                + sum(_amount(x.get("withholding"), "") for x in misc_o) + sum(_amount(x.get("withholding"), "") for x in tmp))  # ㊾
+                + sum(_amount(x.get("withholding"), "") for x in misc_o) + sum(_amount(x.get("withholding"), "") for x in tmp)
+                + (sep["withheld_stocks"] + sep["withheld_dividends"] if sep else 0))  # ㊾
     diff = tax_total - withheld
     filing_tax = diff // 100 * 100 if diff >= 0 else diff                                   # ㊿
     prepaid = _amount(d.get("prepaid_tax"), "prepaid_tax")                                  # 51
@@ -597,6 +629,7 @@ def calculate(d: dict) -> dict:
     }
     return {
         "input": d, "year": year, "lines": lines, "warnings": warnings, "checks": checks,
+        "separate": {"third": t3, "detail": sep, "gokei": gokei} if sep else None,
         "detail": {"salary_adjustment_kubun": adj_kubun, "salary_adjustment": adj_amount, "medical_kubun": med_kubun,
                    "widow_kubun": widow_kubun, "spouse_special": spouse_special, "specific_count": specific_count,
                    "real_estate_loss_special": re_special, "real_estate_before_special": re_before_special, "blue_from_real_estate": blue_re, "blue_from_business": blue_biz, "white_family": white_family, "white_each": white_each, "donation_total": don_total,

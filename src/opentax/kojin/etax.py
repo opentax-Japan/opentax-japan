@@ -1,8 +1,9 @@
 """個人の所得税の計算結果を、e-Tax 仕様セット ksk2-2026-08 の手続 RKO0010（所得税及び復興特別所得税申告）の帳票に割り当てる。
 
-帳票: KOA020（申告書 第一表・第二表。第三表・第四表は使わない）・KOA110/KOA130（収支内訳書 一般用・不動産所得用）・
+帳票: KOA020（申告書 第一表・第二表・第三表（分離課税用）。第四表は使わない）・KOC050（譲渡所得の内訳書【土地・建物用】）・
+KOC080（株式等に係る譲渡所得等の金額の計算明細書）・KOA090（付表（上場株式等に係る譲渡損失の損益通算及び繰越控除用））・KOA110/KOA130（収支内訳書 一般用・不動産所得用）・
 KOA210/KOA220（青色申告決算書 一般用・不動産所得用。損益計算書・減価償却費の計算・貸借対照表）・KOB560（医療費控除の明細書）。
-タグは e-Tax 帳票フィールド仕様書（所得-申告）Ver23x・Ver12x・Ver11x・Ver9x・Ver8x・Ver18x。
+タグは e-Tax 帳票フィールド仕様書（所得-申告）Ver23x・Ver19x・Ver16x・Ver12x・Ver11x・Ver9x・Ver8x・Ver18x。
 令和7年分は手続の版 25.0.1（e-Tax 仕様書「手続一覧（申告）」Ver250x）。金額が 0 の欄は出さない（空欄）。
 """
 
@@ -180,7 +181,12 @@ def form_values(c: dict) -> dict[str, dict]:
     filing = d.get("filing") or {}
     v["ABS10020"] = KB[bool(filing.get("tax_accountant_article30"))]
     v["ABS10030"] = KB[bool(filing.get("tax_accountant_article33_2"))]
+    sep = c.get("separate")
+    if sep:
+        v.update(third_values(c))
     out = {"KOA020": v}
+    if sep:
+        out.update(separate_forms(c))
     for key in ("business", "real_estate"):
         k = d.get(key)
         if k and k.get("statement"):
@@ -192,6 +198,192 @@ def form_values(c: dict) -> dict[str, dict]:
     if med.get("details") or med.get("notice"):
         out["KOB560"] = medical_values(c)
     return out
+
+
+# 第三表（分離課税用）のタグ（帳票フィールド仕様書 KOA020 の帳票項番）
+THIRD_RECEIPTS = {"シ": "ABL00040", "ス": "ABL00050", "セ": "ABL00070", "ソ": "ABL00080", "タ": "ABL00090", "チ": "ABL00125", "ツ": "ABL00130",
+                  "テ": "ABL00137", "ト": "ABL00160"}
+THIRD_INCOME = {"67": "ABL00220", "68": "ABL00230", "69": "ABL00250", "70": "ABL00260", "71": "ABL00270", "72": "ABL00305", "73": "ABL00310",
+                "74": "ABL00325", "75": "ABL00350"}
+THIRD_TAX = {"78": "ABL00470", "79": "ABL00480", "80": "ABL00490", "81": "ABL00500", "82": "ABL00505", "83": "ABL00510", "84": "ABL00520",
+             "85": "ABL00530", "86": "ABL00550", "87": "ABL00560", "88": "ABL00570", "89": "ABL00580", "90": "ABL00585", "91": "ABL00590",
+             "92": "ABL00600", "93": "ABL00610", "94": "ABL00620"}
+CATEGORY_NAME = {"67": "短期・一般", "69": "長期・一般", "70": "長期・特定", "71": "長期・軽課"}
+# 手続XSD（RKO0010-250）の帳票の並び順
+FORM_ORDER = ("KOA020", "KOA090", "KOA110", "KOA130", "KOA210", "KOA220", "KOB560", "KOC050", "KOC080")
+
+
+def third_values(c: dict) -> dict:
+    """申告書第三表（分離課税用）。第一表の㉛は書かず、㉜に第三表94を書く（手引き: 分離課税の所得がある方は第三表で計算）。"""
+    sep = c["separate"]
+    det, t3 = sep["detail"], sep["third"]
+    L = c["lines"]
+    v: dict = {"ABA00250": "1", "ABB00580": None}
+    for k, tag in THIRD_RECEIPTS.items():
+        if det["receipts"].get(k):
+            v[tag] = det["receipts"][k]
+    for k, tag in THIRD_INCOME.items():
+        if det["income"].get(k):
+            v[tag] = det["income"][k]
+    v["ABL00440"] = L["12"]
+    v["ABL00450"] = L["30"]
+    for k, tag in THIRD_TAX.items():
+        if t3.get(k) or k in ("78", "86", "94"):
+            v[tag] = t3[k]
+    st = det.get("stocks")
+    if st:
+        if st["listed"]["carry_used"]:
+            v["ABL00920"] = st["listed"]["carry_used"]                 # 95 本年分の72・73から差し引く繰越損失額
+        if st["carry"]["out"]:
+            v["ABL00930"] = st["carry"]["out"]                         # 96 翌年以後に繰り越される損失の金額
+        if st["dividends"]["carry_used"]:
+            v["ABL00937"] = st["dividends"]["carry_used"]              # 97 本年分の74から差し引く繰越損失額
+        if st["listed"]["withheld"]:
+            v["ABL00867"] = st["listed"]["withheld"]                   # 上場株式等の譲渡所得等の源泉徴収税額の合計額
+    fu = det.get("futures")
+    if fu and fu["carry_out"]:
+        v["ABL00960"] = fu["carry_out"]                                # 99 先物取引の翌年以後に繰り越される損失の金額
+    lb = det.get("land")
+    if lb:
+        rows = lb["rows"]
+        if len(rows) > 2:
+            raise XtxError("第三表の分離課税の短期・長期譲渡所得に関する事項は2行まで（次葉は OpenTax 個人の対象外）")
+        v["ABL00740"] = [CATEGORY_NAME[x["category"]] for x in rows]
+        v["ABL00750"] = [x["location"] or None for x in rows]
+        v["ABL00780"] = [x["cost"] + x["expenses"] + x["addition"] for x in rows]
+        v["ABL00790"] = [x["gain"] for x in rows]
+        v["ABL00850"] = [x["special"] or None for x in rows]
+        v["ABL00860"] = sum(x["gain"] for x in rows)
+        if lb["special_total"]:
+            v["ABL00863"] = lb["special_total"]
+        laws = []                                                      # 特例適用条文（措法 35条1項・31条の3第1項）
+        if any(x["special"] for x in rows):
+            laws.append(("2", 35, None, 1))
+        if any(x["category"] == "70" for x in rows):
+            laws.append(("2", 31, 2, 1))
+        if any(x["category"] == "71" for x in rows):
+            laws.append(("2", 31, 3, 1))
+        if laws:
+            v["ABL00660"] = [x[0] for x in laws]
+            v["ABL00670"] = [x[1] for x in laws]
+            v["ABL00680"] = [x[2] for x in laws]
+            v["ABL00700"] = [x[3] for x in laws]
+    return v
+
+
+STRUCTURE_TAG = {"wood": "EEF00300", "wood_mortar": "EEF00302", "rc": "EEF00304", "metal1": "EEF00306", "metal2": "EEF00306"}
+
+
+def separate_forms(c: dict) -> dict:
+    out: dict = {}
+    det = c["separate"]["detail"]
+    lb, st = det.get("land"), det.get("stocks")
+    if lb:
+        out["KOC050"] = land_statement_values(c)
+    if st and (st["general"]["receipts"] or st["listed"]["receipts"]):
+        out["KOC080"] = stock_statement_values(c)
+    if st and (st["listed"]["net"] < 0 or any(st["carry"]["in"].values())):
+        out["KOA090"] = carryforward_values(c)
+    return out
+
+
+def land_statement_values(c: dict) -> dict:
+    """譲渡所得の内訳書（確定申告書付表兼計算明細書）【土地・建物用】の主な欄。契約ごとに1枚なので、1件の譲渡だけ作る。"""
+    d = c["input"]
+    rows = c["separate"]["detail"]["land"]["rows"]
+    if len(rows) != 1:
+        raise XtxError("譲渡所得の内訳書は契約ごとに1枚です。2件以上の譲渡の内訳書は OpenTax 個人の対象外です（第三表までは作れます）")
+    x, raw = rows[0], d["land_building"][0]
+    v: dict = {"EEE00030": x["location"] or None, "EEE00476": x["price"], "EEE00330": x["sold"],
+               "EEG00206": x["expenses"], "EEF00386": x["cost"]}
+    b = raw.get("building")
+    if x["estimated"]:
+        v["EEF00070"] = x["cost"]                                      # 譲渡価額の5%（概算取得費）
+        v["EEF00150"] = x["cost"]
+    elif "cost" not in raw:
+        v["EEF00070"] = raw.get("land_cost") or None
+        v["EEF00060"] = x["acquired"]
+        v["EEF00150"] = raw.get("land_cost") or None
+        if b:
+            v["EEF00210"] = b["cost"]
+            v["EEF00200"] = datetime.date.fromisoformat(str(b.get("acquired", x["acquired"])))
+            v["EEF00310"] = b["cost"]
+            v["EEF00330"] = b["cost"]
+            v["EEF00360"] = x["depreciation"]
+            tag = STRUCTURE_TAG[b["structure"]]
+            for t in set(STRUCTURE_TAG.values()) | {"EEF00308"}:
+                v[t] = "1" if t == tag else "2"
+    v.update({"EEH00010": ["2" if x["long"] else "1"], "EEH00040": [x["price"]], "EEH00250": [x["cost"] + x["expenses"] + x["addition"]],
+              "EEH00280": [x["gain"]], "EEH00340": [x["income"]]})
+    laws = []
+    if x["special"]:
+        v["EEH00310"] = [x["special"]]
+        laws.append((35, None))
+    if x["category"] == "70":
+        laws.append((31, 2))
+    if x["category"] == "71":
+        laws.append((31, 3))
+    if laws:
+        v["EEH00014"], v["EEH00016"], v["EEH00017"] = ["2"], ["1"], ["2"]
+        v["EEH00020"], v["EEH00024"] = [laws[0][0]], [laws[0][1]]
+        if len(laws) > 1:
+            v["EEH00032"], v["EEH00036"] = [laws[1][0]], [laws[1][1]]
+    return {k: x_ for k, x_ in v.items() if x_ not in (None, [None])}
+
+
+ACCOUNT_KB = {"withholding": "1", "no_withholding": "2"}
+
+
+def stock_statement_values(c: dict) -> dict:
+    """株式等に係る譲渡所得等の金額の計算明細書（1面の所得金額の計算・2面の特定口座の明細）。"""
+    st = c["separate"]["detail"]["stocks"]
+    g, li = st["general"], st["listed"]
+    v: dict = {}
+    if g["receipts"]:
+        v.update({"EHD00050": g["receipts"], "EHD00070": g["receipts"], "EHD00090": g["cost"], "EHD00100": g["commission"],
+                  "EHD00110": g["other"], "EHD00130": g["cost"] + g["commission"] + g["other"], "EHD00140": g["net"],
+                  "EHD00160": g["income"], "EHD00180": g["income"]})
+    if li["receipts"]:
+        v.update({"EHD00210": li["receipts"], "EHD00230": li["receipts"], "EHD00250": li["cost"], "EHD00260": li["commission"],
+                  "EHD00270": li["other"], "EHD00290": li["cost"] + li["commission"] + li["other"], "EHD00300": li["net"],
+                  "EHD00320": li["net"]})
+        if li["carry_used"]:
+            v["EHD00330"] = li["carry_used"]
+        if li["net"] > 0:
+            v["EHD00340"] = li["income"]
+    rows = [x for x in c["input"].get("listed_stocks") or [] if x.get("account") in ACCOUNT_KB]
+    if rows:
+        if len(rows) > 4:
+            raise XtxError("計算明細書の特定口座の明細は4行まで（OpenTax 個人の対象外）")
+        v["EHQ00020"] = [ACCOUNT_KB[x["account"]] for x in rows]
+        v["EHQ00040"] = [x.get("broker") or None for x in rows]
+        v["EHQ00100"] = [x.get("proceeds", 0) for x in rows]
+        v["EHQ00110"] = [x.get("cost", 0) + x.get("commission", 0) + x.get("other_expenses", 0) for x in rows]
+        v["EHQ00120"] = [a - b for a, b in zip(v["EHQ00100"], v["EHQ00110"])]
+        v["EHQ00130"] = [x.get("withheld", 0) for x in rows]
+        v["EHQ00150"], v["EHQ00160"] = sum(v["EHQ00100"]), sum(v["EHQ00110"])
+        v["EHQ00170"], v["EHQ00180"] = v["EHQ00150"] - v["EHQ00160"], sum(v["EHQ00130"])
+    return v
+
+
+def carryforward_values(c: dict) -> dict:
+    """付表（上場株式等に係る譲渡損失の損益通算及び繰越控除用）。赤字の金額は△を付けない（申告のしかた【事例3】）。"""
+    st = c["separate"]["detail"]["stocks"]
+    li, dv, off, cr = st["listed"], st["dividends"], st["offset"], st["carry"]
+    v: dict = {"AHG00020": max(li["net"], 0), "AHG00030": off["loss3"], "AHG00040": off["loss3"],
+               "AHG00150": dv["income"], "AHG00160": dv["interest"], "AHG00170": dv["net"], "AHG00190": off["after5"],
+               "AHG00200": off["after6"]}
+    y3, y2, y1 = cr["years"]
+    d3, e3 = cr["used"][y3]
+    f2, g2 = cr["used"][y2]
+    h1, i1 = cr["used"][y1]
+    v.update({"AHH00020": datetime.date(y3, 12, 31), "AHH00030": cr["in"][y3], "AHH00040": d3, "AHH00050": e3,
+              "AHH00070": datetime.date(y2, 12, 31), "AHH00080": cr["in"][y2], "AHH00090": f2, "AHH00100": g2,
+              "AHH00110": cr["in"][y2] - f2 - g2,
+              "AHH00130": datetime.date(y1, 12, 31), "AHH00140": cr["in"][y1], "AHH00150": h1, "AHH00160": i1,
+              "AHH00170": cr["in"][y1] - h1 - i1,
+              "AHH00175": d3 + f2 + h1, "AHH00180": e3 + g2 + i1, "AHH00190": cr["out"], "AHI00000": off["after6"] - (e3 + g2 + i1)})
+    return v
 
 
 def _statement_values(c: dict, k: dict, key: str, form_id: str) -> dict:
@@ -307,7 +499,7 @@ def build_xtx(c: dict, zeimusho_xsd: bytes, today: datetime.date) -> bytes:
     it, it_ids = build_it(load_layout(SPEC_SET, f"IT-{PROCEDURE_ID}"), it_values(c, zeimusho_xsd), {})
     preparer = (c["input"].get("filing") or {}).get("preparer") or c["input"]["taxpayer"]["name"]
     forms = []
-    for form_id in ("KOA020", "KOA110", "KOA130", "KOA210", "KOA220", "KOB560"):   # 手続XSD の並び順
+    for form_id in FORM_ORDER:                                                    # 手続XSD の並び順
         if form_id not in values:
             continue
         vals = {k: x for k, x in values[form_id].items() if x is not None and x != ""}
