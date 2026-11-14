@@ -108,7 +108,8 @@ def bonus(bonus_after_social: int, prev_after_social: int | None, dependents: in
     - 普通の場合: 算出率の表で率を求め、賞与（社会保険料等控除後）×率（乙欄でも従たる給与の1,610円の控除はしない）
     - 前月に普通給与がない: 賞与÷6（計算期間が6か月超は12。1円未満切捨て）を月額表に当て、その税額×6（12）
     - 前月の普通給与の10倍を超える賞与: （賞与÷6＋前月の給与）の月額表の税額 − 前月の給与の月額表の税額、×6（12）
-    1円未満の端数は切り捨てる。"""
+    1円未満の端数は切り捨てる。
+    給与の支給期が月の整数倍の期間のとき（算出率の表の備考5・所得税法第186条第1項第1号イ）は、直前の給与をその倍数で割った額を prev_after_social に入れる（呼ぶ側で割る）。"""
     _check(bonus_after_social, dependents, column, ("甲", "乙"))
     div = 12 if period_over_6_months else 6
     prev = prev_after_social or 0

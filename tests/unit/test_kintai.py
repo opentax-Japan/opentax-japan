@@ -27,20 +27,47 @@ class KintaiTest(unittest.TestCase):
         m = kintai.month(rows, {"week_start": 0})
         self.assertEqual(m["overtime"], 5 * 60 + 5 * 60)     # 1日8時間を超えた5時間 ＋ 土曜の5時間（週40時間超）
         self.assertEqual(m["holiday"], 4 * 60)
-        p = kintai.premium(m, 2000, {"yen_rounding": "down"})
+        p = kintai.premium(m, 2000, {"yen_rounding": "half_up"})
         self.assertEqual(p["amounts"], {"overtime": 25000, "overtime_over60": 0, "holiday": 10800, "night": 0})
 
     def test_over60(self):
         m = {"overtime": 70 * 60, "overtime_over60": 10 * 60, "holiday": 0, "night": 0}
-        p = kintai.premium(m, 1000, {"yen_rounding": "down"})
+        p = kintai.premium(m, 1000, {"yen_rounding": "half_up"})
         self.assertEqual((p["amounts"]["overtime"], p["amounts"]["overtime_over60"]), (75000, 15000))
 
     def test_rate_below_law_and_missing_rounding_stop(self):
         m = {"overtime": 60, "overtime_over60": 0, "holiday": 0, "night": 0}
         with self.assertRaises(kintai.KintaiError):
-            kintai.premium(m, 1000, {"yen_rounding": "down", "rates": {"overtime": 20}})
+            kintai.premium(m, 1000, {"rates": {"overtime": 20}})
         with self.assertRaises(kintai.KintaiError):
-            kintai.premium(m, 1000, {})
+            kintai.premium(m, 1000, {"yen_rounding": "down"})
+
+
+    def test_carry_rows_for_first_week(self):
+        rows = [{"date": f"2026-10-0{n}", "start": "09:00", "end": "18:00", "break_minutes": 60} for n in (1, 2, 3)]   # 木・金・土 各8時間
+        carry = [{"date": f"2026-09-{n}", "start": "09:00", "end": "18:00", "break_minutes": 60} for n in (28, 29, 30)]  # 月〜水 各8時間
+        self.assertEqual(kintai.month(rows, {"week_start": 0})["overtime"], 0)
+        self.assertTrue(kintai.month(rows, {"week_start": 0})["warnings"])
+        self.assertEqual(kintai.month(rows, {"week_start": 0}, carry)["overtime"], 8 * 60)   # 土曜の8時間が週40時間超
+
+    def test_inferred_break_is_reported(self):
+        d = kintai.day({"date": "2026-10-01", "start": "09:00", "end": "22:00"}, {})
+        self.assertEqual(d["break"], 60)
+        self.assertTrue(d["warnings"])
+
+    def test_negative_break_and_unknown_rate_stop(self):
+        with self.assertRaises(kintai.KintaiError):
+            kintai.day({"date": "2026-10-01", "start": "09:00", "end": "12:00", "break_minutes": -30}, {})
+        with self.assertRaises(kintai.KintaiError):
+            kintai.premium({"overtime": 0, "overtime_over60": 0, "holiday": 0, "night": 0}, 1000, {"rates": {"ot": 30}})
+
+    def test_other_working_time_system_stops(self):
+        with self.assertRaises(kintai.KintaiError):
+            kintai.month([], {"working_time_system": "変形労働時間制"})
+
+    def test_rounding_half_up_by_default(self):
+        m = {"overtime": 1, "overtime_over60": 0, "holiday": 0, "night": 0}       # 1分: 1000×1.25÷60 = 20.83…円
+        self.assertEqual(kintai.premium(m, 1000, {})["amounts"]["overtime"], 21)
 
 
 if __name__ == "__main__":

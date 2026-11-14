@@ -55,15 +55,15 @@ def _floor(x: Decimal) -> int:
 def salary_income(total: int) -> int:
     """給与所得控除後の給与等の金額（年末調整のしかた 36ページ・47〜54ページの表）。"""
     t = table("kyuyo_kojo_go")
-    if total >= t["year_end_limit"]:
-        raise NenchoError("給与の総額が2,000万円以上の人は年末調整の対象になりません")
+    if total > t["year_end_limit"]:
+        raise NenchoError("給与の総額が2,000万円を超える人は年末調整の対象になりません（所得税法第190条）")
     if total < t["zero_below"]:
         return 0
     for r in t["rows"]:
         if r["from"] <= total < r["to"]:
             return r["value"]
     for f in t["formula"]:
-        if f["from"] <= total < f["to"]:
+        if f["from"] <= total < f["to"] or total == f["to"] == t["year_end_limit"]:   # 2,000万円ちょうどは対象（54ページの表の最後の行）
             if f["kind"] == "minus":
                 return total - f["amount"]
             return _floor(Decimal(total) * Decimal(f["percent"]) / 100) - f["amount"]   # 1円未満切捨て（36ページ注2）
@@ -150,14 +150,25 @@ def calculate(p: dict) -> dict:
     eq = earthquake(p.get("earthquake") or {})
     sp = spouse(self_income, p.get("spouse"))
     dep = 0
+    def dis(x, where):
+        if x not in R["disability"] or x == "source":
+            raise NenchoError(f"{where}: 障害者の区分は 一般・特別・同居特別 のどれかです: {x!r}")
+        return R["disability"][x]
     for i, d in enumerate(p.get("dependents") or []):
         if d.get("kind") not in R["dependents"] or d["kind"] == "source":
             raise NenchoError(f"dependents[{i}].kind は 一般・特定・老人・同居老親等 のどれかです")
         dep += R["dependents"][d["kind"]]
         if d.get("disability"):
-            dep += R["disability"][d["disability"]]
-    for x in p.get("disabled_others") or []:
-        dep += R["disability"][x]
+            dep += dis(d["disability"], f"dependents[{i}].disability")
+    for i, x in enumerate(p.get("disabled_others") or []):
+        dep += dis(x, f"disabled_others[{i}]")
+    spi = p.get("spouse") or {}
+    if spi.get("disability"):
+        # 同一生計配偶者（合計所得金額62万円以下。令和8年分）が障害者なら障害者控除（所得税法第79条。年末調整のしかた 55・56ページ）
+        if _int(spi.get("income"), "spouse.income") <= R["spouse"]["deduction_spouse_income_max"]:
+            dep += dis(spi["disability"], "spouse.disability")
+        else:
+            raise NenchoError("spouse.disability: 配偶者の合計所得金額が62万円を超えるので、同一生計配偶者の障害者控除の対象になりません。入力を確かめてください")
     me = p.get("self") or {}
     if me.get("disability"):
         if me["disability"] not in ("一般", "特別"):
@@ -165,6 +176,12 @@ def calculate(p: dict) -> dict:
         dep += R["disability"][me["disability"]]
     if me.get("widow") and me.get("single_parent"):
         raise NenchoError("寡婦控除とひとり親控除は両方は受けられません")
+    # 所得要件（所得税法第2条第1項第30号〜第32号）: 寡婦・ひとり親は合計所得金額500万円以下、勤労学生は89万円以下で給与所得等以外の所得10万円以下
+    if (me.get("widow") or me.get("single_parent")) and self_income > R["self_status_limits"]["widow_single_parent"]:
+        raise NenchoError("合計所得金額が500万円を超えるので、寡婦控除・ひとり親控除の対象になりません（所得税法第2条第1項第30号・第31号）")
+    if me.get("working_student") and (self_income > R["self_status_limits"]["working_student"]
+                                      or _int(p.get("other_income"), "other_income") > R["self_status_limits"]["working_student_other"]):
+        raise NenchoError("合計所得金額が89万円を超える（または給与所得等以外の所得が10万円を超える）ので、勤労学生控除の対象になりません（所得税法第2条第1項第32号）")
     for k, name in (("widow", "寡婦"), ("single_parent", "ひとり親"), ("working_student", "勤労学生")):
         if me.get(k):
             dep += R["self_status"][name]
@@ -191,7 +208,9 @@ def calculate(p: dict) -> dict:
         "specific_relative": spec, "dependents_and_disabled": dep, "basic": basic,
         "deductions_total": total_ded, "taxable": taxable, "tax": tax, "housing_loan_credit": housing,
         "tax_after_credit": after, "year_tax": nentax,
-        "excess": -diff if diff < 0 else 0, "shortage": diff if diff > 0 else 0,
+        "excess": -diff if diff < 0 else 0, "shortage": diff if diff > 0 else 0, "adjusted": True,
+        "housing_loan_possible": _int(p.get("housing_loan_credit"), "housing_loan_credit"),
+        "formula_II": bool((p.get("life_insurance") or {}).get("has_dependent_under23") and (p.get("life_insurance") or {}).get("new_general")),
     }
 
 

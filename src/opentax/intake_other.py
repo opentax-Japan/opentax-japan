@@ -299,7 +299,7 @@ def report(d, kind: str, answers: dict | None = None) -> dict:
     else:
         html, who, when = api.shukuhaku_report(c), inp["facility"].get("name", ""), inp["month"]
     return {"html": html, "name": who, "when": when, "warnings": c.get("warnings", []), "checks": c.get("checks", []),
-            "xtx": kind in ("personal", "souzoku", "nencho")}
+            "xtx": kind in ("personal", "souzoku") or (kind == "nencho" and not (inp.get("filer") or {}).get("deemed_submission", True))}
 
 
 def export(d, kind: str, schema_root, answers: dict | None = None) -> tuple[bytes, list[str]]:

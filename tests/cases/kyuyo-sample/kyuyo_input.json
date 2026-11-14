@@ -3,7 +3,7 @@
   "note": "架空の会社・架空の従業員。料率は協会けんぽ 令和8年度（岡山支部）・雇用保険 令和8年度（一般の事業）",
   "company": {"name": "オープン商事株式会社", "prefecture": "岡山", "business": "一般"},
   "month": "2026-11",
-  "settings": {"week_start": 0, "yen_rounding": "down", "employment_rounding": "half_down_50sen"},
+  "settings": {"week_start": 0, "yen_rounding": "half_up", "employment_rounding": "half_down_50sen"},
   "people": [
     {"id": "e1", "name": "山田　一郎", "birth": "1980-04-10", "standard_monthly": 440000, "column": "甲", "dependents": 0,
      "pay": {"基本給": 310000, "役付手当": 30000, "営業手当": 30000}, "nontaxable": {"通勤手当": 70000},

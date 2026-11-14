@@ -5,6 +5,11 @@
 - filer: 給与の支払者（name・name_kana・address・tax_office・user_id・representative・business・corporate_number）
 - people: 1人ずつ nencho.calculate の入力 ＋ 源泉徴収票の欄（name・kana・address・birth・hired_on・retired_on・
   spouse.name・dependents_under16・minor）。expected があればテストで照らす
+- 年末調整をしない人（年末調整のしかた 5ページ「年末調整の対象とならない人」・所得税法第190条）: 年の中途で退職した人（retired_on）・乙欄の人（column: 乙）は
+  年末調整をせず、源泉徴収票には徴収した税額を書く。退職した人でも年末調整の対象になる場合（死亡退職・12月の給与を受けた後の退職など。同ページの左欄）は
+  year_end_adjustment: true を入れる
+- 令和9年1月1日以後は、給与支払報告書を市区町村に出せば税務署へ出したものとみなされる（タックスアンサー No.7411、みなし提出Q&A 問6・問8）。
+  filer.deemed_submission（既定 true）のときは、税務署へ出す源泉徴収票と合計表の給与の欄を作らない
 """
 from __future__ import annotations
 
@@ -18,6 +23,23 @@ FORMAT = "opentax-nencho/1"
 YEAR = 2026
 
 
+def adjusts(p: dict) -> bool:
+    """年末調整をするか（年末調整のしかた 5ページ）。"""
+    if p.get("year_end_adjustment") is not None:
+        return bool(p["year_end_adjustment"])
+    return not (p.get("retired_on") or p.get("column") == "乙")
+
+
+def not_adjusted(p: dict) -> dict:
+    """年末調整をしない人: 源泉徴収票の源泉徴収税額は、その年に源泉徴収した税額の合計（給与所得の源泉徴収票等の法定調書の作成と提出の手引 5ページ ⑦）。"""
+    from .nencho import _int
+    total = _int(p.get("salary_total"), "salary_total")
+    withheld = _int(p.get("withheld_total"), "withheld_total")
+    social = _int(p.get("social_insurance"), "social_insurance")
+    return {"adjusted": False, "salary_total": total, "withheld_total": withheld, "social_insurance": social, "year_tax": withheld,
+            "excess": 0, "shortage": 0, "spouse": {"kind": None, "amount": 0}}
+
+
 def calculate(data: dict) -> dict:
     if data.get("format") != FORMAT:
         raise NenchoError(f"format が {FORMAT} ではありません（OpenTax PINK の年末調整の入力ですか）")
@@ -26,24 +48,36 @@ def calculate(data: dict) -> dict:
     people = []
     for p in data.get("people") or []:
         try:
-            people.append((p, nencho_calculate(p)))
+            people.append((p, nencho_calculate(p) if adjusts(p) else not_adjusted(p)))
         except NenchoError as e:
             raise NenchoError(f"{p.get('name') or p.get('id')}: {e}") from None
     notes = [
         "扶養親族・配偶者・特定親族に当たるか（所得の見積り・同居・年齢）は、申告書を見て人が確かめた値を入れてください。OpenTax は書かれた事実から計算するだけです",
-        "税務署へ出す源泉徴収票にはマイナンバーが要ります。OpenTax は扱わないので、e-Taxソフトで入れてから送ってください",
-        "令和9年1月1日以後に出す源泉徴収票の提出範囲は、年の中途で退職した人で支払金額30万円以下の人を除く全員です（タックスアンサー No.7411）",
+        "令和9年1月1日以後は、市区町村へ給与支払報告書を出せば、源泉徴収票は税務署へ出したものとみなされ、税務署提出用は作らなくてよくなります（タックスアンサー No.7411）。"
+        "ほかの法定調書を出すときの合計表にも、税務署へ出さない源泉徴収票の欄は書きません（みなし提出Q&A 問8）。税務署へ源泉徴収票を出しても給与支払報告書を出したことにはなりません（同 問6）",
+        "税務署へ出す源泉徴収票（filer.deemed_submission: false のとき）にはマイナンバーが要ります。OpenTax は扱わないので、e-Taxソフトで入れてから送ってください。"
+        "提出範囲は、年の中途で退職した人で支払金額30万円以下の人を除く全員です（タックスアンサー No.7411）",
         "e-Tax の仕様は令和8年8月版（手続 PHS0051 25.0.0、源泉徴収票 HSZ062 6.0）で作っています。令和8年分を出す時期の仕様（令和8年10月30日にドラフト公表）で変わっていないか、e-Taxソフトに組み込んで確かめてください",
     ]
+    skipped = [p.get("name") or p.get("id") for p, r in people if not r["adjusted"]]
+    if skipped:
+        notes.append("年末調整をしていない人（年の中途で退職した人・乙欄の人）: " + "、".join(skipped)
+                     + "。源泉徴収票には徴収した税額を書きます。年末調整の対象になる退職者（死亡退職・12月の給与を受けた後の退職など）は year_end_adjustment: true を入れてください")
     if any(r["spouse"]["kind"] == "配偶者特別控除" for _, r in people):
         notes.append("配偶者特別控除を受けた人の源泉徴収票の「控除対象配偶者の有無等」の書き方は確かめていません。e-Taxソフトで確かめてください")
     excess = sum(r["excess"] for _, r in people)
     shortage = sum(r["shortage"] for _, r in people)
-    totals = {"people": len(people), "salary": sum(r["salary_total"] for _, r in people),
-              "year_tax": sum(r["year_tax"] for _, r in people),
+    totals = {"people": len(people), "salary": sum(r["salary_total"] - _prev(p)[0] for p, r in people),
+              "year_tax": sum(r["year_tax"] - _prev(p)[1] for p, r in people),
               "submitted": sum(1 for p, r in people if must_submit(p, r)),
               "excess": excess, "shortage": shortage}
     return {"input": data, "people": people, "totals": totals, "notes": notes}
+
+
+def _prev(p: dict) -> tuple[int, int]:
+    """前職分（合計表の総額には含めない。手引 31ページ）。"""
+    pj = p.get("previous_job") or {}
+    return int(pj.get("salary") or 0), int(pj.get("tax") or 0)
 
 
 def _y(v: int) -> str:
@@ -68,8 +102,8 @@ def report_html(c: dict, today: datetime.date | None = None) -> str:
     for label, key in rows:
         cells = []
         for _, r in people:
-            v = r[key[0]][key[1]] if isinstance(key, tuple) else r[key]
-            cells.append(f"<td class='n'>{_y(v)}</td>")
+            v = (r.get(key[0]) or {}).get(key[1]) if isinstance(key, tuple) else r.get(key)
+            cells.append(f"<td class='n'>{_y(v) if isinstance(v, int) else '—（年末調整なし）'}</td>")
         body.append(f"<tr><th>{e(label)}</th>{''.join(cells)}</tr>")
     t = c["totals"]
     notes = "".join(f"<li>{e(n)}</li>" for n in c["notes"])
