@@ -10,7 +10,7 @@
   "pension_from": "2017-09"
  },
  "employee_rounding": "給与から控除する被保険者負担分の円未満は50銭以下切捨て・50銭超切上げ（表の注記。事業主と被保険者の特約があればそれによる）",
- "bonus": "標準賞与額は賞与額の1,000円未満切捨て。上限は健康保険・介護保険・子ども・子育て支援金が年度累計573万円、厚生年金保険が月150万円（表の注記）",
+ "bonus": "標準賞与額は賞与額の1,000円未満切捨て。上限は健康保険・介護保険・子ども・子育て支援金が年間573万円（毎年4月1日から翌年3月31日までの累計額）、厚生年金保険が月150万円（表の注記。OpenTax は賞与の社会保険料を計算しない）",
  "pension_grade_bounds": {
   "lowest_to": 93000,
   "highest_from": 635000
@@ -370,285 +370,285 @@
  "prefectures": {
   "北海道": {
    "health_percent": "10.28",
-   "with_nursing_percent": "11.90",
+   "with_nursing_percent": "11.9",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "青森": {
    "health_percent": "9.85",
    "with_nursing_percent": "11.47",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "岩手": {
    "health_percent": "9.51",
    "with_nursing_percent": "11.13",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "宮城": {
-   "health_percent": "10.10",
+   "health_percent": "10.1",
    "with_nursing_percent": "11.72",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "秋田": {
    "health_percent": "10.01",
    "with_nursing_percent": "11.63",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "山形": {
    "health_percent": "9.75",
    "with_nursing_percent": "11.37",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "福島": {
-   "health_percent": "9.50",
+   "health_percent": "9.5",
    "with_nursing_percent": "11.12",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "茨城": {
    "health_percent": "9.52",
    "with_nursing_percent": "11.14",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "栃木": {
    "health_percent": "9.82",
    "with_nursing_percent": "11.44",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "群馬": {
    "health_percent": "9.68",
-   "with_nursing_percent": "11.30",
+   "with_nursing_percent": "11.3",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "埼玉": {
    "health_percent": "9.67",
    "with_nursing_percent": "11.29",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "千葉": {
    "health_percent": "9.73",
    "with_nursing_percent": "11.35",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "東京": {
    "health_percent": "9.85",
    "with_nursing_percent": "11.47",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "神奈川": {
    "health_percent": "9.92",
    "with_nursing_percent": "11.54",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "新潟": {
    "health_percent": "9.21",
    "with_nursing_percent": "10.83",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "富山": {
    "health_percent": "9.59",
    "with_nursing_percent": "11.21",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "石川": {
-   "health_percent": "9.70",
+   "health_percent": "9.7",
    "with_nursing_percent": "11.32",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "福井": {
    "health_percent": "9.71",
    "with_nursing_percent": "11.33",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "山梨": {
    "health_percent": "9.55",
    "with_nursing_percent": "11.17",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "長野": {
    "health_percent": "9.63",
    "with_nursing_percent": "11.25",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "岐阜": {
-   "health_percent": "9.80",
+   "health_percent": "9.8",
    "with_nursing_percent": "11.42",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "静岡": {
    "health_percent": "9.61",
    "with_nursing_percent": "11.23",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "愛知": {
    "health_percent": "9.93",
    "with_nursing_percent": "11.55",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "三重": {
    "health_percent": "9.77",
    "with_nursing_percent": "11.39",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "滋賀": {
    "health_percent": "9.88",
-   "with_nursing_percent": "11.50",
+   "with_nursing_percent": "11.5",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "京都": {
    "health_percent": "9.89",
    "with_nursing_percent": "11.51",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "大阪": {
    "health_percent": "10.13",
    "with_nursing_percent": "11.75",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "兵庫": {
    "health_percent": "10.12",
    "with_nursing_percent": "11.74",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "奈良": {
    "health_percent": "9.91",
    "with_nursing_percent": "11.53",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "和歌山": {
    "health_percent": "10.06",
    "with_nursing_percent": "11.68",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "鳥取": {
    "health_percent": "9.86",
    "with_nursing_percent": "11.48",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "島根": {
    "health_percent": "9.94",
    "with_nursing_percent": "11.56",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "岡山": {
    "health_percent": "10.05",
    "with_nursing_percent": "11.67",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "広島": {
    "health_percent": "9.78",
-   "with_nursing_percent": "11.40",
+   "with_nursing_percent": "11.4",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "山口": {
    "health_percent": "10.15",
    "with_nursing_percent": "11.77",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "徳島": {
    "health_percent": "10.24",
    "with_nursing_percent": "11.86",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "香川": {
    "health_percent": "10.02",
    "with_nursing_percent": "11.64",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "愛媛": {
    "health_percent": "9.98",
-   "with_nursing_percent": "11.60",
+   "with_nursing_percent": "11.6",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "高知": {
    "health_percent": "10.05",
    "with_nursing_percent": "11.67",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "福岡": {
    "health_percent": "10.11",
    "with_nursing_percent": "11.73",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "佐賀": {
    "health_percent": "10.55",
    "with_nursing_percent": "12.17",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "長崎": {
    "health_percent": "10.06",
    "with_nursing_percent": "11.68",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "熊本": {
    "health_percent": "10.08",
-   "with_nursing_percent": "11.70",
+   "with_nursing_percent": "11.7",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "大分": {
    "health_percent": "10.08",
-   "with_nursing_percent": "11.70",
+   "with_nursing_percent": "11.7",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "宮崎": {
    "health_percent": "9.77",
    "with_nursing_percent": "11.39",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "鹿児島": {
    "health_percent": "10.13",
    "with_nursing_percent": "11.75",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   },
   "沖縄": {
    "health_percent": "9.44",
    "with_nursing_percent": "11.06",
    "kodomo_percent": "0.23",
-   "pension_percent": "18.30"
+   "pension_percent": "18.3"
   }
  }
 }

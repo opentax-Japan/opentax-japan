@@ -7,7 +7,7 @@
   時間外2割5分以上・休日3割5分以上、時間外が1か月60時間を超えた分は5割以上
 - 同第37条第4項: 午後10時から午前5時までの労働は2割5分以上（深夜）
 割増賃金の1円未満の端数（昭和63年3月14日 基発第150号。厚生労働省 山口労働局の資料
-https://jsite.mhlw.go.jp/yamaguchi-roudoukyoku/content/contents/001862521.pdf で確認）: 1か月の時間外・休日・深夜の割増賃金の総額の1円未満は、
+https://jsite.mhlw.go.jp/yamaguchi-roudoukyoku/content/contents/001862521.pdf で確認。2026-11-14 現在このURLは開けず、別の検証で Internet Archive の写しを確認）: 1か月の時間外・休日・深夜の割増賃金の総額の1円未満は、
 50銭未満切捨て・50銭以上切上げなら違反として取り扱わない。OpenTax は区分ごとの1か月の総額でこの処理（既定 half_up）か、労働者に有利な切上げ（up）だけを選べる。
 対象外（止める）: 週44時間の特例（労働基準法施行規則第25条の2）・変形労働時間制・フレックスタイム制（settings.working_time_system が「通常」以外）。
 
@@ -143,9 +143,14 @@ def premium(m: dict, hourly_base: int | str, settings: dict) -> dict:
     how = settings.get("yen_rounding")
     h = lambda mins: Decimal(mins) / 60   # noqa: E731
     ot_normal = m["overtime"] - m["overtime_over60"]
+    # 時間外は60時間以内と60時間超を合わせた総額で1回だけ端数処理し、60時間超の分（端数処理した額）を除いた残りを60時間以内の分とする（基発第150号「各々の割増賃金の総額」）
+    ot_a = base * (1 + Decimal(rates["overtime"]) / 100) * h(ot_normal)
+    ot_b = base * (1 + Decimal(rates["over60"]) / 100) * h(m["overtime_over60"])
+    ot_total = _round(ot_a + ot_b, how)
+    ot_b_r = min(_round(ot_b, how), ot_total)
     amounts = {
-        "overtime": _round(base * (1 + Decimal(rates["overtime"]) / 100) * h(ot_normal), how),
-        "overtime_over60": _round(base * (1 + Decimal(rates["over60"]) / 100) * h(m["overtime_over60"]), how),
+        "overtime": ot_total - ot_b_r,
+        "overtime_over60": ot_b_r,
         "holiday": _round(base * (1 + Decimal(rates["holiday"]) / 100) * h(m["holiday"]), how),
         "night": _round(base * Decimal(rates["night"]) / 100 * h(m["night"]), how),   # 深夜は上乗せ分だけ（時間外・休日の賃金に足す）
     }

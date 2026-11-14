@@ -70,5 +70,13 @@ class KintaiTest(unittest.TestCase):
         self.assertEqual(kintai.premium(m, 1000, {})["amounts"]["overtime"], 21)
 
 
+    def test_overtime_over60_rounded_with_the_rest(self):
+        # 60時間以内と60時間超を合わせた時間外の総額で1回だけ端数処理（基発第150号）
+        m = {"overtime": 60 * 60 + 1, "overtime_over60": 1, "holiday": 0, "night": 0}
+        p = kintai.premium(m, 1000, {})
+        exact = 1000 * 1.25 * 60 + 1000 * 1.5 / 60
+        self.assertEqual(p["amounts"]["overtime"] + p["amounts"]["overtime_over60"], round(exact))
+
+
 if __name__ == "__main__":
     unittest.main()

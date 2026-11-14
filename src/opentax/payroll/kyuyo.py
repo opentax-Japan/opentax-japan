@@ -24,6 +24,7 @@ import csv
 import datetime
 import io
 import json
+import re
 from decimal import ROUND_CEILING, ROUND_DOWN, ROUND_HALF_UP, Decimal
 from functools import lru_cache
 
@@ -49,9 +50,9 @@ def _half_rule(x: Decimal) -> int:
 
 
 def _round(x: Decimal, how: str | None, what: str) -> int:
+    """既定は 50銭以下切捨て・50銭超切上げ（給与から控除する場合。社会保険料は協会けんぽの表の注記①、雇用保険料は愛媛労働局「雇用保険料率表」
+    https://jsite.mhlw.go.jp/ehime-roudoukyoku/hourei_seido_tetsuzuki/roudou_hoken/hourei_seido/2030108.html 。慣習的な取扱い等の特約があれば settings で変える）。"""
     if how in (None, "half_down_50sen"):
-        if how is None and what == "雇用保険料":
-            raise KyuyoError("settings.employment_rounding（雇用保険料の被保険者負担分の円未満: half_down_50sen・down・up・half_up）を会社の決まりに合わせて入れてください")
         return _half_rule(x)
     mode = {"down": ROUND_DOWN, "up": ROUND_CEILING, "half_up": ROUND_HALF_UP}.get(how)
     if mode is None:
@@ -59,20 +60,29 @@ def _round(x: Decimal, how: str | None, what: str) -> int:
     return int(x.to_integral_value(rounding=mode))
 
 
-def _age(birth: str, on: datetime.date) -> int:
+def _reach(birth: str, age: int) -> datetime.date:
+    """その年齢に達する日＝誕生日の前日（年齢計算ニ関スル法律。協会けんぽ 茨城支部「『満40歳に達したとき』とは40歳の誕生日の前日」）。"""
     b = datetime.date.fromisoformat(birth)
-    return on.year - b.year - ((on.month, on.day) < (b.month, b.day))
+    try:
+        bd = b.replace(year=b.year + age)
+    except ValueError:            # 2月29日生まれ
+        bd = datetime.date(b.year + age, 3, 1)
+    return bd - datetime.timedelta(days=1)
+
+
+def _month_last(ym: str) -> datetime.date:
+    y, m = map(int, ym.split("-"))
+    first = datetime.date(y, m, 1)
+    return (first.replace(day=28) + datetime.timedelta(days=4)).replace(day=1) - datetime.timedelta(days=1)
 
 
 def _nursing(birth: str | None, ins_month: str) -> bool:
-    """介護保険第2号被保険者（40歳以上65歳未満）か。月の初日〜末日のどこで年齢が変わるかの細かい決まり（誕生日の前日に達する等）は確かめていないので、
-    その月の末日の年齢で見て、月の中で40歳・65歳になる人は注意を出す。"""
+    """その月分が介護保険第2号被保険者（40歳以上65歳未満）の月か。40歳に達した日（誕生日の前日）の属する月から、
+    65歳に達した日の属する月の前月まで（介護保険法第9条第2号・第10条・第11条、健康保険法第156条第1項第1号・第2項）。"""
     if not birth:
         raise KyuyoError("介護保険に当たるかを決めるため、birth（生年月日）を入れてください")
-    y, m = map(int, ins_month.split("-"))
-    first = datetime.date(y, m, 1)
-    last = (first.replace(day=28) + datetime.timedelta(days=4)).replace(day=1) - datetime.timedelta(days=1)
-    return 40 <= _age(birth, last) < 65
+    last = _month_last(ins_month)
+    return _reach(birth, 40) <= last and _reach(birth, 65) > last
 
 
 def read_timecard_csv(data: bytes) -> dict[str, list[dict]]:
@@ -111,12 +121,17 @@ def read_timecard_csv(data: bytes) -> dict[str, list[dict]]:
 
 def person(p: dict, company: dict, month: str, ins_month: str, settings: dict, timecard: list[dict] | None) -> dict:
     kk = _rules("kyokai_kenpo")
-    pref = kk["prefectures"].get(company.get("prefecture", "").rstrip("都道府県") if company.get("prefecture") not in kk["prefectures"] else company["prefecture"])
+    pname = str(company.get("prefecture") or "")
+    if pname not in kk["prefectures"] and pname != "北海道" and pname[-1:] in ("都", "府", "県"):
+        pname = pname[:-1]                       # 「京都府」→「京都」（末尾の1文字だけ外す）
+    pref = kk["prefectures"].get(pname)
     if not pref:
         raise KyuyoError(f"company.prefecture: 協会けんぽの支部（都道府県）が分かりません: {company.get('prefecture')}")
     warnings = []
     pay = {k: int(v) for k, v in (p.get("pay") or {}).items()}
     nontax = {k: int(v) for k, v in (p.get("nontaxable") or {}).items()}
+    if any(v < 0 for v in [*pay.values(), *nontax.values()]):
+        raise KyuyoError(f"{p.get('name')}: 支給の額は0以上で入れてください（返金・控除は other_deductions に）")
     work = None
     if timecard:
         m = kintai.month(timecard, settings)
@@ -132,20 +147,44 @@ def person(p: dict, company: dict, month: str, ins_month: str, settings: dict, t
     gross_taxable = sum(pay.values())
     gross = gross_taxable + sum(nontax.values())
     ded: dict[str, int] = {}
-    if p.get("health_insurance", True):
+    last = _month_last(ins_month)
+    health = p.get("health_insurance", True)
+    pension = p.get("pension_insurance", health)
+    if health or pension:
         std = int(p.get("standard_monthly") or 0)
         grades = {g["monthly"] for g in kk["grades"]}
         if std not in grades:
             raise KyuyoError(f"{p.get('name')}: standard_monthly（標準報酬月額）は協会けんぽの等級表の額を入れてください（決定通知書の額）: {std}")
+        if not p.get("birth"):
+            raise KyuyoError(f"{p.get('name')}: 介護保険・厚生年金保険の年齢を見るため birth（生年月日）を入れてください")
+    if health:
+        # 75歳以上は健康保険の被保険者でない（健康保険法第3条第1項第7号。後期高齢者医療）。その月の扱いは確かめていないので止める
+        b = datetime.date.fromisoformat(p["birth"])
+        bd75 = datetime.date(b.year + 75, b.month, min(b.day, 28)) if (b.month, b.day) == (2, 29) else b.replace(year=b.year + 75)
+        if bd75 <= last:
+            raise KyuyoError(f"{p.get('name')}: 75歳以上（またはその月に75歳）の人は後期高齢者医療に移り、健康保険の被保険者ではありません（健康保険法第3条第1項第7号）。"
+                             "health_insurance: false を入れてください")
         nursing = _nursing(p.get("birth"), ins_month)
+        # 被保険者負担分は「一般保険料率と子ども・子育て支援金率とを合算した率」（＋介護保険料率）の保険料額の2分の1で、端数処理は合算した額に1回
+        # （健康保険法第156条第1項・第161条第1項、子ども・子育て支援金に関するQ&A（令和8年2月12日）問6）。明細の支援金の内訳は支援金だけの折半額を示し、残りを健康保険料とする
         hrate = Decimal(pref["with_nursing_percent" if nursing else "health_percent"])
-        ded["健康保険料" + ("（介護保険料を含む）" if nursing else "")] = _round(Decimal(std) * hrate / 100 / 2, settings.get("social_rounding"), "健康保険料")
-        if ins_month >= kk["applies"]["kodomo_from"]:
-            ded["子ども・子育て支援金"] = _round(Decimal(std) * Decimal(pref["kodomo_percent"]) / 100 / 2, settings.get("social_rounding"), "子ども・子育て支援金")
-        # 厚生年金保険の標準報酬月額は、表で厚生年金の等級（括弧の数字）がある行の最低〜最高（4(1)等級〜35(32)等級。表の読み替えの注記）
-        pg = [g["monthly"] for g in kk["grades"] if g["pension_grade"]]
-        pstd = min(max(std, min(pg)), max(pg))
-        ded["厚生年金保険料"] = _round(Decimal(pstd) * Decimal(pref["pension_percent"]) / 100 / 2, settings.get("social_rounding"), "厚生年金保険料")
+        krate = Decimal(pref["kodomo_percent"]) if ins_month >= kk["applies"]["kodomo_from"] else Decimal(0)
+        total = _round(Decimal(std) * (hrate + krate) / 100 / 2, settings.get("social_rounding"), "健康保険料")
+        kodomo = _round(Decimal(std) * krate / 100 / 2, settings.get("social_rounding"), "子ども・子育て支援金") if krate else 0
+        ded["健康保険料" + ("（介護保険料を含む）" if nursing else "")] = total - kodomo
+        if krate:
+            ded["子ども・子育て支援金"] = kodomo
+    if pension:
+        # 厚生年金保険は70歳未満（厚生年金保険法第9条）。70歳に達した日（誕生日の前日）に資格を失い（第14条第5号）、その月分から保険料はかからない（第19条第1項・第81条第2項）
+        if _reach(p["birth"], 70) <= last:
+            if p.get("pension_insurance") is True:
+                raise KyuyoError(f"{p.get('name')}: 70歳に達した月以後は厚生年金保険の被保険者ではありません（厚生年金保険法第9条・第14条第5号）")
+            warnings.append(f"{ins_month} 分は70歳に達した月以後なので、厚生年金保険料は控除しません（厚生年金保険法第9条・第14条第5号・第19条第1項）")
+        else:
+            # 厚生年金保険の標準報酬月額は、表で厚生年金の等級（括弧の数字）がある行の最低〜最高（4(1)等級〜35(32)等級。表の読み替えの注記）
+            pg = [g["monthly"] for g in kk["grades"] if g["pension_grade"]]
+            pstd = min(max(std, min(pg)), max(pg))
+            ded["厚生年金保険料"] = _round(Decimal(pstd) * Decimal(pref["pension_percent"]) / 100 / 2, settings.get("social_rounding"), "厚生年金保険料")
     if p.get("employment_insurance", True):
         ko = _rules("koyo")
         biz = company.get("business", "一般")
@@ -174,21 +213,27 @@ def calculate(data: dict, timecards: dict[str, list[dict]] | None = None) -> dic
         y, m = map(int, month.split("-"))
     except ValueError:
         raise KyuyoError("month: 支給する月を YYYY-MM で入れてください") from None
-    if y != 2026 and not (y == 2027 and m <= 3):
-        raise KyuyoError("給与計算は令和8年度（2026年4月〜2027年3月）の料率と令和8年分の税額表だけです")
-    if y == 2027:
-        raise KyuyoError("令和9年分の源泉徴収税額表はまだ入れていません（令和9年1月から改正）")
+    if not re.fullmatch(r"\d{4}-\d{2}", month) or not 1 <= m <= 12:
+        raise KyuyoError("month: 支給する月を YYYY-MM（例 2026-11）で入れてください")
+    # 料率は年度・月で選ぶ: 雇用保険は令和8年4月1日から、健康保険・介護保険は令和8年3月分から。令和9年分の税額表はまだ（令和9年1月から改正）
+    if not ("2026-04" <= month <= "2026-12"):
+        raise KyuyoError("給与計算は令和8年4月〜12月に支給する給与だけです（雇用保険料率は令和8年度、源泉徴収税額表は令和8年分しか入れていません）")
     prev = datetime.date(y, m, 1) - datetime.timedelta(days=1)
     ins_month = str(data.get("social_insurance_month") or f"{prev.year:04d}-{prev.month:02d}")
+    if not re.fullmatch(r"\d{4}-\d{2}", ins_month) or not 1 <= int(ins_month[5:]) <= 12:
+        raise KyuyoError("social_insurance_month: 保険料の月を YYYY-MM（例 2026-10）で入れてください")
+    if ins_month < _rules("kyokai_kenpo")["applies"]["health_and_nursing_from"]:
+        raise KyuyoError(f"{ins_month} 分の健康保険料・介護保険料率は令和8年度の表（令和8年3月分から）の前です。その年度の表は入れていません")
     settings = data.get("settings") or {}
     timecards = timecards or {}
     people = []
     for p in data.get("people") or []:
         tc = timecards.get(str(p.get("id"))) or timecards.get(str(p.get("name"))) or (timecards.get("") if len(data["people"]) == 1 else None)
         people.append(person(p, data.get("company") or {}, month, ins_month, settings, tc))
-    notes = [f"社会保険料は {ins_month} 分を控除したものとして計算しました（social_insurance_month で変えられます）",
+    notes = [f"社会保険料は {ins_month} 分を控除したものとして計算しました（前月分を控除。健康保険法第167条第1項・厚生年金保険法第84条第1項。social_insurance_month で変えられます）",
+             "入社した月（前月分がない）・退職する月（前月とその月の2か月分を控除することがある。同条）・資格を失った月分（算定しない。健康保険法第156条第3項）は手で確かめてください",
              "標準報酬月額は決定通知書の額を入れてください（算定・月変の判定はしていません）",
-             "介護保険第2号被保険者は月末の年齢（40歳以上65歳未満）で見ています。月の中で40歳・65歳になる人は確かめてください"]
+             "対象外: 賞与の社会保険料、産前産後・育児休業の保険料の免除、二以上の事業所に勤める人、健康保険組合・厚生年金基金、協会けんぽの保険料調整制度、日額表を使う人"]
     return {"input": data, "month": month, "social_insurance_month": ins_month, "people": people,
             "totals": {k: sum(x[k] for x in people) for k in ("gross", "social", "net")} | {"tax": sum(x["deductions"]["所得税"] for x in people)},
             "notes": notes}

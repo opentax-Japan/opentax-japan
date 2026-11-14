@@ -38,8 +38,7 @@ class KyuyoTest(unittest.TestCase):
         self.assertEqual(x["deductions"]["雇用保険料"], 2_266)          # 453,300×5/1000＝2,266.5（50銭以下切捨て）
         data = sample()
         del data["settings"]["employment_rounding"]
-        with self.assertRaises(kyuyo.KyuyoError):
-            self.calc(data)
+        self.assertEqual(self.calc(data)["deductions"]["雇用保険料"], 2_266)   # 既定は 50銭以下切捨て（愛媛労働局「雇用保険料率表」）
 
     def test_withholding_and_net(self):
         x = self.calc()
@@ -75,6 +74,68 @@ class KyuyoTest(unittest.TestCase):
     def test_checklist_has_pink(self):
         pink = [g for g in intake_other.checklist() if g["color"] == "PINK"][0]
         self.assertEqual(pink["sample"], "pink")
+
+
+    # --- 別の検証（2026-11-14 給与計算）の指摘への対応 ---
+    def test_kodomo_rounded_together_with_health(self):
+        data = sample()
+        data["people"][0]["standard_monthly"] = 410_000
+        d = self.calc(data)["deductions"]
+        # 410,000×(11.67％＋0.23％)÷2 ＝ 24,395.0（合算して1回の端数処理。健康保険法第156条・第161条、Q&A 問6）
+        self.assertEqual(d["健康保険料（介護保険料を含む）"] + d["子ども・子育て支援金"], 24_395)
+        self.assertEqual(d["子ども・子育て支援金"], 471)
+
+    def test_nursing_month_for_first_day_birthday(self):
+        data = sample()
+        data["people"][0]["birth"] = "1986-11-01"          # 40歳に達する日は 2026-10-31 → 10月分から介護保険
+        self.assertIn("健康保険料（介護保険料を含む）", self.calc(data)["deductions"])
+        data["people"][0]["birth"] = "1961-11-01"          # 65歳に達する日は 2026-10-31 → 10月分から介護保険なし
+        self.assertIn("健康保険料", self.calc(data)["deductions"])
+        self.assertNotIn("健康保険料（介護保険料を含む）", self.calc(data)["deductions"])
+        data["people"][0]["birth"] = "1986-11-02"          # 40歳に達する日は 2026-11-01 → 10月分はまだ
+        self.assertIn("健康保険料", self.calc(data)["deductions"])
+
+    def test_pension_over_70_and_health_over_75(self):
+        data = sample()
+        data["people"][0]["birth"] = "1955-01-01"          # 71歳: 厚生年金保険の被保険者でない
+        x = self.calc(data)
+        self.assertNotIn("厚生年金保険料", x["deductions"])
+        self.assertTrue(any("70歳" in w for w in x["warnings"]))
+        data["people"][0]["birth"] = "1950-01-01"          # 76歳: 後期高齢者医療
+        with self.assertRaises(kyuyo.KyuyoError):
+            self.calc(data)
+        data["people"][0]["health_insurance"] = False
+        self.assertNotIn("健康保険料", self.calc(data)["deductions"])
+
+    def test_rate_year_by_month(self):
+        for month, ins in (("2026-03", None), ("2026-01", None), ("2027-01", None), ("2026-05", "2026-02")):
+            data = sample()
+            data["month"] = month
+            if ins:
+                data["social_insurance_month"] = ins
+            with self.assertRaises(kyuyo.KyuyoError, msg=month):
+                self.calc(data)
+
+    def test_month_format(self):
+        data = sample()
+        data["social_insurance_month"] = "2026-3"
+        with self.assertRaises(kyuyo.KyuyoError):
+            self.calc(data)
+        data = sample()
+        data["month"] = "abc"
+        with self.assertRaises(kyuyo.KyuyoError):
+            self.calc(data)
+
+    def test_kyoto_fu(self):
+        data = sample()
+        data["company"]["prefecture"] = "京都府"
+        self.assertIn("厚生年金保険料", self.calc(data)["deductions"])
+
+    def test_negative_pay_stops(self):
+        data = sample()
+        data["people"][0]["pay"]["基本給"] = -1
+        with self.assertRaises(kyuyo.KyuyoError):
+            self.calc(data)
 
 
 if __name__ == "__main__":

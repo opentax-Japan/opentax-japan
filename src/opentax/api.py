@@ -420,8 +420,10 @@ def nencho_export(calculated: dict, schema_root: Path, today: datetime.date | No
                   submitted: datetime.date | None = None) -> bytes:
     """給与所得の源泉徴収票等の法定調書（及び同合計表）の .xtx（手続 PHS0051）。"""
     from .payroll.etax import build_xtx
-    zeimusho = (schema_root / Path(*ZEIMUSHO_XSD.split("/"))).read_bytes()
     d = calculated["input"]
+    if (d.get("filer") or {}).get("deemed_submission", True):
+        return build_xtx(d["year"], d["filer"], calculated["people"], b"", today or datetime.date.today(), submitted)   # みなし提出: XSD を読む前に止める
+    zeimusho = (schema_root / Path(*ZEIMUSHO_XSD.split("/"))).read_bytes()
     return build_xtx(d["year"], d["filer"], calculated["people"], zeimusho, today or datetime.date.today(), submitted)
 
 
