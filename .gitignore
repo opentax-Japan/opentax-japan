@@ -26,3 +26,5 @@ desktop.ini
 
 # Web 画面の組み立て結果
 web/_site/
+# 架空の会社の見本（OpenTax で作ったもの）だけは入れる
+!tests/cases/**/*_架空.xtx

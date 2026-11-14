@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DATA xmlns="http://xml.e-tax.nta.go.jp/XSD/hojin" xmlns:gen="http://xml.e-tax.nta.go.jp/XSD/general" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" id="DATA">
+ <RHO0012 VR="26.0.1" id="RHO0012">
+  <CATALOG id="CATALOG">
+   <rdf:RDF>
+    <rdf:description id="REPORT">
+     <SEND_DATA />
+     <IT_SEC>
+      <rdf:description about="#IT" />
+     </IT_SEC>
+     <FORM_SEC>
+      <rdf:Seq>
+       <rdf:li>
+        <rdf:description about="#HOA112-1" />
+       </rdf:li>
+       <rdf:li>
+        <rdf:description about="#HOA114-1" />
+       </rdf:li>
+       <rdf:li>
+        <rdf:description about="#HOA201-1" />
+       </rdf:li>
+       <rdf:li>
+        <rdf:description about="#HOA420-1" />
+       </rdf:li>
+       <rdf:li>
+        <rdf:description about="#HOA511-1" />
+       </rdf:li>
+       <rdf:li>
+        <rdf:description about="#HOA522-1" />
+       </rdf:li>
+       <rdf:li>
+        <rdf:description about="#HOB710-1" />
+       </rdf:li>
+      </rdf:Seq>
+     </FORM_SEC>
+     <TENPU_SEC />
+     <XBRL_SEC />
+     <XBRL2_1_SEC />
+     <SOFUSHO_SEC />
+     <ATTACH_SEC />
+     <CSV_SEC />
+    </rdf:description>
+   </rdf:RDF>
+  </CATALOG>
+  <CONTENTS id="CONTENTS">
+   <IT id="IT" VR="1.5">
+    <ZEIMUSHO ID="ZEIMUSHO">
+     <gen:zeimusho_CD>01101</gen:zeimusho_CD>
+     <gen:zeimusho_NM>麹町</gen:zeimusho_NM>
+    </ZEIMUSHO>
+    <NOZEISHA_ID ID="NOZEISHA_ID">0000000000000000</NOZEISHA_ID>
+    <NOZEISHA_NM_KN ID="NOZEISHA_NM_KN">オープンショウジ</NOZEISHA_NM_KN>
+    <NOZEISHA_NM ID="NOZEISHA_NM">オープン商事株式会社</NOZEISHA_NM>
+    <NOZEISHA_ZIP ID="NOZEISHA_ZIP">
+     <gen:zip1>100</gen:zip1>
+     <gen:zip2>0013</gen:zip2>
+    </NOZEISHA_ZIP>
+    <NOZEISHA_ADR ID="NOZEISHA_ADR">東京都千代田区霞が関3-1-1</NOZEISHA_ADR>
+    <NOZEISHA_TEL ID="NOZEISHA_TEL">
+     <gen:tel1>03</gen:tel1>
+     <gen:tel2>0000</gen:tel2>
+     <gen:tel3>0000</gen:tel3>
+    </NOZEISHA_TEL>
+    <SHIHON_KIN ID="SHIHON_KIN">10000000</SHIHON_KIN>
+    <JIGYO_NAIYO ID="JIGYO_NAIYO">卸売業</JIGYO_NAIYO>
+    <DAIHYO_NM_KN ID="DAIHYO_NM_KN">カイハツ タロウ</DAIHYO_NM_KN>
+    <DAIHYO_NM ID="DAIHYO_NM">開発 太郎</DAIHYO_NM>
+    <TETSUZUKI ID="TETSUZUKI">
+     <procedure_CD>RHO0012</procedure_CD>
+     <procedure_NM>内国法人の確定申告(青色)</procedure_NM>
+    </TETSUZUKI>
+    <JIGYO_NENDO_FROM ID="JIGYO_NENDO_FROM">
+     <gen:era>5</gen:era>
+     <gen:yy>6</gen:yy>
+     <gen:mm>10</gen:mm>
+     <gen:dd>1</gen:dd>
+    </JIGYO_NENDO_FROM>
+    <JIGYO_NENDO_TO ID="JIGYO_NENDO_TO">
+     <gen:era>5</gen:era>
+     <gen:yy>7</gen:yy>
+     <gen:mm>9</gen:mm>
+     <gen:dd>30</gen:dd>
+    </JIGYO_NENDO_TO>
+    <SHINKOKU_KBN ID="SHINKOKU_KBN">
+     <kubun_CD>30</kubun_CD>
+    </SHINKOKU_KBN>
+   </IT>
+   <HOA112 VR="7.0" id="HOA112-1" page="1" softNM="OpenTaxRED OpenTaxJapan" sakuseiNM="オープン商事株式会社" sakuseiDay="2025-11-20">
+    <BGA00000>
+     <BGA00020 IDREF="ZEIMUSHO" />
+     <BGA00030 IDREF="NOZEISHA_ADR" />
+     <BGA00040 IDREF="NOZEISHA_TEL" />
+     <BGA00050>
+      <BGA00060 IDREF="NOZEISHA_NM_KN" />
+      <BGA00070 IDREF="NOZEISHA_NM" />
+     </BGA00050>
+     <BGA00090>
+      <BGA00100 IDREF="DAIHYO_NM_KN" />
+      <BGA00110 IDREF="DAIHYO_NM" />
+     </BGA00090>
+     <BGA00130>
+      <kubun_CD>1</kubun_CD>
+     </BGA00130>
+     <BGA00140 IDREF="JIGYO_NAIYO" />
+     <BGA00150 IDREF="SHIHON_KIN" />
+     <BGA00160>
+      <kubun_CD>2</kubun_CD>
+     </BGA00160>
+     <BGA00170>
+      <kubun_CD>1</kubun_CD>
+     </BGA00170>
+     <BGA00210>
+      <BGA00220>
+       <kubun_CD>1</kubun_CD>
+      </BGA00220>
+      <BGA00230>
+       <kubun_CD>1</kubun_CD>
+      </BGA00230>
+      <BGA00240>
+       <kubun_CD>1</kubun_CD>
+      </BGA00240>
+      <BGA00250>
+       <kubun_CD>1</kubun_CD>
+      </BGA00250>
+      <BGA00260>
+       <kubun_CD>1</kubun_CD>
+      </BGA00260>
+      <BGA00270>
+       <kubun_CD>2</kubun_CD>
+      </BGA00270>
+      <BGA00280>
+       <kubun_CD>2</kubun_CD>
+      </BGA00280>
+     </BGA00210>
+     <BGA00300>
+      <kubun_CD>2</kubun_CD>
+     </BGA00300>
+     <BGA00310>
+      <kubun_CD>2</kubun_CD>
+     </BGA00310>
+     <BGA00320>
+      <kubun_CD>2</kubun_CD>
+     </BGA00320>
+     <BGA00330>
+      <BGA00340 IDREF="JIGYO_NENDO_FROM" />
+      <BGA00350 IDREF="JIGYO_NENDO_TO" />
+     </BGA00330>
+     <BGA00360 IDREF="SHINKOKU_KBN" />
+     <BGA00410>
+      <gen:era>5</gen:era>
+      <gen:yy>7</gen:yy>
+      <gen:mm>11</gen:mm>
+      <gen:dd>25</gen:dd>
+     </BGA00410>
+    </BGA00000>
+    <BGB00000>
+     <BGB00010>-1130000</BGB00010>
+     <BGB00470>4130000</BGB00470>
+    </BGB00000>
+    <BGF00000>
+     <kubun_CD>2</kubun_CD>
+    </BGF00000>
+    <BGG00000>
+     <kubun_CD>2</kubun_CD>
+    </BGG00000>
+   </HOA112>
+   <HOA114 VR="1.0" id="HOA114-1" page="1" softNM="OpenTaxRED OpenTaxJapan" sakuseiNM="オープン商事株式会社" sakuseiDay="2025-11-20">
+    <KZA00000>
+     <KZA00010>
+      <KZA00020 IDREF="JIGYO_NENDO_FROM" />
+      <KZA00030 IDREF="JIGYO_NENDO_TO" />
+     </KZA00010>
+     <KZA00040 IDREF="NOZEISHA_NM" />
+    </KZA00000>
+   </HOA114>
+   <HOA201 VR="5.0" id="HOA201-1" page="1" softNM="OpenTaxRED OpenTaxJapan" sakuseiNM="オープン商事株式会社" sakuseiDay="2025-11-20">
+    <VAA00000>
+     <VAA00010>
+      <VAA00020 IDREF="JIGYO_NENDO_FROM" />
+      <VAA00030 IDREF="JIGYO_NENDO_TO" />
+     </VAA00010>
+     <VAA00040 IDREF="NOZEISHA_NM" />
+    </VAA00000>
+    <VAB00000>
+     <VAB00010>200</VAB00010>
+     <VAB00020>200</VAB00020>
+     <VAB00030>100.0</VAB00030>
+     <VAB00120>100.000</VAB00120>
+    </VAB00000>
+    <VAD00000>
+     <kubun_CD>2</kubun_CD>
+    </VAD00000>
+    <VAE00000>
+     <VAE00010>
+      <VAE00020>
+       <VAE00030>1</VAE00030>
+       <VAE00040>1</VAE00040>
+      </VAE00020>
+      <VAE00050>
+       <VAE00060>東京都千代田区霞が関3-1-1</VAE00060>
+       <VAE00070>開発 太郎</VAE00070>
+      </VAE00050>
+      <VAE00080>
+       <VAE00120>
+        <VAE00130>150</VAE00130>
+       </VAE00120>
+      </VAE00080>
+     </VAE00010>
+     <VAE00170>
+      <VAE00180>
+       <VAE00190>1</VAE00190>
+       <VAE00200>1</VAE00200>
+      </VAE00180>
+      <VAE00210>
+       <VAE00220>東京都千代田区霞が関3-1-1</VAE00220>
+       <VAE00230>開発 花子</VAE00230>
+      </VAE00210>
+      <VAE00235>
+       <kubun_CD>02</kubun_CD>
+      </VAE00235>
+      <VAE00250>
+       <VAE00290>
+        <VAE00300>50</VAE00300>
+       </VAE00290>
+      </VAE00250>
+     </VAE00170>
+    </VAE00000>
+   </HOA201>
+   <HOA420 VR="25.0" id="HOA420-1" page="1" softNM="OpenTaxRED OpenTaxJapan" sakuseiNM="オープン商事株式会社" sakuseiDay="2025-11-20">
+    <ARA00000>
+     <ARA00010>
+      <ARA00020 IDREF="JIGYO_NENDO_FROM" />
+      <ARA00030 IDREF="JIGYO_NENDO_TO" />
+     </ARA00010>
+     <ARA00040 IDREF="NOZEISHA_NM" />
+    </ARA00000>
+    <ARB00000>
+     <ARB00010>-1200000</ARB00010>
+     <ARB00020>-1200000</ARB00020>
+    </ARB00000>
+    <ARC00000>
+     <ARC00100>
+      <ARC00110>70000</ARC00110>
+      <ARC00120>70000</ARC00120>
+     </ARC00100>
+     <ARC00325>
+      <ARC00330>70000</ARC00330>
+      <ARC00340>70000</ARC00340>
+     </ARC00325>
+    </ARC00000>
+    <ARE00000>
+     <ARE00010>-1130000</ARE00010>
+     <ARE00020>-1130000</ARE00020>
+    </ARE00000>
+    <ARZ10000>
+     <ARZ10010>-1130000</ARZ10010>
+     <ARZ10020>-1130000</ARZ10020>
+    </ARZ10000>
+    <ARK00000>
+     <ARK00010>-1130000</ARK00010>
+     <ARK00020>-1130000</ARK00020>
+    </ARK00000>
+    <ARM00000>
+     <ARM00010>-1130000</ARM00010>
+     <ARM00020>-1130000</ARM00020>
+    </ARM00000>
+    <ARS00000>
+     <ARS00010>-1130000</ARS00010>
+     <ARS00020>-1130000</ARS00020>
+    </ARS00000>
+    <ARS50000>
+     <ARS50010>-1130000</ARS50010>
+     <ARS50020>-1130000</ARS50020>
+    </ARS50000>
+    <ARV00000>
+     <ARV00010>-1130000</ARV00010>
+     <ARV00020>-1130000</ARV00020>
+    </ARV00000>
+   </HOA420>
+   <HOA511 VR="16.1" id="HOA511-1" page="1" softNM="OpenTaxRED OpenTaxJapan" sakuseiNM="オープン商事株式会社" sakuseiDay="2025-11-20">
+    <ICA00000>
+     <ICA00010>
+      <ICA00020 IDREF="JIGYO_NENDO_FROM" />
+      <ICA00030 IDREF="JIGYO_NENDO_TO" />
+     </ICA00010>
+     <ICA00040 IDREF="NOZEISHA_NM" />
+    </ICA00000>
+    <ICB00000>
+     <ICB00400>
+      <ICB00410>-1800000</ICB00410>
+      <ICB00420>
+       <ICB00430>-1800000</ICB00430>
+       <ICB00440>-3000000</ICB00440>
+      </ICB00420>
+      <ICB00450>-3000000</ICB00450>
+     </ICB00400>
+     <ICB00460>
+      <ICB00470>70000</ICB00470>
+      <ICB00480>
+       <ICB00490>70000</ICB00490>
+       <ICB00500>70000</ICB00500>
+      </ICB00480>
+      <ICB00510>70000</ICB00510>
+     </ICB00460>
+     <ICB00520>
+      <ICB00620>
+       <ICB00630>70000</ICB00630>
+       <ICB00640>
+        <ICB00650>70000</ICB00650>
+        <ICB00660>
+         <ICB00680>70000</ICB00680>
+        </ICB00660>
+       </ICB00640>
+       <ICB00700>70000</ICB00700>
+      </ICB00620>
+     </ICB00520>
+     <ICB00800>
+      <ICB00810>-1800000</ICB00810>
+      <ICB00820>
+       <ICB00830>-1800000</ICB00830>
+       <ICB00840>-3000000</ICB00840>
+      </ICB00820>
+      <ICB00850>-3000000</ICB00850>
+     </ICB00800>
+    </ICB00000>
+    <ICC00000>
+     <ICC00010>
+      <ICC00020>10000000</ICC00020>
+      <ICC00060>10000000</ICC00060>
+     </ICC00010>
+     <ICC00200>
+      <ICC00210>10000000</ICC00210>
+      <ICC00250>10000000</ICC00250>
+     </ICC00200>
+    </ICC00000>
+   </HOA511>
+   <HOA522 VR="10.0" id="HOA522-1" page="1" softNM="OpenTaxRED OpenTaxJapan" sakuseiNM="オープン商事株式会社" sakuseiDay="2025-11-20">
+    <IEA00000>
+     <IEA00010>
+      <IEA00020 IDREF="JIGYO_NENDO_FROM" />
+      <IEA00030 IDREF="JIGYO_NENDO_TO" />
+     </IEA00010>
+     <IEA00040 IDREF="NOZEISHA_NM" />
+    </IEA00000>
+    <IEC00000>
+     <IEC00010>
+      <IEC00020>
+       <gen:era>5</gen:era>
+       <gen:yy>5</gen:yy>
+       <gen:mm>10</gen:mm>
+       <gen:dd>1</gen:dd>
+      </IEC00020>
+      <IEC00030>
+       <gen:era>5</gen:era>
+       <gen:yy>6</gen:yy>
+       <gen:mm>9</gen:mm>
+       <gen:dd>30</gen:dd>
+      </IEC00030>
+      <IEC00050>70000</IEC00050>
+      <IEC00060>
+       <IEC00070>
+        <IEC00090>70000</IEC00090>
+       </IEC00070>
+      </IEC00060>
+     </IEC00010>
+     <IEC00170>
+      <IEC00440>
+       <IEC00450>70000</IEC00450>
+       <IEC00460>
+        <IEC00480>70000</IEC00480>
+       </IEC00460>
+      </IEC00440>
+     </IEC00170>
+     <IEC00490>
+      <IEC00510>70000</IEC00510>
+      <IEC00520>70000</IEC00520>
+      <IEC00530>
+       <IEC00540>
+        <IEC00560>70000</IEC00560>
+       </IEC00540>
+      </IEC00530>
+      <IEC00630>
+       <IEC00650>70000</IEC00650>
+      </IEC00630>
+     </IEC00490>
+    </IEC00000>
+    <IEG00000>
+     <IEG00010>70000</IEG00010>
+     <IEG00020>
+      <IEG00030>70000</IEG00030>
+      <IEG00070>70000</IEG00070>
+     </IEG00020>
+     <IEG00080>
+      <IEG00090>70000</IEG00090>
+      <IEG00180>70000</IEG00180>
+     </IEG00080>
+     <IEG00190>70000</IEG00190>
+    </IEG00000>
+   </HOA522>
+   <HOB710 VR="13.0" id="HOB710-1" page="1" softNM="OpenTaxRED OpenTaxJapan" sakuseiNM="オープン商事株式会社" sakuseiDay="2025-11-20">
+    <MCA00000>
+     <MCA00010>
+      <MCA00020 IDREF="JIGYO_NENDO_FROM" />
+      <MCA00030 IDREF="JIGYO_NENDO_TO" />
+     </MCA00010>
+     <MCA00040 IDREF="NOZEISHA_NM" />
+    </MCA00000>
+    <MCB00000>
+     <MCB00004>
+      <MCB00007>
+       <kubun_CD>5</kubun_CD>
+      </MCB00007>
+     </MCB00004>
+     <MCB00110 />
+     <MCB00110 />
+     <MCB00110 />
+     <MCB00110 />
+     <MCB00110 />
+     <MCB00110 />
+     <MCB00110 />
+     <MCB00110>
+      <MCB00120>
+       <MCB00130>
+        <gen:era>5</gen:era>
+        <gen:yy>4</gen:yy>
+        <gen:mm>10</gen:mm>
+        <gen:dd>1</gen:dd>
+       </MCB00130>
+       <MCB00140>
+        <gen:era>5</gen:era>
+        <gen:yy>5</gen:yy>
+        <gen:mm>9</gen:mm>
+        <gen:dd>30</gen:dd>
+       </MCB00140>
+      </MCB00120>
+      <MCB00150>
+       <MCB00160>
+        <kubun_CD>1</kubun_CD>
+       </MCB00160>
+       <MCB00170>
+        <kubun_CD>2</kubun_CD>
+       </MCB00170>
+       <MCB00180>
+        <kubun_CD>2</kubun_CD>
+       </MCB00180>
+      </MCB00150>
+      <MCB00190>3000000</MCB00190>
+      <MCB00210>3000000</MCB00210>
+     </MCB00110>
+     <MCB00220>
+      <MCB00230>3000000</MCB00230>
+      <MCB00250>3000000</MCB00250>
+     </MCB00220>
+     <MCB00260>
+      <MCB00270>1130000</MCB00270>
+      <MCB00280>
+       <MCB00330>
+        <MCB00340>1130000</MCB00340>
+        <MCB00360>1130000</MCB00360>
+       </MCB00330>
+      </MCB00280>
+     </MCB00260>
+     <MCB00370>4130000</MCB00370>
+    </MCB00000>
+   </HOB710>
+  </CONTENTS>
+ </RHO0012>
+</DATA>

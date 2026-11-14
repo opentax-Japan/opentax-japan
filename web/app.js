@@ -1,4 +1,4 @@
-// OpenTax RED の画面。計算はワーカーの中の Python（opentax.api）だけが行う。
+// 詳しく入力する画面（RED・BLACK）。計算はワーカーの中の Python（opentax.api）だけが行う。
 // 入力と結果は、この変数（state・lastResult）にだけ置く。localStorage・sessionStorage・IndexedDB・Cookie は使わない。
 // 保存と再開は、利用者がボタンを押したときのファイルのダウンロードと、ファイルの選択だけ。
 "use strict";
@@ -6,8 +6,7 @@
 const RELATIONS = ["本人", "配偶者", "父", "母", "義父", "義母", "長男", "次男", "三男", "長女", "次女", "三女", "子", "孫", "祖父", "祖母", "兄弟", "姉妹", "その他"];
 const LOCAL_TAXES = ["道府県民税", "市町村民税"];
 const METHODS = ["充当金取崩し", "損金経理"];
-const OUT_OF_SCOPE = ["黒字法人の税額計算", "税額控除（所得税額の控除・還付を含む）", "中間申告", "外形標準課税（資本金1億円超）",
-  "欠損金の繰戻し還付", "グループ通算", "特別措置の適用（適用額明細書）", "剰余金の配当", "別表四のその他の加算・減算",
+const OUT_OF_SCOPE = ["外形標準課税", "欠損金の繰戻し還付", "グループ通算", "剰余金の配当", "別表四のその他の加算・減算",
   "仮払経理による納付", "分割法人（2つ以上の都道府県・市町村に事務所）"];
 
 // 入力項目。path は入力 JSON の場所（opentax の入力と同じ形）
@@ -278,7 +277,7 @@ function render() {
     }
     form.append(el("details", { class: "section", open: true }, el("summary", {}, s.title), body));
   }
-  form.append(el("details", { class: "section" }, el("summary", {}, "OpenTax RED の対象外（入力できません）"),
+  form.append(el("details", { class: "section" }, el("summary", {}, "この画面の対象外（入力できません）"),
     el("ul", { class: "out-of-scope" }, OUT_OF_SCOPE.map((t) => el("li", {}, t)))));
 }
 

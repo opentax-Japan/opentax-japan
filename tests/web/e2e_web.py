@@ -49,7 +49,7 @@ def main() -> int:
     import shutil
     import subprocess
     if shutil.which("node"):
-        for js in ("app.js", "worker.js"):
+        for js in ("app.js", "worker.js", "easy.js", "ai.js"):
             r = subprocess.run(["node", "--check", str(REPO / "web" / js)], capture_output=True, text=True)
             if r.returncode:
                 sys.exit(f"web/{js} の構文に誤りがあります:\n{r.stderr}")
@@ -75,7 +75,27 @@ def main() -> int:
         page = ctx.new_page()
         page.on("request", lambda r: outside.append(r.url) if not r.url.startswith(base) and not r.url.startswith(("blob:", "data:", "about:")) else None)
         page.on("worker", lambda w: None)
+        # かんたん入口（スマホ幅）: 見本で試す → 読み取り → 見本の答え → 申告書一式
         page.goto(base)
+        expect(page.locator("#status")).to_contain_text("準備ができました", timeout=180_000)
+        page.screenshot(path=str(OUT / "00-easy-top.png"), full_page=True)
+        page.click("#sample")
+        expect(page.locator("#out")).to_be_visible(timeout=180_000)
+        check("かんたん入口: 見本のファイル6つを全部読めた", page.locator("#file-list li.ok").count() == 6)
+        readout = page.locator("#readout").inner_text()
+        check("かんたん入口: 前期の申告データから会社名・株主・繰越欠損金を読んだ",
+              all(t in readout for t in ("オープン商事株式会社", "開発 太郎", "繰越欠損金", "前期の申告データ")))
+        body = page.frame_locator("#report").locator("body").inner_text()
+        check("かんたん入口: 申告書一式ができた（法人税・地方税の章）", "1. 法人税（別表）" in body and "地方税" in body)
+        check("かんたん入口: 印刷・まとめて保存・QR のボタン", all(page.locator(s).is_visible() for s in ("#print", "#save-all", "#show-qr")))
+        with page.expect_download(timeout=60_000) as dl:
+            page.click("#save-all")
+        check("かんたん入口: まとめて保存は .zip", dl.value.suggested_filename.endswith(".zip"))
+        page.click("#show-qr")
+        check("かんたん入口: QR（この画面の URL だけ）", page.locator("#qr-img svg").count() == 1)
+        page.screenshot(path=str(OUT / "00-easy-mobile.png"), full_page=True)
+
+        page.goto(base + "detail.html")
         expect(page.locator("#status")).to_contain_text("準備ができました", timeout=180_000)
         page.screenshot(path=str(OUT / "01-ready.png"))
 
@@ -176,6 +196,37 @@ def main() -> int:
         n_sheets = page.frame_locator("#report").locator("#hojin svg.paper").count()
         check(f"申告書一式（デモ）: 法人税の別表11枚が様式の形（{n_sheets} 枚）", n_sheets == 11)
         page.screenshot(path=str(OUT / "07-report.png"))
+        # かんたん入口（PC 幅）: ファイルを選ぶ → 問いに1つずつ答える → 申告書一式
+        pc = browser.new_context(viewport={"width": 1280, "height": 900}, accept_downloads=True)
+        page = pc.new_page()
+        page.on("request", lambda r: outside.append(r.url) if not r.url.startswith(base) and not r.url.startswith(("blob:", "data:", "about:")) else None)
+        page.goto(base)
+        expect(page.locator("#status")).to_contain_text("準備ができました", timeout=180_000)
+        case = REPO / "tests/cases/open-shoji-tokyo"
+        page.set_input_files("#pick-files", [str(case / "前期の申告データ_架空.xtx"), str(case / "科目残高一覧表_架空_TKC形式.txt")])
+        expect(page.locator("#check")).to_be_visible(timeout=120_000)
+        check("かんたん入口（PC）: 2つとも読めた", page.locator("#file-list li.ok").count() == 2)
+        page.locator(".question input").first.fill("5")       # 従業者数（給与の記録がないので聞かれる）
+        page.locator(".question button", has_text="決める").first.click()
+        for _ in range(8):                                    # 申告調整・前期の未納の問いに答える
+            page.wait_for_timeout(500)
+            box = page.locator("#followups .question").first
+            if box.count() == 0:
+                break
+            if box.locator("table.dep").count():
+                for k, v in (("kind", "器具及び備品"), ("useful_life", "5"), ("cost", "3000000"), ("book_end", "1000000")):
+                    box.locator(f"[data-k={k}]").fill(v)
+                box.locator("button", has_text="決める").click()
+            elif box.locator("input").count():
+                box.locator("input").fill("120000")
+                box.locator("button", has_text="決める").click()
+            else:
+                box.locator("button").first.click()
+        check("かんたん入口（PC）: 問いが残っていない", page.locator("#followups .question").count() == 0)
+        page.click("#make")
+        expect(page.locator("#out")).to_be_visible(timeout=120_000)
+        check("かんたん入口（PC）: 申告書一式ができた", "1. 法人税（別表）" in page.frame_locator("#report").locator("body").inner_text())
+        page.screenshot(path=str(OUT / "00-easy-pc.png"), full_page=True)
         browser.close()
     if server:
         server.shutdown()
@@ -212,7 +263,7 @@ def main() -> int:
     check("内訳書・概況書入りの .xtx が手元で作ったものと同じ（作成日を除く）",
           strip(att_xml) == strip(api.export_etax(calc, root, None, uw,
                                                   json.loads((REPO / "tests/cases/office/office.json").read_text(encoding="utf-8")))))
-    check("見本の .xtx に税務代理権限証書（OpenTax プロ）", b"<som:SOZ074 " in att_xml)
+    check("見本の .xtx に税務代理権限証書（PLATINUM）", b"<som:SOZ074 " in att_xml)
 
     failed = [label for label, ok in results if not ok]
     print(f"\n{len(results) - len(failed)}/{len(results)} 件 OK")

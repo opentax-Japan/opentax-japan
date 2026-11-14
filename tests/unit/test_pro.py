@@ -1,4 +1,4 @@
-"""OpenTax プロ（税務代理権限証書）のテスト。架空の法人・架空の税理士事務所だけを使う。"""
+"""OpenTax PLATINUM（税務代理権限証書）のテスト。架空の法人・架空の税理士事務所だけを使う。"""
 
 import datetime
 import json

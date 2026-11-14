@@ -362,8 +362,8 @@ def _local_tax(args: argparse.Namespace) -> int:
 
 
 def _office_args(p: argparse.ArgumentParser) -> None:
-    p.add_argument("--office", help="OpenTax プロ: 税理士事務所の設定 JSON。税務代理権限証書を添付する（見本: tests/cases/office/office.json）")
-    p.add_argument("--engaged-on", help="OpenTax プロ: 税務代理権限証書の委任年月日（YYYY-MM-DD）")
+    p.add_argument("--office", help="OpenTax PLATINUM: 税理士事務所の設定 JSON。税務代理権限証書を添付する（見本: tests/cases/office/office.json）")
+    p.add_argument("--engaged-on", help="OpenTax PLATINUM: 税務代理権限証書の委任年月日（YYYY-MM-DD）")
 
 
 def _office(args: argparse.Namespace) -> tuple[dict | None, dict | None]:
@@ -371,7 +371,7 @@ def _office(args: argparse.Namespace) -> tuple[dict | None, dict | None]:
         return None, None
     import json as _json
     office = _json.loads(Path(args.office).read_text(encoding="utf-8"))
-    print("税務代理権限証書を入れます（OpenTax プロ）")
+    print("税務代理権限証書を入れます（OpenTax PLATINUM）")
     return office, ({"date": args.engaged_on} if args.engaged_on else None)
 
 
@@ -651,8 +651,12 @@ def main(argv: list[str] | None = None) -> int:
     sk.add_argument("--submitted", help="提出日（YYYY-MM-DD。申告書の日付の欄に書く）")
     sk.add_argument("--report", help="納入申告書・月計表の HTML を書き出す先")
 
+    it = sub.add_parser("intake", help="読み取り層: ファイル（前期の .xtx・残高試算表・推移表・JSON・AI が読んだ値の JSON）から入力 JSON の下書きを作る")
+    it.add_argument("files", nargs="+", help="読むファイル（フォルダを渡すと中の全部）")
+    it.add_argument("-o", "--output", help="下書き（input・marks・conflicts・questions・followups）を書き出す先の JSON")
+
     args = parser.parse_args(argv)
-    command = {"fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
+    command = {"intake": _intake, "fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
                "build-checks": _build_checks, "calculate": _calculate, "export-etax": _export_etax,
                "local-tax": _local_tax, "shohi": _shohi, "kojin": _kojin, "report": _report,
                "jigyosho": _jigyosho, "shukuhaku": _shukuhaku}[args.command]
@@ -672,6 +676,30 @@ def main(argv: list[str] | None = None) -> int:
             ValidationUnavailable, SheetError, ShohiInputError, KojinError, JigyoshoError, ShukuhakuError, OSError) as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
+
+
+def _intake(args) -> int:
+    """読み取り層（DESIGN §24）。計算はしない。AI が読んだ値の JSON（docs/intake.md）も一緒に渡せる。"""
+    from . import intake
+    paths = []
+    for f in args.files:
+        p = Path(f)
+        paths += sorted(x for x in p.rglob("*") if x.is_file()) if p.is_dir() else [p]
+    d = intake.read_files([(str(p), p.read_bytes()) for p in paths])
+    r = intake.resolve(d)
+    r["followups"] = intake.followups(r["input"], d.attachments.get("balance"))
+    for f in r["files"]:
+        print(("読めた    " if f["ok"] else "読めない  ") + f"{f['label']}  {f['name']}  {f['note']}")
+    for c in r["conflicts"]:
+        print(f"食い違い  {c['path']}: " + " ／ ".join(f"{x['value']}（{x['source']}）" for x in c["candidates"]))
+    for q in r["questions"]:
+        print(f"足りない  {q['path']}: {q['label']}")
+    for q in r["followups"]:
+        print(f"問い      {q['label']}")
+    if args.output:
+        Path(args.output).write_text(json.dumps(r, ensure_ascii=False, indent=2, default=str), encoding="utf-8", newline="\n")
+        print(f"書き出しました: {args.output}")
+    return 0
 
 
 if __name__ == "__main__":

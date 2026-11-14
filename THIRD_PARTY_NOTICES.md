@@ -84,3 +84,10 @@ Web 画面の「申告書（紙の様式）」は、国税庁ホームページ�
 
 - 事業所税の税率・免税点・課税標準の特例・課税団体（src/opentax/jigyosho/rules/jigyosho.json）は、e-Gov 法令API の地方税法・地方税法施行令・指定都市の指定に関する政令・首都圏整備法施行令・近畿圏整備法施行令の条文から作っています（tools/build_jigyosho_rules.py）。端数・計算の順番は岡山市「事業所税の手引（2026年版）」の計算例で確かめています
 - 長野県宿泊税の税率・免税点などの設定（src/opentax/shukuhaku/rules/nagano-ken.json）は、長野県宿泊税条例・長野県宿泊税に関する規則と、長野県の「特別徴収の手引き」「Q&A」から書いています（各値に出典）
+
+## qrcode-generator（web/qrcode.js）
+
+- 作者: Kazuhiko Arase（https://github.com/kazuhikoarase/qrcode-generator）
+- ライセンス: MIT License（ファイル先頭の表示のとおり）。版 1.4.4（https://unpkg.com/qrcode-generator@1.4.4/qrcode.js、SHA256 18ae399f81182bc9de916e9c77b195df20cc58d6f2d55a62b085a299f1bf1780）
+- 用途: かんたん入口の「スマホで開く（QR）」で、画面の URL の QR コードを画面の中で作る（外へ通信しない）
+- QR コードは株式会社デンソーウェーブの登録商標です

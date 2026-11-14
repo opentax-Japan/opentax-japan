@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- このサイトのファイル以外は読み込まない・通信しない。地方税の一覧のプレビュー（srcdoc）のためだけに style の inline を許す -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self'; connect-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src 'self' about:; form-action 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<title>詳しく入力する - OpenTax</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>OpenTax 詳しく入力する（RED・BLACK）</h1>
+  <p>法人の申告データを、欄に入れて作ります。入力した内容はどこにも送られず、画面を閉じると消えます。<a href="index.html">ファイルを入れるだけの画面へ</a>・<a href="report.html">申告書一式（デモ）</a>・<a href="payroll.html">給与の記録（PINK）</a></p>
+</header>
+<main>
+  <div id="status" class="status" role="status">準備しています…</div>
+
+  <section class="toolbar">
+    <button type="button" id="load-sample" disabled>見本（架空の法人）を入れる</button>
+    <label class="file-button">入力ファイルを開く<input type="file" id="open-input" accept=".json,application/json" disabled></label>
+    <button type="button" id="save-input" disabled>入力をファイルに保存</button>
+    <button type="button" id="clear-input" disabled>入力を消す</button>
+  </section>
+
+  <form id="input-form" autocomplete="off" novalidate></form>
+
+  <section class="actions">
+    <label class="inline"><input type="checkbox" id="trial"> 試し用（別表二の割合の端数処理を「切り捨て」にして作る。ファイル名に trial が付きます）</label>
+    <button type="button" id="calculate" class="primary" disabled>計算する</button>
+  </section>
+
+  <section id="messages"></section>
+
+  <section id="results" hidden>
+    <h2>計算結果</h2>
+    <div id="summary" class="cards"></div>
+
+    <h3>申告書（紙の様式）</h3>
+    <p class="note">国税庁の様式の上に、計算した金額を重ねて表示します（金額がある欄だけ）。指で拡大して見られます。</p>
+    <div id="paper"></div>
+
+    <h3>申告書のプレビュー（表）</h3>
+    <label class="inline note"><input type="checkbox" id="filled-only"> 金額のある行だけ表示する</label>
+    <p class="note">帳票フィールド仕様書の行番号・区分・列で並べた表です。紙の様式の罫線や文字の配置までは再現していません。</p>
+    <div id="preview"></div>
+
+    <h3>地方税の一覧（第六号様式・第二十号様式）</h3>
+    <iframe id="local-sheet" title="地方税の一覧" sandbox=""></iframe>
+    <div class="row">
+      <button type="button" id="download-local">地方税の一覧を保存（HTML）</button>
+    </div>
+
+    <h3>内訳書・概況書（任意）</h3>
+    <p class="note">選んだファイルから、勘定科目内訳明細書と法人事業概況説明書を作り、.xtx に一緒に入れます。ファイルはこの画面の中で読むだけで、どこにも送りません。<br>会計ソフトは問いません。見出しの行に「勘定科目（科目名）」と「期末残高（残高）」の列がある CSV・TXT なら読めます。月次推移表は「10月」「2025/10」のような月の列で読みます。</p>
+    <div class="attach-grid">
+      <label class="file-button">残高試算表（会計ソフトから書き出した CSV・TXT）<input type="file" id="att-balance" accept=".txt,.TXT,.csv,.CSV,text/plain,text/csv"></label>
+      <span id="att-balance-name" class="note">未選択（期末の科目ごとの残高。内訳書・概況書の主要科目に使います）</span>
+      <label class="file-button">月次推移表（会計ソフトから書き出した CSV・TXT）<input type="file" id="att-trend" accept=".txt,.TXT,.csv,.CSV,text/plain,text/csv"></label>
+      <span id="att-trend-name" class="note">未選択（概況書の月別の売上・仕入に使います）</span>
+      <label class="file-button">内訳書の補足（JSON）<input type="file" id="att-supplement" accept=".json,application/json"></label>
+      <span id="att-supplement-name" class="note">未選択（相手先の所在地・口座番号など）</span>
+      <label class="file-button">給与の記録（JSON・複数可）<input type="file" id="att-payroll" accept=".json,application/json" multiple></label>
+      <span id="att-payroll-name" class="note">未選択（役員給与等の内訳書、概況書の従事員・人件費に使います）</span>
+      <label class="file-button">概況書の入力（JSON）<input type="file" id="att-gaikyo" accept=".json,application/json"></label>
+      <span id="att-gaikyo-name" class="note">未選択（事業内容・経理の状況・税理士など。選ばなければ概況書は作りません）</span>
+      <label class="file-button">税理士事務所の設定（JSON。PLATINUM）<input type="file" id="att-office" accept=".json,application/json"></label>
+      <span id="att-office-name" class="note">未選択（選ぶと税務代理権限証書を .xtx と申告書一式に入れます）</span>
+    </div>
+    <div class="row">
+      <button type="button" id="att-sample">見本（架空の法人）のファイルを入れる</button>
+      <button type="button" id="att-check">内訳書・概況書を確かめる</button>
+      <button type="button" id="att-report">申告書一式を見る（別のタブ）</button>
+      <button type="button" id="att-clear">選んだファイルを外す</button>
+    </div>
+    <div id="att-result"></div>
+
+    <h3>e-Tax 用のデータ（.xtx）</h3>
+    <p class="note">国税庁の e-Tax 仕様書「XMLスキーマ」（e-tax19.CAB）を選んでください。この CAB で申告データを検証してから書き出します。CAB は国税庁のサイト（https://www.e-tax.nta.go.jp/shiyo/ksk2/ksk2_shiyo3.htm）から取得してください。</p>
+    <div class="row">
+      <label class="file-button">e-tax19.CAB を選ぶ<input type="file" id="cab" accept=".cab,.CAB"></label>
+      <span id="cab-name" class="note">未選択</span>
+    </div>
+    <div class="row">
+      <label><input type="checkbox" id="without-balance"> 決算書なしで作る（申告調整の漏れ（寄附金・受取配当・租税公課・役員給与など）を点検しません）</label>
+    </div>
+    <div class="row">
+      <button type="button" id="export-etax" class="primary" disabled>検証して .xtx を作る</button>
+    </div>
+    <div id="export-result"></div>
+    <p class="note">e-Taxソフト（ダウンロード版）の「申告・申請等一覧」の「組み込み」で読み込めます。電子署名・送信は e-Taxソフトで行ってください。</p>
+  </section>
+
+  <section class="disclaimer">
+    <h2>対象と注意</h2>
+    <ul>
+      <li>対象: 単純な中小法人（普通法人・青色申告）。赤字（RED）も黒字（BLACK）も作れます。対応している自治体は画面の選択肢のとおりです。</li>
+      <li>対象外の入力があると、作らずに止まって理由を出します。</li>
+      <li>eLTAX 用の取込ファイルは作りません。地方税は一覧を見て PCdesk に入力してください。</li>
+      <li>計算結果の正しさは保証しません。申告の内容と責任は利用者にあります。</li>
+    </ul>
+    <p class="note">ソースコード: https://github.com/opentax-Japan/opentax-japan（MIT）</p>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

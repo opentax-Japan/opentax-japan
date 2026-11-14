@@ -17,7 +17,7 @@ from .red import local_sheet
 
 CHAPTERS = [("hojin", "法人税（別表）"), ("shohi", "消費税"), ("gaikyo", "法人事業概況説明書"),
             ("kessan", "決算書（貸借対照表・損益計算書・株主資本等変動計算書・個別注記表）"), ("uchiwake", "勘定科目内訳明細書"), ("chiho", "地方税"),
-            ("dairi", "税務代理権限証書（OpenTax プロ）")]
+            ("dairi", "税務代理権限証書（OpenTax PLATINUM）")]
 PRO_CHAPTERS = {"dairi"}     # 税理士事務所の設定があるときだけ出す章
 UCHIWAKE_TITLES = {"HOI010": "預貯金等の内訳書", "HOI020": "受取手形の内訳書", "HOI030": "売掛金（未収入金）の内訳書",
                    "HOI040": "仮払金（前渡金）の内訳書・貸付金及び受取利息の内訳書",

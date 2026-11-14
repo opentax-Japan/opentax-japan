@@ -80,7 +80,7 @@ def export_etax(calculated: dict, schema_root: Path, today: datetime.date | None
                 without_balance: bool = False) -> bytes:
     """calculate の結果から .xtx を作る。一致しない項目が残っていたら作らない。
     uchiwake: uchiwake_from_balance の結果。あれば内訳書も入れる。
-    office: 税理士事務所の設定（OpenTax プロ）。あれば税務代理権限証書（法人税）を添付する。engagement は pro.dairi を参照"""
+    office: 税理士事務所の設定（OpenTax PLATINUM）。あれば税務代理権限証書（法人税）を添付する。engagement は pro.dairi を参照"""
     if calculated["problems"]:
         raise SpecError("一致しない項目があるため .xtx を作りません: " + "; ".join(calculated["problems"][:3]))
     if calculated["result"].get("adjustments") is None and not without_balance:
@@ -300,7 +300,7 @@ def shohi_calculate(raw_input: dict) -> dict:
 
 def shohi_export(calculated: dict, schema_root: Path, today: datetime.date | None = None,
                  office: dict | None = None, engagement: dict | None = None) -> bytes:
-    """消費税の .xtx（一般課税は手続 RSH0020、簡易課税は RSH0040）。office があれば税務代理権限証書（消費税）を添付する（OpenTax プロ）。"""
+    """消費税の .xtx（一般課税は手続 RSH0020、簡易課税は RSH0040）。office があれば税務代理権限証書（消費税）を添付する（OpenTax PLATINUM）。"""
     from .shohi.etax import build_xtx
     zeimusho = (schema_root / Path(*ZEIMUSHO_XSD.split("/"))).read_bytes()
     tenpu = None
@@ -471,7 +471,7 @@ def report(calculated: dict, balance: bytes | None = None, trend: bytes | None =
            shohi_input: dict | None = None, today: datetime.date | None = None,
            office: dict | None = None, engagement: dict | None = None) -> str:
     """申告書一式（HTML 1枚）: 法人税の別表 → 消費税 → 概況書 → 決算書 → 内訳書 → 地方税
-    （→ 税理士事務所の設定 office があれば税務代理権限証書。OpenTax プロ）。"""
+    （→ 税理士事務所の設定 office があれば税務代理権限証書。OpenTax PLATINUM）。"""
     from . import report as rp
     from .red import uchiwake
     att = attachments(calculated, balance, trend, payroll_records, supplement, info)

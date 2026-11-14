@@ -3,136 +3,131 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<!-- このサイトのファイル以外は読み込まない・通信しない。地方税の一覧のプレビュー（srcdoc）のためだけに style の inline を許す -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self'; connect-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src 'self' about:; form-action 'none'; base-uri 'none'; object-src 'none'">
+<!-- このサイトのファイル以外は読み込まない。外への通信は、利用者が自分の Claude API キーを入れて「AI で読む」に同意したときの
+     api.anthropic.com だけ（既定では使わない）。申告書一式の表示（srcdoc）のためだけに style の inline を許す -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self'; connect-src 'self' https://api.anthropic.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; frame-src 'self' about: blob:; form-action 'none'; base-uri 'none'; object-src 'none'">
 <meta name="referrer" content="no-referrer">
-<title>OpenTax RED</title>
+<title>OpenTax - ファイルを入れるだけで申告書</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header>
-  <h1>OpenTax RED</h1>
-  <p>赤字の単純な法人の法人税・地方税の申告データを、ブラウザの中だけで作ります。入力した内容はどこにも送られず、画面を閉じると消えます。<a href="report.html">申告書一式（デモ）を見る</a>・<a href="payroll.html">給与の記録へ</a></p>
+  <h1>OpenTax</h1>
+  <p>会計ソフトから出したファイルを入れるだけで、申告書を作ります。計算はこの画面の中だけで行い、ファイルはどこにも送りません。</p>
 </header>
 <main>
-  <section class="editions" aria-label="3つの版の違い">
-    <div class="edition red">
-      <p class="ed-name">OpenTax RED<span class="ed-state">使えます（開発中）</span></p>
-      <p class="ed-who">赤字の会社</p>
-      <ul>
-        <li>法人税の別表11枚（別表一・二・四・五・六(一)・七(一)・十五・十六）</li>
-        <li>消費税（一般課税・簡易課税・2割特例）・概況書・内訳書・決算書</li>
-        <li>地方税は一覧を見て PCdesk に入力</li>
-      </ul>
-    </div>
-    <div class="edition black">
-      <p class="ed-name">OpenTax BLACK<span class="ed-state">準備中</span></p>
-      <p class="ed-who">黒字の会社</p>
-      <ul>
-        <li>RED のすべて＋法人税・地方法人税の税額の計算</li>
-        <li>適用額明細書（中小法人の軽減税率）</li>
-        <li>受取配当・貸倒引当金・寄附金などの別表</li>
-      </ul>
-    </div>
-    <div class="edition pro">
-      <p class="ed-name">OpenTax プロ<span class="ed-state">一部使えます</span></p>
-      <p class="ed-who">税理士事務所</p>
-      <ul>
-        <li>RED・BLACK に足して使う</li>
-        <li>税務代理権限証書を申告データと一式に</li>
-        <li>事務所の設定（JSON）を一度作れば毎回入る</li>
-      </ul>
-    </div>
-  </section>
-
   <div id="status" class="status" role="status">準備しています…</div>
 
-  <section class="toolbar">
-    <button type="button" id="load-sample" disabled>見本（架空の法人）を入れる</button>
-    <label class="file-button">入力ファイルを開く<input type="file" id="open-input" accept=".json,application/json" disabled></label>
-    <button type="button" id="save-input" disabled>入力をファイルに保存</button>
-    <button type="button" id="clear-input" disabled>入力を消す</button>
+  <section id="drop" class="dropzone" tabindex="0" aria-label="ファイルを入れる場所">
+    <p class="drop-title">ここにファイルを入れる</p>
+    <p class="drop-sub">フォルダごとでもかまいません（パソコンは引きずって落とせます）</p>
+    <div class="row center">
+      <label class="file-button primary-like">ファイルを選ぶ<input type="file" id="pick-files" multiple></label>
+      <label class="file-button" id="pick-folder-label">フォルダを選ぶ<input type="file" id="pick-folder" webkitdirectory multiple></label>
+      <button type="button" id="sample" disabled>見本（架空の会社）で試す</button>
+    </div>
+    <details class="drop-help">
+      <summary>何を入れればいい？</summary>
+      <ul>
+        <li><b>前期の申告データ（.xtx）</b> … 会社名・所在地・株主・繰越欠損金などを読み取ります。いちばん大事です</li>
+        <li><b>残高試算表（CSV・TXT）</b> … 期末の科目ごとの残高。会計ソフトの「残高試算表」を CSV で書き出したもの</li>
+        <li>月次推移表（CSV・TXT）・給与の記録・概況書の入力（JSON）… あれば概況書・内訳書まで作ります</li>
+        <li>決算書の PDF・写真は、この画面のプログラムでは読めません。会計ソフトから CSV で出すか、下の「AI で読む」を使ってください</li>
+        <li>Excel は「名前を付けて保存」→「CSV UTF-8」で保存し直してから入れてください</li>
+      </ul>
+    </details>
   </section>
 
-  <form id="input-form" autocomplete="off" novalidate></form>
-
-  <section class="actions">
-    <label class="inline"><input type="checkbox" id="trial"> 試し用（別表二の割合の端数処理を「切り捨て」にして作る。ファイル名に trial が付きます）</label>
-    <button type="button" id="calculate" class="primary" disabled>計算する</button>
+  <section id="read" hidden>
+    <h2>読んだファイル</h2>
+    <ul id="file-list" class="file-list"></ul>
+    <div id="notes"></div>
   </section>
 
-  <section id="messages"></section>
-
-  <section id="results" hidden>
-    <h2>計算結果</h2>
-    <div id="summary" class="cards"></div>
-
-    <h3>申告書（紙の様式）</h3>
-    <p class="note">国税庁の様式の上に、計算した金額を重ねて表示します（金額がある欄だけ）。指で拡大して見られます。</p>
-    <div id="paper"></div>
-
-    <h3>申告書のプレビュー（表）</h3>
-    <label class="inline note"><input type="checkbox" id="filled-only"> 金額のある行だけ表示する</label>
-    <p class="note">帳票フィールド仕様書の行番号・区分・列で並べた表です。紙の様式の罫線や文字の配置までは再現していません。</p>
-    <div id="preview"></div>
-
-    <h3>地方税の一覧（第六号様式・第二十号様式）</h3>
-    <iframe id="local-sheet" title="地方税の一覧" sandbox=""></iframe>
+  <section id="ai" hidden>
+    <h2>AI で読む（PDF・写真）</h2>
+    <p class="note">この画面のプログラムで読めなかった PDF・写真を、あなたの Claude API キーで AI に読ませます。<b>入れたファイルが Anthropic 社（api.anthropic.com）へ送られます。</b>
+      キーと中身はこの画面にだけ置き、保存しません。使わなければ何も送りません。</p>
     <div class="row">
-      <button type="button" id="download-local">地方税の一覧を保存（HTML）</button>
+      <label class="field-inline">API キー <input type="password" id="ai-key" autocomplete="off" spellcheck="false" placeholder="sk-ant-…"></label>
+      <label class="field-inline">モデル <select id="ai-model"><option value="claude-sonnet-5-5">Claude Sonnet 5.5</option><option value="claude-opus-5-5">Claude Opus 5.5</option><option value="claude-haiku-5-5">Claude Haiku 5.5</option></select></label>
+      <button type="button" id="ai-preview">送る内容を見る</button>
     </div>
+    <div id="ai-consent" hidden>
+      <p>送るもの:</p>
+      <ul id="ai-files"></ul>
+      <details><summary>AI への指示（全文）</summary><pre id="ai-prompt" class="pre"></pre></details>
+      <label class="inline"><input type="checkbox" id="ai-agree"> 上のファイルと指示を api.anthropic.com へ送ることに同意します</label>
+      <div class="row"><button type="button" id="ai-send" class="primary" disabled>送って読ませる</button></div>
+    </div>
+    <div id="ai-result"></div>
+  </section>
 
-    <h3>内訳書・概況書（任意）</h3>
-    <p class="note">選んだファイルから、勘定科目内訳明細書と法人事業概況説明書を作り、.xtx に一緒に入れます。ファイルはこの画面の中で読むだけで、どこにも送りません。<br>会計ソフトは問いません。見出しの行に「勘定科目（科目名）」と「期末残高（残高）」の列がある CSV・TXT なら読めます。月次推移表は「10月」「2025/10」のような月の列で読みます。</p>
-    <div class="attach-grid">
-      <label class="file-button">残高試算表（会計ソフトから書き出した CSV・TXT）<input type="file" id="att-balance" accept=".txt,.TXT,.csv,.CSV,text/plain,text/csv"></label>
-      <span id="att-balance-name" class="note">未選択（期末の科目ごとの残高。内訳書・概況書の主要科目に使います）</span>
-      <label class="file-button">月次推移表（会計ソフトから書き出した CSV・TXT）<input type="file" id="att-trend" accept=".txt,.TXT,.csv,.CSV,text/plain,text/csv"></label>
-      <span id="att-trend-name" class="note">未選択（概況書の月別の売上・仕入に使います）</span>
-      <label class="file-button">内訳書の補足（JSON）<input type="file" id="att-supplement" accept=".json,application/json"></label>
-      <span id="att-supplement-name" class="note">未選択（相手先の所在地・口座番号など）</span>
-      <label class="file-button">給与の記録（JSON・複数可）<input type="file" id="att-payroll" accept=".json,application/json" multiple></label>
-      <span id="att-payroll-name" class="note">未選択（役員給与等の内訳書、概況書の従事員・人件費に使います）</span>
-      <label class="file-button">概況書の入力（JSON）<input type="file" id="att-gaikyo" accept=".json,application/json"></label>
-      <span id="att-gaikyo-name" class="note">未選択（事業内容・経理の状況・税理士など。選ばなければ概況書は作りません）</span>
-      <label class="file-button">税理士事務所の設定（JSON。OpenTax プロ）<input type="file" id="att-office" accept=".json,application/json"></label>
-      <span id="att-office-name" class="note">未選択（選ぶと税務代理権限証書を .xtx と申告書一式に入れます）</span>
-    </div>
+  <section id="check" hidden>
+    <h2>読み取った内容</h2>
+    <p class="note">どのファイルのどこから読んだかを出しています。<span class="by by-ai">AI</span> は AI が読んだ値、<span class="by by-guess">推定</span> はプログラムが推し量った値です。違っていれば押して直してください。</p>
+    <div id="conflicts"></div>
+    <table class="readout"><tbody id="readout"></tbody></table>
+    <div id="questions"></div>
+    <div id="followups"></div>
     <div class="row">
-      <button type="button" id="att-sample">見本（架空の法人）のファイルを入れる</button>
-      <button type="button" id="att-check">内訳書・概況書を確かめる</button>
-      <button type="button" id="att-report">申告書一式を見る（別のタブ）</button>
-      <button type="button" id="att-clear">選んだファイルを外す</button>
+      <button type="button" id="make" class="primary">申告書を作る</button>
+      <a href="detail.html" class="note">詳しく入力する画面へ</a>
     </div>
-    <div id="att-result"></div>
+  </section>
 
-    <h3>e-Tax 用のデータ（.xtx）</h3>
-    <p class="note">国税庁の e-Tax 仕様書「XMLスキーマ」（e-tax19.CAB）を選んでください。この CAB で申告データを検証してから書き出します。CAB は国税庁のサイト（https://www.e-tax.nta.go.jp/shiyo/ksk2/ksk2_shiyo3.htm）から取得してください。</p>
-    <div class="row">
-      <label class="file-button">e-tax19.CAB を選ぶ<input type="file" id="cab" accept=".cab,.CAB"></label>
-      <span id="cab-name" class="note">未選択</span>
+  <section id="out" hidden>
+    <h2>できた申告書</h2>
+    <div class="row deliver">
+      <button type="button" id="print" class="primary">印刷する（PDF に保存もここから）</button>
+      <button type="button" id="save-all">まとめて保存（.zip）</button>
+      <button type="button" id="share" hidden>共有する（LINE・メールなど）</button>
+      <label class="file-button">e-Tax 用のデータ（.xtx）を作る: e-tax19.CAB を選ぶ<input type="file" id="cab" accept=".cab,.CAB"></label>
+      <button type="button" id="show-qr">スマホで開く（QR）</button>
     </div>
-    <div class="row">
-      <label><input type="checkbox" id="without-balance"> 決算書なしで作る（申告調整の漏れ（寄附金・受取配当・租税公課・役員給与など）を点検しません）</label>
+    <div id="deliver-msg"></div>
+    <div id="qr" hidden>
+      <p class="note">スマホのカメラで読むと、この画面がスマホで開きます。申告書の中身は QR に入りません（スマホへ渡すには「共有」か「まとめて保存」を使ってください）。</p>
+      <div id="qr-img"></div>
     </div>
-    <div class="row">
-      <button type="button" id="export-etax" class="primary" disabled>検証して .xtx を作る</button>
+    <iframe id="report" title="申告書一式" sandbox="allow-same-origin allow-modals"></iframe>
+  </section>
+
+  <section>
+    <h2>OpenTax でできること</h2>
+    <div class="editions">
+      <div class="edition red"><p class="ed-name">RED<span class="ed-state">○ 使えます</span></p><p class="ed-who">赤字の法人の法人税・地方税</p>
+        <ul><li>別表・法人住民税・事業税・消費税・概況書・内訳書・決算書</li></ul></div>
+      <div class="edition black"><p class="ed-name">BLACK<span class="ed-state">○ 使えます</span></p><p class="ed-who">黒字の法人の法人税・地方税</p>
+        <ul><li>RED に加えて税額の計算・適用額明細書・寄附金・受取配当</li></ul></div>
+      <div class="edition blue"><p class="ed-name">BLUE<span class="ed-state">△ コマンドで使えます</span></p><p class="ed-who">個人の青色申告（分離課税も）</p>
+        <ul><li>所得税の申告書・青色申告決算書（分離課税は作成中）</li><li>この画面からはまだ作れません</li></ul></div>
+      <div class="edition white"><p class="ed-name">WHITE<span class="ed-state">△ コマンドで使えます</span></p><p class="ed-who">個人の白色申告</p>
+        <ul><li>所得税の申告書・収支内訳書</li><li>この画面からはまだ作れません</li></ul></div>
+      <div class="edition green"><p class="ed-name">GREEN<span class="ed-state">△ コマンドで使えます</span></p><p class="ed-who">事業所税・宿泊税</p>
+        <ul><li>事業所税・長野県の宿泊税（償却資産申告は準備中）</li></ul></div>
+      <div class="edition gold"><p class="ed-name">GOLD<span class="ed-state">× 準備中</span></p><p class="ed-who">相続税（準備中）</p>
+        <ul><li>相続税の申告書を作っています</li></ul></div>
+      <div class="edition pink"><p class="ed-name">PINK<span class="ed-state">× 準備中（記録だけ使えます）</span></p><p class="ed-who">給与・年末調整・法定調書（準備中）</p>
+        <ul><li>今使えるのは<a href="payroll.html">給与の記録</a>だけ</li></ul></div>
+      <div class="edition platinum"><p class="ed-name">PLATINUM<span class="ed-state">△ 一部使えます</span></p><p class="ed-who">全部入り・税理士事務所向け</p>
+        <ul><li>全部の版＋税務代理権限証書・事務所の設定</li></ul></div>
     </div>
-    <div id="export-result"></div>
-    <p class="note">e-Taxソフト（ダウンロード版）の「申告・申請等一覧」の「組み込み」で読み込めます。電子署名・送信は e-Taxソフトで行ってください。</p>
+    <p class="note">○ 使えます　△ 一部・コマンドで使えます　× 準備中</p>
   </section>
 
   <section class="disclaimer">
-    <h2>対象と注意</h2>
+    <h2>注意</h2>
     <ul>
-      <li>対象: 所得金額が0以下の、赤字の単純な法人（普通法人・中小法人・青色申告）。対応している自治体は画面の選択肢のとおりです。</li>
-      <li>対象外の入力があると「OpenTax RED の対象外です」と表示して止まります。</li>
-      <li>eLTAX 用の取込ファイルは作りません。地方税は一覧を見て PCdesk に入力してください。</li>
-      <li>計算結果の正しさは保証しません。申告の内容と責任は利用者にあります。</li>
+      <li>ファイルはこの画面の中で読むだけで、どこにも送りません（「AI で読む」に同意したときだけ、そのファイルを Anthropic 社へ送ります）。画面を閉じると消えます。</li>
+      <li>OpenTax で作れないもの（分割法人・外形標準課税など）が入っていると、作らずに止まって理由を出します。</li>
+      <li>計算結果の正しさは保証しません。申告の内容と責任は利用者にあります。電子署名と送信は e-Taxソフトで行ってください。</li>
     </ul>
-    <p class="note">ソースコード: https://github.com/opentax-Japan/opentax-japan（MIT）</p>
+    <p class="note"><a href="report.html">申告書一式のデモ</a>・<a href="detail.html">詳しく入力する画面</a>・ソースコード: https://github.com/opentax-Japan/opentax-japan（MIT）</p>
   </section>
 </main>
-<script src="app.js"></script>
+<script src="qrcode.js"></script>
+<script src="ai.js"></script>
+<script src="easy.js"></script>
 </body>
 </html>

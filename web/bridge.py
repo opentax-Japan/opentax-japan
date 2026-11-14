@@ -173,7 +173,7 @@ def ot_attachments(input_json: str, trial: str, att_json: str) -> str:
             office_missing = dairi.check_office(att["office"])
             missing += [f"税務代理権限証書: {m}" for m in office_missing]
             if not office_missing:
-                forms.append("税務代理権限証書（SOZ074。OpenTax プロ）")
+                forms.append("税務代理権限証書（SOZ074。OpenTax PLATINUM）")
         return _dump({"ok": True, "forms": forms, "missing": missing, "notes": uw.get("notes", [])})
     except Exception as e:  # noqa: BLE001
         return _error(e)
@@ -202,3 +202,89 @@ def ot_export(input_json: str, trial: str, cab, att_json: str = "", without_bala
                       "trial": calculated["result"]["trial"]})
     except Exception as e:  # noqa: BLE001
         return _error(e)
+
+
+# ---- かんたん入口（ファイルを落とすだけ。DESIGN §24）-------------------------------------------------
+# 読み取りは opentax.intake（プログラム。AI が読んだ値は決まった形の JSON で受け取る）、計算は opentax.api（今までどおり）。
+_intake = {"draft": None}
+
+
+def _intake_state(choices: dict, answers: dict, follow: dict) -> dict:
+    from opentax import intake
+    d = _intake["draft"]
+    r = intake.resolve(d, choices, answers)
+    data = intake.apply_followups(r["input"], follow)
+    r["input"] = data
+    r["followups"] = intake.followups(data, d.attachments.get("balance"))
+    r["attachments"] = sorted(k for k in d.attachments if k != "re_begin")
+    return r
+
+
+def ot_intake_read(files_json: str) -> str:
+    """files_json: [{"name", "b64"}]。全部読み、下書き・食い違い・足りない欄・追加の問いを返す。"""
+    from opentax import intake
+    try:
+        files = [(f["name"], base64.b64decode(f["b64"])) for f in json.loads(files_json)]
+        _intake["draft"] = intake.read_files(files)
+        return _dump({"ok": True, **_intake_state({}, {}, {})})
+    except Exception as e:  # noqa: BLE001
+        return _error(e)
+
+
+def ot_intake_update(state_json: str) -> str:
+    """state_json: {"choices", "answers", "follow"}。選んだ候補・答えを入れて、もう一度組み直す。"""
+    try:
+        s = json.loads(state_json or "{}")
+        return _dump({"ok": True, **_intake_state(s.get("choices") or {}, s.get("answers") or {}, s.get("follow") or {})})
+    except Exception as e:  # noqa: BLE001
+        return _error(e)
+
+
+def _intake_calculated(s: dict):
+    d = _intake["draft"]
+    r = _intake_state(s.get("choices") or {}, s.get("answers") or {}, s.get("follow") or {})
+    return d, r, api.calculate(r["input"], None, d.attachments.get("balance"))
+
+
+def ot_intake_report(state_json: str) -> str:
+    """申告書一式の HTML（読めた材料を全部使う）。"""
+    try:
+        s = json.loads(state_json or "{}")
+        d, r, calculated = _intake_calculated(s)
+        a = d.attachments
+        html = api.report(calculated, a.get("balance"), a.get("trend"), a.get("payroll") or [], a.get("supplement"),
+                          a.get("gaikyo"), a.get("shohi"), office=a.get("office"))
+        return _dump({"ok": True, "html": html, "company": calculated["input"]["company"]["name"],
+                      "fiscal_end": calculated["input"]["fiscal_period"]["end"],
+                      "local_sheet": api.local_tax_sheet(calculated)})
+    except Exception as e:  # noqa: BLE001
+        return _error(e)
+
+
+def ot_intake_export(state_json: str, cab) -> str:
+    """e-Tax の申告データ（.xtx）。公式XSD で検証できたときだけ返す。"""
+    try:
+        s = json.loads(state_json or "{}")
+        data = bytes(cab.to_py())
+        digest = hashlib.sha256(data).hexdigest()
+        if _schema["sha256"] != digest:
+            _schema["root"] = api.schema_from_cab(data, Path("/tmp/opentax-xsd"))
+            _schema["sha256"] = digest
+        d, r, calculated = _intake_calculated(s)
+        a = d.attachments
+        uw = api.attachments(calculated, a.get("balance"), a.get("trend"), a.get("payroll") or [], a.get("supplement"), a.get("gaikyo"))
+        xml = api.export_etax(calculated, _schema["root"], datetime.date.today(), uw, a.get("office"))
+        errors = api.validate_xtx(xml, _schema["root"])
+        if errors:
+            return _dump({"ok": False, "kind": "xsd", "message": "公式XSD の検証で誤りがあります。.xtx は書き出しません", "errors": errors[:50]})
+        return _dump({"ok": True, "xtx_base64": base64.b64encode(xml).decode("ascii"), "size": len(xml)})
+    except Exception as e:  # noqa: BLE001
+        return _error(e)
+
+
+def ot_intake_samples() -> str:
+    """「見本で試す」: 架空の法人（オープン商事）の書き出しファイル一式（前期の申告データ・試算表・推移表・給与・概況書・補足）。"""
+    case = APP_ROOT / "tests" / "cases" / "open-shoji-tokyo"
+    names = ["前期の申告データ_架空.xtx", "科目残高一覧表_架空_TKC形式.txt", "科目残高推移表_架空_TKC形式.txt",
+             "payroll_2026.json", "gaikyo.json", "uchiwake_supplement.json"]
+    return _dump([{"name": n, "b64": base64.b64encode((case / n).read_bytes()).decode("ascii")} for n in names])

@@ -39,7 +39,12 @@ details.section > summary { cursor: pointer; padding: 10px 12px; font-weight: 60
 .edition { border: 1px solid var(--line); border-top: 6px solid; border-radius: 8px; padding: 8px 12px; }
 .edition.red { border-top-color: #c62828; }
 .edition.black { border-top-color: #222; }
-.edition.pro { border-top-color: #9acd32; }
+.edition.blue { border-top-color: #1e5bb8; }
+.edition.white { border-top-color: #bbb; }
+.edition.gold { border-top-color: #c9a227; }
+.edition.green { border-top-color: #2e8b57; }
+.edition.pink { border-top-color: #e07aa5; }
+.edition.platinum { border-top-color: #9aa3ad; }
 .edition p { margin: 2px 0; }
 .edition .ed-name { font-weight: 700; display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 .edition .ed-state { font-weight: 400; font-size: .8rem; color: #555; }
@@ -84,3 +89,42 @@ main.wide { max-width: 1280px; }
 .attach-grid { display: grid; grid-template-columns: max-content 1fr; gap: 8px 12px; align-items: center; margin: 12px 0; }
 @media (max-width: 640px) { .attach-grid { grid-template-columns: 1fr; } }
 #report { width: 100%; min-height: 600px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+
+/* かんたん入口 */
+.dropzone { border: 3px dashed #9ab86a; border-radius: 12px; padding: 28px 16px; text-align: center; background: var(--soft); margin: 14px 0; }
+.dropzone.over { background: #e6f5c9; border-color: var(--accent-dark); }
+.drop-title { font-size: 1.4rem; font-weight: 700; margin: 0; }
+.drop-sub { margin: 4px 0 8px; color: #555; }
+.row.center { justify-content: center; }
+.file-button.primary-like { background: var(--accent); border-color: #7fae1c; font-weight: 600; }
+.drop-help { text-align: left; max-width: 640px; margin: 8px auto 0; font-size: .9rem; }
+.file-list { list-style: none; padding: 0; }
+.file-list li { border-bottom: 1px solid var(--line); padding: 6px 0; }
+.file-list .mark { font-size: .78rem; border-radius: 4px; padding: 1px 6px; }
+.file-list li.ok .mark { background: var(--accent); }
+.file-list li.ng .mark { background: var(--warn-line); }
+.file-list .fname { color: #666; font-size: .85rem; }
+table.readout { width: 100%; border-collapse: collapse; font-size: .9rem; }
+table.readout th, table.readout td { border-bottom: 1px solid var(--line); padding: 4px 6px; text-align: left; vertical-align: top; }
+table.readout th { white-space: nowrap; width: 9em; }
+table.readout td.src { color: #666; font-size: .8rem; }
+.by { font-size: .72rem; border-radius: 3px; padding: 0 4px; margin-left: 4px; }
+.by-ai { background: #e3ecff; border: 1px solid #7a9be0; }
+.by-guess { background: var(--warn-bg); border: 1px solid var(--warn-line); }
+button.small { font-size: .8rem; padding: 2px 8px; }
+.question { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin: 8px 0; }
+.question label { display: flex; flex-direction: column; gap: 4px; }
+.question input, .field-inline input, .field-inline select { font: inherit; padding: 6px 8px; border: 1px solid #bbb; border-radius: 4px; }
+.question.stop { background: var(--err-bg); border-color: var(--err-line); }
+.q-label { font-weight: 600; }
+table.dep { width: 100%; border-collapse: collapse; font-size: .85rem; }
+table.dep input, table.dep select { width: 100%; font: inherit; padding: 4px; }
+.pre { white-space: pre-wrap; font-size: .8rem; background: #fafafa; border: 1px solid #ddd; padding: 8px; }
+#report { width: 100%; min-height: 400px; border: 1px solid var(--line); }
+#qr-img svg { width: 200px; height: 200px; }
+@media (max-width: 600px) { table.dep thead { display: none; } table.dep td { display: block; } }
+@media (max-width: 600px) {
+  table.readout tr { display: block; border-bottom: 1px solid var(--line); padding: 4px 0; }
+  table.readout th, table.readout td { display: inline-block; border: 0; width: auto; padding: 2px 4px; }
+  table.readout td.src { display: block; }
+}
