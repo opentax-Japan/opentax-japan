@@ -22,13 +22,13 @@
 | GREEN | 事業所税・宿泊税（地方税だけの申告。宿泊税は長野県） | ○ 使えます |
 | GOLD | 相続税（土地・株式は評価済みの額を入れる） | ○ 使えます |
 | PINK | 給与・年末調整・法定調書（タイムカードから給与明細、年末調整 令和8年分・源泉徴収票・法定調書合計表の .xtx。`opentax kyuyo`・`opentax nencho`） | ○ 使えます |
-| PLATINUM | 全部入り・税理士事務所向け（税務代理権限証書・事務所の設定。旧名「プロ」） | △ 一部使えます |
+| PLATINUM | 全部入り・税理士事務所向け（税務代理権限証書・事務所の設定、関与先ごとの今月の申告・納付の期限一覧と試算表の進捗表（[期限一覧と進捗](https://opentax-japan.github.io/opentax-japan/platinum.html)・`opentax kigen`・docs/kigen.md）。旧名「プロ」） | △ 一部使えます |
 
 ○ 使えます　△ 一部・コマンドで使えます　× 準備中
 
 ## かんたん入口（ファイルを入れるだけ）
 
-Web 画面（https://opentax-japan.github.io/opentax-japan/）のトップに、ファイルやフォルダを落とすだけの入口があります（DESIGN.md §24）。
+Web 画面（[https://opentax-japan.github.io/opentax-japan/](https://opentax-japan.github.io/opentax-japan/)）のトップに、ファイルやフォルダを落とすだけの入口があります（DESIGN.md §24）。
 
 - **読み取り層**（入力を作るところ）と**計算層**（opentax.api。AI を使わない）を分けています。
   - CSV・TXT（残高試算表・月次推移表）・前期の申告データ（.xtx。どのソフトで作ったものでも）・JSON は、ブラウザの中のプログラムが読みます。
@@ -201,7 +201,7 @@ opentax collect <フォルダ> --task 法人|個人|相続|宿泊税|事業所�
 
 ## Web 画面
 
-https://opentax-japan.github.io/opentax-japan/ （独自ドメイン opentax.jp に移る予定）
+[https://opentax-japan.github.io/opentax-japan/](https://opentax-japan.github.io/opentax-japan/)（独自ドメイン opentax.jp に移る予定）
 
 - ブラウザだけで使えます（Windows ソフトのインストールは不要）
 - 計算はブラウザの中で行い、入力した内容はサーバーに送りません。localStorage などにも残しません。保存は「入力をファイルに保存」でダウンロードしたファイルだけです
