@@ -1,0 +1,2579 @@
+{
+ "form_id": "HSZ062",
+ "label": "給与所得の源泉徴収票",
+ "version": "6.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hoteishiryo",
+ "group": "HSZ062-6-0group",
+ "xsd": "19XMLスキーマ/hoteishiryo/HSZ062-006.xsd",
+ "xsd_sha256": "c2fa93fa99ac0a33cd390b4ca05a00a5a503e15056c175f447d1764170e67fd9",
+ "root": {
+  "tag": "HSZ062",
+  "path": "HSZ062",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "DIA00000",
+    "path": "HSZ062/DIA00000",
+    "label": "支払調書の種類",
+    "min": 0,
+    "max": 1,
+    "type": "DIA00000-6-0type",
+    "kind": "value",
+    "base": "xsd:nonNegativeInteger",
+    "derived_from": [
+     "gen:nonNegativeType"
+    ],
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DIB00000",
+    "path": "HSZ062/DIB00000",
+    "label": "訂正区分",
+    "min": 1,
+    "max": 1,
+    "type": "DIB00000-6-0Rtype",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "kubun_CD",
+      "path": "HSZ062/DIB00000/kubun_CD",
+      "label": null,
+      "min": 1,
+      "max": 1,
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:kubun_CD"
+      ],
+      "enumeration": [
+       "1",
+       "0"
+      ]
+     },
+     {
+      "tag": "kubun_NM",
+      "path": "HSZ062/DIB00000/kubun_NM",
+      "label": null,
+      "min": 0,
+      "max": 1,
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:kubun_NM",
+       "gen:str"
+      ],
+      "max_length": 30
+     }
+    ]
+   },
+   {
+    "tag": "DIC00000",
+    "path": "HSZ062/DIC00000",
+    "label": "年分",
+    "min": 0,
+    "max": 1,
+    "type": "gen:NENBUNref",
+    "kind": "idref",
+    "idref": "NENBUN",
+    "attributes": [
+     {
+      "name": "IDREF",
+      "required": true,
+      "fixed": "NENBUN",
+      "type": "xsd:IDREF"
+     }
+    ]
+   },
+   {
+    "tag": "DID00000",
+    "path": "HSZ062/DID00000",
+    "label": "支払を受ける者",
+    "min": 1,
+    "max": 1,
+    "type": "DID00000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DID00010",
+      "path": "HSZ062/DID00000/DID00010",
+      "label": "住所又は居所",
+      "min": 1,
+      "max": 1,
+      "type": "gen:address",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "DID00020",
+      "path": "HSZ062/DID00000/DID00020",
+      "label": "（受給者番号）",
+      "min": 0,
+      "max": 1,
+      "type": "DID00020-6-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 20
+     },
+     {
+      "tag": "DID00030",
+      "path": "HSZ062/DID00000/DID00030",
+      "label": "（個人番号）",
+      "min": 0,
+      "max": 1,
+      "type": "gen:bango",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kojinbango",
+        "path": "HSZ062/DID00000/DID00030/kojinbango",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:string",
+        "max_length": 12,
+        "choice": "HSZ062/DID00000/DID00030#1"
+       },
+       {
+        "tag": "hojinbango",
+        "path": "HSZ062/DID00000/DID00030/hojinbango",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:string",
+        "max_length": 13,
+        "choice": "HSZ062/DID00000/DID00030#2"
+       }
+      ]
+     },
+     {
+      "tag": "DID00040",
+      "path": "HSZ062/DID00000/DID00040",
+      "label": "（役職名）",
+      "min": 0,
+      "max": 1,
+      "type": "DID00040-6-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 15
+     },
+     {
+      "tag": "DID00050",
+      "path": "HSZ062/DID00000/DID00050",
+      "label": "氏名",
+      "min": 1,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DID00060",
+        "path": "HSZ062/DID00000/DID00050/DID00060",
+        "label": "（フリガナ）",
+        "min": 0,
+        "max": 1,
+        "type": "gen:n-kana",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "DID00070",
+        "path": "HSZ062/DID00000/DID00050/DID00070",
+        "label": "氏名",
+        "min": 1,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DIE00000",
+    "path": "HSZ062/DIE00000",
+    "label": "種別",
+    "min": 0,
+    "max": 1,
+    "type": "DIE00000-6-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 10
+   },
+   {
+    "tag": "DIF00000",
+    "path": "HSZ062/DIF00000",
+    "label": "支払金額",
+    "min": 0,
+    "max": 1,
+    "type": "DIF00000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DIF00010",
+      "path": "HSZ062/DIF00000/DIF00010",
+      "label": "内書",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DIF00020",
+      "path": "HSZ062/DIF00000/DIF00020",
+      "label": "支払金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DIG00000",
+    "path": "HSZ062/DIG00000",
+    "label": "給与所得控除後の金額（調整控除後）",
+    "min": 0,
+    "max": 1,
+    "type": "gen:kingaku",
+    "kind": "amount",
+    "base": "xsd:long",
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DIH00000",
+    "path": "HSZ062/DIH00000",
+    "label": "所得控除の額の合計額",
+    "min": 0,
+    "max": 1,
+    "type": "gen:kingaku",
+    "kind": "amount",
+    "base": "xsd:long",
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DII00000",
+    "path": "HSZ062/DII00000",
+    "label": "源泉徴収税額",
+    "min": 0,
+    "max": 1,
+    "type": "DII00000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DII00010",
+      "path": "HSZ062/DII00000/DII00010",
+      "label": "内書",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DII00020",
+      "path": "HSZ062/DII00000/DII00020",
+      "label": "税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DIJ00000",
+    "path": "HSZ062/DIJ00000",
+    "label": "（源泉）控除対象配偶者の有無等",
+    "min": 0,
+    "max": 1,
+    "type": "DIJ00000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DIJ00010",
+      "path": "HSZ062/DIJ00000/DIJ00010",
+      "label": "有",
+      "min": 0,
+      "max": 1,
+      "type": "DIJ00010-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIJ00000/DIJ00010/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIJ00000/DIJ00010/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "DIJ00020",
+      "path": "HSZ062/DIJ00000/DIJ00020",
+      "label": "従有",
+      "min": 0,
+      "max": 1,
+      "type": "DIJ00020-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIJ00000/DIJ00020/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIJ00000/DIJ00020/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "DIJ00030",
+      "path": "HSZ062/DIJ00000/DIJ00030",
+      "label": "老人",
+      "min": 0,
+      "max": 1,
+      "type": "DIJ00030-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIJ00000/DIJ00030/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIJ00000/DIJ00030/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DIK00000",
+    "path": "HSZ062/DIK00000",
+    "label": "配偶者（特別）控除の額",
+    "min": 0,
+    "max": 1,
+    "type": "gen:kingaku",
+    "kind": "amount",
+    "base": "xsd:long",
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DIL00000",
+    "path": "HSZ062/DIL00000",
+    "label": "控除対象扶養親族等の数（配偶者を除く。）",
+    "min": 0,
+    "max": 1,
+    "type": "DIL00000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DIL00010",
+      "path": "HSZ062/DIL00000/DIL00010",
+      "label": "特定",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DIL00020",
+        "path": "HSZ062/DIL00000/DIL00010/DIL00020",
+        "label": "人",
+        "min": 0,
+        "max": 1,
+        "type": "DIL00020-6-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DIL00030",
+        "path": "HSZ062/DIL00000/DIL00010/DIL00030",
+        "label": "従人",
+        "min": 0,
+        "max": 1,
+        "type": "DIL00030-6-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DIL00040",
+      "path": "HSZ062/DIL00000/DIL00040",
+      "label": "老人",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DIL00050",
+        "path": "HSZ062/DIL00000/DIL00040/DIL00050",
+        "label": "人数",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "DIL00060",
+          "path": "HSZ062/DIL00000/DIL00040/DIL00050/DIL00060",
+          "label": "内書",
+          "min": 0,
+          "max": 1,
+          "type": "DIL00060-6-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "DIL00070",
+          "path": "HSZ062/DIL00000/DIL00040/DIL00050/DIL00070",
+          "label": "人",
+          "min": 0,
+          "max": 1,
+          "type": "DIL00070-6-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "DIL00080",
+        "path": "HSZ062/DIL00000/DIL00040/DIL00080",
+        "label": "従人",
+        "min": 0,
+        "max": 1,
+        "type": "DIL00080-6-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DIL00090",
+      "path": "HSZ062/DIL00000/DIL00090",
+      "label": "その他",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DIL00100",
+        "path": "HSZ062/DIL00000/DIL00090/DIL00100",
+        "label": "人",
+        "min": 0,
+        "max": 1,
+        "type": "DIL00100-6-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DIL00110",
+        "path": "HSZ062/DIL00000/DIL00090/DIL00110",
+        "label": "従人",
+        "min": 0,
+        "max": 1,
+        "type": "DIL00110-6-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DIL00120",
+      "path": "HSZ062/DIL00000/DIL00120",
+      "label": "特親",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DIL00130",
+        "path": "HSZ062/DIL00000/DIL00120/DIL00130",
+        "label": "人",
+        "min": 0,
+        "max": 1,
+        "type": "DIL00130-6-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DIL00140",
+        "path": "HSZ062/DIL00000/DIL00120/DIL00140",
+        "label": "従人",
+        "min": 0,
+        "max": 1,
+        "type": "DIL00140-6-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DIM00000",
+    "path": "HSZ062/DIM00000",
+    "label": "16歳未満扶養親族の数",
+    "min": 0,
+    "max": 1,
+    "type": "DIM00000-6-0type",
+    "kind": "value",
+    "base": "xsd:nonNegativeInteger",
+    "derived_from": [
+     "gen:nonNegativeType"
+    ],
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DIN00000",
+    "path": "HSZ062/DIN00000",
+    "label": "障害者の数（本人を除く。）",
+    "min": 0,
+    "max": 1,
+    "type": "DIN00000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DIN00010",
+      "path": "HSZ062/DIN00000/DIN00010",
+      "label": "特別",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DIN00020",
+        "path": "HSZ062/DIN00000/DIN00010/DIN00020",
+        "label": "内書",
+        "min": 0,
+        "max": 1,
+        "type": "DIN00020-6-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "DIN00030",
+        "path": "HSZ062/DIN00000/DIN00010/DIN00030",
+        "label": "人",
+        "min": 0,
+        "max": 1,
+        "type": "DIN00030-6-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DIN00040",
+      "path": "HSZ062/DIN00000/DIN00040",
+      "label": "その他",
+      "min": 0,
+      "max": 1,
+      "type": "DIN00040-6-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DIE10000",
+    "path": "HSZ062/DIE10000",
+    "label": "非居住者である親族の数",
+    "min": 0,
+    "max": 1,
+    "type": "DIE10000-6-0type",
+    "kind": "value",
+    "base": "xsd:nonNegativeInteger",
+    "derived_from": [
+     "gen:nonNegativeType"
+    ],
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DIJ10000",
+    "path": "HSZ062/DIJ10000",
+    "label": "特定親族特別控除の額",
+    "min": 0,
+    "max": 1,
+    "type": "gen:kingaku",
+    "kind": "amount",
+    "base": "xsd:long",
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DIO00000",
+    "path": "HSZ062/DIO00000",
+    "label": "社会保険料等の金額",
+    "min": 0,
+    "max": 1,
+    "type": "DIO00000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DIO00010",
+      "path": "HSZ062/DIO00000/DIO00010",
+      "label": "内書",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DIO00020",
+      "path": "HSZ062/DIO00000/DIO00020",
+      "label": "社会保険料等",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DIP00000",
+    "path": "HSZ062/DIP00000",
+    "label": "生命保険料の控除額",
+    "min": 0,
+    "max": 1,
+    "type": "gen:kingaku",
+    "kind": "amount",
+    "base": "xsd:long",
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DIQ00000",
+    "path": "HSZ062/DIQ00000",
+    "label": "地震保険料の控除額",
+    "min": 0,
+    "max": 1,
+    "type": "gen:kingaku",
+    "kind": "amount",
+    "base": "xsd:long",
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DIR00000",
+    "path": "HSZ062/DIR00000",
+    "label": "住宅借入金等特別控除の額",
+    "min": 0,
+    "max": 1,
+    "type": "gen:kingaku",
+    "kind": "amount",
+    "base": "xsd:long",
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DIS00000",
+    "path": "HSZ062/DIS00000",
+    "label": "（摘要）",
+    "min": 0,
+    "max": 1,
+    "type": "DIS00000-6-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 300
+   },
+   {
+    "tag": "DIT00000",
+    "path": "HSZ062/DIT00000",
+    "label": "生命保険料の金額の内訳",
+    "min": 0,
+    "max": 1,
+    "type": "DIT00000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DIT00010",
+      "path": "HSZ062/DIT00000/DIT00010",
+      "label": "新生命保険料の金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DIT00020",
+      "path": "HSZ062/DIT00000/DIT00020",
+      "label": "旧生命保険料の金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DIT00030",
+      "path": "HSZ062/DIT00000/DIT00030",
+      "label": "介護医療保険料の金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DIT00040",
+      "path": "HSZ062/DIT00000/DIT00040",
+      "label": "新個人年金保険料の金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DIT00050",
+      "path": "HSZ062/DIT00000/DIT00050",
+      "label": "旧個人年金保険料の金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DIU00000",
+    "path": "HSZ062/DIU00000",
+    "label": "住宅借入金等特別控除の額の内訳",
+    "min": 0,
+    "max": 1,
+    "type": "DIU00000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DIU00010",
+      "path": "HSZ062/DIU00000/DIU00010",
+      "label": "住宅借入金等特別控除適用数",
+      "min": 0,
+      "max": 1,
+      "type": "DIU00010-6-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DIU00020",
+      "path": "HSZ062/DIU00000/DIU00020",
+      "label": "住宅借入金等特別控除可能額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DIU00030",
+      "path": "HSZ062/DIU00000/DIU00030",
+      "label": "居住開始年月日（１回目）",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "HSZ062/DIU00000/DIU00030/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "HSZ062/DIU00000/DIU00030/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "HSZ062/DIU00000/DIU00030/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "HSZ062/DIU00000/DIU00030/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "DIU00040",
+      "path": "HSZ062/DIU00000/DIU00040",
+      "label": "住宅借入金等特別控除区分（１回目）",
+      "min": 0,
+      "max": 1,
+      "type": "DIU00040-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIU00000/DIU00040/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun2_CD"
+        ],
+        "enumeration": [
+         "01",
+         "02",
+         "03",
+         "04",
+         "11",
+         "12",
+         "13",
+         "21",
+         "22",
+         "24",
+         "31",
+         "32",
+         "34",
+         "41",
+         "42",
+         "44"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIU00000/DIU00040/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "DIU00050",
+      "path": "HSZ062/DIU00000/DIU00050",
+      "label": "住宅借入金等年末残高（１回目）",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "DIU00060",
+      "path": "HSZ062/DIU00000/DIU00060",
+      "label": "居住開始年月日（２回目）",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "HSZ062/DIU00000/DIU00060/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "HSZ062/DIU00000/DIU00060/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "HSZ062/DIU00000/DIU00060/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "HSZ062/DIU00000/DIU00060/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "DIU00070",
+      "path": "HSZ062/DIU00000/DIU00070",
+      "label": "住宅借入金等特別控除区分（２回目）",
+      "min": 0,
+      "max": 1,
+      "type": "DIU00070-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIU00000/DIU00070/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun2_CD"
+        ],
+        "enumeration": [
+         "01",
+         "02",
+         "03",
+         "04",
+         "11",
+         "12",
+         "13",
+         "21",
+         "22",
+         "24",
+         "31",
+         "32",
+         "34",
+         "41",
+         "42",
+         "44"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIU00000/DIU00070/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "DIU00080",
+      "path": "HSZ062/DIU00000/DIU00080",
+      "label": "住宅借入金等年末残高（２回目）",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DIV00000",
+    "path": "HSZ062/DIV00000",
+    "label": "（源泉・特別）控除対象配偶者",
+    "min": 0,
+    "max": 1,
+    "type": "DIV00000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DIV00010",
+      "path": "HSZ062/DIV00000/DIV00010",
+      "label": "個人番号",
+      "min": 0,
+      "max": 1,
+      "type": "gen:bango",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kojinbango",
+        "path": "HSZ062/DIV00000/DIV00010/kojinbango",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:string",
+        "max_length": 12,
+        "choice": "HSZ062/DIV00000/DIV00010#1"
+       },
+       {
+        "tag": "hojinbango",
+        "path": "HSZ062/DIV00000/DIV00010/hojinbango",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:string",
+        "max_length": 13,
+        "choice": "HSZ062/DIV00000/DIV00010#2"
+       }
+      ]
+     },
+     {
+      "tag": "DIV00015",
+      "path": "HSZ062/DIV00000/DIV00015",
+      "label": "氏名（フリガナ）",
+      "min": 0,
+      "max": 1,
+      "type": "gen:n-kana",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "DIV00020",
+      "path": "HSZ062/DIV00000/DIV00020",
+      "label": "氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "DIV00030",
+      "path": "HSZ062/DIV00000/DIV00030",
+      "label": "国外扶養区分",
+      "min": 0,
+      "max": 1,
+      "type": "DIV00030-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIV00000/DIV00030/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun2_CD"
+        ],
+        "enumeration": [
+         "00",
+         "01"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIV00000/DIV00030/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DIW00000",
+    "path": "HSZ062/DIW00000",
+    "label": "配偶者の合計所得",
+    "min": 0,
+    "max": 1,
+    "type": "gen:kingaku",
+    "kind": "amount",
+    "base": "xsd:long",
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DIX00000",
+    "path": "HSZ062/DIX00000",
+    "label": "国民年金保険料等の金額",
+    "min": 0,
+    "max": 1,
+    "type": "gen:kingaku",
+    "kind": "amount",
+    "base": "xsd:long",
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DIH10000",
+    "path": "HSZ062/DIH10000",
+    "label": "基礎控除の額",
+    "min": 0,
+    "max": 1,
+    "type": "gen:kingaku",
+    "kind": "amount",
+    "base": "xsd:long",
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DIY00000",
+    "path": "HSZ062/DIY00000",
+    "label": "旧長期損害保険料の金額",
+    "min": 0,
+    "max": 1,
+    "type": "gen:kingaku",
+    "kind": "amount",
+    "base": "xsd:long",
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DII10000",
+    "path": "HSZ062/DII10000",
+    "label": "所得金額調整控除額",
+    "min": 0,
+    "max": 1,
+    "type": "gen:kingaku",
+    "kind": "amount",
+    "base": "xsd:long",
+    "attributes": [
+     {
+      "name": "AutoCalc",
+      "required": false,
+      "type": "xsd:string"
+     }
+    ]
+   },
+   {
+    "tag": "DIZ00000",
+    "path": "HSZ062/DIZ00000",
+    "label": "控除対象扶養親族等　繰り返し",
+    "min": 0,
+    "max": 4,
+    "type": "DIZ00000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DIZ00010",
+      "path": "HSZ062/DIZ00000/DIZ00010",
+      "label": "個人番号",
+      "min": 0,
+      "max": 1,
+      "type": "gen:bango",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kojinbango",
+        "path": "HSZ062/DIZ00000/DIZ00010/kojinbango",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:string",
+        "max_length": 12,
+        "choice": "HSZ062/DIZ00000/DIZ00010#1"
+       },
+       {
+        "tag": "hojinbango",
+        "path": "HSZ062/DIZ00000/DIZ00010/hojinbango",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:string",
+        "max_length": 13,
+        "choice": "HSZ062/DIZ00000/DIZ00010#2"
+       }
+      ]
+     },
+     {
+      "tag": "DIZ00015",
+      "path": "HSZ062/DIZ00000/DIZ00015",
+      "label": "氏名（フリガナ）",
+      "min": 0,
+      "max": 1,
+      "type": "gen:n-kana",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "DIZ00020",
+      "path": "HSZ062/DIZ00000/DIZ00020",
+      "label": "氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "DIZ00030",
+      "path": "HSZ062/DIZ00000/DIZ00030",
+      "label": "国外扶養区分",
+      "min": 0,
+      "max": 1,
+      "type": "DIZ00030-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIZ00000/DIZ00030/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun2_CD"
+        ],
+        "enumeration": [
+         "00",
+         "01",
+         "02",
+         "03",
+         "04",
+         "10",
+         "20",
+         "30",
+         "40",
+         "50",
+         "60",
+         "70",
+         "80",
+         "90",
+         "11",
+         "21",
+         "31",
+         "41",
+         "51",
+         "61",
+         "71",
+         "81",
+         "91"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIZ00000/DIZ00030/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DIF10000",
+    "path": "HSZ062/DIF10000",
+    "label": "16歳未満の扶養親族　繰り返し",
+    "min": 0,
+    "max": 4,
+    "type": "DIF10000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DIF10010",
+      "path": "HSZ062/DIF10000/DIF10010",
+      "label": "氏名（フリガナ）",
+      "min": 0,
+      "max": 1,
+      "type": "gen:n-kana",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "DIF10020",
+      "path": "HSZ062/DIF10000/DIF10020",
+      "label": "氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "DIF10030",
+      "path": "HSZ062/DIF10000/DIF10030",
+      "label": "国外扶養区分",
+      "min": 0,
+      "max": 1,
+      "type": "DIF10030-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIF10000/DIF10030/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun2_CD"
+        ],
+        "enumeration": [
+         "00",
+         "01"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIF10000/DIF10030/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DIG10000",
+    "path": "HSZ062/DIG10000",
+    "label": "（備考）",
+    "min": 0,
+    "max": 1,
+    "type": "DIG10000-6-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 100
+   },
+   {
+    "tag": "DIA10000",
+    "path": "HSZ062/DIA10000",
+    "label": "本人控除内容",
+    "min": 0,
+    "max": 1,
+    "type": "DIA10000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DIA10010",
+      "path": "HSZ062/DIA10000/DIA10010",
+      "label": "未成年者",
+      "min": 0,
+      "max": 1,
+      "type": "DIA10010-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIA10000/DIA10010/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIA10000/DIA10010/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "DIA10020",
+      "path": "HSZ062/DIA10000/DIA10020",
+      "label": "外国人",
+      "min": 0,
+      "max": 1,
+      "type": "DIA10020-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIA10000/DIA10020/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIA10000/DIA10020/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "DIA10030",
+      "path": "HSZ062/DIA10000/DIA10030",
+      "label": "死亡退職",
+      "min": 0,
+      "max": 1,
+      "type": "DIA10030-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIA10000/DIA10030/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIA10000/DIA10030/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "DIA10040",
+      "path": "HSZ062/DIA10000/DIA10040",
+      "label": "災害者",
+      "min": 0,
+      "max": 1,
+      "type": "DIA10040-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIA10000/DIA10040/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIA10000/DIA10040/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "DIA10050",
+      "path": "HSZ062/DIA10000/DIA10050",
+      "label": "乙欄",
+      "min": 0,
+      "max": 1,
+      "type": "DIA10050-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIA10000/DIA10050/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIA10000/DIA10050/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "DIA10060",
+      "path": "HSZ062/DIA10000/DIA10060",
+      "label": "本人が障害者",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "DIA10070",
+        "path": "HSZ062/DIA10000/DIA10060/DIA10070",
+        "label": "特別",
+        "min": 0,
+        "max": 1,
+        "type": "DIA10070-6-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HSZ062/DIA10000/DIA10060/DIA10070/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HSZ062/DIA10000/DIA10060/DIA10070/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "DIA10080",
+        "path": "HSZ062/DIA10000/DIA10060/DIA10080",
+        "label": "その他",
+        "min": 0,
+        "max": 1,
+        "type": "DIA10080-6-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HSZ062/DIA10000/DIA10060/DIA10080/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HSZ062/DIA10000/DIA10060/DIA10080/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "DIA10140",
+      "path": "HSZ062/DIA10000/DIA10140",
+      "label": "寡婦",
+      "min": 0,
+      "max": 1,
+      "type": "DIA10140-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIA10000/DIA10140/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIA10000/DIA10140/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "DIA10150",
+      "path": "HSZ062/DIA10000/DIA10150",
+      "label": "ひとり親",
+      "min": 0,
+      "max": 1,
+      "type": "DIA10150-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIA10000/DIA10150/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIA10000/DIA10150/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "DIA10130",
+      "path": "HSZ062/DIA10000/DIA10130",
+      "label": "勤労学生",
+      "min": 0,
+      "max": 1,
+      "type": "DIA10130-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIA10000/DIA10130/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIA10000/DIA10130/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DIB10000",
+    "path": "HSZ062/DIB10000",
+    "label": "中途就・退職",
+    "min": 0,
+    "max": 1,
+    "type": "DIB10000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DIB10010",
+      "path": "HSZ062/DIB10000/DIB10010",
+      "label": "就職",
+      "min": 0,
+      "max": 1,
+      "type": "DIB10010-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIB10000/DIB10010/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIB10000/DIB10010/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "DIB10020",
+      "path": "HSZ062/DIB10000/DIB10020",
+      "label": "退職",
+      "min": 0,
+      "max": 1,
+      "type": "DIB10020-6-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ062/DIB10000/DIB10020/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ062/DIB10000/DIB10020/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "DIB10030",
+      "path": "HSZ062/DIB10000/DIB10030",
+      "label": "中途就・退職年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "HSZ062/DIB10000/DIB10030/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "HSZ062/DIB10000/DIB10030/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "HSZ062/DIB10000/DIB10030/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "HSZ062/DIB10000/DIB10030/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "DIC10000",
+    "path": "HSZ062/DIC10000",
+    "label": "受給者生年月日",
+    "min": 0,
+    "max": 1,
+    "type": "gen:yymmdd",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "era",
+      "path": "HSZ062/DIC10000/era",
+      "label": null,
+      "min": 1,
+      "max": 1,
+      "ns": "gen",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger"
+     },
+     {
+      "tag": "yy",
+      "path": "HSZ062/DIC10000/yy",
+      "label": null,
+      "min": 1,
+      "max": 1,
+      "ns": "gen",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "max_inclusive": 99,
+      "min_inclusive": 1
+     },
+     {
+      "tag": "mm",
+      "path": "HSZ062/DIC10000/mm",
+      "label": null,
+      "min": 1,
+      "max": 1,
+      "ns": "gen",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "max_inclusive": 12,
+      "min_inclusive": 1
+     },
+     {
+      "tag": "dd",
+      "path": "HSZ062/DIC10000/dd",
+      "label": null,
+      "min": 1,
+      "max": 1,
+      "ns": "gen",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "max_inclusive": 31,
+      "min_inclusive": 1
+     }
+    ]
+   },
+   {
+    "tag": "DID10000",
+    "path": "HSZ062/DID10000",
+    "label": "支払者",
+    "min": 1,
+    "max": 1,
+    "type": "DID10000-6-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "DID10010",
+      "path": "HSZ062/DID10000/DID10010",
+      "label": "個人番号又は法人番号",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_BANGOref",
+      "kind": "idref",
+      "idref": "NOZEISHA_BANGO",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_BANGO",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "DID10020",
+      "path": "HSZ062/DID10000/DID10020",
+      "label": "住所（居所）又は所在地",
+      "min": 1,
+      "max": 1,
+      "type": "gen:NOZEISHA_ADRref",
+      "kind": "idref",
+      "idref": "NOZEISHA_ADR",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_ADR",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "DID10030",
+      "path": "HSZ062/DID10000/DID10030",
+      "label": "氏名又は名称",
+      "min": 1,
+      "max": 1,
+      "type": "gen:NOZEISHA_NMref",
+      "kind": "idref",
+      "idref": "NOZEISHA_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "DID10040",
+      "path": "HSZ062/DID10000/DID10040",
+      "label": "電話番号",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_TELref",
+      "kind": "idref",
+      "idref": "NOZEISHA_TEL",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_TEL",
+        "type": "xsd:IDREF"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HSZ062-6-0VRtype",
+    "fixed": "6.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

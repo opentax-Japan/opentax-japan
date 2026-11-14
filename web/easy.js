@@ -189,7 +189,7 @@ function renderNeeds(list) {
         it.done ? "✓" : it.auto ? "□" : "—"),
       " ", el("b", {}, it.label), " ", el("span", { class: `need ${it.need.includes("必須") ? "must" : "may"}` }, it.need),
       el("div", { class: "where" }, it.where)))),
-    g.color === "PINK" ? el("p", { class: "note" }, "今使えるのは ", el("a", { href: "payroll.html" }, "給与の記録"), " だけです") : null,
+    g.color === "PINK" ? el("p", { class: "note" }, "年末調整・源泉徴収票・法定調書合計表はコマンド（opentax nencho）で作れます。この画面では ", el("a", { href: "payroll.html" }, "給与の記録"), " が使えます。勤怠からの給与計算は準備中") : null,
     g.sample ? el("div", { class: "row" }, el("button", { type: "button", class: "small", onclick: () => trySample(g.sample) }, "見本で試す")) : null)));
 }
 

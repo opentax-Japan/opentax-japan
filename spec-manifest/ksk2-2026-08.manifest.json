@@ -943,6 +943,46 @@
           "sha256": "fc85c3bc3e57aea650cf02a8269ff1781815b0fa3641d99141d61a4846bf21af"
         },
         {
+          "path": "19XMLスキーマ/hoteishiryo/HSV999-001.xsd",
+          "sha256": "ec92017d6a9777c0319ca5291d3da92e18f192eaf4110541a1a6ca3aee8d6ecc"
+        },
+        {
+          "path": "19XMLスキーマ/hoteishiryo/HSZ062-006.xsd",
+          "sha256": "c2fa93fa99ac0a33cd390b4ca05a00a5a503e15056c175f447d1764170e67fd9"
+        },
+        {
+          "path": "19XMLスキーマ/hoteishiryo/HSZ441-007.xsd",
+          "sha256": "7b284b1196835c353e9140a5f7ca7edf7211ea995ca455644332f4fc28d600be"
+        },
+        {
+          "path": "19XMLスキーマ/hoteishiryo/HSZ581-005.xsd",
+          "sha256": "83a7f465a680883a21d543bdd1a09dc8c5e99037f01c0f686e2bfe4fc5548d5d"
+        },
+        {
+          "path": "19XMLスキーマ/hoteishiryo/HSZ592-002.xsd",
+          "sha256": "c0bf463173da5c2d30b1d82b4357505bd23bf7655b0eb9c01df7dd92db5be77c"
+        },
+        {
+          "path": "19XMLスキーマ/hoteishiryo/HSZ600-003.xsd",
+          "sha256": "035c9a2a3071f75efec9f40aafb8d1ae7e73c11db7d0e8cf5e8297487f4fcdef"
+        },
+        {
+          "path": "19XMLスキーマ/hoteishiryo/HSZ601-006.xsd",
+          "sha256": "ae1b3269c07f28ee807b0972b2e34b9fe49d9a3dd9b21ba97c29afbd8abcdacd"
+        },
+        {
+          "path": "19XMLスキーマ/hoteishiryo/HSZ610-004.xsd",
+          "sha256": "aec36ffcac61c2e077e49f2d55e8166d7a5435183e294690ff20caff1170ae3d"
+        },
+        {
+          "path": "19XMLスキーマ/hoteishiryo/HSZ611-004.xsd",
+          "sha256": "9f838a0a7a02aea68b4bfad86e3f17de05d2cf4d435df9fa9085dafe619a1237"
+        },
+        {
+          "path": "19XMLスキーマ/hoteishiryo/PHS0051-250.xsd",
+          "sha256": "cd807049d8af6f4d4ddf3096c78a1a7d6ec276c887b4e8d51bd3b395aa4b265a"
+        },
+        {
           "path": "19XMLスキーマ/kyotsu/RHO0012a-260.xsd",
           "sha256": "4c666d5eb7d167ab713d4d1c365a066a1f3bd9254dca2281a7f36788eed00bd9"
         },
@@ -3727,6 +3767,25 @@
           "sha256": "6bf25cfb41c517ee0be52ecb8006d741681ece5dae9b1ab762807f5a59ea9a9e"
         }
       ]
+    },
+    {
+      "name": "e-tax16",
+      "role": "XML構造設計書・帳票フィールド仕様書【法定資料関係】",
+      "url": "https://www.e-tax.nta.go.jp/shiyo/ksk2/download/e-tax16.CAB",
+      "published": "2026-01-30",
+      "extract": "listed",
+      "files": [
+        {
+          "path": "16XML構造設計書等【法定資料】/帳票フィールド仕様書(法定資料)Ver3x.xlsx",
+          "sha256": "4bee3eb5171c07357cd5e0ed7fb4e38f777bf9d06be4c3d6079dec394cea2c05"
+        },
+        {
+          "path": "16XML構造設計書等【法定資料】/帳票フィールド仕様書(法定資料)Ver6x.xlsx",
+          "sha256": "036bff8b6fc11097d86a3a250bbf14f7745be0056b2934ab7a5b5ab93e13fe51"
+        }
+      ],
+      "sha256": "55051ad70f82c95f1a6e2c270f2819a1f2ce0c9fe256fc94d0e063915e8bdbaa",
+      "size_bytes": 1608006
     }
   ],
   "procedures": [
@@ -3781,6 +3840,14 @@
       "label": "相続税申告",
       "xsd": "19XMLスキーマ/shisan/RKS1000-250.xsd",
       "xsd_sha256": "7f6dc791efa861cd17d91bdc92c1bb6867c3504ac63302c076dadca8f875e661",
+      "version": "25.0.0"
+    },
+    {
+      "procedure_id": "PHS0051",
+      "key": "PHS0051",
+      "label": "給与所得の源泉徴収票等の法定調書(及び同合計表)(平成28年1月1日以後提出用)",
+      "xsd": "19XMLスキーマ/hoteishiryo/PHS0051-250.xsd",
+      "xsd_sha256": "cd807049d8af6f4d4ddf3096c78a1a7d6ec276c887b4e8d51bd3b395aa4b265a",
       "version": "25.0.0"
     }
   ],
@@ -4687,6 +4754,34 @@
       "xsd_sha256": "520182e6b2855424ab49e74a3a1446d5cdb87b4d16ee0d7e70d852d38406fc20",
       "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver3x.xlsx",
       "field_spec_sheet": "KSE151"
+    },
+    {
+      "form_id": "HSZ062",
+      "label": "給与所得の源泉徴収票",
+      "mvp": false,
+      "stage": "pink",
+      "procedure": "PHS0051",
+      "field_spec_workbook": "16XML構造設計書等【法定資料】/帳票フィールド仕様書(法定資料)Ver6x.xlsx",
+      "field_spec_sheet": "HSZ062",
+      "xsd": "19XMLスキーマ/hoteishiryo/HSZ062-006.xsd",
+      "version": "6.0",
+      "xsd_documentation_date": "2025-08-15",
+      "group": "HSZ062-6-0group",
+      "xsd_sha256": "c2fa93fa99ac0a33cd390b4ca05a00a5a503e15056c175f447d1764170e67fd9"
+    },
+    {
+      "form_id": "HSZ600",
+      "label": "給与所得の源泉徴収票等の法定調書合計表",
+      "mvp": false,
+      "stage": "pink",
+      "procedure": "PHS0051",
+      "field_spec_workbook": "16XML構造設計書等【法定資料】/帳票フィールド仕様書(法定資料)Ver3x.xlsx",
+      "field_spec_sheet": "HSZ600",
+      "xsd": "19XMLスキーマ/hoteishiryo/HSZ600-003.xsd",
+      "version": "3.0",
+      "xsd_documentation_date": "2021-09-02",
+      "group": "HSZ600-3-0group",
+      "xsd_sha256": "035c9a2a3071f75efec9f40aafb8d1ae7e73c11db7d0e8cf5e8297487f4fcdef"
     }
   ]
 }

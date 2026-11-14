@@ -127,8 +127,8 @@ def _build_layout(args: argparse.Namespace) -> int:
 def _build_catalog(args: argparse.Namespace) -> int:
     manifest = Path(args.manifest_dir) / f"{args.spec_set}.manifest.json"
     spec = SpecSet(manifest, Path(args.cache_dir))
-    # 帳票フィールド仕様書: e-tax10（法人税）・e-tax11（消費税）・e-tax09（所得税）・e-tax12（資産税。相続税）・e-tax17（総務。税務代理権限証書など）
-    pkgs = [p for p in spec.manifest["packages"] if p["name"] in ("e-tax10", "e-tax11", "e-tax09", "e-tax12", "e-tax17") and p.get("files")]
+    # 帳票フィールド仕様書: e-tax10（法人税）・e-tax11（消費税）・e-tax09（所得税）・e-tax12（資産税。相続税）・e-tax17（総務。税務代理権限証書など）・e-tax16（法定資料。源泉徴収票・法定調書合計表）
+    pkgs = [p for p in spec.manifest["packages"] if p["name"] in ("e-tax10", "e-tax11", "e-tax09", "e-tax12", "e-tax17", "e-tax16") and p.get("files")]
     if not any(p["name"] == "e-tax10" for p in pkgs):
         raise SpecError("manifest に e-tax10 がありません。先に fetch-spec --init を実行してください")
     sources = {spec.file_path(p, f["path"]): f for p in pkgs for f in p["files"] if WORKBOOK_RE.search(f["path"])}
@@ -137,8 +137,8 @@ def _build_catalog(args: argparse.Namespace) -> int:
     forms = []
     manifest_changed = False
     for form in spec.manifest["forms"]:
-        # 消費税の様式（SH）は消費税、総務の様式（SOZ）は総務、所得税の様式（KO）は所得税、相続税の様式（KS）は資産税、ほかは法人税の仕様書から探す
-        kind = {"SH": "消費", "SO": "総務", "KO": "所得", "KS": "資産"}.get(form["form_id"][:2], "法人")
+        # 消費税の様式（SH）は消費税、総務の様式（SOZ）は総務、所得税の様式（KO）は所得税、相続税の様式（KS）は資産税、法定資料の様式（HS）は法定資料、ほかは法人税の仕様書から探す
+        kind = {"SH": "消費", "SO": "総務", "KO": "所得", "KS": "資産", "HS": "法定資料"}.get(form["form_id"][:2], "法人")
         books = [w for w in workbooks if kind in w.name]
         workbook, sheet = find_sheet(books, form["form_id"], form["version"])
         source = sources[workbook]
@@ -549,6 +549,45 @@ def _souzoku(args) -> int:
     return EXIT_OK
 
 
+def _nencho(args) -> int:
+    """OpenTax PINK: 年末調整（令和8年分）・源泉徴収票・法定調書合計表。"""
+    import datetime as _dt
+    import json as _json
+    from . import api
+
+    c = api.nencho_calculate(_json.loads(Path(args.input).read_text(encoding="utf-8")))
+    for p, r in c["people"]:
+        diff = f"超過（還付） {r['excess']:,}円" if r["excess"] else f"不足（徴収） {r['shortage']:,}円"
+        print(f"{p.get('name') or p.get('id')}: 給与の総額 {r['salary_total']:,}円  年調年税額 {r['year_tax']:,}円  {diff}")
+    t = c["totals"]
+    print(f"合計: {t['people']}人  支払金額 {t['salary']:,}円  源泉徴収税額 {t['year_tax']:,}円  税務署へ出す源泉徴収票 {t['submitted']}枚")
+    for n in c["notes"]:
+        print(f"確かめてください: {n}")
+    if args.report:
+        with open(args.report, "w", encoding="utf-8", newline="\n") as f:
+            f.write(api.nencho_report(c))
+        print(f"年末調整の一覧を書き出しました: {args.report}")
+    if not args.output:
+        return EXIT_OK
+    schema_root = Path(args.cache_dir) / "ksk2-2026-08" / "files" / "e-tax19"
+    if args.cab:
+        schema_root = api.schema_from_cab(Path(args.cab).read_bytes())
+    if not schema_root.exists():
+        raise SpecError("公式XSD がありません。opentax fetch-spec --set ksk2-2026-08 を実行するか、--cab で e-tax19.CAB を指定してください")
+    submitted = _dt.date.fromisoformat(args.submitted) if args.submitted else None
+    xml = api.nencho_export(c, schema_root, submitted=submitted)
+    errors = api.validate_xtx(xml, schema_root, "PHS0051")
+    if errors:
+        print(f"公式XSD の検証で誤りがあります（{len(errors)} 件）。.xtx は書き出しません")
+        for e in errors[:20]:
+            print(f"  {e}")
+        return EXIT_CHANGED
+    Path(args.output).write_bytes(xml)
+    print("公式XSD（手続 PHS0051）の検証: 誤りなし")
+    print(f"書き出しました: {args.output}（{len(xml):,} バイト）")
+    return EXIT_OK
+
+
 def _jigyosho(args) -> int:
     import json as _json
     from . import api
@@ -709,11 +748,19 @@ def main(argv: list[str] | None = None) -> int:
     co.add_argument("-o", "--report", help="申告書一式の HTML を書き出す先")
     co.add_argument("--json", help="一覧（使ったもの・使わなかったもの・足りないもの）を JSON で書き出す先")
 
+    nc = sub.add_parser("nencho", help="OpenTax PINK: 年末調整（令和8年分）の年調年税額・過不足額、源泉徴収票・法定調書合計表（-o で .xtx）")
+    nc.add_argument("input", help="入力 JSON（format: opentax-nencho/1。tests/cases/nencho-r08/input.json が見本）")
+    nc.add_argument("-o", "--output", help="書き出す .xtx（手続 PHS0051。公式XSD の検証を通ったときだけ書く）")
+    nc.add_argument("--report", help="年末調整の一覧の HTML を書き出す先")
+    nc.add_argument("--submitted", help="提出日（YYYY-MM-DD）")
+    nc.add_argument("--cache-dir", default=".cache/etax")
+    nc.add_argument("--cab", help="国税庁から取った e-tax19.CAB（キャッシュの代わりに使う）")
+
     args = parser.parse_args(argv)
     command = {"collect": _collect, "intake": _intake, "fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
                "build-checks": _build_checks, "calculate": _calculate, "export-etax": _export_etax,
                "local-tax": _local_tax, "shohi": _shohi, "kojin": _kojin, "report": _report,
-               "jigyosho": _jigyosho, "shukuhaku": _shukuhaku, "souzoku": _souzoku}[args.command]
+               "jigyosho": _jigyosho, "shukuhaku": _shukuhaku, "souzoku": _souzoku, "nencho": _nencho}[args.command]
     from .etax.validate import ValidationUnavailable
     from .etax.xtx import XtxError
     from .red.calculate import RuleError
@@ -725,10 +772,11 @@ def main(argv: list[str] | None = None) -> int:
     from .jigyosho.calculate import JigyoshoError
     from .shukuhaku.calculate import ShukuhakuError
     from .souzoku.calculate import SouzokuError
+    from .payroll.gensen import GensenError
     try:
         return command(args)
     except (SpecError, LayoutError, CatalogError, CheckError, InputError, RuleError, LocalRuleError, XtxError,
-            ValidationUnavailable, SheetError, ShohiInputError, KojinError, JigyoshoError, ShukuhakuError, SouzokuError, OSError) as e:
+            ValidationUnavailable, SheetError, ShohiInputError, KojinError, JigyoshoError, ShukuhakuError, SouzokuError, GensenError, OSError) as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
 

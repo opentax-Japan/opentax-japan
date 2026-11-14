@@ -335,9 +335,10 @@ REQUIREMENTS = [
         {"label": "生命保険金・退職金の支払通知", "need": "あれば", "where": "保険会社・勤め先から届く", "done": None},
         {"label": "贈与税の申告書の控え", "need": "あれば", "where": "生前贈与・相続時精算課税があるとき", "done": None},
     ]},
-    {"color": "PINK", "who": "給与・年末調整・法定調書", "state": "準備中", "sample": None, "items": [
-        {"label": "給与の記録", "need": "必須", "where": "OpenTax の給与の記録（今使えるのはここまで）", "done": _has_file("payroll")},
-        {"label": "扶養控除等申告書・保険料控除申告書", "need": "年調で必須", "where": "従業員から（年末調整は準備中）", "done": None},
+    {"color": "PINK", "who": "給与・年末調整・法定調書", "state": "一部使えます", "sample": None, "items": [
+        {"label": "年末調整の入力（opentax-nencho/1）", "need": "年調で必須", "where": "扶養控除等申告書・保険料控除申告書などに書かれたこと（JSON。写真は AI で読む）。今はコマンド opentax nencho で年末調整・源泉徴収票・法定調書合計表を作ります",
+         "done": _has_file("nencho")},
+        {"label": "給与の記録", "need": "あれば", "where": "OpenTax の給与の記録（1年分の給与・徴収税額・社会保険料を年末調整に使う）", "done": _has_file("payroll")},
     ]},
     {"color": "PLATINUM", "who": "全部入り・税理士事務所向け", "state": "一部使えます", "sample": "platinum", "items": [
         {"label": "事務所の設定（JSON）", "need": "必須", "where": "一度作れば毎回入る（税務代理権限証書に使う）", "done": _has_file("office")},

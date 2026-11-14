@@ -283,7 +283,7 @@ def local_tax_sheet(calculated: dict, today: datetime.date | None = None) -> str
 
 
 def validate_xtx(xml: bytes, schema_root: Path, procedure_id: str = "RHO0012") -> list[str]:
-    """公式XSD で検証する。procedure_id: RHO0012（法人税）・RSH0020（消費税 一般・法人）・RSH0040（消費税 簡易課税・法人）・RKO0010（所得税）・RKS1000（相続税）。"""
+    """公式XSD で検証する。procedure_id: RHO0012（法人税）・RSH0020（消費税 一般・法人）・RSH0040（消費税 簡易課税・法人）・RKO0010（所得税）・RKS1000（相続税）・PHS0051（法定調書）。"""
     procs = _manifest()["procedures"]
     procedure = next((p for p in procs if p.get("key") == procedure_id), None)         or next(p for p in procs if p["procedure_id"] == procedure_id and not p.get("key"))
     return _validate(xml, schema_root, procedure["xsd"])
@@ -401,6 +401,34 @@ def souzoku_report(calculated: dict, today: datetime.date | None = None) -> str:
     """相続税の申告書一式（HTML 1枚）。帳票フィールド仕様書の行番号・項目名の表で並べる。"""
     from . import report as rp
     return rp.build_souzoku(calculated, today)
+
+
+# --- OpenTax PINK: 年末調整・源泉徴収票・法定調書合計表（2026-11-14） ---
+
+def nencho_calculate(data: dict) -> dict:
+    """年末調整（令和8年分）。1人ずつ年調年税額・過不足額と、合計表の数字。"""
+    from .payroll.pink import calculate
+    return calculate(data)
+
+
+def nencho_report(calculated: dict, today: datetime.date | None = None) -> str:
+    from .payroll.pink import report_html
+    return report_html(calculated, today)
+
+
+def nencho_export(calculated: dict, schema_root: Path, today: datetime.date | None = None,
+                  submitted: datetime.date | None = None) -> bytes:
+    """給与所得の源泉徴収票等の法定調書（及び同合計表）の .xtx（手続 PHS0051）。"""
+    from .payroll.etax import build_xtx
+    zeimusho = (schema_root / Path(*ZEIMUSHO_XSD.split("/"))).read_bytes()
+    d = calculated["input"]
+    return build_xtx(d["year"], d["filer"], calculated["people"], zeimusho, today or datetime.date.today(), submitted)
+
+
+def withholding_monthly(amount: int, dependents: int = 0, column: str = "甲") -> int:
+    """毎月の給与の源泉徴収税額（令和8年分 月額表）。amount は社会保険料等控除後の給与等の金額。"""
+    from .payroll.gensen import monthly
+    return monthly(amount, dependents, column)
 
 
 def schema_from_cab(cab: bytes, workdir: Path | None = None) -> Path:

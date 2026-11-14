@@ -1,0 +1,2725 @@
+{
+ "form_id": "HSZ600",
+ "label": "給与所得の源泉徴収票等の法定調書合計表",
+ "version": "3.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hoteishiryo",
+ "group": "HSZ600-3-0group",
+ "xsd": "19XMLスキーマ/hoteishiryo/HSZ600-003.xsd",
+ "xsd_sha256": "035c9a2a3071f75efec9f40aafb8d1ae7e73c11db7d0e8cf5e8297487f4fcdef",
+ "root": {
+  "tag": "HSZ600",
+  "path": "HSZ600",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "BLA00000",
+    "path": "HSZ600/BLA00000",
+    "label": "年分",
+    "min": 1,
+    "max": 1,
+    "type": "gen:NENBUNref",
+    "kind": "idref",
+    "idref": "NENBUN",
+    "attributes": [
+     {
+      "name": "IDREF",
+      "required": true,
+      "fixed": "NENBUN",
+      "type": "xsd:IDREF"
+     }
+    ]
+   },
+   {
+    "tag": "BLB00000",
+    "path": "HSZ600/BLB00000",
+    "label": "調書の提出区分",
+    "min": 1,
+    "max": 1,
+    "type": "BLB00000-3-0Rtype",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "kubun_CD",
+      "path": "HSZ600/BLB00000/kubun_CD",
+      "label": null,
+      "min": 1,
+      "max": 1,
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:kubun_CD"
+      ],
+      "enumeration": [
+       "1",
+       "2",
+       "3",
+       "4"
+      ]
+     },
+     {
+      "tag": "kubun_NM",
+      "path": "HSZ600/BLB00000/kubun_NM",
+      "label": null,
+      "min": 0,
+      "max": 1,
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:kubun_NM",
+       "gen:str"
+      ],
+      "max_length": 30
+     }
+    ]
+   },
+   {
+    "tag": "BLC00000",
+    "path": "HSZ600/BLC00000",
+    "label": "前回提出",
+    "min": 0,
+    "max": 1,
+    "type": "BLC00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "BLC00010",
+      "path": "HSZ600/BLC00000/BLC00010",
+      "label": "受付番号",
+      "min": 0,
+      "max": 1,
+      "type": "BLC00010-3-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "BLC00020",
+      "path": "HSZ600/BLC00000/BLC00020",
+      "label": "受付年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "HSZ600/BLC00000/BLC00020/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "HSZ600/BLC00000/BLC00020/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "HSZ600/BLC00000/BLC00020/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "HSZ600/BLC00000/BLC00020/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "BLD00000",
+    "path": "HSZ600/BLD00000",
+    "label": "提出年月日",
+    "min": 0,
+    "max": 1,
+    "type": "gen:TEISYUTSU_DAYref",
+    "kind": "idref",
+    "idref": "TEISYUTSU_DAY",
+    "attributes": [
+     {
+      "name": "IDREF",
+      "required": true,
+      "fixed": "TEISYUTSU_DAY",
+      "type": "xsd:IDREF"
+     }
+    ]
+   },
+   {
+    "tag": "BLE00000",
+    "path": "HSZ600/BLE00000",
+    "label": "提出先税務署",
+    "min": 0,
+    "max": 1,
+    "type": "gen:ZEIMUSHOref",
+    "kind": "idref",
+    "idref": "ZEIMUSHO",
+    "attributes": [
+     {
+      "name": "IDREF",
+      "required": true,
+      "fixed": "ZEIMUSHO",
+      "type": "xsd:IDREF"
+     }
+    ]
+   },
+   {
+    "tag": "BLF00000",
+    "path": "HSZ600/BLF00000",
+    "label": "提出者",
+    "min": 0,
+    "max": 1,
+    "type": "BLF00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "BLF00010",
+      "path": "HSZ600/BLF00000/BLF00010",
+      "label": "住所又は所在地",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_ADRref",
+      "kind": "idref",
+      "idref": "NOZEISHA_ADR",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_ADR",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "BLF00020",
+      "path": "HSZ600/BLF00000/BLF00020",
+      "label": "（フリガナ）氏名又は名称",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLF00030",
+        "path": "HSZ600/BLF00000/BLF00020/BLF00030",
+        "label": "フリガナ",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_NM_KNref",
+        "kind": "idref",
+        "idref": "NOZEISHA_NM_KN",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_NM_KN",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "BLF00040",
+        "path": "HSZ600/BLF00000/BLF00020/BLF00040",
+        "label": "氏名又は名称",
+        "min": 0,
+        "max": 1,
+        "type": "gen:NOZEISHA_NMref",
+        "kind": "idref",
+        "idref": "NOZEISHA_NM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "NOZEISHA_NM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLF00045",
+      "path": "HSZ600/BLF00000/BLF00045",
+      "label": "個人番号又は法人番号",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_BANGOref",
+      "kind": "idref",
+      "idref": "NOZEISHA_BANGO",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_BANGO",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "BLF00050",
+      "path": "HSZ600/BLF00000/BLF00050",
+      "label": "（フリガナ）代表者氏名",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLF00060",
+        "path": "HSZ600/BLF00000/BLF00050/BLF00060",
+        "label": "フリガナ",
+        "min": 0,
+        "max": 1,
+        "type": "gen:DAIHYO_NM_KNref",
+        "kind": "idref",
+        "idref": "DAIHYO_NM_KN",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "DAIHYO_NM_KN",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "BLF00070",
+        "path": "HSZ600/BLF00000/BLF00050/BLF00070",
+        "label": "代表者氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:DAIHYO_NMref",
+        "kind": "idref",
+        "idref": "DAIHYO_NM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "DAIHYO_NM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLF00080",
+      "path": "HSZ600/BLF00000/BLF00080",
+      "label": "電話番号",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_TELref",
+      "kind": "idref",
+      "idref": "NOZEISHA_TEL",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_TEL",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "BLF00090",
+      "path": "HSZ600/BLF00000/BLF00090",
+      "label": "事業種目",
+      "min": 0,
+      "max": 1,
+      "type": "gen:shokugyo",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 20
+     }
+    ]
+   },
+   {
+    "tag": "BLG00000",
+    "path": "HSZ600/BLG00000",
+    "label": "提出媒体",
+    "min": 0,
+    "max": 1,
+    "type": "BLG00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "BLG00010",
+      "path": "HSZ600/BLG00000/BLG00010",
+      "label": "１．給与",
+      "min": 0,
+      "max": 1,
+      "type": "BLG00010-3-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ600/BLG00000/BLG00010/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun2_CD"
+        ],
+        "enumeration": [
+         "14",
+         "15",
+         "16",
+         "17",
+         "18",
+         "19",
+         "30",
+         "99"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ600/BLG00000/BLG00010/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "BLG00020",
+      "path": "HSZ600/BLG00000/BLG00020",
+      "label": "２．退職",
+      "min": 0,
+      "max": 1,
+      "type": "BLG00020-3-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ600/BLG00000/BLG00020/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun2_CD"
+        ],
+        "enumeration": [
+         "14",
+         "15",
+         "16",
+         "17",
+         "18",
+         "30",
+         "99"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ600/BLG00000/BLG00020/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "BLG00030",
+      "path": "HSZ600/BLG00000/BLG00030",
+      "label": "３．報酬",
+      "min": 0,
+      "max": 1,
+      "type": "BLG00030-3-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ600/BLG00000/BLG00030/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun2_CD"
+        ],
+        "enumeration": [
+         "14",
+         "15",
+         "16",
+         "17",
+         "18",
+         "30",
+         "99"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ600/BLG00000/BLG00030/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "BLG00040",
+      "path": "HSZ600/BLG00000/BLG00040",
+      "label": "４．使用",
+      "min": 0,
+      "max": 1,
+      "type": "BLG00040-3-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ600/BLG00000/BLG00040/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun2_CD"
+        ],
+        "enumeration": [
+         "14",
+         "15",
+         "16",
+         "17",
+         "18",
+         "30",
+         "99"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ600/BLG00000/BLG00040/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "BLG00050",
+      "path": "HSZ600/BLG00000/BLG00050",
+      "label": "５．譲受",
+      "min": 0,
+      "max": 1,
+      "type": "BLG00050-3-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ600/BLG00000/BLG00050/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun2_CD"
+        ],
+        "enumeration": [
+         "14",
+         "15",
+         "16",
+         "17",
+         "18",
+         "30",
+         "99"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ600/BLG00000/BLG00050/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "BLG00060",
+      "path": "HSZ600/BLG00000/BLG00060",
+      "label": "６．斡旋",
+      "min": 0,
+      "max": 1,
+      "type": "BLG00060-3-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HSZ600/BLG00000/BLG00060/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun2_CD"
+        ],
+        "enumeration": [
+         "14",
+         "15",
+         "16",
+         "17",
+         "18",
+         "30",
+         "99"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HSZ600/BLG00000/BLG00060/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "BLH00000",
+    "path": "HSZ600/BLH00000",
+    "label": "（フリガナ）作成担当者",
+    "min": 0,
+    "max": 1,
+    "type": "BLH00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "BLH00010",
+      "path": "HSZ600/BLH00000/BLH00010",
+      "label": "フリガナ",
+      "min": 0,
+      "max": 1,
+      "type": "gen:n-kana",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "BLH00020",
+      "path": "HSZ600/BLH00000/BLH00020",
+      "label": "作成担当者",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "BLP00000",
+    "path": "HSZ600/BLP00000",
+    "label": "本店等一括提出",
+    "min": 0,
+    "max": 1,
+    "type": "BLP00000-3-0Rtype",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "kubun_CD",
+      "path": "HSZ600/BLP00000/kubun_CD",
+      "label": null,
+      "min": 1,
+      "max": 1,
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:kubun_CD"
+      ],
+      "enumeration": [
+       "1",
+       "2"
+      ]
+     },
+     {
+      "tag": "kubun_NM",
+      "path": "HSZ600/BLP00000/kubun_NM",
+      "label": null,
+      "min": 0,
+      "max": 1,
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:kubun_NM",
+       "gen:str"
+      ],
+      "max_length": 30
+     }
+    ]
+   },
+   {
+    "tag": "BLI00000",
+    "path": "HSZ600/BLI00000",
+    "label": "１．給与所得の源泉徴収票合計表",
+    "min": 0,
+    "max": 1,
+    "type": "BLI00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "BLI00010",
+      "path": "HSZ600/BLI00000/BLI00010",
+      "label": "Ａ．俸給、給与、賞与等の総額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLI00020",
+        "path": "HSZ600/BLI00000/BLI00010/BLI00020",
+        "label": "人員",
+        "min": 0,
+        "max": 1,
+        "type": "BLI00020-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLI00030",
+        "path": "HSZ600/BLI00000/BLI00010/BLI00030",
+        "label": "左のうち、源泉徴収税額のない者",
+        "min": 0,
+        "max": 1,
+        "type": "BLI00030-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLI00040",
+        "path": "HSZ600/BLI00000/BLI00010/BLI00040",
+        "label": "支払金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLI00050",
+        "path": "HSZ600/BLI00000/BLI00010/BLI00050",
+        "label": "源泉徴収税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLI00060",
+      "path": "HSZ600/BLI00000/BLI00060",
+      "label": "（Ａ）のうち、丙欄適用の日雇労務者の賃金",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLI00070",
+        "path": "HSZ600/BLI00000/BLI00060/BLI00070",
+        "label": "支払金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLI00080",
+        "path": "HSZ600/BLI00000/BLI00060/BLI00080",
+        "label": "源泉徴収税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLI00090",
+      "path": "HSZ600/BLI00000/BLI00090",
+      "label": "Ｂ．源泉徴収票を提出するもの",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLI00100",
+        "path": "HSZ600/BLI00000/BLI00090/BLI00100",
+        "label": "人員",
+        "min": 0,
+        "max": 1,
+        "type": "BLI00100-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLI00110",
+        "path": "HSZ600/BLI00000/BLI00090/BLI00110",
+        "label": "支払金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLI00120",
+        "path": "HSZ600/BLI00000/BLI00090/BLI00120",
+        "label": "源泉徴収税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLI00130",
+      "path": "HSZ600/BLI00000/BLI00130",
+      "label": "災害減免法により徴収猶予したもの",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLI00140",
+        "path": "HSZ600/BLI00000/BLI00130/BLI00140",
+        "label": "人員",
+        "min": 0,
+        "max": 1,
+        "type": "BLI00140-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLI00150",
+        "path": "HSZ600/BLI00000/BLI00130/BLI00150",
+        "label": "猶予税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLI00160",
+      "path": "HSZ600/BLI00000/BLI00160",
+      "label": "（摘要）",
+      "min": 0,
+      "max": 1,
+      "type": "BLI00160-3-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 100
+     }
+    ]
+   },
+   {
+    "tag": "BLJ00000",
+    "path": "HSZ600/BLJ00000",
+    "label": "２．退職所得の源泉徴収票合計表",
+    "min": 0,
+    "max": 1,
+    "type": "BLJ00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "BLJ00010",
+      "path": "HSZ600/BLJ00000/BLJ00010",
+      "label": "Ａ．退職手当等の総額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLJ00020",
+        "path": "HSZ600/BLJ00000/BLJ00010/BLJ00020",
+        "label": "人員",
+        "min": 0,
+        "max": 1,
+        "type": "BLJ00020-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLJ00030",
+        "path": "HSZ600/BLJ00000/BLJ00010/BLJ00030",
+        "label": "支払金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLJ00040",
+        "path": "HSZ600/BLJ00000/BLJ00010/BLJ00040",
+        "label": "源泉徴収税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLJ00050",
+      "path": "HSZ600/BLJ00000/BLJ00050",
+      "label": "Ｂ．（Ａ）のうち、源泉徴収票を提出するもの",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLJ00060",
+        "path": "HSZ600/BLJ00000/BLJ00050/BLJ00060",
+        "label": "人員",
+        "min": 0,
+        "max": 1,
+        "type": "BLJ00060-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLJ00070",
+        "path": "HSZ600/BLJ00000/BLJ00050/BLJ00070",
+        "label": "支払金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLJ00080",
+        "path": "HSZ600/BLJ00000/BLJ00050/BLJ00080",
+        "label": "源泉徴収税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLJ00090",
+      "path": "HSZ600/BLJ00000/BLJ00090",
+      "label": "（摘要）",
+      "min": 0,
+      "max": 1,
+      "type": "BLJ00090-3-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 100
+     }
+    ]
+   },
+   {
+    "tag": "BLK00000",
+    "path": "HSZ600/BLK00000",
+    "label": "３．報酬、料金、契約金及び賞金の支払調書合計表",
+    "min": 0,
+    "max": 1,
+    "type": "BLK00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "BLK00010",
+      "path": "HSZ600/BLK00000/BLK00010",
+      "label": "所得税法第２０４条に規定する報酬又は料金等",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLK00020",
+        "path": "HSZ600/BLK00000/BLK00010/BLK00020",
+        "label": "原稿料、講演料等の報酬又は料金（１号該当）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "BLK00030",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00020/BLK00030",
+          "label": "人員",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "BLK00040",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00020/BLK00030/BLK00040",
+            "label": "個人",
+            "min": 0,
+            "max": 1,
+            "type": "BLK00040-3-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "BLK00050",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00020/BLK00030/BLK00050",
+            "label": "個人以外",
+            "min": 0,
+            "max": 1,
+            "type": "BLK00050-3-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "BLK00060",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00020/BLK00060",
+          "label": "支払金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BLK00070",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00020/BLK00070",
+          "label": "源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "BLK00080",
+        "path": "HSZ600/BLK00000/BLK00010/BLK00080",
+        "label": "弁護士、税理士等の報酬又は料金（２号該当）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "BLK00090",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00080/BLK00090",
+          "label": "人員",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "BLK00100",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00080/BLK00090/BLK00100",
+            "label": "個人",
+            "min": 0,
+            "max": 1,
+            "type": "BLK00100-3-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "BLK00110",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00080/BLK00090/BLK00110",
+            "label": "個人以外",
+            "min": 0,
+            "max": 1,
+            "type": "BLK00110-3-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "BLK00120",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00080/BLK00120",
+          "label": "支払金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BLK00130",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00080/BLK00130",
+          "label": "源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "BLK00140",
+        "path": "HSZ600/BLK00000/BLK00010/BLK00140",
+        "label": "診療報酬（３号該当）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "BLK00150",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00140/BLK00150",
+          "label": "人員",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "BLK00160",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00140/BLK00150/BLK00160",
+            "label": "個人",
+            "min": 0,
+            "max": 1,
+            "type": "BLK00160-3-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "BLK00170",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00140/BLK00150/BLK00170",
+            "label": "個人以外",
+            "min": 0,
+            "max": 1,
+            "type": "BLK00170-3-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "BLK00180",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00140/BLK00180",
+          "label": "支払金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BLK00190",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00140/BLK00190",
+          "label": "源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "BLK00200",
+        "path": "HSZ600/BLK00000/BLK00010/BLK00200",
+        "label": "職業野球選手、騎手、外交員等の報酬又は料金（４号該当）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "BLK00210",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00200/BLK00210",
+          "label": "人員",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "BLK00220",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00200/BLK00210/BLK00220",
+            "label": "個人",
+            "min": 0,
+            "max": 1,
+            "type": "BLK00220-3-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "BLK00230",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00200/BLK00210/BLK00230",
+            "label": "個人以外",
+            "min": 0,
+            "max": 1,
+            "type": "BLK00230-3-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "BLK00240",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00200/BLK00240",
+          "label": "支払金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BLK00250",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00200/BLK00250",
+          "label": "源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "BLK00260",
+        "path": "HSZ600/BLK00000/BLK00010/BLK00260",
+        "label": "芸能等に係る出演、演出等の報酬又は料金（５号該当）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "BLK00270",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00260/BLK00270",
+          "label": "人員",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "BLK00280",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00260/BLK00270/BLK00280",
+            "label": "個人",
+            "min": 0,
+            "max": 1,
+            "type": "BLK00280-3-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "BLK00290",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00260/BLK00270/BLK00290",
+            "label": "個人以外",
+            "min": 0,
+            "max": 1,
+            "type": "BLK00290-3-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "BLK00300",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00260/BLK00300",
+          "label": "支払金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BLK00310",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00260/BLK00310",
+          "label": "源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "BLK00320",
+        "path": "HSZ600/BLK00000/BLK00010/BLK00320",
+        "label": "ホステス等の報酬又は料金（６号該当）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "BLK00330",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00320/BLK00330",
+          "label": "人員",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "BLK00340",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00320/BLK00330/BLK00340",
+            "label": "個人",
+            "min": 0,
+            "max": 1,
+            "type": "BLK00340-3-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "BLK00350",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00320/BLK00330/BLK00350",
+            "label": "個人以外",
+            "min": 0,
+            "max": 1,
+            "type": "BLK00350-3-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "BLK00360",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00320/BLK00360",
+          "label": "支払金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BLK00370",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00320/BLK00370",
+          "label": "源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "BLK00380",
+        "path": "HSZ600/BLK00000/BLK00010/BLK00380",
+        "label": "契約金（７号該当）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "BLK00390",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00380/BLK00390",
+          "label": "人員",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "BLK00400",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00380/BLK00390/BLK00400",
+            "label": "個人",
+            "min": 0,
+            "max": 1,
+            "type": "BLK00400-3-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "BLK00410",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00380/BLK00390/BLK00410",
+            "label": "個人以外",
+            "min": 0,
+            "max": 1,
+            "type": "BLK00410-3-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "BLK00420",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00380/BLK00420",
+          "label": "支払金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BLK00430",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00380/BLK00430",
+          "label": "源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "BLK00440",
+        "path": "HSZ600/BLK00000/BLK00010/BLK00440",
+        "label": "賞金（８号該当）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "BLK00450",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00440/BLK00450",
+          "label": "人員",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "BLK00460",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00440/BLK00450/BLK00460",
+            "label": "個人",
+            "min": 0,
+            "max": 1,
+            "type": "BLK00460-3-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "BLK00470",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00440/BLK00450/BLK00470",
+            "label": "個人以外",
+            "min": 0,
+            "max": 1,
+            "type": "BLK00470-3-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "BLK00480",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00440/BLK00480",
+          "label": "支払金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BLK00490",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00440/BLK00490",
+          "label": "源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "BLK00500",
+        "path": "HSZ600/BLK00000/BLK00010/BLK00500",
+        "label": "Ａ．計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "BLK00510",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00500/BLK00510",
+          "label": "人員",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "BLK00520",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00500/BLK00510/BLK00520",
+            "label": "個人",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "BLK00530",
+              "path": "HSZ600/BLK00000/BLK00010/BLK00500/BLK00510/BLK00520/BLK00530",
+              "label": "実人員",
+              "min": 0,
+              "max": 1,
+              "type": "BLK00530-3-0type",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:nonNegativeType"
+              ],
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "tag": "BLK00540",
+            "path": "HSZ600/BLK00000/BLK00010/BLK00500/BLK00510/BLK00540",
+            "label": "個人以外",
+            "min": 0,
+            "max": 1,
+            "kind": "group",
+            "children": [
+             {
+              "tag": "BLK00550",
+              "path": "HSZ600/BLK00000/BLK00010/BLK00500/BLK00510/BLK00540/BLK00550",
+              "label": "実人員",
+              "min": 0,
+              "max": 1,
+              "type": "BLK00550-3-0type",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "derived_from": [
+               "gen:nonNegativeType"
+              ],
+              "attributes": [
+               {
+                "name": "AutoCalc",
+                "required": false,
+                "type": "xsd:string"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "BLK00560",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00500/BLK00560",
+          "label": "支払金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BLK00570",
+          "path": "HSZ600/BLK00000/BLK00010/BLK00500/BLK00570",
+          "label": "源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLK00580",
+      "path": "HSZ600/BLK00000/BLK00580",
+      "label": "Ｂ．（Ａ）のうち、支払調書を提出するもの",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLK00590",
+        "path": "HSZ600/BLK00000/BLK00580/BLK00590",
+        "label": "人員",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "BLK00600",
+          "path": "HSZ600/BLK00000/BLK00580/BLK00590/BLK00600",
+          "label": "個人",
+          "min": 0,
+          "max": 1,
+          "type": "BLK00600-3-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BLK00610",
+          "path": "HSZ600/BLK00000/BLK00580/BLK00590/BLK00610",
+          "label": "個人以外",
+          "min": 0,
+          "max": 1,
+          "type": "BLK00610-3-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "BLK00620",
+        "path": "HSZ600/BLK00000/BLK00580/BLK00620",
+        "label": "支払金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLK00630",
+        "path": "HSZ600/BLK00000/BLK00580/BLK00630",
+        "label": "源泉徴収税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLK00640",
+      "path": "HSZ600/BLK00000/BLK00640",
+      "label": "（Ａ）のうち、所得税法第１７４条第１０号に規定する内国法人に対する賞金",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLK00650",
+        "path": "HSZ600/BLK00000/BLK00640/BLK00650",
+        "label": "１０号該当",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "BLK00660",
+          "path": "HSZ600/BLK00000/BLK00640/BLK00650/BLK00660",
+          "label": "件数",
+          "min": 0,
+          "max": 1,
+          "type": "BLK00660-3-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BLK00670",
+          "path": "HSZ600/BLK00000/BLK00640/BLK00650/BLK00670",
+          "label": "支払金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "BLK00680",
+          "path": "HSZ600/BLK00000/BLK00640/BLK00650/BLK00680",
+          "label": "源泉徴収税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLK00690",
+      "path": "HSZ600/BLK00000/BLK00690",
+      "label": "災害減免法により徴収猶予したもの",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLK00700",
+        "path": "HSZ600/BLK00000/BLK00690/BLK00700",
+        "label": "人員",
+        "min": 0,
+        "max": 1,
+        "type": "BLK00700-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLK00710",
+        "path": "HSZ600/BLK00000/BLK00690/BLK00710",
+        "label": "猶予税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLK00720",
+      "path": "HSZ600/BLK00000/BLK00720",
+      "label": "（摘要）",
+      "min": 0,
+      "max": 1,
+      "type": "BLK00720-3-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 100
+     }
+    ]
+   },
+   {
+    "tag": "BLL00000",
+    "path": "HSZ600/BLL00000",
+    "label": "４．不動産の使用料等の支払調書合計表",
+    "min": 0,
+    "max": 1,
+    "type": "BLL00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "BLL00010",
+      "path": "HSZ600/BLL00000/BLL00010",
+      "label": "Ａ．使用料等の総額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLL00020",
+        "path": "HSZ600/BLL00000/BLL00010/BLL00020",
+        "label": "人員",
+        "min": 0,
+        "max": 1,
+        "type": "BLL00020-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLL00030",
+        "path": "HSZ600/BLL00000/BLL00010/BLL00030",
+        "label": "支払金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLL00040",
+      "path": "HSZ600/BLL00000/BLL00040",
+      "label": "Ｂ．（Ａ）のうち、支払調書を提出するもの",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLL00050",
+        "path": "HSZ600/BLL00000/BLL00040/BLL00050",
+        "label": "人員",
+        "min": 0,
+        "max": 1,
+        "type": "BLL00050-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLL00060",
+        "path": "HSZ600/BLL00000/BLL00040/BLL00060",
+        "label": "支払金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLL00070",
+      "path": "HSZ600/BLL00000/BLL00070",
+      "label": "（摘要）",
+      "min": 0,
+      "max": 1,
+      "type": "BLL00070-3-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 100
+     }
+    ]
+   },
+   {
+    "tag": "BLM00000",
+    "path": "HSZ600/BLM00000",
+    "label": "５．不動産等の譲受けの対価の支払調書合計表",
+    "min": 0,
+    "max": 1,
+    "type": "BLM00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "BLM00010",
+      "path": "HSZ600/BLM00000/BLM00010",
+      "label": "Ａ．譲受けの対価の総額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLM00020",
+        "path": "HSZ600/BLM00000/BLM00010/BLM00020",
+        "label": "人員",
+        "min": 0,
+        "max": 1,
+        "type": "BLM00020-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLM00030",
+        "path": "HSZ600/BLM00000/BLM00010/BLM00030",
+        "label": "支払金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLM00040",
+      "path": "HSZ600/BLM00000/BLM00040",
+      "label": "Ｂ．（Ａ）のうち、支払調書を提出するもの",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLM00050",
+        "path": "HSZ600/BLM00000/BLM00040/BLM00050",
+        "label": "人員",
+        "min": 0,
+        "max": 1,
+        "type": "BLM00050-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLM00060",
+        "path": "HSZ600/BLM00000/BLM00040/BLM00060",
+        "label": "支払金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLM00070",
+      "path": "HSZ600/BLM00000/BLM00070",
+      "label": "（摘要）",
+      "min": 0,
+      "max": 1,
+      "type": "BLM00070-3-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 100
+     }
+    ]
+   },
+   {
+    "tag": "BLN00000",
+    "path": "HSZ600/BLN00000",
+    "label": "６．不動産等の売買又は貸付けのあっせん手数料の支払調書合計表",
+    "min": 0,
+    "max": 1,
+    "type": "BLN00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "BLN00010",
+      "path": "HSZ600/BLN00000/BLN00010",
+      "label": "Ａ．あっせん手数料の総額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLN00020",
+        "path": "HSZ600/BLN00000/BLN00010/BLN00020",
+        "label": "人員",
+        "min": 0,
+        "max": 1,
+        "type": "BLN00020-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLN00030",
+        "path": "HSZ600/BLN00000/BLN00010/BLN00030",
+        "label": "支払金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLN00040",
+      "path": "HSZ600/BLN00000/BLN00040",
+      "label": "Ｂ．（Ａ）のうち、支払調書を提出するもの",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "BLN00050",
+        "path": "HSZ600/BLN00000/BLN00040/BLN00050",
+        "label": "人員",
+        "min": 0,
+        "max": 1,
+        "type": "BLN00050-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "BLN00060",
+        "path": "HSZ600/BLN00000/BLN00040/BLN00060",
+        "label": "支払金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "BLN00070",
+      "path": "HSZ600/BLN00000/BLN00070",
+      "label": "（摘要）",
+      "min": 0,
+      "max": 1,
+      "type": "BLN00070-3-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 100
+     }
+    ]
+   },
+   {
+    "tag": "BLO00000",
+    "path": "HSZ600/BLO00000",
+    "label": "作成税理士署名",
+    "min": 0,
+    "max": 1,
+    "type": "BLO00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "BLO00010",
+      "path": "HSZ600/BLO00000/BLO00010",
+      "label": "作成税理士氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:DAIRI_NMref",
+      "kind": "idref",
+      "idref": "DAIRI_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "DAIRI_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "BLO00020",
+      "path": "HSZ600/BLO00000/BLO00020",
+      "label": "電話番号",
+      "min": 0,
+      "max": 1,
+      "type": "gen:DAIRI_TELref",
+      "kind": "idref",
+      "idref": "DAIRI_TEL",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "DAIRI_TEL",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "BLO00030",
+      "path": "HSZ600/BLO00000/BLO00030",
+      "label": "税理士番号",
+      "min": 0,
+      "max": 1,
+      "type": "BLO00030-3-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 6
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HSZ600-3-0VRtype",
+    "fixed": "3.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

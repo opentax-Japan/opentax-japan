@@ -462,6 +462,11 @@ IT_ELEMENTS_BY_PROCEDURE["RKO0010"] = ["NENBUN", "SHINKOKU_KBN", "ZEIMUSHO", "TE
 # 相続税申告。申告書（第1表）が IDREF で参照する要素（帳票フィールド仕様書（資産-申告）KSE010）
 IT_ELEMENTS_BY_PROCEDURE["RKS1000"] = ["ZEIMUSHO", "TEISYUTSU_DAY", "NOZEISHA_ID", "NOZEISHA_BANGO", "NOZEISHA_NM_KN", "NOZEISHA_NM",
                                        "NOZEISHA_ZIP", "NOZEISHA_ADR", "NOZEISHA_TEL", "DAIRI_NM", "DAIRI_ADR", "DAIRI_TEL", "TETSUZUKI"]
+# 給与所得の源泉徴収票等の法定調書（及び同合計表）。合計表（HSZ600）・源泉徴収票（HSZ062）が IDREF で参照する要素
+# （帳票フィールド仕様書（法定資料）Ver3x HSZ600・Ver6x HSZ062）
+IT_ELEMENTS_BY_PROCEDURE["PHS0051"] = ["NENBUN", "ZEIMUSHO", "TEISYUTSU_DAY", "NOZEISHA_ID", "NOZEISHA_BANGO", "NOZEISHA_NM_KN",
+                                       "NOZEISHA_NM", "NOZEISHA_ZIP", "NOZEISHA_ADR", "NOZEISHA_TEL", "DAIHYO_NM_KN", "DAIHYO_NM",
+                                       "DAIRI_NM", "DAIRI_TEL", "TETSUZUKI"]
 
 
 def it_layout_name(procedure_id: str, first: bool, key: str | None = None) -> str:

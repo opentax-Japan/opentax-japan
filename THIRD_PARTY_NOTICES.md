@@ -45,6 +45,16 @@ Web 画面の「申告書（紙の様式）」は、国税庁ホームページ�
 - 利用条件：公共データ利用規約（第1.0版）（https://www.nta.go.jp/chuijiko/copy.htm）
 - 国税庁が作成したものではありません。様式の PDF はリポジトリに含めず、サイトを組み立てるときに国税庁のサイトから取得し、SHA256 で照合しています
 
+## 国税庁 源泉徴収税額表・年末調整のしかた（OpenTax PINK）
+
+毎月の源泉徴収税額の表（src/opentax/payroll/rules/r08/getsugaku.json・nichigaku.json・shoyo.json）と給与所得控除後の給与等の金額の表（kyuyo_kojo_go.json）は、
+国税庁「令和8年分 源泉徴収税額表」（Excel）と「令和8年分 年末調整のしかた」47〜54ページ（PDF）を tools/build_gensen_tables.py で加工して作成しています。
+年末調整の控除額の表（nencho.json）は同「年末調整のしかた」55・56ページほかの表を写したものです（ページを記載）。
+
+- 出典：国税庁ホームページ（https://www.nta.go.jp/publication/pamph/gensen/zeigakuhyo2026/01.htm 、https://www.nta.go.jp/publication/pamph/gensen/nencho2026/01.htm）を加工して作成
+- 利用条件：公共データ利用規約（第1.0版）（https://www.nta.go.jp/chuijiko/copy.htm）
+- 国税庁が作成したものではありません
+
 ## 総務省 法人住民税・法人事業税 税率一覧表・全国地方公共団体コード
 
 全都道府県・全市町村の均等割の税率（src/opentax/red/rules/local_rates/）は、総務省の公表資料を加工して作成しています。

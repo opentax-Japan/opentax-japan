@@ -1,0 +1,892 @@
+{
+ "source": {
+  "url": "https://www.nta.go.jp/publication/pamph/gensen/zeigakuhyo2026/data/15-16.xls",
+  "sha256": "e74e6ba66623b67d8d478dfcc8187f702742e6e75554feebd948dd5b7beea9cf",
+  "note": "tools/build_gensen_tables.py が国税庁の公表物から作った。手で直さない"
+ },
+ "kou": [
+  [
+   {
+    "from_thousand": 0,
+    "to_thousand": 82,
+    "rate_percent": "0"
+   },
+   {
+    "from_thousand": 82,
+    "to_thousand": 94,
+    "rate_percent": "2.042"
+   },
+   {
+    "from_thousand": 94,
+    "to_thousand": 260,
+    "rate_percent": "4.084"
+   },
+   {
+    "from_thousand": 260,
+    "to_thousand": 309,
+    "rate_percent": "6.126"
+   },
+   {
+    "from_thousand": 309,
+    "to_thousand": 342,
+    "rate_percent": "8.168"
+   },
+   {
+    "from_thousand": 342,
+    "to_thousand": 372,
+    "rate_percent": "10.21"
+   },
+   {
+    "from_thousand": 372,
+    "to_thousand": 402,
+    "rate_percent": "12.252"
+   },
+   {
+    "from_thousand": 402,
+    "to_thousand": 433,
+    "rate_percent": "14.294"
+   },
+   {
+    "from_thousand": 433,
+    "to_thousand": 520,
+    "rate_percent": "16.336"
+   },
+   {
+    "from_thousand": 520,
+    "to_thousand": 605,
+    "rate_percent": "18.378"
+   },
+   {
+    "from_thousand": 605,
+    "to_thousand": 684,
+    "rate_percent": "20.42"
+   },
+   {
+    "from_thousand": 684,
+    "to_thousand": 715,
+    "rate_percent": "22.462"
+   },
+   {
+    "from_thousand": 715,
+    "to_thousand": 752,
+    "rate_percent": "24.504"
+   },
+   {
+    "from_thousand": 752,
+    "to_thousand": 795,
+    "rate_percent": "26.546"
+   },
+   {
+    "from_thousand": 795,
+    "to_thousand": 854,
+    "rate_percent": "28.588"
+   },
+   {
+    "from_thousand": 854,
+    "to_thousand": 922,
+    "rate_percent": "30.63"
+   },
+   {
+    "from_thousand": 922,
+    "to_thousand": 1318,
+    "rate_percent": "32.672"
+   },
+   {
+    "from_thousand": 1318,
+    "to_thousand": 1521,
+    "rate_percent": "35.735"
+   },
+   {
+    "from_thousand": 1521,
+    "to_thousand": 2621,
+    "rate_percent": "38.798"
+   },
+   {
+    "from_thousand": 2621,
+    "to_thousand": 3495,
+    "rate_percent": "41.861"
+   },
+   {
+    "from_thousand": 3495,
+    "to_thousand": null,
+    "rate_percent": "45.945"
+   }
+  ],
+  [
+   {
+    "from_thousand": 0,
+    "to_thousand": 107,
+    "rate_percent": "0"
+   },
+   {
+    "from_thousand": 107,
+    "to_thousand": 250,
+    "rate_percent": "2.042"
+   },
+   {
+    "from_thousand": 250,
+    "to_thousand": 289,
+    "rate_percent": "4.084"
+   },
+   {
+    "from_thousand": 289,
+    "to_thousand": 346,
+    "rate_percent": "6.126"
+   },
+   {
+    "from_thousand": 346,
+    "to_thousand": 373,
+    "rate_percent": "8.168"
+   },
+   {
+    "from_thousand": 373,
+    "to_thousand": 401,
+    "rate_percent": "10.21"
+   },
+   {
+    "from_thousand": 401,
+    "to_thousand": 430,
+    "rate_percent": "12.252"
+   },
+   {
+    "from_thousand": 430,
+    "to_thousand": 463,
+    "rate_percent": "14.294"
+   },
+   {
+    "from_thousand": 463,
+    "to_thousand": 520,
+    "rate_percent": "16.336"
+   },
+   {
+    "from_thousand": 520,
+    "to_thousand": 621,
+    "rate_percent": "18.378"
+   },
+   {
+    "from_thousand": 621,
+    "to_thousand": 705,
+    "rate_percent": "20.42"
+   },
+   {
+    "from_thousand": 705,
+    "to_thousand": 739,
+    "rate_percent": "22.462"
+   },
+   {
+    "from_thousand": 739,
+    "to_thousand": 778,
+    "rate_percent": "24.504"
+   },
+   {
+    "from_thousand": 778,
+    "to_thousand": 821,
+    "rate_percent": "26.546"
+   },
+   {
+    "from_thousand": 821,
+    "to_thousand": 882,
+    "rate_percent": "28.588"
+   },
+   {
+    "from_thousand": 882,
+    "to_thousand": 952,
+    "rate_percent": "30.63"
+   },
+   {
+    "from_thousand": 952,
+    "to_thousand": 1342,
+    "rate_percent": "32.672"
+   },
+   {
+    "from_thousand": 1342,
+    "to_thousand": 1526,
+    "rate_percent": "35.735"
+   },
+   {
+    "from_thousand": 1526,
+    "to_thousand": 2645,
+    "rate_percent": "38.798"
+   },
+   {
+    "from_thousand": 2645,
+    "to_thousand": 3527,
+    "rate_percent": "41.861"
+   },
+   {
+    "from_thousand": 3527,
+    "to_thousand": null,
+    "rate_percent": "45.945"
+   }
+  ],
+  [
+   {
+    "from_thousand": 0,
+    "to_thousand": 143,
+    "rate_percent": "0"
+   },
+   {
+    "from_thousand": 143,
+    "to_thousand": 276,
+    "rate_percent": "2.042"
+   },
+   {
+    "from_thousand": 276,
+    "to_thousand": 321,
+    "rate_percent": "4.084"
+   },
+   {
+    "from_thousand": 321,
+    "to_thousand": 377,
+    "rate_percent": "6.126"
+   },
+   {
+    "from_thousand": 377,
+    "to_thousand": 400,
+    "rate_percent": "8.168"
+   },
+   {
+    "from_thousand": 400,
+    "to_thousand": 426,
+    "rate_percent": "10.21"
+   },
+   {
+    "from_thousand": 426,
+    "to_thousand": 457,
+    "rate_percent": "12.252"
+   },
+   {
+    "from_thousand": 457,
+    "to_thousand": 492,
+    "rate_percent": "14.294"
+   },
+   {
+    "from_thousand": 492,
+    "to_thousand": 525,
+    "rate_percent": "16.336"
+   },
+   {
+    "from_thousand": 525,
+    "to_thousand": 636,
+    "rate_percent": "18.378"
+   },
+   {
+    "from_thousand": 636,
+    "to_thousand": 728,
+    "rate_percent": "20.42"
+   },
+   {
+    "from_thousand": 728,
+    "to_thousand": 764,
+    "rate_percent": "22.462"
+   },
+   {
+    "from_thousand": 764,
+    "to_thousand": 804,
+    "rate_percent": "24.504"
+   },
+   {
+    "from_thousand": 804,
+    "to_thousand": 848,
+    "rate_percent": "26.546"
+   },
+   {
+    "from_thousand": 848,
+    "to_thousand": 910,
+    "rate_percent": "28.588"
+   },
+   {
+    "from_thousand": 910,
+    "to_thousand": 983,
+    "rate_percent": "30.63"
+   },
+   {
+    "from_thousand": 983,
+    "to_thousand": 1367,
+    "rate_percent": "32.672"
+   },
+   {
+    "from_thousand": 1367,
+    "to_thousand": 1526,
+    "rate_percent": "35.735"
+   },
+   {
+    "from_thousand": 1526,
+    "to_thousand": 2669,
+    "rate_percent": "38.798"
+   },
+   {
+    "from_thousand": 2669,
+    "to_thousand": 3559,
+    "rate_percent": "41.861"
+   },
+   {
+    "from_thousand": 3559,
+    "to_thousand": null,
+    "rate_percent": "45.945"
+   }
+  ],
+  [
+   {
+    "from_thousand": 0,
+    "to_thousand": 181,
+    "rate_percent": "0"
+   },
+   {
+    "from_thousand": 181,
+    "to_thousand": 300,
+    "rate_percent": "2.042"
+   },
+   {
+    "from_thousand": 300,
+    "to_thousand": 354,
+    "rate_percent": "4.084"
+   },
+   {
+    "from_thousand": 354,
+    "to_thousand": 405,
+    "rate_percent": "6.126"
+   },
+   {
+    "from_thousand": 405,
+    "to_thousand": 424,
+    "rate_percent": "8.168"
+   },
+   {
+    "from_thousand": 424,
+    "to_thousand": 452,
+    "rate_percent": "10.21"
+   },
+   {
+    "from_thousand": 452,
+    "to_thousand": 484,
+    "rate_percent": "12.252"
+   },
+   {
+    "from_thousand": 484,
+    "to_thousand": 517,
+    "rate_percent": "14.294"
+   },
+   {
+    "from_thousand": 517,
+    "to_thousand": 550,
+    "rate_percent": "16.336"
+   },
+   {
+    "from_thousand": 550,
+    "to_thousand": 651,
+    "rate_percent": "18.378"
+   },
+   {
+    "from_thousand": 651,
+    "to_thousand": 751,
+    "rate_percent": "20.42"
+   },
+   {
+    "from_thousand": 751,
+    "to_thousand": 788,
+    "rate_percent": "22.462"
+   },
+   {
+    "from_thousand": 788,
+    "to_thousand": 830,
+    "rate_percent": "24.504"
+   },
+   {
+    "from_thousand": 830,
+    "to_thousand": 876,
+    "rate_percent": "26.546"
+   },
+   {
+    "from_thousand": 876,
+    "to_thousand": 938,
+    "rate_percent": "28.588"
+   },
+   {
+    "from_thousand": 938,
+    "to_thousand": 1013,
+    "rate_percent": "30.63"
+   },
+   {
+    "from_thousand": 1013,
+    "to_thousand": 1391,
+    "rate_percent": "32.672"
+   },
+   {
+    "from_thousand": 1391,
+    "to_thousand": 1538,
+    "rate_percent": "35.735"
+   },
+   {
+    "from_thousand": 1538,
+    "to_thousand": 2693,
+    "rate_percent": "38.798"
+   },
+   {
+    "from_thousand": 2693,
+    "to_thousand": 3590,
+    "rate_percent": "41.861"
+   },
+   {
+    "from_thousand": 3590,
+    "to_thousand": null,
+    "rate_percent": "45.945"
+   }
+  ],
+  [
+   {
+    "from_thousand": 0,
+    "to_thousand": 218,
+    "rate_percent": "0"
+   },
+   {
+    "from_thousand": 218,
+    "to_thousand": 300,
+    "rate_percent": "2.042"
+   },
+   {
+    "from_thousand": 300,
+    "to_thousand": 387,
+    "rate_percent": "4.084"
+   },
+   {
+    "from_thousand": 387,
+    "to_thousand": 431,
+    "rate_percent": "6.126"
+   },
+   {
+    "from_thousand": 431,
+    "to_thousand": 452,
+    "rate_percent": "8.168"
+   },
+   {
+    "from_thousand": 452,
+    "to_thousand": 477,
+    "rate_percent": "10.21"
+   },
+   {
+    "from_thousand": 477,
+    "to_thousand": 509,
+    "rate_percent": "12.252"
+   },
+   {
+    "from_thousand": 509,
+    "to_thousand": 540,
+    "rate_percent": "14.294"
+   },
+   {
+    "from_thousand": 540,
+    "to_thousand": 577,
+    "rate_percent": "16.336"
+   },
+   {
+    "from_thousand": 577,
+    "to_thousand": 666,
+    "rate_percent": "18.378"
+   },
+   {
+    "from_thousand": 666,
+    "to_thousand": 774,
+    "rate_percent": "20.42"
+   },
+   {
+    "from_thousand": 774,
+    "to_thousand": 813,
+    "rate_percent": "22.462"
+   },
+   {
+    "from_thousand": 813,
+    "to_thousand": 856,
+    "rate_percent": "24.504"
+   },
+   {
+    "from_thousand": 856,
+    "to_thousand": 903,
+    "rate_percent": "26.546"
+   },
+   {
+    "from_thousand": 903,
+    "to_thousand": 966,
+    "rate_percent": "28.588"
+   },
+   {
+    "from_thousand": 966,
+    "to_thousand": 1044,
+    "rate_percent": "30.63"
+   },
+   {
+    "from_thousand": 1044,
+    "to_thousand": 1416,
+    "rate_percent": "32.672"
+   },
+   {
+    "from_thousand": 1416,
+    "to_thousand": 1555,
+    "rate_percent": "35.735"
+   },
+   {
+    "from_thousand": 1555,
+    "to_thousand": 2716,
+    "rate_percent": "38.798"
+   },
+   {
+    "from_thousand": 2716,
+    "to_thousand": 3622,
+    "rate_percent": "41.861"
+   },
+   {
+    "from_thousand": 3622,
+    "to_thousand": null,
+    "rate_percent": "45.945"
+   }
+  ],
+  [
+   {
+    "from_thousand": 0,
+    "to_thousand": 251,
+    "rate_percent": "0"
+   },
+   {
+    "from_thousand": 251,
+    "to_thousand": 304,
+    "rate_percent": "2.042"
+   },
+   {
+    "from_thousand": 304,
+    "to_thousand": 412,
+    "rate_percent": "4.084"
+   },
+   {
+    "from_thousand": 412,
+    "to_thousand": 457,
+    "rate_percent": "6.126"
+   },
+   {
+    "from_thousand": 457,
+    "to_thousand": 479,
+    "rate_percent": "8.168"
+   },
+   {
+    "from_thousand": 479,
+    "to_thousand": 503,
+    "rate_percent": "10.21"
+   },
+   {
+    "from_thousand": 503,
+    "to_thousand": 531,
+    "rate_percent": "12.252"
+   },
+   {
+    "from_thousand": 531,
+    "to_thousand": 564,
+    "rate_percent": "14.294"
+   },
+   {
+    "from_thousand": 564,
+    "to_thousand": 604,
+    "rate_percent": "16.336"
+   },
+   {
+    "from_thousand": 604,
+    "to_thousand": 681,
+    "rate_percent": "18.378"
+   },
+   {
+    "from_thousand": 681,
+    "to_thousand": 798,
+    "rate_percent": "20.42"
+   },
+   {
+    "from_thousand": 798,
+    "to_thousand": 838,
+    "rate_percent": "22.462"
+   },
+   {
+    "from_thousand": 838,
+    "to_thousand": 881,
+    "rate_percent": "24.504"
+   },
+   {
+    "from_thousand": 881,
+    "to_thousand": 930,
+    "rate_percent": "26.546"
+   },
+   {
+    "from_thousand": 930,
+    "to_thousand": 994,
+    "rate_percent": "28.588"
+   },
+   {
+    "from_thousand": 994,
+    "to_thousand": 1074,
+    "rate_percent": "30.63"
+   },
+   {
+    "from_thousand": 1074,
+    "to_thousand": 1440,
+    "rate_percent": "32.672"
+   },
+   {
+    "from_thousand": 1440,
+    "to_thousand": 1555,
+    "rate_percent": "35.735"
+   },
+   {
+    "from_thousand": 1555,
+    "to_thousand": 2740,
+    "rate_percent": "38.798"
+   },
+   {
+    "from_thousand": 2740,
+    "to_thousand": 3654,
+    "rate_percent": "41.861"
+   },
+   {
+    "from_thousand": 3654,
+    "to_thousand": null,
+    "rate_percent": "45.945"
+   }
+  ],
+  [
+   {
+    "from_thousand": 0,
+    "to_thousand": 284,
+    "rate_percent": "0"
+   },
+   {
+    "from_thousand": 284,
+    "to_thousand": 343,
+    "rate_percent": "2.042"
+   },
+   {
+    "from_thousand": 343,
+    "to_thousand": 438,
+    "rate_percent": "4.084"
+   },
+   {
+    "from_thousand": 438,
+    "to_thousand": 483,
+    "rate_percent": "6.126"
+   },
+   {
+    "from_thousand": 483,
+    "to_thousand": 505,
+    "rate_percent": "8.168"
+   },
+   {
+    "from_thousand": 505,
+    "to_thousand": 527,
+    "rate_percent": "10.21"
+   },
+   {
+    "from_thousand": 527,
+    "to_thousand": 553,
+    "rate_percent": "12.252"
+   },
+   {
+    "from_thousand": 553,
+    "to_thousand": 589,
+    "rate_percent": "14.294"
+   },
+   {
+    "from_thousand": 589,
+    "to_thousand": 630,
+    "rate_percent": "16.336"
+   },
+   {
+    "from_thousand": 630,
+    "to_thousand": 697,
+    "rate_percent": "18.378"
+   },
+   {
+    "from_thousand": 697,
+    "to_thousand": 821,
+    "rate_percent": "20.42"
+   },
+   {
+    "from_thousand": 821,
+    "to_thousand": 862,
+    "rate_percent": "22.462"
+   },
+   {
+    "from_thousand": 862,
+    "to_thousand": 907,
+    "rate_percent": "24.504"
+   },
+   {
+    "from_thousand": 907,
+    "to_thousand": 957,
+    "rate_percent": "26.546"
+   },
+   {
+    "from_thousand": 957,
+    "to_thousand": 1022,
+    "rate_percent": "28.588"
+   },
+   {
+    "from_thousand": 1022,
+    "to_thousand": 1104,
+    "rate_percent": "30.63"
+   },
+   {
+    "from_thousand": 1104,
+    "to_thousand": 1464,
+    "rate_percent": "32.672"
+   },
+   {
+    "from_thousand": 1464,
+    "to_thousand": 1555,
+    "rate_percent": "35.735"
+   },
+   {
+    "from_thousand": 1555,
+    "to_thousand": 2764,
+    "rate_percent": "38.798"
+   },
+   {
+    "from_thousand": 2764,
+    "to_thousand": 3685,
+    "rate_percent": "41.861"
+   },
+   {
+    "from_thousand": 3685,
+    "to_thousand": null,
+    "rate_percent": "45.945"
+   }
+  ],
+  [
+   {
+    "from_thousand": 0,
+    "to_thousand": 317,
+    "rate_percent": "0"
+   },
+   {
+    "from_thousand": 317,
+    "to_thousand": 383,
+    "rate_percent": "2.042"
+   },
+   {
+    "from_thousand": 383,
+    "to_thousand": 463,
+    "rate_percent": "4.084"
+   },
+   {
+    "from_thousand": 463,
+    "to_thousand": 508,
+    "rate_percent": "6.126"
+   },
+   {
+    "from_thousand": 508,
+    "to_thousand": 529,
+    "rate_percent": "8.168"
+   },
+   {
+    "from_thousand": 529,
+    "to_thousand": 552,
+    "rate_percent": "10.21"
+   },
+   {
+    "from_thousand": 552,
+    "to_thousand": 578,
+    "rate_percent": "12.252"
+   },
+   {
+    "from_thousand": 578,
+    "to_thousand": 614,
+    "rate_percent": "14.294"
+   },
+   {
+    "from_thousand": 614,
+    "to_thousand": 657,
+    "rate_percent": "16.336"
+   },
+   {
+    "from_thousand": 657,
+    "to_thousand": 708,
+    "rate_percent": "18.378"
+   },
+   {
+    "from_thousand": 708,
+    "to_thousand": 845,
+    "rate_percent": "20.42"
+   },
+   {
+    "from_thousand": 845,
+    "to_thousand": 887,
+    "rate_percent": "22.462"
+   },
+   {
+    "from_thousand": 887,
+    "to_thousand": 933,
+    "rate_percent": "24.504"
+   },
+   {
+    "from_thousand": 933,
+    "to_thousand": 985,
+    "rate_percent": "26.546"
+   },
+   {
+    "from_thousand": 985,
+    "to_thousand": 1051,
+    "rate_percent": "28.588"
+   },
+   {
+    "from_thousand": 1051,
+    "to_thousand": 1135,
+    "rate_percent": "30.63"
+   },
+   {
+    "from_thousand": 1135,
+    "to_thousand": 1489,
+    "rate_percent": "32.672"
+   },
+   {
+    "from_thousand": 1489,
+    "to_thousand": 1583,
+    "rate_percent": "35.735"
+   },
+   {
+    "from_thousand": 1583,
+    "to_thousand": 2788,
+    "rate_percent": "38.798"
+   },
+   {
+    "from_thousand": 2788,
+    "to_thousand": 3717,
+    "rate_percent": "41.861"
+   },
+   {
+    "from_thousand": 3717,
+    "to_thousand": null,
+    "rate_percent": "45.945"
+   }
+  ]
+ ],
+ "otsu": [
+  {
+   "from_thousand": 0,
+   "to_thousand": 224,
+   "rate_percent": "10.21"
+  },
+  {
+   "from_thousand": 224,
+   "to_thousand": 295,
+   "rate_percent": "20.42"
+  },
+  {
+   "from_thousand": 295,
+   "to_thousand": 527,
+   "rate_percent": "30.63"
+  },
+  {
+   "from_thousand": 527,
+   "to_thousand": 1118,
+   "rate_percent": "38.798"
+  },
+  {
+   "from_thousand": 1118,
+   "to_thousand": null,
+   "rate_percent": "45.945"
+  }
+ ]
+}

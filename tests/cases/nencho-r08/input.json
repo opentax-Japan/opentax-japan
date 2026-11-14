@@ -1,0 +1,24 @@
+{
+  "format": "opentax-nencho/1",
+  "year": 2026,
+  "filer": {"name": "オープン商事株式会社", "name_kana": "オープンショウジ", "address": "東京都千代田区霞が関三丁目1番1号",
+            "tax_office": "麹町", "user_id": "1234567890123456", "representative": "国税　太郎", "business": "事務用品卸売"},
+  "people": [
+    {"id": "p1", "name": "山川　太郎", "kana": "ヤマカワ　タロウ", "address": "○○市××町23-7", "birth": "1980-05-01",
+     "note": "国税庁「令和8年分 年末調整のしかた」57〜61ページの設例（本年最後に支払う給与の税額計算を省略する場合）",
+     "salary_total": 8970000, "withheld_total": 156670, "social_insurance": 1386102,
+     "income_adjustment": {"dependent_under23": true},
+     "life_insurance": {"new_general": 80000, "old_general": 35000, "care": 80000, "new_pension": 30000, "old_pension": 90000, "has_dependent_under23": true},
+     "earthquake": {"earthquake": 42000, "old_long_term": 14800},
+     "spouse": {"name": "山川　花子", "income": 500000},
+     "dependents": [{"kind": "一般"}, {"kind": "特定"}, {"kind": "同居老親等", "disability": "一般"}],
+     "specific_relatives": [{"income": 1000000}], "housing_loan_credit": 76500,
+     "expected": {"year_tax": 41400, "excess": 115270}},
+    {"id": "p2", "name": "鈴木　一郎", "kana": "スズキ　イチロウ", "address": "○○市×××町3-3-5", "birth": "1990-02-10",
+     "note": "国税庁「令和8年分 年末調整のしかた」参考資料2 過不足額の精算の設例（税額計算を省略しない場合）",
+     "salary_total": 4390000, "withheld_total": 51845, "social_insurance": 641525,
+     "life_insurance": {"old_general": 50200, "new_pension": 56000}, "earthquake": {"earthquake": 45000},
+     "spouse": {"name": "鈴木　春子", "income": 0}, "dependents": [{"kind": "一般"}],
+     "expected": {"year_tax": 26100, "excess": 25745}}
+  ]
+}
