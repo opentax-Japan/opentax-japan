@@ -799,6 +799,7 @@ def main(argv: list[str] | None = None) -> int:
     kg.add_argument("--memo", help="--set と一緒に書くメモ")
     kg.add_argument("--html", help="一覧を HTML（スマホでも見られる）で書き出す")
     kg.add_argument("--csv", help="一覧を CSV（Excel 用 BOM つき）で書き出す")
+    kg.add_argument("--grid", help="試算表の進捗表（関与先×12か月）を HTML で書き出す")
     kg.add_argument("--today", help="残り日数の基準の日 YYYY-MM-DD（省略は今日）")
 
     args = parser.parse_args(argv)
@@ -933,6 +934,10 @@ def _kigen(args) -> int:
     if args.csv:
         Path(args.csv).write_bytes(kigen.to_csv(sched).encode("utf-8"))
         print(f"書き出しました: {args.csv}")
+    if args.grid:
+        g = kigen.grid(clients, month, progress, today)
+        Path(args.grid).write_text(kigen.to_grid_html(g), encoding="utf-8", newline="\n")
+        print(f"書き出しました: {args.grid}（試算表の進捗表 {len(g['rows'])}件）")
     return 0
 
 

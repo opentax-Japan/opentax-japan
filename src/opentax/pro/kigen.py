@@ -86,6 +86,7 @@ _ALIASES = {
     "hojin_interim": ["法人税の中間", "hojin_interim"], "yotei": ["予定納税", "yotei"], "gensen": ["源泉", "gensen"],
     "juminzei": ["住民税", "住民税の特別徴収", "juminzei"], "shokyaku": ["償却資産", "shokyaku"],
     "established": ["設立", "設立日", "established"],
+    "getsuji": ["月次", "試算表", "getsuji"], "tb_due": ["試算表の期限", "tb_due"],
 }
 
 
@@ -206,7 +207,51 @@ def _normalize(r: dict, i: int) -> dict:
             c["established"] = datetime.date.fromisoformat(str(r["established"]))
         except ValueError:
             raise KigenInputError(f"{where}: 設立は YYYY-MM-DD で書いてください") from None
+    g = r.get("getsuji", "なし")
+    if g not in GETSUJI_STEP and g != "なし":
+        raise KigenInputError(f"{where}: 月次は「毎月」「隔月」「四半期」「半期」「決算のみ」「なし」のどれかです: {g!r}")
+    c["getsuji"] = GETSUJI_STEP.get(g, 0)
+    c["tb_due"] = _tb_due(r.get("tb_due", "翌月末"), where)
     return c
+
+
+# 月次（試算表）の間隔の月数。区切りは決算月にそろえる
+GETSUJI_STEP = {"毎月": 1, "隔月": 2, "四半期": 3, "半期": 6, "決算のみ": 12}
+
+
+def _tb_due(v, where: str) -> tuple[int, int]:
+    """試算表の期限（事務所の目安。法定の期限ではない）: 「翌月末」「翌月20日」「翌々月末」「20」→（何か月後, 日。0は末日）。"""
+    t = str(v).strip()
+    m = re.fullmatch(r"(翌々月|翌月)?\s*(末|末日|\d{1,2})\s*日?", t)
+    if not m:
+        raise KigenInputError(f"{where}: 試算表の期限は「翌月末」「翌月20日」「翌々月末」のように書いてください: {v!r}")
+    after = 2 if m.group(1) == "翌々月" else 1
+    day = 0 if m.group(2).startswith("末") else int(m.group(2))
+    if not 0 <= day <= 31:
+        raise KigenInputError(f"{where}: 試算表の期限の日が違います: {v!r}")
+    return after, day
+
+
+def tb_months(c: dict, around: datetime.date, back: int = 15):
+    """around の月から back か月さかのぼった、試算表を作る月（YYYY-MM の date の1日）。"""
+    step = c.get("getsuji", 0)
+    if not step:
+        return []
+    out = []
+    for k in range(back, -1, -1):
+        d = add_months(datetime.date(around.year, around.month, 1), -k)
+        if (d.month - c["fy_month"]) % step == 0:
+            if c.get("established") and month_end(d.year, d.month) < c["established"]:
+                continue
+            out.append(d)
+    return out
+
+
+def tb_due_date(c: dict, d: datetime.date) -> datetime.date:
+    after, day = c["tb_due"]
+    t = add_months(d, after)
+    last = calendar.monthrange(t.year, t.month)[1]
+    return datetime.date(t.year, t.month, last if day == 0 else min(day, last))
 
 
 def _shohi_interim(v, where: str) -> int:
@@ -326,8 +371,18 @@ def items_for(c: dict, month: str) -> list[dict]:
         if c["shokyaku"]:
             out.append(_item(c, "償却資産", "償却資産申告書", f"{yy}年1月1日現在", datetime.date(yy, 1, 31),
                              "地方税法第383条"))
+    for d in tb_months(c, lo, 3):
+        it = _item(c, "試算表", "月次の試算表（記帳・監査・報告）", f"{d.year}-{d.month:02d}分", tb_due_date(c, d),
+                   "事務所の目安（関与先の一覧の「試算表の期限」。法定の期限ではない）")
+        it["due"] = it["legal_due"]  # 事務所の目安は休日でずらさない
+        out.append(it)
     seen, res = set(), []
     for it in out:
+        if it["due"]:
+            if lo.isoformat() <= it["due"] <= hi.isoformat() and it["id"] not in seen:
+                seen.add(it["id"])
+                res.append(it)
+            continue
         base = datetime.date.fromisoformat(it["legal_due"])
         # 休日でずらすのは長くて年末年始＋土日の数日。月の外のものは祝日の表を引かない
         if not (lo - datetime.timedelta(days=10) <= base <= hi):
@@ -366,10 +421,14 @@ def _shohi_interims(c: dict, start: datetime.date, end: datetime.date, per: str)
     return out
 
 
-STATUSES = ["未着手", "資料待ち", "作成中", "確認待ち", "送信済", "納付済", "完了", "対象外"]
+STATUSES = ["未着手", "資料待ち", "作成中", "確認待ち", "報告済", "送信済", "納付済", "完了", "対象外"]
 DONE = {"完了", "対象外"}
-# 納付がない提出物（送信済で済）
-NO_PAYMENT = {"法定調書", "給与支払報告書", "償却資産"}
+# 納付がない提出物・報告（送信済・報告済で済）
+NO_PAYMENT = {"法定調書", "給与支払報告書", "償却資産", "試算表"}
+
+
+def is_done(kind: str, payment_only: bool, status: str) -> bool:
+    return status in DONE or (payment_only and status == "納付済") or (kind in NO_PAYMENT and status in ("送信済", "報告済"))
 
 
 def schedule(clients: list[dict], month: str, progress: dict | None = None, today: datetime.date | None = None) -> dict:
@@ -385,8 +444,7 @@ def schedule(clients: list[dict], month: str, progress: dict | None = None, toda
             it["updated"] = p.get("updated", "")
             due = datetime.date.fromisoformat(it["due"])
             it["days_left"] = (due - today).days
-            done = it["status"] in DONE or (it["status"] == "納付済" and it["payment_only"]) or \
-                (it["status"] == "送信済" and not it["payment_only"] and False)
+            done = is_done(it["kind"], it["payment_only"], it["status"])
             it["done"] = done
             it["overdue"] = (not done) and due < today
             rows.append(it)
@@ -478,3 +536,68 @@ function apply(){{for(const tr of document.querySelectorAll('tbody tr')){{
 tr.style.display=((f.value===''||tr.dataset.staff===f.value)&&!(u.checked&&tr.dataset.done==='1'))?'':'none';}}}}
 f.onchange=apply;u.onchange=apply;
 </script></body></html>"""
+
+
+def grid(clients: list[dict], month: str, progress: dict | None = None, today: datetime.date | None = None,
+         span: int = 12) -> dict:
+    """試算表の進捗表: 月次のある関与先 × month までの span か月（作る月）。マスは進捗の状態。"""
+    today = today or datetime.date.today()
+    try:
+        y, m = (int(x) for x in month.split("-"))
+    except ValueError:
+        raise KigenInputError(f"月は YYYY-MM で書いてください: {month!r}") from None
+    end = datetime.date(y, m, 1)
+    months = [add_months(end, -k) for k in range(span - 1, -1, -1)]
+    prog = (progress or {}).get("items", {})
+    rows = []
+    for c in clients:
+        if not c.get("getsuji"):
+            continue
+        targets = {d for d in tb_months(c, end, span)}
+        cells = []
+        for d in months:
+            if d not in targets:
+                cells.append(None)
+                continue
+            iid = f"{c['code']}|試算表|{d.year}-{d.month:02d}分"
+            st = prog.get(iid, {}).get("status", "未着手")
+            due = tb_due_date(c, d)
+            done = is_done("試算表", False, st)
+            cells.append({"id": iid, "status": st, "memo": prog.get(iid, {}).get("memo", ""), "due": due.isoformat(),
+                          "done": done, "overdue": (not done) and due < today})
+        rows.append({"code": c["code"], "name": c["name"], "staff": c["staff"], "cells": cells,
+                     "late": sum(1 for x in cells if x and x["overdue"])})
+    return {"kind": "opentax-tb-grid", "months": [f"{d.year}-{d.month:02d}" for d in months], "today": today.isoformat(),
+            "rows": rows}
+
+
+def to_grid_html(g: dict) -> str:
+    """試算表の進捗表（スマホでも横に流して見られる HTML 1枚）。"""
+    head = "".join(f"<th>{int(x[5:])}月</th>" for x in g["months"])
+    body = []
+    for r in g["rows"]:
+        tds = []
+        for c in r["cells"]:
+            if c is None:
+                tds.append('<td class="na">－</td>')
+                continue
+            cls = "done" if c["done"] else ("over" if c["overdue"] else "")
+            title = _esc(f"期限 {c['due']} {c['memo']}".strip())
+            tds.append(f'<td class="{cls}" title="{title}">{_esc("済" if c["done"] else c["status"])}</td>')
+        late = f'<div class="sub over-n">遅れ {r["late"]}</div>' if r["late"] else ""
+        body.append(f'<tr data-staff="{_esc(r["staff"])}"><th class="nm">{_esc(r["code"])} {_esc(r["name"])}'
+                    f'<div class="sub">{_esc(r["staff"])}</div>{late}</th>{"".join(tds)}</tr>')
+    first, last = g["months"][0], g["months"][-1]
+    return f"""<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>試算表の進捗表 {first}〜{last}</title>
+<style>
+body{{font-family:system-ui,"Hiragino Sans","Yu Gothic",sans-serif;margin:12px;color:#222}} h1{{font-size:1.2em}}
+.wrap{{overflow-x:auto}} table{{border-collapse:collapse;font-size:.9em}} td,th{{border:1px solid #ddd;padding:5px 6px;text-align:center;white-space:nowrap}}
+thead th{{background:#f3f7e9}} th.nm{{text-align:left;position:sticky;left:0;background:#fff}} .sub{{font-size:.8em;color:#666;font-weight:normal}}
+td.done{{background:#e8f5e0;color:#3a6b1f}} td.over{{background:#fde8e8;color:#c00;font-weight:bold}} td.na{{color:#ccc}} .over-n{{color:#c00}}
+</style></head><body>
+<h1>試算表の進捗表（{int(first[:4])}年{int(first[5:])}月〜{int(last[:4])}年{int(last[5:])}月分）</h1>
+<p class="sub">{g['today']} 時点。赤＝事務所の目安の期限を過ぎて済になっていない月。－＝その月は作らない（隔月・四半期など）。OpenTax PLATINUM</p>
+<div class="wrap"><table><thead><tr><th class="nm">関与先</th>{head}</tr></thead><tbody>{''.join(body)}</tbody></table></div>
+</body></html>"""

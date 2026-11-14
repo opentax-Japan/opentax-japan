@@ -98,8 +98,10 @@ def ot_kigen(clients_text: str, month: str, progress_json: str, today: str, set_
         if set_id:
             progress = kigen.set_status(progress, set_id, set_status, set_memo)
         sched = kigen.schedule(clients, month, progress, datetime.date.fromisoformat(today))
+        g = kigen.grid(clients, month, progress, datetime.date.fromisoformat(today))
         return _dump({"ok": True, "schedule": sched, "progress": progress or {"kind": "opentax-progress", "items": {}},
-                      "csv": kigen.to_csv(sched), "html": kigen.to_html(sched), "statuses": kigen.STATUSES})
+                      "csv": kigen.to_csv(sched), "html": kigen.to_html(sched), "statuses": kigen.STATUSES,
+                      "grid": g, "grid_html": kigen.to_grid_html(g)})
     except kigen.KigenInputError as e:
         return _dump({"ok": False, "kind": "input", "message": str(e)})
     except Exception as e:  # noqa: BLE001

@@ -94,6 +94,46 @@ class DueDateTest(unittest.TestCase):
         self.assertEqual(kigen.months_from_next_day(datetime.date(2026, 2, 28), 2), datetime.date(2026, 4, 30))
 
 
+class TrialBalanceTest(unittest.TestCase):
+    def test_monthly_due_not_shifted(self):
+        # 10月分 翌月末 → 11/30。翌月20日 → 11/20。事務所の目安は休日でずらさない（2027-02-28 は日曜だがそのまま）
+        self.assertEqual(due("2026-11", "101", "試算表"), ["2026-11-30"])
+        self.assertEqual(due("2026-11", "102", "試算表"), ["2026-11-20"])
+        self.assertEqual(due("2027-02", "101", "試算表"), ["2027-02-28"])
+
+    def test_quarterly_and_bimonthly_follow_fy(self):
+        # 個人（12月決算）の四半期: 3・6・9・12月分。9月分を翌々月末 → 11/30
+        self.assertEqual(due("2026-11", "103", "試算表"), ["2026-11-30"])
+        self.assertEqual(due("2026-12", "103", "試算表"), [])
+        # 10月決算の隔月: 12・2・4・6・8・10月分。10月分 → 11/30、11月分は作らない
+        self.assertEqual(due("2026-11", "104", "試算表"), ["2026-11-30"])
+        self.assertEqual(due("2026-12", "104", "試算表"), [])
+
+    def test_grid(self):
+        cs = kigen.read_clients(CLIENTS.read_bytes())
+        p = kigen.set_status(None, "101|試算表|2026-09分", "報告済")
+        g = kigen.grid(cs, "2026-10", p, TODAY)
+        self.assertEqual(len(g["months"]), 12)
+        self.assertEqual(g["months"][-1], "2026-10")
+        self.assertEqual([r["code"] for r in g["rows"]], ["101", "102", "103", "104"])  # 105 は月次なし
+        r101 = g["rows"][0]["cells"]
+        self.assertTrue(r101[-2]["done"])            # 9月分 報告済
+        self.assertFalse(r101[-1]["overdue"])        # 10月分 期限 11/30
+        self.assertTrue(r101[-3]["overdue"])         # 8月分 期限 9/30 を過ぎた
+        r104 = g["rows"][3]["cells"]
+        self.assertIsNone(r104[-2])                  # 隔月の 9月分は作らない
+        self.assertIsNone(r104[0])                   # 設立前（2025-11 より前）
+        self.assertIn("試算表の進捗表", kigen.to_grid_html(g))
+
+    def test_tb_due_input(self):
+        self.assertEqual(kigen._tb_due("翌々月末", ""), (2, 0))
+        self.assertEqual(kigen._tb_due("翌月20日", ""), (1, 20))
+        with self.assertRaises(kigen.KigenInputError):
+            one(月次="毎週")
+        with self.assertRaises(kigen.KigenInputError):
+            one(月次="毎月", 試算表の期限="来月")
+
+
 class InputTest(unittest.TestCase):
     def test_errors(self):
         with self.assertRaises(kigen.KigenInputError):

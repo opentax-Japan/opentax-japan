@@ -120,7 +120,33 @@ function render() {
       return tr;
     });
   $("list").replaceChildren(el("thead", {}, head), el("tbody", {}, ...rows));
+  renderGrid();
   $("results").hidden = false;
+}
+
+const TB_CYCLE = ["未着手", "資料待ち", "作成中", "確認待ち", "報告済"];
+function renderGrid() {
+  const g = last.grid;
+  const staff = $("staff").value;
+  const head = el("tr", {}, el("th", {}, "関与先"), ...g.months.map((m) => el("th", {}, `${Number(m.slice(5))}月`)));
+  const rows = g.rows.filter((r) => !staff || r.staff === staff).map((r) =>
+    el("tr", {}, el("th", {}, `${r.code} ${r.name}`, el("div", { class: "note" }, r.staff),
+      r.late ? el("div", { class: "note error" }, `遅れ ${r.late}`) : null),
+    ...r.cells.map((c) => {
+      if (!c) return el("td", { class: "note" }, "－");
+      const td = el("td", { title: `期限 ${c.due} ${c.memo}`.trim(), role: "button", tabindex: "0" }, c.done ? "済" : c.status);
+      td.style.cursor = "pointer";
+      if (c.done) td.style.background = "#e8f5e0";
+      else if (c.overdue) { td.style.background = "#fde8e8"; td.style.color = "#c00"; }
+      const next = () => {
+        const i = TB_CYCLE.indexOf(c.status);
+        run(c.id, TB_CYCLE[(i + 1) % TB_CYCLE.length], c.memo);
+      };
+      td.addEventListener("click", next);
+      td.addEventListener("keydown", (e) => { if (e.key === "Enter") next(); });
+      return td;
+    })));
+  $("grid").replaceChildren(el("thead", {}, head), el("tbody", {}, ...rows));
 }
 
 $("load-sample").addEventListener("click", async () => {
@@ -156,3 +182,4 @@ $("save-progress").addEventListener("click", () =>
   download(`進捗_${todayIso()}.json`, JSON.stringify(progress || { kind: "opentax-progress", items: {} }, null, 1), "application/json"));
 $("save-csv").addEventListener("click", () => last && download(`期限一覧_${last.schedule.month}.csv`, last.csv, "text/csv"));
 $("save-html").addEventListener("click", () => last && download(`期限一覧_${last.schedule.month}.html`, last.html, "text/html"));
+$("save-grid").addEventListener("click", () => last && download(`試算表の進捗表_${last.schedule.month}.html`, last.grid_html, "text/html"));
