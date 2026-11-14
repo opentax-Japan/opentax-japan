@@ -510,6 +510,45 @@ def _kojin(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def _jigyosho(args) -> int:
+    import json as _json
+    from . import api
+    with open(args.input, encoding="utf-8") as f:
+        c = api.jigyosho_calculate(_json.load(f))
+    fm = c["form"]
+    print(f"{c['city']['name']}　{c['period']['start']}〜{c['period']['end']}")
+    print(f"課税標準となる床面積 {fm['a9']}㎡　資産割額 {fm['a10']:,}円　課税標準となる従業者給与総額 {fm['a15']:,}円　従業者割額 {fm['a16']:,}円")
+    print(f"納付すべき事業所税額 {fm['a20']:,}円　期限 {c['due_date']}")
+    for w in c["warnings"]:
+        print(f"注意: {w}")
+    if args.report:
+        with open(args.report, "w", encoding="utf-8", newline="\n") as f:
+            f.write(api.jigyosho_report(c))
+        print(f"書き出しました: {args.report}")
+    return 0
+
+
+def _shukuhaku(args) -> int:
+    import datetime as _dt
+    import json as _json
+    from . import api
+    with open(args.facility, encoding="utf-8") as f:
+        facility = _json.load(f)
+    with open(args.csv, "rb") as f:
+        c = api.shukuhaku_calculate(facility, f.read(), args.month, args.tax_included)
+    t = c["total"]
+    print(f"{c['month']}　課税 {t['taxable']:,}泊 × {c['rate']}円 = {c['tax']:,}円　課税対象外 {c['nontaxable']:,}泊"
+          f"（⑴ {t['under']:,}・⑵ {t['exempt']:,}・⑶ {t['ambassador']:,}）　期限 {c['due_date']}")
+    for w in c["warnings"]:
+        print(f"注意: {w}")
+    if args.report:
+        submitted = _dt.date.fromisoformat(args.submitted) if args.submitted else None
+        with open(args.report, "w", encoding="utf-8", newline="\n") as f:
+            f.write(api.shukuhaku_report(c, submitted))
+        print(f"書き出しました: {args.report}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="opentax")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -600,10 +639,23 @@ def main(argv: list[str] | None = None) -> int:
     kj.add_argument("--cache-dir", default=".cache/etax")
     kj.add_argument("--cab", help="国税庁から取った e-tax19.CAB（キャッシュの代わりに使う）")
 
+    jg = sub.add_parser("jigyosho", help="事業所税（地方税法第701条の30〜）の申告書（第四十四号様式）を計算し、--report で HTML を作る")
+    jg.add_argument("input", help="入力 JSON（taxpayer・city・period・kind・offices）")
+    jg.add_argument("--report", help="申告書（様式の上に値）と明細の HTML を書き出す先")
+
+    sk = sub.add_parser("shukuhaku", help="宿泊税（いまは長野県）の納入申告書と月計表を、宿泊税明細（日別・予約ごとの CSV）から作る")
+    sk.add_argument("csv", help="宿泊税明細の CSV（宿泊日・宿泊者数・宿泊料金など。列の名前は shukuhaku/calculate.py の COLUMNS）")
+    sk.add_argument("--facility", required=True, help="施設と特別徴収義務者の JSON")
+    sk.add_argument("--month", required=True, help="申告する月（YYYY-MM）")
+    sk.add_argument("--tax-included", action="store_true", help="宿泊料金が消費税込み（10％を除いて判定する）")
+    sk.add_argument("--submitted", help="提出日（YYYY-MM-DD。申告書の日付の欄に書く）")
+    sk.add_argument("--report", help="納入申告書・月計表の HTML を書き出す先")
+
     args = parser.parse_args(argv)
     command = {"fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
                "build-checks": _build_checks, "calculate": _calculate, "export-etax": _export_etax,
-               "local-tax": _local_tax, "shohi": _shohi, "kojin": _kojin, "report": _report}[args.command]
+               "local-tax": _local_tax, "shohi": _shohi, "kojin": _kojin, "report": _report,
+               "jigyosho": _jigyosho, "shukuhaku": _shukuhaku}[args.command]
     from .etax.validate import ValidationUnavailable
     from .etax.xtx import XtxError
     from .red.calculate import RuleError
@@ -612,10 +664,12 @@ def main(argv: list[str] | None = None) -> int:
     from .red.model import InputError
     from .kojin.calculate import KojinError
     from .shohi.calculate import ShohiInputError
+    from .jigyosho.calculate import JigyoshoError
+    from .shukuhaku.calculate import ShukuhakuError
     try:
         return command(args)
     except (SpecError, LayoutError, CatalogError, CheckError, InputError, RuleError, LocalRuleError, XtxError,
-            ValidationUnavailable, SheetError, ShohiInputError, KojinError, OSError) as e:
+            ValidationUnavailable, SheetError, ShohiInputError, KojinError, JigyoshoError, ShukuhakuError, OSError) as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
 

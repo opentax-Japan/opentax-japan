@@ -1,0 +1,12 @@
+{
+ "_note": "架空の施設（テスト用）。実在の施設・人ではない",
+ "prefecture": "長野県",
+ "municipality": "北佐久郡立科町",
+ "name": "架空の宿 たてしな",
+ "notification_no": "M200000000",
+ "tax_number": "1234567890",
+ "address": "北佐久郡立科町大字架空0000番地",
+ "phone": "0267-00-0000",
+ "collector": {"address": "東京都千代田区架空一丁目1番1号", "name": "架空 太郎", "phone": "03-0000-0000",
+               "contact": "架空 太郎", "contact_phone": "090-0000-0000"}
+}

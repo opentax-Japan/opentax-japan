@@ -1,0 +1,25 @@
+{
+ "edition": "shukuhaku-nagano-r08",
+ "title": "長野県宿泊税に関する規則（令和7年長野県規則第58号）様式第２号（宿泊税納入申告書）",
+ "publisher": "長野県",
+ "fiscal_year_end_from": "2026-06-01",
+ "fiscal_year_note": "長野県宿泊税条例は令和8年6月1日施行（令和7年長野県規則第57号）。様式第２号は規則第5条の納入申告書。fiscal_year_end_from は施行日（その月分から）",
+ "source_page": "https://www.pref.nagano.lg.jp/zeimu/syukuhakuzei_tebiki-youshiki.html",
+ "terms": "出典：長野県ホームページ「長野県宿泊税 特別徴収の事務等について（特別徴収義務者向け）」の様式第２号（PDF）。長野県宿泊税に関する規則（長野県規則）の様式で、著作権法第13条第1号（憲法その他の法令）により著作権の目的とならないものとして、値を重ねて表示するよう加工している。長野県が作成したものではない。月計表は県の様式でなく、県の様式と同じ項目の表を OpenTax が作る（県の月計表の様式に「記載項目を満たしていれば任意の様式で結構です」とある）",
+ "terms_url": "https://www.pref.nagano.lg.jp/koho/kensei/koho/homepage/riyo.html",
+ "files": {
+  "2.pdf": {
+   "url": "https://www.pref.nagano.lg.jp/zeimu/documents/2.pdf",
+   "sha256": "e1de7bb4c971d5063fcb80a328b252ee30a1c81c4dbeb3e1ed5a686eb066517a"
+  }
+ },
+ "forms": {
+  "SN2": {
+   "title": "様式第２号 宿泊税納入申告書（長野県）",
+   "file": "2.pdf",
+   "page": 1,
+   "render": true,
+   "rotate": 0
+  }
+ }
+}

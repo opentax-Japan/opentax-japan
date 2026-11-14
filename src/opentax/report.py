@@ -516,3 +516,114 @@ svg.paper .mark{fill:none;stroke:#0b4dbb;stroke-width:4}
 @media (max-width:560px){main{padding:10px}nav ol{columns:1}td.ord,th.ord{display:none}table{font-size:.86rem}}
 @media print{main{max-width:none}nav,.checks{display:none}h2{break-before:page}section.form{break-inside:avoid}a{color:#222;text-decoration:none}}
 """
+
+
+# --- 事業所税・宿泊税（2026-11-14） ---
+
+def _page(title: str, parts: list[str]) -> str:
+    return ("<!DOCTYPE html><html lang='ja'><head><meta charset='utf-8'>"
+            "<meta name='viewport' content='width=device-width,initial-scale=1'>"
+            f"<title>{_e(title)}</title><style>{_CSS}</style></head><body><main>{''.join(parts)}"
+            "<p class='src'>OpenTax（https://github.com/opentax-Japan/opentax-japan）で作成。計算結果の正しさは保証しません。"
+            "申告の内容と責任は利用者にあります。</p></main></body></html>")
+
+
+def _notes(warnings: list[str], checks: list[str]) -> str:
+    out = ""
+    if warnings:
+        out += "".join(f"<div class='warn'>{_e(w)}</div>" for w in warnings)
+    if checks:
+        out += ("<details class='checks' open><summary>確かめてほしいこと（" + str(len(checks)) + " 件）</summary><ul>"
+                + "".join(f"<li>{_e(c)}</li>" for c in checks) + "</ul></details>")
+    return out
+
+
+def jigyosho_values(r: dict, submitted: datetime.date | None = None) -> dict:
+    """事業所税申告書（第四十四号様式）の欄の値。床面積は小数2桁の文字。"""
+    from .etax.xtx import to_wareki
+    f = r["form"]
+    tp = r["input"].get("taxpayer", {})
+    v: dict = {f"a{i}": f"{f[f'a{i}']:,.2f}" for i in range(1, 10) if f[f"a{i}"]}
+    v.update({f"a{i}": f[f"a{i}"] for i in range(10, 21)})
+    if f.get("months_short"):
+        v["months_short"] = str(f["months_short"])
+    city = r["city"]["name"]
+    v["city"] = city[:-1] if city.endswith("市") and "特別区" not in city else ""
+    for key in ("name", "name_kana", "representative", "postal", "address", "phone", "branch_postal", "branch_address",
+                "branch_phone", "business", "tax_office", "contact", "contact_phone", "note", "accountant", "accountant_phone",
+                "corporate_number"):
+        if tp.get(key):
+            v[key] = str(tp[key])
+    if tp.get("representative_kana"):
+        v["rep_kana"] = tp["representative_kana"]
+    if isinstance(tp.get("capital"), int):
+        v["capital_k"] = f"{tp['capital'] // 1000:,}"
+    for prefix, d in (("start", r["period"]["start"]), ("end", r["period"]["end"])):
+        w = to_wareki(d)
+        v.update({f"{prefix}_yy": str(w["yy"]), f"{prefix}_mm": str(d.month), f"{prefix}_dd": str(d.day)})
+    if submitted:
+        w = to_wareki(submitted)
+        v.update({"submit_yy": str(w["yy"]), "submit_mm": str(submitted.month), "submit_dd": str(submitted.day)})
+    return v
+
+
+def build_jigyosho(r: dict, today: datetime.date | None = None) -> str:
+    """事業所税の申告書（第四十四号様式の上に値）と、事業所等ごとの明細（別表一〜四と同じ項目の表）。"""
+    today = today or datetime.date.today()
+    tp = r["input"].get("taxpayer", {})
+    span = (r["period"]["start"], r["period"]["end"])
+    title = f"事業所税申告書（{r['city']['name']}）"
+    parts = [f"<h1>{_e(title)}</h1><p class='meta'>{_e(tp.get('name', ''))}　{span[0]} 〜 {span[1]}　作成 {today.isoformat()}</p>"]
+    due = r["due_date"].isoformat() if r["due_date"] else "（祝日の一覧の外のため出していません）"
+    parts.append(f"<p class='meta'>申告納付の期限: {due}（{'事業年度終了の日から2月以内（法第701条の46）' if r['kind'] == 'corporate' else '翌年3月15日（法第701条の47）'}）。"
+                 f"納付すべき税額 {_yen(r['form']['a20'])}円</p>")
+    parts.append(_notes(r["warnings"], r["checks"]))
+    s = paper.sheet("J44", "事業所税申告書（第四十四号様式）", span, jigyosho_values(r, r.get("submitted")))
+    if s:
+        parts.append(_paper_form("事業所税申告書（第四十四号様式）", "J44", [s]))
+    rows = []
+    for o in r["offices"]:
+        rows.append([o["name"], "1 通年" if o["section"] == 1 else "2 新設・廃止", f"{o['area_exclusive']:,.2f}", f"{o['area_common']:,.2f}",
+                     f"{o['area']:,.2f}", f"{o['nontaxable_area']:,.2f}", f"{o['deducted_area']:,.2f}",
+                     "" if o["months"] is None else f"{o['months']}月", f"{o['taxable_area']:,.2f}", o["employees"], _yen(o["payroll"])])
+    parts.append(_form("事業所等明細（別表一〜三の項目）", "床面積は㎡（1㎡の100分の1未満切り捨て）・給与は円",
+                       _table(["事業所等", "区分", "専用床面積", "共用床面積", "事業所床面積", "非課税", "特例控除", "月数", "課税標準となる床面積",
+                               "従業者数", "従業者給与総額"], rows, amount_cols=set(range(2, 11)))))
+    commons = [[o["name"], f"{o['common']['building_exclusive_total']:,.2f}", f"{o['common']['own_exclusive']:,.2f}",
+                f"{o['common']['common_area']:,.2f}", f"{o['common']['share']:,.2f}"] for o in r["offices"] if o["common"]]
+    if commons:
+        parts.append(_form("共用部分の計算（別表四の項目）", "⑥＝④×②／①（1㎡の100分の1未満切り捨て）",
+                           _table(["事業所等", "① 専用部分の延べ面積", "② ①のうち当該事業所部分", "④ 共用床面積（非課税を除く）", "⑥ 事業所床面積となる共用床面積"],
+                                  commons, amount_cols={1, 2, 3, 4})))
+    return _page(title, parts)
+
+
+def build_shukuhaku(r: dict, submitted: datetime.date | None = None, today: datetime.date | None = None) -> str:
+    """宿泊税（長野県）: 納入申告書（様式第２号の上に値）と宿泊税月計表（県の月計表と同じ項目の表）。"""
+    from .etax.xtx import to_wareki
+    from .shukuhaku.calculate import sheet_values
+    today = today or datetime.date.today()
+    f = r["facility"]
+    w = to_wareki(r["start"])
+    title = f"宿泊税納入申告書・月計表（{r['rules']['tax']}）令和{w['yy']}年{r['start'].month}月分"
+    parts = [f"<h1>{_e(title)}</h1><p class='meta'>{_e(f.get('name', ''))}　{_e(r['office']['name'])}　作成 {today.isoformat()}</p>"]
+    due = r["due_date"].isoformat() if r["due_date"] else "（祝日の一覧の外のため出していません）"
+    parts.append(f"<p class='meta'>申告納入の期限: {due}。税額 {r['tax']:,}円（課税の人泊 {r['total']['taxable']:,} × {r['rate']}円）</p>")
+    parts.append(_notes(r["warnings"], r["checks"]))
+    s = paper.sheet("SN2", "宿泊税納入申告書（様式第２号）", (r["start"], r["end"]), sheet_values(r, submitted))
+    if s:
+        parts.append(_paper_form("宿泊税納入申告書（様式第２号）", "SN2", [s]))
+    cat = r["rules"]["categories"]
+    rows = []
+    for d, v in r["days"].items():
+        rows.append([d, v["taxable"], v["under"], v["exempt"] + v["ambassador"], v["ambassador"], v["under"] + v["exempt"] + v["ambassador"]])
+    t = r["total"]
+    rows.append(["計", t["taxable"], t["under"], t["exempt"] + t["ambassador"], t["ambassador"], r["nontaxable"]])
+    head = (f"<p class='meta'>令和{w['yy']}年{r['start'].month}月分　課税番号 {_e(str(f.get('tax_number', '')))}　"
+            f"施設の名称又は届出番号 {_e(f.get('notification_no') or f.get('name', ''))}</p>")
+    parts.append(_form("宿泊税月計表", "納入申告書の内訳資料として添付する（宿泊数は人泊）",
+                       head + _table(["日付", "課税対象", "課税対象外 ① 1人1泊6千円未満", "課税対象外 ② 課税免除", "うち外国の大使等の任務遂行",
+                                      "課税対象外計（①＋②）"], rows, amount_cols={1, 2, 3, 4, 5})))
+    parts.append(f"<p class='src'>月計表は県の様式ではなく、同じ項目を並べた表です（県の月計表の様式「記載項目を満たしていれば任意の様式で結構です」）。"
+                 f"課税対象外の内訳: {_e(cat['under'])}／{_e(cat['exempt'])}／{_e(cat['ambassador'])}</p>")
+    return _page(title, parts)

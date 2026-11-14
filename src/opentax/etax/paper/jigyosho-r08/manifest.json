@@ -1,0 +1,26 @@
+{
+ "edition": "jigyosho-r08",
+ "title": "地方税法施行規則 第四十四号様式（事業所税申告書）（令和8年11月1日施行時点の e-Gov の添付ファイル）",
+ "publisher": "e-Gov法令検索",
+ "fiscal_year_end_from": "2025-04-01",
+ "fiscal_year_note": "e-Gov の令和8年11月1日施行時点（329M50000002023_20261101_508M60000008045）の添付ファイル（2FH00000076654）。規則第24条の29（法第701条の46・第701条の47の申告書は第四十四号様式）。fiscal_year_end_from は地方税の納付書（noufu-r08）にそろえた。これより前の様式との違いは確かめていない",
+ "source_page": "https://laws.e-gov.go.jp/law/329M50000002023",
+ "law_revision": "329M50000002023_20261101_508M60000008045",
+ "terms": "出典：e-Gov法令検索（地方税法施行規則（昭和二十九年総理府令第二十三号）別記様式。様式の URL）。e-Gov の利用規約により公共データ利用規約（第1.0版）で利用し、値を重ねて表示するよう加工している。総務省・デジタル庁が作成したものではない",
+ "terms_url": "https://www.e-gov.go.jp/terms",
+ "files": {
+  "2FH00000076654.pdf": {
+   "url": "https://laws.e-gov.go.jp/api/2/attachment/329M50000002023_20261101_508M60000008045?src=./pict/2FH00000076654.pdf",
+   "sha256": "150be7dcf1689a62d737f022a81254565d887fbaa4b20df9d2b4f5dacb11a785"
+  }
+ },
+ "forms": {
+  "J44": {
+   "title": "第四十四号様式 事業所税申告書",
+   "file": "2FH00000076654.pdf",
+   "page": 1,
+   "render": true,
+   "rotate": 0
+  }
+ }
+}

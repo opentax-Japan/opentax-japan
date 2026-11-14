@@ -343,6 +343,29 @@ def kojin_report(calculated: dict, today: datetime.date | None = None) -> str:
     return rp.build_kojin(calculated, today)
 
 
+def jigyosho_calculate(data: dict) -> dict:
+    """事業所税（地方税法第701条の30〜）の申告書の値を計算する。"""
+    from .jigyosho.calculate import calculate
+    return calculate(data)
+
+
+def jigyosho_report(calculated: dict, today: datetime.date | None = None) -> str:
+    """事業所税の申告書（第四十四号様式の上に値）と事業所等の明細（HTML 1枚）。"""
+    from . import report as rp
+    return rp.build_jigyosho(calculated, today)
+
+
+def shukuhaku_calculate(facility: dict, csv_bytes: bytes, month: str, prices_include_consumption_tax: bool = False) -> dict:
+    """宿泊税（いまは長野県）の月計表と納入申告書の値を、宿泊税明細（日別・予約ごとの CSV）から作る。"""
+    from .shukuhaku.calculate import calculate, read_csv
+    return calculate(facility, read_csv(csv_bytes), month, prices_include_consumption_tax)
+
+
+def shukuhaku_report(calculated: dict, submitted: datetime.date | None = None, today: datetime.date | None = None) -> str:
+    from . import report as rp
+    return rp.build_shukuhaku(calculated, submitted, today)
+
+
 def schema_from_cab(cab: bytes, workdir: Path | None = None) -> Path:
     """利用者が選んだ e-tax19.CAB を、manifest の SHA256 と照合してから、手続XSD に要る分だけ展開する。"""
     manifest = _manifest()
