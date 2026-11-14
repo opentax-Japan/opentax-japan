@@ -42,6 +42,15 @@ CLASS15 = ("田", "畑", "宅地", "山林", "その他の土地", "家屋等", 
            "生命保険金等", "退職手当金等", "立木", "その他")
 
 
+TOP_KEYS = {"_note", "death_date", "tax_office", "tax_office_code", "submitted_on", "decedent", "persons", "assets", "life_insurance",
+            "retirement", "debts", "funeral", "gifts", "small_land", "previous_inheritance", "anbun", "spouse_reduction", "filing",
+            "filer", "partition_date"} | set(OUT_OF_SCOPE)
+PERSON_KEYS = {"id", "name", "name_kana", "birth", "kind", "heir", "counted", "renounced", "share", "represents", "relation_code",
+               "address", "zip", "phone", "occupation", "causes", "my_number", "user_id", "settlement_assets",
+               "settlement_gift_tax_credit", "gift_tax_credit", "disabled", "add20", "special_adoption", "comprehensive_legatee",
+               "previous_minor_deduction", "previous_disabled_deduction", "limited_taxpayer"}
+
+
 class SouzokuError(Exception):
     """入力が足りない・対象外のとき。"""
 
@@ -61,6 +70,11 @@ def _int(x, where: str) -> int:
 
 def _floor(x, unit: int) -> int:
     return (int(x) // unit) * unit
+
+
+def age_law(birth: datetime.date, day: datetime.date) -> int:
+    """満年齢（年齢計算ニ関スル法律・民法第143条: 誕生日の前日の終わりに1歳を加える）。"""
+    return age_on(birth, day + datetime.timedelta(days=1))
 
 
 def age_on(birth: datetime.date, day: datetime.date) -> int:
@@ -108,7 +122,8 @@ def legal_shares(heirs: list[dict]) -> dict[str, Fraction]:
                                f"parent・sibling・half_sibling で入れるか、share で法定相続分を入れてください: {[h['name'] for h in others]}")
         groups = [g for g in (children, parents, sibs) if g]
         if len(groups) > 1:
-            raise SouzokuError("子・直系尊属・兄弟姉妹は同時に相続人になりません。続柄を確かめてください（民法第887条〜第889条）")
+            raise SouzokuError("子・直系尊属・兄弟姉妹は同時に相続人になりません。続柄を確かめてください（民法第887条〜第889条）。"
+                               "子の全員が放棄して父母・兄弟姉妹が相続人になった場合は、父母・兄弟姉妹を heir: true・counted: false で入れてください")
         out: dict[str, Fraction] = {}
         rest = Fraction(1)
         if spouse:
@@ -124,6 +139,10 @@ def legal_shares(heirs: list[dict]) -> dict[str, Fraction]:
                 if h["kind"] == "grandchild_representative" and not h.get("represents"):
                     raise SouzokuError(f"{h['name']}: 代襲相続人は、代襲される人の名前（represents）を入れてください")
                 stocks.setdefault(key, []).append(h)
+            rep_ids = {h["id"] for h in children if h["kind"] == "grandchild_representative"} | \
+                {h["name"] for h in children if h["kind"] == "grandchild_representative"}
+            if any(str(h.get("represents")) in rep_ids for h in children if h["kind"] == "grandchild_representative"):
+                raise SouzokuError("再代襲（代襲相続人の代襲）の法定相続分は自動では計算しません。share で全員の法定相続分を入れてください")
             each = rest / len(stocks)
             for members in stocks.values():
                 for h in members:
@@ -175,6 +194,9 @@ def calculate(data: dict) -> dict:
     death = _date(data.get("death_date"), "death_date")
     if death < _date(RULES["applies"]["death_from"], "rules"):
         raise SouzokuError(f"相続開始日 {death} は対象外です（令和6年1月1日以後に開始した相続だけ。{RULES['applies']['basis']}）")
+    unknown = set(data) - TOP_KEYS
+    if unknown:
+        raise SouzokuError(f"知らない項目があります（書き間違い・対象外の項目でないか確かめてください）: {sorted(unknown)}")
     dec = data.get("decedent") or {}
     for k in ("name", "address"):
         if not dec.get(k):
@@ -184,6 +206,8 @@ def calculate(data: dict) -> dict:
         raise SouzokuError("persons（財産を取得した人・相続人）がありません")
     warnings: list[str] = []
     checks: list[str] = []
+    if death > _date(RULES["applies"]["confirmed"], "rules"):
+        checks.append(f"相続開始日が設定の確認日（{RULES['applies']['confirmed']}）より後です。税率・控除額などの改正がないか確かめてください")
     by_id: dict[str, dict] = {}
     for i, p in enumerate(persons):
         pid = p.get("id") or p.get("name")
@@ -191,6 +215,11 @@ def calculate(data: dict) -> dict:
             raise SouzokuError(f"persons[{i}]: name がありません")
         if pid in by_id:
             raise SouzokuError(f"persons: 同じ id があります: {pid}")
+        unknown = set(p) - PERSON_KEYS
+        if unknown:
+            raise SouzokuError(f"{p['name']}: 知らない項目があります: {sorted(unknown)}")
+        if p.get("limited_taxpayer"):
+            raise SouzokuError(f"{p['name']}: 制限納税義務者（相続税法第1条の3第1項第3号・第4号）は OpenTax 相続税の対象外です")
         kind = p.get("kind", "other")
         if kind not in KINDS:
             raise SouzokuError(f"{p['name']}: kind は {sorted(KINDS)} のどれかです: {kind}")
@@ -201,7 +230,15 @@ def calculate(data: dict) -> dict:
             raise SouzokuError(f"{where}: persons にない人です: {ref}")
         return ref
 
-    heirs = [p for p in by_id.values() if p.get("heir")]
+    # counted: 相続の放棄がなかったものとした場合の相続人（相続税法第15条第2項・第16条・第19条の2・第19条の3・第19条の4）。
+    # actual: 実際の相続人（放棄した人を除く。第12条・第13条・第18条・第20条。第3条第1項の「相続人」）。
+    # 第1順位の全員が放棄して次の順位の人が相続人になった場合、次の順位の人は heir: true・counted: false で入れる
+    counted = lambda p: bool(p.get("counted", p.get("heir")))
+    actual = lambda p: bool(p.get("heir")) and not p.get("renounced")
+    for p in by_id.values():
+        if p.get("counted") and not p.get("heir"):
+            raise SouzokuError(f"{p['name']}: counted: true は heir: true の人だけです")
+    heirs = [p for p in by_id.values() if counted(p)]
     if not heirs:
         raise SouzokuError("民法上の相続人（heir: true）が1人もいません。相続人がいない場合は対象外です")
     # 法定相続人の数（相続税法第15条第2項。放棄した人も数える。養子の数の制限）
@@ -222,23 +259,29 @@ def calculate(data: dict) -> dict:
         for i, x in enumerate(items or []):
             pid = person(x.get("recipient"), f"{label}[{i}].recipient")
             rows.append({**x, "recipient": pid, "amount": _int(x.get("amount"), f"{label}[{i}].amount")})
-        heir_total = sum(r["amount"] for r in rows if by_id[r["recipient"]].get("heir") and not by_id[r["recipient"]].get("renounced"))
+        heir_total = sum(r["amount"] for r in rows if actual(by_id[r["recipient"]]))
         per: dict[str, dict] = {}
         for r in rows:
             d = per.setdefault(r["recipient"], {"received": 0, "exempt": 0, "taxable": 0})
             d["received"] += r["amount"]
         for pid, d in per.items():
             p = by_id[pid]
-            if p.get("heir") and not p.get("renounced") and heir_total:
-                # 第12条第1項第5号・第6号ロ: 限度額 × その相続人の取得額 / 相続人全体の取得額（1円未満は切り捨て）
-                d["exempt"] = d["received"] if heir_total <= exempt_limit else int(Fraction(exempt_limit * d["received"], heir_total))
+            if actual(p) and heir_total:
+                # 第12条第1項第6号・第7号ロ（令和8年3月31日までの相続は第5号・第6号ロ）: 限度額 × その相続人の取得額 / 相続人全体の取得額。
+                # 1円未満は四捨五入（申告のしかた 93ページ 第9表の記載例: 8,878,826.04→8,878,826、6,121,173.96→6,121,174）
+                d["exempt"] = d["received"] if heir_total <= exempt_limit else int(Fraction(exempt_limit * d["received"], heir_total) + Fraction(1, 2))
             d["taxable"] = d["received"] - d["exempt"]
+        over = sum(d["exempt"] for d in per.values()) - exempt_limit
+        if over > 0:                                  # 四捨五入で限度額を超えたら、最後の人から引く
+            last = [pid for pid in per if per[pid]["exempt"]][-1]
+            per[last]["exempt"] -= over
+            per[last]["taxable"] += over
         return {"rows": rows, "per": per, "limit": exempt_limit, "heir_total": heir_total}
 
     ins = deemed(data.get("life_insurance"), "life_insurance")
     ret = deemed(data.get("retirement"), "retirement")
     if any(by_id[r["recipient"]].get("renounced") for r in ins["rows"] + ret["rows"]):
-        checks.append("相続を放棄した人が受け取った生命保険金・退職手当金には非課税の適用がありません（相続税法第12条第1項第5号・第6号の「相続人」）")
+        checks.append("相続を放棄した人が受け取った生命保険金・退職手当金には非課税の適用がありません（相続税法第12条第1項第6号・第7号の「相続人」。第3条第1項）")
 
     # --- 第11・11の2表の付表1（小規模宅地等。選んだ宅地だけ。選ぶのは人） ---
     small = _small_land(data, by_id, person, checks)
@@ -304,7 +347,7 @@ def calculate(data: dict) -> dict:
             for b in bearers:
                 pid = person(b.get("person"), f"{key}[{i}].bearers.person")
                 p = by_id[pid]
-                if not p.get("heir") and not p.get("comprehensive_legatee"):
+                if not p.get("heir") and not p.get("comprehensive_legatee"):   # 放棄した人は下で債務だけ止める（葬式費用は可。基本通達13-1）
                     raise SouzokuError(f"{p['name']}: 債務・葬式費用を控除できるのは相続人と包括受遺者です（相続税法第13条第1項）")
                 if p.get("renounced") and field == "debt":
                     raise SouzokuError(f"{p['name']}: 相続を放棄した人は債務を控除できません（相続税法第13条第1項・相続税法基本通達13-1）")
@@ -333,7 +376,9 @@ def calculate(data: dict) -> dict:
         gift_add[pid] -= min(amount, RULES["gift_addition"]["older_than_3_years_deduction"])
     for pid in gift_add:
         p = by_id[pid]
-        if gift_add[pid] and not (acquired[pid] or p.get("settlement_assets")):
+        got = (acquired[pid] or p.get("settlement_assets") or (ins["per"].get(pid) or {}).get("received")
+               or (ret["per"].get(pid) or {}).get("received") or any(t["person"] == pid for a in assets_out for t in a["takers"]))
+        if gift_add[pid] and not got:
             # 相続又は遺贈により財産を取得した人だけが加算の対象（相続税法第19条第1項）
             checks.append(f"{p['name']} は相続・遺贈で財産を取得していないので、暦年課税の贈与は加算していません")
             gift_add[pid] = 0
@@ -345,7 +390,9 @@ def calculate(data: dict) -> dict:
         L1, L3 = acquired[pid], debts[pid]["debt"] + debts[pid]["funeral"]
         L4 = max(L1 + s - L3, 0)
         L5 = gift_add[pid]
-        if not (L1 or s or L5 or L3):
+        got = (L1 or s or L5 or L3 or (ins["per"].get(pid) or {}).get("received") or (ret["per"].get(pid) or {}).get("received")
+               or any(t["person"] == pid for a in assets_out for t in a["takers"]))
+        if not got:
             continue
         rows[pid] = {"1": L1, "2": s, "3": L3, "4": L4, "5": L5, "6": _floor(L4 + L5, 1000)}
     if not rows:
@@ -362,7 +409,7 @@ def calculate(data: dict) -> dict:
     total_tax = _floor(sum(x["tax"] for x in table2), 100)
 
     # --- 第1表 算出税額・第4表 2割加算 ---
-    method = data.get("anbun", "two_digits")
+    method = data.get("anbun", "exact")
     ratio = _anbun({k: r["6"] for k, r in rows.items()}, A, method) if A else {k: Fraction(0) for k in rows}
     for pid, r in rows.items():
         p = by_id[pid]
@@ -370,7 +417,8 @@ def calculate(data: dict) -> dict:
         r["9"] = int(total_tax * ratio[pid])
         add20 = p.get("add20")
         if add20 is None:
-            add20 = p["kind"] not in ONE_DEGREE
+            # 代襲相続人の孫が放棄した場合は「代襲して相続人となつた」者に当たらない（第18条第1項・第3条第1項）
+            add20 = p["kind"] not in ONE_DEGREE or (p["kind"] == "grandchild_representative" and bool(p.get("renounced")))
         r["11"] = int(r["9"] * Fraction(RULES["add_20_percent"]["rate"])) if add20 else 0
         if add20 and p["kind"] == "grandchild_adopted":
             checks.append(f"{p['name']}: 孫養子なので2割加算をしました（相続税法第18条第2項。代襲相続人の場合は kind を grandchild_representative に）")
@@ -380,7 +428,7 @@ def calculate(data: dict) -> dict:
     # --- 税額控除（相続税法第19条〜第20条の順。先の控除で0になったら後の控除はしない） ---
     spouse_ids = [pid for pid in rows if by_id[pid]["kind"] == "spouse"]
     table5 = None
-    successive = _successive(data.get("previous_inheritance"), death, rows, by_id, checks)
+    successive = _successive(data.get("previous_inheritance"), death, rows, by_id, checks, actual)
     table6 = {"minor": [], "disabled": []}
     for pid, r in rows.items():
         p = by_id[pid]
@@ -404,9 +452,14 @@ def calculate(data: dict) -> dict:
             remaining -= r["13"]
         minor = disabled = succ = 0
         birth = p.get("birth")
-        age = age_on(_date(birth, f"{p['name']}.birth"), death) if birth else None
-        if p.get("heir") and not p.get("renounced") and age is not None and age < RULES["minor"]["age"]:
+        age = age_law(_date(birth, f"{p['name']}.birth"), death) if birth else None
+        # 放棄した人も、放棄がなかったものとした場合の相続人なら控除できる（第19条の3第1項・第19条の4第1項、基本通達19の3-1）
+        if counted(p) and age is not None and age < RULES["minor"]["age"]:
             full = (RULES["minor"]["age"] - age) * RULES["minor"]["per_year"]
+            if "previous_minor_deduction" in p:      # 第19条の3第3項: 前に控除を受けた人は残りの範囲
+                full = max(full - _int(p["previous_minor_deduction"], f"{p['name']}.previous_minor_deduction"), 0)
+            else:
+                checks.append(f"{p['name']}: 前の相続で未成年者控除を受けたことがあれば、その額を previous_minor_deduction に入れてください（相続税法第19条の3第3項）")
             minor = min(full, remaining)
             table6["minor"].append({"person": pid, "age": age, "years": RULES["minor"]["age"] - age, "full": full,
                                     "tax": remaining, "used": minor, "excess": full - minor})
@@ -414,9 +467,13 @@ def calculate(data: dict) -> dict:
                 checks.append(f"{p['name']}: 未成年者控除のうち控除しきれない {full - minor:,}円 は、扶養義務者の相続税額から控除できます"
                               "（相続税法第19条の3第2項。OpenTax では扶養義務者への振替をしていません）")
             remaining -= minor
-        if p.get("disabled") and p.get("heir") and not p.get("renounced") and age is not None and age < RULES["disabled"]["age"]:
+        if p.get("disabled") and counted(p) and age is not None and age < RULES["disabled"]["age"]:
             per = RULES["disabled"]["special" if p["disabled"] == "special" else "general"]
             full = (RULES["disabled"]["age"] - age) * per
+            if "previous_disabled_deduction" in p:   # 第19条の4第3項（第19条の3第3項の準用）
+                full = max(full - _int(p["previous_disabled_deduction"], f"{p['name']}.previous_disabled_deduction"), 0)
+            else:
+                checks.append(f"{p['name']}: 前の相続で障害者控除を受けたことがあれば、その額を previous_disabled_deduction に入れてください（相続税法第19条の4第3項）")
             disabled = min(full, remaining)
             table6["disabled"].append({"person": pid, "age": age, "years": RULES["disabled"]["age"] - age, "kind": p["disabled"],
                                        "full": full, "tax": remaining, "used": disabled, "excess": full - disabled})
@@ -449,8 +506,9 @@ def calculate(data: dict) -> dict:
     totals["19"] = sum(r["19"] for r in rows.values())
 
     _candidates(data, by_id, rows, small, ins, ret, checks)
-    if method == "two_digits":
-        checks.append("あん分割合は小数点以下2位で合計が1.00になるようにそろえました（申告のしかた 79ページ）。どの人で調整するかは申告する人が決めてかまいません")
+    if method == "two_digits" and A and any((Fraction(r["6"], A) * 100).denominator != 1 for r in rows.values()):
+        checks.append("あん分割合を小数点以下2位で合計が1.00になるようにそろえました。この調整は財産を取得した人の全員が選んだ方法である場合に"
+                      "認められます（相続税法基本通達17-1）。調整した人は端数の大きい人です。全員が選んでいなければ anbun を exact にしてください")
 
     return {
         "input": data, "death": death, "persons": by_id, "heirs": heirs, "n_heirs": n_heirs, "shares": shares,
@@ -466,6 +524,7 @@ def _small_land(data: dict, by_id: dict, person, checks: list[str]) -> dict:
     items = []
     area_by_kind = {k: Fraction(0) for k in kinds}
     by_asset: dict[int, int] = {}
+    used_area: dict[int, Fraction] = {}
     assets = data.get("assets") or []
     for i, s in enumerate(data.get("small_land") or []):
         where = f"small_land[{i}]"
@@ -480,7 +539,15 @@ def _small_land(data: dict, by_id: dict, person, checks: list[str]) -> dict:
         sel = Fraction(str(s.get("selected_area", s.get("area"))))
         if not (0 < sel <= area):
             raise SouzokuError(f"{where}: selected_area は 0 より大きく area 以下です")
-        value = _int(assets[ai].get("value"), f"assets[{ai}].value")
+        a = assets[ai]
+        if a.get("class15") not in ("田", "畑", "宅地", "山林", "その他の土地"):
+            raise SouzokuError(f"{where}: assets[{ai}] は土地（第15表の区分が田・畑・宅地・山林・その他の土地）ではありません")
+        if pid not in [x.get("person") for x in a.get("takers") or []]:
+            raise SouzokuError(f"{where}: {by_id[pid]['name']} は assets[{ai}] を取得した人ではありません")
+        used_area[ai] = used_area.get(ai, Fraction(0)) + sel
+        if used_area[ai] > area:
+            raise SouzokuError(f"{where}: assets[{ai}] で選んだ面積の合計が宅地等の面積を超えています（同じ宅地を2回選んでいないか）")
+        value = _int(a.get("value"), f"assets[{ai}].value")
         part = int(value * sel / area)                         # 付表1 ⑥ = ④ × ⑤ / ③（1円未満は切り捨て）
         red = int(part * Fraction(kinds[kind]["reduction"]))   # ⑦ 減額される金額
         items.append({"kind": kind, "person": pid, "asset": ai, "location": s.get("location", assets[ai].get("location", "")),
@@ -506,11 +573,11 @@ def _small_land(data: dict, by_id: dict, person, checks: list[str]) -> dict:
             raise SouzokuError("小規模宅地等の限度面積を超えています（特定居住用330㎡・特定事業用等400㎡。措置法第69条の4第2項）")
     if items:
         checks.append("小規模宅地等の特例は、特例の対象となる宅地を取得した全員の同意（付表1の1）と、申告期限までの遺産分割が要件です"
-                      "（措置法第69条の4第4項・第6項。措置法施行令第40条の2第5項）")
+                      "（措置法第69条の4第1項・第4項・第7項。措置法施行令第40条の2第5項）")
     return {"items": items, "area": area_by_kind, "by_asset": by_asset}
 
 
-def _successive(prev: dict | None, death: datetime.date, rows: dict, by_id: dict, checks: list[str]) -> dict | None:
+def _successive(prev: dict | None, death: datetime.date, rows: dict, by_id: dict, checks: list[str], actual) -> dict | None:
     """第7表（相続税法第20条）。prev: date（前の相続の開始日）・net_assets（被相続人が前の相続で取得した純資産価額⑤）・tax（⑥）。"""
     if not prev:
         return None
@@ -526,7 +593,7 @@ def _successive(prev: dict | None, death: datetime.date, rows: dict, by_id: dict
     total4 = sum(r["4"] for r in rows.values())                # ⑧ 今回の相続で財産を取得した全員の純資産価額
     ratio1 = min(Fraction(total4, net7), Fraction(1)) if net7 > 0 else Fraction(1)
     total = int(tax6 * ratio1 * Fraction(remain, 10))          # Ⓐ
-    heirs = [pid for pid, r in rows.items() if by_id[pid].get("heir") and not by_id[pid].get("renounced") and r["4"]]
+    heirs = [pid for pid, r in rows.items() if actual(by_id[pid]) and r["4"]]
     each = {}
     ratios = {}
     for pid in heirs:
@@ -534,6 +601,9 @@ def _successive(prev: dict | None, death: datetime.date, rows: dict, by_id: dict
         q7 = Fraction(int(q * 10**7), 10**7)                     # ⑫ 小数点以下7位で切り捨て（記載例に合わせた）
         ratios[pid] = q7
         each[pid] = int(total * q7 + Fraction(1, 2))             # ⑬ 1円未満を四捨五入（記載例に合わせた）
+    over = sum(each.values()) - total                          # 四捨五入で総額Ⓐを超えたら、最後の人から引く
+    if over > 0 and heirs:
+        each[heirs[-1]] -= over
     return {"prev": prev, "date1": d1, "years": years, "remain": remain, "net5": net5, "tax6": tax6, "net7": net7,
             "total4": total4, "total": total, "ratios": ratios, "each": each, "heirs": heirs}
 

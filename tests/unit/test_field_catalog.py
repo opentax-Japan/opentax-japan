@@ -168,6 +168,8 @@ class CommittedCatalogTest(unittest.TestCase):
         for form in manifest["forms"]:
             key = form.get("layout", form["form_id"])
             with self.subTest(form=key):
+                if form["field_spec_workbook"] not in where or not (where[form["field_spec_workbook"]] / Path(*form["field_spec_workbook"].split("/"))).exists():
+                    self.skipTest(f"{form['field_spec_workbook']} がありません（opentax fetch-spec --set ksk2-2026-08 で取得）")
                 path = where[form["field_spec_workbook"]] / Path(*form["field_spec_workbook"].split("/"))
                 entry = build_form_catalog(path, form["field_spec_sheet"], form,
                                            load_layout(manifest["spec_set"], key))

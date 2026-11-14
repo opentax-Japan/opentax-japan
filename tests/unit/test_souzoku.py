@@ -174,7 +174,8 @@ class RuleTest(unittest.TestCase):
             calculate(simple(death_date="2023-12-31"))
 
 
-@unittest.skipUnless(SCHEMA.exists(), "XMLスキーマがありません（opentax fetch-spec --set ksk2-2026-08）")
+@unittest.skipUnless((SCHEMA / "19XMLスキーマ" / "shisan" / "RKS1000-250.xsd").exists(),
+                     "資産税の XMLスキーマがありません（opentax fetch-spec --set ksk2-2026-08 で e-tax12・shisan を取得）")
 class XtxTest(unittest.TestCase):
     def test_kisairei_xsd(self):
         d = case()
@@ -187,7 +188,7 @@ class XtxTest(unittest.TestCase):
         x = api.souzoku_export(c, SCHEMA, datetime.date(2026, 2, 5))
         self.assertEqual(api.validate_xtx(x, SCHEMA, "RKS1000"), [])
         text = x.decode("utf-8")
-        for v in (str(c["totals"]["7"]), str(c["totals"]["21"]), str(c["successive"]["each"]["hanako"]), "0.54"):
+        for v in (str(c["totals"]["7"]), str(c["totals"]["21"]), str(c["successive"]["each"]["hanako"])):
             self.assertIn(v, text)
 
     def test_compensation_xsd(self):
@@ -222,6 +223,136 @@ class ReportTest(unittest.TestCase):
         html = api.souzoku_report(calculate(case()), datetime.date(2026, 2, 5))
         for s in ("相続税の総額の計算書（第2表）", "130,505,000", "相次相続控除額の計算書（第7表）"):
             self.assertIn(s, html)
+
+
+class VerifyFixTest(unittest.TestCase):
+    """別の検証（2026-11-14）の指摘。"""
+
+    def test_renounced_minor_gets_deduction(self):
+        # 第19条の3第1項「相続の放棄があつた場合には、その放棄がなかつたものとした場合における相続人」・基本通達19の3-1
+        d = simple()
+        d["persons"].append({"id": "m", "name": "見本　三郎", "kind": "child", "heir": True, "renounced": True, "relation_code": "13",
+                             "birth": "2015-01-01"})
+        d["assets"].append({"kind": "現金、預貯金等", "class15": "現金預貯金等", "value": 20000000,
+                            "takers": [{"person": "m", "value": 20000000}]})
+        r = calculate(d)["rows"]["m"]
+        self.assertEqual(r["minor"], min(8 * 100000, r["9"] + r["11"]))
+        self.assertEqual(r["11"], 0)          # 放棄した子でも一親等の血族なので2割加算なし（基本通達18-1）
+
+    def test_exempt_insurance_only_gets_gift_added(self):
+        # 保険金は相続又は遺贈により取得したものとみなす（第3条第1項）。非課税でも取得したことに変わりない（第12条・第19条）
+        d = simple(life_insurance=[{"company": "見本生命", "amount": 5000000, "recipient": "c"}],
+                   gifts=[{"person": "c", "date": "2025-01-10", "value": 3000000}])
+        d["persons"].append({"id": "c", "name": "見本　四郎", "kind": "child", "heir": True, "relation_code": "14"})
+        c = calculate(d)
+        self.assertIn("c", c["rows"])
+        self.assertEqual((c["rows"]["c"]["1"], c["rows"]["c"]["5"]), (0, 3000000))
+
+    def test_anbun_default_exact(self):
+        d = simple()
+        d["assets"][0]["takers"] = [{"person": "w", "value": 33400000}, {"person": "a", "value": 33300000}, {"person": "b", "value": 33300000}]
+        c = calculate(d)
+        self.assertEqual(c["rows"]["w"]["8"], Fraction(334, 1000))
+        self.assertFalse(any("17-1" in x for x in c["checks"]))
+        d["anbun"] = "two_digits"
+        c = calculate(d)
+        self.assertEqual(sum(r["8"] for r in c["rows"].values()), 1)
+        self.assertTrue(any("基本通達17-1" in x for x in c["checks"]))
+
+    def test_table9_kisairei(self):
+        # 申告のしかた 93ページ 第9表: 限度額 15,000,000、一郎 44,629,483 → 8,878,826、幸子 30,768,125 → 6,121,174
+        d = case()
+        d["life_insurance"] = [{"company": "A生命", "amount": 44629483, "recipient": "ichiro"},
+                               {"company": "B生命", "amount": 30768125, "recipient": "sachiko"}]
+        per = calculate(d)["insurance"]["per"]
+        self.assertEqual((per["ichiro"]["exempt"], per["sachiko"]["exempt"]), (8878826, 6121174))
+        self.assertEqual(per["sachiko"]["taxable"], 24646951)
+
+    def test_next_order_heirs(self):
+        # 子の全員が放棄し父が相続人: 法定相続人の数・相続分は子で数え（第15条第2項・第16条）、保険金の非課税・債務控除は父（第12条・第13条）
+        d = simple()
+        d["persons"] = [{"id": "a", "name": "見本　一郎", "kind": "child", "heir": True, "renounced": True, "relation_code": "11"},
+                        {"id": "b", "name": "見本　次郎", "kind": "child", "heir": True, "renounced": True, "relation_code": "12"},
+                        {"id": "f", "name": "見本　父", "kind": "parent", "heir": True, "counted": False, "relation_code": "51"}]
+        d["assets"][0]["takers"] = [{"person": "f", "value": 100000000}]
+        d["life_insurance"] = [{"company": "見本生命", "amount": 8000000, "recipient": "f"}]
+        d["debts"] = [{"kind": "公租公課", "amount": 100000, "bearers": [{"person": "f", "amount": 100000}]}]
+        c = calculate(d)
+        self.assertEqual((c["n_heirs"], c["basic"]), (2, 42000000))
+        self.assertEqual(c["insurance"]["per"]["f"]["exempt"], 8000000)   # 限度 500万×2人=1,000万の内
+        self.assertEqual(c["rows"]["f"]["3"], 100000)
+        self.assertEqual(c["rows"]["f"]["11"], 0)
+
+    def test_small_land_checks(self):
+        d = simple()
+        d["assets"].append({"kind": "土地", "detail": "宅地", "use": "自用地", "class15": "宅地", "value": 60000000,
+                            "takers": [{"person": "w", "value": 60000000}]})
+        bad = [
+            [{"kind": "specific_residential", "asset": 1, "person": "w", "area": 200, "selected_area": 200},
+             {"kind": "specific_residential", "asset": 1, "person": "w", "area": 200, "selected_area": 130}],
+            [{"kind": "specific_residential", "asset": 1, "person": "a", "area": 200, "selected_area": 200}],
+            [{"kind": "specific_residential", "asset": 0, "person": "w", "area": 200, "selected_area": 200}],
+        ]
+        for sl in bad:
+            with self.subTest(sl=sl), self.assertRaises(SouzokuError):
+                calculate({**d, "small_land": sl})
+
+    def test_small_land_kisairei(self):
+        # 申告のしかた 105ページ 付表1: 32,175,000→減額25,740,000 が2件、46,215,000×100/150=30,810,000→減額15,405,000、165×200/330＋100=200
+        d = simple()
+        for v in (32175000, 32175000, 46215000):
+            d["assets"].append({"kind": "土地", "class15": "宅地", "value": v, "takers": [{"person": "w", "value": v}]})
+        d["small_land"] = [{"kind": "specific_residential", "asset": 1, "person": "w", "area": 82.5},
+                           {"kind": "specific_residential", "asset": 2, "person": "w", "area": 82.5},
+                           {"kind": "rental", "asset": 3, "person": "w", "area": 150, "selected_area": 100}]
+        it = calculate(d)["small_land"]["items"]
+        self.assertEqual([(x["part"], x["reduction"], x["included"]) for x in it],
+                         [(32175000, 25740000, 6435000), (32175000, 25740000, 6435000), (30810000, 15405000, 30810000)])
+
+    def test_successive_sum_capped(self):
+        d = simple(previous_inheritance={"date": "2020-01-01", "net_assets": 100000000, "tax": 850002})
+        d["assets"][0]["takers"] = [{"person": "w", "value": 50000000}, {"person": "a", "value": 50000000}]
+        d["persons"] = d["persons"][:2]
+        s = calculate(d)["successive"]
+        self.assertLessEqual(sum(s["each"].values()), s["total"])
+
+    def test_age_on_day_before_birthday(self):
+        # 年齢計算ニ関スル法律: 誕生日の前日に1歳を加える。2015-08-02生まれは 2025-08-01 に満10歳
+        d = simple()
+        d["persons"].append({"id": "m", "name": "見本　孫", "kind": "child", "heir": True, "relation_code": "13", "birth": "2015-08-02"})
+        d["assets"].append({"kind": "現金", "class15": "現金預貯金等", "value": 30000000, "takers": [{"person": "m", "value": 30000000}]})
+        self.assertEqual(calculate(d)["table6"]["minor"][0]["years"], 8)
+
+    def test_renounced_representative_add20(self):
+        d = simple()
+        d["persons"][2] = {"id": "b", "name": "見本　孫", "kind": "grandchild_representative", "represents": "見本　次郎", "heir": True,
+                           "renounced": True, "relation_code": "15"}
+        self.assertGreater(calculate(d)["rows"]["b"]["11"], 0)
+
+    def test_re_representation_stops(self):
+        d = simple()
+        d["persons"][2] = {"id": "g", "name": "見本　孫", "kind": "grandchild_representative", "represents": "見本　次郎", "heir": True,
+                           "relation_code": "15"}
+        d["persons"].append({"id": "h", "name": "見本　ひ孫", "kind": "grandchild_representative", "represents": "見本　孫", "heir": True,
+                             "relation_code": "15"})
+        d["assets"][0]["takers"][2]["person"] = "g"
+        with self.assertRaises(SouzokuError):
+            calculate(d)
+
+    def test_unknown_keys_and_limited(self):
+        with self.assertRaises(SouzokuError):
+            calculate(simple(spouse_residence=True))
+        d = simple()
+        d["persons"][1]["limited_taxpayer"] = True
+        with self.assertRaises(SouzokuError):
+            calculate(d)
+
+    def test_previous_minor_deduction(self):
+        d = simple()
+        d["persons"].append({"id": "m", "name": "見本　孫", "kind": "child", "heir": True, "relation_code": "13", "birth": "2015-01-01",
+                             "previous_minor_deduction": 300000})
+        d["assets"].append({"kind": "現金", "class15": "現金預貯金等", "value": 30000000, "takers": [{"person": "m", "value": 30000000}]})
+        self.assertEqual(calculate(d)["table6"]["minor"][0]["full"], 800000 - 300000)
 
 
 if __name__ == "__main__":

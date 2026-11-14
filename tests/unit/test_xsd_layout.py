@@ -178,6 +178,8 @@ class CommittedLayoutTest(unittest.TestCase):
         for form in manifest["forms"]:
             key = form.get("layout", form["form_id"])     # 同じ帳票の別の版は layout の名前
             with self.subTest(form=key):
+                if not (schema_root / Path(*form["xsd"].split("/")[1:])).exists() and not (schema_root / Path(*form["xsd"].split("/"))).exists():
+                    self.skipTest(f"{form['xsd']} がありません（opentax fetch-spec --set ksk2-2026-08 で取得）")
                 committed = LAYOUT_DIR / manifest["spec_set"] / f"{key}.layout.json"
                 self.assertEqual(committed.read_text(encoding="utf-8"), dump_layout(build_layout(schema_root, form)))
 
