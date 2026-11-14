@@ -1,0 +1,47 @@
+"""勤怠から労働時間・割増賃金（架空のタイムカード）。法令は労働基準法第32条・第34条・第37条、割増賃金令。"""
+
+import unittest
+
+from opentax.payroll import kintai
+
+
+class KintaiTest(unittest.TestCase):
+    def test_break_by_law_minimum(self):
+        self.assertEqual(kintai.day({"date": "2026-10-01", "start": "09:00", "end": "15:45"}, {})["break"], 45)
+        self.assertEqual(kintai.day({"date": "2026-10-01", "start": "09:00", "end": "18:00"}, {})["break"], 60)
+        self.assertEqual(kintai.day({"date": "2026-10-01", "start": "09:00", "end": "15:00"}, {})["break"], 0)
+
+    def test_short_break_warns(self):
+        d = kintai.day({"date": "2026-10-01", "start": "09:00", "end": "19:00", "break_minutes": 45}, {})
+        self.assertEqual(d["work"], 9 * 60 + 15)
+        self.assertTrue(d["warnings"])
+
+    def test_night(self):
+        d = kintai.day({"date": "2026-10-01", "start": "18:00", "end": "02:00", "break_minutes": 60}, {})
+        self.assertEqual(d["night"], 4 * 60)
+
+    def test_month_overtime_week_and_holiday(self):
+        rows = [{"date": f"2026-10-{n:02d}", "start": "09:00", "end": "19:00", "break_minutes": 60} for n in (5, 6, 7, 8, 9)]   # 月〜金 9時間
+        rows.append({"date": "2026-10-10", "start": "09:00", "end": "14:00", "break_minutes": 0})                          # 土 5時間（週40時間を超える）
+        rows.append({"date": "2026-10-11", "start": "09:00", "end": "13:00", "break_minutes": 0, "holiday": True})         # 日 法定休日 4時間
+        m = kintai.month(rows, {"week_start": 0})
+        self.assertEqual(m["overtime"], 5 * 60 + 5 * 60)     # 1日8時間を超えた5時間 ＋ 土曜の5時間（週40時間超）
+        self.assertEqual(m["holiday"], 4 * 60)
+        p = kintai.premium(m, 2000, {"yen_rounding": "down"})
+        self.assertEqual(p["amounts"], {"overtime": 25000, "overtime_over60": 0, "holiday": 10800, "night": 0})
+
+    def test_over60(self):
+        m = {"overtime": 70 * 60, "overtime_over60": 10 * 60, "holiday": 0, "night": 0}
+        p = kintai.premium(m, 1000, {"yen_rounding": "down"})
+        self.assertEqual((p["amounts"]["overtime"], p["amounts"]["overtime_over60"]), (75000, 15000))
+
+    def test_rate_below_law_and_missing_rounding_stop(self):
+        m = {"overtime": 60, "overtime_over60": 0, "holiday": 0, "night": 0}
+        with self.assertRaises(kintai.KintaiError):
+            kintai.premium(m, 1000, {"yen_rounding": "down", "rates": {"overtime": 20}})
+        with self.assertRaises(kintai.KintaiError):
+            kintai.premium(m, 1000, {})
+
+
+if __name__ == "__main__":
+    unittest.main()
