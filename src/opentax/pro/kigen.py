@@ -8,10 +8,11 @@
   法人税の中間（あり／なし、または「前期 1234567」で前期の確定法人税額を書くと要否を決める）
   予定納税（個人。あり／なし）、源泉（毎月／特例／なし）、住民税（特別徴収。毎月／特例／なし）、償却資産（あり／なし）
   設立（法人。最初の事業年度の初日 YYYY-MM-DD。最初の事業年度は中間申告をしない）
+  前期の月数（「前期 金額」を割る直前の事業年度・課税期間の月数。省略は 12）
 
 期限はすべて条文から計算し、日曜・祝日・土曜・12月29日〜1月3日なら翌日にずらす（国税通則法第10条第2項・同法施行令第2条第2項・
 国税通則法基本通達 第10条関係4（1月2日・3日は「一般の休日」）、地方税法第20条の5第2項・民法第142条）。
-個人の消費税の毎月の中間申告（11回）は期限の扱いを確かめていないので止める。
+祝日の表（内閣府）の外の日は止める。
 """
 
 from __future__ import annotations
@@ -60,6 +61,9 @@ def months_from_next_day(end: datetime.date, months: int) -> datetime.date:
 
 def is_closed(d: datetime.date) -> bool:
     h = _holidays()
+    first = min(h["holidays"])
+    if d < datetime.date.fromisoformat(first[:4] + "-01-01"):
+        raise KigenInputError(f"{d} は祝日の表（{first[:4]}年から）の外です")
     if d > datetime.date.fromisoformat(h["covers_through"]):
         raise KigenInputError(f"{d} は祝日の表（{h['covers_through']} まで）の外です。holidays.json を新しくしてください")
     return d.weekday() >= 5 or d.isoformat() in h["holidays"] or (d.month == 12 and d.day >= 29) or (d.month == 1 and d.day <= 3)
@@ -85,7 +89,7 @@ _ALIASES = {
     "shohi_extension": ["消費税の延長", "shohi_extension"], "shohi_interim": ["消費税の中間", "shohi_interim"],
     "hojin_interim": ["法人税の中間", "hojin_interim"], "yotei": ["予定納税", "yotei"], "gensen": ["源泉", "gensen"],
     "juminzei": ["住民税", "住民税の特別徴収", "juminzei"], "shokyaku": ["償却資産", "shokyaku"],
-    "established": ["設立", "設立日", "established"],
+    "established": ["設立", "設立日", "established"], "prev_months": ["前期の月数", "prev_months"],
     "getsuji": ["月次", "試算表", "getsuji"], "tb_due": ["試算表の期限", "tb_due"],
 }
 
@@ -175,6 +179,8 @@ def _normalize(r: dict, i: int) -> dict:
         c["extension"] = int(str(r.get("extension", 0)).replace("月", "").replace("か", "").replace("ヶ", "") or 0)
     except ValueError:
         raise KigenInputError(f"{where}: 延長は月数（0〜4）で書いてください: {r.get('extension')!r}") from None
+    if c["extension"] < 0:
+        raise KigenInputError(f"{where}: 延長の月数がマイナスです: {r.get('extension')!r}")
     if kind == "個人" and c["extension"]:
         raise KigenInputError(f"{where}: 延長は法人だけです")
     shohi = r.get("shohi", "免税")
@@ -184,14 +190,18 @@ def _normalize(r: dict, i: int) -> dict:
     c["shohi_extension"] = _yes(r.get("shohi_extension"), where + " 消費税の延長")
     if c["shohi_extension"] and (kind != "法人" or not c["extension"]):
         raise KigenInputError(f"{where}: 消費税の延長（消費税法第45条の2）は法人税の申告期限の延長を受けている法人だけです")
-    c["shohi_interim"] = _shohi_interim(r.get("shohi_interim"), where) if c["shohi"] else 0
-    if c["shohi_interim"] == 11 and kind == "個人":
-        raise KigenInputError(f"{where}: 個人の消費税の毎月の中間申告（11回）は OpenTax PLATINUM の期限一覧の対象外です")
+    try:
+        c["prev_months"] = int(str(r.get("prev_months", 12)).replace("月", "").replace("か", ""))
+    except ValueError:
+        raise KigenInputError(f"{where}: 前期の月数は数で書いてください: {r.get('prev_months')!r}") from None
+    if not 1 <= c["prev_months"] <= 12:
+        raise KigenInputError(f"{where}: 前期の月数は1〜12です")
+    c["shohi_interim"] = _shohi_interim(r.get("shohi_interim"), where, c["prev_months"]) if c["shohi"] else 0
     hi = r.get("hojin_interim")
     if kind == "法人":
         a = _amount(hi) if hi is not None else None
-        # 法人税法第71条第1項ただし書: 前期の確定法人税額を前期の月数で割り6を掛けた額が10万円以下なら出さない（前期12か月として）
-        c["hojin_interim"] = (a * 6 // 12 > 100_000) if a is not None else _yes(hi, where + " 法人税の中間")
+        # 法人税法第71条第1項ただし書: 前期の確定法人税額を前期の月数で割り6を掛けた額が10万円以下なら出さない
+        c["hojin_interim"] = (a * 6 > 100_000 * c["prev_months"]) if a is not None else _yes(hi, where + " 法人税の中間")
     else:
         c["hojin_interim"] = False
     c["yotei"] = _yes(r.get("yotei"), where + " 予定納税") if kind == "個人" else False
@@ -254,18 +264,19 @@ def tb_due_date(c: dict, d: datetime.date) -> datetime.date:
     return datetime.date(t.year, t.month, last if day == 0 else min(day, last))
 
 
-def _shohi_interim(v, where: str) -> int:
+def _shohi_interim(v, where: str, months: int = 12) -> int:
     """消費税法第42条: 直前の課税期間の確定消費税額（国税）を12か月として、
-    年4,800万円超→毎月（11回）・400万円超→3か月ごと（3回）・48万円超→6か月（1回）。"""
+    直前の課税期間の確定消費税額（国税）を、その月数で割った額で: 400万円超→毎月（11回。第1項ただし書）・
+    ×3 が100万円超→3か月ごと（3回。第4項ただし書）・×6 が24万円超→6か月（1回。第6項ただし書）。"""
     if v in (None, "", "なし"):
         return 0
     a = _amount(v)
     if a is not None:
-        if a > 48_000_000:
+        if a > 4_000_000 * months:
             return 11
-        if a > 4_000_000:
+        if a * 3 > 1_000_000 * months:
             return 3
-        if a > 480_000:
+        if a * 6 > 240_000 * months:
             return 1
         return 0
     t = str(v).replace("回", "").strip()
@@ -310,8 +321,8 @@ def items_for(c: dict, month: str) -> list[dict]:
             ext = c["extension"]
             note = ""
             if ext:
-                note = (f"法人税の申告期限の延長 {ext}か月（法人税法第75条の2）で計算。法人住民税・事業税の延長は"
-                        "都道府県・市町村の承認（地方税法第72条の25第3項ほか）を確かめてください")
+                note = (f"法人税の申告期限の延長 {ext}か月（法人税法第75条の2）で計算。延長の期間は利子税がかかる（同条第8項で準用する第75条第7項）ので見込納付を確かめてください。"
+                        "法人住民税・事業税の延長は都道府県・市町村の承認（地方税法第72条の25第3項ほか）を確かめてください")
             out.append(_item(c, "法人確定", "法人税・地方法人税・法人住民税・事業税 確定申告", per,
                              months_from_next_day(end, 2 + ext),
                              "法人税法第74条第1項" + ("・第75条の2" if ext else "") +
@@ -405,7 +416,14 @@ def _shohi_interims(c: dict, start: datetime.date, end: datetime.date, per: str)
         e = add_months(s, step) - datetime.timedelta(days=1)
         if e >= end:
             break
-        if n == 11 and k == 1:
+        late = c["shohi_extension"] or c["kind"] == "個人"
+        if n == 11 and late and k <= 2:
+            # 確定申告の期限が3か月（消費税法第45条の2・租税特別措置法第86条の4）のとき、開始の日以後二月を経過した日の
+            # 前日までに終わる一月中間申告対象期間（最初の2か月）は、開始の日から三月を経過した日から二月以内
+            base = add_months(add_months(start, 3), 2) - datetime.timedelta(days=1)
+            src = ("消費税法第42条第1項（消費税法施行令第63条の2第1項の読み替え）" if c["kind"] == "法人"
+                   else "消費税法第42条第1項（租税特別措置法施行令第46条の2第1項の読み替え）")
+        elif n == 11 and k == 1:
             # 課税期間開始の日以後一月の期間: 課税期間開始の日から二月を経過した日から二月以内
             base = add_months(add_months(start, 2), 2) - datetime.timedelta(days=1)
             src = "消費税法第42条第1項（最初の1か月の期間）"

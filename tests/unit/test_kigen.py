@@ -46,7 +46,7 @@ class DueDateTest(unittest.TestCase):
         self.assertEqual(due("2026-11", "102", "法人中間"), ["2026-11-30"])
         # 前期の法人税額 200,000 → ×6/12 = 100,000 は10万円以下なので出さない
         self.assertEqual(due("2026-11", "9", "法人中間", one(法人税の中間="前期 200000")), [])
-        self.assertEqual(due("2026-11", "9", "法人中間", one(法人税の中間="前期 200002")), ["2026-11-30"])
+        self.assertEqual(due("2026-11", "9", "法人中間", one(法人税の中間="前期 200001")), ["2026-11-30"])
 
     def test_shohi_interim_counts(self):
         f = kigen._shohi_interim
@@ -62,6 +62,34 @@ class DueDateTest(unittest.TestCase):
         self.assertEqual(due("2027-01", "105", "消費税中間2"), ["2027-01-04"])
         # 11回目（7月分）が最後。8月分は確定申告
         self.assertEqual(due("2027-09", "105", "消費税中間11"), ["2027-09-30"])
+
+    def test_shohi_monthly_with_extension(self):
+        # 延長法人（3月決算）: 最初の2か月（4・5月分）は 開始の日から三月を経過した日（7/1）から二月以内 → 8/31
+        # （消費税法施行令第63条の2第1項の読み替え）。6月分は原則どおり 8/31
+        cs = one(延長="1", 消費税="課税", 消費税の延長="あり", 消費税の中間="11")
+        self.assertEqual(due("2026-08", "9", "消費税中間1", cs), ["2026-08-31"])
+        self.assertEqual(due("2026-08", "9", "消費税中間2", cs), ["2026-08-31"])
+        self.assertEqual(due("2026-08", "9", "消費税中間3", cs), ["2026-08-31"])
+        self.assertEqual(due("2026-07", "9", "消費税中間1", cs), [])
+
+    def test_kojin_shohi_monthly(self):
+        # 個人の1月・2月分は 5/31（租税特別措置法施行令第46条の2第1項の読み替え）、3月分も 5/31
+        cs = kigen.read_clients([{"コード": "8", "名前": "個人の人", "区分": "個人", "消費税": "課税", "消費税の中間": "11"}])
+        self.assertEqual(due("2027-05", "8", "消費税中間1", cs), ["2027-05-31"])
+        self.assertEqual(due("2027-05", "8", "消費税中間2", cs), ["2027-05-31"])
+        self.assertEqual(due("2027-05", "8", "消費税中間3", cs), ["2027-05-31"])
+
+    def test_prev_months(self):
+        # 前期3か月: 法人税 60,000 ÷3×6 = 120,000 > 10万円 → 要る。消費税 150,000 ÷3×6 = 300,000 > 24万円 → 年1回
+        cs = one(前期の月数="3", 法人税の中間="前期 60000", 消費税="課税", 消費税の中間="前期 150000")
+        self.assertTrue(cs[0]["hojin_interim"])
+        self.assertEqual(cs[0]["shohi_interim"], 1)
+        # 端数を切り捨てずに比べる: 200,001 ×6/12 = 100,000.5 > 10万円
+        self.assertTrue(one(法人税の中間="前期 200001")[0]["hojin_interim"])
+
+    def test_before_holiday_table(self):
+        with self.assertRaises(kigen.KigenInputError):
+            kigen.schedule(kigen.read_clients(CLIENTS.read_bytes()), "2024-02", None, TODAY)
 
     def test_first_year_has_no_interim(self):
         cs = one(決算月="10", 設立="2025-11-01", 法人税の中間="あり", 消費税="課税", 消費税の中間="1")
@@ -141,7 +169,9 @@ class InputTest(unittest.TestCase):
         with self.assertRaises(kigen.KigenInputError):
             one(消費税="課税", 消費税の延長="あり")  # 法人税の延長がない
         with self.assertRaises(kigen.KigenInputError):
-            kigen.read_clients([{"コード": "1", "名前": "個人の人", "区分": "個人", "消費税": "課税", "消費税の中間": "11"}])
+            one(延長="-1")
+        with self.assertRaises(kigen.KigenInputError):
+            one(前期の月数="13")
         with self.assertRaises(kigen.KigenInputError):
             kigen.read_clients([{"コード": "1", "名前": "a", "決算月": "3"}, {"コード": "1", "名前": "b", "決算月": "3"}])
 
