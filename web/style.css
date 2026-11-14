@@ -128,3 +128,18 @@ table.dep input, table.dep select { width: 100%; font: inherit; padding: 4px; }
   table.readout th, table.readout td { display: inline-block; border: 0; width: auto; padding: 2px 4px; }
   table.readout td.src { display: block; }
 }
+
+/* かんたん入口: 作れる申告書（色）と必要書類（DESIGN §24.7） */
+.taxes { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 12px; }
+.tax-chip { border: 1px solid var(--line); border-left: 8px solid; border-radius: 6px; background: #fff; padding: 6px 10px; text-align: left; }
+.tax-chip.on { outline: 3px solid var(--accent); }
+.tax-chip.red { border-left-color: #c62828; } .tax-chip.black { border-left-color: #222; } .tax-chip.blue { border-left-color: #1e5bb8; }
+.tax-chip.white { border-left-color: #bbb; } .tax-chip.green { border-left-color: #2e8b57; } .tax-chip.gold { border-left-color: #c9a227; }
+.needs-list { list-style: none; padding-left: 0 !important; }
+.needs-list li { margin: 4px 0; }
+.needs-list .chk { display: inline-block; width: 1.2em; text-align: center; font-weight: 700; color: #999; }
+.needs-list li.done .chk { color: #2e7d32; }
+.needs-list .need { font-size: .72rem; border-radius: 3px; padding: 0 4px; }
+.needs-list .need.must { background: #ffe9e9; border: 1px solid #e0a0a0; }
+.needs-list .need.may { background: #eef5e6; border: 1px solid #b7d39a; }
+.needs-list .where { font-size: .8rem; color: #555; margin-left: 1.4em; }

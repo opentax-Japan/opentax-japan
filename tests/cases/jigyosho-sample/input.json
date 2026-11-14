@@ -1,0 +1,8 @@
+{
+ "_note": "架空の法人（見本）。岡山市「事業所税の手引」計算例1と同じ数字",
+ "taxpayer": {"name": "架空商事株式会社", "address": "岡山市北区大供一丁目1番1号"},
+ "city": "岡山市",
+ "period": {"start": "2025-04-01", "end": "2026-03-31"},
+ "offices": [{"name": "本社", "area_exclusive": 6000, "common": {"building_exclusive_total": 9400, "common_area": 600},
+              "employees": 150, "payroll": 320000000, "payroll_disabled_or_65": 23000000, "payroll_subsidized": 18000000}]
+}

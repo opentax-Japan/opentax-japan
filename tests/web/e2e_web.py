@@ -95,6 +95,24 @@ def main() -> int:
         check("かんたん入口: QR（この画面の URL だけ）", page.locator("#qr-img svg").count() == 1)
         page.screenshot(path=str(OUT / "00-easy-mobile.png"), full_page=True)
 
+        # かんたん入口: 法人税以外（DESIGN §24.7）。必要書類のカードの「見本で試す」から、個人・相続・宿泊税（スマホ幅）
+        for color, chip, heading, shot in (("blue", "BLUE", "申告書一式（所得税）", "00-easy-blue.png"),
+                                           ("gold", "GOLD", "相続税の申告書", "00-easy-gold.png"),
+                                           ("green", "GREEN", "宿泊税納入申告書", "00-easy-green.png")):
+            page.goto(base)
+            expect(page.locator("#status")).to_contain_text("準備ができました", timeout=180_000)
+            expect(page.locator(f"#needs .edition.{color} button")).to_be_visible(timeout=60_000)
+            page.locator(f"#needs .edition.{color} button", has_text="見本で試す").click()
+            expect(page.locator("#out")).to_be_visible(timeout=180_000)
+            expect(page.frame_locator("#report").locator("body")).to_contain_text(heading, timeout=60_000)
+            check(f"かんたん入口: {chip} の見本から申告書一式ができた（{heading}）", True)
+            check(f"かんたん入口: {chip} の色のカードが選ばれている", page.locator("#taxes .tax-chip.on", has_text=chip).count() == 1)
+            check(f"かんたん入口: {chip} の必要書類に読めたチェック（✓）が付いた",
+                  page.locator(f"#needs .edition.{color} li.done").count() >= 1)
+            page.screenshot(path=str(OUT / shot), full_page=True)
+        check("かんたん入口: 宿泊税は .xtx を作らない（地方税）", page.locator("#cab").locator("xpath=..").is_hidden())
+        check("かんたん入口: GREEN の見本で事業所税も作れる色に出た", page.locator("#taxes .tax-chip", has_text="事業所税").count() == 1)
+
         page.goto(base + "detail.html")
         expect(page.locator("#status")).to_contain_text("準備ができました", timeout=180_000)
         page.screenshot(path=str(OUT / "01-ready.png"))

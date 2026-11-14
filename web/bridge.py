@@ -31,7 +31,11 @@ def _error(e: Exception) -> str:
     from opentax.payroll.record import PayrollInputError
     from opentax.red.adjust import AdjustmentStop
     from opentax.red.uchiwake import BalanceFormatError
-    kinds = [(OutOfScope, "out_of_scope"), (AdjustmentStop, "input"), (InputError, "input"), (BalanceFormatError, "input"),
+    from opentax.jigyosho.calculate import JigyoshoError
+    from opentax.kojin.calculate import KojinError
+    from opentax.shukuhaku.calculate import ShukuhakuError
+    from opentax.souzoku.calculate import SouzokuError
+    kinds = [(KojinError, "input"), (SouzokuError, "input"), (JigyoshoError, "input"), (ShukuhakuError, "input"), (OutOfScope, "out_of_scope"), (AdjustmentStop, "input"), (InputError, "input"), (BalanceFormatError, "input"),
              (PayrollInputError, "input"), (RuleError, "rule"), (LocalRuleError, "rule"),
              (SheetError, "rule"), (XtxError, "xtx"), (SpecError, "spec"), (ValidationUnavailable, "spec")]
     kind = next((k for t, k in kinds if isinstance(e, t)), "internal")
@@ -212,12 +216,63 @@ _intake = {"draft": None}
 def _intake_state(choices: dict, answers: dict, follow: dict) -> dict:
     from opentax import intake
     d = _intake["draft"]
-    r = intake.resolve(d, choices, answers)
+    r = intake.resolve(d, choices, {k: v for k, v in answers.items() if ":" not in k})
     data = intake.apply_followups(r["input"], follow)
     r["input"] = data
     r["followups"] = intake.followups(data, d.attachments.get("balance"))
     r["attachments"] = sorted(k for k in d.attachments if k != "re_begin")
+    # 法人税以外の申告（個人・相続・事業所税・宿泊税。DESIGN §24.7）と、色ごとの必要書類
+    from opentax import intake_other
+    others = intake_other.resolve(d, answers)
+    r["others"] = [{k: v for k, v in o.items() if k != "input"} for o in others.values()]
+    taxes = []
+    if d.kind == "corporate":
+        net = (data.get("accounting") or {}).get("net_income")
+        taxes.append({"kind": "corporate", "color": "BLACK" if isinstance(net, int) and net > 0 else "RED",
+                      "label": "法人税・地方税", "ready": not (r["questions"] or r["conflicts"] or r["followups"])})
+    taxes += [{"kind": o["kind"], "color": o["color"], "label": o["label"], "ready": o["ready"]} for o in others.values()]
+    r["taxes"] = taxes
+    r["checklist"] = intake_other.checklist(d, data if d.kind == "corporate" else None)
     return r
+
+
+def ot_intake_checklist() -> str:
+    """色ごとの必要書類（まだ何も入れていないとき）。"""
+    from opentax import intake_other
+    return _dump(intake_other.checklist())
+
+
+def ot_intake_other_report(state_json: str) -> str:
+    """法人税以外の申告書一式（target: personal・souzoku・jigyosho・shukuhaku）。"""
+    from opentax import intake_other
+    try:
+        s = json.loads(state_json or "{}")
+        res = intake_other.report(_intake["draft"], s["target"], s.get("answers") or {})
+        return _dump({"ok": True, **res})
+    except (ValueError, KeyError) as e:
+        return _dump({"ok": False, "kind": "input", "message": str(e)})
+    except Exception as e:  # noqa: BLE001
+        return _error(e)
+
+
+def ot_intake_other_export(state_json: str, cab) -> str:
+    """個人の所得税（RKO0010）・相続税（RKS1000）の .xtx。公式XSD で検証できたときだけ返す。"""
+    from opentax import intake_other
+    try:
+        s = json.loads(state_json or "{}")
+        data = bytes(cab.to_py())
+        digest = hashlib.sha256(data).hexdigest()
+        if _schema["sha256"] != digest:
+            _schema["root"] = api.schema_from_cab(data, Path("/tmp/opentax-xsd"))
+            _schema["sha256"] = digest
+        xml, errors = intake_other.export(_intake["draft"], s["target"], _schema["root"], s.get("answers") or {})
+        if errors:
+            return _dump({"ok": False, "kind": "xsd", "message": "公式XSD の検証で誤りがあります。.xtx は書き出しません", "errors": errors[:50]})
+        return _dump({"ok": True, "xtx_base64": base64.b64encode(xml).decode("ascii"), "size": len(xml)})
+    except (ValueError, KeyError) as e:
+        return _dump({"ok": False, "kind": "input", "message": str(e)})
+    except Exception as e:  # noqa: BLE001
+        return _error(e)
 
 
 def ot_intake_read(files_json: str) -> str:
@@ -282,9 +337,25 @@ def ot_intake_export(state_json: str, cab) -> str:
         return _error(e)
 
 
-def ot_intake_samples() -> str:
-    """「見本で試す」: 架空の法人（オープン商事）の書き出しファイル一式（前期の申告データ・試算表・推移表・給与・概況書・補足）。"""
-    case = APP_ROOT / "tests" / "cases" / "open-shoji-tokyo"
-    names = ["前期の申告データ_架空.xtx", "科目残高一覧表_架空_TKC形式.txt", "科目残高推移表_架空_TKC形式.txt",
-             "payroll_2026.json", "gaikyo.json", "uchiwake_supplement.json"]
-    return _dump([{"name": n, "b64": base64.b64encode((case / n).read_bytes()).decode("ascii")} for n in names])
+_CORP_SAMPLE = [("open-shoji-tokyo", n) for n in ("前期の申告データ_架空.xtx", "科目残高一覧表_架空_TKC形式.txt", "科目残高推移表_架空_TKC形式.txt",
+                                                  "payroll_2026.json", "gaikyo.json", "uchiwake_supplement.json")]
+SAMPLE_SETS = {
+    # 架空の法人（オープン商事）の書き出しファイル一式（前期の申告データ・試算表・推移表・給与・概況書・補足）
+    "corporate": _CORP_SAMPLE,
+    "platinum": _CORP_SAMPLE + [("office", "office.json")],
+    # 国税庁「確定申告の手引き」の記載例の人（架空）
+    "personal": [("kokuzei-taro-kojin", n) for n in ("input.json", "business_balance.csv", "real_estate_balance.csv")],
+    "personal_white": [("kojin-white-sample", n) for n in ("input.json", "business_balance.csv")],
+    # 国税庁「相続税の申告のしかた」の記載例（架空）
+    "souzoku": [("kokuzei-taro-souzoku", "input.json")],
+    "green": [("jigyosho-sample", "input.json"), ("shukuhaku-nagano", "shisetsu.json"), ("shukuhaku-nagano", "meisai_2026-06.csv")],
+}
+
+
+def ot_intake_samples(which: str = "corporate") -> str:
+    """「見本で試す」: 色ごとの架空のファイル一式。"""
+    out = []
+    for case, n in SAMPLE_SETS.get(which or "corporate", _CORP_SAMPLE):
+        name = n if case in ("open-shoji-tokyo", "office") else f"{case}_{n}"
+        out.append({"name": name, "b64": base64.b64encode((APP_ROOT / "tests" / "cases" / case / n).read_bytes()).decode("ascii")})
+    return _dump(out)

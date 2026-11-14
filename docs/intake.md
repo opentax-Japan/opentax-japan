@@ -23,6 +23,23 @@ PDF・写真・形のばらばらな表のように、プログラムで読め�
 - 書類に書いていない値は書かない（推測で埋めない）。推測した値は `"weak": true` を付けます（ほかに読めた値があればそちらが使われます）。
 - ほかのファイルと値が違えば、画面で候補として並び、人が選びます。
 
+### 法人税以外の書類（個人・相続・事業所税・宿泊税）
+
+`"kind"` に申告の種類を書くと、その申告の入力に入ります（`values` の鍵はその入力 JSON の場所）。`"document"` に書類の名前を書くと、
+画面の必要書類に ✓ が付きます。
+
+```json
+{
+  "format": "opentax-intake/1", "read_by": "ai", "kind": "personal", "document": "源泉徴収票",
+  "source_file": "給与所得の源泉徴収票.pdf",
+  "values": {"salary.income": {"value": 5000000, "where": "支払金額"}}
+}
+```
+
+- `kind`: `personal`（個人の所得税。入力の形は tests/cases/kokuzei-taro-kojin/input.json）・`souzoku`（相続税。tests/cases/kokuzei-taro-souzoku/input.json）・
+  `jigyosho`（事業所税）・`shukuhaku`（宿泊税。施設は `facility.name` など）
+- `document` の例: 源泉徴収票・控除証明書・医療費・特定口座年間取引報告書・寄附金の受領証明書
+
 ## 事務所で Claude Code に読ませる手順
 
 1. PDF・写真を1つのフォルダに入れる。

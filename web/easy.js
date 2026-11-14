@@ -5,7 +5,8 @@
 const worker = new Worker("worker.js", { type: "module" });
 const pending = new Map();
 let nextId = 1;
-const st = { files: [], choices: {}, answers: {}, follow: {}, last: null, html: "", company: "", fiscalEnd: "", local: "", xtx: null, sample: false };
+const st = { files: [], choices: {}, answers: {}, follow: {}, last: null, html: "", company: "", fiscalEnd: "", local: "", xtx: null, sample: false,
+  target: null, xtxOk: true };
 
 worker.onmessage = (event) => {
   const msg = event.data;
@@ -13,6 +14,7 @@ worker.onmessage = (event) => {
   else if (msg.type === "ready") {
     setStatus("準備ができました。ファイルを入れてください。");
     document.getElementById("sample").disabled = false;
+    call("ot_intake_checklist", []).then(renderNeeds);
   } else if (msg.type === "fatal") setStatus(`読み込みに失敗しました: ${msg.message}`, true);
   else if (msg.type === "result") {
     const resolve = pending.get(msg.id);
@@ -59,6 +61,7 @@ async function addFiles(list) {
     added.push({ name, b64: b64(await f.arrayBuffer()), type: f.type, size: f.size });
   }
   st.files.push(...added);
+  st.target = null;
   await readAll();
 }
 
@@ -90,7 +93,11 @@ async function readAll() {
   const res = await call("ot_intake_read", [JSON.stringify(st.files.map(({ name, b64 }) => ({ name, b64 })))]);
   if (!res.ok) { setStatus(`読めませんでした: ${res.message}`, true); return; }
   render(res);
-  if (st.sample) { autoAnswer(res); return; }
+  if (st.sample) {
+    if (st.target === "corporate") autoAnswer(res);
+    else { st.sample = false; await make(); }
+    return;
+  }
   setStatus("読みました。下で確かめてください。");
 }
 
@@ -137,7 +144,11 @@ function render(res) {
   $("ai").hidden = !aiTargets.length;
   window.OpenTaxAI && window.OpenTaxAI.setTargets(aiTargets.map((f) => st.files.find((x) => x.name === f.name)).filter(Boolean));
 
-  $("check").hidden = res.kind !== "corporate" && !Object.keys(res.marks).length;
+  renderNeeds(res.checklist || []);
+  const kinds = (res.taxes || []).map((t) => t.kind);
+  if (!kinds.includes(st.target)) st.target = kinds[0] || null;
+  renderTaxes(res.taxes || []);
+  showTarget(res);
   // 食い違い: 候補を1タップで選ぶ
   $("conflicts").replaceChildren(...res.conflicts.map((c) => el("div", { class: "msg warn" },
     el("div", {}, `${LABELS[c.path] || c.label} が、ファイルによって違います。正しいものを押してください。`),
@@ -155,6 +166,55 @@ function render(res) {
   $("questions").replaceChildren(...res.questions.map((q) => questionBox(q)));
   // 申告調整・前期の未納の問い
   $("followups").replaceChildren(...(res.followups || []).map((q) => followBox(q)));
+}
+
+// ---- 色（申告の種類）と必要書類 ------------------------------------------------------------------
+const COLOR_CLASS = { RED: "red", BLACK: "black", BLUE: "blue", WHITE: "white", GREEN: "green", GOLD: "gold", PINK: "pink", PLATINUM: "platinum" };
+const STATE_MARK = (s) => (s.startsWith("使えます") ? "○" : s.startsWith("準備中") ? "×" : "△");
+
+function renderNeeds(list) {
+  if (!Array.isArray(list) || !list.length) return;
+  $("needs").replaceChildren(...list.map((g) => el("div", { class: `edition ${COLOR_CLASS[g.color]}` },
+    el("p", { class: "ed-name" }, g.color, el("span", { class: "ed-state" }, `${STATE_MARK(g.state)} ${g.state}`)),
+    el("p", { class: "ed-who" }, g.who),
+    el("ul", { class: "needs-list" }, ...g.items.map((it) => el("li", { class: it.done ? "done" : "" },
+      el("span", { class: "chk", title: it.done ? "読めました" : it.auto ? "まだ入っていません" : "画面で聞くか、目で確かめます" },
+        it.done ? "✓" : it.auto ? "□" : "—"),
+      " ", el("b", {}, it.label), " ", el("span", { class: `need ${it.need.includes("必須") ? "must" : "may"}` }, it.need),
+      el("div", { class: "where" }, it.where)))),
+    g.color === "PINK" ? el("p", { class: "note" }, "今使えるのは ", el("a", { href: "payroll.html" }, "給与の記録"), " だけです") : null,
+    g.sample ? el("div", { class: "row" }, el("button", { type: "button", class: "small", onclick: () => trySample(g.sample) }, "見本で試す")) : null)));
+}
+
+function renderTaxes(taxes) {
+  $("taxes").replaceChildren(...(taxes.length ? taxes.map((t) => el("button", {
+    type: "button", class: `tax-chip ${COLOR_CLASS[t.color]}${t.kind === st.target ? " on" : ""}`,
+    onclick: () => { st.target = t.kind; renderTaxes(taxes); showTarget(st.last); } },
+  el("b", {}, t.color), " ", t.label, t.ready ? "（作れます）" : "（問いがあります）"))
+    : [el("p", { class: "msg warn" }, "作れる申告書が見つかりませんでした。下の「必要書類」を見て、ファイルを足してください。")]));
+}
+
+function showTarget(res) {
+  const corp = st.target === "corporate";
+  $("check").hidden = !corp;
+  $("other").hidden = corp || !st.target;
+  if (corp || !st.target || !res) return;
+  const o = (res.others || []).find((x) => x.kind === st.target);
+  if (!o) return;
+  $("other-title").textContent = `${o.color}：${o.label}`;
+  $("other-files").textContent = `使うファイル: ${o.files.join("・")}`;
+  $("other-questions").replaceChildren(...o.questions.map((q) => (q.info
+    ? el("div", { class: "msg warn" }, q.label)
+    : questionBox(q))));
+}
+
+async function trySample(which) {
+  st.files = (await call("ot_intake_samples", [which])).map((f) => ({ ...f }));
+  st.sample = true;
+  st.target = { corporate: "corporate", platinum: "corporate", personal: "personal", personal_white: "personal",
+    souzoku: "souzoku", green: "shukuhaku" }[which] || null;
+  $("drop").scrollIntoView({ behavior: "smooth" });
+  await readAll();
 }
 
 function isEditable(v) { return v == null || ["string", "number", "boolean"].includes(typeof v); }
@@ -252,7 +312,33 @@ async function autoAnswer(res) {
 }
 
 // ---- 申告書を作る・渡す ------------------------------------------------------------------------
+async function makeOther() {
+  setStatus("申告書を作っています…");
+  const res = await call("ot_intake_other_report", [JSON.stringify({ target: st.target, answers: st.answers })]);
+  if (!res.ok) { setStatus(`作れませんでした: ${res.message}`, true); return; }
+  st.html = res.html; st.company = res.name; st.fiscalEnd = res.when; st.local = ""; st.xtx = null; st.xtxOk = !!res.xtx; inlined = null;
+  showReport(res.html);
+  $("cab").closest("label").hidden = !res.xtx;
+  const msgs = [...(res.warnings || []).map((w) => el("div", { class: "msg warn" }, `注意: ${w}`)),
+    ...(res.checks || []).map((c) => el("div", { class: "msg" }, `確かめてください: ${c}`))];
+  if (!res.xtx) msgs.unshift(el("div", { class: "msg" }, "この申告は e-Tax の申告データ（.xtx）を作りません。印刷するか、eLTAX・窓口で出してください。"));
+  $("deliver-msg").replaceChildren(...msgs);
+  setStatus("できました。印刷・保存・共有は下のボタンから。");
+}
+
+function showReport(html) {
+  const frame = $("report");
+  frame.onload = () => { fit(); setTimeout(fit, 300); };
+  frame.srcdoc = html;
+  $("out").hidden = false;
+  $("share").hidden = !(navigator.canShare && navigator.share);
+  $("out").scrollIntoView({ behavior: "smooth" });
+}
+
 async function make() {
+  if (st.target && st.target !== "corporate") { await makeOther(); return; }
+  $("cab").closest("label").hidden = false;
+  $("deliver-msg").replaceChildren();
   const r = st.last;
   if (r && (r.questions.length || r.conflicts.length || (r.followups || []).length)) {
     setStatus("まだ答えていない問いがあります（上の黄色・白の枠）。", true);
@@ -262,13 +348,8 @@ async function make() {
   const res = await call("ot_intake_report", [JSON.stringify({ choices: st.choices, answers: st.answers, follow: st.follow })]);
   if (!res.ok) { setStatus(`作れませんでした: ${res.message}`, true); return; }
   st.html = res.html; st.company = res.company; st.fiscalEnd = res.fiscal_end; st.local = res.local_sheet; st.xtx = null; inlined = null;
-  const frame = $("report");
-  frame.onload = () => { fit(); setTimeout(fit, 300); };
-  frame.srcdoc = res.html;
-  $("out").hidden = false;
-  $("share").hidden = !(navigator.canShare && navigator.share);
+  showReport(res.html);
   setStatus("できました。印刷・保存・共有は下のボタンから。");
-  $("out").scrollIntoView({ behavior: "smooth" });
 }
 
 function fit() {
@@ -291,8 +372,8 @@ function baseName() { return `${st.company}_${(st.fiscalEnd || "").replace(/-/g,
 
 async function bundle() {
   const enc = new TextEncoder();
-  const files = [{ name: `申告書一式_${baseName()}.html`, data: enc.encode(await selfContained()) },
-    { name: `地方税の一覧_${baseName()}.html`, data: enc.encode(st.local || "") }];
+  const files = [{ name: `申告書一式_${baseName()}.html`, data: enc.encode(await selfContained()) }];
+  if (st.local) files.push({ name: `地方税の一覧_${baseName()}.html`, data: enc.encode(st.local) });
   if (st.xtx) files.push({ name: `申告データ_${baseName()}.xtx`, data: st.xtx });
   return new File([zip(files)], `申告書_${baseName()}.zip`, { type: "application/zip" });
 }
@@ -335,12 +416,9 @@ drop.addEventListener("drop", async (e) => { e.preventDefault(); await addFiles(
 $("pick-files").addEventListener("change", async (e) => { await addFiles([...e.target.files]); e.target.value = ""; });
 $("pick-folder").addEventListener("change", async (e) => { await addFiles([...e.target.files]); e.target.value = ""; });
 if (!("webkitdirectory" in document.createElement("input"))) $("pick-folder-label").hidden = true;
-$("sample").addEventListener("click", async () => {
-  st.files = (await call("ot_intake_samples", [])).map((f) => ({ ...f }));
-  st.sample = true;
-  await readAll();
-});
+$("sample").addEventListener("click", () => trySample("corporate"));
 $("make").addEventListener("click", make);
+$("make-other").addEventListener("click", make);
 $("print").addEventListener("click", () => { const w = $("report").contentWindow; if (w) { w.focus(); w.print(); } });
 $("save-all").addEventListener("click", async () => download(await bundle()));
 $("share").addEventListener("click", async () => {
@@ -355,7 +433,9 @@ $("cab").addEventListener("change", async (e) => {
   const f = e.target.files[0];
   if (!f) return;
   setStatus("公式の XSD で確かめて .xtx を作っています…");
-  const res = await call("ot_intake_export", [JSON.stringify({ choices: st.choices, answers: st.answers, follow: st.follow }), new Uint8Array(await f.arrayBuffer())]);
+  const corp = !st.target || st.target === "corporate";
+  const res = await call(corp ? "ot_intake_export" : "ot_intake_other_export",
+    [JSON.stringify({ choices: st.choices, answers: st.answers, follow: st.follow, target: st.target }), new Uint8Array(await f.arrayBuffer())]);
   if (!res.ok) {
     $("deliver-msg").replaceChildren(el("div", { class: "msg error" }, `${res.message}\n${(res.errors || []).join("\n")}`));
     setStatus(".xtx は作れませんでした。", true);

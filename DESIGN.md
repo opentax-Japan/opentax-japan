@@ -1347,9 +1347,28 @@ GREEN＝事業所税・宿泊税など地方税だけの申告／GOLD＝相続�
 問いには見本の答えを入れて最後まで作る。確認は tests/unit/test_intake.py と tests/web/e2e_web.py（スマホ幅・PC 幅）。
 
 ### 24.6 まだのもの
-- 入口から作れるのは法人（RED・BLACK）だけ。個人（BLUE・WHITE）・GREEN・消費税の入力の自動作成は CLI。
+- ~~入口から作れるのは法人（RED・BLACK）だけ~~ → §24.7 で個人・相続・事業所税・宿泊税も入口から作れるようにした。消費税の入力の自動作成はまだ CLI。
 - 前期の別表十六（減価償却）を読んで台帳の行の初期値にすること、前期の別表五(二)を行ごとに読むこと（今は五(一)の未納額から作る）。
 - Excel（.xlsx）を直接読むこと（今は CSV で保存し直してもらう）。
+
+### 24.7 法人税以外も入口から・必要書類（2026-11-14）
+- 利用者の指摘「法人税の申告だけっぽい。資産税とか給与とか年末調整は？」「戦隊メンバーズの必要書類」により、入口から、すでに計算できる全部を作れるようにした
+  （src/opentax/intake_other.py。読み取りの見分けは intake.read_* から呼ぶ。計算は今までの api.kojin_*・souzoku_*・jigyosho_*・shukuhaku_*）。
+- 見分け方（中身で決める。ファイル名では決めない）:
+  - 個人: 入力 JSON（year・taxpayer）、前年の所得税の申告データ（.xtx・手続 RKO0010。氏名・住所・税務署・利用者識別番号）、
+    個人の残高試算表（事業主貸・事業主借・元入金があり、資本金・繰越利益剰余金がない。賃貸料・受取家賃などがあり売上高がなければ不動産所得）。
+    白色は入力の business.white・real_estate.white で WHITE、ほかは BLUE。
+  - 相続税: 入力 JSON（death_date・persons）。事業所税: 入力 JSON（city・offices・period）。
+  - 宿泊税: 施設の JSON（prefecture・municipality と collector か notification_no）、明細 CSV（見出しに「宿泊」と宿泊日・チェックイン・宿泊者数のどれか）。
+    申告する月は CSV の日付でいちばん多い月。
+  - AI（または人）が読んだ値（opentax-intake/1）に `kind`（personal・souzoku・jigyosho・shukuhaku）があれば、その申告の入力の場所に入れる（docs/intake.md）。
+- 「作れる申告書」に色のカード（RED/BLACK は試算表の当期純損益の符号で分ける）を並べ、押して切り替える。足りない欄だけ短く聞く
+  （個人: 年分・氏名・生年月日・住所・税務署・記帳の区分。宿泊税: 施設の都道府県・市町村・名前・所在地・月）。
+  .xtx は個人（RKO0010）・相続税（RKS1000）だけ（事業所税・宿泊税は地方税なので作らない）。
+- 必要書類: 色ごとに 必須／あれば・どこで手に入るか（intake_other.REQUIREMENTS が正本。README に同じ表）。読めたファイルで自動で ✓、
+  画面で聞くものや目で確かめるものは「—」。各色に「見本で試す」（架空。個人は国税庁の手引きの記載例・白色は架空の個人・相続は国税庁の記載例・
+  GREEN は架空の事業所税（岡山市の手引の計算例1と同じ数字）と架空の宿の宿泊税）。PINK は準備中のまま。
+- 確認: tests/unit/test_intake_other.py、tests/web/e2e_web.py（スマホ幅で BLUE・GOLD・GREEN の見本）。
 
 ---
 

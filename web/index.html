@@ -29,16 +29,21 @@
     <details class="drop-help">
       <summary>何を入れればいい？</summary>
       <ul>
-        <li><b>前期の申告データ（.xtx）</b> … 会社名・所在地・株主・繰越欠損金などを読み取ります。いちばん大事です</li>
-        <li><b>残高試算表（CSV・TXT）</b> … 期末の科目ごとの残高。会計ソフトの「残高試算表」を CSV で書き出したもの</li>
-        <li>月次推移表（CSV・TXT）・給与の記録・概況書の入力（JSON）… あれば概況書・内訳書まで作ります</li>
-        <li>決算書の PDF・写真は、この画面のプログラムでは読めません。会計ソフトから CSV で出すか、下の「AI で読む」を使ってください</li>
+        <li><b>法人（RED・BLACK）</b> … 残高試算表（CSV・TXT）と前期の申告データ（.xtx）。あれば月次推移表・給与の記録も</li>
+        <li><b>個人（BLUE・WHITE）</b> … 事業・不動産の残高試算表（CSV）、前年の申告データ（.xtx）、源泉徴収票・控除証明書・特定口座年間取引報告書</li>
+        <li><b>事業所税・宿泊税（GREEN）</b> … 事業所税の入力（JSON）、予約管理サービスの宿泊税明細（CSV）</li>
+        <li><b>相続税（GOLD）</b> … 被相続人・相続人・財産・債務の入力（JSON。土地・株式は評価済みの額）</li>
+        <li>源泉徴収票・証明書・決算書の PDF や写真は、この画面のプログラムでは読めません。下の「AI で読む」を使うか、事務所の Claude Code で読んだ値（JSON）を入れてください</li>
         <li>Excel は「名前を付けて保存」→「CSV UTF-8」で保存し直してから入れてください</li>
+        <li>色ごとの必要書類は、下の「必要書類」に一覧があります。入れたファイルが読めると自動でチェックが付きます</li>
       </ul>
     </details>
   </section>
 
   <section id="read" hidden>
+    <h2>作れる申告書</h2>
+    <p class="note">入れたファイルの中身から、どの申告書を作るか決めました。違う申告を作るときは押して切り替えてください。</p>
+    <div id="taxes" class="taxes"></div>
     <h2>読んだファイル</h2>
     <ul id="file-list" class="file-list"></ul>
     <div id="notes"></div>
@@ -76,6 +81,16 @@
     </div>
   </section>
 
+  <section id="other" hidden>
+    <h2 id="other-title">確かめる</h2>
+    <div id="other-files" class="note"></div>
+    <div id="other-questions"></div>
+    <div class="row">
+      <button type="button" id="make-other" class="primary">申告書を作る</button>
+      <a href="detail.html" class="note">詳しく入力する画面へ</a>
+    </div>
+  </section>
+
   <section id="out" hidden>
     <h2>できた申告書</h2>
     <div class="row deliver">
@@ -93,27 +108,11 @@
     <iframe id="report" title="申告書一式" sandbox="allow-same-origin allow-modals"></iframe>
   </section>
 
-  <section>
-    <h2>OpenTax でできること</h2>
-    <div class="editions">
-      <div class="edition red"><p class="ed-name">RED<span class="ed-state">○ 使えます</span></p><p class="ed-who">赤字の法人の法人税・地方税</p>
-        <ul><li>別表・法人住民税・事業税・消費税・概況書・内訳書・決算書</li></ul></div>
-      <div class="edition black"><p class="ed-name">BLACK<span class="ed-state">○ 使えます</span></p><p class="ed-who">黒字の法人の法人税・地方税</p>
-        <ul><li>RED に加えて税額の計算・適用額明細書・寄附金・受取配当</li></ul></div>
-      <div class="edition blue"><p class="ed-name">BLUE<span class="ed-state">△ コマンドで使えます</span></p><p class="ed-who">個人の青色申告（分離課税も）</p>
-        <ul><li>所得税の申告書・青色申告決算書・分離課税（第三表）</li><li>この画面からはまだ作れません</li></ul></div>
-      <div class="edition white"><p class="ed-name">WHITE<span class="ed-state">△ コマンドで使えます</span></p><p class="ed-who">個人の白色申告</p>
-        <ul><li>所得税の申告書・収支内訳書</li><li>この画面からはまだ作れません</li></ul></div>
-      <div class="edition green"><p class="ed-name">GREEN<span class="ed-state">△ コマンドで使えます</span></p><p class="ed-who">事業所税・宿泊税</p>
-        <ul><li>事業所税・長野県の宿泊税（償却資産申告は準備中）</li></ul></div>
-      <div class="edition gold"><p class="ed-name">GOLD<span class="ed-state">× 準備中</span></p><p class="ed-who">相続税（準備中）</p>
-        <ul><li>相続税の申告書を作っています</li></ul></div>
-      <div class="edition pink"><p class="ed-name">PINK<span class="ed-state">× 準備中（記録だけ使えます）</span></p><p class="ed-who">給与・年末調整・法定調書（準備中）</p>
-        <ul><li>今使えるのは<a href="payroll.html">給与の記録</a>だけ</li></ul></div>
-      <div class="edition platinum"><p class="ed-name">PLATINUM<span class="ed-state">△ 一部使えます</span></p><p class="ed-who">全部入り・税理士事務所向け</p>
-        <ul><li>全部の版＋税務代理権限証書・事務所の設定</li></ul></div>
-    </div>
-    <p class="note">○ 使えます　△ 一部・コマンドで使えます　× 準備中</p>
+  <section id="needs-section">
+    <h2>OpenTax でできること・必要書類</h2>
+    <p class="note">色ごとに作れる申告書と、入れるファイルです。<b>必須</b>・<b>あれば</b>を分け、どこで手に入るかを書いています。入れたファイルが読めると ✓ が付きます（— は画面で聞くか、目で確かめるもの）。</p>
+    <div id="needs" class="editions"><p class="note">準備しています…</p></div>
+    <p class="note">○ 使えます　△ 一部　× 準備中</p>
   </section>
 
   <section class="disclaimer">

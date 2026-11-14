@@ -31,7 +31,13 @@ SAMPLES = ["tests/cases/open-shoji/input.json", "tests/cases/open-shoji-tokyo/in
            "tests/cases/open-shoji-tokyo/uchiwake_supplement.json",
            "tests/cases/open-shoji-tokyo/科目残高一覧表_架空_TKC形式.txt",
            "tests/cases/open-shoji-tokyo/科目残高推移表_架空_TKC形式.txt",
-           "tests/cases/open-shoji-tokyo/前期の申告データ_架空.xtx"]
+           "tests/cases/open-shoji-tokyo/前期の申告データ_架空.xtx",
+           # かんたん入口の見本（法人税以外。DESIGN §24.7）
+           "tests/cases/kokuzei-taro-kojin/input.json", "tests/cases/kokuzei-taro-kojin/business_balance.csv",
+           "tests/cases/kokuzei-taro-kojin/real_estate_balance.csv", "tests/cases/kojin-white-sample/input.json",
+           "tests/cases/kojin-white-sample/business_balance.csv", "tests/cases/kokuzei-taro-souzoku/input.json",
+           "tests/cases/jigyosho-sample/input.json", "tests/cases/shukuhaku-nagano/shisetsu.json",
+           "tests/cases/shukuhaku-nagano/meisai_2026-06.csv"]
 
 
 def fetch(url: str, sha256: str) -> Path:

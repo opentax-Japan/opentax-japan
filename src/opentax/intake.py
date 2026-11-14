@@ -45,6 +45,11 @@ QUESTIONS = {
 }
 
 
+def _other():
+    from . import intake_other
+    return intake_other
+
+
 @dataclass
 class Draft:
     data: dict = field(default_factory=dict)
@@ -53,6 +58,7 @@ class Draft:
     files: list = field(default_factory=list)        # [{"name", "kind", "label", "ok", "note"}]
     attachments: dict = field(default_factory=dict)  # 申告書一式・.xtx に添える材料（balance・trend は bytes）
     kind: str | None = None                          # corporate / personal / shohi
+    others: dict = field(default_factory=lambda: _other().new_store())  # 法人税以外の申告（intake_other）
 
     def put(self, path: str, value, by: str, source: str, where: str, weak: bool = False) -> None:
         """値を1つ置く。weak=True は推定（ほかに読めた値があればそちらを使う）。"""
@@ -126,6 +132,9 @@ def read_xtx(data: bytes, name: str, d: Draft) -> str:
     root = ET.fromstring(data)
     proc = _text(root, "procedure_CD") or ""
     kind, label = PROCEDURES.get(proc, (None, f"e-Tax の申告データ（{proc or '手続不明'}）"))
+    if kind == "personal":
+        _other().read_personal_xtx(root, name, d, _text, lambda tag: _date(_first(root, tag)))
+        return label
     if kind != "corporate":
         d.files.append({"name": name, "kind": "xtx", "label": label, "ok": False,
                         "note": "法人税の前期の申告データだけ読めます（この手続は今は読みません）"})
@@ -241,6 +250,8 @@ def read_table(data: bytes, name: str, d: Draft) -> str | None:
     except Exception:  # noqa: BLE001 - 表でなければ読めないファイルとして返す
         head = []
     text = "\t".join(head)
+    if _other().read_shukuhaku_csv(data, text, name, d):
+        return "shukuhaku"
     # 月の列がいくつもあれば月次推移表
     month_cols = [h for h in head if uchiwake._month_of(h)]
     if len(month_cols) >= 3:
@@ -260,15 +271,15 @@ def read_table(data: bytes, name: str, d: Draft) -> str | None:
     try:
         accounts = uchiwake.parse_balance(data)
     except BalanceFormatError as e:
-        if "宿泊" in text:
-            d.files.append({"name": name, "kind": "shukuhaku", "label": "宿泊税の明細", "ok": False,
-                            "note": "宿泊税は「詳しく入力する」の宿泊税の画面で作ってください（この入口はまだ法人の申告だけです）"})
-        elif "特定口座" in text or "譲渡" in text:
-            d.files.append({"name": name, "kind": "tokutei", "label": "特定口座年間取引報告書", "ok": False,
-                            "note": "個人の申告は、この入口ではまだ作れません"})
+        if "特定口座" in text or "譲渡" in text:
+            d.files.append({"name": name, "kind": "ai", "label": "特定口座年間取引報告書（表）", "ok": False,
+                            "note": "この形の表はプログラムでは読めません。「AI で読む」で読ませてください"})
         else:
             d.files.append({"name": name, "kind": "unknown", "label": "表（種類が分かりません）", "ok": False, "note": str(e)})
         return None
+    if _other().is_personal_balance(accounts):
+        _other().take_personal_balance(accounts, data, name, d)
+        return "personal"
     d.kind = d.kind or "corporate"
     d.attachments["balance"] = data
     end = _period_from_heads(head, last=True)
@@ -314,6 +325,8 @@ def read_json(data: bytes, name: str, d: Draft) -> str | None:
         d.files.append({"name": name, "kind": "unknown", "label": "JSON", "ok": False, "note": f"JSON として読めません: {e}"})
         return None
     if isinstance(obj, dict) and obj.get("format") == AI_FORMAT:
+        if _other().read_ai(obj, name, d):
+            return "intake"
         by = "ai" if obj.get("read_by") == "ai" else "person"
         src = obj.get("source_file") or name
         n = 0
@@ -329,6 +342,9 @@ def read_json(data: bytes, name: str, d: Draft) -> str | None:
         d.files.append({"name": name, "kind": "unknown", "label": "JSON", "ok": False, "note": "形が分かりません"})
         return None
     keys = set(obj)
+    other = _other().read_json(obj, name, d)
+    if other:
+        return other
     if {"company", "fiscal_period", "accounting"} <= keys:
         d.kind = d.kind or "corporate"
         for path, v in _flatten(obj):
