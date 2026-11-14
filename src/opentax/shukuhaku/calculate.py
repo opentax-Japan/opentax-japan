@@ -6,7 +6,9 @@
 - 料金のかからない宿泊者（添い寝など）は課税対象外の「⑴ 6千円未満」に数える（Q&A 75・Q&A 12）
 - 課税免除（条例第3条）・外国の大使等の宿泊は、1人1泊6,000円以上の泊について人数を分ける。6,000円未満の泊はすべて ⑴ に数える
 - 税額 = 課税の人泊 × 税率（宿泊日で決まる。令和8年6月1日〜令和11年5月31日は200円、その後は300円）
-対象外（止める）: 長野県以外・市町村宿泊税のある市町村（松本市・軽井沢町・阿智村・白馬村・野沢温泉村。申告は市町村へ）・申告納入期限の特例（条例第9条第2項）。
+- 1人ごとに料金が違う予約（大人・子ども料金など）は、料金の違う人ごとに行を分けて「1人1泊の宿泊料金」の列で書くか、「帰属が明らかな追加料金」「追加料金の人数」の列で書く（手引 例11オ・Q&A 45。帰属の明らかな分は総額と人数から除き、その人の料金として別に判定）
+- 宿泊料金は予約サイトの手数料を引く前の額（Q&A 40・手引 例7）。意味のあいまいな列名（amount など）は読まない
+対象外（止める）: 長野県以外・市町村宿泊税のある市町村（松本市・軽井沢町・阿智村・白馬村・野沢温泉村。申告は市町村へ）・申告納入期限の特例（条例第9条第2項）・経営の休止・廃止の月の申告（条例第9条第3項。その日から1月以内）。
 """
 
 from __future__ import annotations
@@ -36,10 +38,13 @@ COLUMNS = {
     "free": ["無料の宿泊者数", "添い寝", "添い寝人数", "free_guests"],
     "exempt": ["課税免除の人数", "課税免除人数", "課税免除", "exempt_guests"],
     "ambassador": ["外国の大使等の人数", "大使等", "ambassador_guests"],
-    "fee": ["宿泊料金", "宿泊料金（税抜）", "宿泊料金(税抜)", "室料", "room_charge", "accommodation fare", "amount"],
+    "fee": ["宿泊料金", "宿泊料金（税抜）", "宿泊料金(税抜)", "室料", "room_charge"],      # 予約サイトの "amount" などは手数料を引いた後の額のことがあるので読まない（Q&A 40）
     "fee_per_person": ["1人1泊の宿泊料金", "１人１泊の宿泊料金", "一人当たり宿泊料金", "fee_per_person"],
     "tax": ["宿泊税", "宿泊税額", "accommodation_tax"],
+    "extra_fee": ["帰属が明らかな追加料金", "attributed_fee"],
+    "extra_guests": ["追加料金の人数", "attributed_guests"],
 }
+MUNICIPAL_TAX_NAMES = ("松本市", "軽井沢町", "阿智村", "白馬村", "野沢温泉村")   # 条例附則別表（県内で同じ名前の市町村はない）
 
 
 @lru_cache(maxsize=None)
@@ -129,6 +134,17 @@ def read_csv(data: bytes) -> list[dict]:
         fee = _money(g("fee"), "宿泊料金", i) if g("fee").strip() else None
         if per_person is None and fee is None:
             raise ShukuhakuError(f"{i}行目: 宿泊料金がありません")
+        if per_person is not None and fee is not None and fee != per_person * (guests - free):
+            raise ShukuhakuError(f"{i}行目: 1人1泊の宿泊料金×料金のかかる人数と宿泊料金が合いません。どちらか一方の列にしてください")
+        if guests == 0 and (fee or per_person):
+            raise ShukuhakuError(f"{i}行目: 宿泊者数が0なのに宿泊料金があります")
+        extra_fee = _money(g("extra_fee"), "帰属が明らかな追加料金", i) if g("extra_fee").strip() else Fraction(0)
+        extra_guests = _int(g("extra_guests"), "追加料金の人数", i)
+        if extra_fee or extra_guests:
+            if fee is None or not extra_fee or not extra_guests or extra_guests >= guests - free or extra_fee > fee:
+                raise ShukuhakuError(f"{i}行目: 帰属が明らかな追加料金は、宿泊料金（総額）の列と一緒に、追加料金とその人数（料金のかかる人数より少ない）を書いてください")
+            if exempt or amb:
+                raise ShukuhakuError(f"{i}行目: 追加料金のある行に課税免除・大使等の人数があると、だれの分か決まりません。人ごとに行を分けてください")
         tax = _money(g("tax"), "宿泊税", i) if g("tax").strip() else None
         if g("date").strip():
             nights = [(_day(g("date"), i), 1)]
@@ -140,7 +156,8 @@ def read_csv(data: bytes) -> list[dict]:
             nights = [(ci + datetime.timedelta(days=k), n) for k in range(n)]
         for d, n in nights:
             out.append({"line": i, "date": d, "reservation": g("reservation").strip(), "guests": guests, "free": free,
-                        "exempt": exempt, "ambassador": amb,
+                        "exempt": exempt, "ambassador": amb, "nights_in_row": n,
+                        "extra_fee": extra_fee / n, "extra_guests": extra_guests,
                         "fee": fee / n if fee is not None else None, "fee_per_person": per_person,
                         "tax": tax / n if tax is not None else None})
     if not out:
@@ -183,9 +200,12 @@ def calculate(facility: dict, rows: list[dict], month: str, prices_include_consu
     month: "YYYY-MM"（申告する月）。prices_include_consumption_tax: 宿泊料金が消費税込みなら True（10%を除く。規則第2条第2号）。"""
     r = rules(facility.get("prefecture", "長野県"))
     muni = facility.get("municipality", "")
-    if any(muni == t or muni.endswith(t) or t.endswith(muni) and muni for t in r["municipal_tax"]):
+    where = f"{muni} {facility.get('address', '')}"
+    if any(n in where for n in MUNICIPAL_TAX_NAMES):
         raise ShukuhakuError(f"{muni}は市町村宿泊税のある市町村です。県の宿泊税と合わせて市町村へ申告納入します（長野県宿泊税条例附則第7項・第8項）。"
                              "市町村の様式は OpenTax の対象外です")
+    if facility.get("closing"):
+        raise ShukuhakuError("経営の休止・廃止の月の申告（条例第9条第3項。その日から1月以内）は OpenTax の対象外です")
     if facility.get("special_deadline"):
         raise ShukuhakuError("申告納入期限の特例（条例第9条第2項。3か月分をまとめる）は OpenTax の対象外です")
     office = tax_office(r, muni)
@@ -208,42 +228,56 @@ def calculate(facility: dict, rows: list[dict], month: str, prices_include_consu
     other_months = 0
     warnings: list[str] = []
     by_res: dict[str, dict] = {}
-    for row in rows:
-        d = row["date"]
-        if not (start <= d <= end):
-            other_months += 1
-            continue
-        if d < first:
-            continue
-        paying = row["guests"] - row["free"]
-        if row["fee_per_person"] is not None:
-            per = row["fee_per_person"]
-        else:
-            per = row["fee"] / paying if paying > 0 else Fraction(0)
+    partial: set[str] = set()      # 月の外・施行日前の泊を含む予約（CSV の宿泊税とは比べない）
+
+    def classify(day: dict, persons: int, per: Fraction, exempt: int, amb: int, rate: int) -> int:
         if prices_include_consumption_tax:
             per = per / Fraction(110, 100)
+        if persons > 0 and per >= r["threshold_yen"]:
+            taxable = persons - exempt - amb
+            day["taxable"] += taxable
+            day["exempt"] += exempt
+            day["ambassador"] += amb
+            return taxable * rate
+        day["under"] += persons
+        return 0
+
+    for row in rows:
+        d = row["date"]
+        key = row["reservation"] or f"{row['line']}行目"
+        if not (start <= d <= end) or d < first:
+            if row["tax"] is not None:
+                partial.add(key)
+            if not (start <= d <= end):
+                other_months += 1
+            continue
+        paying = row["guests"] - row["free"]
         day = days[d.day]
         rate = rate_on(r, d)
-        if paying > 0 and per >= r["threshold_yen"]:
-            taxable = paying - row["exempt"] - row["ambassador"]
-            day["taxable"] += taxable
-            day["exempt"] += row["exempt"]
-            day["ambassador"] += row["ambassador"]
-            day["under"] += row["free"]
-            tax += taxable * rate
-            rates.add(rate)
-            line_tax = taxable * rate
+        day["under"] += row["free"]                       # 料金のかからない人（Q&A 75）
+        if row["fee_per_person"] is not None:
+            line_tax = classify(day, paying, row["fee_per_person"], row["exempt"], row["ambassador"], rate)
+        elif row["extra_guests"]:
+            # 帰属が明らかな追加料金は総額と人数から除き、その人の料金として別に判定（手引 例11オ・Q&A 45）
+            base_n = paying - row["extra_guests"]
+            line_tax = classify(day, base_n, (row["fee"] - row["extra_fee"]) / base_n, 0, 0, rate)
+            line_tax += classify(day, row["extra_guests"], row["extra_fee"] / row["extra_guests"], 0, 0, rate)
         else:
-            day["under"] += row["guests"]
-            line_tax = 0
+            line_tax = classify(day, paying, row["fee"] / paying if paying > 0 else Fraction(0), row["exempt"], row["ambassador"], rate)
+        if line_tax:
+            rates.add(rate)
+        tax += line_tax
         if row["tax"] is not None:
-            key = row["reservation"] or f"{row['line']}行目"
             b = by_res.setdefault(key, {"calc": 0, "csv": Fraction(0)})
             b["calc"] += line_tax
             b["csv"] += row["tax"]
     for key, b in by_res.items():
+        if key in partial:
+            continue
         if b["calc"] != b["csv"]:
             warnings.append(f"予約 {key}: CSV の宿泊税 {float(b['csv']):,.0f}円 と、宿泊料金から計算した額 {b['calc']:,}円 が違います")
+    if partial:
+        warnings.append(f"この月の外・施行日前の泊を含む予約 {len(partial)} 件は、CSV の宿泊税と比べていません")
     if other_months:
         warnings.append(f"{month} 以外の宿泊日の行が {other_months} 泊分あり、数えていません（宿泊日が属する月の分として申告。Q&A 73）")
     if len(rates) > 1:
@@ -254,6 +288,9 @@ def calculate(facility: dict, rows: list[dict], month: str, prices_include_consu
     if total["taxable"] * rate != tax:
         raise ShukuhakuError("税額の計算が合いません（内部の誤り）")
     checks = ["宿泊料金は、食事・入湯・客室以外の施設の利用などの対価と消費税等を除いた額か確かめてください（長野県宿泊税に関する規則第2条）",
+              "宿泊料金は、予約サイトの手数料を引く前の額か確かめてください（Q&A 40・手引 例7）",
+              "大人・子どもなど1人ごとに料金が違う予約は、人ごとに行を分ける（1人1泊の宿泊料金の列）か、帰属が明らかな追加料金の列で書いてください。"
+              "総額÷人数でならすのは、だれの分か分からないときだけです（手引 例11・Q&A 45）",
               "課税免除（条例第3条）の宿泊は、学校・施設の長の証明書を5年間保管してください（県「宿泊税申告納入事務における注意点」）"]
     return {"facility": facility, "office": office, "month": month, "start": start, "end": end, "days": days, "total": total,
             "nontaxable": nontaxable, "rate": rate, "tax": tax, "due_date": due_date(start),

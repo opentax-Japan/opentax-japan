@@ -113,5 +113,44 @@ class Rules(unittest.TestCase):
         self.assertEqual(r["due_date"], datetime.date(2026, 6, 1))     # 5月31日が日曜日 → 6月1日
 
 
+class Review(unittest.TestCase):
+    """別の検証（2026-11-14）の指摘。"""
+
+    def test_month_end_start(self):
+        """月末日に始まる期間（民法第143条第2項: 応当する日がないときはその月の末日に満了）。"""
+        D = datetime.date
+        self.assertEqual(period_months(D(2024, 2, 29), D(2025, 2, 28)), 12)
+        self.assertEqual(period_months(D(2025, 3, 31), D(2026, 2, 28)), 11)
+        self.assertEqual(period_months(D(2025, 1, 31), D(2025, 2, 28)), 1)
+        self.assertEqual(period_months(D(2025, 8, 31), D(2026, 2, 28)), 6)
+        self.assertEqual(period_months(D(2025, 4, 1), D(2026, 3, 31)), 12)
+        self.assertEqual(period_months(D(2025, 10, 25), D(2026, 3, 31)), 6)     # 岡山市の手引 設例オ
+        self.assertEqual(period_months(D(2025, 4, 1), D(2025, 10, 20)), 7)      # 同 設例カ
+        r = run({"start": "2024-02-29", "end": "2025-02-28"}, [{"area_exclusive": 2000}])
+        self.assertEqual(r["form"]["a7"], Decimal("2000.00"))
+
+    def test_ratio_over_one_stops(self):
+        with self.assertRaises(JigyoshoError):
+            run({"start": "2025-10-25", "end": "2026-03-24"}, [{"area_exclusive": 1200, "closed": "2026-03-10"}])
+
+    def test_input_checks(self):
+        P = {"start": "2025-04-01", "end": "2026-03-31"}
+        with self.assertRaises(JigyoshoError):          # 非課税の従業者が従業者数より多い
+            run(P, [{"area_exclusive": 2000, "employees": 20, "nontaxable": [{"employees": 100}]}])
+        with self.assertRaises(JigyoshoError):          # 特例は非課税を除いた後の床面積にかける
+            run(P, [{"area_exclusive": 3000, "nontaxable": [{"area": 1000}], "special": [{"no": 9, "area": 3000}]}])
+        with self.assertRaises(JigyoshoError):
+            run(P, [{"area_exclusive": 2000, "employees": True}])
+
+    def test_short_period_total_truncation(self):
+        """12月に満たない期間の⑦は、合計に月数/12をかけてから切り捨てる（様式の⑦の式）。"""
+        r = run({"start": "2025-04-01", "end": "2025-10-31"}, [{"area_exclusive": "1000.01"}, {"area_exclusive": "1000.01"}])
+        self.assertEqual(r["form"]["a7"], Decimal("1166.67"))       # 2000.02×7/12 = 1166.678…（事業所ごとなら 583.33×2 = 1166.66）
+
+    def test_unhandled_special_is_noted(self):
+        r = run({"start": "2025-04-01", "end": "2026-03-31"}, [{"area_exclusive": 2000}])
+        self.assertTrue(any("第701条の41第2項" in c for c in r["checks"]))
+
+
 if __name__ == "__main__":
     unittest.main()

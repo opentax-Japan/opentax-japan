@@ -101,5 +101,48 @@ class Rules(unittest.TestCase):
         self.assertEqual(read_csv("宿泊日,宿泊者数,宿泊料金\n2026/06/01,1,10000\n".encode("cp932"))[0]["fee"], Fraction(10000))
 
 
+ONE = "宿泊日,宿泊者数,宿泊料金\n2026-06-01,1,10000\n"
+
+
+class Review(unittest.TestCase):
+    """別の検証（2026-11-14）の指摘。"""
+
+    def test_municipal_tax_with_address(self):
+        for muni, addr in (("松本市大手3-1", ""), ("北佐久郡軽井沢町大字軽井沢", ""), ("北安曇郡", "北安曇郡白馬村北城"),
+                           ("下伊那郡阿智村智里", ""), ("下高井郡野沢温泉村豊郷", "")):
+            with self.assertRaises(ShukuhakuError):
+                calculate({**FACILITY, "municipality": muni, "address": addr}, csv_rows(ONE), "2026-06")
+
+    def test_attributed_extra(self):
+        """手引 例11オ・Q&A 45: 帰属が明らかな追加料金は総額と人数から除いて、その人の料金で別に判定。
+        大人7,000円＋子ども3,000円（2人・10,000円）→ 大人1人が課税、子ども1人は 6千円未満。"""
+        r = calculate(FACILITY, csv_rows("宿泊日,宿泊者数,宿泊料金,帰属が明らかな追加料金,追加料金の人数\n2026-06-01,2,10000,3000,1\n"), "2026-06")
+        self.assertEqual((r["days"][1]["taxable"], r["days"][1]["under"]), (1, 1))
+        r = calculate(FACILITY, csv_rows("宿泊日,宿泊者数,1人1泊の宿泊料金\n2026-06-01,1,8000\n2026-06-01,1,4000\n"), "2026-06")
+        self.assertEqual((r["days"][1]["taxable"], r["days"][1]["under"]), (1, 1))
+        self.assertTrue(any("Q&A 45" in c for c in r["checks"]))
+
+    def test_amount_column_not_read(self):
+        with self.assertRaises(ShukuhakuError):
+            csv_rows("date,guests,amount\n2026-06-01,1,10000\n")
+
+    def test_tax_compare_skips_partial(self):
+        r = calculate(FACILITY, csv_rows("予約番号,チェックイン,泊数,宿泊者数,宿泊料金,宿泊税\nD1,2026-05-30,3,2,60000,400\n"), "2026-06")
+        self.assertFalse(any("予約 D1" in w for w in r["warnings"]))
+        self.assertEqual(r["tax"], 400)
+
+    def test_inconsistent_and_zero_guests(self):
+        with self.assertRaises(ShukuhakuError):
+            csv_rows("宿泊日,宿泊者数,1人1泊の宿泊料金,宿泊料金\n2026-06-01,2,5000,20000\n")
+        with self.assertRaises(ShukuhakuError):
+            csv_rows("宿泊日,宿泊者数,宿泊料金\n2026-06-01,0,10000\n")
+
+    def test_closing_stops(self):
+        with self.assertRaises(ShukuhakuError):
+            calculate({**FACILITY, "closing": True}, csv_rows(ONE), "2026-06")
+
+
 if __name__ == "__main__":
     unittest.main()
+
+

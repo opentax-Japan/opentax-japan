@@ -9,6 +9,7 @@
 
 対象外（入力にあれば止める）: みなし共同事業（法第701条の32第2項）・従業者数に著しい変動がある事業所等（法第701条の43第4項）・
 企業組合等の免税点（同条第2項）・修正申告（法第701条の49）・年の中途で事業を廃止した個人（法第701条の47第1項かっこ書）。
+扱っていない特例（入力の口がない。確かめてほしいことに出す）: 心身障害者を多数雇用する事業所等の資産割（法第701条の41第2項）・附則第33条の特例・各市の減免。
 """
 
 from __future__ import annotations
@@ -73,16 +74,23 @@ def months_between(a: datetime.date, b: datetime.date) -> int:
     return (b.year - a.year) * 12 + b.month - a.month + 1
 
 
-def period_months(start: datetime.date, end: datetime.date) -> int:
-    """算定期間の月数。暦に従って計算し、1月に満たない端数は1月（法第701条の40第3項）。"""
-    full = (end.year - start.year) * 12 + end.month - start.month
-    # start から full か月後の前日が end 以上なら full か月、足りなければ端数で1月足す
-    y, m = divmod(start.month - 1 + full, 12)
+def _expiry(start: datetime.date, n: int) -> datetime.date:
+    """start を初日とする n 月の期間の末日（民法第143条第2項: 最後の月の応当する日の前日。応当する日がないときはその月の末日）。"""
     import calendar
+    y, m = divmod(start.month - 1 + n, 12)
     y, m = start.year + y, m + 1
-    day = min(start.day, calendar.monthrange(y, m)[1])
-    anniversary = datetime.date(y, m, day)
-    return full + (1 if end >= anniversary else 0)
+    if start.day > calendar.monthrange(y, m)[1]:
+        return datetime.date(y, m, calendar.monthrange(y, m)[1])
+    return datetime.date(y, m, start.day) - datetime.timedelta(days=1)
+
+
+def period_months(start: datetime.date, end: datetime.date) -> int:
+    """算定期間の月数。暦に従って計算し、1月に満たない端数は1月（法第701条の40第3項・民法第143条）。
+    n 月の期間の末日が end 以後になる最小の n。"""
+    n = 1
+    while _expiry(start, n) < end:
+        n += 1
+    return n
 
 
 def find_city(key: str) -> dict:
@@ -142,6 +150,7 @@ def calculate(data: dict) -> dict:
     deduct_payroll = Fraction(0)
     end_area = Decimal(0)
     end_employees = 0
+    through_base = Decimal(0)
     if not data.get("offices"):
         raise JigyoshoError("offices（事業所等）が空です")
     for i, o in enumerate(data["offices"]):
@@ -176,18 +185,24 @@ def calculate(data: dict) -> dict:
         nt_emp = 0
         for j, n in enumerate(o.get("nontaxable", [])):
             nt_area += _d(n.get("area", 0), f"{where}.nontaxable[{j}].area")
-            nt_emp += n.get("employees", 0)
+            ne = n.get("employees", 0)
+            if not isinstance(ne, int) or isinstance(ne, bool) or ne < 0:
+                raise JigyoshoError(f"{where}.nontaxable[{j}].employees: 0以上の整数で")
+            nt_emp += ne
             nontax_payroll += _yen(n.get("payroll", 0), f"{where}.nontaxable[{j}].payroll")
         ded_area = Decimal(0)
+        sp_area = Decimal(0)
         for j, s in enumerate(o.get("special", [])):
             if s.get("area"):
+                sp_area += _d(s["area"], f"{where}.special[{j}].area")
                 ded_area += _trunc(Fraction(_d(s["area"], f"{where}.special[{j}].area")) * _special_ratio(s["no"], "asset"))
             if s.get("payroll"):
                 deduct_payroll += _yen(s["payroll"], f"{where}.special[{j}].payroll") * _special_ratio(s["no"], "payroll")
-        if nt_area + ded_area > area:
-            raise JigyoshoError(f"{where}: 非課税・控除の床面積が事業所床面積より大きい")
+        if nt_area > area or sp_area > area - nt_area:
+            raise JigyoshoError(f"{where}: 非課税の床面積、または特例の対象の床面積が、事業所床面積（非課税を除いた後）より大きい"
+                                "（特例は非課税を除いた床面積にかける。法第701条の41第1項）")
         employees = o.get("employees", 0)
-        if not isinstance(employees, int) or employees < 0:
+        if not isinstance(employees, int) or isinstance(employees, bool) or employees < 0 or nt_emp > employees:
             raise JigyoshoError(f"{where}.employees: 期末の従業者数（障害者・65歳以上の者（役員を除く）を除く）を0以上の整数で")
         p = _yen(o.get("payroll", 0), f"{where}.payroll")
         dis = _yen(o.get("payroll_disabled_or_65", 0), f"{where}.payroll_disabled_or_65")
@@ -205,6 +220,9 @@ def calculate(data: dict) -> dict:
             else:
                 n_months = months_between(start, closed)
             ratio = Fraction(max(n_months, 0), M)
+            if ratio > 1:
+                raise JigyoshoError(f"{where}: 新設・廃止の月数の割合が1を超えます（{n_months}/{M}）。月の途中に始まり終わる短い算定期間の中途の新設・廃止は、"
+                                    "自治体に確かめてください（OpenTax は止めます）")
             taxable = _trunc(Fraction(base) * short * ratio)
             tot["a2"] += area
             tot["a4"] += nt_area
@@ -213,11 +231,11 @@ def calculate(data: dict) -> dict:
             section = 2
         else:
             n_months = None
-            taxable = _trunc(Fraction(base) * short)
+            taxable = _trunc(Fraction(base) * short)     # 事業所ごとの参考。⑦は合計に月数/12をかけてから切り捨てる（様式の⑦の式）
             tot["a1"] += area
             tot["a3"] += nt_area
             tot["a5"] += ded_area
-            tot["a7"] += taxable
+            through_base += base
             section = 1
         if not closed:          # 免税点は算定期間の末日の現況（法第701条の43第3項）
             end_area += area - nt_area
@@ -228,6 +246,7 @@ def calculate(data: dict) -> dict:
                             "opened": opened, "closed": closed, "months": n_months, "employees": employees, "payroll": p,
                             "nontaxable": o.get("nontaxable", []), "special": o.get("special", []),
                             "payroll_disabled_or_65": dis, "payroll_subsidized": sub})
+    tot["a7"] = _trunc(Fraction(through_base) * (Fraction(M, 12) if M < 12 else 1))
     ex = rules()["exemption"]
     asset_exempt = end_area <= ex["area_m2"]
     payroll_exempt = end_employees <= ex["employees"]
@@ -249,6 +268,7 @@ def calculate(data: dict) -> dict:
     if note and (asset_exempt or payroll_exempt):
         warnings.append(f"{city['name']}: {note['text']}（{note['source']}）")
     checks.append("従業者数・従業者給与総額は、障害者・65歳以上の者（役員を除く）と雇用改善助成対象者の扱い（法第701条の31第1項第5号）で入れているか確かめてください")
+    checks.append("心身障害者を多数雇用する事業所等の資産割の特例（法第701条の41第2項）・附則第33条の特例・各市の減免は扱っていません。当たるときは自治体に確かめてください")
     checks.append("同じ敷地の建て増しは新設ではありません（月割りしない）。新設・廃止の日を入れた事業所等が本当に新設・廃止か確かめてください")
     submitted = _date(data["submitted"], "submitted") if data.get("submitted") else None
     return {"input": data, "city": city, "kind": kind, "period": {"start": start, "end": end, "months": M},
