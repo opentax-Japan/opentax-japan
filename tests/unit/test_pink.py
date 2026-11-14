@@ -42,9 +42,16 @@ class GensenTest(unittest.TestCase):
     def test_over_seven_dependents(self):
         self.assertEqual(gensen.monthly(300_000, 9), max(gensen.monthly(300_000, 7) - 2 * 1_610, 0))
 
-    def test_bonus_without_previous_month_stops(self):
-        with self.assertRaises(gensen.GensenError):
-            gensen.bonus(500_000, 0, 0, 0)
+    def test_bonus_examples_aramashi(self):
+        # 国税庁「令和8年版 源泉徴収のあらまし」94〜99ページの設例1・3・4・5・6・7
+        self.assertEqual(gensen.bonus(454_800 - 65_242, 285_454, 3)["tax"], 7_954)
+        self.assertEqual(gensen.bonus(417_000 - 59_922, 144_022, 0, "乙")["tax"], 36_457)
+        self.assertEqual(gensen.bonus(907_800 - 138_500, None, 0)["tax"], 7_800)
+        self.assertEqual(gensen.bonus(962_400, None, 0, "乙", period_over_6_months=True, dependents_secondary=1)["tax"], 10_152)
+        self.assertEqual(gensen.bonus(1_923_000 - 254_938, 166_531, 1)["tax"], 87_540)
+        self.assertEqual(gensen.bonus(1_539_000, 132_200, 0, "乙", dependents_secondary=1)["tax"], 459_000)
+        # 設例2: 前月に支払った半期分の役員報酬の月割額で率を引く
+        self.assertEqual(gensen.bonus(2_132_800, 3_459_000 // 6, 4)["tax"], 348_414)
 
     def test_tables_are_continuous(self):
         rows = gensen.table("getsugaku")["rows"]
@@ -109,7 +116,11 @@ class PinkTest(unittest.TestCase):
 
     def test_intake_reads_nencho(self):
         d = intake.read_files([("input.json", CASE.read_bytes())])
-        self.assertIn("nencho", d.attachments)
+        self.assertTrue(d.others["nencho"]["input"])
+        from opentax import intake_other
+        r = intake_other.report(d, "nencho")
+        self.assertIn("年調年税額", r["html"])
+        self.assertTrue(r["xtx"])
 
     @unittest.skipUnless(SCHEMA.exists(), "公式XSD がない（opentax fetch-spec --set ksk2-2026-08）")
     def test_xtx_passes_official_xsd(self):

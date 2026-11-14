@@ -425,6 +425,23 @@ def nencho_export(calculated: dict, schema_root: Path, today: datetime.date | No
     return build_xtx(d["year"], d["filer"], calculated["people"], zeimusho, today or datetime.date.today(), submitted)
 
 
+def kyuyo_calculate(data: dict, timecards=None) -> dict:
+    """給与計算（勤怠から明細まで。令和8年度の料率・令和8年分の税額表）。timecards: 社員→タイムカードの行、または CSV のバイト列の並び。"""
+    from .payroll.kyuyo import calculate, read_timecard_csv
+    if isinstance(timecards, (list, tuple)):
+        merged: dict = {}
+        for b in timecards:
+            for k, rows in (read_timecard_csv(b) if isinstance(b, (bytes, bytearray)) else b).items():
+                merged.setdefault(k, []).extend(rows)
+        timecards = merged
+    return calculate(data, timecards)
+
+
+def kyuyo_report(calculated: dict) -> str:
+    from .payroll.kyuyo import report_html
+    return report_html(calculated)
+
+
 def withholding_monthly(amount: int, dependents: int = 0, column: str = "甲") -> int:
     """毎月の給与の源泉徴収税額（令和8年分 月額表）。amount は社会保険料等控除後の給与等の金額。"""
     from .payroll.gensen import monthly

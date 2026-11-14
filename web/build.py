@@ -36,7 +36,7 @@ SAMPLES = ["tests/cases/open-shoji/input.json", "tests/cases/open-shoji-tokyo/in
            "tests/cases/kokuzei-taro-kojin/input.json", "tests/cases/kokuzei-taro-kojin/business_balance.csv",
            "tests/cases/kokuzei-taro-kojin/real_estate_balance.csv", "tests/cases/kojin-white-sample/input.json",
            "tests/cases/kojin-white-sample/business_balance.csv", "tests/cases/kokuzei-taro-souzoku/input.json",
-           "tests/cases/jigyosho-sample/input.json", "tests/cases/shukuhaku-nagano/shisetsu.json",
+           "tests/cases/jigyosho-sample/input.json", "tests/cases/nencho-r08/input.json", "tests/cases/kyuyo-sample/kyuyo_input.json", "tests/cases/kyuyo-sample/timecard_2026-10.csv", "tests/cases/shukuhaku-nagano/shisetsu.json",
            "tests/cases/shukuhaku-nagano/meisai_2026-06.csv"]
 
 

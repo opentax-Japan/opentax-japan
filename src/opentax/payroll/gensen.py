@@ -101,14 +101,24 @@ def bonus_rate(prev_month_after_social: int, dependents: int = 0, column: str = 
     raise GensenError("算出率の表の外です")
 
 
-def bonus(bonus_after_social: int, prev_month_pay: int, prev_month_social: int, dependents: int = 0,
-          column: str = "甲") -> dict:
-    """賞与の源泉徴収税額。前月中に普通給与がない・前月の給与が社会保険料等以下・賞与が前月の社会保険料等控除後の給与の10倍超
-    のときは、算出率の表でなく月額表で計算する決まり（算出率の表の備考4）。その計算は作っていないので止める。"""
+def bonus(bonus_after_social: int, prev_after_social: int | None, dependents: int = 0, column: str = "甲",
+          period_over_6_months: bool = False, dependents_secondary: int = 0) -> dict:
+    """賞与の源泉徴収税額（国税庁「令和8年版 源泉徴収のあらまし」94〜99ページ。所得税法第186条、平成24年財務省告示第115号第3項）。
+    prev_after_social: 前月中の普通給与の社会保険料等控除後の額（前月に普通給与がない・社会保険料等以下なら None か 0）。
+    - 普通の場合: 算出率の表で率を求め、賞与（社会保険料等控除後）×率（乙欄でも従たる給与の1,610円の控除はしない）
+    - 前月に普通給与がない: 賞与÷6（計算期間が6か月超は12。1円未満切捨て）を月額表に当て、その税額×6（12）
+    - 前月の普通給与の10倍を超える賞与: （賞与÷6＋前月の給与）の月額表の税額 − 前月の給与の月額表の税額、×6（12）
+    1円未満の端数は切り捨てる。"""
     _check(bonus_after_social, dependents, column, ("甲", "乙"))
-    prev = prev_month_pay - prev_month_social
-    if prev_month_pay <= 0 or prev <= 0 or bonus_after_social > prev * 10:
-        raise GensenError("前月の普通給与がない、または賞与が前月の給与（社会保険料等控除後）の10倍を超えるので、"
-                          "月額表を使う計算になります（算出率の表の備考4）。OpenTax ではまだ作っていません")
+    div = 12 if period_over_6_months else 6
+    prev = prev_after_social or 0
+    if prev <= 0:
+        a = bonus_after_social // div
+        return {"method": "前月に普通給与がない（月額表）", "divisor": div,
+                "tax": monthly(a, dependents, column, dependents_secondary) * div}
+    if bonus_after_social > prev * 10:
+        a = bonus_after_social // div + prev
+        t = monthly(a, dependents, column, dependents_secondary) - monthly(prev, dependents, column, dependents_secondary)
+        return {"method": "前月の給与の10倍を超える賞与（月額表）", "divisor": div, "tax": t * div}
     rate = bonus_rate(prev, dependents, column)
-    return {"rate_percent": rate, "tax": _floor(_pct(bonus_after_social, rate)), "prev_after_social": prev}
+    return {"method": "算出率の表", "rate_percent": rate, "tax": _floor(_pct(bonus_after_social, rate))}

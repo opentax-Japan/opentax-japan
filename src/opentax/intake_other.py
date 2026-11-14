@@ -1,7 +1,7 @@
 """かんたん入口の、法人税（RED・BLACK）以外の申告（DESIGN §24.7）。
 
 - 読み取りは intake.read_files が呼ぶ（ここは「読んだものをどの申告へ回すか」と、足りない欄の問い）。
-- 計算は今までの opentax.api（kojin・souzoku・jigyosho・shukuhaku）。AI は使わない。
+- 計算は今までの opentax.api（kojin・souzoku・jigyosho・shukuhaku・nencho・kyuyo）。AI は使わない。
 - 必要書類のチェックリスト（色ごと。必須／あれば良い・どこで手に入るか）もここで持つ。読めたファイルで自動でチェックが付く。
 """
 
@@ -18,6 +18,8 @@ KINDS = {
     "souzoku": "相続税",
     "jigyosho": "事業所税",
     "shukuhaku": "宿泊税",
+    "nencho": "年末調整・源泉徴収票・法定調書合計表",
+    "kyuyo": "給与計算（勤怠から明細まで）",
 }
 
 # 足りないときに聞く欄（短く）。ここにない欄は入力ファイル（または AI が読んだ値）で入れる
@@ -41,7 +43,7 @@ INT_PATHS = {"year", "business.bookkeeping", "real_estate.bookkeeping"}
 
 
 def new_store() -> dict:
-    return {k: {"input": {}, "files": [], "csv": None, "balances": {}, "month_counts": collections.Counter()} for k in KINDS}
+    return {k: {"input": {}, "files": [], "csv": None, "balances": {}, "month_counts": collections.Counter(), "timecards": []} for k in KINDS}
 
 
 def _deep_merge(dst: dict, src: dict) -> None:
@@ -94,6 +96,18 @@ def read_json(obj: dict, name: str, d) -> str | None:
         d.files.append({"name": name, "kind": "jigyosho_input", "label": "事業所税の入力（事業所の床面積・従業者給与）", "ok": True,
                         "note": "事業所税の申告書に使います"})
         return "jigyosho"
+    if obj.get("format") == "opentax-nencho/1":
+        _deep_merge(o["nencho"]["input"], {k: v for k, v in obj.items() if not k.startswith("_")})
+        o["nencho"]["files"].append(name)
+        d.files.append({"name": name, "kind": "nencho", "label": "年末調整の入力（扶養控除等申告書・保険料控除申告書などに書かれたこと）", "ok": True,
+                        "note": "年末調整・源泉徴収票・法定調書合計表を作ります。申告書の写真は AI 読み取り層で読みます"})
+        return "nencho"
+    if obj.get("format") == "opentax-kyuyo/1":
+        _deep_merge(o["kyuyo"]["input"], {k: v for k, v in obj.items() if not k.startswith("_")})
+        o["kyuyo"]["files"].append(name)
+        d.files.append({"name": name, "kind": "kyuyo", "label": "給与計算の設定・従業員（会社の決まり・標準報酬月額・住民税など）", "ok": True,
+                        "note": "タイムカードと合わせて給与明細を作ります"})
+        return "kyuyo"
     if {"prefecture", "municipality"} <= keys and ({"collector", "notification_no"} & keys):
         _set(o["shukuhaku"]["input"], "facility", {k: v for k, v in obj.items() if not k.startswith("_")})
         o["shukuhaku"]["files"].append(name)
@@ -123,6 +137,24 @@ def read_ai(obj: dict, name: str, d) -> bool:
 
 
 _YM = re.compile(r"(20\d\d)[-/](\d{1,2})[-/]\d{1,2}")
+
+
+def read_timecard_csv(data: bytes, text_head: str, name: str, d) -> bool:
+    """タイムカード（日付・出勤・退勤の列）。給与計算（PINK）へ回す。"""
+    if not ("日付" in text_head and "出勤" in text_head and "退勤" in text_head):
+        return False
+    from .payroll.kyuyo import read_timecard_csv as read
+    st = d.others["kyuyo"]
+    try:
+        rows = read(data)
+    except Exception as e:  # noqa: BLE001
+        d.files.append({"name": name, "kind": "unknown", "label": "タイムカード", "ok": False, "note": str(e)})
+        return True
+    st["timecards"].append(rows)
+    st["files"].append(name)
+    n = sum(len(v) for v in rows.values())
+    d.files.append({"name": name, "kind": "timecard", "label": "タイムカード", "ok": True, "note": f"{len(rows)}人・{n}日分。給与計算に使います"})
+    return True
 
 
 def read_shukuhaku_csv(data: bytes, text_head: str, name: str, d) -> bool:
@@ -180,7 +212,7 @@ def read_personal_xtx(root, name: str, d, text, date_of) -> None:
 def present(d) -> list[str]:
     out = []
     for kind, st in d.others.items():
-        if st["input"] or st["csv"] or st["balances"]:
+        if st["input"] or st["csv"] or st["balances"] or st["timecards"]:
             out.append(kind)
     return out
 
@@ -191,6 +223,8 @@ def color_of(kind: str, inp: dict) -> str:
         return "WHITE" if white else "BLUE"
     if kind == "souzoku":
         return "GOLD"
+    if kind in ("nencho", "kyuyo"):
+        return "PINK"
     return "GREEN"
 
 
@@ -217,6 +251,8 @@ def resolve(d, answers: dict | None = None) -> dict:
             if not any(inp.get(k) for k in ("salary", "business", "real_estate", "public_pension", "dividends", "misc", "listed_stocks",
                                             "general_stocks", "land_building")) and not st["balances"]:
                 qs.append({"path": f"{kind}:_income", "label": "所得の資料（源泉徴収票・残高試算表など）を入れてください", "default": None, "info": True})
+        if kind == "kyuyo" and not st["timecards"]:
+            qs.append({"path": f"{kind}:_timecard", "label": "タイムカード（CSV）を入れてください", "default": None, "info": True})
         if kind == "shukuhaku" and not st["csv"]:
             qs.append({"path": f"{kind}:_csv", "label": "宿泊税の明細（日別・予約ごとの CSV）を入れてください", "default": None, "info": True})
         out[kind] = {"kind": kind, "label": KINDS[kind], "color": color_of(kind, inp), "input": inp, "questions": qs,
@@ -239,6 +275,10 @@ def calculate(d, kind: str, answers: dict | None = None) -> tuple[dict, dict]:
         return inp, api.souzoku_calculate(inp)
     if kind == "jigyosho":
         return inp, api.jigyosho_calculate(inp)
+    if kind == "nencho":
+        return inp, api.nencho_calculate(inp)
+    if kind == "kyuyo":
+        return inp, api.kyuyo_calculate(inp, list(st["timecards"]))
     f = dict(inp["facility"])
     return inp, api.shukuhaku_calculate(f, st["csv"], inp["month"], bool(inp.get("prices_include_consumption_tax")))
 
@@ -250,12 +290,16 @@ def report(d, kind: str, answers: dict | None = None) -> dict:
         html, who, when = api.kojin_report(c), inp["taxpayer"]["name"], f"{inp['year']}"
     elif kind == "souzoku":
         html, who, when = api.souzoku_report(c), (inp.get("decedent") or {}).get("name", "被相続人"), str(inp.get("death_date", ""))
+    elif kind == "nencho":
+        html, who, when = api.nencho_report(c), (inp.get("filer") or {}).get("name", ""), f"{inp.get('year', '')}"
+    elif kind == "kyuyo":
+        html, who, when = api.kyuyo_report(c), (inp.get("company") or {}).get("name", ""), str(inp.get("month", ""))
     elif kind == "jigyosho":
         html, who, when = api.jigyosho_report(c), (inp.get("taxpayer") or {}).get("name", ""), str((inp.get("period") or {}).get("end", ""))
     else:
         html, who, when = api.shukuhaku_report(c), inp["facility"].get("name", ""), inp["month"]
     return {"html": html, "name": who, "when": when, "warnings": c.get("warnings", []), "checks": c.get("checks", []),
-            "xtx": kind in ("personal", "souzoku")}
+            "xtx": kind in ("personal", "souzoku", "nencho")}
 
 
 def export(d, kind: str, schema_root, answers: dict | None = None) -> tuple[bytes, list[str]]:
@@ -267,6 +311,9 @@ def export(d, kind: str, schema_root, answers: dict | None = None) -> tuple[byte
     if kind == "souzoku":
         xml = api.souzoku_export(c, schema_root, datetime.date.today())
         return xml, api.validate_xtx(xml, schema_root, "RKS1000")
+    if kind == "nencho":
+        xml = api.nencho_export(c, schema_root, datetime.date.today())
+        return xml, api.validate_xtx(xml, schema_root, "PHS0051")
     raise ValueError(f"{KINDS[kind]}は e-Tax の申告データ（.xtx）を作りません（地方税は eLTAX・紙で出します）")
 
 
@@ -335,8 +382,11 @@ REQUIREMENTS = [
         {"label": "生命保険金・退職金の支払通知", "need": "あれば", "where": "保険会社・勤め先から届く", "done": None},
         {"label": "贈与税の申告書の控え", "need": "あれば", "where": "生前贈与・相続時精算課税があるとき", "done": None},
     ]},
-    {"color": "PINK", "who": "給与・年末調整・法定調書", "state": "一部使えます", "sample": None, "items": [
-        {"label": "年末調整の入力（opentax-nencho/1）", "need": "年調で必須", "where": "扶養控除等申告書・保険料控除申告書などに書かれたこと（JSON。写真は AI で読む）。今はコマンド opentax nencho で年末調整・源泉徴収票・法定調書合計表を作ります",
+    {"color": "PINK", "who": "給与・年末調整・法定調書", "state": "使えます", "sample": "pink", "items": [
+        {"label": "タイムカード（CSV）", "need": "給与計算で必須", "where": "勤怠ソフトから書き出し（日付・出勤・退勤・休憩）。写真は AI で読む", "done": _has_file("timecard")},
+        {"label": "給与計算の設定・従業員（opentax-kyuyo/1）", "need": "給与計算で必須", "where": "就業規則（休憩・割増・端数）、都道府県・業種、標準報酬月額（決定通知書）、住民税の特別徴収税額（通知書）",
+         "done": _has_file("kyuyo")},
+        {"label": "年末調整の入力（opentax-nencho/1）", "need": "年調で必須", "where": "扶養控除等申告書・基礎控除申告書・保険料控除申告書・住宅借入金等特別控除申告書（写真は AI で読む）",
          "done": _has_file("nencho")},
         {"label": "給与の記録", "need": "あれば", "where": "OpenTax の給与の記録（1年分の給与・徴収税額・社会保険料を年末調整に使う）", "done": _has_file("payroll")},
     ]},

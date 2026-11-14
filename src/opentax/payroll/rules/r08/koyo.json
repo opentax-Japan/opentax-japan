@@ -1,0 +1,10 @@
+{
+ "note": "令和8年度の雇用保険料率（適用期間 令和8年4月1日〜令和9年3月31日）。確認日 2026-11-14",
+ "source": "厚生労働省 山形労働局「令和8年度の雇用保険料率について」https://jsite.mhlw.go.jp/yamagata-roudoukyoku/koyouhoken-20260316.html と、同局掲載の厚生労働省リーフレット「令和8（2026）年度雇用保険料率のご案内」https://jsite.mhlw.go.jp/yamagata-roudoukyoku/content/contents/002593719.pdf",
+ "applies": {"from": "2026-04-01", "to": "2027-03-31"},
+ "rates": {
+  "一般": {"worker_per_mille": "5", "employer_per_mille": "8.5"},
+  "農林水産清酒": {"worker_per_mille": "6", "employer_per_mille": "9.5"},
+  "建設": {"worker_per_mille": "6", "employer_per_mille": "10.5"}
+ }
+}

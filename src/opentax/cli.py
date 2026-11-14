@@ -588,6 +588,25 @@ def _nencho(args) -> int:
     return EXIT_OK
 
 
+def _kyuyo(args) -> int:
+    """OpenTax PINK: 給与計算（タイムカード → 割増賃金・社会保険料・雇用保険料・源泉所得税・住民税 → 差引支給額）。"""
+    import json as _json
+    from . import api
+
+    c = api.kyuyo_calculate(_json.loads(Path(args.input).read_text(encoding="utf-8")), [Path(f).read_bytes() for f in args.timecard or []])
+    for x in c["people"]:
+        print(f"{x['name']}: 総支給額 {x['gross']:,}円  控除 {x['deductions_total']:,}円  差引支給額 {x['net']:,}円")
+        for w in x["warnings"]:
+            print(f"  注意: {w}")
+    for n in c["notes"]:
+        print(f"確かめてください: {n}")
+    if args.report:
+        with open(args.report, "w", encoding="utf-8", newline="\n") as f:
+            f.write(api.kyuyo_report(c))
+        print(f"給与明細を書き出しました: {args.report}")
+    return EXIT_OK
+
+
 def _jigyosho(args) -> int:
     import json as _json
     from . import api
@@ -748,6 +767,11 @@ def main(argv: list[str] | None = None) -> int:
     co.add_argument("-o", "--report", help="申告書一式の HTML を書き出す先")
     co.add_argument("--json", help="一覧（使ったもの・使わなかったもの・足りないもの）を JSON で書き出す先")
 
+    ky = sub.add_parser("kyuyo", help="OpenTax PINK: 給与計算（タイムカード → 割増賃金・社会保険料・雇用保険料・源泉所得税・住民税 → 明細）")
+    ky.add_argument("input", help="入力 JSON（format: opentax-kyuyo/1。tests/cases/kyuyo-sample/kyuyo_input.json が見本）")
+    ky.add_argument("timecard", nargs="*", help="タイムカードの CSV（日付・出勤・退勤・休憩・休日の列）")
+    ky.add_argument("--report", help="給与明細の HTML を書き出す先")
+
     nc = sub.add_parser("nencho", help="OpenTax PINK: 年末調整（令和8年分）の年調年税額・過不足額、源泉徴収票・法定調書合計表（-o で .xtx）")
     nc.add_argument("input", help="入力 JSON（format: opentax-nencho/1。tests/cases/nencho-r08/input.json が見本）")
     nc.add_argument("-o", "--output", help="書き出す .xtx（手続 PHS0051。公式XSD の検証を通ったときだけ書く）")
@@ -770,7 +794,7 @@ def main(argv: list[str] | None = None) -> int:
     command = {"compare": _compare, "collect": _collect, "intake": _intake, "fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
                "build-checks": _build_checks, "calculate": _calculate, "export-etax": _export_etax,
                "local-tax": _local_tax, "shohi": _shohi, "kojin": _kojin, "report": _report,
-               "jigyosho": _jigyosho, "shukuhaku": _shukuhaku, "souzoku": _souzoku, "nencho": _nencho}[args.command]
+               "jigyosho": _jigyosho, "shukuhaku": _shukuhaku, "souzoku": _souzoku, "nencho": _nencho, "kyuyo": _kyuyo}[args.command]
     from .etax.validate import ValidationUnavailable
     from .etax.xtx import XtxError
     from .red.calculate import RuleError

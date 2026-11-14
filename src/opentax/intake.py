@@ -252,6 +252,8 @@ def read_table(data: bytes, name: str, d: Draft) -> str | None:
     text = "\t".join(head)
     if _other().read_shukuhaku_csv(data, text, name, d):
         return "shukuhaku"
+    if _other().read_timecard_csv(data, text, name, d):
+        return "kyuyo"
     # 月の列がいくつもあれば月次推移表
     month_cols = [h for h in head if uchiwake._month_of(h)]
     if len(month_cols) >= 3:
@@ -351,11 +353,6 @@ def read_json(data: bytes, name: str, d: Draft) -> str | None:
             d.put(path, v, "person", name, "入力ファイル")
         d.files.append({"name": name, "kind": "input", "label": "法人税の入力ファイル", "ok": True, "note": "入力の値をそのまま使います"})
         return "input"
-    if obj.get("format") == "opentax-nencho/1":
-        d.attachments["nencho"] = obj
-        d.files.append({"name": name, "kind": "nencho", "label": "年末調整の入力（PINK）", "ok": True,
-                        "note": "年末調整・源泉徴収票・法定調書合計表を作ります（opentax nencho）。扶養控除等申告書などの写真は AI 読み取り層で読みます"})
-        return "nencho"
     if {"people", "payments"} <= keys:
         d.attachments.setdefault("payroll", []).append(obj)
         d.files.append({"name": name, "kind": "payroll", "label": "給与の記録", "ok": True, "note": "役員給与等の内訳書・概況書の人件費に使います"})

@@ -372,6 +372,8 @@ SAMPLE_SETS = {
     "personal_white": [("kojin-white-sample", n) for n in ("input.json", "business_balance.csv")],
     # 国税庁「相続税の申告のしかた」の記載例（架空）
     "souzoku": [("kokuzei-taro-souzoku", "input.json")],
+    # 国税庁「年末調整のしかた」の設例（架空）と、架空の会社の給与計算・タイムカード
+    "pink": [("nencho-r08", "input.json"), ("kyuyo-sample", "kyuyo_input.json"), ("kyuyo-sample", "timecard_2026-10.csv")],
     "green": [("jigyosho-sample", "input.json"), ("shukuhaku-nagano", "shisetsu.json"), ("shukuhaku-nagano", "meisai_2026-06.csv")],
 }
 
