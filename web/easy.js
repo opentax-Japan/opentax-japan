@@ -190,6 +190,7 @@ function renderNeeds(list) {
       " ", el("b", {}, it.label), " ", el("span", { class: `need ${it.need.includes("必須") ? "must" : "may"}` }, it.need),
       el("div", { class: "where" }, it.where)))),
     g.color === "PINK" ? el("p", { class: "note" }, "給与計算（タイムカードから明細）と年末調整・源泉徴収票・法定調書合計表を作ります。先方の計算結果を記録するだけなら ", el("a", { href: "payroll.html" }, "給与の記録"), " へ") : null,
+    g.color === "PLATINUM" ? el("p", { class: "note" }, "関与先ごとの今月の申告・納付の期限一覧と進捗は ", el("a", { href: "platinum.html" }, "期限一覧と進捗"), " へ") : null,
     g.sample ? el("div", { class: "row" }, el("button", { type: "button", class: "small", onclick: () => trySample(g.sample) }, "見本で試す")) : null)));
 }
 

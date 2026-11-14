@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- このサイトのファイル以外は読み込まない・通信しない -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self'; connect-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; form-action 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<title>OpenTax PLATINUM 期限一覧と進捗</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>OpenTax PLATINUM 期限一覧と進捗</h1>
+  <p>関与先の一覧から、その月に期限が来る申告・納付を条文どおりに数えて並べ、進捗を書き込めます。入力した内容はどこにも送られず、画面を閉じると消えます。<a href="index.html">申告（OpenTax）へ</a></p>
+</header>
+<main class="wide">
+  <div id="status" class="status" role="status">準備しています…</div>
+
+  <section class="toolbar">
+    <button type="button" id="load-sample" disabled>見本（架空の関与先）を入れる</button>
+    <label class="file-button">関与先の一覧（CSV・JSON）を開く<input type="file" id="open-clients" accept=".csv,.json,text/csv,application/json" disabled></label>
+    <label class="file-button">進捗のファイルを開く<input type="file" id="open-progress" accept=".json,application/json" disabled></label>
+  </section>
+
+  <section class="toolbar">
+    <label>月 <input type="month" id="month"></label>
+    <label>担当 <select id="staff"><option value="">全員</option></select></label>
+    <label class="inline"><input type="checkbox" id="hide-done"> 済を隠す</label>
+    <button type="button" id="run" class="primary" disabled>一覧を作る</button>
+  </section>
+
+  <section id="messages"></section>
+
+  <section id="results" hidden>
+    <p id="summary"></p>
+    <div class="sheet-scroll"><table class="preview" id="list"></table></div>
+    <div class="row">
+      <button type="button" id="save-progress">進捗をファイルに保存</button>
+      <button type="button" id="save-csv">一覧を保存（CSV）</button>
+      <button type="button" id="save-html">一覧を保存（HTML・スマホ用）</button>
+    </div>
+  </section>
+
+  <section class="disclaimer">
+    <h2>注意</h2>
+    <ul>
+      <li>期限は条文から計算し、日曜・祝日・土曜・12月29日〜1月3日は翌日にずらします（国税通則法第10条第2項、地方税法第20条の5第2項）。行ごとに根拠の条文を出します。</li>
+      <li>災害などによる期限の延長、個別の承認・届出の有無は反映しません。延長・中間申告・納期の特例は関与先の一覧に書いたとおりに扱います。</li>
+      <li>進捗は「進捗をファイルに保存」でファイルにして、次回「進捗のファイルを開く」で読み込みます。ブラウザには残しません。</li>
+      <li>関与先の一覧の書き方: docs/kigen.md（見本を入れると列の名前が分かります）。</li>
+    </ul>
+    <p class="note">ソースコード: https://github.com/opentax-Japan/opentax-japan（MIT）</p>
+  </section>
+</main>
+<script src="platinum.js"></script>
+</body>
+</html>

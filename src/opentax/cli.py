@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import datetime
 import json
 import sys
 from pathlib import Path
@@ -790,8 +791,18 @@ def main(argv: list[str] | None = None) -> int:
     cp.add_argument("--cache-dir", default=".cache/etax")
     cp.add_argument("--cab", help="国税庁から取った e-tax19.CAB（キャッシュの代わりに使う）")
 
+    kg = sub.add_parser("kigen", help="OpenTax PLATINUM: 関与先の一覧から、その月に期限が来る申告・納付の一覧と進捗を作る（DESIGN §28）")
+    kg.add_argument("clients", help="関与先の一覧（CSV・JSON。docs/kigen.md）")
+    kg.add_argument("--month", help="対象の月 YYYY-MM（省略は今月）")
+    kg.add_argument("--progress", help="進捗のファイル（JSON）。--set のときはここへ書き込む")
+    kg.add_argument("--set", nargs=2, metavar=("ID", "状態"), help="進捗を書く（状態: " + "・".join(["未着手", "資料待ち", "作成中", "確認待ち", "送信済", "納付済", "完了", "対象外"]) + "）")
+    kg.add_argument("--memo", help="--set と一緒に書くメモ")
+    kg.add_argument("--html", help="一覧を HTML（スマホでも見られる）で書き出す")
+    kg.add_argument("--csv", help="一覧を CSV（Excel 用 BOM つき）で書き出す")
+    kg.add_argument("--today", help="残り日数の基準の日 YYYY-MM-DD（省略は今日）")
+
     args = parser.parse_args(argv)
-    command = {"compare": _compare, "collect": _collect, "intake": _intake, "fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
+    command = {"kigen": _kigen, "compare": _compare, "collect": _collect, "intake": _intake, "fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
                "build-checks": _build_checks, "calculate": _calculate, "export-etax": _export_etax,
                "local-tax": _local_tax, "shohi": _shohi, "kojin": _kojin, "report": _report,
                "jigyosho": _jigyosho, "shukuhaku": _shukuhaku, "souzoku": _souzoku, "nencho": _nencho, "kyuyo": _kyuyo}[args.command]
@@ -888,6 +899,40 @@ def _intake(args) -> int:
     if args.output:
         Path(args.output).write_text(json.dumps(r, ensure_ascii=False, indent=2, default=str), encoding="utf-8", newline="\n")
         print(f"書き出しました: {args.output}")
+    return 0
+
+
+def _kigen(args) -> int:
+    """OpenTax PLATINUM の期限一覧と進捗（DESIGN §28）。"""
+    from .pro import kigen
+    try:
+        clients = kigen.read_clients(Path(args.clients).read_bytes())
+        today = datetime.date.fromisoformat(args.today) if args.today else datetime.date.today()
+        month = args.month or today.strftime("%Y-%m")
+        progress = None
+        if args.progress and Path(args.progress).exists():
+            progress = json.loads(Path(args.progress).read_text(encoding="utf-8"))
+        if args.set:
+            if not args.progress:
+                raise kigen.KigenInputError("--set には --progress（書き込む進捗のファイル）が要ります")
+            progress = kigen.set_status(progress, args.set[0], args.set[1], args.memo)
+            Path(args.progress).write_text(json.dumps(progress, ensure_ascii=False, indent=1), encoding="utf-8", newline="\n")
+            print(f"書きました: {args.set[0]} → {args.set[1]}")
+        sched = kigen.schedule(clients, month, progress, today)
+    except kigen.KigenInputError as e:
+        print(f"入力の誤り: {e}", file=sys.stderr)
+        return 2
+    s = sched["summary"]
+    print(f"{month} の期限 {s['total']}件（済 {s['done']}・期限切れ {s['overdue']}）")
+    for r in sched["items"]:
+        mark = "済" if r["done"] else ("!!" if r["overdue"] else "  ")
+        print(f"{mark} {r['due']}  {r['code']} {r['name']}  {r['label']}  {r['period']}  [{r['status']}]  {r['id']}")
+    if args.html:
+        Path(args.html).write_text(kigen.to_html(sched), encoding="utf-8", newline="\n")
+        print(f"書き出しました: {args.html}")
+    if args.csv:
+        Path(args.csv).write_bytes(kigen.to_csv(sched).encode("utf-8"))
+        print(f"書き出しました: {args.csv}")
     return 0
 
 

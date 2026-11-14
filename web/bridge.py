@@ -83,6 +83,29 @@ def ot_payroll_sample() -> str:
     return (APP_ROOT / "tests" / "cases" / "open-shoji-tokyo" / "payroll_2026.json").read_text(encoding="utf-8")
 
 
+def ot_kigen_sample() -> str:
+    text = (APP_ROOT / "tests" / "cases" / "platinum-kigen" / "clients.csv").read_text(encoding="utf-8")
+    return _dump({"ok": True, "text": text})
+
+
+def ot_kigen(clients_text: str, month: str, progress_json: str, today: str, set_id: str = "", set_status: str = "",
+             set_memo: str = "") -> str:
+    """OpenTax PLATINUM の期限一覧と進捗（DESIGN §28）。set_id があれば、その行の進捗を書いてから一覧を作る。"""
+    from opentax.pro import kigen
+    try:
+        clients = kigen.read_clients(clients_text)
+        progress = json.loads(progress_json) if progress_json else None
+        if set_id:
+            progress = kigen.set_status(progress, set_id, set_status, set_memo)
+        sched = kigen.schedule(clients, month, progress, datetime.date.fromisoformat(today))
+        return _dump({"ok": True, "schedule": sched, "progress": progress or {"kind": "opentax-progress", "items": {}},
+                      "csv": kigen.to_csv(sched), "html": kigen.to_html(sched), "statuses": kigen.STATUSES})
+    except kigen.KigenInputError as e:
+        return _dump({"ok": False, "kind": "input", "message": str(e)})
+    except Exception as e:  # noqa: BLE001
+        return _error(e)
+
+
 def ot_payroll(record_json: str) -> str:
     """給与の記録の検算と集計、賃金台帳。給与・税額は計算しない。"""
     from opentax.payroll.record import PayrollInputError
