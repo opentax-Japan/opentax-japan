@@ -56,14 +56,26 @@ class CorporateTaxTest(unittest.TestCase):
         ct = corporate_tax(period("2025-10-01", "2026-04-30"), 9_000_000, self.rules)
         self.assertEqual((ct["months"], ct["sme_portion"]), (7, 4_666_000))
 
+    def test_defense_tax(self):
+        # 令和8年4月1日以後に開始: 基準法人税額 − 年500万円（千円未満切捨て）× 4%
+        ct = corporate_tax(period("2026-10-01", "2027-09-30"), 40_000_000, self.rules)
+        self.assertEqual(ct["corporate_tax"], 1_200_000 + 32_000_000 * 232 // 1000)
+        self.assertEqual(ct["defense_base"], (ct["corporate_tax"] - 5_000_000) // 1000 * 1000)
+        self.assertEqual(ct["defense_tax"], ct["defense_base"] * 4 // 100)
+        # 法人税額が500万円以下なら 0
+        self.assertEqual(corporate_tax(period("2026-10-01", "2027-09-30"), 10_000_000, self.rules)["defense_tax"], 0)
+        # 1年に満たないとき: 500万円×月数/12（6か月 250万円）
+        ct = corporate_tax(period("2026-10-01", "2027-03-31"), 20_000_000, self.rules)
+        self.assertEqual(ct["defense_deduction"], 2_500_000)
+        self.assertEqual(ct["defense_base"], (ct["corporate_tax"] - 2_500_000) // 1000 * 1000)
+
     def test_loss_or_zero(self):
         self.assertEqual(corporate_tax(period("2025-10-01", "2026-09-30"), 999, self.rules)["corporate_tax"], 0)
         self.assertEqual(corporate_tax(period("2025-10-01", "2026-09-30"), -5, self.rules)["corporate_tax"], 0)
 
-    def test_defense_tax_period_stops(self):
-        with self.assertRaises(model.OutOfScope) as ctx:
-            corporate_tax(period("2026-04-01", "2027-03-31"), 1_000_000, self.rules)
-        self.assertIn("防衛特別法人税", str(ctx.exception))
+    def test_before_defense_period(self):
+        ct = corporate_tax(period("2025-04-01", "2026-03-31"), 40_000_000, self.rules)
+        self.assertEqual((ct["defense_applies"], ct["defense_tax"]), (False, 0))
 
 
 class ProfitReturnTest(unittest.TestCase):
@@ -104,6 +116,34 @@ class ProfitReturnTest(unittest.TestCase):
         # 19,000×5.3%＝1,007 → 1,000（第六号様式の税額欄は百円未満が印刷済み）
         self.assertEqual([b["tax"] for b in bt["brackets"]], [140_000, 1_000, 0])
         self.assertEqual(bt["special"], 141_000 * 37 // 100 // 100 * 100)
+
+    def test_defense_return(self):
+        raw = sample(40_000_000)
+        raw["fiscal_period"] = {"start": "2026-10-01", "end": "2027-09-30"}
+        raw["prior"]["losses"] = [{"period_start": "2024-10-01", "period_end": "2025-09-30", "amount": 3_000_000}]
+        for r in raw["prior"]["schedule_05_02"]:
+            r["period_start"], r["period_end"] = "2025-10-01", "2026-09-30"
+        for p in raw["tax_payments"]:
+            p["period_end"] = "2026-09-30"
+        c = api.calculate(raw)
+        s1 = c["result"]["schedule_01"]
+        self.assertEqual(c["problems"], [])
+        self.assertEqual((s1["corporate_tax"], s1["defense_tax"], s1["defense_after"]), (7_666_072, 106_640, 106_600))
+        self.assertEqual(c["result"]["schedule_05_02"]["taxes"]["法人税等"]["current"]["accrued"],
+                         s1["after_credit"] + s1["local_after"] + 106_600)
+        self.assertEqual((c["form_values"]["KZB00360"], c["form_values"]["KZB00220"]), (2_666_000, 106_600))
+
+    def test_short_year_business_tax(self):
+        # 7か月: 区切りは 400万×7/12＝2,333,333円・800万×7/12＝4,666,666円（円単位まで）。
+        # 各段は切り捨てる前の額から引いてから千円未満切捨て（大阪府の第6号様式記載の手引）
+        from opentax.red.local_tax import business_tax
+        data = model.validate(json.loads(SAMPLE.read_text(encoding="utf-8")))
+        data["prior"]["losses"] = []
+        data["fiscal_period"] = {"start": datetime.date(2025, 10, 1), "end": datetime.date(2026, 4, 30)}
+        bt = business_tax(data, 5_000_500)
+        self.assertEqual([b["base"] for b in bt["brackets"]], [2_333_000, 2_333_000, 333_000])
+        self.assertEqual([b["tax"] for b in bt["brackets"]], [81_600, 123_600, 23_300])
+        self.assertEqual((bt["taxable"], bt["total"]), (4_999_000, 228_500))
 
     def test_partial_loss_and_carry(self):
         raw = sample()

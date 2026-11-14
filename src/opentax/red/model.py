@@ -71,7 +71,7 @@ _SCHEMA: dict[str, Any] = {
     # 所得税額の控除（別表六(一)）。kind は「利子」（預貯金の利子など。1行目）だけ
     "income_tax_credit": [{"kind": str, "income": int, "tax": int}],
     # 当期の中間申告（予定申告を含む）で納付した税額。method は納付の経理（充当金取崩し・損金経理）
-    "interim": {"法人税": int, "地方法人税": int, "道府県民税": {"法人税割": int, "均等割": int},
+    "interim": {"法人税": int, "地方法人税": int, "防衛特別法人税": int, "道府県民税": {"法人税割": int, "均等割": int},
                 "市町村民税": {"法人税割": int, "均等割": int}, "事業税": int, "特別法人事業税": int, "method": str},
     # 交際費等（別表十五）。科目ごとに 支出額・交際費等から控除される費用の額・接待飲食費の額
     "entertainment": [{"account": str, "amount": int, "deductible": int, "dining": int}],
@@ -348,7 +348,7 @@ def _fill_defaults(data: dict) -> None:
         d.setdefault("prior_excess", 0)
     interim = data.setdefault("interim", {})
     if interim:
-        for k in ("法人税", "地方法人税", "事業税", "特別法人事業税"):
+        for k in ("法人税", "地方法人税", "防衛特別法人税", "事業税", "特別法人事業税"):
             interim.setdefault(k, 0)
         for k in LOCAL_TAXES:
             interim.setdefault(k, {})

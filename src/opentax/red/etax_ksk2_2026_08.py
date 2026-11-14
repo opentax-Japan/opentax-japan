@@ -102,6 +102,16 @@ def base_values(result: dict) -> dict:
         v["BGB00020"] = s1["corporate_tax"]            # 2 法人税額（＝77＋78＋79）
         v["BGC00030"] = s1["corporate_tax"]            # 28 所得の金額に対する法人税額
         v["BGC00060"] = s1["local_corporate_tax"]      # 31 地方法人税額（＝82）
+    # 防衛特別法人税（別表一 次葉一 45〜68。令和8年4月1日以後に開始する事業年度で法人税額があるとき）
+    if ct.get("defense_applies") and s1["corporate_tax"]:
+        v["KZB00030"] = s1["corporate_tax"]            # 45 所得の金額に対する法人税額（基準法人税額）
+        v["KZB00070"] = ct["months"]                   # 47 基礎控除額の月数
+        v["KZB00080"] = int(ct["defense_deduction"])   # 47 基礎控除額（500万円×月数／12）
+        v["KZB00110"] = max(int(ct["defense_deduction"]) - s1["corporate_tax"], 0)   # 48 基礎控除残額
+        v["KZB00360"] = ct["defense_base"]             # 67 課税標準法人税額（千円未満切捨て）
+        v["KZB00370"] = ct["defense_tax"]              # 68 同上の4％相当額
+        v["KZB00130"] = ct["defense_tax"]              # 50 防衛特別法人税額
+        v["KZB00210"] = s1["interim_defense"]          # 58 中間申告分の防衛特別法人税額
     # 12 控除税額（【計算】は「(9)−(10)−(11) と (18) の少ない金額」で式を読み取れないので入れる）
     v["BGB00180"] = s1.get("credited", 0)
     # 別表六(一)（預貯金の利子などの1行目だけ）
@@ -394,6 +404,9 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
     }
     if filing.get("settled_on"):
         v["BGA00410"] = filing["settled_on"]
+    if result["schedule_01"]["detail"].get("defense_applies") and result["schedule_01"]["corporate_tax"]:
+        v["KZB00060"] = "1"                                # 47 (500万円×＿／12)
+        v["KZB00100"] = "1"                                # 48 ((47)－(45))
     if result["schedule_01"]["corporate_tax"]:
         # 別表一 次葉二の区分（帳票フィールド仕様書 HOA116 の値の範囲）
         v["QHB00015"] = "1"                                # 74 ((1)と800万円×＿／12のうち少ない金額)
@@ -622,6 +635,10 @@ def verify(result: dict, values: dict) -> list[str]:
         ("別表一 24 還付金額 計", "BGB00400", result["schedule_01"]["refund_total"]),
         ("別表一 43 地方法人税の還付金額 計", "BGC00280", result["schedule_01"]["refund_local"]),
         ("別表一 1 所得金額", "BGB00010", result["schedule_01"]["income"]),
+        ("別表一 13 差引所得に対する法人税額", "BGB00190", result["schedule_01"].get("after_credit", 0)),
+        ("別表一 38 差引地方法人税額", "BGC00120", result["schedule_01"].get("local_after", 0)),
+        ("別表一 次葉一 57 差引防衛特別法人税額", "KZB00200", result["schedule_01"].get("defense_after", 0)),
+        ("別表一 次葉一 59 差引確定防衛特別法人税額", "KZB00220", result["schedule_01"].get("final_defense", 0)),
         ("別表七(一) 合計⑤ 翌期繰越額", "MCB00370", s7["carry_total"]),
         ("別表一 27 翌期へ繰り越す欠損金額", "BGB00470", result["schedule_01"]["loss_carry"]),
         ("別表五(二) 10⑥ 道府県民税 期末未納", "IEC00650", s52["taxes"]["道府県民税"]["total"]["closing"]),

@@ -413,16 +413,16 @@ def _pref_levy_percent(pref: str, ed: dict, company: dict, tax_base: int, months
                              "県の資料で税率を確かめてください")
     cond = unicodedata.normalize("NFKC", lv["reduced_condition"])
     cond = re.sub(r"〔[^〕]*〕", "", cond).strip()
-    if months != 12 and "法人税額年" in cond:
-        raise OutOfScope(f"{pref}の法人税割の軽減の条件（法人税額年○万円以下）を、12か月でない事業年度で判定すること")
+    # 「法人税額年○円」は、事業年度が1年に満たないときは月数で換算した額と比べる（大阪府「申告書（第6号様式）記載の手引」（注2））
+    tax_limit = lambda text: Fraction(_amount(text) * months, 12)  # noqa: E731
     m = re.fullmatch(r"資本金(等の額)?(\S+?)円以下で、かつ法人税額年(\S+?)円以下の法人", cond)
     m2 = re.fullmatch(r"資本金(\S+?)円以下の法人又は法人税額年(\S+?)円以下の法人", cond)
     m3 = re.fullmatch(r"資本金(\S+?)円以下の法人\(資本金\S+?円で従業者数が(\d+)人を超えるものを除く。\)", cond)
     if m:
         cap = company["capital_etc"] if m[1] else company["capital"]
-        reduced = cap <= _amount(m[2]) and tax_base <= _amount(m[3])
+        reduced = cap <= _amount(m[2]) and tax_base <= tax_limit(m[3])
     elif m2:
-        reduced = company["capital"] <= _amount(m2[1]) or tax_base <= _amount(m2[2])
+        reduced = company["capital"] <= _amount(m2[1]) or tax_base <= tax_limit(m2[2])
     elif m3:
         limit = _amount(m3[1])
         reduced = company["capital"] < limit or (company["capital"] == limit and company["employees"] <= int(m3[2]))
@@ -475,9 +475,8 @@ def _business_standard_note(pref: str, ed: dict, company: dict, income: int, mon
     m = re.search(r"資本金(\S+?)円以下で、年所得(\S+?)円以下", cond)
     if not m or "標準税率" not in unicodedata.normalize("NFKC", e["reduced_rates"]).replace("\n", ""):
         raise OutOfScope(f"{pref}の事業税の超過課税の軽減の条件を読めません（{e['reduced_condition']}）")
-    if months != 12:
-        raise OutOfScope(f"{pref}の事業税の超過課税の軽減の条件（年所得）を、12か月でない事業年度で判定すること")
-    if company["capital"] <= _amount(m[1]) and income <= _amount(m[2]):
+    # 「年所得○円」は、事業年度が1年に満たないときは月数で換算した額と比べる（大阪府「申告書（第6号様式）記載の手引」）
+    if company["capital"] <= _amount(m[1]) and income // 1000 * 1000 <= Fraction(_amount(m[2]) * months, 12):
         return f"{pref}の事業税は超過課税がありますが、「{m[0]}」の法人なので標準税率です（総務省の一覧）"
     raise OutOfScope(f"{pref}の事業税の超過課税（資本金・年所得が軽減の条件「{m[0]}」を超える法人）")
 
@@ -505,17 +504,20 @@ def business_tax(data: dict, pre_deduction: int) -> dict:
     if special_ward_rules(office["prefecture"], office["municipality"]):
         raise OutOfScope("東京都の特別区の黒字法人（都の事業税の超過課税を扱いません）")
     taxable = income // 1000 * 1000
-    note = _business_standard_note(office["prefecture"], edition_for(end), data["company"], taxable, months)
-    limits = [Fraction(a * months, 12) for a in bt["brackets_annual"]]
-    if months != 12 and taxable > limits[0]:
-        raise OutOfScope("12か月でない事業年度で所得が年400万円相当額を超える法人（所得割の段の金額の端数処理を確かめていません）")
+    note = _business_standard_note(office["prefecture"], edition_for(end), data["company"], income, months)
+    # 段の区切り: 年400万円・年800万円（1年に満たないときは月数で換算し、円単位まで。地方税法第72条の24の7第6項）。
+    # 各段の課税標準は、切り捨てる前の所得（第六号様式㉘）から切り捨てる前の下の段の額を引いてから千円未満を切り捨てる
+    # （大阪府「申告書（第6号様式）記載の手引」の事業年度が1年に満たない場合の書き方。12か月のときも同じ結果になる）
+    limits = [a * months // 12 for a in bt["brackets_annual"]]
     rows, lower = [], 0
     for i, pct in enumerate(bt["standard_percents"]):
-        upper = int(limits[i]) if i < len(limits) else taxable
-        part = max(min(taxable, upper) - lower, 0)
-        tax = int(part * Fraction(pct) / 100) // 100 * 100
-        rows.append({"base": part, "percent": pct, "tax": tax})
+        upper = min(income, limits[i]) if i < len(limits) else income
+        part = max(upper - lower, 0)
         lower += part
+        base = part // 1000 * 1000
+        tax = int(base * Fraction(pct) / 100) // 100 * 100
+        rows.append({"base": base, "percent": pct, "tax": tax})
+    taxable = sum(r["base"] for r in rows)                 # ㉜ 計（㉙＋㉚＋㉛）
     total = sum(r["tax"] for r in rows)
     special_base = total                                   # 基準法人所得割額（標準税率で計算した所得割額）
     special = int(special_base * Fraction(sp["percent"]) / 100) // 100 * 100

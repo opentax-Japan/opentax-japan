@@ -163,11 +163,12 @@ def interim_amounts(data: dict) -> dict:
     """当期の中間納付。national＝法人税＋地方法人税、inhabitant＝道府県民税・市町村民税ごとの計、business＝事業税＋特別法人事業税。"""
     i = data.get("interim") or {}
     if not i:
-        return {"method": None, "corporate": 0, "local_corporate": 0, "national": 0, "business": 0,
+        return {"method": None, "corporate": 0, "local_corporate": 0, "defense": 0, "national": 0, "business": 0,
                 "inhabitant": {t: {"法人税割": 0, "均等割": 0, "total": 0} for t in ("道府県民税", "市町村民税")}}
     inh = {t: {**i[t], "total": i[t]["法人税割"] + i[t]["均等割"]} for t in ("道府県民税", "市町村民税")}
-    return {"method": i["method"], "corporate": i["法人税"], "local_corporate": i["地方法人税"],
-            "national": i["法人税"] + i["地方法人税"], "business": i["事業税"] + i["特別法人事業税"], "inhabitant": inh}
+    defense = i.get("防衛特別法人税", 0)
+    return {"method": i["method"], "corporate": i["法人税"], "local_corporate": i["地方法人税"], "defense": defense,
+            "national": i["法人税"] + i["地方法人税"] + defense, "business": i["事業税"] + i["特別法人事業税"], "inhabitant": inh}
 
 
 def _paid(data: dict, taxes: tuple, method: str) -> int:
@@ -400,15 +401,16 @@ def corporate_tax(data: dict, income: int, prules: dict) -> dict:
     所得が0以下なら全部 0。出典は rules/profit_tax.json。"""
     start, end = data["fiscal_period"]["start"], data["fiscal_period"]["end"]
     months = _months_ceil(start, end)
+    df = prules["defense_special_corporate_tax"]
+    defense_applies = start >= datetime.date.fromisoformat(df["fiscal_year_start_from"])
+    deduction = (Fraction(df["basic_deduction_annual"] * months, 12) if months < 12 else Fraction(df["basic_deduction_annual"]))         if defense_applies else Fraction(0)
     zero = {"months": months, "taxable": 0, "sme_portion": 0, "other_portion": 0, "sme_percent": None, "sme_tax": 0,
-            "other_tax": 0, "corporate_tax": 0, "local_base": 0, "local_corporate_tax": 0}
+            "other_tax": 0, "corporate_tax": 0, "local_base": 0, "local_corporate_tax": 0,
+            "defense_applies": defense_applies, "defense_deduction": deduction, "defense_base": 0, "defense_tax": 0}
     taxable = (income // 1000) * 1000 if income > 0 else 0       # 国税通則法第118条第1項
     if taxable <= 0:
         return zero
     ct, lc = prules["corporate_tax"], prules["local_corporate_tax"]
-    defense = prules["defense_special_corporate_tax"]
-    if start >= datetime.date.fromisoformat(defense["stop_if_fiscal_year_start_from"]):
-        raise OutOfScope("令和8年4月1日以後に開始する事業年度の黒字法人（防衛特別法人税の計算をまだ作っていません）")
     if start < datetime.date.fromisoformat(lc["fiscal_year_start_from"]):
         raise OutOfScope("令和元年10月1日より前に開始した事業年度の黒字法人（地方法人税の税率の経過措置を扱いません）")
     if Fraction(taxable) > Fraction(ct["billion_annual"] * months, 12):
@@ -426,9 +428,15 @@ def corporate_tax(data: dict, income: int, prules: dict) -> dict:
     corporate = sme_tax + other_tax
     local_base = (corporate // 1000) * 1000                      # 課税標準法人税額（地方法人税法第9条。千円未満切捨て）
     local_tax_amount = _floor(Fraction(local_base) * Fraction(lc["percent"]) / 100)
+    # 防衛特別法人税（令和8年4月1日以後に開始する事業年度）: 課税標準法人税額＝基準法人税額（所得税額の控除の前の法人税額）
+    # −基礎控除額（年500万円。1年に満たないときは月割り）。千円未満切捨て（国税通則法第118条第1項）× 4%
+    defense_base = _floor(Fraction(corporate) - deduction, 1000) if defense_applies and corporate > deduction else 0
+    defense_tax = _floor(Fraction(defense_base) * Fraction(df["percent"]) / 100)
     return {"months": months, "taxable": taxable, "sme_portion": sme_portion, "other_portion": other_portion,
             "sme_percent": rule["percent"], "sme_tax": sme_tax, "other_tax": other_tax, "corporate_tax": corporate,
-            "local_base": local_base, "local_corporate_tax": local_tax_amount}
+            "local_base": local_base, "local_corporate_tax": local_tax_amount,
+            "defense_applies": defense_applies, "defense_deduction": deduction, "defense_base": defense_base,
+            "defense_tax": defense_tax}
 
 
 def schedule_01(data: dict, s4: dict, s7: dict, prules: dict | None = None) -> dict:
@@ -444,6 +452,10 @@ def schedule_01(data: dict, s4: dict, s7: dict, prules: dict | None = None) -> d
     final = max(after_credit - im["corporate"], 0)          # 15 差引確定法人税額
     refund_income_tax = credit - credited                   # 21 所得税額等の還付金額
     refund_interim = max(im["corporate"] - after_credit, 0)  # 22 中間納付額の還付
+    defense = ct["defense_tax"]
+    defense_after = defense // 100 * 100                    # 次葉一 57 差引防衛特別法人税額（100円未満切捨て）
+    defense_final = max(defense_after - im["defense"], 0)   # 59 差引確定防衛特別法人税額
+    refund_defense = max(im["defense"] - defense_after, 0)  # 61 中間納付額の還付
     local_after = local // 100 * 100                        # 38 差引地方法人税額
     local_final = max(local_after - im["local_corporate"], 0)
     refund_local = max(im["local_corporate"] - local_after, 0)
@@ -454,7 +466,9 @@ def schedule_01(data: dict, s4: dict, s7: dict, prules: dict | None = None) -> d
             "refund_income_tax": refund_income_tax, "refund_interim": refund_interim,
             "refund_total": refund_income_tax + refund_interim,
             "local_after": local_after, "final_local": local_final,
-            "interim_local": im["local_corporate"], "refund_local": refund_local}
+            "interim_local": im["local_corporate"], "refund_local": refund_local,
+            "defense_tax": defense, "defense_after": defense_after, "final_defense": defense_final,
+            "interim_defense": im["defense"], "refund_defense": refund_defense}
 
 
 # --- 別表五(二) ---
@@ -466,7 +480,7 @@ def schedule_05_02(data: dict, per_capita: dict[str, int], levy: dict[str, int] 
     税目ごとに prior（前期以前の未納の明細）・interim（当期中間）・current（当期確定）・total（計）。
     確定の額は「確定税額 − 中間納付額」。マイナス（還付）の部分は refund に分け、⑥期末現在未納税額の外書き（△）にする。"""
     levy = levy or {"道府県民税": 0, "市町村民税": 0}
-    national = (s1["after_credit"], s1["local_after"]) if s1 else (0, 0)
+    national = (s1["after_credit"], s1["local_after"], s1["defense_after"]) if s1 else (0, 0, 0)
     fp = data["fiscal_period"]
     im = interim_amounts(data)
     method = im["method"]
@@ -479,7 +493,7 @@ def schedule_05_02(data: dict, per_capita: dict[str, int], levy: dict[str, int] 
     def paid_row(accrued: int) -> dict:
         return {"by_provision": accrued if method == "充当金取崩し" else 0, "by_expense": accrued if method == "損金経理" else 0}
 
-    finals = {"法人税等": [national[0] - im["corporate"], national[1] - im["local_corporate"]]}
+    finals = {"法人税等": [national[0] - im["corporate"], national[1] - im["local_corporate"], national[2] - im["defense"]]}
     for t in ("道府県民税", "市町村民税"):
         finals[t] = [levy[t] - im["inhabitant"][t]["法人税割"], per_capita[t] - im["inhabitant"][t]["均等割"]]
     interim_of = {"法人税等": im["national"], **{t: im["inhabitant"][t]["total"] for t in ("道府県民税", "市町村民税")}}
@@ -747,9 +761,9 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
                         "納税充当金より多いためです（会計の処理と合っているか確かめてください）")
     warnings += s16["checks"]
     warnings += [candidate_text(c) for c in s16["candidates"]]
-    refund = s1["refund_total"] + s1["refund_local"]
+    refund = s1["refund_total"] + s1["refund_local"] + s1["refund_defense"]
     if refund and not data.get("refund_account"):
-        warnings.append(f"還付金（法人税・地方法人税 {refund:,}円）を受け取る口座（refund_account）が入力にありません")
+        warnings.append(f"還付金（法人税・地方法人税・防衛特別法人税 {refund:,}円）を受け取る口座（refund_account）が入力にありません")
     if trial_ratio_rounding:
         label = {"truncate": "切り捨て", "round_half_up": "四捨五入"}[trial_ratio_rounding]
         warnings.insert(0, f"試し用: 別表二の割合の端数処理を仮に「{label}」にしています。本番の申告には使えません")
