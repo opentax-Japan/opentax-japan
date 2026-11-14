@@ -1,0 +1,201 @@
+{
+ "form_id": "KSE040",
+ "label": "相続税額の加算金額の計算書（第4表）",
+ "version": "4.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shisan",
+ "group": "KSE040-4-0group",
+ "xsd": "19XMLスキーマ/shisan/KSE040-004.xsd",
+ "xsd_sha256": "dd31de40676b18ca520d7d782227cd44299d02df6aaad48356b880a5e10f5e36",
+ "root": {
+  "tag": "KSE040",
+  "path": "KSE040",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "FEA00000",
+    "path": "KSE040/FEA00000",
+    "label": "被相続人",
+    "min": 0,
+    "max": 1,
+    "type": "gen:name",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ]
+   },
+   {
+    "tag": "FEB00000",
+    "path": "KSE040/FEB00000",
+    "label": "明細　繰り返し",
+    "min": 0,
+    "max": 4,
+    "type": "FEB00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FEB00010",
+      "path": "KSE040/FEB00000/FEB00010",
+      "label": "加算の対象となる人の氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FEB00020",
+      "path": "KSE040/FEB00000/FEB00020",
+      "label": "各人の税額控除前の相続税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FEB00030",
+      "path": "KSE040/FEB00000/FEB00030",
+      "label": "相続時精算課税に係る贈与を受けている人で、かつ、相続開始の時までに被相続人との続柄に変更（養子縁組の解消等）があった場合に入力します。",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FEB00040",
+        "path": "KSE040/FEB00000/FEB00030/FEB00040",
+        "label": "被相続人の一親等の血族であった期間内にその被相続人から相続時精算課税に係る贈与によって取得した財産の価額の合計額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FEB00050",
+        "path": "KSE040/FEB00000/FEB00030/FEB00050",
+        "label": "被相続人から相続、遺贈や相続時精算課税に係る贈与によって取得した財産などで相続税の課税価格に算入された財産の価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FEB00060",
+        "path": "KSE040/FEB00000/FEB00030/FEB00060",
+        "label": "加算の対象とならない相続税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FEB00100",
+      "path": "KSE040/FEB00000/FEB00100",
+      "label": "管理残額がある場合の加算の対象とならない相続税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FEB00080",
+      "path": "KSE040/FEB00000/FEB00080",
+      "label": "相続税額の加算金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KSE040-4-0VRtype",
+    "fixed": "4.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

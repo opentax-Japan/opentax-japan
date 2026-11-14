@@ -975,6 +975,10 @@
           "sha256": "3ae65f7dadd706b1c435b4ff71652e4263e8201d22c74a4ae4f1442d27d01603"
         },
         {
+          "path": "19XMLスキーマ/kyotsu/TEA068-004.xsd",
+          "sha256": "d2c0df74625759edc7339edc4704a63800184db78fd103911ffff76c5563a906"
+        },
+        {
           "path": "19XMLスキーマ/kyotsu/TEG101-001.xsd",
           "sha256": "a9bce39629b89a2cb65f64beec183e2da707474ea57a108973002a57f6ab05d2"
         },
@@ -1173,6 +1177,146 @@
         {
           "path": "19XMLスキーマ/kyotsu/TEZ310-009.xsd",
           "sha256": "9d99b196acfd6bab0de198a0fd9c09d8e15e22a4826b7eb4f556fa6c24718ddc"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSB020-005.xsd",
+          "sha256": "3c3c6443103e762fc87e3a5cc7717a3854e1a36911a98eac93366234795d2153"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSB040-002.xsd",
+          "sha256": "7cfba53593adba21a9bbcba57d329e8f4e8fda73791127148e9ee4ddd8aef605"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE010-003.xsd",
+          "sha256": "c720c00468b03a12479daf2692e374d39bbcee41aeaeb1cf4cfe80d2c791d6c9"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE011-003.xsd",
+          "sha256": "4b728b86ec2227cd9da775738a82a6993552d064652ae92e5f2570cef0972003"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE013-002.xsd",
+          "sha256": "77e0c9ce6da1515de00b52e5ddfb32e79bdf82371453858ee985204829123f3d"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE020-002.xsd",
+          "sha256": "5154cbcd7bfb17006642ae925f111323fc265d4e2d14382911813c5e2717b23c"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE030-001.xsd",
+          "sha256": "193fc53c93a80cd59290d2fe55ae0105248b4a767c7706efe1c1d24ad3919a80"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE040-004.xsd",
+          "sha256": "dd31de40676b18ca520d7d782227cd44299d02df6aaad48356b880a5e10f5e36"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE041-001.xsd",
+          "sha256": "e8fd58d73185e4b2ea3c2886bbed5a8a9ae8c68c981f452007f3969367f4c744"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE043-004.xsd",
+          "sha256": "b2fedf60d4adc6bcc97719c6f69a0fe052926204a9523c30b87cd5a1de254596"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE050-002.xsd",
+          "sha256": "1ed02869469f3e97b401c7274db48ac9e6a1e3e18d323ade8e15e03e176963c9"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE060-003.xsd",
+          "sha256": "ea78dfb67f3402e1fa9d157138efa49c2c4faa9cf16f806d858fb61f067f4715"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE070-003.xsd",
+          "sha256": "b704a95a82df149687bfbcf5bf2d7a75b10d870b054ecac507cb5a251b7fe3a3"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE080-003.xsd",
+          "sha256": "b6852be0040376b550e646dd3d112b5cee940b82b52978442fb89f2f86cb163d"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE088-001.xsd",
+          "sha256": "995ce69224620e52adce26f0ad5714c67a09bb421bae19a65a06ea849d3f309b"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE090-002.xsd",
+          "sha256": "3d451efac7e44602c44d0d3ea35de7025b5e7437a289aa651f5fca69515ef0c6"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE100-002.xsd",
+          "sha256": "10561ae41c2287d5131875c07c3ac524d23a958f43d8ec5aed743667ab5c499d"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE110-004.xsd",
+          "sha256": "c86594894f68c26efc4145f001eacb7dd1c81c28d5dd1f2c7343b7ef0aafa881"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE111-004.xsd",
+          "sha256": "a3d35c0c77c5a420d9fc10688bae1c771828f6d6e11efd60732f7043c8877113"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE112-003.xsd",
+          "sha256": "a68d39698877ed49d79e546f83de31c2438dcf98d3bfb79e0a6a27a5b4b3d277"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE113-003.xsd",
+          "sha256": "655adee09dee90b06456211f1844a1c96a379d8af0ddccc6908f333d184555d3"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE114-003.xsd",
+          "sha256": "bce735b4d0b7770c8a8367e83124df2dc8beb626485f6046abf6d449a5b7faac"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE115-002.xsd",
+          "sha256": "0088aa837349327c9835be1c882fa1235686d120c77053513e967eb1ddd4d381"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE120-001.xsd",
+          "sha256": "b83a5d1aa86c80a9f2088b085fcc4ae9014ad22d2f84109f041872b070ebb188"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE130-002.xsd",
+          "sha256": "84245801ee3309f2ad5ce007c5772ef52f01af53ab1eaa90561dbbdf92fa4325"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE141-004.xsd",
+          "sha256": "788335de9e3e59c0a22aec0204c8ae08e04a218f0b163025e5e59477c5bf21cd"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE150-003.xsd",
+          "sha256": "d9f30734a84eb863775b8758df3f565e9f6f0dfcea17ae408621044941c47761"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE151-003.xsd",
+          "sha256": "520182e6b2855424ab49e74a3a1446d5cdb87b4d16ee0d7e70d852d38406fc20"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE160-001.xsd",
+          "sha256": "3dae6cb601bd547226b02c9086c5dc99775aafe28eee7fd57cebe3bc08cb004d"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE161-002.xsd",
+          "sha256": "930b25c8e5a2bc0eaf87f984d037d11d9dde7967825810feb4ec138da613ce11"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE162-002.xsd",
+          "sha256": "73d8ef2f933be91ab3b27e757fcbd260d0cc664b3875577c942431ad8d1f5358"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE163-002.xsd",
+          "sha256": "9939e3209dc9dfd0da048e1df5dec540c4bc9dc1e2ea0fc76de8d86e07c16803"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE164-002.xsd",
+          "sha256": "fd621bda576b1431bb410581d692a6d94604f603a4a2cc901d59e89d75edbb0a"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/KSE350-003.xsd",
+          "sha256": "34a78aed9836b4818b84bc81509b7380d26a69e95e12f085c110beacaa8e65bf"
+        },
+        {
+          "path": "19XMLスキーマ/shisan/RKS1000-250.xsd",
+          "sha256": "7f6dc791efa861cd17d91bdc92c1bb6867c3504ac63302c076dadca8f875e661"
         },
         {
           "path": "19XMLスキーマ/shohi/RSH0020-232.xsd",
@@ -2270,6 +2414,33 @@
           "sha256": "3c0e248b5e46a778d5e67f118e626d55320a9b03180f47b1fb3c220eee853179"
         }
       ]
+    },
+    {
+      "name": "e-tax12",
+      "role": "XML構造設計書・帳票フィールド仕様書【資産税関係】",
+      "url": "https://www.e-tax.nta.go.jp/shiyo/ksk2/download/e-tax12.CAB",
+      "published": "2026-01-30",
+      "extract": "listed",
+      "files": [
+        {
+          "path": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver1x.xlsx",
+          "sha256": "cee7311fd3eed9f09a67d9fd2563b13a711e4071501a839593264546aeb8b8c3"
+        },
+        {
+          "path": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver2x.xlsx",
+          "sha256": "826638b90af302d733f023374b0f0ca7521ad8b3c79582cf11d99ee0eafe06c0"
+        },
+        {
+          "path": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver3x.xlsx",
+          "sha256": "af7f09a7ab803de180d71da211ccbfc304114ea88cc669b9eca8601438bfaa84"
+        },
+        {
+          "path": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver4x.xlsx",
+          "sha256": "3079fffb8234d58589ec283532b98a5d5e77d2cc931c576eda5ac3f435b6825e"
+        }
+      ],
+      "sha256": "0b34260a3ed2e844e377d1c225a3d79b144171d03a1322955fc6fdc1fa779178",
+      "size_bytes": 2708071
     },
     {
       "name": "e-tax08",
@@ -3603,6 +3774,14 @@
       "xsd": "19XMLスキーマ/shotoku/RKO0010-250.xsd",
       "xsd_sha256": "ff20aba7b0e5cd9fc3d673e11622e84c624372ec8890a963a462b2f9bf5f6aac",
       "version": "25.0.1"
+    },
+    {
+      "procedure_id": "RKS1000",
+      "key": "RKS1000",
+      "label": "相続税申告",
+      "xsd": "19XMLスキーマ/shisan/RKS1000-250.xsd",
+      "xsd_sha256": "7f6dc791efa861cd17d91bdc92c1bb6867c3504ac63302c076dadca8f875e661",
+      "version": "25.0.0"
     }
   ],
   "forms": [
@@ -4284,6 +4463,230 @@
       "xsd_sha256": "9a5eab7a88e78c44744a2b0a2581597b780d3a2f65ac087ed927bd1a74c28a1e",
       "field_spec_workbook": "09XML構造設計書等【所得税】/帳票フィールド仕様書(所得-申告)Ver16x.xlsx",
       "field_spec_sheet": "KOA090"
+    },
+    {
+      "form_id": "KSE010",
+      "label": "相続税の申告書（第1表）",
+      "mvp": false,
+      "stage": "souzoku",
+      "procedure": "RKS1000",
+      "xsd": "19XMLスキーマ/shisan/KSE010-003.xsd",
+      "version": "3.0",
+      "xsd_documentation_date": "2024-06-11",
+      "group": "KSE010-3-0group",
+      "xsd_sha256": "c720c00468b03a12479daf2692e374d39bbcee41aeaeb1cf4cfe80d2c791d6c9",
+      "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver3x.xlsx",
+      "field_spec_sheet": "KSE010"
+    },
+    {
+      "form_id": "KSE011",
+      "label": "相続税の申告書（第1表（続））",
+      "mvp": false,
+      "stage": "souzoku",
+      "procedure": "RKS1000",
+      "xsd": "19XMLスキーマ/shisan/KSE011-003.xsd",
+      "version": "3.0",
+      "xsd_documentation_date": "2024-06-11",
+      "group": "KSE011-3-0group",
+      "xsd_sha256": "4b728b86ec2227cd9da775738a82a6993552d064652ae92e5f2570cef0972003",
+      "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver3x.xlsx",
+      "field_spec_sheet": "KSE011"
+    },
+    {
+      "form_id": "KSE020",
+      "label": "相続税の総額の計算書（第2表）",
+      "mvp": false,
+      "stage": "souzoku",
+      "procedure": "RKS1000",
+      "xsd": "19XMLスキーマ/shisan/KSE020-002.xsd",
+      "version": "2.0",
+      "xsd_documentation_date": "2023-05-09",
+      "group": "KSE020-2-0group",
+      "xsd_sha256": "5154cbcd7bfb17006642ae925f111323fc265d4e2d14382911813c5e2717b23c",
+      "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver2x.xlsx",
+      "field_spec_sheet": "KSE020"
+    },
+    {
+      "form_id": "KSE040",
+      "label": "相続税額の加算金額の計算書（第4表）",
+      "mvp": false,
+      "stage": "souzoku",
+      "procedure": "RKS1000",
+      "xsd": "19XMLスキーマ/shisan/KSE040-004.xsd",
+      "version": "4.0",
+      "xsd_documentation_date": "2024-06-11",
+      "group": "KSE040-4-0group",
+      "xsd_sha256": "dd31de40676b18ca520d7d782227cd44299d02df6aaad48356b880a5e10f5e36",
+      "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver4x.xlsx",
+      "field_spec_sheet": "KSE040"
+    },
+    {
+      "form_id": "KSE050",
+      "label": "配偶者の税額軽減額の計算書（第5表）",
+      "mvp": false,
+      "stage": "souzoku",
+      "procedure": "RKS1000",
+      "xsd": "19XMLスキーマ/shisan/KSE050-002.xsd",
+      "version": "2.0",
+      "xsd_documentation_date": "2024-06-11",
+      "group": "KSE050-2-0group",
+      "xsd_sha256": "1ed02869469f3e97b401c7274db48ac9e6a1e3e18d323ade8e15e03e176963c9",
+      "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver2x.xlsx",
+      "field_spec_sheet": "KSE050"
+    },
+    {
+      "form_id": "KSE060",
+      "label": "未成年者控除額・障害者控除額の計算書（第6表）",
+      "mvp": false,
+      "stage": "souzoku",
+      "procedure": "RKS1000",
+      "xsd": "19XMLスキーマ/shisan/KSE060-003.xsd",
+      "version": "3.0",
+      "xsd_documentation_date": "2023-05-09",
+      "group": "KSE060-3-0group",
+      "xsd_sha256": "ea78dfb67f3402e1fa9d157138efa49c2c4faa9cf16f806d858fb61f067f4715",
+      "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver3x.xlsx",
+      "field_spec_sheet": "KSE060"
+    },
+    {
+      "form_id": "KSE070",
+      "label": "相次相続控除額の計算書（第7表）",
+      "mvp": false,
+      "stage": "souzoku",
+      "procedure": "RKS1000",
+      "xsd": "19XMLスキーマ/shisan/KSE070-003.xsd",
+      "version": "3.0",
+      "xsd_documentation_date": "2024-06-11",
+      "group": "KSE070-3-0group",
+      "xsd_sha256": "b704a95a82df149687bfbcf5bf2d7a75b10d870b054ecac507cb5a251b7fe3a3",
+      "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver3x.xlsx",
+      "field_spec_sheet": "KSE070"
+    },
+    {
+      "form_id": "KSE088",
+      "label": "税額控除額及び納税猶予税額の内訳書（第8の8表）",
+      "mvp": false,
+      "stage": "souzoku",
+      "procedure": "RKS1000",
+      "xsd": "19XMLスキーマ/shisan/KSE088-001.xsd",
+      "version": "1.0",
+      "xsd_documentation_date": "2023-05-09",
+      "group": "KSE088-1-0group",
+      "xsd_sha256": "995ce69224620e52adce26f0ad5714c67a09bb421bae19a65a06ea849d3f309b",
+      "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver1x.xlsx",
+      "field_spec_sheet": "KSE088"
+    },
+    {
+      "form_id": "KSE090",
+      "label": "生命保険金などの明細書（第9表）",
+      "mvp": false,
+      "stage": "souzoku",
+      "procedure": "RKS1000",
+      "xsd": "19XMLスキーマ/shisan/KSE090-002.xsd",
+      "version": "2.0",
+      "xsd_documentation_date": "2024-06-11",
+      "group": "KSE090-2-0group",
+      "xsd_sha256": "3d451efac7e44602c44d0d3ea35de7025b5e7437a289aa651f5fca69515ef0c6",
+      "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver2x.xlsx",
+      "field_spec_sheet": "KSE090"
+    },
+    {
+      "form_id": "KSE100",
+      "label": "退職手当金などの明細書（第10表）",
+      "mvp": false,
+      "stage": "souzoku",
+      "procedure": "RKS1000",
+      "xsd": "19XMLスキーマ/shisan/KSE100-002.xsd",
+      "version": "2.0",
+      "xsd_documentation_date": "2024-06-11",
+      "group": "KSE100-2-0group",
+      "xsd_sha256": "10561ae41c2287d5131875c07c3ac524d23a958f43d8ec5aed743667ab5c499d",
+      "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver2x.xlsx",
+      "field_spec_sheet": "KSE100"
+    },
+    {
+      "form_id": "KSE110",
+      "label": "相続税がかかる財産の明細書（第11表）",
+      "mvp": false,
+      "stage": "souzoku",
+      "procedure": "RKS1000",
+      "xsd": "19XMLスキーマ/shisan/KSE110-004.xsd",
+      "version": "4.0",
+      "xsd_documentation_date": "2024-06-11",
+      "group": "KSE110-4-0group",
+      "xsd_sha256": "c86594894f68c26efc4145f001eacb7dd1c81c28d5dd1f2c7343b7ef0aafa881",
+      "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver4x.xlsx",
+      "field_spec_sheet": "KSE110"
+    },
+    {
+      "form_id": "KSE112",
+      "label": "小規模宅地等についての課税価格の計算明細書（第11・11の2表の付表1）",
+      "mvp": false,
+      "stage": "souzoku",
+      "procedure": "RKS1000",
+      "xsd": "19XMLスキーマ/shisan/KSE112-003.xsd",
+      "version": "3.0",
+      "xsd_documentation_date": "2024-06-11",
+      "group": "KSE112-3-0group",
+      "xsd_sha256": "a68d39698877ed49d79e546f83de31c2438dcf98d3bfb79e0a6a27a5b4b3d277",
+      "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver3x.xlsx",
+      "field_spec_sheet": "KSE112"
+    },
+    {
+      "form_id": "KSE130",
+      "label": "債務及び葬式費用の明細書（第13表）",
+      "mvp": false,
+      "stage": "souzoku",
+      "procedure": "RKS1000",
+      "xsd": "19XMLスキーマ/shisan/KSE130-002.xsd",
+      "version": "2.0",
+      "xsd_documentation_date": "2020-07-01",
+      "group": "KSE130-2-0group",
+      "xsd_sha256": "84245801ee3309f2ad5ce007c5772ef52f01af53ab1eaa90561dbbdf92fa4325",
+      "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver2x.xlsx",
+      "field_spec_sheet": "KSE130"
+    },
+    {
+      "form_id": "KSE141",
+      "label": "純資産価額に加算される暦年課税分の贈与財産価額等の明細書（第14表）",
+      "mvp": false,
+      "stage": "souzoku",
+      "procedure": "RKS1000",
+      "xsd": "19XMLスキーマ/shisan/KSE141-004.xsd",
+      "version": "4.0",
+      "xsd_documentation_date": "2025-06-20",
+      "group": "KSE141-4-0group",
+      "xsd_sha256": "788335de9e3e59c0a22aec0204c8ae08e04a218f0b163025e5e59477c5bf21cd",
+      "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver4x.xlsx",
+      "field_spec_sheet": "KSE141"
+    },
+    {
+      "form_id": "KSE150",
+      "label": "相続財産の種類別価額表（第15表）",
+      "mvp": false,
+      "stage": "souzoku",
+      "procedure": "RKS1000",
+      "xsd": "19XMLスキーマ/shisan/KSE150-003.xsd",
+      "version": "3.0",
+      "xsd_documentation_date": "2024-06-11",
+      "group": "KSE150-3-0group",
+      "xsd_sha256": "d9f30734a84eb863775b8758df3f565e9f6f0dfcea17ae408621044941c47761",
+      "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver3x.xlsx",
+      "field_spec_sheet": "KSE150"
+    },
+    {
+      "form_id": "KSE151",
+      "label": "相続財産の種類別価額表（第15表（続））",
+      "mvp": false,
+      "stage": "souzoku",
+      "procedure": "RKS1000",
+      "xsd": "19XMLスキーマ/shisan/KSE151-003.xsd",
+      "version": "3.0",
+      "xsd_documentation_date": "2024-06-11",
+      "group": "KSE151-3-0group",
+      "xsd_sha256": "520182e6b2855424ab49e74a3a1446d5cdb87b4d16ee0d7e70d852d38406fc20",
+      "field_spec_workbook": "12XML構造設計書等【資産税】/帳票フィールド仕様書（資産-申告）Ver3x.xlsx",
+      "field_spec_sheet": "KSE151"
     }
   ]
 }

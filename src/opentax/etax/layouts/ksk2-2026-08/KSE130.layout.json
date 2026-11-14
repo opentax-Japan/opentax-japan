@@ -1,0 +1,868 @@
+{
+ "form_id": "KSE130",
+ "label": "債務及び葬式費用の明細書（第13表）",
+ "version": "2.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shisan",
+ "group": "KSE130-2-0group",
+ "xsd": "19XMLスキーマ/shisan/KSE130-002.xsd",
+ "xsd_sha256": "84245801ee3309f2ad5ce007c5772ef52f01af53ab1eaa90561dbbdf92fa4325",
+ "root": {
+  "tag": "KSE130",
+  "path": "KSE130",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "FMA00000",
+    "path": "KSE130/FMA00000",
+    "label": "被相続人",
+    "min": 0,
+    "max": 1,
+    "type": "gen:name",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ]
+   },
+   {
+    "tag": "FMB00000",
+    "path": "KSE130/FMB00000",
+    "label": "１　債務の明細",
+    "min": 0,
+    "max": 1,
+    "type": "FMB00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FMB00010",
+      "path": "KSE130/FMB00000/FMB00010",
+      "label": "繰り返し",
+      "min": 0,
+      "max": 6,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FMB00020",
+        "path": "KSE130/FMB00000/FMB00010/FMB00020",
+        "label": "債務の明細",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FMB00030",
+          "path": "KSE130/FMB00000/FMB00010/FMB00020/FMB00030",
+          "label": "種類",
+          "min": 0,
+          "max": 1,
+          "type": "FMB00030-2-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 10
+         },
+         {
+          "tag": "FMB00040",
+          "path": "KSE130/FMB00000/FMB00010/FMB00020/FMB00040",
+          "label": "細目",
+          "min": 0,
+          "max": 1,
+          "type": "FMB00040-2-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "FMB00050",
+          "path": "KSE130/FMB00000/FMB00010/FMB00020/FMB00050",
+          "label": "債権者",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "FMB00060",
+            "path": "KSE130/FMB00000/FMB00010/FMB00020/FMB00050/FMB00060",
+            "label": "氏名又は名称",
+            "min": 0,
+            "max": 1,
+            "type": "gen:name",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           },
+           {
+            "tag": "FMB00070",
+            "path": "KSE130/FMB00000/FMB00010/FMB00020/FMB00050/FMB00070",
+            "label": "住所又は所在地",
+            "min": 0,
+            "max": 1,
+            "type": "gen:address",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "FMB00080",
+          "path": "KSE130/FMB00000/FMB00010/FMB00020/FMB00080",
+          "label": "発生年月日",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KSE130/FMB00000/FMB00010/FMB00020/FMB00080/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KSE130/FMB00000/FMB00010/FMB00020/FMB00080/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "KSE130/FMB00000/FMB00010/FMB00020/FMB00080/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "KSE130/FMB00000/FMB00010/FMB00020/FMB00080/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "FMB00090",
+          "path": "KSE130/FMB00000/FMB00010/FMB00020/FMB00090",
+          "label": "弁済期限",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KSE130/FMB00000/FMB00010/FMB00020/FMB00090/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KSE130/FMB00000/FMB00010/FMB00020/FMB00090/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "KSE130/FMB00000/FMB00010/FMB00020/FMB00090/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "KSE130/FMB00000/FMB00010/FMB00020/FMB00090/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "FMB00100",
+          "path": "KSE130/FMB00000/FMB00010/FMB00020/FMB00100",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FMB00110",
+        "path": "KSE130/FMB00000/FMB00010/FMB00110",
+        "label": "負担することが確定した債務",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FMB00120",
+          "path": "KSE130/FMB00000/FMB00010/FMB00110/FMB00120",
+          "label": "負担する人の氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "FMB00130",
+          "path": "KSE130/FMB00000/FMB00010/FMB00110/FMB00130",
+          "label": "負担する金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FMB00140",
+      "path": "KSE130/FMB00000/FMB00140",
+      "label": "合計　金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FMC00000",
+    "path": "KSE130/FMC00000",
+    "label": "２　葬式費用の明細",
+    "min": 0,
+    "max": 1,
+    "type": "FMC00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FMC00010",
+      "path": "KSE130/FMC00000/FMC00010",
+      "label": "繰り返し",
+      "min": 0,
+      "max": 6,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FMC00020",
+        "path": "KSE130/FMC00000/FMC00010/FMC00020",
+        "label": "葬式費用の明細",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FMC00030",
+          "path": "KSE130/FMC00000/FMC00010/FMC00020/FMC00030",
+          "label": "支払先",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "FMC00040",
+            "path": "KSE130/FMC00000/FMC00010/FMC00020/FMC00030/FMC00040",
+            "label": "氏名又は名称",
+            "min": 0,
+            "max": 1,
+            "type": "gen:name",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           },
+           {
+            "tag": "FMC00050",
+            "path": "KSE130/FMC00000/FMC00010/FMC00020/FMC00030/FMC00050",
+            "label": "住所又は所在地",
+            "min": 0,
+            "max": 1,
+            "type": "gen:address",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "FMC00060",
+          "path": "KSE130/FMC00000/FMC00010/FMC00020/FMC00060",
+          "label": "支払年月日",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "KSE130/FMC00000/FMC00010/FMC00020/FMC00060/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "KSE130/FMC00000/FMC00010/FMC00020/FMC00060/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "KSE130/FMC00000/FMC00010/FMC00020/FMC00060/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "KSE130/FMC00000/FMC00010/FMC00020/FMC00060/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "FMC00070",
+          "path": "KSE130/FMC00000/FMC00010/FMC00020/FMC00070",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FMC00080",
+        "path": "KSE130/FMC00000/FMC00010/FMC00080",
+        "label": "負担することが確定した葬式費用",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FMC00090",
+          "path": "KSE130/FMC00000/FMC00010/FMC00080/FMC00090",
+          "label": "負担する人の氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "FMC00100",
+          "path": "KSE130/FMC00000/FMC00010/FMC00080/FMC00100",
+          "label": "負担する金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FMC00110",
+      "path": "KSE130/FMC00000/FMC00110",
+      "label": "合計　金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FMD00000",
+    "path": "KSE130/FMD00000",
+    "label": "３　債務及び葬式費用の合計額",
+    "min": 0,
+    "max": 1,
+    "type": "FMD00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FMD00010",
+      "path": "KSE130/FMD00000/FMD00010",
+      "label": "（各人の合計）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FMD00020",
+        "path": "KSE130/FMD00000/FMD00010/FMD00020",
+        "label": "債務",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FMD00030",
+          "path": "KSE130/FMD00000/FMD00010/FMD00020/FMD00030",
+          "label": "負担することが確定した債務",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FMD00040",
+          "path": "KSE130/FMD00000/FMD00010/FMD00020/FMD00040",
+          "label": "負担することが確定していない債務",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FMD00050",
+          "path": "KSE130/FMD00000/FMD00010/FMD00020/FMD00050",
+          "label": "計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FMD00060",
+        "path": "KSE130/FMD00000/FMD00010/FMD00060",
+        "label": "葬式費用",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FMD00070",
+          "path": "KSE130/FMD00000/FMD00010/FMD00060/FMD00070",
+          "label": "負担することが確定した葬式費用",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FMD00080",
+          "path": "KSE130/FMD00000/FMD00010/FMD00060/FMD00080",
+          "label": "負担することが確定していない葬式費用",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FMD00090",
+          "path": "KSE130/FMD00000/FMD00010/FMD00060/FMD00090",
+          "label": "計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FMD00100",
+        "path": "KSE130/FMD00000/FMD00010/FMD00100",
+        "label": "合計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FMD00110",
+      "path": "KSE130/FMD00000/FMD00110",
+      "label": "繰り返し",
+      "min": 0,
+      "max": 4,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FMD00120",
+        "path": "KSE130/FMD00000/FMD00110/FMD00120",
+        "label": "債務などを承継した人の氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "FMD00130",
+        "path": "KSE130/FMD00000/FMD00110/FMD00130",
+        "label": "債務",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FMD00140",
+          "path": "KSE130/FMD00000/FMD00110/FMD00130/FMD00140",
+          "label": "負担することが確定した債務",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FMD00150",
+          "path": "KSE130/FMD00000/FMD00110/FMD00130/FMD00150",
+          "label": "負担することが確定していない債務",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FMD00160",
+          "path": "KSE130/FMD00000/FMD00110/FMD00130/FMD00160",
+          "label": "計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FMD00170",
+        "path": "KSE130/FMD00000/FMD00110/FMD00170",
+        "label": "葬式費用",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FMD00180",
+          "path": "KSE130/FMD00000/FMD00110/FMD00170/FMD00180",
+          "label": "負担することが確定した葬式費用",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FMD00190",
+          "path": "KSE130/FMD00000/FMD00110/FMD00170/FMD00190",
+          "label": "負担することが確定していない葬式費用",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FMD00200",
+          "path": "KSE130/FMD00000/FMD00110/FMD00170/FMD00200",
+          "label": "計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FMD00210",
+        "path": "KSE130/FMD00000/FMD00110/FMD00210",
+        "label": "合計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KSE130-2-0VRtype",
+    "fixed": "2.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

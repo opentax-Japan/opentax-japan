@@ -127,8 +127,8 @@ def _build_layout(args: argparse.Namespace) -> int:
 def _build_catalog(args: argparse.Namespace) -> int:
     manifest = Path(args.manifest_dir) / f"{args.spec_set}.manifest.json"
     spec = SpecSet(manifest, Path(args.cache_dir))
-    # 帳票フィールド仕様書: e-tax10（法人税）・e-tax11（消費税）・e-tax09（所得税）・e-tax17（総務。税務代理権限証書など）
-    pkgs = [p for p in spec.manifest["packages"] if p["name"] in ("e-tax10", "e-tax11", "e-tax09", "e-tax17") and p.get("files")]
+    # 帳票フィールド仕様書: e-tax10（法人税）・e-tax11（消費税）・e-tax09（所得税）・e-tax12（資産税。相続税）・e-tax17（総務。税務代理権限証書など）
+    pkgs = [p for p in spec.manifest["packages"] if p["name"] in ("e-tax10", "e-tax11", "e-tax09", "e-tax12", "e-tax17") and p.get("files")]
     if not any(p["name"] == "e-tax10" for p in pkgs):
         raise SpecError("manifest に e-tax10 がありません。先に fetch-spec --init を実行してください")
     sources = {spec.file_path(p, f["path"]): f for p in pkgs for f in p["files"] if WORKBOOK_RE.search(f["path"])}
@@ -137,8 +137,8 @@ def _build_catalog(args: argparse.Namespace) -> int:
     forms = []
     manifest_changed = False
     for form in spec.manifest["forms"]:
-        # 消費税の様式（SH）は消費税、総務の様式（SOZ）は総務、所得税の様式（KO）は所得税、ほかは法人税の仕様書から探す
-        kind = {"SH": "消費", "SO": "総務", "KO": "所得"}.get(form["form_id"][:2], "法人")
+        # 消費税の様式（SH）は消費税、総務の様式（SOZ）は総務、所得税の様式（KO）は所得税、相続税の様式（KS）は資産税、ほかは法人税の仕様書から探す
+        kind = {"SH": "消費", "SO": "総務", "KO": "所得", "KS": "資産"}.get(form["form_id"][:2], "法人")
         books = [w for w in workbooks if kind in w.name]
         workbook, sheet = find_sheet(books, form["form_id"], form["version"])
         source = sources[workbook]
@@ -510,6 +510,45 @@ def _kojin(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def _souzoku(args) -> int:
+    import json as _json
+    from . import api
+
+    c = api.souzoku_calculate(_json.loads(Path(args.input).read_text(encoding="utf-8")))
+    T = c["totals"]
+    print(f"課税価格の合計額 {c['A']:,}円  遺産に係る基礎控除額 {c['basic']:,}円（法定相続人 {c['n_heirs']} 人）  相続税の総額 {T['7']:,}円")
+    for pid, r in c["rows"].items():
+        print(f"  {c['persons'][pid]['name']}: 課税価格 {r['6']:,}円  あん分割合 {float(r['8']):.4f}  算出税額 {r['9']:,}円  "
+              f"納付すべき税額 {r['21']:,}円")
+    print(f"申告期限までに納付すべき税額（合計） {T['21']:,}円")
+    for w in c["warnings"]:
+        print(f"注意: {w}")
+    for k in c["checks"]:
+        print(f"確かめてください: {k}")
+    if args.report:
+        with open(args.report, "w", encoding="utf-8", newline="\n") as f:
+            f.write(api.souzoku_report(c))
+        print(f"申告書一式を書き出しました: {args.report}")
+    if not args.output:
+        return EXIT_OK
+    schema_root = Path(args.cache_dir) / "ksk2-2026-08" / "files" / "e-tax19"
+    if args.cab:
+        schema_root = api.schema_from_cab(Path(args.cab).read_bytes())
+    if not schema_root.exists():
+        raise SpecError("公式XSD がありません。opentax fetch-spec --set ksk2-2026-08 を実行するか、--cab で e-tax19.CAB を指定してください")
+    xml = api.souzoku_export(c, schema_root)
+    errors = api.validate_xtx(xml, schema_root, "RKS1000")
+    if errors:
+        print(f"公式XSD の検証で誤りがあります（{len(errors)} 件）。.xtx は書き出しません")
+        for e in errors[:20]:
+            print(f"  {e}")
+        return EXIT_CHANGED
+    Path(args.output).write_bytes(xml)
+    print("公式XSD（手続 RKS1000）の検証: 誤りなし")
+    print(f"書き出しました: {args.output}（{len(xml):,} バイト）")
+    return EXIT_OK
+
+
 def _jigyosho(args) -> int:
     import json as _json
     from . import api
@@ -655,11 +694,18 @@ def main(argv: list[str] | None = None) -> int:
     it.add_argument("files", nargs="+", help="読むファイル（フォルダを渡すと中の全部）")
     it.add_argument("-o", "--output", help="下書き（input・marks・conflicts・questions・followups）を書き出す先の JSON")
 
+    sz = sub.add_parser("souzoku", help="相続税の申告書（第1表・第2表・第4表〜第7表・第8の8表・第9表〜第15表。令和6年1月1日以後の相続）を計算し、-o で .xtx を作る")
+    sz.add_argument("input", help="入力 JSON（被相続人・財産を取得した人・財産・債務・贈与など。tests/cases/kokuzei-taro-souzoku/input.json が見本）")
+    sz.add_argument("-o", "--output", help="書き出す .xtx（公式XSD の検証を通ったときだけ書く）")
+    sz.add_argument("--report", help="申告書一式の HTML を書き出す先")
+    sz.add_argument("--cache-dir", default=".cache/etax")
+    sz.add_argument("--cab", help="国税庁から取った e-tax19.CAB（キャッシュの代わりに使う）")
+
     args = parser.parse_args(argv)
     command = {"intake": _intake, "fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
                "build-checks": _build_checks, "calculate": _calculate, "export-etax": _export_etax,
                "local-tax": _local_tax, "shohi": _shohi, "kojin": _kojin, "report": _report,
-               "jigyosho": _jigyosho, "shukuhaku": _shukuhaku}[args.command]
+               "jigyosho": _jigyosho, "shukuhaku": _shukuhaku, "souzoku": _souzoku}[args.command]
     from .etax.validate import ValidationUnavailable
     from .etax.xtx import XtxError
     from .red.calculate import RuleError
@@ -670,10 +716,11 @@ def main(argv: list[str] | None = None) -> int:
     from .shohi.calculate import ShohiInputError
     from .jigyosho.calculate import JigyoshoError
     from .shukuhaku.calculate import ShukuhakuError
+    from .souzoku.calculate import SouzokuError
     try:
         return command(args)
     except (SpecError, LayoutError, CatalogError, CheckError, InputError, RuleError, LocalRuleError, XtxError,
-            ValidationUnavailable, SheetError, ShohiInputError, KojinError, JigyoshoError, ShukuhakuError, OSError) as e:
+            ValidationUnavailable, SheetError, ShohiInputError, KojinError, JigyoshoError, ShukuhakuError, SouzokuError, OSError) as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
 

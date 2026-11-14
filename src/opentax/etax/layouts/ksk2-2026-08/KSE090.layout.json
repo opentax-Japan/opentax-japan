@@ -1,0 +1,382 @@
+{
+ "form_id": "KSE090",
+ "label": "生命保険金などの明細書（第9表）",
+ "version": "2.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shisan",
+ "group": "KSE090-2-0group",
+ "xsd": "19XMLスキーマ/shisan/KSE090-002.xsd",
+ "xsd_sha256": "3d451efac7e44602c44d0d3ea35de7025b5e7437a289aa651f5fca69515ef0c6",
+ "root": {
+  "tag": "KSE090",
+  "path": "KSE090",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "FTA00000",
+    "path": "KSE090/FTA00000",
+    "label": "被相続人",
+    "min": 0,
+    "max": 1,
+    "type": "gen:name",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ]
+   },
+   {
+    "tag": "FTB00000",
+    "path": "KSE090/FTB00000",
+    "label": "１　相続や遺贈によって取得したものとみなされる保険金など　繰り返し",
+    "min": 0,
+    "max": 5,
+    "type": "FTB00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FTB00010",
+      "path": "KSE090/FTB00000/FTB00010",
+      "label": "保険会社等の所在地",
+      "min": 0,
+      "max": 1,
+      "type": "gen:address",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FTB00020",
+      "path": "KSE090/FTB00000/FTB00020",
+      "label": "保険会社等の名称",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FTB00030",
+      "path": "KSE090/FTB00000/FTB00030",
+      "label": "受取年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "KSE090/FTB00000/FTB00030/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "KSE090/FTB00000/FTB00030/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "KSE090/FTB00000/FTB00030/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "KSE090/FTB00000/FTB00030/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "FTB00040",
+      "path": "KSE090/FTB00000/FTB00040",
+      "label": "受取金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FTB00050",
+      "path": "KSE090/FTB00000/FTB00050",
+      "label": "受取人の氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FTC00000",
+    "path": "KSE090/FTC00000",
+    "label": "２　課税される金額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "FTC00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FTC00010",
+      "path": "KSE090/FTC00000/FTC00010",
+      "label": "保険金の非課税限度額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FTC00020",
+        "path": "KSE090/FTC00000/FTC00010/FTC00020",
+        "label": "第２表の(A)の法定相続人の数",
+        "min": 0,
+        "max": 1,
+        "type": "FTC00020-2-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FTC00030",
+        "path": "KSE090/FTC00000/FTC00010/FTC00030",
+        "label": "保険金の非課税限度額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FTC00040",
+      "path": "KSE090/FTC00000/FTC00040",
+      "label": "明細　繰り返し",
+      "min": 0,
+      "max": 5,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FTC00050",
+        "path": "KSE090/FTC00000/FTC00040/FTC00050",
+        "label": "保険金などを受け取った相続人の氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "FTC00060",
+        "path": "KSE090/FTC00000/FTC00040/FTC00060",
+        "label": "受け取った保険金などの金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FTC00070",
+        "path": "KSE090/FTC00000/FTC00040/FTC00070",
+        "label": "非課税金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FTC00080",
+        "path": "KSE090/FTC00000/FTC00040/FTC00080",
+        "label": "課税金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FTC00090",
+      "path": "KSE090/FTC00000/FTC00090",
+      "label": "合計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FTC00100",
+        "path": "KSE090/FTC00000/FTC00090/FTC00100",
+        "label": "受け取った保険金などの金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FTC00110",
+        "path": "KSE090/FTC00000/FTC00090/FTC00110",
+        "label": "非課税金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FTC00120",
+        "path": "KSE090/FTC00000/FTC00090/FTC00120",
+        "label": "課税金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KSE090-2-0VRtype",
+    "fixed": "2.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

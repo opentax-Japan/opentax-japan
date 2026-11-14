@@ -73,6 +73,11 @@ Web 画面（https://opentax-japan.github.io/opentax-japan/）のトップに、
   国税庁「確定申告の手引き」の申告書の記載例・設例と数字が一致します。
   分離課税（第三表）: 土地・建物等の譲渡（3,000万円の特別控除・軽減税率・特定分）・株式等の譲渡・上場株式等の配当等の申告分離課税・譲渡損失の繰越控除・先物取引。
   国税庁「譲渡所得の申告のしかた」「株式等の譲渡所得等の申告のしかた」の記載例と一致します。損失申告・住宅借入金等特別控除などは対象外で止まります。令和8年分は国税庁の仕様の公表待ちです
+- 相続税（令和6年1月1日以後の相続）: 申告書 第1表・第1表（続）・第2表・第4表・第5表・第6表・第7表・第8の8表・第9表・第10表・第11表・
+  第11・11の2表の付表1（小規模宅地等）・第13表・第14表・第15表の .xtx（`opentax souzoku`。手続 RKS1000）と申告書一式の HTML。
+  法定相続分（民法第900条・第901条）・基礎控除・総額・あん分・2割加算・配偶者の税額軽減・未成年者控除・障害者控除・相次相続控除・
+  生命保険金等の非課税・暦年課税の贈与の加算（7年への延長と100万円控除）・代償財産。国税庁「相続税の申告のしかた」の記載例と数字が一致します。
+  財産の評価（土地・株式）は評価済みの額を入れます。小規模宅地等の特例と配偶者の税額軽減は、選ぶのは申告する人です（OpenTax は候補と試算を出します）
 - 事業所税: 申告書（地方税法施行規則 第四十四号様式）を様式の上に値を置いて HTML で作ります（`opentax jigyosho`）。課税団体75・税率・免税点・課税標準の特例は e-Gov の条文から作った設定。
   岡山市「事業所税の手引」の税額計算例と一致します
 - 宿泊税（長野県）: 予約管理サービスの宿泊税明細（日別・予約ごとの CSV）から、納入申告書（様式第２号の上に値）と宿泊税月計表を作ります（`opentax shukuhaku`）。
@@ -103,6 +108,8 @@ Web 画面（https://opentax-japan.github.io/opentax-japan/）のトップに、
 - 地方税（eLTAX）の取込ファイル、分割法人
 - 消費税の旧税率の取引・課税貨物・調整対象固定資産の調整
 - 所得税の損失申告（第四表。損益通算しても経常所得が赤字になるもの）・居住用財産の譲渡損失の特例・買換え交換・先物取引の繰越損失の付表・損失と公的年金等がある申告・住宅借入金等特別控除・令和8年分
+- 相続税の農地等・非上場株式等などの納税猶予、外国税額控除、未分割の財産、配偶者居住権、養子の数の制限を超える養子、修正申告。
+  相続時精算課税（第11の2表）・暦年課税分の贈与税額控除（第4表の2）・還付（第1表の付表2）がある申告は、計算と一式の表は作れますが .xtx は作りません
 
 ## 国税庁の仕様書について
 
@@ -137,6 +144,7 @@ opentax export-etax company.json -o out.xtx # e-Taxソフト（ダウンロー�
 opentax local-tax company.json -o out.html  # 地方税の一覧（第六号様式・第二十号様式の欄ごとの金額。スマホで見られる HTML）
 opentax shohi shohi.json -o shohi.xtx       # 消費税（法人）の .xtx（見本: 一般 tests/cases/kokuzei-shoji-shohi/input.json・簡易 tests/cases/kasumi-shokai-kani/input.json）
 opentax kojin tests/cases/kokuzei-taro-kojin/input.json --business tests/cases/kokuzei-taro-kojin/business_balance.csv --real-estate tests/cases/kokuzei-taro-kojin/real_estate_balance.csv -o kojin.xtx --report 個人.html   # 所得税（個人）
+opentax souzoku tests/cases/kokuzei-taro-souzoku/input.json --report 相続.html   # 相続税（-o で .xtx。送る人の user_id が要る）
 opentax report --demo -o 一式.html         # 申告書一式（HTML 1枚）。自社の分は input.json --balance --trend --payroll --supplement --gaikyo --shohi
 ```
 

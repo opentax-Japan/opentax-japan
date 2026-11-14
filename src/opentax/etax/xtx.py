@@ -155,6 +155,13 @@ class _Emitter:
                     raise XtxError(f"{node['path']}: 電話番号は「03-0000-0000」の形にしてください: {value}")
                 for c, t in zip(node["children"], parts):
                     ET.SubElement(el, _q(c, self.form_ns)).text = t
+            elif isinstance(value, str) and set(tags) == {"zip1", "zip2"}:
+                # 郵便番号「123-4567」を上3桁・下4桁に分ける（相続税の申告書（続）のように1つの様式に郵便番号の欄が2つある場合に使う）
+                m = re.fullmatch(r"(\d{3})-?(\d{4})", value)
+                if not m:
+                    raise XtxError(f"{node['path']}: 郵便番号は「123-4567」の形にしてください: {value}")
+                for c, t in zip(node["children"], m.groups()):
+                    ET.SubElement(el, _q(c, self.form_ns)).text = t
             elif isinstance(value, str) and "kubun_CD" in tags:
                 code_node = next(c for c in node["children"] if c["tag"] == "kubun_CD")
                 if code_node.get("enumeration") and value not in code_node["enumeration"]:

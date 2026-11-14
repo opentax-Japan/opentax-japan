@@ -629,3 +629,35 @@ def build_shukuhaku(r: dict, submitted: datetime.date | None = None, today: date
     parts.append(f"<p class='src'>月計表は県の様式ではなく、同じ項目を並べた表です（県の月計表の様式「記載項目を満たしていれば任意の様式で結構です」）。"
                  f"課税対象外の内訳: {_e(cat['under'])}／{_e(cat['exempt'])}／{_e(cat['ambassador'])}</p>")
     return _page(title, parts)
+
+
+# --- 相続税（2026-11-14） ---
+
+SOUZOKU_TITLES = {"KSE010": "相続税の申告書（第1表）", "KSE011": "相続税の申告書（第1表（続））", "KSE020": "相続税の総額の計算書（第2表）",
+                  "KSE040": "相続税額の加算金額の計算書（第4表）", "KSE050": "配偶者の税額軽減額の計算書（第5表）",
+                  "KSE060": "未成年者控除額・障害者控除額の計算書（第6表）", "KSE070": "相次相続控除額の計算書（第7表）",
+                  "KSE088": "税額控除額及び納税猶予税額の内訳書（第8の8表）", "KSE090": "生命保険金などの明細書（第9表）",
+                  "KSE100": "退職手当金などの明細書（第10表）", "KSE110": "相続税がかかる財産の明細書（第11表）",
+                  "KSE112": "小規模宅地等についての課税価格の計算明細書（第11・11の2表の付表1）",
+                  "KSE130": "債務及び葬式費用の明細書（第13表）", "KSE141": "純資産価額に加算される暦年課税分の贈与財産価額等の明細書（第14表）",
+                  "KSE150": "相続財産の種類別価額表（第15表）", "KSE151": "相続財産の種類別価額表（第15表（続））"}
+
+
+def build_souzoku(calculated: dict, today: datetime.date | None = None) -> str:
+    """相続税の申告書一式（HTML 1枚）。記載の順序（申告のしかた 75ページ）ではなく、提出の順（第1表から）に並べる。"""
+    from .etax.form_view import form_view
+    from .souzoku.etax import ORDER, form_values
+    today = today or datetime.date.today()
+    catalog = _catalog()
+    vals = form_values(calculated)
+    dec = calculated["input"]["decedent"]
+    parts = [f"<h1>相続税の申告書</h1><p class='meta'>被相続人 {_e(dec['name'])}　相続開始日 {calculated['death'].isoformat()}"
+             f"　作成 {today.isoformat()}</p>", _notes(calculated.get("warnings", []), calculated.get("checks", []))]
+    toc = []
+    for fid in ORDER:
+        for n, v in enumerate(vals.get(fid, []), start=1):
+            anchor = f"{fid}-{n}"
+            toc.append(f"<li><a href='#{anchor}'>{_e(SOUZOKU_TITLES[fid])}{'' if n == 1 else f'（{n}枚目）'}</a></li>")
+            parts.append(_form(SOUZOKU_TITLES[fid], "金額は円", _blocks(form_view(catalog[fid], v, {})), anchor))
+    parts.insert(2, f"<nav><ol>{''.join(toc)}</ol></nav>")
+    return _page(f"相続税の申告書 {dec['name']}", parts)

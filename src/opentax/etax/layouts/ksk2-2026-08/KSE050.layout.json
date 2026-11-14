@@ -1,0 +1,845 @@
+{
+ "form_id": "KSE050",
+ "label": "配偶者の税額軽減額の計算書（第5表）",
+ "version": "2.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shisan",
+ "group": "KSE050-2-0group",
+ "xsd": "19XMLスキーマ/shisan/KSE050-002.xsd",
+ "xsd_sha256": "1ed02869469f3e97b401c7274db48ac9e6a1e3e18d323ade8e15e03e176963c9",
+ "root": {
+  "tag": "KSE050",
+  "path": "KSE050",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "FGA00000",
+    "path": "KSE050/FGA00000",
+    "label": "被相続人",
+    "min": 0,
+    "max": 1,
+    "type": "gen:name",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ]
+   },
+   {
+    "tag": "FGB00000",
+    "path": "KSE050/FGB00000",
+    "label": "１　一般の場合",
+    "min": 0,
+    "max": 1,
+    "type": "FGB00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FGB00010",
+      "path": "KSE050/FGB00000/FGB00010",
+      "label": "課税価格の合計額のうち配偶者の法定相続分相当額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FGB00020",
+        "path": "KSE050/FGB00000/FGB00010/FGB00020",
+        "label": "第１表の(A)の金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FGB00030",
+        "path": "KSE050/FGB00000/FGB00010/FGB00030",
+        "label": "配偶者の法定相続分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FGB00040",
+          "path": "KSE050/FGB00000/FGB00010/FGB00030/FGB00040",
+          "label": "分子",
+          "min": 0,
+          "max": 1,
+          "type": "FGB00040-2-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FGB00050",
+          "path": "KSE050/FGB00000/FGB00010/FGB00030/FGB00050",
+          "label": "分母",
+          "min": 0,
+          "max": 1,
+          "type": "FGB00050-2-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FGB00060",
+        "path": "KSE050/FGB00000/FGB00010/FGB00060",
+        "label": "配偶者の法定相続分相当額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FGB00070",
+        "path": "KSE050/FGB00000/FGB00010/FGB00070",
+        "label": "配偶者の法定相続分相当額　(イ)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FGB00080",
+      "path": "KSE050/FGB00000/FGB00080",
+      "label": "配偶者の税額軽減額を計算する場合の課税価格",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FGB00090",
+        "path": "KSE050/FGB00000/FGB00080/FGB00090",
+        "label": "分割財産の価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FGB00100",
+        "path": "KSE050/FGB00000/FGB00080/FGB00100",
+        "label": "分割財産の価額から控除する債務及び葬式費用の金額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FGB00110",
+          "path": "KSE050/FGB00000/FGB00080/FGB00100/FGB00110",
+          "label": "債務及び葬式費用の金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FGB00120",
+          "path": "KSE050/FGB00000/FGB00080/FGB00100/FGB00120",
+          "label": "(3)未分割財産の価額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FGB00130",
+          "path": "KSE050/FGB00000/FGB00080/FGB00100/FGB00130",
+          "label": "（(2)－(3)）の金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FGB00140",
+        "path": "KSE050/FGB00000/FGB00080/FGB00140",
+        "label": "純資産価額に加算される暦年課税分の贈与財産価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FGB00150",
+        "path": "KSE050/FGB00000/FGB00080/FGB00150",
+        "label": "（(1)－(4)＋(5)）の金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FGB00160",
+      "path": "KSE050/FGB00000/FGB00160",
+      "label": "相続税の総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FGB00170",
+      "path": "KSE050/FGB00000/FGB00170",
+      "label": "(イ)の金額と(6)の金額のうちいずれか少ない方の金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FGB00180",
+      "path": "KSE050/FGB00000/FGB00180",
+      "label": "課税価格の合計額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FGB00190",
+      "path": "KSE050/FGB00000/FGB00190",
+      "label": "配偶者の税額軽減の基となる金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FGB00200",
+      "path": "KSE050/FGB00000/FGB00200",
+      "label": "配偶者の税額軽減の限度額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FGB00210",
+        "path": "KSE050/FGB00000/FGB00200/FGB00210",
+        "label": "第１表の配偶者の(9)又は(10)の金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FGB00220",
+        "path": "KSE050/FGB00000/FGB00200/FGB00220",
+        "label": "第１表の配偶者の(12)の金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FGB00230",
+        "path": "KSE050/FGB00000/FGB00200/FGB00230",
+        "label": "配偶者の税額軽減の限度額　(ロ)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FGB00240",
+      "path": "KSE050/FGB00000/FGB00240",
+      "label": "配偶者の税額軽減額　(ハ)",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FGC00000",
+    "path": "KSE050/FGC00000",
+    "label": "２　配偶者以外の人が農業相続人である場合",
+    "min": 0,
+    "max": 1,
+    "type": "FGC00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FGC00010",
+      "path": "KSE050/FGC00000/FGC00010",
+      "label": "課税価格の合計額のうち配偶者の法定相続分相当額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FGC00020",
+        "path": "KSE050/FGC00000/FGC00010/FGC00020",
+        "label": "第３表の(A)の金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FGC00030",
+        "path": "KSE050/FGC00000/FGC00010/FGC00030",
+        "label": "配偶者の法定相続分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FGC00040",
+          "path": "KSE050/FGC00000/FGC00010/FGC00030/FGC00040",
+          "label": "分子",
+          "min": 0,
+          "max": 1,
+          "type": "FGC00040-2-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FGC00050",
+          "path": "KSE050/FGC00000/FGC00010/FGC00030/FGC00050",
+          "label": "分母",
+          "min": 0,
+          "max": 1,
+          "type": "FGC00050-2-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FGC00060",
+        "path": "KSE050/FGC00000/FGC00010/FGC00060",
+        "label": "配偶者の法定相続分相当額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FGC00070",
+        "path": "KSE050/FGC00000/FGC00010/FGC00070",
+        "label": "配偶者の法定相続分相当額　(ニ)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FGC00080",
+      "path": "KSE050/FGC00000/FGC00080",
+      "label": "配偶者の税額軽減額を計算する場合の課税価格",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FGC00090",
+        "path": "KSE050/FGC00000/FGC00080/FGC00090",
+        "label": "分割財産の価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FGC00100",
+        "path": "KSE050/FGC00000/FGC00080/FGC00100",
+        "label": "分割財産の価額から控除する債務及び葬式費用の金額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FGC00110",
+          "path": "KSE050/FGC00000/FGC00080/FGC00100/FGC00110",
+          "label": "債務及び葬式費用の金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FGC00120",
+          "path": "KSE050/FGC00000/FGC00080/FGC00100/FGC00120",
+          "label": "(13)未分割財産の価額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FGC00130",
+          "path": "KSE050/FGC00000/FGC00080/FGC00100/FGC00130",
+          "label": "（(12)－(13)）の金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FGC00140",
+        "path": "KSE050/FGC00000/FGC00080/FGC00140",
+        "label": "純資産価額に加算される暦年課税分の贈与財産価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FGC00150",
+        "path": "KSE050/FGC00000/FGC00080/FGC00150",
+        "label": "（(11)－(14)＋(15)）の金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FGC00160",
+      "path": "KSE050/FGC00000/FGC00160",
+      "label": "相続税の総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FGC00170",
+      "path": "KSE050/FGC00000/FGC00170",
+      "label": "(ニ)の金額と(16)の金額のうちいずれか少ない方の金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FGC00180",
+      "path": "KSE050/FGC00000/FGC00180",
+      "label": "課税価格の合計額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FGC00190",
+      "path": "KSE050/FGC00000/FGC00190",
+      "label": "配偶者の税額軽減の基となる金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FGC00200",
+      "path": "KSE050/FGC00000/FGC00200",
+      "label": "配偶者の税額軽減の限度額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FGC00210",
+        "path": "KSE050/FGC00000/FGC00200/FGC00210",
+        "label": "第１表の配偶者の(10)の金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FGC00220",
+        "path": "KSE050/FGC00000/FGC00200/FGC00220",
+        "label": "第１表の配偶者の(12)の金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FGC00230",
+        "path": "KSE050/FGC00000/FGC00200/FGC00230",
+        "label": "配偶者の税額軽減の限度額　(ホ)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FGC00240",
+      "path": "KSE050/FGC00000/FGC00240",
+      "label": "配偶者の税額軽減額　(へ)",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KSE050-2-0VRtype",
+    "fixed": "2.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

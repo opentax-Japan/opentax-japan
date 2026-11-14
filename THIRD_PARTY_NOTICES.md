@@ -91,3 +91,11 @@ Web 画面の「申告書（紙の様式）」は、国税庁ホームページ�
 - ライセンス: MIT License（ファイル先頭の表示のとおり）。版 1.4.4（https://unpkg.com/qrcode-generator@1.4.4/qrcode.js、SHA256 18ae399f81182bc9de916e9c77b195df20cc58d6f2d55a62b085a299f1bf1780）
 - 用途: かんたん入口の「スマホで開く（QR）」で、画面の URL の QR コードを画面の中で作る（外へ通信しない）
 - QR コードは株式会社デンソーウェーブの登録商標です
+
+## 相続税の設定・見本の出典
+
+- 相続税の税率・控除額などの設定（src/opentax/souzoku/rules/r06.json）は、e-Gov 法令API の相続税法・租税特別措置法・民法の条文と、
+  国税庁タックスアンサー No.4161 から書いています（各値に出典）
+- テストの見本（tests/cases/kokuzei-taro-souzoku/input.json）の数字は、国税庁「相続税の申告のしかた（令和7年分用）」
+  （https://www.nta.go.jp/publication/pamph/sozoku/shikata-sozoku2025/index.htm）75〜88ページの記載例の数字を使っています（出典：国税庁ホームページ。
+  国税庁ホームページ利用規約により公共データ利用規約（第1.0版）。国税庁が作成したものではありません）

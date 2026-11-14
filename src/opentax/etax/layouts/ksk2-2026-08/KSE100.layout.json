@@ -1,0 +1,396 @@
+{
+ "form_id": "KSE100",
+ "label": "退職手当金などの明細書（第10表）",
+ "version": "2.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shisan",
+ "group": "KSE100-2-0group",
+ "xsd": "19XMLスキーマ/shisan/KSE100-002.xsd",
+ "xsd_sha256": "10561ae41c2287d5131875c07c3ac524d23a958f43d8ec5aed743667ab5c499d",
+ "root": {
+  "tag": "KSE100",
+  "path": "KSE100",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "FUA00000",
+    "path": "KSE100/FUA00000",
+    "label": "被相続人",
+    "min": 0,
+    "max": 1,
+    "type": "gen:name",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ]
+   },
+   {
+    "tag": "FUB00000",
+    "path": "KSE100/FUB00000",
+    "label": "１　相続や遺贈によって取得したものとみなされる退職手当金など　繰り返し",
+    "min": 0,
+    "max": 5,
+    "type": "FUB00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FUB00010",
+      "path": "KSE100/FUB00000/FUB00010",
+      "label": "勤務先会社等の所在地",
+      "min": 0,
+      "max": 1,
+      "type": "gen:address",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FUB00020",
+      "path": "KSE100/FUB00000/FUB00020",
+      "label": "勤務先会社等の名称",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FUB00030",
+      "path": "KSE100/FUB00000/FUB00030",
+      "label": "受取年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "KSE100/FUB00000/FUB00030/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "KSE100/FUB00000/FUB00030/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "KSE100/FUB00000/FUB00030/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "KSE100/FUB00000/FUB00030/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "FUB00040",
+      "path": "KSE100/FUB00000/FUB00040",
+      "label": "退職手当金などの名称",
+      "min": 0,
+      "max": 1,
+      "type": "FUB00040-2-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 15
+     },
+     {
+      "tag": "FUB00050",
+      "path": "KSE100/FUB00000/FUB00050",
+      "label": "受取金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FUB00060",
+      "path": "KSE100/FUB00000/FUB00060",
+      "label": "受取人の氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FUC00000",
+    "path": "KSE100/FUC00000",
+    "label": "２　課税される金額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "FUC00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FUC00010",
+      "path": "KSE100/FUC00000/FUC00010",
+      "label": "退職手当金などの非課税限度額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FUC00020",
+        "path": "KSE100/FUC00000/FUC00010/FUC00020",
+        "label": "第２表の(A)の法定相続人の数",
+        "min": 0,
+        "max": 1,
+        "type": "FUC00020-2-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FUC00030",
+        "path": "KSE100/FUC00000/FUC00010/FUC00030",
+        "label": "退職手当金などの非課税限度額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FUC00040",
+      "path": "KSE100/FUC00000/FUC00040",
+      "label": "明細　繰り返し",
+      "min": 0,
+      "max": 5,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FUC00050",
+        "path": "KSE100/FUC00000/FUC00040/FUC00050",
+        "label": "退職手当金などを受け取った相続人の氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "FUC00060",
+        "path": "KSE100/FUC00000/FUC00040/FUC00060",
+        "label": "受け取った退職手当金などの金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FUC00070",
+        "path": "KSE100/FUC00000/FUC00040/FUC00070",
+        "label": "非課税金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FUC00080",
+        "path": "KSE100/FUC00000/FUC00040/FUC00080",
+        "label": "課税金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FUC00090",
+      "path": "KSE100/FUC00000/FUC00090",
+      "label": "合計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FUC00100",
+        "path": "KSE100/FUC00000/FUC00090/FUC00100",
+        "label": "受け取った退職手当金などの金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FUC00110",
+        "path": "KSE100/FUC00000/FUC00090/FUC00110",
+        "label": "非課税金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FUC00120",
+        "path": "KSE100/FUC00000/FUC00090/FUC00120",
+        "label": "課税金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KSE100-2-0VRtype",
+    "fixed": "2.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

@@ -1,0 +1,1095 @@
+{
+ "form_id": "KSE110",
+ "label": "相続税がかかる財産の明細書（第11表）",
+ "version": "4.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shisan",
+ "group": "KSE110-4-0group",
+ "xsd": "19XMLスキーマ/shisan/KSE110-004.xsd",
+ "xsd_sha256": "c86594894f68c26efc4145f001eacb7dd1c81c28d5dd1f2c7343b7ef0aafa881",
+ "root": {
+  "tag": "KSE110",
+  "path": "KSE110",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "FHA00000",
+    "path": "KSE110/FHA00000",
+    "label": "被相続人",
+    "min": 0,
+    "max": 1,
+    "type": "gen:name",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ]
+   },
+   {
+    "tag": "FHB00000",
+    "path": "KSE110/FHB00000",
+    "label": "遺産の分割状況",
+    "min": 0,
+    "max": 1,
+    "type": "FHB00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FHB00005",
+      "path": "KSE110/FHB00000/FHB00005",
+      "label": "区分",
+      "min": 0,
+      "max": 1,
+      "type": "FHB00005-4-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "KSE110/FHB00000/FHB00005/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2",
+         "3"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "KSE110/FHB00000/FHB00005/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "FHB00010",
+      "path": "KSE110/FHB00000/FHB00010",
+      "label": "１　全部分割",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "KSE110/FHB00000/FHB00010/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "KSE110/FHB00000/FHB00010/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "KSE110/FHB00000/FHB00010/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "KSE110/FHB00000/FHB00010/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "FHB00020",
+      "path": "KSE110/FHB00000/FHB00020",
+      "label": "２　一部分割",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "KSE110/FHB00000/FHB00020/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "KSE110/FHB00000/FHB00020/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "KSE110/FHB00000/FHB00020/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "KSE110/FHB00000/FHB00020/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FHC00000",
+    "path": "KSE110/FHC00000",
+    "label": "明細　繰り返し",
+    "min": 0,
+    "max": 15,
+    "type": "FHC00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FHC00010",
+      "path": "KSE110/FHC00000/FHC00010",
+      "label": "財産の明細",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FHC00020",
+        "path": "KSE110/FHC00000/FHC00010/FHC00020",
+        "label": "種類",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FHC00030",
+          "path": "KSE110/FHC00000/FHC00010/FHC00020/FHC00030",
+          "label": "上段",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00030-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "FHC00040",
+          "path": "KSE110/FHC00000/FHC00010/FHC00020/FHC00040",
+          "label": "下段",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00040-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 5
+         }
+        ]
+       },
+       {
+        "tag": "FHC00050",
+        "path": "KSE110/FHC00000/FHC00010/FHC00050",
+        "label": "細目",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FHC00055",
+          "path": "KSE110/FHC00000/FHC00010/FHC00050/FHC00055",
+          "label": "細目名称",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00055-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "FHC00060",
+          "path": "KSE110/FHC00000/FHC00010/FHC00050/FHC00060",
+          "label": "区分",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00060-4-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KSE110/FHC00000/FHC00010/FHC00050/FHC00060/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun2_CD"
+            ],
+            "enumeration": [
+             "11",
+             "12",
+             "13",
+             "14",
+             "15",
+             "21",
+             "31",
+             "32",
+             "33",
+             "34",
+             "44",
+             "45",
+             "46",
+             "47",
+             "48",
+             "51",
+             "61",
+             "71",
+             "72",
+             "73",
+             "74",
+             "75"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KSE110/FHC00000/FHC00010/FHC00050/FHC00060/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "FHC00070",
+          "path": "KSE110/FHC00000/FHC00010/FHC00050/FHC00070",
+          "label": "小計文字（小計）",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00070-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 5
+         }
+        ]
+       },
+       {
+        "tag": "FHC00080",
+        "path": "KSE110/FHC00000/FHC00010/FHC00080",
+        "label": "利用区分、銘柄等",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FHC00085",
+          "path": "KSE110/FHC00000/FHC00010/FHC00080/FHC00085",
+          "label": "利用区分、銘柄等名称",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00085-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 21
+         },
+         {
+          "tag": "FHC00090",
+          "path": "KSE110/FHC00000/FHC00010/FHC00080/FHC00090",
+          "label": "区分",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00090-4-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KSE110/FHC00000/FHC00010/FHC00080/FHC00090/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun2_CD"
+            ],
+            "enumeration": [
+             "11",
+             "12",
+             "13",
+             "14",
+             "15",
+             "16",
+             "17",
+             "18",
+             "19",
+             "20",
+             "21",
+             "22",
+             "23",
+             "24",
+             "25"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KSE110/FHC00000/FHC00010/FHC00080/FHC00090/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "FHC00100",
+          "path": "KSE110/FHC00000/FHC00010/FHC00080/FHC00100",
+          "label": "その他利用区分、銘柄等",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00100-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         }
+        ]
+       },
+       {
+        "tag": "FHC00110",
+        "path": "KSE110/FHC00000/FHC00010/FHC00110",
+        "label": "所在場所等",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FHC00120",
+          "path": "KSE110/FHC00000/FHC00010/FHC00110/FHC00120",
+          "label": "所在場所等",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00120-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 100
+         },
+         {
+          "tag": "FHC00130",
+          "path": "KSE110/FHC00000/FHC00010/FHC00110/FHC00130",
+          "label": "金融機関名称",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00130-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 15
+         },
+         {
+          "tag": "FHC00140",
+          "path": "KSE110/FHC00000/FHC00010/FHC00110/FHC00140",
+          "label": "金融機関区分",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00140-4-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KSE110/FHC00000/FHC00010/FHC00110/FHC00140/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2",
+             "3",
+             "4",
+             "5"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KSE110/FHC00000/FHC00010/FHC00110/FHC00140/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "FHC00150",
+          "path": "KSE110/FHC00000/FHC00010/FHC00110/FHC00150",
+          "label": "その他金融機関区分",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00150-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 10
+         },
+         {
+          "tag": "FHC00160",
+          "path": "KSE110/FHC00000/FHC00010/FHC00110/FHC00160",
+          "label": "支店名称",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00160-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 15
+         },
+         {
+          "tag": "FHC00170",
+          "path": "KSE110/FHC00000/FHC00010/FHC00110/FHC00170",
+          "label": "支店区分",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00170-4-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KSE110/FHC00000/FHC00010/FHC00110/FHC00170/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2",
+             "3",
+             "4",
+             "5"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KSE110/FHC00000/FHC00010/FHC00110/FHC00170/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "FHC00180",
+          "path": "KSE110/FHC00000/FHC00010/FHC00110/FHC00180",
+          "label": "その他支店区分",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00180-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 10
+         },
+         {
+          "tag": "FHC00190",
+          "path": "KSE110/FHC00000/FHC00010/FHC00110/FHC00190",
+          "label": "口座番号等",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00190-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         }
+        ]
+       },
+       {
+        "tag": "FHC00200",
+        "path": "KSE110/FHC00000/FHC00010/FHC00200",
+        "label": "数量",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FHC00210",
+          "path": "KSE110/FHC00000/FHC00010/FHC00200/FHC00210",
+          "label": "数量",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00210-4-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FHC00220",
+          "path": "KSE110/FHC00000/FHC00010/FHC00200/FHC00220",
+          "label": "単位",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00220-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 2
+         }
+        ]
+       },
+       {
+        "tag": "FHC00230",
+        "path": "KSE110/FHC00000/FHC00010/FHC00230",
+        "label": "固定資産税評価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FHC00240",
+        "path": "KSE110/FHC00000/FHC00010/FHC00240",
+        "label": "単価",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FHC00250",
+          "path": "KSE110/FHC00000/FHC00010/FHC00240/FHC00250",
+          "label": "単価",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00250-4-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FHC00260",
+          "path": "KSE110/FHC00000/FHC00010/FHC00240/FHC00260",
+          "label": "持分（数量・単価）",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00260-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "FHC00270",
+        "path": "KSE110/FHC00000/FHC00010/FHC00270",
+        "label": "倍数",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FHC00280",
+          "path": "KSE110/FHC00000/FHC00010/FHC00270/FHC00280",
+          "label": "倍数",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00280-4-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FHC00290",
+          "path": "KSE110/FHC00000/FHC00010/FHC00270/FHC00290",
+          "label": "その他",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00290-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "FHC00300",
+        "path": "KSE110/FHC00000/FHC00010/FHC00300",
+        "label": "価額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FHC00310",
+          "path": "KSE110/FHC00000/FHC00010/FHC00300/FHC00310",
+          "label": "価額（上段）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FHC00320",
+          "path": "KSE110/FHC00000/FHC00010/FHC00300/FHC00320",
+          "label": "開始括弧",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00320-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 3
+         },
+         {
+          "tag": "FHC00330",
+          "path": "KSE110/FHC00000/FHC00010/FHC00300/FHC00330",
+          "label": "価額（下段）",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FHC00340",
+          "path": "KSE110/FHC00000/FHC00010/FHC00300/FHC00340",
+          "label": "終了括弧",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00340-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 3
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FHC00350",
+      "path": "KSE110/FHC00000/FHC00350",
+      "label": "分割が確定した財産",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FHC00360",
+        "path": "KSE110/FHC00000/FHC00350/FHC00360",
+        "label": "取得した人の氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "FHC00370",
+        "path": "KSE110/FHC00000/FHC00350/FHC00370",
+        "label": "取得財産の価額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FHC00380",
+          "path": "KSE110/FHC00000/FHC00350/FHC00370/FHC00380",
+          "label": "持分",
+          "min": 0,
+          "max": 1,
+          "type": "FHC00380-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 15
+         },
+         {
+          "tag": "FHC00390",
+          "path": "KSE110/FHC00000/FHC00350/FHC00370/FHC00390",
+          "label": "価額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FHD00000",
+    "path": "KSE110/FHD00000",
+    "label": "合計表",
+    "min": 0,
+    "max": 1,
+    "type": "FHD00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FHD00010",
+      "path": "KSE110/FHD00000/FHD00010",
+      "label": "（各人の合計）",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FHD00020",
+        "path": "KSE110/FHD00000/FHD00010/FHD00020",
+        "label": "分割財産の価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FHD00030",
+        "path": "KSE110/FHD00000/FHD00010/FHD00030",
+        "label": "未分割財産の価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FHD00040",
+        "path": "KSE110/FHD00000/FHD00010/FHD00040",
+        "label": "各人の取得財産の価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FHD00050",
+      "path": "KSE110/FHD00000/FHD00050",
+      "label": "繰り返し",
+      "min": 0,
+      "max": 5,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FHD00060",
+        "path": "KSE110/FHD00000/FHD00050/FHD00060",
+        "label": "財産を取得した人の氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "FHD00070",
+        "path": "KSE110/FHD00000/FHD00050/FHD00070",
+        "label": "分割財産の価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FHD00080",
+        "path": "KSE110/FHD00000/FHD00050/FHD00080",
+        "label": "未分割財産の価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FHD00090",
+        "path": "KSE110/FHD00000/FHD00050/FHD00090",
+        "label": "各人の取得財産の価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KSE110-4-0VRtype",
+    "fixed": "4.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

@@ -283,7 +283,7 @@ def local_tax_sheet(calculated: dict, today: datetime.date | None = None) -> str
 
 
 def validate_xtx(xml: bytes, schema_root: Path, procedure_id: str = "RHO0012") -> list[str]:
-    """公式XSD で検証する。procedure_id: RHO0012（法人税）・RSH0020（消費税 一般・法人）・RSH0040（消費税 簡易課税・法人）・RKO0010（所得税）。"""
+    """公式XSD で検証する。procedure_id: RHO0012（法人税）・RSH0020（消費税 一般・法人）・RSH0040（消費税 簡易課税・法人）・RKO0010（所得税）・RKS1000（相続税）。"""
     procs = _manifest()["procedures"]
     procedure = next((p for p in procs if p.get("key") == procedure_id), None)         or next(p for p in procs if p["procedure_id"] == procedure_id and not p.get("key"))
     return _validate(xml, schema_root, procedure["xsd"])
@@ -380,6 +380,27 @@ def shukuhaku_calculate(facility: dict, csv_bytes: bytes, month: str, prices_inc
 def shukuhaku_report(calculated: dict, submitted: datetime.date | None = None, today: datetime.date | None = None) -> str:
     from . import report as rp
     return rp.build_shukuhaku(calculated, submitted, today)
+
+
+# --- 相続税（2026-11-14） ---
+
+def souzoku_calculate(data: dict) -> dict:
+    """相続税（令和6年1月1日以後に開始した相続）の申告書（第1表・第2表・第4表〜第7表・第8の8表・第9表〜第15表）の数字。"""
+    from .souzoku.calculate import calculate
+    return calculate(data)
+
+
+def souzoku_export(calculated: dict, schema_root: Path, today: datetime.date | None = None) -> bytes:
+    """相続税の .xtx（手続 RKS1000 相続税申告）。"""
+    from .souzoku.etax import build_xtx
+    zeimusho = (schema_root / Path(*ZEIMUSHO_XSD.split("/"))).read_bytes()
+    return build_xtx(calculated, zeimusho, today or datetime.date.today())
+
+
+def souzoku_report(calculated: dict, today: datetime.date | None = None) -> str:
+    """相続税の申告書一式（HTML 1枚）。帳票フィールド仕様書の行番号・項目名の表で並べる。"""
+    from . import report as rp
+    return rp.build_souzoku(calculated, today)
 
 
 def schema_from_cab(cab: bytes, workdir: Path | None = None) -> Path:

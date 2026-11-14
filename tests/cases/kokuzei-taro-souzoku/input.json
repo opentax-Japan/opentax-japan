@@ -1,0 +1,29 @@
+{
+ "_note": "国税庁「相続税の申告のしかた（令和7年分用）」75〜88ページの記載例（被相続人 国税太郎）の数字。財産・債務は記載例の第1表の各人の金額を1行ずつにまとめた（明細は記載例の第9表〜第15表で、ここでは合計だけ合わせる）。相続時精算課税（第11の2表）と暦年課税分の贈与税額控除（第4表の2）は記載例の結果の金額を入れる",
+ "death_date": "2025-05-10",
+ "tax_office": "春日部",
+ "submitted_on": "2026-02-05",
+ "decedent": {"name": "国税　太郎", "name_kana": "コクゼイ　タロウ", "birth": "1949-10-19", "address": "埼玉県春日部市○○○3丁目5番16号", "occupation": "○○商事（株）　代表取締役"},
+ "persons": [
+  {"id": "hanako", "name": "国税　花子", "name_kana": "コクゼイ　ハナコ", "birth": "1956-09-21", "kind": "spouse", "heir": true, "relation_code": "01",
+   "address": "春日部市○○○3丁目5番16号", "zip": "344-0000", "occupation": "なし"},
+  {"id": "ichiro", "name": "国税　一郎", "name_kana": "コクゼイ　イチロウ", "birth": "1984-03-24", "kind": "child", "heir": true, "relation_code": "11",
+   "address": "春日部市○○○3丁目5番16号", "occupation": "××商事（株）　取締役", "settlement_assets": 24626035},
+  {"id": "sachiko", "name": "税務　幸子", "name_kana": "ゼイム　サチコ", "birth": "1986-02-14", "kind": "child", "heir": true, "relation_code": "21",
+   "address": "市川市○○○6丁目3番1号", "occupation": "なし", "gift_tax_credit": 90000}
+ ],
+ "assets": [
+  {"kind": "その他の財産", "detail": "その他", "class15": "その他", "value": 256646350, "takers": [{"person": "hanako", "value": 256646350}]},
+  {"kind": "その他の財産", "detail": "その他", "class15": "その他", "value": 129067118, "takers": [{"person": "ichiro", "value": 129067118}]},
+  {"kind": "その他の財産", "detail": "その他", "class15": "その他", "value": 112678683, "takers": [{"person": "sachiko", "value": 112678683}]}
+ ],
+ "debts": [
+  {"kind": "その他", "detail": "その他", "creditor": "（記載例の合計）", "amount": 27415940, "settled": true,
+   "bearers": [{"person": "hanako", "amount": 3359600}, {"person": "ichiro", "amount": 24056340}]}
+ ],
+ "gifts": [
+  {"person": "hanako", "date": "2024-06-01", "kind": "現金預貯金等", "value": 1000000},
+  {"person": "sachiko", "date": "2024-06-01", "kind": "現金預貯金等", "value": 2000000}
+ ],
+ "previous_inheritance": {"decedent": "国税　太助", "relation": "国税太郎の父", "date": "2016-03-10", "tax_office": "春日部", "net_assets": 19411546, "tax": 4250000}
+}

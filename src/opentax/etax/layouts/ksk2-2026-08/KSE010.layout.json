@@ -1,0 +1,2135 @@
+{
+ "form_id": "KSE010",
+ "label": "相続税の申告書（第1表）",
+ "version": "3.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shisan",
+ "group": "KSE010-3-0group",
+ "xsd": "19XMLスキーマ/shisan/KSE010-003.xsd",
+ "xsd_sha256": "c720c00468b03a12479daf2692e374d39bbcee41aeaeb1cf4cfe80d2c791d6c9",
+ "root": {
+  "tag": "KSE010",
+  "path": "KSE010",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "FAA00000",
+    "path": "KSE010/FAA00000",
+    "label": "申告書見出し部",
+    "min": 0,
+    "max": 1,
+    "type": "FAA00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FAA00010",
+      "path": "KSE010/FAA00000/FAA00010",
+      "label": "提出先税務署",
+      "min": 0,
+      "max": 1,
+      "type": "gen:ZEIMUSHOref",
+      "kind": "idref",
+      "idref": "ZEIMUSHO",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "ZEIMUSHO",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "FAA00020",
+      "path": "KSE010/FAA00000/FAA00020",
+      "label": "提出年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:TEISYUTSU_DAYref",
+      "kind": "idref",
+      "idref": "TEISYUTSU_DAY",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "TEISYUTSU_DAY",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "FAA00025",
+      "path": "KSE010/FAA00000/FAA00025",
+      "label": "修正申告の場合の区分",
+      "min": 0,
+      "max": 1,
+      "type": "FAA00025-3-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "KSE010/FAA00000/FAA00025/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "KSE010/FAA00000/FAA00025/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "FAA00030",
+      "path": "KSE010/FAA00000/FAA00030",
+      "label": "相続開始年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "KSE010/FAA00000/FAA00030/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "KSE010/FAA00000/FAA00030/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "KSE010/FAA00000/FAA00030/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "KSE010/FAA00000/FAA00030/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FAB00000",
+    "path": "KSE010/FAB00000",
+    "label": "被相続人",
+    "min": 0,
+    "max": 1,
+    "type": "FAB00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FAB00010",
+      "path": "KSE010/FAB00000/FAB00010",
+      "label": "フリガナ",
+      "min": 0,
+      "max": 1,
+      "type": "gen:n-kana",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FAB00020",
+      "path": "KSE010/FAB00000/FAB00020",
+      "label": "氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FAB00030",
+      "path": "KSE010/FAB00000/FAB00030",
+      "label": "生年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "KSE010/FAB00000/FAB00030/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "KSE010/FAB00000/FAB00030/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "KSE010/FAB00000/FAB00030/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "KSE010/FAB00000/FAB00030/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "FAB00040",
+      "path": "KSE010/FAB00000/FAB00040",
+      "label": "年齢",
+      "min": 0,
+      "max": 1,
+      "type": "FAB00040-3-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FAB00050",
+      "path": "KSE010/FAB00000/FAB00050",
+      "label": "住所",
+      "min": 0,
+      "max": 1,
+      "type": "gen:address",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FAB00060",
+      "path": "KSE010/FAB00000/FAB00060",
+      "label": "職業",
+      "min": 0,
+      "max": 1,
+      "type": "gen:shokugyo",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 20
+     }
+    ]
+   },
+   {
+    "tag": "FAC00000",
+    "path": "KSE010/FAC00000",
+    "label": "各人の合計",
+    "min": 0,
+    "max": 1,
+    "type": "FAC00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FAC00010",
+      "path": "KSE010/FAC00000/FAC00010",
+      "label": "課税価格の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FAC00020",
+        "path": "KSE010/FAC00000/FAC00010/FAC00020",
+        "label": "取得財産の価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAC00030",
+        "path": "KSE010/FAC00000/FAC00010/FAC00030",
+        "label": "相続時精算課税適用財産の価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAC00040",
+        "path": "KSE010/FAC00000/FAC00010/FAC00040",
+        "label": "債務及び葬式費用の金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAC00050",
+        "path": "KSE010/FAC00000/FAC00010/FAC00050",
+        "label": "純資産価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAC00060",
+        "path": "KSE010/FAC00000/FAC00010/FAC00060",
+        "label": "純資産価額に加算される暦年課税分の贈与財産価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAC00070",
+        "path": "KSE010/FAC00000/FAC00010/FAC00070",
+        "label": "課税価格",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FAC00080",
+      "path": "KSE010/FAC00000/FAC00080",
+      "label": "各人の算出税額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FAC00090",
+        "path": "KSE010/FAC00000/FAC00080/FAC00090",
+        "label": "法定相続人の数",
+        "min": 0,
+        "max": 1,
+        "type": "FAC00090-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAC00100",
+        "path": "KSE010/FAC00000/FAC00080/FAC00100",
+        "label": "遺産に係る基礎控除額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAC00110",
+        "path": "KSE010/FAC00000/FAC00080/FAC00110",
+        "label": "相続税の総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAC00120",
+        "path": "KSE010/FAC00000/FAC00080/FAC00120",
+        "label": "一般の場合　算出税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAC00130",
+        "path": "KSE010/FAC00000/FAC00080/FAC00130",
+        "label": "農地等納税猶予の適用を受ける場合　算出税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAC00140",
+        "path": "KSE010/FAC00000/FAC00080/FAC00140",
+        "label": "相続税額の２割加算が行われる場合の加算金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FAC00150",
+      "path": "KSE010/FAC00000/FAC00150",
+      "label": "各人の納付・還付税額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FAC00160",
+        "path": "KSE010/FAC00000/FAC00150/FAC00160",
+        "label": "税額控除",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FAC00170",
+          "path": "KSE010/FAC00000/FAC00150/FAC00160/FAC00170",
+          "label": "暦年課税分の贈与税額控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FAC00180",
+          "path": "KSE010/FAC00000/FAC00150/FAC00160/FAC00180",
+          "label": "配偶者の税額軽減額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FAC00185",
+          "path": "KSE010/FAC00000/FAC00150/FAC00160/FAC00185",
+          "label": "(12)・(13)以外の税額控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FAC00230",
+          "path": "KSE010/FAC00000/FAC00150/FAC00160/FAC00230",
+          "label": "計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FAC00240",
+        "path": "KSE010/FAC00000/FAC00150/FAC00240",
+        "label": "差引税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAC00250",
+        "path": "KSE010/FAC00000/FAC00150/FAC00250",
+        "label": "相続時精算課税分の贈与税額控除額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAC00260",
+        "path": "KSE010/FAC00000/FAC00150/FAC00260",
+        "label": "医療法人持分税額控除額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAC00270",
+        "path": "KSE010/FAC00000/FAC00150/FAC00270",
+        "label": "小計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAC00275",
+        "path": "KSE010/FAC00000/FAC00150/FAC00275",
+        "label": "納税猶予税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAC00330",
+        "path": "KSE010/FAC00000/FAC00150/FAC00330",
+        "label": "申告納税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FAC00340",
+          "path": "KSE010/FAC00000/FAC00150/FAC00330/FAC00340",
+          "label": "申告期限までに納付すべき税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FAC00350",
+          "path": "KSE010/FAC00000/FAC00150/FAC00330/FAC00350",
+          "label": "還付される税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FAC00360",
+      "path": "KSE010/FAC00000/FAC00360",
+      "label": "この申告書が修正申告書である場合",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FAC00370",
+        "path": "KSE010/FAC00000/FAC00360/FAC00370",
+        "label": "この修正前の",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FAC00380",
+          "path": "KSE010/FAC00000/FAC00360/FAC00370/FAC00380",
+          "label": "小計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FAC00390",
+          "path": "KSE010/FAC00000/FAC00360/FAC00370/FAC00390",
+          "label": "納税猶予税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FAC00400",
+          "path": "KSE010/FAC00000/FAC00360/FAC00370/FAC00400",
+          "label": "申告納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FAC00410",
+        "path": "KSE010/FAC00000/FAC00360/FAC00410",
+        "label": "小計の増加額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAC00420",
+        "path": "KSE010/FAC00000/FAC00360/FAC00420",
+        "label": "この申告により納付すべき税額又は還付される税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FAD00000",
+    "path": "KSE010/FAD00000",
+    "label": "財産を取得した人",
+    "min": 0,
+    "max": 1,
+    "type": "FAD00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FAD00010",
+      "path": "KSE010/FAD00000/FAD00010",
+      "label": "フリガナ",
+      "min": 0,
+      "max": 1,
+      "type": "gen:n-kana",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FAD00020",
+      "path": "KSE010/FAD00000/FAD00020",
+      "label": "氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FAD00030",
+      "path": "KSE010/FAD00000/FAD00030",
+      "label": "個人番号又は法人番号",
+      "min": 0,
+      "max": 1,
+      "type": "gen:bango",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kojinbango",
+        "path": "KSE010/FAD00000/FAD00030/kojinbango",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:string",
+        "max_length": 12,
+        "choice": "KSE010/FAD00000/FAD00030#1"
+       },
+       {
+        "tag": "hojinbango",
+        "path": "KSE010/FAD00000/FAD00030/hojinbango",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:string",
+        "max_length": 13,
+        "choice": "KSE010/FAD00000/FAD00030#2"
+       }
+      ]
+     },
+     {
+      "tag": "FAD00040",
+      "path": "KSE010/FAD00000/FAD00040",
+      "label": "生年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "KSE010/FAD00000/FAD00040/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "KSE010/FAD00000/FAD00040/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "KSE010/FAD00000/FAD00040/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "KSE010/FAD00000/FAD00040/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "FAD00050",
+      "path": "KSE010/FAD00000/FAD00050",
+      "label": "年齢",
+      "min": 0,
+      "max": 1,
+      "type": "FAD00050-3-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FAD00060",
+      "path": "KSE010/FAD00000/FAD00060",
+      "label": "郵便番号",
+      "min": 0,
+      "max": 1,
+      "type": "gen:zipcode",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "zip1",
+        "path": "KSE010/FAD00000/FAD00060/zip1",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:string",
+        "max_length": 3
+       },
+       {
+        "tag": "zip2",
+        "path": "KSE010/FAD00000/FAD00060/zip2",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:string",
+        "max_length": 4
+       }
+      ]
+     },
+     {
+      "tag": "FAD00070",
+      "path": "KSE010/FAD00000/FAD00070",
+      "label": "住所",
+      "min": 0,
+      "max": 1,
+      "type": "gen:address",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FAD00080",
+      "path": "KSE010/FAD00000/FAD00080",
+      "label": "電話番号",
+      "min": 0,
+      "max": 1,
+      "type": "gen:tel-number",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "tel1",
+        "path": "KSE010/FAD00000/FAD00080/tel1",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:string",
+        "max_length": 6
+       },
+       {
+        "tag": "tel2",
+        "path": "KSE010/FAD00000/FAD00080/tel2",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:string",
+        "max_length": 4
+       },
+       {
+        "tag": "tel3",
+        "path": "KSE010/FAD00000/FAD00080/tel3",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:string",
+        "max_length": 4
+       }
+      ]
+     },
+     {
+      "tag": "FAD00090",
+      "path": "KSE010/FAD00000/FAD00090",
+      "label": "被相続人との続柄",
+      "min": 0,
+      "max": 1,
+      "type": "FAD00090-3-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "KSE010/FAD00000/FAD00090/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun2_CD"
+        ],
+        "enumeration": [
+         "01",
+         "11",
+         "21",
+         "12",
+         "22",
+         "13",
+         "23",
+         "14",
+         "24",
+         "15",
+         "25",
+         "16",
+         "26",
+         "17",
+         "27",
+         "18",
+         "28",
+         "19",
+         "29",
+         "90",
+         "30",
+         "41",
+         "42",
+         "51",
+         "52",
+         "61",
+         "63",
+         "62",
+         "64",
+         "10",
+         "99"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "KSE010/FAD00000/FAD00090/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "FAD00100",
+      "path": "KSE010/FAD00000/FAD00100",
+      "label": "職業",
+      "min": 0,
+      "max": 1,
+      "type": "gen:shokugyo",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 20
+     },
+     {
+      "tag": "FAD00110",
+      "path": "KSE010/FAD00000/FAD00110",
+      "label": "取得原因",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FAD00470",
+        "path": "KSE010/FAD00000/FAD00110/FAD00470",
+        "label": "相続",
+        "min": 0,
+        "max": 1,
+        "type": "FAD00470-3-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "KSE010/FAD00000/FAD00110/FAD00470/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "KSE010/FAD00000/FAD00110/FAD00470/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "FAD00480",
+        "path": "KSE010/FAD00000/FAD00110/FAD00480",
+        "label": "遺贈",
+        "min": 0,
+        "max": 1,
+        "type": "FAD00480-3-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "KSE010/FAD00000/FAD00110/FAD00480/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "KSE010/FAD00000/FAD00110/FAD00480/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "FAD00490",
+        "path": "KSE010/FAD00000/FAD00110/FAD00490",
+        "label": "相続時精算課税に係る贈与",
+        "min": 0,
+        "max": 1,
+        "type": "FAD00490-3-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "KSE010/FAD00000/FAD00110/FAD00490/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "KSE010/FAD00000/FAD00110/FAD00490/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FAD00120",
+      "path": "KSE010/FAD00000/FAD00120",
+      "label": "課税価格の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FAD00130",
+        "path": "KSE010/FAD00000/FAD00120/FAD00130",
+        "label": "取得財産の価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAD00140",
+        "path": "KSE010/FAD00000/FAD00120/FAD00140",
+        "label": "相続時精算課税適用財産の価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAD00150",
+        "path": "KSE010/FAD00000/FAD00120/FAD00150",
+        "label": "債務及び葬式費用の金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAD00160",
+        "path": "KSE010/FAD00000/FAD00120/FAD00160",
+        "label": "純資産価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAD00170",
+        "path": "KSE010/FAD00000/FAD00120/FAD00170",
+        "label": "純資産価額に加算される暦年課税分の贈与財産価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAD00180",
+        "path": "KSE010/FAD00000/FAD00120/FAD00180",
+        "label": "課税価格",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FAD00190",
+      "path": "KSE010/FAD00000/FAD00190",
+      "label": "各人の算出税額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FAD00200",
+        "path": "KSE010/FAD00000/FAD00190/FAD00200",
+        "label": "一般の場合",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FAD00210",
+          "path": "KSE010/FAD00000/FAD00190/FAD00200/FAD00210",
+          "label": "あん分割合",
+          "min": 0,
+          "max": 1,
+          "type": "FAD00210-3-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "min_inclusive": 0,
+          "max_inclusive": 1,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FAD00220",
+          "path": "KSE010/FAD00000/FAD00190/FAD00200/FAD00220",
+          "label": "算出税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FAD00230",
+        "path": "KSE010/FAD00000/FAD00190/FAD00230",
+        "label": "農地等納税猶予の適用を受ける場合　算出税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAD00240",
+        "path": "KSE010/FAD00000/FAD00190/FAD00240",
+        "label": "相続税額の２割加算が行われる場合の加算金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FAD00250",
+      "path": "KSE010/FAD00000/FAD00250",
+      "label": "各人の納付・還付税額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FAD00260",
+        "path": "KSE010/FAD00000/FAD00250/FAD00260",
+        "label": "税額控除",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FAD00270",
+          "path": "KSE010/FAD00000/FAD00250/FAD00260/FAD00270",
+          "label": "暦年課税分の贈与税額控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FAD00280",
+          "path": "KSE010/FAD00000/FAD00250/FAD00260/FAD00280",
+          "label": "配偶者の税額軽減額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FAD00285",
+          "path": "KSE010/FAD00000/FAD00250/FAD00260/FAD00285",
+          "label": "(12)・(13)以外の税額控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FAD00330",
+          "path": "KSE010/FAD00000/FAD00250/FAD00260/FAD00330",
+          "label": "計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FAD00340",
+        "path": "KSE010/FAD00000/FAD00250/FAD00340",
+        "label": "差引税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAD00350",
+        "path": "KSE010/FAD00000/FAD00250/FAD00350",
+        "label": "相続時精算課税分の贈与税額控除額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAD00360",
+        "path": "KSE010/FAD00000/FAD00250/FAD00360",
+        "label": "医療法人持分税額控除額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAD00370",
+        "path": "KSE010/FAD00000/FAD00250/FAD00370",
+        "label": "小計",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAD00375",
+        "path": "KSE010/FAD00000/FAD00250/FAD00375",
+        "label": "納税猶予税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAD00430",
+        "path": "KSE010/FAD00000/FAD00250/FAD00430",
+        "label": "申告納税額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FAD00440",
+          "path": "KSE010/FAD00000/FAD00250/FAD00430/FAD00440",
+          "label": "申告期限までに納付すべき税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FAD00450",
+          "path": "KSE010/FAD00000/FAD00250/FAD00430/FAD00450",
+          "label": "還付される税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FAD00500",
+      "path": "KSE010/FAD00000/FAD00500",
+      "label": "この申告書が修正申告書である場合",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FAD00510",
+        "path": "KSE010/FAD00000/FAD00500/FAD00510",
+        "label": "この修正前の",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FAD00520",
+          "path": "KSE010/FAD00000/FAD00500/FAD00510/FAD00520",
+          "label": "小計",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FAD00530",
+          "path": "KSE010/FAD00000/FAD00500/FAD00510/FAD00530",
+          "label": "納税猶予税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FAD00540",
+          "path": "KSE010/FAD00000/FAD00500/FAD00510/FAD00540",
+          "label": "申告納税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FAD00550",
+        "path": "KSE010/FAD00000/FAD00500/FAD00550",
+        "label": "小計の増加額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FAD00560",
+        "path": "KSE010/FAD00000/FAD00500/FAD00560",
+        "label": "この申告により納付すべき税額又は還付される税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FAD00455",
+      "path": "KSE010/FAD00000/FAD00455",
+      "label": "通知希望区分(加算税)",
+      "min": 0,
+      "max": 1,
+      "type": "FAD00455-3-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "KSE010/FAD00000/FAD00455/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "KSE010/FAD00000/FAD00455/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "FAD00457",
+      "path": "KSE010/FAD00000/FAD00457",
+      "label": "通知希望区分(還付金振込)",
+      "min": 0,
+      "max": 1,
+      "type": "FAD00457-3-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "KSE010/FAD00000/FAD00457/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "KSE010/FAD00000/FAD00457/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "FAD00460",
+      "path": "KSE010/FAD00000/FAD00460",
+      "label": "利用者識別番号",
+      "min": 0,
+      "max": 1,
+      "type": "gen:nozeisha-id",
+      "kind": "value",
+      "base": "xsd:string",
+      "max_length": 16
+     }
+    ]
+   },
+   {
+    "tag": "FAE00000",
+    "path": "KSE010/FAE00000",
+    "label": "作成税理士の事務所所在地・署名押印・電話番号",
+    "min": 0,
+    "max": 1,
+    "type": "FAE00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FAE00010",
+      "path": "KSE010/FAE00000/FAE00010",
+      "label": "事務所所在地",
+      "min": 0,
+      "max": 1,
+      "type": "gen:DAIRI_ADRref",
+      "kind": "idref",
+      "idref": "DAIRI_ADR",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "DAIRI_ADR",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "FAE00020",
+      "path": "KSE010/FAE00000/FAE00020",
+      "label": "氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:DAIRI_NMref",
+      "kind": "idref",
+      "idref": "DAIRI_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "DAIRI_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "FAE00030",
+      "path": "KSE010/FAE00000/FAE00030",
+      "label": "電話番号",
+      "min": 0,
+      "max": 1,
+      "type": "gen:DAIRI_TELref",
+      "kind": "idref",
+      "idref": "DAIRI_TEL",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "DAIRI_TEL",
+        "type": "xsd:IDREF"
+       }
+      ]
+     },
+     {
+      "tag": "FAE00040",
+      "path": "KSE010/FAE00000/FAE00040",
+      "label": "税理士法第30条の書面提出有",
+      "min": 0,
+      "max": 1,
+      "type": "FAE00040-3-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "KSE010/FAE00000/FAE00040/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "KSE010/FAE00000/FAE00040/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "FAE00050",
+      "path": "KSE010/FAE00000/FAE00050",
+      "label": "税理士法第33条の２の書面提出有",
+      "min": 0,
+      "max": 1,
+      "type": "FAE00050-3-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "KSE010/FAE00000/FAE00050/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "KSE010/FAE00000/FAE00050/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FAF00000",
+    "path": "KSE010/FAF00000",
+    "label": "この申告が修正申告である場合の異動の内容等",
+    "min": 0,
+    "max": 1,
+    "type": "FAF00000-3-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 56
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KSE010-3-0VRtype",
+    "fixed": "3.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

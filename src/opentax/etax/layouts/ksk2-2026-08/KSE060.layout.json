@@ -1,0 +1,1077 @@
+{
+ "form_id": "KSE060",
+ "label": "未成年者控除額・障害者控除額の計算書（第6表）",
+ "version": "3.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shisan",
+ "group": "KSE060-3-0group",
+ "xsd": "19XMLスキーマ/shisan/KSE060-003.xsd",
+ "xsd_sha256": "ea78dfb67f3402e1fa9d157138efa49c2c4faa9cf16f806d858fb61f067f4715",
+ "root": {
+  "tag": "KSE060",
+  "path": "KSE060",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "FQA00000",
+    "path": "KSE060/FQA00000",
+    "label": "被相続人",
+    "min": 0,
+    "max": 1,
+    "type": "gen:name",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ]
+   },
+   {
+    "tag": "FQB00000",
+    "path": "KSE060/FQB00000",
+    "label": "１　未成年者控除",
+    "min": 0,
+    "max": 1,
+    "type": "FQB00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FQB00010",
+      "path": "KSE060/FQB00000/FQB00010",
+      "label": "明細　繰り返し",
+      "min": 0,
+      "max": 4,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FQB00020",
+        "path": "KSE060/FQB00000/FQB00010/FQB00020",
+        "label": "未成年者の氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "FQB00030",
+        "path": "KSE060/FQB00000/FQB00010/FQB00030",
+        "label": "年齢",
+        "min": 0,
+        "max": 1,
+        "type": "FQB00030-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "min_inclusive": 0,
+        "max_inclusive": 17,
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQB00040",
+        "path": "KSE060/FQB00000/FQB00010/FQB00040",
+        "label": "未成年者控除額(2)",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FQB00050",
+          "path": "KSE060/FQB00000/FQB00010/FQB00040/FQB00050",
+          "label": "年齢",
+          "min": 0,
+          "max": 1,
+          "type": "FQB00050-3-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 0,
+          "max_inclusive": 17,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FQB00060",
+          "path": "KSE060/FQB00000/FQB00010/FQB00040/FQB00060",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FQB00070",
+          "path": "KSE060/FQB00000/FQB00010/FQB00040/FQB00070",
+          "label": "その他計算式等区分",
+          "min": 0,
+          "max": 1,
+          "type": "FQB00070-3-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KSE060/FQB00000/FQB00010/FQB00040/FQB00070/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KSE060/FQB00000/FQB00010/FQB00040/FQB00070/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "FQB00080",
+          "path": "KSE060/FQB00000/FQB00010/FQB00040/FQB00080",
+          "label": "その他計算式等",
+          "min": 0,
+          "max": 1,
+          "type": "FQB00080-3-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "FQB00090",
+        "path": "KSE060/FQB00000/FQB00010/FQB00090",
+        "label": "未成年者の第１表の((9)＋(11)－(12)－(13))又は((10)＋(11)－(12)－(13))の相続税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQB00100",
+        "path": "KSE060/FQB00000/FQB00010/FQB00100",
+        "label": "控除しきれない金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQB00110",
+        "path": "KSE060/FQB00000/FQB00010/FQB00110",
+        "label": "扶養義務者の氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "FQB00120",
+        "path": "KSE060/FQB00000/FQB00010/FQB00120",
+        "label": "扶養義務者の第１表の((9)＋(11)－(12)－(13))又は((10)＋(11)－(12)－(13))の相続税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQB00130",
+        "path": "KSE060/FQB00000/FQB00010/FQB00130",
+        "label": "未成年者控除額(6)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FQB00140",
+      "path": "KSE060/FQB00000/FQB00140",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FQB00150",
+        "path": "KSE060/FQB00000/FQB00140/FQB00150",
+        "label": "未成年者控除額(2)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQB00160",
+        "path": "KSE060/FQB00000/FQB00140/FQB00160",
+        "label": "その他計算式等区分",
+        "min": 0,
+        "max": 1,
+        "type": "FQB00160-3-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "KSE060/FQB00000/FQB00140/FQB00160/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "KSE060/FQB00000/FQB00140/FQB00160/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "FQB00170",
+        "path": "KSE060/FQB00000/FQB00140/FQB00170",
+        "label": "その他計算式等",
+        "min": 0,
+        "max": 1,
+        "type": "FQB00170-3-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "FQB00180",
+        "path": "KSE060/FQB00000/FQB00140/FQB00180",
+        "label": "未成年者の第１表の((9)＋(11)－(12)－(13))又は((10)＋(11)－(12)－(13))の相続税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQB00190",
+        "path": "KSE060/FQB00000/FQB00140/FQB00190",
+        "label": "控除しきれない金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQB00200",
+        "path": "KSE060/FQB00000/FQB00140/FQB00200",
+        "label": "扶養義務者の第１表の((9)＋(11)－(12)－(13))又は((10)＋(11)－(12)－(13))の相続税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQB00210",
+        "path": "KSE060/FQB00000/FQB00140/FQB00210",
+        "label": "未成年者控除額(6)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FQC00000",
+    "path": "KSE060/FQC00000",
+    "label": "２　障害者控除",
+    "min": 0,
+    "max": 1,
+    "type": "FQC00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FQC00010",
+      "path": "KSE060/FQC00000/FQC00010",
+      "label": "一般障害者　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FQC00020",
+        "path": "KSE060/FQC00000/FQC00010/FQC00020",
+        "label": "障害者の氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "FQC00030",
+        "path": "KSE060/FQC00000/FQC00010/FQC00030",
+        "label": "年齢",
+        "min": 0,
+        "max": 1,
+        "type": "FQC00030-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "min_inclusive": 0,
+        "max_inclusive": 84,
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQC00040",
+        "path": "KSE060/FQC00000/FQC00010/FQC00040",
+        "label": "障害者控除額(2)",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FQC00050",
+          "path": "KSE060/FQC00000/FQC00010/FQC00040/FQC00050",
+          "label": "年齢",
+          "min": 0,
+          "max": 1,
+          "type": "FQC00050-3-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 0,
+          "max_inclusive": 84,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FQC00060",
+          "path": "KSE060/FQC00000/FQC00010/FQC00040/FQC00060",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FQC00070",
+          "path": "KSE060/FQC00000/FQC00010/FQC00040/FQC00070",
+          "label": "その他計算式等区分",
+          "min": 0,
+          "max": 1,
+          "type": "FQC00070-3-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KSE060/FQC00000/FQC00010/FQC00040/FQC00070/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KSE060/FQC00000/FQC00010/FQC00040/FQC00070/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "FQC00080",
+          "path": "KSE060/FQC00000/FQC00010/FQC00040/FQC00080",
+          "label": "その他計算式等",
+          "min": 0,
+          "max": 1,
+          "type": "FQC00080-3-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "FQC00090",
+        "path": "KSE060/FQC00000/FQC00010/FQC00090",
+        "label": "障害者の第１表の((9)＋(11)－(12)－(13))－第８の８表１の(1)又は第１表の((10)＋(11)－(12)－(13))－第８の８表１の(1)の相続税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQC00100",
+        "path": "KSE060/FQC00000/FQC00010/FQC00100",
+        "label": "控除しきれない金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQC00110",
+        "path": "KSE060/FQC00000/FQC00010/FQC00110",
+        "label": "扶養義務者の氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "FQC00120",
+        "path": "KSE060/FQC00000/FQC00010/FQC00120",
+        "label": "扶養義務者の第１表の((9)＋(11)－(12)－(13))－第８の８表１の(1)又は第１表の((10)＋(11)－(12)－(13))－第８の８表１の(1)の相続税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQC00130",
+        "path": "KSE060/FQC00000/FQC00010/FQC00130",
+        "label": "障害者控除額(6)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FQC00140",
+      "path": "KSE060/FQC00000/FQC00140",
+      "label": "特別障害者　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FQC00150",
+        "path": "KSE060/FQC00000/FQC00140/FQC00150",
+        "label": "障害者の氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "FQC00160",
+        "path": "KSE060/FQC00000/FQC00140/FQC00160",
+        "label": "年齢",
+        "min": 0,
+        "max": 1,
+        "type": "FQC00160-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "min_inclusive": 0,
+        "max_inclusive": 84,
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQC00170",
+        "path": "KSE060/FQC00000/FQC00140/FQC00170",
+        "label": "障害者控除額(2)",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FQC00180",
+          "path": "KSE060/FQC00000/FQC00140/FQC00170/FQC00180",
+          "label": "年齢",
+          "min": 0,
+          "max": 1,
+          "type": "FQC00180-3-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 0,
+          "max_inclusive": 84,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FQC00190",
+          "path": "KSE060/FQC00000/FQC00140/FQC00170/FQC00190",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FQC00200",
+          "path": "KSE060/FQC00000/FQC00140/FQC00170/FQC00200",
+          "label": "その他計算式等区分",
+          "min": 0,
+          "max": 1,
+          "type": "FQC00200-3-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KSE060/FQC00000/FQC00140/FQC00170/FQC00200/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KSE060/FQC00000/FQC00140/FQC00170/FQC00200/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "FQC00210",
+          "path": "KSE060/FQC00000/FQC00140/FQC00170/FQC00210",
+          "label": "その他計算式等",
+          "min": 0,
+          "max": 1,
+          "type": "FQC00210-3-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "FQC00220",
+        "path": "KSE060/FQC00000/FQC00140/FQC00220",
+        "label": "障害者の第１表の((9)＋(11)－(12)－(13))－第８の８表１の(1)又は第１表の((10)＋(11)－(12)－(13))－第８の８表１の(1)の相続税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQC00230",
+        "path": "KSE060/FQC00000/FQC00140/FQC00230",
+        "label": "控除しきれない金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQC00240",
+        "path": "KSE060/FQC00000/FQC00140/FQC00240",
+        "label": "扶養義務者の氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "FQC00250",
+        "path": "KSE060/FQC00000/FQC00140/FQC00250",
+        "label": "扶養義務者の第１表の((9)＋(11)－(12)－(13))－第８の８表１の(1)又は第１表の((10)＋(11)－(12)－(13))－第８の８表１の(1)の相続税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQC00260",
+        "path": "KSE060/FQC00000/FQC00140/FQC00260",
+        "label": "障害者控除額(6)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FQC00270",
+      "path": "KSE060/FQC00000/FQC00270",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FQC00280",
+        "path": "KSE060/FQC00000/FQC00270/FQC00280",
+        "label": "障害者控除額(2)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQC00290",
+        "path": "KSE060/FQC00000/FQC00270/FQC00290",
+        "label": "その他計算式等区分",
+        "min": 0,
+        "max": 1,
+        "type": "FQC00290-3-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "KSE060/FQC00000/FQC00270/FQC00290/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "KSE060/FQC00000/FQC00270/FQC00290/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "FQC00300",
+        "path": "KSE060/FQC00000/FQC00270/FQC00300",
+        "label": "その他計算式等",
+        "min": 0,
+        "max": 1,
+        "type": "FQC00300-3-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 30
+       },
+       {
+        "tag": "FQC00310",
+        "path": "KSE060/FQC00000/FQC00270/FQC00310",
+        "label": "障害者の第１表の((9)＋(11)－(12)－(13))－第８の８表１の(1)又は第１表の((10)＋(11)－(12)－(13))－第８の８表１の(1)の相続税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQC00320",
+        "path": "KSE060/FQC00000/FQC00270/FQC00320",
+        "label": "控除しきれない金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQC00330",
+        "path": "KSE060/FQC00000/FQC00270/FQC00330",
+        "label": "扶養義務者の第１表の((9)＋(11)－(12)－(13))－第８の８表１の(1)又は第１表の((10)＋(11)－(12)－(13))－第８の８表１の(1)の相続税額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FQC00340",
+        "path": "KSE060/FQC00000/FQC00270/FQC00340",
+        "label": "障害者控除額(6)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KSE060-3-0VRtype",
+    "fixed": "3.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

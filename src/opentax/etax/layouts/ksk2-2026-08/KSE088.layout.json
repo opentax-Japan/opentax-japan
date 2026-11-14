@@ -1,0 +1,603 @@
+{
+ "form_id": "KSE088",
+ "label": "税額控除額及び納税猶予税額の内訳書（第8の8表）",
+ "version": "1.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shisan",
+ "group": "KSE088-1-0group",
+ "xsd": "19XMLスキーマ/shisan/KSE088-001.xsd",
+ "xsd_sha256": "995ce69224620e52adce26f0ad5714c67a09bb421bae19a65a06ea849d3f309b",
+ "root": {
+  "tag": "KSE088",
+  "path": "KSE088",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "FYA00000",
+    "path": "KSE088/FYA00000",
+    "label": "被相続人",
+    "min": 0,
+    "max": 1,
+    "type": "gen:name",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ]
+   },
+   {
+    "tag": "FYB00000",
+    "path": "KSE088/FYB00000",
+    "label": "１　税額控除額（左列）",
+    "min": 0,
+    "max": 1,
+    "type": "FYB00000-1-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FYB00010",
+      "path": "KSE088/FYB00000/FYB00010",
+      "label": "氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FYB00020",
+      "path": "KSE088/FYB00000/FYB00020",
+      "label": "未成年者控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYB00030",
+      "path": "KSE088/FYB00000/FYB00030",
+      "label": "障害者控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYB00040",
+      "path": "KSE088/FYB00000/FYB00040",
+      "label": "相次相続控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYB00050",
+      "path": "KSE088/FYB00000/FYB00050",
+      "label": "外国税額控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYB00060",
+      "path": "KSE088/FYB00000/FYB00060",
+      "label": "合計",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FYC00000",
+    "path": "KSE088/FYC00000",
+    "label": "１　税額控除額（右列）",
+    "min": 0,
+    "max": 1,
+    "type": "FYC00000-1-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FYC00010",
+      "path": "KSE088/FYC00000/FYC00010",
+      "label": "氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FYC00020",
+      "path": "KSE088/FYC00000/FYC00020",
+      "label": "未成年者控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYC00030",
+      "path": "KSE088/FYC00000/FYC00030",
+      "label": "障害者控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYC00040",
+      "path": "KSE088/FYC00000/FYC00040",
+      "label": "相次相続控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYC00050",
+      "path": "KSE088/FYC00000/FYC00050",
+      "label": "外国税額控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYC00060",
+      "path": "KSE088/FYC00000/FYC00060",
+      "label": "合計",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FYD00000",
+    "path": "KSE088/FYD00000",
+    "label": "２　納税猶予税額（左列）",
+    "min": 0,
+    "max": 1,
+    "type": "FYD00000-1-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FYD00010",
+      "path": "KSE088/FYD00000/FYD00010",
+      "label": "氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FYD00020",
+      "path": "KSE088/FYD00000/FYD00020",
+      "label": "農地等納税猶予税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYD00030",
+      "path": "KSE088/FYD00000/FYD00030",
+      "label": "株式等納税猶予税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYD00040",
+      "path": "KSE088/FYD00000/FYD00040",
+      "label": "特例株式等納税猶予税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYD00050",
+      "path": "KSE088/FYD00000/FYD00050",
+      "label": "山林納税猶予税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYD00060",
+      "path": "KSE088/FYD00000/FYD00060",
+      "label": "医療法人持分納税猶予税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYD00070",
+      "path": "KSE088/FYD00000/FYD00070",
+      "label": "美術品納税猶予税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYD00080",
+      "path": "KSE088/FYD00000/FYD00080",
+      "label": "事業用資産納税猶予税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYD00090",
+      "path": "KSE088/FYD00000/FYD00090",
+      "label": "合計",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FYE00000",
+    "path": "KSE088/FYE00000",
+    "label": "２　納税猶予税額（右列）",
+    "min": 0,
+    "max": 1,
+    "type": "FYE00000-1-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FYE00010",
+      "path": "KSE088/FYE00000/FYE00010",
+      "label": "氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FYE00020",
+      "path": "KSE088/FYE00000/FYE00020",
+      "label": "農地等納税猶予税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYE00030",
+      "path": "KSE088/FYE00000/FYE00030",
+      "label": "株式等納税猶予税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYE00040",
+      "path": "KSE088/FYE00000/FYE00040",
+      "label": "特例株式等納税猶予税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYE00050",
+      "path": "KSE088/FYE00000/FYE00050",
+      "label": "山林納税猶予税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYE00060",
+      "path": "KSE088/FYE00000/FYE00060",
+      "label": "医療法人持分納税猶予税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYE00070",
+      "path": "KSE088/FYE00000/FYE00070",
+      "label": "美術品納税猶予税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYE00080",
+      "path": "KSE088/FYE00000/FYE00080",
+      "label": "事業用資産納税猶予税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FYE00090",
+      "path": "KSE088/FYE00000/FYE00090",
+      "label": "合計",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KSE088-1-0VRtype",
+    "fixed": "1.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

@@ -1,0 +1,943 @@
+{
+ "form_id": "KSE141",
+ "label": "純資産価額に加算される暦年課税分の贈与財産価額等の明細書（第14表）",
+ "version": "4.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shisan",
+ "group": "KSE141-4-0group",
+ "xsd": "19XMLスキーマ/shisan/KSE141-004.xsd",
+ "xsd_sha256": "788335de9e3e59c0a22aec0204c8ae08e04a218f0b163025e5e59477c5bf21cd",
+ "root": {
+  "tag": "KSE141",
+  "path": "KSE141",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "FXA00000",
+    "path": "KSE141/FXA00000",
+    "label": "被相続人",
+    "min": 0,
+    "max": 1,
+    "type": "gen:name",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ]
+   },
+   {
+    "tag": "FXB00000",
+    "path": "KSE141/FXB00000",
+    "label": "１　純資産価額に加算される暦年課税分の贈与財産価額及び特定贈与財産価額の明細",
+    "min": 0,
+    "max": 1,
+    "type": "FXB00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FXB00010",
+      "path": "KSE141/FXB00000/FXB00010",
+      "label": "明細　繰り返し",
+      "min": 0,
+      "max": 4,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FXB00020",
+        "path": "KSE141/FXB00000/FXB00010/FXB00020",
+        "label": "番号",
+        "min": 0,
+        "max": 1,
+        "type": "FXB00020-4-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FXB00030",
+        "path": "KSE141/FXB00000/FXB00010/FXB00030",
+        "label": "贈与を受けた人の氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "FXB00040",
+        "path": "KSE141/FXB00000/FXB00010/FXB00040",
+        "label": "贈与年月日",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "KSE141/FXB00000/FXB00010/FXB00040/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "KSE141/FXB00000/FXB00010/FXB00040/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "KSE141/FXB00000/FXB00010/FXB00040/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "KSE141/FXB00000/FXB00010/FXB00040/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "FXB00050",
+        "path": "KSE141/FXB00000/FXB00010/FXB00050",
+        "label": "相続開始前3年以内に暦年課税に係る贈与を受けた財産の明細",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FXB00060",
+          "path": "KSE141/FXB00000/FXB00010/FXB00050/FXB00060",
+          "label": "種類",
+          "min": 0,
+          "max": 1,
+          "type": "FXB00060-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "FXB00070",
+          "path": "KSE141/FXB00000/FXB00010/FXB00050/FXB00070",
+          "label": "細目",
+          "min": 0,
+          "max": 1,
+          "type": "FXB00070-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "FXB00080",
+          "path": "KSE141/FXB00000/FXB00010/FXB00050/FXB00080",
+          "label": "所在場所等",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "FXB00090",
+          "path": "KSE141/FXB00000/FXB00010/FXB00050/FXB00090",
+          "label": "数量",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "FXB00100",
+            "path": "KSE141/FXB00000/FXB00010/FXB00050/FXB00090/FXB00100",
+            "label": "数量",
+            "min": 0,
+            "max": 1,
+            "type": "FXB00100-4-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "FXB00110",
+            "path": "KSE141/FXB00000/FXB00010/FXB00050/FXB00090/FXB00110",
+            "label": "単位",
+            "min": 0,
+            "max": 1,
+            "type": "FXB00110-4-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 2
+           }
+          ]
+         },
+         {
+          "tag": "FXB00120",
+          "path": "KSE141/FXB00000/FXB00010/FXB00050/FXB00120",
+          "label": "(1)価額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FXB00130",
+        "path": "KSE141/FXB00000/FXB00010/FXB00130",
+        "label": "(2)(1)の価額のうち特定贈与財産の価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FXB00140",
+        "path": "KSE141/FXB00000/FXB00010/FXB00140",
+        "label": "(3)相続税の課税価格に加算される価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FXB00150",
+      "path": "KSE141/FXB00000/FXB00150",
+      "label": "贈与を受けた人ごとの(3)欄の合計額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FXB00160",
+        "path": "KSE141/FXB00000/FXB00150/FXB00160",
+        "label": "（各人の合計）　(4)金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FXB00170",
+        "path": "KSE141/FXB00000/FXB00150/FXB00170",
+        "label": "明細　繰り返し",
+        "min": 0,
+        "max": 4,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FXB00180",
+          "path": "KSE141/FXB00000/FXB00150/FXB00170/FXB00180",
+          "label": "氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "FXB00190",
+          "path": "KSE141/FXB00000/FXB00150/FXB00170/FXB00190",
+          "label": "(4)金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FXB00200",
+      "path": "KSE141/FXB00000/FXB00200",
+      "label": "受贈配偶者",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FXB00210",
+      "path": "KSE141/FXB00000/FXB00210",
+      "label": "受贈財産の番号",
+      "min": 0,
+      "max": 1,
+      "type": "FXB00210-4-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FXC00000",
+    "path": "KSE141/FXC00000",
+    "label": "２　出資持分の定めのない法人などに遺贈した財産の明細",
+    "min": 0,
+    "max": 1,
+    "type": "FXC00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FXC00010",
+      "path": "KSE141/FXC00000/FXC00010",
+      "label": "明細　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FXC00020",
+        "path": "KSE141/FXC00000/FXC00010/FXC00020",
+        "label": "遺贈した財産の明細",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FXC00030",
+          "path": "KSE141/FXC00000/FXC00010/FXC00020/FXC00030",
+          "label": "種類",
+          "min": 0,
+          "max": 1,
+          "type": "FXC00030-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "FXC00040",
+          "path": "KSE141/FXC00000/FXC00010/FXC00020/FXC00040",
+          "label": "細目",
+          "min": 0,
+          "max": 1,
+          "type": "FXC00040-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "FXC00050",
+          "path": "KSE141/FXC00000/FXC00010/FXC00020/FXC00050",
+          "label": "所在場所等",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "FXC00060",
+          "path": "KSE141/FXC00000/FXC00010/FXC00020/FXC00060",
+          "label": "数量",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "FXC00070",
+            "path": "KSE141/FXC00000/FXC00010/FXC00020/FXC00060/FXC00070",
+            "label": "数量",
+            "min": 0,
+            "max": 1,
+            "type": "FXC00070-4-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "FXC00080",
+            "path": "KSE141/FXC00000/FXC00010/FXC00020/FXC00060/FXC00080",
+            "label": "単位",
+            "min": 0,
+            "max": 1,
+            "type": "FXC00080-4-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 2
+           }
+          ]
+         },
+         {
+          "tag": "FXC00090",
+          "path": "KSE141/FXC00000/FXC00010/FXC00020/FXC00090",
+          "label": "価額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FXC00100",
+        "path": "KSE141/FXC00000/FXC00010/FXC00100",
+        "label": "出資持分の定めのない法人などの所在地、名称",
+        "min": 0,
+        "max": 1,
+        "type": "FXC00100-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 100
+       }
+      ]
+     },
+     {
+      "tag": "FXC00110",
+      "path": "KSE141/FXC00000/FXC00110",
+      "label": "合計　価額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FXD00000",
+    "path": "KSE141/FXD00000",
+    "label": "３　特定の公益法人などに寄附した相続財産又は特定公益信託などのために支出した相続財産の明細",
+    "min": 0,
+    "max": 1,
+    "type": "FXD00000-4-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FXD00010",
+      "path": "KSE141/FXD00000/FXD00010",
+      "label": "租税特別措置法第70条第１項の規定の適用",
+      "min": 0,
+      "max": 1,
+      "type": "FXD00010-4-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "KSE141/FXD00000/FXD00010/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "KSE141/FXD00000/FXD00010/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "FXD00020",
+      "path": "KSE141/FXD00000/FXD00020",
+      "label": "租税特別措置法第70条第３項の規定の適用",
+      "min": 0,
+      "max": 1,
+      "type": "FXD00020-4-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "KSE141/FXD00000/FXD00020/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "KSE141/FXD00000/FXD00020/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "FXD00030",
+      "path": "KSE141/FXD00000/FXD00030",
+      "label": "租税特別措置法第70条第10項の規定の適用",
+      "min": 0,
+      "max": 1,
+      "type": "FXD00030-4-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "KSE141/FXD00000/FXD00030/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "KSE141/FXD00000/FXD00030/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "FXD00040",
+      "path": "KSE141/FXD00000/FXD00040",
+      "label": "明細　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FXD00050",
+        "path": "KSE141/FXD00000/FXD00040/FXD00050",
+        "label": "寄附（支出）年月日",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "KSE141/FXD00000/FXD00040/FXD00050/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "KSE141/FXD00000/FXD00040/FXD00050/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "KSE141/FXD00000/FXD00040/FXD00050/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "KSE141/FXD00000/FXD00040/FXD00050/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "FXD00060",
+        "path": "KSE141/FXD00000/FXD00040/FXD00060",
+        "label": "寄附（支出）した財産の明細",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FXD00070",
+          "path": "KSE141/FXD00000/FXD00040/FXD00060/FXD00070",
+          "label": "種類",
+          "min": 0,
+          "max": 1,
+          "type": "FXD00070-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "FXD00080",
+          "path": "KSE141/FXD00000/FXD00040/FXD00060/FXD00080",
+          "label": "細目",
+          "min": 0,
+          "max": 1,
+          "type": "FXD00080-4-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         },
+         {
+          "tag": "FXD00090",
+          "path": "KSE141/FXD00000/FXD00040/FXD00060/FXD00090",
+          "label": "所在場所等",
+          "min": 0,
+          "max": 1,
+          "type": "gen:address",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "FXD00100",
+          "path": "KSE141/FXD00000/FXD00040/FXD00060/FXD00100",
+          "label": "数量",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "FXD00110",
+            "path": "KSE141/FXD00000/FXD00040/FXD00060/FXD00100/FXD00110",
+            "label": "数量",
+            "min": 0,
+            "max": 1,
+            "type": "FXD00110-4-0type",
+            "kind": "value",
+            "base": "xsd:decimal",
+            "derived_from": [
+             "gen:decimalType"
+            ],
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "FXD00120",
+            "path": "KSE141/FXD00000/FXD00040/FXD00060/FXD00100/FXD00120",
+            "label": "単位",
+            "min": 0,
+            "max": 1,
+            "type": "FXD00120-4-0Rtype",
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:str"
+            ],
+            "max_length": 2
+           }
+          ]
+         },
+         {
+          "tag": "FXD00130",
+          "path": "KSE141/FXD00000/FXD00040/FXD00060/FXD00130",
+          "label": "価額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FXD00140",
+        "path": "KSE141/FXD00000/FXD00040/FXD00140",
+        "label": "公益法人等の所在地・名称",
+        "min": 0,
+        "max": 1,
+        "type": "FXD00140-4-0Rtype",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ],
+        "max_length": 100
+       },
+       {
+        "tag": "FXD00150",
+        "path": "KSE141/FXD00000/FXD00040/FXD00150",
+        "label": "寄附（支出）をした相続人等の氏名",
+        "min": 0,
+        "max": 1,
+        "type": "gen:name",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FXD00160",
+      "path": "KSE141/FXD00000/FXD00160",
+      "label": "合計　価額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KSE141-4-0VRtype",
+    "fixed": "4.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

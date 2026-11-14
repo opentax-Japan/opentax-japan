@@ -1,0 +1,696 @@
+{
+ "form_id": "KSE070",
+ "label": "相次相続控除額の計算書（第7表）",
+ "version": "3.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shisan",
+ "group": "KSE070-3-0group",
+ "xsd": "19XMLスキーマ/shisan/KSE070-003.xsd",
+ "xsd_sha256": "b704a95a82df149687bfbcf5bf2d7a75b10d870b054ecac507cb5a251b7fe3a3",
+ "root": {
+  "tag": "KSE070",
+  "path": "KSE070",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "FRA00000",
+    "path": "KSE070/FRA00000",
+    "label": "被相続人",
+    "min": 0,
+    "max": 1,
+    "type": "gen:name",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ]
+   },
+   {
+    "tag": "FRB00000",
+    "path": "KSE070/FRB00000",
+    "label": "１　相次相続控除額の総額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "FRB00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FRB00010",
+      "path": "KSE070/FRB00000/FRB00010",
+      "label": "前の相続に係る被相続人の氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     },
+     {
+      "tag": "FRB00020",
+      "path": "KSE070/FRB00000/FRB00020",
+      "label": "前の相続に係る被相続人と今回の相続に係る被相続人との続柄",
+      "min": 0,
+      "max": 1,
+      "type": "FRB00020-3-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 35
+     },
+     {
+      "tag": "FRB00030",
+      "path": "KSE070/FRB00000/FRB00030",
+      "label": "前の相続に係る相続税の申告書の提出先",
+      "min": 0,
+      "max": 1,
+      "type": "FRB00030-3-0Rtype",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ],
+      "max_length": 6
+     },
+     {
+      "tag": "FRB00040",
+      "path": "KSE070/FRB00000/FRB00040",
+      "label": "前の相続の年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "KSE070/FRB00000/FRB00040/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "KSE070/FRB00000/FRB00040/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "KSE070/FRB00000/FRB00040/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "KSE070/FRB00000/FRB00040/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "FRB00050",
+      "path": "KSE070/FRB00000/FRB00050",
+      "label": "今回の相続の年月日",
+      "min": 0,
+      "max": 1,
+      "type": "gen:yymmdd",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "era",
+        "path": "KSE070/FRB00000/FRB00050/era",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger"
+       },
+       {
+        "tag": "yy",
+        "path": "KSE070/FRB00000/FRB00050/yy",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 99,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "mm",
+        "path": "KSE070/FRB00000/FRB00050/mm",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 12,
+        "min_inclusive": 1
+       },
+       {
+        "tag": "dd",
+        "path": "KSE070/FRB00000/FRB00050/dd",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "ns": "gen",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "max_inclusive": 31,
+        "min_inclusive": 1
+       }
+      ]
+     },
+     {
+      "tag": "FRB00060",
+      "path": "KSE070/FRB00000/FRB00060",
+      "label": "前の相続から今回の相続までの期間",
+      "min": 0,
+      "max": 1,
+      "type": "FRB00060-3-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "min_inclusive": 0,
+      "max_inclusive": 10,
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FRB00070",
+      "path": "KSE070/FRB00000/FRB00070",
+      "label": "10年－[3]の年数",
+      "min": 0,
+      "max": 1,
+      "type": "FRB00070-3-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "min_inclusive": 0,
+      "max_inclusive": 10,
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FRB00080",
+      "path": "KSE070/FRB00000/FRB00080",
+      "label": "被相続人が前の相続の時に取得した純資産価額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FRB00090",
+      "path": "KSE070/FRB00000/FRB00090",
+      "label": "前の相続の際の被相続人の相続税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FRB00100",
+      "path": "KSE070/FRB00000/FRB00100",
+      "label": "([5]－[6])の金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FRB00110",
+      "path": "KSE070/FRB00000/FRB00110",
+      "label": "今回の相続、遺贈や相続時精算課税に係る贈与によって財産を取得した全ての人の純資産価額の合計額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FRB00120",
+      "path": "KSE070/FRB00000/FRB00120",
+      "label": "相次相続控除額の総額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FRB00130",
+        "path": "KSE070/FRB00000/FRB00120/FRB00130",
+        "label": "([6]の相続税額)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FRB00140",
+        "path": "KSE070/FRB00000/FRB00120/FRB00140",
+        "label": "([8]の金額)(分子)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FRB00150",
+        "path": "KSE070/FRB00000/FRB00120/FRB00150",
+        "label": "([7]の金額)(分母)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FRB00160",
+        "path": "KSE070/FRB00000/FRB00120/FRB00160",
+        "label": "([4]の年数)",
+        "min": 0,
+        "max": 1,
+        "type": "FRB00160-3-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "min_inclusive": 0,
+        "max_inclusive": 10,
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FRB00170",
+        "path": "KSE070/FRB00000/FRB00120/FRB00170",
+        "label": "総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FRC00000",
+    "path": "KSE070/FRC00000",
+    "label": "２　各相続人の相次相続控除額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "FRC00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FRC00010",
+      "path": "KSE070/FRC00000/FRC00010",
+      "label": "(1)一般の場合",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FRC00020",
+        "path": "KSE070/FRC00000/FRC00010/FRC00020",
+        "label": "相次相続控除額の総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FRC00030",
+        "path": "KSE070/FRC00000/FRC00010/FRC00030",
+        "label": "相続人以外の人も含めた純資産価額の合計額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FRC00040",
+        "path": "KSE070/FRC00000/FRC00010/FRC00040",
+        "label": "明細　繰り返し",
+        "min": 0,
+        "max": 5,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FRC00050",
+          "path": "KSE070/FRC00000/FRC00010/FRC00040/FRC00050",
+          "label": "今回の相続の被相続人から財産を取得した相続人の氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "FRC00060",
+          "path": "KSE070/FRC00000/FRC00010/FRC00040/FRC00060",
+          "label": "各相続人の純資産価額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FRC00070",
+          "path": "KSE070/FRC00000/FRC00010/FRC00040/FRC00070",
+          "label": "各人の[10]／[B]の割合",
+          "min": 0,
+          "max": 1,
+          "type": "FRC00070-3-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FRC00080",
+          "path": "KSE070/FRC00000/FRC00010/FRC00040/FRC00080",
+          "label": "各人の相次相続控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FRC00090",
+      "path": "KSE070/FRC00000/FRC00090",
+      "label": "(2)相続人のうちに農業相続人がいる場合",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FRC00100",
+        "path": "KSE070/FRC00000/FRC00090/FRC00100",
+        "label": "相次相続控除額の総額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FRC00110",
+        "path": "KSE070/FRC00000/FRC00090/FRC00110",
+        "label": "相続人以外の人も含めた純資産価額の合計額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FRC00120",
+        "path": "KSE070/FRC00000/FRC00090/FRC00120",
+        "label": "明細　繰り返し",
+        "min": 0,
+        "max": 5,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FRC00130",
+          "path": "KSE070/FRC00000/FRC00090/FRC00120/FRC00130",
+          "label": "今回の相続の被相続人から財産を取得した相続人の氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "FRC00140",
+          "path": "KSE070/FRC00000/FRC00090/FRC00120/FRC00140",
+          "label": "各相続人の純資産価額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FRC00150",
+          "path": "KSE070/FRC00000/FRC00090/FRC00120/FRC00150",
+          "label": "各人の[15]／[C]の割合",
+          "min": 0,
+          "max": 1,
+          "type": "FRC00150-3-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FRC00160",
+          "path": "KSE070/FRC00000/FRC00090/FRC00120/FRC00160",
+          "label": "各人の相次相続控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KSE070-3-0VRtype",
+    "fixed": "3.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

@@ -1,0 +1,552 @@
+{
+ "form_id": "KSE112",
+ "label": "小規模宅地等についての課税価格の計算明細書（第11・11の2表の付表1）",
+ "version": "3.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shisan",
+ "group": "KSE112-3-0group",
+ "xsd": "19XMLスキーマ/shisan/KSE112-003.xsd",
+ "xsd_sha256": "a68d39698877ed49d79e546f83de31c2438dcf98d3bfb79e0a6a27a5b4b3d277",
+ "root": {
+  "tag": "KSE112",
+  "path": "KSE112",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "FJA00000",
+    "path": "KSE112/FJA00000",
+    "label": "被相続人",
+    "min": 0,
+    "max": 1,
+    "type": "gen:name",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ]
+   },
+   {
+    "tag": "FJB00000",
+    "path": "KSE112/FJB00000",
+    "label": "１　特例の適用にあたっての同意　繰り返し",
+    "min": 0,
+    "max": 6,
+    "type": "FJB00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FJB00010",
+      "path": "KSE112/FJB00000/FJB00010",
+      "label": "氏名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:name",
+      "kind": "value",
+      "base": "xsd:string",
+      "derived_from": [
+       "gen:str"
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FJC00000",
+    "path": "KSE112/FJC00000",
+    "label": "２　小規模宅地等の明細",
+    "min": 0,
+    "max": 1,
+    "type": "FJC00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FJC00010",
+      "path": "KSE112/FJC00000/FJC00010",
+      "label": "選択した小規模宅地等　繰り返し",
+      "min": 0,
+      "max": 3,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FJC00020",
+        "path": "KSE112/FJC00000/FJC00010/FJC00020",
+        "label": "小規模宅地等の種類",
+        "min": 0,
+        "max": 1,
+        "type": "FJC00020-3-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "KSE112/FJC00000/FJC00010/FJC00020/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2",
+           "3",
+           "4"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "KSE112/FJC00000/FJC00010/FJC00020/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "FJC00030",
+        "path": "KSE112/FJC00000/FJC00010/FJC00030",
+        "label": "(1) 特例の適用を受ける取得者の氏名（事業内容）",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FJC00040",
+          "path": "KSE112/FJC00000/FJC00010/FJC00030/FJC00040",
+          "label": "氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "FJC00050",
+          "path": "KSE112/FJC00000/FJC00010/FJC00030/FJC00050",
+          "label": "事業内容",
+          "min": 0,
+          "max": 1,
+          "type": "FJC00050-3-0Rtype",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ],
+          "max_length": 20
+         }
+        ]
+       },
+       {
+        "tag": "FJC00060",
+        "path": "KSE112/FJC00000/FJC00010/FJC00060",
+        "label": "(2) 所在地番",
+        "min": 0,
+        "max": 1,
+        "type": "gen:address",
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:str"
+        ]
+       },
+       {
+        "tag": "FJC00070",
+        "path": "KSE112/FJC00000/FJC00010/FJC00070",
+        "label": "(3) 取得者の持分に応ずる宅地等の面積",
+        "min": 0,
+        "max": 1,
+        "type": "FJC00070-3-0type",
+        "kind": "value",
+        "base": "xsd:decimal",
+        "derived_from": [
+         "gen:decimalType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FJC00080",
+        "path": "KSE112/FJC00000/FJC00010/FJC00080",
+        "label": "(4) 取得者の持分に応ずる宅地等の価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FJC00090",
+        "path": "KSE112/FJC00000/FJC00010/FJC00090",
+        "label": "(5) (3)のうち小規模宅地等(「限度面積要件」を満たす宅地等)の面積",
+        "min": 0,
+        "max": 1,
+        "type": "FJC00090-3-0type",
+        "kind": "value",
+        "base": "xsd:decimal",
+        "derived_from": [
+         "gen:decimalType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FJC00100",
+        "path": "KSE112/FJC00000/FJC00010/FJC00100",
+        "label": "(6) (4)のうち小規模宅地等（(4)*(5)/(3)）の価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FJC00110",
+        "path": "KSE112/FJC00000/FJC00010/FJC00110",
+        "label": "(7) 課税価格の計算に当たって減額される金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FJC00120",
+        "path": "KSE112/FJC00000/FJC00010/FJC00120",
+        "label": "(8) 課税価格に算入する価額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "FJD00000",
+    "path": "KSE112/FJD00000",
+    "label": "「限度面積要件」の判定",
+    "min": 0,
+    "max": 1,
+    "type": "FJD00000-3-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FJD00010",
+      "path": "KSE112/FJD00000/FJD00010",
+      "label": "(10) (5)の小規模宅地等の面積の合計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FJD00020",
+        "path": "KSE112/FJD00000/FJD00010/FJD00020",
+        "label": "[1]特定居住用宅地等",
+        "min": 0,
+        "max": 1,
+        "type": "FJD00020-3-0type",
+        "kind": "value",
+        "base": "xsd:decimal",
+        "derived_from": [
+         "gen:decimalType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FJD00030",
+        "path": "KSE112/FJD00000/FJD00010/FJD00030",
+        "label": "[2]特定事業用宅地等",
+        "min": 0,
+        "max": 1,
+        "type": "FJD00030-3-0type",
+        "kind": "value",
+        "base": "xsd:decimal",
+        "derived_from": [
+         "gen:decimalType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FJD00040",
+        "path": "KSE112/FJD00000/FJD00010/FJD00040",
+        "label": "[3]特定同族会社事業用宅地等",
+        "min": 0,
+        "max": 1,
+        "type": "FJD00040-3-0type",
+        "kind": "value",
+        "base": "xsd:decimal",
+        "derived_from": [
+         "gen:decimalType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FJD00050",
+        "path": "KSE112/FJD00000/FJD00010/FJD00050",
+        "label": "[4]貸付事業用宅地等",
+        "min": 0,
+        "max": 1,
+        "type": "FJD00050-3-0type",
+        "kind": "value",
+        "base": "xsd:decimal",
+        "derived_from": [
+         "gen:decimalType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FJD00060",
+      "path": "KSE112/FJD00000/FJD00060",
+      "label": "(11) 限度面積",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FJD00070",
+        "path": "KSE112/FJD00000/FJD00060/FJD00070",
+        "label": "小規模宅地等のうちに[4]貸付事業用宅地等がない場合",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FJD00080",
+          "path": "KSE112/FJD00000/FJD00060/FJD00070/FJD00080",
+          "label": "[1]の(10)の面積",
+          "min": 0,
+          "max": 1,
+          "type": "FJD00080-3-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "min_inclusive": 0,
+          "max_inclusive": 330,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FJD00090",
+          "path": "KSE112/FJD00000/FJD00060/FJD00070/FJD00090",
+          "label": "[2]の(10)及び[3]の(10)の面積の合計",
+          "min": 0,
+          "max": 1,
+          "type": "FJD00090-3-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "min_inclusive": 0,
+          "max_inclusive": 400,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FJD00100",
+        "path": "KSE112/FJD00000/FJD00060/FJD00100",
+        "label": "小規模宅地等のうちに[4]貸付事業用宅地等がある場合",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FJD00110",
+          "path": "KSE112/FJD00000/FJD00060/FJD00100/FJD00110",
+          "label": "[1]の(10)の面積",
+          "min": 0,
+          "max": 1,
+          "type": "FJD00110-3-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "min_inclusive": 0,
+          "max_inclusive": 330,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FJD00120",
+          "path": "KSE112/FJD00000/FJD00060/FJD00100/FJD00120",
+          "label": "[2]の(10)及び[3]の(10)の面積の合計",
+          "min": 0,
+          "max": 1,
+          "type": "FJD00120-3-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "min_inclusive": 0,
+          "max_inclusive": 400,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FJD00130",
+          "path": "KSE112/FJD00000/FJD00060/FJD00100/FJD00130",
+          "label": "[4]の(10)の面積",
+          "min": 0,
+          "max": 1,
+          "type": "FJD00130-3-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "min_inclusive": 0,
+          "max_inclusive": 200,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KSE112-3-0VRtype",
+    "fixed": "3.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

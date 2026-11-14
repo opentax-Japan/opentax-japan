@@ -1,0 +1,506 @@
+{
+ "form_id": "KSE020",
+ "label": "相続税の総額の計算書（第2表）",
+ "version": "2.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/shisan",
+ "group": "KSE020-2-0group",
+ "xsd": "19XMLスキーマ/shisan/KSE020-002.xsd",
+ "xsd_sha256": "5154cbcd7bfb17006642ae925f111323fc265d4e2d14382911813c5e2717b23c",
+ "root": {
+  "tag": "KSE020",
+  "path": "KSE020",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "FDA00000",
+    "path": "KSE020/FDA00000",
+    "label": "被相続人",
+    "min": 0,
+    "max": 1,
+    "type": "gen:name",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ]
+   },
+   {
+    "tag": "FDB00000",
+    "path": "KSE020/FDB00000",
+    "label": "明細",
+    "min": 0,
+    "max": 1,
+    "type": "FDB00000-2-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "FDB00010",
+      "path": "KSE020/FDB00000/FDB00010",
+      "label": "課税価格の合計額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FDB00020",
+        "path": "KSE020/FDB00000/FDB00010/FDB00020",
+        "label": "(イ)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FDB00030",
+        "path": "KSE020/FDB00000/FDB00010/FDB00030",
+        "label": "(ホ)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FDB00040",
+      "path": "KSE020/FDB00000/FDB00040",
+      "label": "遺産に係る基礎控除額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FDB00050",
+        "path": "KSE020/FDB00000/FDB00040/FDB00050",
+        "label": "(ロ)",
+        "min": 0,
+        "max": 1,
+        "type": "FDB00050-2-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FDB00060",
+        "path": "KSE020/FDB00000/FDB00040/FDB00060",
+        "label": "(ハ)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FDB00070",
+      "path": "KSE020/FDB00000/FDB00070",
+      "label": "課税遺産総額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FDB00080",
+        "path": "KSE020/FDB00000/FDB00070/FDB00080",
+        "label": "(ニ)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "FDB00090",
+        "path": "KSE020/FDB00000/FDB00070/FDB00090",
+        "label": "(ヘ)",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FDB00100",
+      "path": "KSE020/FDB00000/FDB00100",
+      "label": "明細　繰り返し",
+      "min": 0,
+      "max": 9,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "FDB00110",
+        "path": "KSE020/FDB00000/FDB00100/FDB00110",
+        "label": "法定相続人",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FDB00120",
+          "path": "KSE020/FDB00000/FDB00100/FDB00110/FDB00120",
+          "label": "氏名",
+          "min": 0,
+          "max": 1,
+          "type": "gen:name",
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:str"
+          ]
+         },
+         {
+          "tag": "FDB00130",
+          "path": "KSE020/FDB00000/FDB00100/FDB00110/FDB00130",
+          "label": "被相続人との続柄",
+          "min": 0,
+          "max": 1,
+          "type": "FDB00130-2-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "KSE020/FDB00000/FDB00100/FDB00110/FDB00130/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun2_CD"
+            ],
+            "enumeration": [
+             "01",
+             "11",
+             "21",
+             "12",
+             "22",
+             "13",
+             "23",
+             "14",
+             "24",
+             "15",
+             "25",
+             "16",
+             "26",
+             "17",
+             "27",
+             "18",
+             "28",
+             "19",
+             "29",
+             "90",
+             "30",
+             "41",
+             "42",
+             "51",
+             "52",
+             "61",
+             "63",
+             "62",
+             "64",
+             "10",
+             "99"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "KSE020/FDB00000/FDB00100/FDB00110/FDB00130/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FDB00140",
+        "path": "KSE020/FDB00000/FDB00100/FDB00140",
+        "label": "左の法定相続人に応じた法定相続分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FDB00150",
+          "path": "KSE020/FDB00000/FDB00100/FDB00140/FDB00150",
+          "label": "分子",
+          "min": 0,
+          "max": 1,
+          "type": "FDB00150-2-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FDB00160",
+          "path": "KSE020/FDB00000/FDB00100/FDB00140/FDB00160",
+          "label": "分母",
+          "min": 0,
+          "max": 1,
+          "type": "FDB00160-2-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FDB00170",
+        "path": "KSE020/FDB00000/FDB00100/FDB00170",
+        "label": "第1表の「相続税の総額(7)」の計算",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FDB00180",
+          "path": "KSE020/FDB00000/FDB00100/FDB00170/FDB00180",
+          "label": "法定相続分に応ずる取得金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FDB00190",
+          "path": "KSE020/FDB00000/FDB00100/FDB00170/FDB00190",
+          "label": "相続税の総額の基となる税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "FDB00200",
+        "path": "KSE020/FDB00000/FDB00100/FDB00200",
+        "label": "第3表の「相続税の総額(7)」の計算",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "FDB00210",
+          "path": "KSE020/FDB00000/FDB00100/FDB00200/FDB00210",
+          "label": "法定相続分に応ずる取得金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "FDB00220",
+          "path": "KSE020/FDB00000/FDB00100/FDB00200/FDB00220",
+          "label": "相続税の総額の基となる税額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "FDB00230",
+      "path": "KSE020/FDB00000/FDB00230",
+      "label": "法定相続人の数",
+      "min": 0,
+      "max": 1,
+      "type": "FDB00230-2-0type",
+      "kind": "value",
+      "base": "xsd:nonNegativeInteger",
+      "derived_from": [
+       "gen:nonNegativeType"
+      ],
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FDB00240",
+      "path": "KSE020/FDB00000/FDB00240",
+      "label": "(8) 相続税の総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "FDB00250",
+      "path": "KSE020/FDB00000/FDB00250",
+      "label": "(11) 相続税の総額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "KSE020-2-0VRtype",
+    "fixed": "2.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}
