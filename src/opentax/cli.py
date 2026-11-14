@@ -756,8 +756,18 @@ def main(argv: list[str] | None = None) -> int:
     nc.add_argument("--cache-dir", default=".cache/etax")
     nc.add_argument("--cab", help="国税庁から取った e-tax19.CAB（キャッシュの代わりに使う）")
 
+    cp = sub.add_parser("compare", help="並行照合: 他のソフトで作った申告データ（.xtx）や控えを AI が読んだ値と、OpenTax の結果を帳票・欄ごとに比べる")
+    cp.add_argument("other", help="相手: e-Tax の申告データ（.xtx・.xml）か、控えを AI が読んだ値の JSON（docs/compare.md）")
+    cp.add_argument("opentax", help="OpenTax: OpenTax が作った .xtx か、OpenTax の入力 JSON（法人・消費税・所得税・相続税）")
+    cp.add_argument("--balance", help="法人の入力 JSON から計算するときの残高試算表（CSV・TXT）")
+    cp.add_argument("--csv", help="欄ごとの結果を書き出す CSV（Excel で開ける UTF-8 BOM つき）")
+    cp.add_argument("--html", help="欄ごとの結果を書き出す HTML（スマホでも見られる）")
+    cp.add_argument("--summary-json", help="一致率などの要約を書き出す JSON（台帳に貯めるため）")
+    cp.add_argument("--cache-dir", default=".cache/etax")
+    cp.add_argument("--cab", help="国税庁から取った e-tax19.CAB（キャッシュの代わりに使う）")
+
     args = parser.parse_args(argv)
-    command = {"collect": _collect, "intake": _intake, "fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
+    command = {"compare": _compare, "collect": _collect, "intake": _intake, "fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
                "build-checks": _build_checks, "calculate": _calculate, "export-etax": _export_etax,
                "local-tax": _local_tax, "shohi": _shohi, "kojin": _kojin, "report": _report,
                "jigyosho": _jigyosho, "shukuhaku": _shukuhaku, "souzoku": _souzoku, "nencho": _nencho}[args.command]
@@ -773,10 +783,12 @@ def main(argv: list[str] | None = None) -> int:
     from .shukuhaku.calculate import ShukuhakuError
     from .souzoku.calculate import SouzokuError
     from .payroll.gensen import GensenError
+    from .compare import CompareError
     try:
         return command(args)
     except (SpecError, LayoutError, CatalogError, CheckError, InputError, RuleError, LocalRuleError, XtxError,
-            ValidationUnavailable, SheetError, ShohiInputError, KojinError, JigyoshoError, ShukuhakuError, SouzokuError, GensenError, OSError) as e:
+            ValidationUnavailable, SheetError, ShohiInputError, KojinError, JigyoshoError, ShukuhakuError, SouzokuError, GensenError,
+            CompareError, OSError) as e:
         print(f"エラー: {e}", file=sys.stderr)
         return EXIT_ERROR
 
@@ -800,6 +812,35 @@ def _collect(args) -> int:
             f.write(out["html"])
         print(f"書き出しました: {args.report}")
     return EXIT_OK if out.get("html") else EXIT_CHANGED
+
+
+def _compare(args) -> int:
+    """並行照合（DESIGN §27）。計算に AI は使わない。違いがあっても終了コードは 0（違いは結果として書き出す）。"""
+    from . import api, compare
+    schema_root = Path(args.cache_dir) / "ksk2-2026-08" / "files" / "e-tax19"
+    if args.cab:
+        schema_root = api.schema_from_cab(Path(args.cab).read_bytes())
+    other = compare.read_other(Path(args.other))
+    mine = compare.opentax_side(Path(args.opentax), schema_root, Path(args.balance).read_bytes() if args.balance else None)
+    result = compare.compare(other, mine)
+    print(compare.summary_text(result))
+    for r in result["rows"]:
+        if r["status"] != "一致":
+            print(f"  {r['status']}  {r['title']} {r['line']} {r['name']}: 相手 {compare._cell(r['other'])} ／ OpenTax {compare._cell(r['opentax'])}")
+    if args.csv:
+        with open(args.csv, "w", encoding="utf-8-sig", newline="") as f:
+            f.write(compare.to_csv(result))
+        print(f"書き出しました: {args.csv}")
+    if args.html:
+        Path(args.html).write_text(compare.to_html(result), encoding="utf-8", newline="\n")
+        print(f"書き出しました: {args.html}")
+    if args.summary_json:
+        s = dict(result["summary"], forms_only_other=result["forms_only_other"], forms_only_mine=result["forms_only_mine"],
+                 differences=[{k: r[k] for k in ("title", "line", "name", "other", "opentax", "status")}
+                              for r in result["rows"] if r["status"] != "一致"])
+        Path(args.summary_json).write_text(json.dumps(s, ensure_ascii=False, indent=2, default=str), encoding="utf-8", newline="\n")
+        print(f"書き出しました: {args.summary_json}")
+    return EXIT_OK
 
 
 def _intake(args) -> int:

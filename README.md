@@ -229,6 +229,7 @@ opentax shohi shohi.json -o shohi.xtx       # 消費税（法人）の .xtx（�
 opentax kojin tests/cases/kokuzei-taro-kojin/input.json --business tests/cases/kokuzei-taro-kojin/business_balance.csv --real-estate tests/cases/kokuzei-taro-kojin/real_estate_balance.csv -o kojin.xtx --report 個人.html   # 所得税（個人）
 opentax souzoku tests/cases/kokuzei-taro-souzoku/input.json --report 相続.html   # 相続税（-o で .xtx。送る人の user_id が要る）
 opentax report --demo -o 一式.html         # 申告書一式（HTML 1枚）。自社の分は input.json --balance --trend --payroll --supplement --gaikyo --shohi
+opentax compare 他のソフトの申告データ.xtx input.json --csv 照合.csv   # 並行照合: 他のソフトの申告書と欄ごとに比べる（docs/compare.md）
 ```
 
 入力の見本（架空の法人）: [tests/cases/open-shoji/input.json](tests/cases/open-shoji/input.json)、

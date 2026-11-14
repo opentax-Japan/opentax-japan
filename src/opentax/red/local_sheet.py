@@ -180,6 +180,14 @@ def _account_text(data: dict) -> str | None:
 
 
 def build(calculated: dict, today: datetime.date | None = None) -> str:
+    today = today or datetime.date.today()
+    data, start, end, sections, warnings = build_sections(calculated, today)
+    return _html(data, start, end, sections, warnings, _forms()["local_guides"], today)
+
+
+def build_sections(calculated: dict, today: datetime.date | None = None) -> tuple:
+    """一覧の中身（様式ごとの欄番号・項目・金額の行）。HTML にする前の形。opentax compare もこれを使う。
+    戻り値: (入力, 事業年度の初日, 末日, [{"title","to","rows":[(欄番号, 項目, 金額の文字, 注意)],"source"}], 注意の一覧)"""
     data = calculated["input"]
     start, end = data["fiscal_period"]["start"], data["fiscal_period"]["end"]
     forms = {f["form"]: f for f in _forms()["forms"]}
@@ -248,7 +256,7 @@ def build(calculated: dict, today: datetime.date | None = None) -> str:
                                ("資本剰余金（company.capital_surplus）", vals6["capital_and_surplus"])) if v is None]
     if missing:
         warnings.append("入力がないため「未入力」と表示した欄があります: " + "、".join(missing))
-    return _html(data, start, end, sections, warnings, _forms()["local_guides"], today)
+    return data, start, end, sections, warnings
 
 
 _CSS = """
