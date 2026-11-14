@@ -106,10 +106,14 @@ class OutOfScopeTest(unittest.TestCase):
         self.assertIn(word, str(ctx.exception))
 
     def test_profit(self):
+        # 黒字の法人は対象（tests/unit/test_profit.py）。欠損金 300万円の範囲の所得なら税額は 0
+        from opentax import api
         raw = sample()
         raw["accounting"]["net_income"] = 100_000
         raw["accounting"]["retained_earnings_end"] = -2_900_000
-        self.assertOut(raw, "黒字法人")
+        c = api.calculate(raw)
+        self.assertEqual(c["result"]["schedule_04"]["income"], 0)
+        self.assertEqual(c["result"]["schedule_01"]["corporate_tax"], 0)
 
     def test_dividend_credit(self):
         raw = sample()

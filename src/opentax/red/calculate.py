@@ -209,9 +209,8 @@ def schedule_04(data: dict, s15: dict | None = None, s16: dict | None = None, s8
     credit_dividend = sum(d["withholding"] for d in data.get("dividends_received") or [])
     credit = credit_interest + credit_dividend     # 29 法人税額から控除される所得税額（社外流出）
     pre_deduction = provisional + add_donation + credit    # 34 合計＝39＝43 差引計
-    income = pre_deduction                         # 44 欠損金等の当期控除額は 0（所得が0以下）
-    if income > 0:
-        raise OutOfScope(f"所得金額が0を超えています（{income:,}円。黒字法人）")
+    # 44 欠損金等の当期控除額は別表七(一)で決めて、calculate が loss_deduction・income を入れ直す（所得が0以下なら 0）
+    income = pre_deduction
     retained = net + add_corporate + add_inhabitant + add_provision + add_depreciation - deduct_business - deduct_depreciation
     return {
         "net_income": net, "add_corporate": add_corporate, "add_inhabitant": add_inhabitant, "add_provision": add_provision,
@@ -342,13 +341,23 @@ def schedule_07_01(data: dict, s4: dict, rules: dict) -> dict:
         raise OutOfScope("当期で繰越期間が終わる欠損金が2事業年度分あります（別表七(一)の欄の数）")
     if sum(not i["last_year"] for i in items) > 9:
         raise OutOfScope("翌期へ繰り越す欠損金の明細が9事業年度分を超えています（別表七(一)の欄の数）")
+    # 欠損金の控除（法人税法第57条第1項・第11項第1号: 中小法人等は控除前の所得の金額の全額まで）。最も古い事業年度の分から順に控除する
+    # （法人税基本通達12-1-1）。所得が0以下なら控除しない
+    remaining = max(s4["pre_deduction"], 0)
+    for i in items:
+        d = min(i["balance"], remaining)
+        remaining -= d
+        i["deducted"] = d
+        i["carry"] = 0 if i["last_year"] else i["balance"] - d
     row_note = _place_rows([i for i in items if not i["last_year"]], start)
-    current_loss = -s4["income"] if s4["income"] < 0 else 0
+    deducted_total = sum(i["deducted"] for i in items)
+    after = s4["pre_deduction"] - deducted_total
+    current_loss = -after if after < 0 else 0
     carry_total = sum(i["carry"] for i in items) + current_loss
     return {
-        "pre_deduction_income": s4["pre_deduction"],
+        "pre_deduction_income": s4["pre_deduction"], "limit": max(s4["pre_deduction"], 0),
         "items": items, "expired": expired,
-        "balance_total": sum(i["balance"] for i in items), "deducted_total": 0,
+        "balance_total": sum(i["balance"] for i in items), "deducted_total": deducted_total,
         "carry_items_total": sum(i["carry"] for i in items),
         "current_loss": current_loss, "carry_total": carry_total, "row_note": row_note,
     }
@@ -382,25 +391,82 @@ def _carry_years(loss_start: datetime.date, periods: list[dict]) -> int:
 
 # --- 別表一 ---
 
-def schedule_01(data: dict, s4: dict, s7: dict) -> dict:
-    """法人税額・地方法人税額は 0（所得が0以下）。所得税額は控除しきれないので全額を還付、中間納付額も全額を還付。"""
+def _floor(x: Fraction, unit: int = 1) -> int:
+    return (x.numerator // x.denominator) // unit * unit if x >= 0 else -((-x.numerator // x.denominator) // unit * unit)
+
+
+def corporate_tax(data: dict, income: int, prules: dict) -> dict:
+    """所得に対する法人税額（別表一 次葉二 74〜79）と地方法人税額（80・82）。資本金1億円以下の普通法人（中小法人）だけ。
+    所得が0以下なら全部 0。出典は rules/profit_tax.json。"""
+    start, end = data["fiscal_period"]["start"], data["fiscal_period"]["end"]
+    months = _months_ceil(start, end)
+    zero = {"months": months, "taxable": 0, "sme_portion": 0, "other_portion": 0, "sme_percent": None, "sme_tax": 0,
+            "other_tax": 0, "corporate_tax": 0, "local_base": 0, "local_corporate_tax": 0}
+    taxable = (income // 1000) * 1000 if income > 0 else 0       # 国税通則法第118条第1項
+    if taxable <= 0:
+        return zero
+    ct, lc = prules["corporate_tax"], prules["local_corporate_tax"]
+    defense = prules["defense_special_corporate_tax"]
+    if start >= datetime.date.fromisoformat(defense["stop_if_fiscal_year_start_from"]):
+        raise OutOfScope("令和8年4月1日以後に開始する事業年度の黒字法人（防衛特別法人税の計算をまだ作っていません）")
+    if start < datetime.date.fromisoformat(lc["fiscal_year_start_from"]):
+        raise OutOfScope("令和元年10月1日より前に開始した事業年度の黒字法人（地方法人税の税率の経過措置を扱いません）")
+    if Fraction(taxable) > Fraction(ct["billion_annual"] * months, 12):
+        raise OutOfScope("所得の金額が年10億円を超える法人（税率17%・適用除外事業者の判定を扱いません）")
+    rule = next((r for r in ct["sme_reduced"]
+                 if datetime.date.fromisoformat(r["fiscal_year_start_from"]) <= start <= datetime.date.fromisoformat(r["fiscal_year_start_to"])),
+                None)
+    if rule is None:
+        raise RuleError(f"事業年度開始 {start} の中小法人の軽減税率の設定がありません（rules/profit_tax.json）")
+    threshold = _floor(Fraction(ct["sme_threshold_annual"] * months, 12), 1000)   # 年800万円相当額（千円未満切捨て。HOA116 74）
+    sme_portion = min(taxable, threshold)
+    other_portion = taxable - sme_portion
+    sme_tax = _floor(Fraction(sme_portion) * Fraction(rule["percent"]) / 100)
+    other_tax = _floor(Fraction(other_portion) * Fraction(ct["standard_percent"]) / 100)
+    corporate = sme_tax + other_tax
+    local_base = (corporate // 1000) * 1000                      # 課税標準法人税額（地方法人税法第9条。千円未満切捨て）
+    local_tax_amount = _floor(Fraction(local_base) * Fraction(lc["percent"]) / 100)
+    return {"months": months, "taxable": taxable, "sme_portion": sme_portion, "other_portion": other_portion,
+            "sme_percent": rule["percent"], "sme_tax": sme_tax, "other_tax": other_tax, "corporate_tax": corporate,
+            "local_base": local_base, "local_corporate_tax": local_tax_amount}
+
+
+def schedule_01(data: dict, s4: dict, s7: dict, prules: dict | None = None) -> dict:
+    """別表一。所得が0以下なら法人税額・地方法人税額は 0 で、所得税額・中間納付額は全額を還付。
+    黒字なら 法人税額（次葉二）から所得税額を控除し（法人税法第68条）、控除しきれない所得税額は還付。
+    差引所得に対する法人税額・差引地方法人税額は100円未満切捨て（国税通則法第119条第1項）。"""
     im = interim_amounts(data)
-    return {"income": s4["income"], "corporate_tax": 0, "local_corporate_tax": 0,
+    ct = corporate_tax(data, s4["income"], prules or load_rules("profit_tax.json"))
+    corporate, local = ct["corporate_tax"], ct["local_corporate_tax"]
+    credit = s4["credit"]
+    credited = min(corporate, credit)                       # 12 控除税額
+    after_credit = (corporate - credited) // 100 * 100      # 13 差引所得に対する法人税額
+    final = max(after_credit - im["corporate"], 0)          # 15 差引確定法人税額
+    refund_income_tax = credit - credited                   # 21 所得税額等の還付金額
+    refund_interim = max(im["corporate"] - after_credit, 0)  # 22 中間納付額の還付
+    local_after = local // 100 * 100                        # 38 差引地方法人税額
+    local_final = max(local_after - im["local_corporate"], 0)
+    refund_local = max(im["local_corporate"] - local_after, 0)
+    return {"income": s4["income"], "corporate_tax": corporate, "local_corporate_tax": local, "detail": ct,
             "loss_deduction": s4["loss_deduction"], "loss_carry": s7["carry_total"],
-            "interim_corporate": im["corporate"], "income_tax": s4["credit"],
-            "refund_income_tax": s4["credit"], "refund_interim": im["corporate"],
-            "refund_total": s4["credit"] + im["corporate"],
-            "interim_local": im["local_corporate"], "refund_local": im["local_corporate"]}
+            "interim_corporate": im["corporate"], "income_tax": credit, "credited": credited,
+            "after_credit": after_credit, "final_corporate": final,
+            "refund_income_tax": refund_income_tax, "refund_interim": refund_interim,
+            "refund_total": refund_income_tax + refund_interim,
+            "local_after": local_after, "final_local": local_final,
+            "interim_local": im["local_corporate"], "refund_local": refund_local}
 
 
 # --- 別表五(二) ---
 
-def schedule_05_02(data: dict, per_capita: dict[str, int]) -> dict:
-    """per_capita: {"道府県民税": 当期の均等割額, "市町村民税": 当期の均等割額}
+def schedule_05_02(data: dict, per_capita: dict[str, int], levy: dict[str, int] | None = None, s1: dict | None = None) -> dict:
+    """per_capita: {"道府県民税": 当期の均等割額, "市町村民税": 当期の均等割額}。levy: 同じく当期の法人税割額（なければ 0）。
+    s1: 別表一（差引所得に対する法人税額・差引地方法人税額。なければ 0）。
 
     税目ごとに prior（前期以前の未納の明細）・interim（当期中間）・current（当期確定）・total（計）。
-    確定の額は「確定税額 − 中間納付額」。マイナス（還付）の部分は refund に分け、⑥期末現在未納税額の外書き（△）にする。
-    赤字なので確定税額は、法人税等・法人税割が 0、均等割が当期の均等割額。"""
+    確定の額は「確定税額 − 中間納付額」。マイナス（還付）の部分は refund に分け、⑥期末現在未納税額の外書き（△）にする。"""
+    levy = levy or {"道府県民税": 0, "市町村民税": 0}
+    national = (s1["after_credit"], s1["local_after"]) if s1 else (0, 0)
     fp = data["fiscal_period"]
     im = interim_amounts(data)
     method = im["method"]
@@ -413,9 +479,9 @@ def schedule_05_02(data: dict, per_capita: dict[str, int]) -> dict:
     def paid_row(accrued: int) -> dict:
         return {"by_provision": accrued if method == "充当金取崩し" else 0, "by_expense": accrued if method == "損金経理" else 0}
 
-    finals = {"法人税等": [0 - im["national"]]}
+    finals = {"法人税等": [national[0] - im["corporate"], national[1] - im["local_corporate"]]}
     for t in ("道府県民税", "市町村民税"):
-        finals[t] = [0 - im["inhabitant"][t]["法人税割"], per_capita[t] - im["inhabitant"][t]["均等割"]]
+        finals[t] = [levy[t] - im["inhabitant"][t]["法人税割"], per_capita[t] - im["inhabitant"][t]["均等割"]]
     interim_of = {"法人税等": im["national"], **{t: im["inhabitant"][t]["total"] for t in ("道府県民税", "市町村民税")}}
     for tax in ("法人税等", "道府県民税", "市町村民税"):
         rows = []
@@ -645,8 +711,10 @@ TRIAL_ROUNDINGS = ("truncate", "round_half_up")
 
 
 def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str | None = None,
-              interest_paid: int | None = None) -> dict:
-    """trial_ratio_rounding: 試し用。別表二の割合の端数処理を仮に決める（結果に trial の印を付ける）。"""
+              interest_paid: int | None = None, levy_of=None) -> dict:
+    """trial_ratio_rounding: 試し用。別表二の割合の端数処理を仮に決める（結果に trial の印を付ける）。
+    levy_of: 別表一の結果から当期の法人税割額 {"道府県民税": 額, "市町村民税": 額} を返す関数（local_tax.profit_taxes）。
+    なければ法人税割は 0（赤字法人）。"""
     rules = load_rules("corporate_tax.json")
     if trial_ratio_rounding:
         if trial_ratio_rounding not in TRIAL_ROUNDINGS:
@@ -657,8 +725,13 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
     s8 = schedule_08_1(data, rules, interest_paid if interest_paid is not None else data.get("interest_paid"))
     s4 = schedule_04(data, s15, s16, s8, rules)
     s7 = schedule_07_01(data, s4, rules)
+    s4["loss_deduction"] = s7["deducted_total"]          # 44 欠損金等の当期控除額
+    s4["income"] = s4["pre_deduction"] - s7["deducted_total"]   # 52 所得金額又は欠損金額
     s1 = schedule_01(data, s4, s7)
-    s52 = schedule_05_02(data, per_capita)
+    levy = levy_of(s1) if levy_of else None
+    if levy is None and s1["corporate_tax"]:
+        raise RuleError("黒字の法人は法人税割を計算します（levy_of を渡してください）")
+    s52 = schedule_05_02(data, per_capita, levy, s1)
     s51 = schedule_05_01(data, s4, s52)
     s2 = schedule_02(data, rules)
     warnings = [f"繰越期間を過ぎた欠損金を切り捨てました: {e['period_start']}〜{e['period_end']} {e['amount']:,}円（{e['years']}年）"

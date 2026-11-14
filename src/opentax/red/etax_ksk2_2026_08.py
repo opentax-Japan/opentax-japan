@@ -19,11 +19,11 @@ PROCEDURE_ID = "RHO0012"
 PROCEDURE_NAME = "内国法人の確定申告(青色)"  # e-Taxソフトが切り出したファイルの TETSUZUKI/procedure_NM と同じ
 PROCEDURE_VR = "26.0.1"
 # 手続XSD（RHO0012-260.xsd）の CONTENTS の並び順。HOA114（別表一 次葉一）は手続XSD で必須
-FORMS = ("HOA112", "HOA114", "HOA201", "HOA420", "HOA511", "HOA522", "HOB016", "HOB710", "HOB800", "HOE099", "HOE200",
+FORMS = ("HOA112", "HOA114", "HOA116", "HOA201", "HOA420", "HOA511", "HOA522", "HOB016", "HOB710", "HOB800", "HOE099", "HOE200",
          "HOE315", "HOE325")
 # 値があるときだけ出す帳票（別表六(一)は所得税額の控除、別表八(一)は受取配当等、別表十四(二)は寄附金、別表十五は交際費等、
-# 別表十六は減価償却の入力があるときだけ）
-OPTIONAL_FORMS = ("HOB016", "HOB800", "HOE099", "HOE200", "HOE315", "HOE325")
+# 別表十六は減価償却の入力があるときだけ。別表一 次葉二は黒字のときだけ）
+OPTIONAL_FORMS = ("HOA116", "HOB016", "HOB800", "HOE099", "HOE200", "HOE315", "HOE325")
 SOFT_NAME = "OpenTaxRED OpenTaxJapan"   # 「ソフト名△会社名」（e-tax01 表1-1）
 SHINKOKU_KBN_KAKUTEI = "30"           # 申告の種類「確定/確定」（e-tax10 帳票フィールド仕様書 Ver7x「HOA112別紙」申告の種類一覧）
 FAMILY_CODE_FOR_S1 = {"1": "4", "2": "1", "3": "3"}  # 別表二の判定結果 → 別表一の同非区分（1:同族 3:非同族 4:特定同族）
@@ -89,6 +89,21 @@ def base_values(result: dict) -> dict:
     v["BGC00130"] = s1["interim_local"]           # 39 中間申告分の地方法人税額
     # 22 中間納付額（【計算】BGB00200－BGB00190。申告の種類による例外があり式を読み取れないので、確定申告として入れる）
     v["BGB00340"] = s1["refund_interim"]
+    # 黒字: 別表一 次葉二（74〜82）と別表一 2・12・28・31
+    ct = s1.get("detail") or {}
+    if s1["corporate_tax"]:
+        v["QHB00020"] = ct["months"]                   # 74 月数
+        v["QHB00030"] = ct["sme_portion"]              # 74 (1)のうち中小法人等の年800万円相当額以下の金額
+        v["QHB00070"] = ct["other_portion"]            # 76 その他の所得金額
+        v["QHB00100"] = ct["sme_tax"]                  # 77 (74)の15％相当額
+        v["QHB00140"] = ct["other_tax"]                # 79 (76)の23.2％相当額
+        v["QHC00010"] = ct["local_base"]               # 80 所得の金額に対する法人税額（千円未満切捨て）
+        v["QHC00050"] = ct["local_corporate_tax"]      # 82 (80)の10.3％相当額
+        v["BGB00020"] = s1["corporate_tax"]            # 2 法人税額（＝77＋78＋79）
+        v["BGC00030"] = s1["corporate_tax"]            # 28 所得の金額に対する法人税額
+        v["BGC00060"] = s1["local_corporate_tax"]      # 31 地方法人税額（＝82）
+    # 12 控除税額（【計算】は「(9)−(10)−(11) と (18) の少ない金額」で式を読み取れないので入れる）
+    v["BGB00180"] = s1.get("credited", 0)
     # 別表六(一)（預貯金の利子などの1行目だけ）
     if s4["credit"]:
         ci, cd = s4.get("credit_interest", s4["credit"]), s4.get("credit_dividend", 0)
@@ -379,6 +394,13 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
     }
     if filing.get("settled_on"):
         v["BGA00410"] = filing["settled_on"]
+    if result["schedule_01"]["corporate_tax"]:
+        # 別表一 次葉二の区分（帳票フィールド仕様書 HOA116 の値の範囲）
+        v["QHB00015"] = "1"                                # 74 ((1)と800万円×＿／12のうち少ない金額)
+        v["QHB00090"] = "1" if result["schedule_01"]["detail"]["sme_percent"] == "15" else None   # 77 15％
+        v["QHB00130"] = "2"                                # 79 23.2％（普通法人）
+        if v["QHB00090"] is None:
+            raise XtxError("別表一 次葉二 77 の税率区分を決められません")
     last = [i for i in s7["items"] if i["last_year"]]
     rest = [i for i in s7["items"] if not i["last_year"]]
     if last:

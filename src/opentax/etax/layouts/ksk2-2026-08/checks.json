@@ -27,6 +27,35 @@
    "source": "e-tax08 帳票間項目チェック（法人税申告）Ver260x.xlsx 項番2"
   },
   {
+   "id": "e-tax08-3",
+   "form_id": "HOA112",
+   "tag": "BGB00020",
+   "name": "[2]法人税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "QHB00100",
+     "sum_repeats": false,
+     "form_id": "HOA116"
+    },
+    {
+     "sign": 1,
+     "tag": "QHB00110",
+     "sum_repeats": false,
+     "form_id": "HOA116"
+    },
+    {
+     "sign": 1,
+     "tag": "QHB00140",
+     "sum_repeats": false,
+     "form_id": "HOA116"
+    }
+   ],
+   "check_only": true,
+   "round_digits": null,
+   "source": "e-tax08 帳票間項目チェック（法人税申告）Ver260x.xlsx 項番3"
+  },
+  {
    "id": "e-tax08-8",
    "form_id": "HOA112",
    "tag": "BGB00460",
@@ -77,6 +106,57 @@
    "check_only": false,
    "round_digits": null,
    "source": "e-tax08 帳票間項目チェック（法人税申告）Ver260x.xlsx 項番9"
+  },
+  {
+   "id": "e-tax08-10",
+   "form_id": "HOA112",
+   "tag": "BGC00060",
+   "name": "[31]地方法人税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "QHC00050",
+     "sum_repeats": false,
+     "form_id": "HOA116"
+    }
+   ],
+   "check_only": true,
+   "round_digits": null,
+   "source": "e-tax08 帳票間項目チェック（法人税申告）Ver260x.xlsx 項番10"
+  },
+  {
+   "id": "e-tax08-11",
+   "form_id": "HOA112",
+   "tag": "BGC00070",
+   "name": "[33]課税留保金額に係る地方法人税額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "QHC00080",
+     "sum_repeats": false,
+     "form_id": "HOA116"
+    }
+   ],
+   "check_only": true,
+   "round_digits": null,
+   "source": "e-tax08 帳票間項目チェック（法人税申告）Ver260x.xlsx 項番11"
+  },
+  {
+   "id": "e-tax08-13",
+   "form_id": "HOA112",
+   "tag": "BGC00240",
+   "name": "[41]外国税額の還付金額",
+   "terms": [
+    {
+     "sign": 1,
+     "tag": "QHG00030",
+     "sum_repeats": false,
+     "form_id": "HOA116"
+    }
+   ],
+   "check_only": true,
+   "round_digits": null,
+   "source": "e-tax08 帳票間項目チェック（法人税申告）Ver260x.xlsx 項番13"
   },
   {
    "id": "e-tax08-29",
@@ -4931,10 +5011,22 @@
  ],
  "skipped": [
   {
+   "id": "e-tax08-7",
+   "tag": "BGB00450",
+   "reason": "条件つき・読み取れない式",
+   "text": "チェックのみ\n丸め桁:2(百円未満切捨て)"
+  },
+  {
    "id": "e-tax08-12",
    "tag": "BGC00090",
    "reason": "条件つき・読み取れない式",
    "text": "チェックのみ\nBGC00090 = (DEB00230 + EEB00050)とBGC00080のうち少ない金額\nただし、HOB045、HOE548のいずれもない場合はチェックしない"
+  },
+  {
+   "id": "e-tax08-14",
+   "tag": "BGC00230",
+   "reason": "条件つき・読み取れない式",
+   "text": "チェックのみ\n丸め桁:2(百円未満切捨て)"
   },
   {
    "id": "e-tax08-15",
@@ -4947,6 +5039,18 @@
    "tag": "KZB00170",
    "reason": "条件つき・読み取れない式",
    "text": "チェックのみKZB00170 = (DEB00230 + EEB00050-BGC00090)とKZB00160のうち少ない金額\nただし、以下の場合はチェックしないHOB045、HOE548のいずれもない場合or事業年度（自）(西暦変換)≦20260331の場合"
+  },
+  {
+   "id": "e-tax08-17",
+   "tag": "QHC00010",
+   "reason": "条件つき・読み取れない式",
+   "text": "チェックのみ\n丸め桁:3(千円未満切捨て)"
+  },
+  {
+   "id": "e-tax08-18",
+   "tag": "QHC00020",
+   "reason": "条件つき・読み取れない式",
+   "text": "チェックのみ\n丸め桁:3(千円未満切捨て)"
   },
   {
    "id": "HOA112-83",

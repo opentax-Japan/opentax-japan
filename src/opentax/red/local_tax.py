@@ -5,13 +5,16 @@
 - rules/local_rates/<版>.json: 総務省「法人住民税・法人事業税 税率一覧表」（毎年4月1日現在）から tools/build_local_rates.py で作った
   全都道府県・全市町村の設定。均等割の税率は事業年度の末日現在の税率による（地方税法第52条第2項・第312条第3項）ので、
   事業年度の末日より前の4月1日現在の版のうち一番新しいものを使う
-赤字法人なので、法人税割（法人税額が課税標準）と事業税の所得割・特別法人事業税は 0 になる。
+黒字の法人の法人税割・事業税（所得割）・特別法人事業税は corporate_levy・business_tax（DESIGN.md §11）。
 """
 
 from __future__ import annotations
 
 import datetime
 import json
+import re
+import unicodedata
+from fractions import Fraction
 from functools import lru_cache
 from pathlib import Path
 
@@ -368,3 +371,158 @@ def local_tax(data: dict) -> dict:
         "business_tax": {"income_levy": 0, "special_business_tax": 0},
         "cautions": [c for c in (pref["caution"], city["caution"], basis_note) if c],
     }
+
+
+# --- 黒字の法人: 法人税割・事業税（所得割）・特別法人事業税（DESIGN.md §11） ---
+
+def _profit_rules() -> dict:
+    return json.loads((Path(__file__).parent / "rules" / "profit_tax.json").read_text(encoding="utf-8"))
+
+
+def _amount(text: str) -> int:
+    """「１億」「2,000万」「１億5,000万」などを円に。"""
+    t = unicodedata.normalize("NFKC", text).replace(",", "")
+    m = re.fullmatch(r"(?:(\d+)億)?(?:(\d+)万)?", t)
+    if not m or not (m[1] or m[2]):
+        raise ValueError(text)
+    return int(m[1] or 0) * 100_000_000 + int(m[2] or 0) * 10_000
+
+
+def _in_period(period: dict | None, start: datetime.date, end: datetime.date) -> bool:
+    if not period:
+        return True
+    d = start if period.get("basis") == "start" else end
+    lo = datetime.date.fromisoformat(period["from"]) if period.get("from") else None
+    hi = datetime.date.fromisoformat(period["to"]) if period.get("to") else None
+    return (lo is None or d >= lo) and (hi is None or d <= hi)
+
+
+def _pref_levy_percent(pref: str, ed: dict, company: dict, tax_base: int, months: int,
+                       start: datetime.date, end: datetime.date) -> tuple[str, str]:
+    """道府県民税の法人税割の税率（総務省の一覧）。超過課税の県は、一覧の「軽減の条件」に当たれば軽減後の税率。"""
+    p = ed["prefectures"].get(pref)
+    lv = (p or {}).get("corporate_tax_levy")
+    if not lv or not lv.get("rate_text"):
+        raise LocalRuleError(f"{pref}の法人税割の税率が一覧にありません（{ed['_file']}）")
+    if not lv.get("reduced_rate_text"):
+        return lv["rate_text"], f"{pref}の法人税割 {lv['rate_text']}%（総務省の一覧）"
+    if not re.fullmatch(r"\d+(\.\d+)?", lv["rate_text"]) or not re.fullmatch(r"\d+(\.\d+)?", lv["reduced_rate_text"]):
+        raise OutOfScope(f"{pref}の黒字法人の法人税割（一覧の税率「{lv['rate_text']}」を扱いません）")
+    if not _in_period(lv.get("period"), start, end):
+        raise LocalRuleError(f"{pref}の法人税割の超過課税の適用期間（{lv['period']['text']}）の外の事業年度です。"
+                             "県の資料で税率を確かめてください")
+    cond = unicodedata.normalize("NFKC", lv["reduced_condition"])
+    cond = re.sub(r"〔[^〕]*〕", "", cond).strip()
+    if months != 12 and "法人税額年" in cond:
+        raise OutOfScope(f"{pref}の法人税割の軽減の条件（法人税額年○万円以下）を、12か月でない事業年度で判定すること")
+    m = re.fullmatch(r"資本金(等の額)?(\S+?)円以下で、かつ法人税額年(\S+?)円以下の法人", cond)
+    m2 = re.fullmatch(r"資本金(\S+?)円以下の法人又は法人税額年(\S+?)円以下の法人", cond)
+    m3 = re.fullmatch(r"資本金(\S+?)円以下の法人\(資本金\S+?円で従業者数が(\d+)人を超えるものを除く。\)", cond)
+    if m:
+        cap = company["capital_etc"] if m[1] else company["capital"]
+        reduced = cap <= _amount(m[2]) and tax_base <= _amount(m[3])
+    elif m2:
+        reduced = company["capital"] <= _amount(m2[1]) or tax_base <= _amount(m2[2])
+    elif m3:
+        limit = _amount(m3[1])
+        reduced = company["capital"] < limit or (company["capital"] == limit and company["employees"] <= int(m3[2]))
+    else:
+        raise OutOfScope(f"{pref}の法人税割の軽減の条件を読めません（{lv['reduced_condition']}）")
+    pct = lv["reduced_rate_text"] if reduced else lv["rate_text"]
+    return pct, (f"{pref}の法人税割 {pct}%（総務省の一覧。軽減の条件「{cond}」に"
+                           f"{'当たる' if reduced else '当たらない'}）")
+
+
+def corporate_levy(data: dict, corporate_tax: int) -> dict:
+    """法人税割（地方税法第51条・第314条の4）。課税標準は法人税額（所得税額の控除の前。第23条第1項第4号）の千円未満切捨て、
+    税額は100円未満切捨て（第20条の4の2）。税率は総務省の一覧（算定期間の末日現在）。"""
+    if corporate_tax <= 0:
+        return {"tax_base": 0, "道府県民税": 0, "市町村民税": 0, "raw": {"道府県民税": 0, "市町村民税": 0}, "percent": None, "notes": []}
+    office = data["offices"][0]
+    start, end = data["fiscal_period"]["start"], data["fiscal_period"]["end"]
+    if special_ward_rules(office["prefecture"], office["municipality"]):
+        raise OutOfScope("東京都の特別区の黒字法人（都民税の法人税割を扱いません）")
+    from .calculate import _months_ceil
+    months = _months_ceil(start, end)
+    ed = edition_for(end)
+    base = corporate_tax // 1000 * 1000
+    pref_pct, pref_note = _pref_levy_percent(office["prefecture"], ed, data["company"], base, months, start, end)
+    city = ed["_cities"].get((office["prefecture"], office["municipality"]))
+    if city is None or not city.get("levy"):
+        raise LocalRuleError(f"{office['prefecture']}{office['municipality']}の法人税割の税率が一覧にありません（{ed['_file']}）")
+    if city["levy"].get("non_uniform"):
+        raise OutOfScope(f"{office['municipality']}は法人税割に不均一課税があり、総務省の一覧から中小法人の税率を読めません")
+    city_pct = Fraction(city["levy"]["rate_percent"])
+    pref_raw, city_raw = int(base * Fraction(pref_pct) / 100), int(base * city_pct / 100)   # 法人税割額（第六号様式⑦。1円未満切捨て）
+    pref_levy = pref_raw // 100 * 100                    # 差引法人税割額（⑬。100円未満切捨て）
+    city_levy = city_raw // 100 * 100
+    return {"tax_base": base, "道府県民税": pref_levy, "市町村民税": city_levy,
+            "raw": {"道府県民税": pref_raw, "市町村民税": city_raw},
+            "percent": {"道府県民税": pref_pct, "市町村民税": city["levy"]["rate_percent"]},
+            "notes": [pref_note, f"{office['municipality']}の法人税割 {city['levy']['rate_percent']}%（総務省の一覧）",
+                      f"法人税割の税率は総務省「{ed['source'][0]['title'].split('（')[0]}」（{ed['survey_note']}）によります。"
+                      "申告の前に自治体の資料で確かめてください"]}
+
+
+def _business_standard_note(pref: str, ed: dict, company: dict, income: int, months: int) -> str | None:
+    """事業税（所得割）に超過課税がある都道府県で、一覧の「標準税率と同じ」とする条件に当たるか。当たれば注記、当たらなければ止める。"""
+    entries = [e for e in (ed["prefectures"].get(pref) or {}).get("business_tax_excess") or []
+               if e["kind"] == "外形標準課税対象法人等以外の法人"]
+    if not entries:
+        return None
+    e = entries[0]
+    cond = unicodedata.normalize("NFKC", e["reduced_condition"]).replace("\n", "")
+    m = re.search(r"資本金(\S+?)円以下で、年所得(\S+?)円以下", cond)
+    if not m or "標準税率" not in unicodedata.normalize("NFKC", e["reduced_rates"]).replace("\n", ""):
+        raise OutOfScope(f"{pref}の事業税の超過課税の軽減の条件を読めません（{e['reduced_condition']}）")
+    if months != 12:
+        raise OutOfScope(f"{pref}の事業税の超過課税の軽減の条件（年所得）を、12か月でない事業年度で判定すること")
+    if company["capital"] <= _amount(m[1]) and income <= _amount(m[2]):
+        return f"{pref}の事業税は超過課税がありますが、「{m[0]}」の法人なので標準税率です（総務省の一覧）"
+    raise OutOfScope(f"{pref}の事業税の超過課税（資本金・年所得が軽減の条件「{m[0]}」を超える法人）")
+
+
+def business_tax(data: dict, pre_deduction: int) -> dict:
+    """事業税の所得割（地方税法第72条の24の7第1項第3号）と特別法人事業税（特別法人事業税法第7条第3号）。
+    所得は法人税の所得の計算の例による（第72条の23）: 別表四の差引計から事業税の繰越欠損金を控除する。
+    出典・端数処理は rules/profit_tax.json。"""
+    from .calculate import _months_ceil, load_rules, schedule_07_01
+    pr = _profit_rules()
+    bt, sp = pr["business_tax"], pr["special_business_tax"]
+    start, end = data["fiscal_period"]["start"], data["fiscal_period"]["end"]
+    months = _months_ceil(start, end)
+    losses = data["prior"].get("business_losses") or data["prior"]["losses"]
+    s9 = schedule_07_01({**data, "prior": {**data["prior"], "losses": losses}},
+                        {"pre_deduction": pre_deduction, "income": pre_deduction}, load_rules("corporate_tax.json"))
+    income = pre_deduction - s9["deducted_total"]
+    out = {"income": income, "loss_deduction": s9["deducted_total"], "taxable": 0, "brackets": [], "total": 0,
+           "special_base": 0, "special_percent": sp["percent"], "special": 0, "notes": []}
+    if income <= 0:
+        return out
+    if start < datetime.date.fromisoformat(bt["fiscal_year_start_from"]):
+        raise OutOfScope("令和元年10月1日より前に開始した事業年度の黒字法人（事業税の税率の経過措置を扱いません）")
+    office = data["offices"][0]
+    if special_ward_rules(office["prefecture"], office["municipality"]):
+        raise OutOfScope("東京都の特別区の黒字法人（都の事業税の超過課税を扱いません）")
+    taxable = income // 1000 * 1000
+    note = _business_standard_note(office["prefecture"], edition_for(end), data["company"], taxable, months)
+    limits = [Fraction(a * months, 12) for a in bt["brackets_annual"]]
+    if months != 12 and taxable > limits[0]:
+        raise OutOfScope("12か月でない事業年度で所得が年400万円相当額を超える法人（所得割の段の金額の端数処理を確かめていません）")
+    rows, lower = [], 0
+    for i, pct in enumerate(bt["standard_percents"]):
+        upper = int(limits[i]) if i < len(limits) else taxable
+        part = max(min(taxable, upper) - lower, 0)
+        tax = int(part * Fraction(pct) / 100) // 100 * 100
+        rows.append({"base": part, "percent": pct, "tax": tax})
+        lower += part
+    total = sum(r["tax"] for r in rows)
+    special_base = total                                   # 基準法人所得割額（標準税率で計算した所得割額）
+    special = int(special_base * Fraction(sp["percent"]) / 100) // 100 * 100
+    unknown_kind = None
+    if data["company"].get("utility_or_insurance_business") is None:
+        unknown_kind = ("事業税は、電気供給業・ガス供給業・保険業・貿易保険業を行わない法人として所得割だけで計算しました。"
+                        "行う法人は収入割などがかかり対象外です（company.utility_or_insurance_business を false にするとこの注意は出ません）")
+    out.update({"taxable": taxable, "brackets": rows, "total": total, "special_base": special_base, "special": special,
+                "notes": [n for n in (note, unknown_kind) if n]})
+    return out

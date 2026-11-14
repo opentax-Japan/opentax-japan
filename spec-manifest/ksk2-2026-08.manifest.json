@@ -3623,6 +3623,18 @@
       "field_spec_sheet": "HOA114"
     },
     {
+      "form_id": "HOA116",
+      "label": "別表一 次葉二（法人税額の計算：中小法人等の軽減税率）",
+      "mvp": true,
+      "xsd": "19XMLスキーマ/hojin/HOA116-006.xsd",
+      "version": "6.0",
+      "xsd_documentation_date": "2025-12-04",
+      "group": "HOA116-6-0group",
+      "xsd_sha256": "62c003b7fbf385fb1225d3106f483a54d8214c3eb2634ca37b4fbabaa5951cff",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver6x.xlsx",
+      "field_spec_sheet": "HOA116"
+    },
+    {
       "form_id": "HOA201",
       "label": "別表二（同族会社等の判定）",
       "mvp": true,

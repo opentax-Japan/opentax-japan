@@ -35,6 +35,8 @@ _SCHEMA: dict[str, Any] = {
         "corporate_number": (str, type(None)), "user_id": str, "zip": str, "phone": str, "business": str,
         "capital": int, "capital_etc": int, "capital_reserve": int, "capital_surplus": int, "employees": int,
         "blue_return": bool, "wholly_owned_by_large_corp": bool,
+        # 事業税の所得割以外が課される事業（電気供給業・ガス供給業・保険業・貿易保険業。地方税法第72条の2第1項第2号〜第4号）を行うか
+        "utility_or_insurance_business": bool,
     },
     "filing": {
         "settled_on": "date", "submitted_on": "date", "preparer": str,
@@ -291,6 +293,8 @@ def _check_scope(data: dict) -> None:
         raise OutOfScope("青色申告でない法人（手続 RHO0012 は青色申告）")
     if company["capital"] > SME_CAPITAL_LIMIT:
         raise OutOfScope("資本金が1億円を超える法人（中小法人でない・外形標準課税）")
+    if company.get("utility_or_insurance_business"):
+        raise OutOfScope("電気供給業・ガス供給業・保険業・貿易保険業を行う法人（事業税の収入割など）")
     if company.get("wholly_owned_by_large_corp"):
         raise OutOfScope("大法人による完全支配関係がある法人（中小法人でない）")
     offices = data["offices"]

@@ -46,8 +46,24 @@ def calculate(raw_input: dict, trial_ratio_rounding: str | None = None, balance:
             data["income_tax_credit"] = review["income_tax_credit"]
     local = local_tax(data)
     city_amount = local["municipality"]["amount"] if local["municipality"] else 0   # 23区は都民税に含まれる
+    levy_holder = {}
+
+    def levy_of(s1: dict) -> dict:
+        from .red.local_tax import corporate_levy
+        levy_holder["levy"] = corporate_levy(data, s1["corporate_tax"])
+        return {k: levy_holder["levy"][k] for k in ("道府県民税", "市町村民税")}
+
     result = _calculate(data, {"道府県民税": local["prefecture"]["amount"], "市町村民税": city_amount},
-                        trial_ratio_rounding, review["interest_paid"] if review else None)
+                        trial_ratio_rounding, review["interest_paid"] if review else None, levy_of)
+    from .red.local_tax import business_tax
+    levy = levy_holder["levy"]
+    local["prefecture"]["corporate_tax_levy"] = levy["道府県民税"]
+    if local["municipality"]:
+        local["municipality"]["corporate_tax_levy"] = levy["市町村民税"]
+    local["corporate_levy"] = levy
+    bt = business_tax(data, result["schedule_04"]["pre_deduction"])
+    local["business_tax"] = {**bt, "income_levy": bt["total"], "special_business_tax": bt["special"]}
+    local["cautions"] = list(local.get("cautions", [])) + levy["notes"] + bt["notes"]
     result["warnings"] = list(result.get("warnings", [])) + [c for c in local.get("cautions", []) if c not in result.get("warnings", [])]
     result["warnings"] += review["notes"] if review else [NO_BALANCE_WARNING]
     result["adjustments"] = review["rows"] if review else None
@@ -89,7 +105,7 @@ def uchiwake_from_balance(balance: bytes, supplement: dict | None = None) -> dic
     return uchiwake.build(uchiwake.parse_balance(balance), supplement)
 
 
-FORM_TITLES = {"HOA112": "別表一", "HOA114": "別表一 次葉一", "HOA201": "別表二", "HOA420": "別表四（簡易様式）",
+FORM_TITLES = {"HOA112": "別表一", "HOA114": "別表一 次葉一", "HOA116": "別表一 次葉二", "HOA201": "別表二", "HOA420": "別表四（簡易様式）",
                "HOA511": "別表五(一)", "HOA522": "別表五(二)", "HOB016": "別表六(一)",
                "HOB710": "別表七(一)", "HOB800": "別表八(一)", "HOE099": "別表十四(二)", "HOE200": "別表十五", "HOE315": "別表十六(一)", "HOE325": "別表十六(二)"}
 

@@ -5,7 +5,7 @@
   2481,
   3508
  ],
- "note": "キーは local_sheet.sheet_values(calculated, \"pref\") の名前（rules/local_forms.json の value）。欄番号は令和7年版",
+ "note": "キーは local_sheet.sheet_values(calculated, \"pref\") の名前（rules/local_forms.json の value）。欄番号は令和7年版。黒字の欄（㉙〜㉜・㊵・特別法人事業税）は 2026-11-14 に足した",
  "header": {
   "company": [
    320,
@@ -26,12 +26,6 @@
    1180,
    2255,
    1235
-  ],
-  "levy": [
-   1966,
-   1330,
-   2329,
-   1386
   ],
   "levy_paid": [
    1966,
@@ -152,6 +146,84 @@
    2742,
    2329,
    2790
+  ],
+  "levy_raw": [
+   1966,
+   1330,
+   2329,
+   1386
+  ],
+  "levy": [
+   1966,
+   1699,
+   2280,
+   1754
+  ],
+  "business_total": [
+   1110,
+   1699,
+   1481,
+   1754
+  ],
+  "special": [
+   1110,
+   2240,
+   1365,
+   2282
+  ],
+  "business_loss_deduction": [
+   1110,
+   3091,
+   1481,
+   3147
+  ],
+  "special_base": [
+   600,
+   2240,
+   935,
+   2282
+  ],
+  "income_upto_4m": [
+   600,
+   1003,
+   895,
+   1053
+  ],
+  "tax_upto_4m": [
+   1110,
+   1003,
+   1365,
+   1053
+  ],
+  "income_4m_8m": [
+   600,
+   1063,
+   895,
+   1113
+  ],
+  "tax_4m_8m": [
+   1110,
+   1063,
+   1365,
+   1113
+  ],
+  "income_over_8m": [
+   600,
+   1123,
+   895,
+   1173
+  ],
+  "tax_over_8m": [
+   1110,
+   1123,
+   1365,
+   1173
+  ],
+  "income_taxable": [
+   600,
+   1183,
+   895,
+   1233
   ]
  },
  "text_fields": {
@@ -175,49 +247,6 @@
     2028
    ]
   ],
-  "zero": [
-   [
-    1110,
-    1699,
-    1481,
-    1754
-   ],
-   [
-    367,
-    1820,
-    788,
-    1875
-   ],
-   [
-    1110,
-    2246,
-    1481,
-    2276
-   ],
-   [
-    1110,
-    2341,
-    1481,
-    2393
-   ],
-   [
-    1110,
-    3091,
-    1481,
-    3147
-   ]
-  ],
-  "levy": [
-   {
-    "box": [
-     1966,
-     1699,
-     2280,
-     1754
-    ],
-    "drop": 2
-   }
-  ],
   "resident_total": [
    {
     "box": [
@@ -228,24 +257,52 @@
     ],
     "drop": 0
    }
+  ],
+  "business_total": [
+   {
+    "box": [
+     367,
+     1820,
+     788,
+     1875
+    ],
+    "drop": 2
+   },
+   {
+    "box": [
+     1110,
+     1183,
+     1365,
+     1233
+    ],
+    "drop": 2
+   }
+  ],
+  "special": [
+   {
+    "box": [
+     1110,
+     2341,
+     1481,
+     2393
+    ],
+    "drop": 2
+   }
   ]
  },
  "same_value_lines": {
   "business_payable": [
    "㊼"
   ],
-  "zero": [
-   "㊵",
-   "㊸",
-   "53",
-   "55",
-   "69"
-  ],
-  "levy": [
-   "⑬"
-  ],
   "resident_total": [
    "㉓"
+  ],
+  "business_total": [
+   "㊸",
+   "㉜"
+  ],
+  "special": [
+   "55"
   ]
  },
  "texts": [
@@ -363,6 +420,17 @@
   "business_paid": 2,
   "business_payable": 2,
   "special_paid": 2,
-  "special_payable": 2
+  "special_payable": 2,
+  "levy": 2,
+  "business_total": 2,
+  "special": 2,
+  "special_base": 2,
+  "income_upto_4m": 3,
+  "tax_upto_4m": 2,
+  "income_4m_8m": 3,
+  "tax_4m_8m": 2,
+  "income_over_8m": 3,
+  "tax_over_8m": 2,
+  "income_taxable": 3
  }
 }

@@ -60,20 +60,33 @@ def sheet_values(calculated: dict, office_kind: str) -> dict:
     tax = "道府県民税" if office_kind == "pref" else "市町村民税"
     levy_paid = i.get(tax, {}).get("法人税割", 0)
     per_capita_paid = i.get(tax, {}).get("均等割", 0)
-    levy_payable = 0 - levy_paid                     # 赤字なので法人税割額は 0。中間納付分がマイナス（還付）になる
+    cl = local.get("corporate_levy") or {"tax_base": 0, tax: 0, "raw": {tax: 0}}
+    levy = cl[tax]                                   # 差引法人税割額（100円未満切捨て。赤字なら 0）
+    levy_payable = levy - levy_paid                  # 中間納付が多ければマイナス（還付）
     per_capita_payable = part["amount"] - per_capita_paid
     # 納付すべき額の合計には、還付になる法人税割（マイナス）を入れない。還付は「還付請求」の欄で請求する
     resident_total = max(levy_payable, 0) + per_capita_payable
     refund_resident = max(-levy_payable, 0)
     business_paid, special_paid = i.get("事業税", 0), i.get("特別法人事業税", 0)
+    bt = local.get("business_tax") or {}
+    brackets = bt.get("brackets") or [{"base": 0, "tax": 0}] * 3
+    business_total, special = bt.get("total", 0), bt.get("special", 0)
+    business_payable, special_payable = business_total - business_paid, special - special_paid
+    corporate_tax = calculated["result"]["schedule_01"]["corporate_tax"]
     return {
-        "zero": 0, "corporate_tax": 0, "tax_base": 0, "levy": 0,
+        "zero": 0, "corporate_tax": corporate_tax, "tax_base": cl["tax_base"], "levy": levy, "levy_raw": cl["raw"][tax],
         "levy_paid": levy_paid, "levy_payable": levy_payable,
         "per_capita_paid": per_capita_paid, "per_capita_payable": per_capita_payable,
         "refund_resident": refund_resident,
-        "business_paid": business_paid, "business_payable": -business_paid,
-        "special_paid": special_paid, "special_payable": -special_paid,
-        "refund_interim_pref": refund_resident + business_paid + special_paid,
+        "income_upto_4m": brackets[0]["base"], "tax_upto_4m": brackets[0]["tax"],
+        "income_4m_8m": brackets[1]["base"], "tax_4m_8m": brackets[1]["tax"],
+        "income_over_8m": brackets[2]["base"], "tax_over_8m": brackets[2]["tax"],
+        "income_taxable": bt.get("taxable", 0),
+        "business_total": business_total, "business_loss_deduction": bt.get("loss_deduction", 0),
+        "special_base": bt.get("special_base", 0), "special": special,
+        "business_paid": business_paid, "business_payable": business_payable,
+        "special_paid": special_paid, "special_payable": special_payable,
+        "refund_interim_pref": refund_resident + max(-business_payable, 0) + max(-special_payable, 0),
         "has_interim": bool(i),
         "months": f"{part['months']}月",
         "per_capita": part["amount"],
@@ -88,7 +101,7 @@ def sheet_values(calculated: dict, office_kind: str) -> dict:
         "capital_etc_corporate": capital_etc_corporate,
         "income_34": fv.get("ARK00010", 0),
         "business_provisional": fv.get("ARK00010", 0),
-        "business_income_total": fv.get("ARK00010", 0),
+        "business_income_total": bt["income"] if bt else fv.get("ARK00010", 0),   # ㉘ 所得金額総額（欠損金の控除後）
         "income_52": s4["income"],
     }
 
