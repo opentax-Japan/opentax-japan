@@ -36,7 +36,54 @@
     $("ai-consent").hidden = true;
     $("ai-agree").checked = false;
     $("ai-send").disabled = true;
+    $("ai-paste-file").replaceChildren(...targets.map((f, i) => {
+      const o = document.createElement("option");
+      o.value = String(i);
+      o.textContent = f.name;
+      return o;
+    }));
+    $("ai-paste").value = "";
+    $("ai-paste-result").textContent = "";
   }
+
+  // 返ってきた文から JSON を取り出し、決まった項目だけを残す（API の答えも、チャットに貼った答えも同じ）
+  function pickValues(text) {
+    const m = String(text || "").match(/\{[\s\S]*\}/);
+    const got = m ? JSON.parse(m[0]) : {};
+    const values = {};
+    for (const [k, v] of Object.entries(got.values || {})) if (k in FIELDS && v && "value" in v) values[k] = { value: v.value, where: String(v.where || "") };
+    return values;
+  }
+
+  // API キーがないとき: 利用者が自分の AI のチャット（Claude・ChatGPT など）でファイルと指示を送り、答えを貼る。この画面からは何も送らない
+  $("ai-copy").addEventListener("click", async () => {
+    const out = $("ai-paste-result");
+    try {
+      await navigator.clipboard.writeText(PROMPT);
+      out.textContent = "指示をコピーしました。AI のチャットにファイルを添付して貼り付けてください。";
+    } catch (e) {
+      $("ai-prompt").textContent = PROMPT;
+      $("ai-consent").hidden = false;
+      out.textContent = "コピーできませんでした。上の「AI への指示（全文）」を開いて写してください。";
+    }
+  });
+  $("ai-paste-apply").addEventListener("click", async () => {
+    const out = $("ai-paste-result");
+    const f = targets[Number($("ai-paste-file").value)];
+    if (!f) { out.textContent = "どのファイルの答えかを選んでください。"; return; }
+    let values;
+    try {
+      values = pickValues($("ai-paste").value);
+    } catch (e) {
+      out.textContent = `答えを読めませんでした（{ で始まる JSON を貼ってください）: ${e.message}`;
+      return;
+    }
+    if (!Object.keys(values).length) { out.textContent = "答えに決まった項目がありませんでした。指示をそのまま貼ったか確かめてください。"; return; }
+    const frag = { format: "opentax-intake/1", read_by: "ai", model: "利用者の AI チャット", source_file: f.name, values };
+    await window.OpenTaxEasy.addAiResult(`${f.name}.AIが読んだ値.json`, JSON.stringify(frag));
+    $("ai-paste").value = "";
+    out.textContent = `${Object.keys(values).length} 項目を入れました。上の「読み取った内容」で、AI の印の付いた値を確かめてください。`;
+  });
 
   $("ai-preview").addEventListener("click", () => {
     $("ai-files").replaceChildren(...targets.map((f) => {
@@ -73,10 +120,7 @@
         const body = await res.json();
         if (!res.ok) throw new Error(body.error && body.error.message ? body.error.message : `HTTP ${res.status}`);
         const text = (body.content || []).filter((c) => c.type === "text").map((c) => c.text).join("");
-        const m = text.match(/\{[\s\S]*\}/);
-        const got = m ? JSON.parse(m[0]) : {};
-        const values = {};
-        for (const [k, v] of Object.entries(got.values || {})) if (k in FIELDS && v && "value" in v) values[k] = { value: v.value, where: String(v.where || "") };
+        const values = pickValues(text);
         const frag = { format: "opentax-intake/1", read_by: "ai", model, source_file: f.name, values };
         await window.OpenTaxEasy.addAiResult(`${f.name}.AIが読んだ値.json`, JSON.stringify(frag));
       } catch (e) {

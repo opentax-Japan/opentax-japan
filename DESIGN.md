@@ -1328,6 +1328,8 @@ opentax-japan/
   - (a) 公開画面: 利用者が自分の Claude API キーを入れ、送るファイルと指示の全文を見て同意したときだけ、ブラウザから api.anthropic.com へ送る（web/ai.js）。
     既定はオフ。キー・中身は保存しない。返った値は opentax-intake/1 にして読み取り層へ渡す（読む項目は ai.js の FIELDS だけ）。CSP の connect-src に api.anthropic.com だけ足した。
   - (b) 事務所: Claude Code に PDF を読ませて opentax-intake/1 の JSON を作り、画面に落とす（docs/intake.md）。
+  - (c) API キーがない利用者（2026-11-15 利用者の希望「Claude か ChatGPT の契約で」）: 「指示をコピー」で同じ指示を写し、利用者が自分の AI のチャットに
+    ファイルと一緒に送る。返った JSON を画面に貼ると、API と同じ取り出し（ai.js pickValues。FIELDS の項目だけ）で読み取り層へ渡す。画面からは何も送らない。
 - AI が読んだ値は画面で「AI」の印・出典（source_file・where）を付けて並べ、人が確かめる。
 
 ### 24.3 受け取り方

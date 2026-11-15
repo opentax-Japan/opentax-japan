@@ -68,6 +68,17 @@
       <div class="row"><button type="button" id="ai-send" class="primary" disabled>送って読ませる</button></div>
     </div>
     <div id="ai-result"></div>
+    <h3>API キーがないとき（自分の Claude・ChatGPT などのチャットで読む）</h3>
+    <p class="note">ふだん使っている AI のチャット（Claude・ChatGPT など。契約しているもの）に、ファイルと下の指示を自分で入れ、返ってきた答えをここに貼ります。
+      この画面からはどこにも送りません。</p>
+    <ol class="note">
+      <li><button type="button" id="ai-copy">指示をコピー</button> を押し、AI のチャットにファイルを添付して貼り付けて送ります。</li>
+      <li>返ってきた答え（{ で始まる JSON）を下に貼り、どのファイルの答えかを選んで「答えを入れる」を押します。</li>
+    </ol>
+    <label class="field-inline">ファイル <select id="ai-paste-file"></select></label>
+    <textarea id="ai-paste" rows="5" spellcheck="false" placeholder='{"values": {...}}' style="width:100%"></textarea>
+    <div class="row"><button type="button" id="ai-paste-apply">答えを入れる</button></div>
+    <div id="ai-paste-result"></div>
   </section>
 
   <section id="check" hidden>

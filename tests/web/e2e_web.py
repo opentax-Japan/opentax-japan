@@ -246,8 +246,20 @@ def main() -> int:
         check("かんたん入口（PC）: 申告書一式ができた", "1. 法人税（別表）" in page.frame_locator("#report").locator("body").inner_text())
         page.screenshot(path=str(OUT / "00-easy-pc.png"), full_page=True)
 
-        # フォルダごと（DESIGN §24.8）: いろいろな申告の書類が混ざったフォルダから、中身で見分けて要るものだけを選ぶ
+        # API キーなしで AI を使う: 自分の AI のチャットの答え（JSON）を貼る。この画面からは送らない（外への通信なしは最後に確かめる）
         import tempfile
+        pdf = Path(tempfile.mkdtemp(prefix="opentax-pdf-")) / "決算書_架空.pdf"
+        pdf.write_bytes(b"%PDF-1.4\n%\xe2\xe3\xcf\xd3\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF\n")
+        page.goto(base)
+        expect(page.locator("#status")).to_contain_text("準備ができました", timeout=180_000)
+        page.set_input_files("#pick-files", [str(case / "科目残高一覧表_架空_TKC形式.txt"), str(pdf)])
+        expect(page.locator("#ai")).to_be_visible(timeout=120_000)
+        page.fill("#ai-paste", 'はい。\n{"values": {"company.name": {"value": "架空商事株式会社", "where": "1ページ 表題"}, "x": {"value": 1}}}')
+        page.click("#ai-paste-apply")
+        expect(page.locator("#ai-paste-result")).to_contain_text("1 項目を入れました", timeout=60_000)
+        check("AI のチャットの答えを貼る: 決まった項目だけ入り、画面に出る", "架空商事株式会社" in page.locator("#check").inner_text())
+
+        # フォルダごと（DESIGN §24.8）: いろいろな申告の書類が混ざったフォルダから、中身で見分けて要るものだけを選ぶ
         tmp = Path(tempfile.mkdtemp(prefix="opentax-folder-"))
         (tmp / "書類" / "下").mkdir(parents=True)
         mix = [("open-shoji-tokyo", "前期の申告データ_架空.xtx"), ("open-shoji-tokyo", "科目残高一覧表_架空_TKC形式.txt"),
