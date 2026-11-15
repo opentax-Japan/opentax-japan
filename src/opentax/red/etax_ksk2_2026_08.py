@@ -19,11 +19,13 @@ PROCEDURE_ID = "RHO0012"
 PROCEDURE_NAME = "内国法人の確定申告(青色)"  # e-Taxソフトが切り出したファイルの TETSUZUKI/procedure_NM と同じ
 PROCEDURE_VR = "26.0.1"
 # 手続XSD（RHO0012-260.xsd）の CONTENTS の並び順。HOA114（別表一 次葉一）は手続XSD で必須
-FORMS = ("HOA112", "HOA114", "HOA116", "HOA201", "HOA420", "HOA511", "HOA522", "HOB016", "HOB645", "HOB344", "HOB067", "HOB710",
-         "HOB800", "HOE099", "HOE200", "HOE315", "HOE325", "HOE990")
+FORMS = ("HOA112", "HOA114", "HOA116", "HOA201", "HOA420", "HOA511", "HOA522", "HOB016", "HOB645", "HOB646", "HOB344", "HOB067",
+         "HOB656", "HOB657", "HOB710", "HOB800", "HOE099", "HOE200", "HOE315", "HOE325", "HOE990")
 # 値があるときだけ出す帳票（別表六(一)は所得税額の控除、別表八(一)は受取配当等、別表十四(二)は寄附金、別表十五は交際費等、
-# 別表十六は減価償却の入力があるときだけ。別表一 次葉二は黒字のときだけ）
-OPTIONAL_FORMS = ("HOA116", "HOB016", "HOB645", "HOB344", "HOB067", "HOB800", "HOE099", "HOE200", "HOE315", "HOE325", "HOE990")
+# 別表十六は減価償却の入力があるときだけ。別表一 次葉二は黒字のときだけ。別表六(六)・同付表・別表六(十)・(十一)・別表六(二十四)・
+# 同付表一は税額控除があるときだけ）
+OPTIONAL_FORMS = ("HOA116", "HOB016", "HOB645", "HOB646", "HOB344", "HOB067", "HOB656", "HOB657", "HOB800", "HOE099", "HOE200",
+                  "HOE315", "HOE325", "HOE990")
 SOFT_NAME = "OpenTaxRED OpenTaxJapan"   # 「ソフト名△会社名」（e-tax01 表1-1）
 SHINKOKU_KBN_KAKUTEI = "30"           # 申告の種類「確定/確定」（e-tax10 帳票フィールド仕様書 Ver7x「HOA112別紙」申告の種類一覧）
 FAMILY_CODE_FOR_S1 = {"1": "4", "2": "1", "3": "3"}  # 別表二の判定結果 → 別表一の同非区分（1:同族 3:非同族 4:特定同族）
@@ -103,22 +105,30 @@ def base_values(result: dict) -> dict:
         v["QHC00010"] = ct["local_base"]               # 80 所得の金額に対する法人税額（千円未満切捨て）
         v["QHC00050"] = ct["local_corporate_tax"]      # 82 (80)の10.3％相当額
         v["BGB00020"] = s1["corporate_tax"]            # 2 法人税額（＝77＋78＋79）
-        v["BGB00030"] = s1.get("special_credit", 0)    # 3 法人税額の特別控除額（別表六(六) 5）
-        v["BGC00030"] = s1.get("after_special", s1["corporate_tax"])   # 28 所得の金額に対する法人税額（(2)−(3)＋(4)＋(6)＋(9の外書)）
+        v["BGB00030"] = s1.get("special_credit", 0)    # 3 法人税額の特別控除額（別表六(六)「5」）
+        v["BGC00030"] = s1.get("base_tax", s1["corporate_tax"])   # 28 所得の金額に対する法人税額（(2)−(3)。(3) は試験研究費・賃上げなど全部の税額控除の合計）
         v["BGC00060"] = s1["local_corporate_tax"]      # 31 地方法人税額（＝82）
     # 防衛特別法人税（別表一 次葉一 45〜68。令和8年4月1日以後に開始する事業年度で法人税額があるとき）
     # 法人税額が0・課税標準法人税額が0でも、課税事業年度なら各欄を書き、50・53 は「0」（国税庁「防衛特別法人税が創設されました」1(6)。
     # 0 を出す欄は defense_zero_tags）
     if ct.get("defense_applies"):
-        v["KZB00030"] = s1.get("after_special", s1["corporate_tax"])   # 45 所得の金額に対する法人税額（基準法人税額。特別控除の後）
+        base_tax = s1.get("base_tax", s1["corporate_tax"])
+        v["KZB00030"] = base_tax                       # 45 所得の金額に対する法人税額（基準法人税額。(2)−(3)）
         v["KZB00070"] = ct["months"]                   # 47 基礎控除額の月数
         v["KZB00080"] = int(ct["defense_deduction"])   # 47 基礎控除額（500万円×月数／12）
-        v["KZB00110"] = max(int(ct["defense_deduction"]) - s1.get("after_special", s1["corporate_tax"]), 0)   # 48 基礎控除残額
+        v["KZB00110"] = max(int(ct["defense_deduction"]) - base_tax, 0)   # 48 基礎控除残額
         v["KZB00360"] = ct["defense_base"]             # 67 課税標準法人税額（千円未満切捨て）
         v["KZB00370"] = ct["defense_tax"]              # 68 同上の4％相当額
         v["KZB00130"] = ct["defense_tax"]              # 50 防衛特別法人税額
         v["KZB00210"] = s1["interim_defense"]          # 58 中間申告分の防衛特別法人税額
+    # 税額控除: 別表六(六)（HOB645。試験研究費・賃上げの行の合計）・別表六(十)・(十一)（HOB344・HOB067）・
+    # 別表六(二十四)・付表一（HOB656・HOB657）・別表六(六)付表（HOB646）
+    from .chinage import form_values as wage_values
+    from .special_credits import hob645_values
+    if result.get("schedule_06_06"):
+        v.update(hob645_values(result["schedule_06_06"]))
     v.update(_research_values(result))
+    v.update(wage_values(result.get("schedule_06_24")))
     # 適用額明細書（HOE990）: 所得金額と明細の適用額
     rows = result.get("special_measures") or []
     if rows:
@@ -240,24 +250,20 @@ def dividend_credit_rows(result: dict) -> tuple[list[dict], list[dict]]:
 
 
 def _research_values(result: dict) -> dict:
-    """別表六(十)（HOB344）・別表六(六)（HOB645）・別表六(十一)（HOB067）の金額。割合と日付は text_values。
+    """別表六(十)（HOB344）・別表六(十一)（HOB067）の金額。割合と日付は text_values。別表六(六)（HOB645）は
+    special_credits.hob645_values（賃上げなどほかの税額控除の行と一緒）。
     e-Tax の別表六(十)（Ver9.0）は令和8年改正後の欄の並び。令和8年3月31日以前に開始する事業年度は、令和7年版の別表の
     4 控除対象試験研究費の額＝(2)＋(3) を 4 控除対象試験研究費基準額と 6 控除対象試験研究費の額（区分「(4)」）の両方に書き、
     13 中小企業者等税額控除限度額 → 15、14 調整前法人税額 → 16、17 当期税額基準額 → 19、18 当期税額控除可能額 → 20、
     19 調整前法人税額超過構成額 → 21、20 法人税額の特別控除額 → 28 に書く（タグで対応。DESIGN §31.4）"""
-    s10, s6 = result.get("schedule_06_10"), result.get("schedule_06_06")
+    s10 = result.get("schedule_06_10")
     if not s10:
         return {}
     v = {"VFB00010": s10["expenses"], "VFB00030": s10["non_special"], "VFB00040": s10["special_included"],
          "VFB00380": s10["base"], "VFB00050": s10["base"],
          "VFB00280": s10["comparative"], "VFB00290": s10["increase"], "VFB00320": s10["average_sales"],
          "VFB00140": s10["limit"], "VFB00150": s10["adjusted_tax"], "VFB00230": s10["base_amount"],
-         "VFB00240": s10["available"], "VFB00250": s10["excess"], "VFB00260": s10["credit"],
-         # 別表六(六)
-         "ZTB00010": s6["available"], "ZTB00020": s6["adjusted_tax"], "ZTB00030": s6["base_amount"],
-         "ZTB00047": s6["credit"], "ZTB00050": s6["excess"],
-         "ZTC10210": s6["rows"][0]["available"], "ZTC10220": s6["rows"][0]["excess"], "ZTC10690": s6["rows"][0]["credit"],
-         "ZTC01150": s6["available"], "ZTC01160": s6["excess"], "ZTC01165": s6["credit"]}
+         "VFB00240": s10["available"], "VFB00250": s10["excess"], "VFB00260": s10["credit"]}
     s11 = s10["schedule_06_11"]
     comp, sales = s11["comparative_rows"], s11["sales_rows"]
     if comp:
@@ -480,6 +486,8 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
     if result["schedule_01"]["detail"].get("defense_applies"):
         v["KZB00060"] = "1"                                # 47 (500万円×＿／12)
         v["KZB00100"] = "1"                                # 48 ((47)－(45))
+    from .chinage import text_values as wage_text
+    v.update(wage_text(result.get("schedule_06_24")))
     measures = result.get("special_measures") or []
     if measures:
         # 適用額明細書（国税庁「適用額明細書の記載の手引（令和8年版）」）。条項は 第＿条・条＿・第＿項・第＿号 に分けて書く
@@ -734,7 +742,7 @@ def verify(result: dict, values: dict) -> list[str]:
         ("別表一 24 還付金額 計", "BGB00400", result["schedule_01"]["refund_total"]),
         ("別表一 43 地方法人税の還付金額 計", "BGC00280", result["schedule_01"]["refund_local"]),
         ("別表一 1 所得金額", "BGB00010", result["schedule_01"]["income"]),
-        ("別表一 9 法人税額計", "BGB00150", result["schedule_01"].get("after_special", 0)),
+        ("別表一 9 法人税額計", "BGB00150", result["schedule_01"].get("base_tax", 0)),
         ("別表一 13 差引所得に対する法人税額", "BGB00190", result["schedule_01"].get("after_credit", 0)),
         ("別表一 38 差引地方法人税額", "BGC00120", result["schedule_01"].get("local_after", 0)),
         ("別表一 次葉一 57 差引防衛特別法人税額", "KZB00200", result["schedule_01"].get("defense_after", 0)),

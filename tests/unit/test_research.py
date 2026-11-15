@@ -39,7 +39,7 @@ class ScheduleTest(unittest.TestCase):
         # 当期税額基準額＝1,866,072×25%＝466,518
         self.assertEqual((s10["base_amount"], s10["available"], s10["credit"]), (466_518, 120_000, 120_000))
         # 別表六(六): 4＝1,866,072×90/100＝1,679,464.8 → 1,679,464（1円未満切捨て）、5＝min(1, 4)
-        self.assertEqual((s6["base_amount"], s6["credit"], s6["excess"]), (1_679_464, 120_000, 0))
+        self.assertEqual((s6["basis"], s6["special"], s6["excess"]), (1_679_464, 120_000, 0))
         self.assertEqual(r["credit"], 120_000)
         self.assertFalse(s10["s11_required"])
 
@@ -122,8 +122,7 @@ class ScheduleTest(unittest.TestCase):
         cases = [({"fiscal_period": {"start": D("2026-04-01"), "end": D("2027-03-31")}}, model.OutOfScope),
                  ({"fiscal_period": {"start": D("2023-03-01"), "end": D("2024-02-29")}}, model.OutOfScope),
                  ({"sme": False}, model.OutOfScope), ({"sme": None}, model.InputError),
-                 ({"company": {"excluded_business_operator": True}}, model.OutOfScope),
-                 ({"tax_credits": [1]}, model.OutOfScope)]
+                 ({"company": {"excluded_business_operator": True}}, model.OutOfScope)]
         for change, error in cases:
             d = {**copy.deepcopy(base), **change}
             with self.subTest(change=change), self.assertRaises(error):
@@ -155,7 +154,7 @@ class ReturnTest(unittest.TestCase):
         r, s1 = c["result"], c["result"]["schedule_01"]
         self.assertEqual(c["problems"], [])
         # 調整前法人税額 7,666,072（800万円×15%＋28,871,000×23.2%）、特別控除 462,000、法人税額計 7,204,072
-        self.assertEqual((s1["corporate_tax"], s1["special_credit"], s1["after_special"]), (7_666_072, 462_000, 7_204_072))
+        self.assertEqual((s1["corporate_tax"], s1["special_credit"], s1["base_tax"]), (7_666_072, 462_000, 7_204_072))
         # 地方法人税: 課税標準法人税額は特別控除の後（地方法人税法第6条）7,204,000×10.3%
         self.assertEqual((s1["detail"]["local_base"], s1["local_corporate_tax"]), (7_204_000, 742_012))
         self.assertEqual(s1["after_credit"], 7_204_000)
@@ -176,8 +175,8 @@ class ReturnTest(unittest.TestCase):
         raw["income_tax_credit"] = [{"kind": "利子", "income": 100_000, "tax": 15_315}]
         s1 = api.calculate(raw)["result"]["schedule_01"]
         self.assertEqual(s1["credited"], 15_315)
-        self.assertEqual(s1["after_special"], s1["corporate_tax"] - s1["special_credit"])
-        self.assertEqual(s1["after_credit"], (s1["after_special"] - 15_315) // 100 * 100)
+        self.assertEqual(s1["base_tax"], s1["corporate_tax"] - s1["special_credit"])
+        self.assertEqual(s1["after_credit"], (s1["base_tax"] - 15_315) // 100 * 100)
 
     def test_loss_year(self):
         # 赤字: 調整前法人税額 0 なので控除は 0（別表六(十)は書く）
@@ -191,7 +190,7 @@ class ReturnTest(unittest.TestCase):
         c = api.calculate(sample(40_000_000))
         self.assertIsNone(c["result"]["schedule_06_10"])
         self.assertEqual(c["form_values"].get("BGB00030", 0), 0)
-        self.assertEqual(c["result"]["schedule_01"]["after_special"], c["result"]["schedule_01"]["corporate_tax"])
+        self.assertEqual(c["result"]["schedule_01"]["base_tax"], c["result"]["schedule_01"]["corporate_tax"])
 
     def test_rules_have_sources(self):
         r = load_rules("research_credit.json")

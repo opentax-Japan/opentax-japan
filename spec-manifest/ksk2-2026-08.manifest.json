@@ -4090,6 +4090,45 @@
       "field_spec_sheet": "HOE099"
     },
     {
+      "form_id": "HOB646",
+      "label": "別表六(六)付表（前期繰越分に係る当期税額控除可能額及び調整前法人税額超過構成額）",
+      "mvp": false,
+      "stage": "red-plus",
+      "xsd": "19XMLスキーマ/hojin/HOB646-013.xsd",
+      "version": "13.0",
+      "xsd_documentation_date": "2026-07-16",
+      "group": "HOB646-13-0group",
+      "xsd_sha256": "aa38f4470a8ba9a7746907a47880c3aa58abea98a59818b6ad899c55c01c8551",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver13x.xlsx",
+      "field_spec_sheet": "HOB646"
+    },
+    {
+      "form_id": "HOB656",
+      "label": "別表六(二十四)（給与等の支給額が増加した場合の法人税額の特別控除）",
+      "mvp": false,
+      "stage": "red-plus",
+      "xsd": "19XMLスキーマ/hojin/HOB656-005.xsd",
+      "version": "5.0",
+      "xsd_documentation_date": "2026-07-16",
+      "group": "HOB656-5-0group",
+      "xsd_sha256": "86b4868b29dbee8569844ec1fdb49fe9122cdb2f8c625b5f517d47c32922e613",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver5x.xlsx",
+      "field_spec_sheet": "HOB656"
+    },
+    {
+      "form_id": "HOB657",
+      "label": "別表六(二十四)付表一（給与等支給額・比較教育訓練費の額・翌期繰越税額控除限度超過額）",
+      "mvp": false,
+      "stage": "red-plus",
+      "xsd": "19XMLスキーマ/hojin/HOB657-005.xsd",
+      "version": "5.0",
+      "xsd_documentation_date": "2026-07-16",
+      "group": "HOB657-5-0group",
+      "xsd_sha256": "8b1043116e2af789ad68e57040accf3ed29ffe1ca157f015e813a547d4a97f52",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver5x.xlsx",
+      "field_spec_sheet": "HOB657"
+    },
+    {
       "form_id": "HOI010",
       "label": "預貯金等の内訳書",
       "mvp": false,

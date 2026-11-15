@@ -50,8 +50,11 @@ def calculate(raw_input: dict, trial_ratio_rounding: str | None = None, balance:
 
     def levy_of(s1: dict) -> dict:
         from .red.local_tax import corporate_levy
-        # 法人税割の課税標準: 中小企業者等の試験研究費の税額控除（措置法第42条の4第4項）の後の法人税額（地方税法附則第8条第1項）
-        levy_holder["levy"] = corporate_levy(data, s1.get("after_special", s1["corporate_tax"]))
+        # 法人税割の課税標準: 法人税額の特別控除（別表一 3。試験研究費・賃上げの合計）の後の法人税額。
+        # 中小企業者等の試験研究費（措置法第42条の4第4項）は地方税法附則第8条第1項、中小企業者等の賃上げ（第42条の12の5第2項）は
+        # 同条第11項（令和8年改正前に開始した事業年度の旧第3項は旧第10項）、
+        # 繰越（第3項。旧第4項）は第12項（旧第11項）が、課税標準の算定で除外する控除の一覧から外す（DESIGN §32.5）
+        levy_holder["levy"] = corporate_levy(data, s1.get("base_tax", s1["corporate_tax"]))
         return {k: levy_holder["levy"][k] for k in ("道府県民税", "市町村民税")}
 
     result = _calculate(data, {"道府県民税": local["prefecture"]["amount"], "市町村民税": city_amount},
@@ -108,7 +111,8 @@ def uchiwake_from_balance(balance: bytes, supplement: dict | None = None) -> dic
 
 FORM_TITLES = {"HOA112": "別表一", "HOA114": "別表一 次葉一", "HOA116": "別表一 次葉二", "HOA201": "別表二", "HOA420": "別表四（簡易様式）",
                "HOA511": "別表五(一)", "HOA522": "別表五(二)", "HOB016": "別表六(一)",
-               "HOB645": "別表六(六)", "HOB344": "別表六(十)", "HOB067": "別表六(十一)",
+               "HOB645": "別表六(六)", "HOB646": "別表六(六)付表", "HOB344": "別表六(十)", "HOB067": "別表六(十一)",
+               "HOB656": "別表六(二十四)", "HOB657": "別表六(二十四)付表一",
                "HOB710": "別表七(一)", "HOB800": "別表八(一)", "HOE099": "別表十四(二)", "HOE200": "別表十五", "HOE315": "別表十六(一)", "HOE325": "別表十六(二)", "HOE990": "適用額明細書"}
 
 

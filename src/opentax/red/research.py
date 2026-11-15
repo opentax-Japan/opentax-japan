@@ -5,7 +5,8 @@
 （税額控除割合・特例加算割合。小数点以下3位未満切捨て）だけを切り捨てる。円未満は切り捨て（rules の yen_rounding）。
 
 扱うのは、令和5年4月1日〜令和8年3月31日に開始する事業年度の中小企業者等（第4項）だけ。一般試験研究費（第1項）・
-特別試験研究費（第7項）・通算法人・繰越税額控除限度超過額（令和8年改正）・ほかの税額控除との併用は止める。
+特別試験研究費（第7項）・通算法人・繰越税額控除限度超過額（令和8年改正）は止める。
+別表六(六)は special_credits（賃上げ促進税制などほかの税額控除と同じ表。合計・100分の90の上限・控除の順番）で作る。
 """
 
 from __future__ import annotations
@@ -183,37 +184,55 @@ def schedule_06_10(data: dict, adjusted_tax: int, rules: dict) -> dict | None:
             "s11_required": over_inc or over_ratio}
 
 
-def schedule_06_06(s10: dict, rules: dict) -> dict:
-    """別表六(六)。扱う税額控除は試験研究費（中小企業者等）だけなので、7 の合計は 別表六(十) 18。
-    4 当期税額基準額＝((2)−(3))×90/100（措置法第42条の13第1項）。調整前法人税額超過額は 6＝(1)−((5)−(3))、
-    超過構成額 8 は控除可能期間の最も長いものから（記載の仕方 2）。ひとつだけなので 6 がそのまま 8 になる。"""
-    adjusted = s10["adjusted_tax"]
-    individual = 0                                     # 3 個別控除対象額の特別控除額（別表六(十四)。扱わない）
-    available = s10["available"]                       # 1 当期税額控除可能額（7の合計）
-    base_amount = _floor((adjusted - individual) * _pct(rules["overall_cap"]["percent"]))   # 4
-    credit = min(available, base_amount) + individual  # 5 法人税額の特別控除額
-    excess = available - (credit - individual)         # 6 調整前法人税額超過額
-    return {"available": available, "adjusted_tax": adjusted, "individual": individual, "base_amount": base_amount,
-            "credit": credit, "excess": excess,
-            "rows": [{"label": "中小企業者等の試験研究費の額に係る法人税額の特別控除 当期分", "available": available,
-                      "excess": excess, "credit": available - excess}]}
+# 別表六(六)の行（HOB645 の「中小企業者等の試験研究費の額に係る法人税額の特別控除 当期分」(3) の 7・8・9）
+ROW_KEY, ROW_LABEL = "③", "中小企業者等の試験研究費の額に係る法人税額の特別控除（当期分）"
+ROW_TAGS = ("ZTC10210", "ZTC10220", "ZTC10690")
+# 別表六(六) 3 試験研究費の額に係る個別控除対象額の法人税額の特別控除額（別表六(十四)「14」＋「28」）。別表六(十四)は扱わないので 0
+INDIVIDUAL = 0
 
 
-def research_credit(data: dict, adjusted_tax: int) -> dict | None:
-    """別表六(十)・(十一)・(六)。research がなければ None。法人税額（調整前法人税額）が0以下なら控除は 0。"""
+def compute(data: dict, adjusted_tax: int, notes: list[str]) -> dict | None:
+    """別表六(十)・(十一)。research がなければ None。adjusted_tax は調整前法人税額（別表一 2）。0以下なら控除は 0。
+    別表六(六)（合計・100分の90の上限・調整前法人税額超過構成額）は special_credits.schedule_06_06 で、ほかの税額控除と一緒に作る。"""
     from .calculate import load_rules
     if not data.get("research"):
         return None
-    if data.get("tax_credits"):
-        raise OutOfScope("試験研究費の税額控除とほかの税額控除の併用（別表六(六)で控除の順番と100分の90の上限が要る）")
-    rules = load_rules(RULES_FILE)
-    s10 = schedule_06_10(data, max(adjusted_tax, 0), rules)
-    s6 = schedule_06_06(s10, rules)
-    s10["excess"] = s6["rows"][0]["excess"]            # 19 調整前法人税額超過構成額（別表六(六) 8の②）
-    s10["credit"] = s10["available"] - s10["excess"]   # 20 法人税額の特別控除額（(18)−(19)）
-    notes = list(s10["notes"])
+    s10 = schedule_06_10(data, max(adjusted_tax, 0), load_rules(RULES_FILE))
+    notes += s10["notes"]
     notes.append("試験研究費の額（措置法第42条の4第19項第1号）・売上金額（施行令第27条の4第26項）は入力の額をそのまま使いました。"
                  "調整対象年度・売上調整年度は、当期開始の日の3年前の日から前日までに開始した事業年度を全部（試験研究費が0の年度も）書いてください")
     notes.append("別表六(十)の増減試験研究費割合・試験研究費割合などは e-Tax の欄が小数点以下3桁までなので、4桁目以下を切り捨てて書きます"
                  "（計算は切り捨てない値で行いました）")
-    return {"schedule_06_10": s10, "schedule_06_06": s6, "credit": s6["credit"], "notes": notes}
+    s10["individual"] = INDIVIDUAL
+    return s10
+
+
+def credit_rows(s10: dict) -> list:
+    """別表六(六)の行。令和8年3月31日以前に開始する事業年度の中小企業者等の控除は繰り越せないので、控除可能期間は 0 年
+    （調整前法人税額超過額は、繰越のできるほかの税額控除の当期分から先に割り当てる。措置法第42条の13第1項後段）。"""
+    from .special_credits import CreditRow
+    return [CreditRow(ROW_KEY, ROW_LABEL, s10["available"], 0, ROW_TAGS)]
+
+
+def finish(s10: dict, rows: list, notes: list[str] | None = None) -> dict:
+    """別表六(六)の結果を別表六(十)に戻す: 19 調整前法人税額超過構成額（別表六(六) 8 の③）・20 法人税額の特別控除額（(18)−(19)）。"""
+    row = next(r for r in rows if r.key == ROW_KEY)
+    s10["excess"] = row.excess
+    s10["credit"] = row.deducted
+    if row.excess and notes is not None:
+        notes.append(f"別表六(六)の100分の90の上限で、試験研究費の税額控除のうち {row.excess:,}円は控除できません"
+                            "（令和8年3月31日以前に開始する事業年度は繰り越せません。措置法第42条の13第1項）")
+    return s10
+
+
+def research_credit(data: dict, adjusted_tax: int) -> dict | None:
+    """試験研究費の税額控除だけのときの別表六(十)・(十一)・(六)（テスト・照合用。申告の計算は calculate.special_credits_of）。"""
+    from .special_credits import as_dicts, schedule_06_06
+    notes: list[str] = []
+    s10 = compute(data, adjusted_tax, notes)
+    if s10 is None:
+        return None
+    rows = credit_rows(s10)
+    s6 = schedule_06_06(max(adjusted_tax, 0), rows, s10["individual"])
+    finish(s10, rows, notes)
+    return {"schedule_06_10": s10, "schedule_06_06": as_dicts(s6), "credit": s6["special"], "notes": notes}
