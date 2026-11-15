@@ -1,0 +1,30 @@
+{
+ "edition": "nencho-r08",
+ "title": "令和8年分 給与所得者の保険料控除申告書（国税庁）",
+ "publisher": "国税庁",
+ "fiscal_year_end_from": "2026-01-01",
+ "fiscal_year_start_before": "2027-01-01",
+ "note": "年末調整の申告書は年分ごとの様式。期間は令和8年1月1日〜12月31日を渡す。案内ページ https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/gensen/annai/1648_05.htm 、記載例 https://www.nta.go.jp/publication/pamph/gensen/nencho2026/pdf/307.pdf 。欄の位置は入力用 PDF（2026bun_04_input.pdf）の入力欄から tools/hoken_map.py で作る",
+ "source_page": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/gensen/annai/1648_05.htm",
+ "terms": "出典：国税庁ホームページ（各様式の URL）。公共データ利用規約（第1.0版）により利用し、値を重ねて表示するよう加工している。国税庁が作成したものではない",
+ "terms_url": "https://www.nta.go.jp/chuijiko/copy.htm",
+ "files": {
+  "2026bun_04.pdf": {
+   "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/gensen/pdf/2026bun_04.pdf",
+   "sha256": "7bc20e3ff5603fdec5c9d24ad322f08741c40284fdb8dec43687ba327cb58b7c"
+  },
+  "2026bun_04_input.pdf": {
+   "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/gensen/pdf/2026bun_04_input.pdf",
+   "sha256": "8c6e2ef95679c4f3b1c4e23be0ca74bbf870ef99414aaf0ab389fd0a2ca47f70"
+  }
+ },
+ "forms": {
+  "HOKEN": {
+   "title": "給与所得者の保険料控除申告書（令和8年分）",
+   "file": "2026bun_04.pdf",
+   "page": 1,
+   "render": true,
+   "rotate": 0
+  }
+ }
+}

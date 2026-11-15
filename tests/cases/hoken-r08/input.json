@@ -1,0 +1,27 @@
+{
+ "format": "opentax-hoken/1",
+ "note": "国税庁「令和8年分 給与所得者の保険料控除申告書の記載例」（https://www.nta.go.jp/publication/pamph/gensen/nencho2026/pdf/307.pdf）1ページ目の例。答えは同じページの各欄",
+ "year": 2026,
+ "payer": {"name": "○○○○株式会社", "corporate_number": "1122334455667", "address": "□□市△△町3-3", "tax_office": "□□"},
+ "people": [
+  {
+   "id": "yamakawa", "name": "山川　太郎", "kana": "ヤマカワ　タロウ", "address": "○○市××町23-7",
+   "general": [
+    {"company": "●●生命", "kind": "養老", "period": "10年", "contractor": "山川　太郎", "recipient": "山川　明子", "new": true, "amount": 80000},
+    {"company": "××生命", "kind": "養老", "period": "10年", "contractor": "〃", "recipient": "〃", "new": false, "amount": 35000}
+   ],
+   "care": [
+    {"company": "●●生命", "kind": "介護", "period": "10年", "contractor": "山川　太郎", "recipient": "山川　明子", "amount": 80000}
+   ],
+   "pension": [
+    {"company": "●●生命", "kind": "○○年金", "period": "30年", "contractor": "山川　太郎", "recipient": "山川　太郎", "new": true, "amount": 30000, "start": "2041-07-01"},
+    {"company": "××生命", "kind": "○○年金", "period": "30年", "contractor": "山川　太郎", "recipient": "山川　太郎", "new": false, "amount": 90000, "start": "2041-07-01"}
+   ],
+   "under23": {"name": "山川　二郎", "kana": "ヤマカワ　ジロウ", "birth": "2010-05-17", "relation": "子", "income": 0},
+   "earthquake": [
+    {"company": "××火災", "kind": "地震（建物）", "period": "5年", "contractor": "山川　太郎", "insured": "〃", "class": "地震", "amount": 42000},
+    {"company": "▲▲火災", "kind": "積立傷害", "period": "20年", "contractor": "山川　太郎", "insured": "〃", "class": "旧長期", "amount": 14800}
+   ]
+  }
+ ]
+}

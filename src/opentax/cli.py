@@ -576,6 +576,41 @@ def _nencho(args) -> int:
     return EXIT_OK
 
 
+def _hoken(args) -> int:
+    """OpenTax PINK: 給与所得者の保険料控除申告書（令和8年分）を、契約ごとの支払額から作る（様式の上に値）。"""
+    import json as _json
+    from .payroll import hoken
+    if args.pdf and not args.report:
+        print("--pdf は --report（HTML の書き出し先）と一緒に指定してください")
+        return EXIT_CHANGED
+    c = hoken.calculate_all(_json.loads(Path(args.input).read_text(encoding="utf-8")))
+    for r in c["people"]:
+        p, v = r["person"], r["values"]
+        print(f"{p.get('name') or p.get('id')}: 生命保険料控除額 {v['life_total']:,}円  地震保険料控除額 {v['e_total']:,}円  "
+              f"社会保険料（申告分） {v['s_total']:,}円  小規模企業共済等掛金 {v['k_total']:,}円")
+        for n in r["notes"]:
+            print(f"  確かめてください: {n}")
+        for key, rest in r["overflow"].items():
+            print(f"  様式に書ききれない {key} が {len(rest)} 件（別紙に出します）")
+    if args.nencho_out:
+        decl = {}
+        for i, r in enumerate(c["people"]):
+            key = str(r["person"].get("id") or r["person"].get("name") or f"people[{i}]")
+            if key in decl:
+                print(f"同じ id の人が2人います: {key}")
+                return EXIT_CHANGED
+            decl[key] = r["nencho"]
+        Path(args.nencho_out).write_text(_json.dumps(decl, ensure_ascii=False, indent=1) + "\n", encoding="utf-8", newline="\n")
+        print(f"年末調整に渡す値を書き出しました: {args.nencho_out}")
+    if args.report:
+        with open(args.report, "w", encoding="utf-8", newline="\n") as f:
+            f.write(_inline_forms(hoken.report(c)))
+        print(f"申告書を書き出しました: {args.report}")
+        if args.pdf:
+            _write_pdf(args.report, args.pdf)
+    return EXIT_OK
+
+
 def _kyuyo(args) -> int:
     """OpenTax PINK: 給与計算（タイムカード → 割増賃金・社会保険料・雇用保険料・源泉所得税・住民税 → 差引支給額）。"""
     import json as _json
@@ -649,7 +684,7 @@ def _write_pdf(html_path: str, pdf_path: str) -> None:
         page = browser.new_page()
         page.goto(Path(html_path).resolve().as_uri())
         page.wait_for_load_state("load")
-        page.pdf(path=pdf_path, format="A4", print_background=True)
+        page.pdf(path=pdf_path, format="A4", print_background=True, prefer_css_page_size=True)   # @page の size があればそれ（保険料控除申告書は A4 横）
         browser.close()
     print(f"書き出しました: {pdf_path}")
 
@@ -807,6 +842,12 @@ def main(argv: list[str] | None = None) -> int:
     nc.add_argument("--cache-dir", default=".cache/etax")
     nc.add_argument("--cab", help="国税庁から取った e-tax19.CAB（キャッシュの代わりに使う）")
 
+    hk = sub.add_parser("hoken", help="OpenTax PINK: 給与所得者の保険料控除申告書（令和8年分）を契約ごとの支払額から作る（--report で様式の上に値の HTML）")
+    hk.add_argument("input", help="入力 JSON（format: opentax-hoken/1。tests/cases/hoken-r08/input.json が見本）")
+    hk.add_argument("--report", help="申告書（1人1枚）の HTML を書き出す先")
+    hk.add_argument("--pdf", help="申告書の PDF も書き出す先（--report の HTML を印刷したもの。Playwright が要る）")
+    hk.add_argument("--nencho-out", help="年末調整（opentax nencho）の declarations に入れる値の JSON を書き出す先")
+
     cp = sub.add_parser("compare", help="並行照合: 他のソフトで作った申告データ（.xtx）や控えを AI が読んだ値と、OpenTax の結果を帳票・欄ごとに比べる")
     cp.add_argument("other", help="相手: e-Tax の申告データ（.xtx・.xml）か、控えを AI が読んだ値の JSON（docs/compare.md）")
     cp.add_argument("opentax", help="OpenTax: OpenTax が作った .xtx か、OpenTax の入力 JSON（法人・消費税・所得税・相続税）")
@@ -832,7 +873,7 @@ def main(argv: list[str] | None = None) -> int:
     command = {"kigen": _kigen, "compare": _compare, "collect": _collect, "intake": _intake, "fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
                "build-checks": _build_checks, "calculate": _calculate, "export-etax": _export_etax,
                "local-tax": _local_tax, "shohi": _shohi, "kojin": _kojin, "report": _report,
-               "jigyosho": _jigyosho, "shukuhaku": _shukuhaku, "souzoku": _souzoku, "nencho": _nencho, "kyuyo": _kyuyo}[args.command]
+               "jigyosho": _jigyosho, "shukuhaku": _shukuhaku, "souzoku": _souzoku, "nencho": _nencho, "hoken": _hoken, "kyuyo": _kyuyo}[args.command]
     from .etax.validate import ValidationUnavailable
     from .etax.xtx import XtxError
     from .red.calculate import RuleError
