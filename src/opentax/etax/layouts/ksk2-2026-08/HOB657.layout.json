@@ -1,0 +1,2165 @@
+{
+ "form_id": "HOB657",
+ "label": "別表六(二十四)付表一（給与等支給額・比較教育訓練費の額・翌期繰越税額控除限度超過額）",
+ "version": "5.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOB657-5-0group",
+ "xsd": "19XMLスキーマ/hojin/HOB657-005.xsd",
+ "xsd_sha256": "8b1043116e2af789ad68e57040accf3ed29ffe1ca157f015e813a547d4a97f52",
+ "root": {
+  "tag": "HOB657",
+  "path": "HOB657",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "UKA00000",
+    "path": "HOB657/UKA00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "UKA00000-5-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "UKA00010",
+      "path": "HOB657/UKA00000/UKA00010",
+      "label": "事業年度",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKA00020",
+        "path": "HOB657/UKA00000/UKA00010/UKA00020",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_FROMref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_FROM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_FROM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "UKA00030",
+        "path": "HOB657/UKA00000/UKA00010/UKA00030",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_TOref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_TO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_TO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKA00040",
+      "path": "HOB657/UKA00000/UKA00040",
+      "label": "法人名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_NMref",
+      "kind": "idref",
+      "idref": "NOZEISHA_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "UKB00000",
+    "path": "HOB657/UKB00000",
+    "label": "雇用者給与等支給額及び調整雇用者給与等支給額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "UKB00000-5-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "UKB00010",
+      "path": "HOB657/UKB00000/UKB00010",
+      "label": "国内雇用者に対する給与等の支給額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "UKB00020",
+      "path": "HOB657/UKB00000/UKB00020",
+      "label": "(1)の給与等に充てるため他の者から支払を受ける金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "UKB00030",
+      "path": "HOB657/UKB00000/UKB00030",
+      "label": "(2)のうち雇用安定助成金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "UKB00040",
+      "path": "HOB657/UKB00000/UKB00040",
+      "label": "雇用者給与等支給額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "UKB00050",
+      "path": "HOB657/UKB00000/UKB00050",
+      "label": "調整雇用者給与等支給額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "UKC00000",
+    "path": "HOB657/UKC00000",
+    "label": "比較雇用者給与等支給額及び調整比較雇用者給与等支給額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "UKC00000-5-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "UKC00010",
+      "path": "HOB657/UKC00000/UKC00010",
+      "label": "前事業年度",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKC00020",
+        "path": "HOB657/UKC00000/UKC00010/UKC00020",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOB657/UKC00000/UKC00010/UKC00020/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOB657/UKC00000/UKC00010/UKC00020/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOB657/UKC00000/UKC00010/UKC00020/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOB657/UKC00000/UKC00010/UKC00020/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       },
+       {
+        "tag": "UKC00030",
+        "path": "HOB657/UKC00000/UKC00010/UKC00030",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:yymmdd",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "era",
+          "path": "HOB657/UKC00000/UKC00010/UKC00030/era",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger"
+         },
+         {
+          "tag": "yy",
+          "path": "HOB657/UKC00000/UKC00010/UKC00030/yy",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 99,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "mm",
+          "path": "HOB657/UKC00000/UKC00010/UKC00030/mm",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 12,
+          "min_inclusive": 1
+         },
+         {
+          "tag": "dd",
+          "path": "HOB657/UKC00000/UKC00010/UKC00030/dd",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "ns": "gen",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "max_inclusive": 31,
+          "min_inclusive": 1
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKC00040",
+      "path": "HOB657/UKC00000/UKC00040",
+      "label": "国内雇用者に対する給与等の支給額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKC00050",
+        "path": "HOB657/UKC00000/UKC00040/UKC00050",
+        "label": "外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKC00060",
+        "path": "HOB657/UKC00000/UKC00040/UKC00060",
+        "label": "本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKC00070",
+      "path": "HOB657/UKC00000/UKC00070",
+      "label": "(7)の給与等に充てるため他の者から支払を受ける金額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKC00080",
+        "path": "HOB657/UKC00000/UKC00070/UKC00080",
+        "label": "外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKC00090",
+        "path": "HOB657/UKC00000/UKC00070/UKC00090",
+        "label": "本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKC00100",
+      "path": "HOB657/UKC00000/UKC00100",
+      "label": "(8)のうち雇用安定助成金額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKC00110",
+        "path": "HOB657/UKC00000/UKC00100/UKC00110",
+        "label": "外書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKC00120",
+        "path": "HOB657/UKC00000/UKC00100/UKC00120",
+        "label": "本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKC00130",
+      "path": "HOB657/UKC00000/UKC00130",
+      "label": "適用年度の月数/(6)の前事業年度の月数",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKC00140",
+        "path": "HOB657/UKC00000/UKC00130/UKC00140",
+        "label": "適用年度の月数",
+        "min": 0,
+        "max": 1,
+        "type": "UKC00140-5-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "min_inclusive": 1,
+        "max_inclusive": 99,
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKC00150",
+        "path": "HOB657/UKC00000/UKC00130/UKC00150",
+        "label": "(6)の前事業年度の月数",
+        "min": 0,
+        "max": 1,
+        "type": "UKC00150-5-0type",
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:nonNegativeType"
+        ],
+        "min_inclusive": 1,
+        "max_inclusive": 99,
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKC00160",
+      "path": "HOB657/UKC00000/UKC00160",
+      "label": "比較雇用者給与等支給額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "UKC00170",
+      "path": "HOB657/UKC00000/UKC00170",
+      "label": "調整比較雇用者給与等支給額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "UKD00000",
+    "path": "HOB657/UKD00000",
+    "label": "継続雇用者給与等支給額及び継続雇用者比較給与等支給額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "UKD00000-5-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "UKD00010",
+      "path": "HOB657/UKD00000/UKD00010",
+      "label": "事業年度等",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKD00020",
+        "path": "HOB657/UKD00000/UKD00010/UKD00020",
+        "label": "継続雇用者比較給与等支給額の計算",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "UKD00030",
+          "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00030",
+          "label": "前事業年度",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "UKD00040",
+            "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00030/UKD00040",
+            "label": "自",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00030/UKD00040/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00030/UKD00040/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00030/UKD00040/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00030/UKD00040/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "UKD00050",
+            "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00030/UKD00050",
+            "label": "至",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00030/UKD00050/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00030/UKD00050/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00030/UKD00050/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00030/UKD00050/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "UKD00060",
+          "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00060",
+          "label": "前一年事業年度特定期間",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "UKD00070",
+            "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00060/UKD00070",
+            "label": "自",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00060/UKD00070/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00060/UKD00070/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00060/UKD00070/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00060/UKD00070/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           },
+           {
+            "tag": "UKD00080",
+            "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00060/UKD00080",
+            "label": "至",
+            "min": 0,
+            "max": 1,
+            "type": "gen:yymmdd",
+            "kind": "group",
+            "children": [
+             {
+              "tag": "era",
+              "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00060/UKD00080/era",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger"
+             },
+             {
+              "tag": "yy",
+              "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00060/UKD00080/yy",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 99,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "mm",
+              "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00060/UKD00080/mm",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 12,
+              "min_inclusive": 1
+             },
+             {
+              "tag": "dd",
+              "path": "HOB657/UKD00000/UKD00010/UKD00020/UKD00060/UKD00080/dd",
+              "label": null,
+              "min": 1,
+              "max": 1,
+              "ns": "gen",
+              "kind": "value",
+              "base": "xsd:nonNegativeInteger",
+              "max_inclusive": 31,
+              "min_inclusive": 1
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKD00090",
+      "path": "HOB657/UKD00000/UKD00090",
+      "label": "継続雇用者に対する給与等の支給額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKD00100",
+        "path": "HOB657/UKD00000/UKD00090/UKD00100",
+        "label": "継続雇用者給与等支給額の計算　適用年度",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKD00110",
+        "path": "HOB657/UKD00000/UKD00090/UKD00110",
+        "label": "継続雇用者比較給与等支給額の計算",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "UKD00120",
+          "path": "HOB657/UKD00000/UKD00090/UKD00110/UKD00120",
+          "label": "前事業年度",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "UKD00130",
+          "path": "HOB657/UKD00000/UKD00090/UKD00110/UKD00130",
+          "label": "前一年事業年度特定期間",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKD00140",
+      "path": "HOB657/UKD00000/UKD00140",
+      "label": "同上の給与等に充てるため他の者から支払を受ける金額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKD00150",
+        "path": "HOB657/UKD00000/UKD00140/UKD00150",
+        "label": "継続雇用者給与等支給額の計算　適用年度",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKD00160",
+        "path": "HOB657/UKD00000/UKD00140/UKD00160",
+        "label": "継続雇用者比較給与等支給額の計算",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "UKD00170",
+          "path": "HOB657/UKD00000/UKD00140/UKD00160/UKD00170",
+          "label": "前事業年度",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "UKD00180",
+          "path": "HOB657/UKD00000/UKD00140/UKD00160/UKD00180",
+          "label": "前一年事業年度特定期間",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKD00190",
+      "path": "HOB657/UKD00000/UKD00190",
+      "label": "同上のうち雇用安定助成金額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKD00200",
+        "path": "HOB657/UKD00000/UKD00190/UKD00200",
+        "label": "継続雇用者給与等支給額の計算　適用年度",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKD00210",
+        "path": "HOB657/UKD00000/UKD00190/UKD00210",
+        "label": "継続雇用者比較給与等支給額の計算",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "UKD00220",
+          "path": "HOB657/UKD00000/UKD00190/UKD00210/UKD00220",
+          "label": "前事業年度",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "UKD00230",
+          "path": "HOB657/UKD00000/UKD00190/UKD00210/UKD00230",
+          "label": "前一年事業年度特定期間",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKD00240",
+      "path": "HOB657/UKD00000/UKD00240",
+      "label": "差引",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKD00250",
+        "path": "HOB657/UKD00000/UKD00240/UKD00250",
+        "label": "継続雇用者給与等支給額の計算　適用年度",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKD00260",
+        "path": "HOB657/UKD00000/UKD00240/UKD00260",
+        "label": "継続雇用者比較給与等支給額の計算",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "UKD00270",
+          "path": "HOB657/UKD00000/UKD00240/UKD00260/UKD00270",
+          "label": "前事業年度",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "UKD00280",
+          "path": "HOB657/UKD00000/UKD00240/UKD00260/UKD00280",
+          "label": "前一年事業年度特定期間",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKD00290",
+      "path": "HOB657/UKD00000/UKD00290",
+      "label": "適用年度の月数/(13の[3])の月数",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKD00300",
+        "path": "HOB657/UKD00000/UKD00290/UKD00300",
+        "label": "継続雇用者比較給与等支給額の計算",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "UKD00310",
+          "path": "HOB657/UKD00000/UKD00290/UKD00300/UKD00310",
+          "label": "前一年事業年度特定期間",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "UKD00320",
+            "path": "HOB657/UKD00000/UKD00290/UKD00300/UKD00310/UKD00320",
+            "label": "適用年度の月数",
+            "min": 0,
+            "max": 1,
+            "type": "UKD00320-5-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "min_inclusive": 1,
+            "max_inclusive": 99,
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "UKD00330",
+            "path": "HOB657/UKD00000/UKD00290/UKD00300/UKD00310/UKD00330",
+            "label": "(13の[3])の月数",
+            "min": 0,
+            "max": 1,
+            "type": "UKD00330-5-0type",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:nonNegativeType"
+            ],
+            "min_inclusive": 1,
+            "max_inclusive": 99,
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKD00340",
+      "path": "HOB657/UKD00000/UKD00340",
+      "label": "継続雇用者給与等支給額及び継続雇用者比較給与等支給額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKD00350",
+        "path": "HOB657/UKD00000/UKD00340/UKD00350",
+        "label": "継続雇用者給与等支給額の計算　適用年度",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKD00360",
+        "path": "HOB657/UKD00000/UKD00340/UKD00360",
+        "label": "継続雇用者比較給与等支給額の計算",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "UKD00370",
+          "path": "HOB657/UKD00000/UKD00340/UKD00360/UKD00370",
+          "label": "前事業年度",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "UKD00380",
+          "path": "HOB657/UKD00000/UKD00340/UKD00360/UKD00380",
+          "label": "前一年事業年度特定期間",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "UKE00000",
+    "path": "HOB657/UKE00000",
+    "label": "比較教育訓練費の額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "UKE00000-5-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "UKE00010",
+      "path": "HOB657/UKE00000/UKE00010",
+      "label": "調整対象年度　繰り返し",
+      "min": 0,
+      "max": 2,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKE00020",
+        "path": "HOB657/UKE00000/UKE00010/UKE00020",
+        "label": "事業年度",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "UKE00030",
+          "path": "HOB657/UKE00000/UKE00010/UKE00020/UKE00030",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB657/UKE00000/UKE00010/UKE00020/UKE00030/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB657/UKE00000/UKE00010/UKE00020/UKE00030/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB657/UKE00000/UKE00010/UKE00020/UKE00030/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB657/UKE00000/UKE00010/UKE00020/UKE00030/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "UKE00040",
+          "path": "HOB657/UKE00000/UKE00010/UKE00020/UKE00040",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB657/UKE00000/UKE00010/UKE00020/UKE00040/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB657/UKE00000/UKE00010/UKE00020/UKE00040/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB657/UKE00000/UKE00010/UKE00020/UKE00040/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB657/UKE00000/UKE00010/UKE00020/UKE00040/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "UKE00050",
+        "path": "HOB657/UKE00000/UKE00010/UKE00050",
+        "label": "教育訓練費の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKE00060",
+        "path": "HOB657/UKE00000/UKE00010/UKE00060",
+        "label": "適用年度の月数/(20)の事業年度の月数",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "UKE00070",
+          "path": "HOB657/UKE00000/UKE00010/UKE00060/UKE00070",
+          "label": "適用年度の月数",
+          "min": 0,
+          "max": 1,
+          "type": "UKE00070-5-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 1,
+          "max_inclusive": 12,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "UKE00080",
+          "path": "HOB657/UKE00000/UKE00010/UKE00060/UKE00080",
+          "label": "(20)の事業年度の月数",
+          "min": 0,
+          "max": 1,
+          "type": "UKE00080-5-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "min_inclusive": 1,
+          "max_inclusive": 12,
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "UKE00090",
+        "path": "HOB657/UKE00000/UKE00010/UKE00090",
+        "label": "改定教育訓練費の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKE00100",
+      "path": "HOB657/UKE00000/UKE00100",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "UKE00110",
+      "path": "HOB657/UKE00000/UKE00110",
+      "label": "比較教育訓練費の額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "UKG00000",
+    "path": "HOB657/UKG00000",
+    "label": "翌期繰越税額控除限度超過額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "UKG00000-5-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "UKG00010",
+      "path": "HOB657/UKG00000/UKG00010",
+      "label": "明細１",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKG00020",
+        "path": "HOB657/UKG00000/UKG00010/UKG00020",
+        "label": "事業年度",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "UKG00030",
+          "path": "HOB657/UKG00000/UKG00010/UKG00020/UKG00030",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB657/UKG00000/UKG00010/UKG00020/UKG00030/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB657/UKG00000/UKG00010/UKG00020/UKG00030/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB657/UKG00000/UKG00010/UKG00020/UKG00030/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB657/UKG00000/UKG00010/UKG00020/UKG00030/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "UKG00040",
+          "path": "HOB657/UKG00000/UKG00010/UKG00020/UKG00040",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB657/UKG00000/UKG00010/UKG00020/UKG00040/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB657/UKG00000/UKG00010/UKG00020/UKG00040/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB657/UKG00000/UKG00010/UKG00020/UKG00040/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB657/UKG00000/UKG00010/UKG00020/UKG00040/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "UKG00050",
+        "path": "HOB657/UKG00000/UKG00010/UKG00050",
+        "label": "前期繰越額又は当期税額控除限度額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKG00060",
+        "path": "HOB657/UKG00000/UKG00010/UKG00060",
+        "label": "当期控除可能額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKG00070",
+      "path": "HOB657/UKG00000/UKG00070",
+      "label": "明細２　繰り返し",
+      "min": 0,
+      "max": 9,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKG00080",
+        "path": "HOB657/UKG00000/UKG00070/UKG00080",
+        "label": "事業年度",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "UKG00090",
+          "path": "HOB657/UKG00000/UKG00070/UKG00080/UKG00090",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB657/UKG00000/UKG00070/UKG00080/UKG00090/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB657/UKG00000/UKG00070/UKG00080/UKG00090/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB657/UKG00000/UKG00070/UKG00080/UKG00090/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB657/UKG00000/UKG00070/UKG00080/UKG00090/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "UKG00100",
+          "path": "HOB657/UKG00000/UKG00070/UKG00080/UKG00100",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB657/UKG00000/UKG00070/UKG00080/UKG00100/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB657/UKG00000/UKG00070/UKG00080/UKG00100/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB657/UKG00000/UKG00070/UKG00080/UKG00100/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB657/UKG00000/UKG00070/UKG00080/UKG00100/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "UKG00110",
+        "path": "HOB657/UKG00000/UKG00070/UKG00110",
+        "label": "前期繰越額又は当期税額控除限度額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKG00120",
+        "path": "HOB657/UKG00000/UKG00070/UKG00120",
+        "label": "当期控除可能額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKG00130",
+        "path": "HOB657/UKG00000/UKG00070/UKG00130",
+        "label": "翌期繰越額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "UKG00140",
+          "path": "HOB657/UKG00000/UKG00070/UKG00130/UKG00140",
+          "label": "外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "UKG00150",
+          "path": "HOB657/UKG00000/UKG00070/UKG00130/UKG00150",
+          "label": "本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKG00160",
+      "path": "HOB657/UKG00000/UKG00160",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKG00170",
+        "path": "HOB657/UKG00000/UKG00160/UKG00170",
+        "label": "前期繰越額又は当期税額控除限度額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKG00180",
+        "path": "HOB657/UKG00000/UKG00160/UKG00180",
+        "label": "当期控除可能額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKG00190",
+        "path": "HOB657/UKG00000/UKG00160/UKG00190",
+        "label": "翌期繰越額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKG00200",
+      "path": "HOB657/UKG00000/UKG00200",
+      "label": "当期分",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "UKG00205",
+        "path": "HOB657/UKG00000/UKG00200/UKG00205",
+        "label": "前期繰越額又は当期税額控除限度額　区分",
+        "min": 0,
+        "max": 1,
+        "type": "UKG00205-5-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOB657/UKG00000/UKG00200/UKG00205/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOB657/UKG00000/UKG00200/UKG00205/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "UKG00210",
+        "path": "HOB657/UKG00000/UKG00200/UKG00210",
+        "label": "前期繰越額又は当期税額控除限度額　金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKG00220",
+        "path": "HOB657/UKG00000/UKG00200/UKG00220",
+        "label": "当期控除可能額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "UKG00230",
+        "path": "HOB657/UKG00000/UKG00200/UKG00230",
+        "label": "翌期繰越額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "UKG00240",
+          "path": "HOB657/UKG00000/UKG00200/UKG00230/UKG00240",
+          "label": "外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "UKG00250",
+          "path": "HOB657/UKG00000/UKG00200/UKG00230/UKG00250",
+          "label": "本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "UKG00260",
+      "path": "HOB657/UKG00000/UKG00260",
+      "label": "合計　翌期繰越額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "UKF00000",
+    "path": "HOB657/UKF00000",
+    "label": "適用事業年度等",
+    "min": 0,
+    "max": 1,
+    "type": "UKF00000-5-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 15
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOB657-5-0VRtype",
+    "fixed": "5.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

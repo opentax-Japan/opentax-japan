@@ -1,0 +1,69 @@
+{
+  "description": "給与等の支給額が増加した場合の法人税額の特別控除（賃上げ促進税制）のうち中小企業者等の措置と繰越税額控除。DESIGN.md §29",
+  "checked": "2026-11-15",
+  "sources": {
+    "law_r8": "租税特別措置法第42条の12の5（e-Gov 法令API 2 revision 332AC0000000026_20261101_507AC0000000013。令和8年法律第12号による改正後）",
+    "law_r6": "令和8年改正前の租税特別措置法第42条の12の5（e-Gov 法令API 2 revision 332AC0000000026_20260101_507AC1000000002。令和6年法律第8号による改正後。2024-04-01 の版と同じ文）",
+    "order_r8": "租税特別措置法施行令第27条の12の5（revision 332CO0000000043_20261101_507CO0000000127）",
+    "order_r6": "令和8年改正前の租税特別措置法施行令第27条の12の5（revision 332CO0000000043_20260101_507CO0000000277）",
+    "transition_r8": "所得税法等の一部を改正する法律（令和8年法律第12号）附則第1条（令和8年4月1日施行）・第50条（施行日以後に開始する事業年度から。前に開始した事業年度はなお従前の例）・第55条（旧第42条の12の適用を受ける場合）",
+    "transition_r6": "所得税法等の一部を改正する法律（令和6年法律第8号）附則第44条（繰越税額控除は施行日（令和6年4月1日）以後に開始する事業年度に生ずる控除しきれない金額から）",
+    "form": "国税庁 別表六(二十四)・同付表一（令八・四・一以後終了事業年度分）と記載の仕方 https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/06(24).pdf ・06(24)-ki.pdf・06(24)-f1.pdf・06(24)-f1-ki.pdf",
+    "form_06_06": "国税庁 別表六(六)（令八・四・一以後終了事業年度分）と記載の仕方 https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/hojin/shinkoku/itiran2026/pdf/06(06).pdf ・06(06)-ki.pdf・06(06)-f.pdf・06(06)-f-ki.pdf",
+    "measures": "国税庁「適用額明細書の記載の手引（令和8年4月1日以後終了事業年度分）」P35 https://www.nta.go.jp/publication/pamph/hojin/tekiyougaku/pdf_r08_02/00.pdf",
+    "local": "地方税法附則第8条第11項・第12項（令和8年改正後）、令和8年改正前の附則第8条第9項〜第11項"
+  },
+  "versions": [
+    {
+      "id": "r6",
+      "fiscal_year_start_from": "2024-04-01",
+      "fiscal_year_start_to": "2026-03-31",
+      "article": "令和8年旧措置法第42条の12の5第3項",
+      "carry_article": "令和8年旧措置法第42条の12の5第4項",
+      "old": "令和8年旧措置法",
+      "parts": ["42", "の12の5", "3", "", ""],
+      "carry_parts": ["42", "の12の5", "4", "", ""],
+      "threshold_percent": "1.5",
+      "base_percent": "15",
+      "upper_threshold_percent": "2.5",
+      "upper_add_percent": "15",
+      "education": {"increase_percent": "5", "ratio_to_payroll_percent": "0.05", "add_percent": "10"},
+      "certification_add_percent": "5",
+      "cap_percent": "20",
+      "form_limit_line": "34",
+      "form_limit_kubun": "1"
+    },
+    {
+      "id": "r8",
+      "fiscal_year_start_from": "2026-04-01",
+      "fiscal_year_start_to": "2027-03-31",
+      "article": "第42条の12の5第2項",
+      "carry_article": "第42条の12の5第3項",
+      "old": "",
+      "parts": ["42", "の12の5", "2", "", ""],
+      "carry_parts": ["42", "の12の5", "3", "", ""],
+      "threshold_percent": "1.5",
+      "base_percent": "15",
+      "upper_threshold_percent": "2.5",
+      "upper_add_percent": "15",
+      "education": null,
+      "certification_add_percent": "5",
+      "cap_percent": "20",
+      "form_limit_line": "40",
+      "form_limit_kubun": "2"
+    }
+  ],
+  "carry_years": 5,
+  "carry_from": "2024-04-01",
+  "form_period_end_from": "2026-04-01",
+  "measure_codes": {"current": "00701", "carry": "00702"},
+  "amount_rounding": {
+    "mode": "truncate",
+    "source": "中小企業者等税額控除限度額（(22)×割合）と当期税額基準額（(41)×20/100）の1円未満の端数は、法令・別表六(二十四)の記載の仕方に定めがない。控除額を大きく書かない向きに切り捨てる（OpenTax の決定。利用者の確認待ち）"
+  },
+  "ratio_display": {
+    "mode": null,
+    "source": null,
+    "note": "別表六(二十四) 7・18（書式 ZZZ.ZZZ）・19（ZZZ.ZZZZ）に書く割合。様式の (7)<0.015・(14)<0.03 の書き方から、% ではなく小数（2.5% は 0.025）で書く。端数処理は記載の仕方に定めがないので、割り切れないときは書かない（判定は丸めずに分数で行う）"
+  }
+}

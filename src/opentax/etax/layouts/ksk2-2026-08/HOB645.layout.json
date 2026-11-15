@@ -1,0 +1,2335 @@
+{
+ "form_id": "HOB645",
+ "label": "別表六(六)（法人税の額から控除される特別控除額）",
+ "version": "13.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOB645-13-0group",
+ "xsd": "19XMLスキーマ/hojin/HOB645-013.xsd",
+ "xsd_sha256": "1e00a6dbd88a25d0c37496fa17e9ac3c2f213909bcea90dca284e18f72f8ed4c",
+ "root": {
+  "tag": "HOB645",
+  "path": "HOB645",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "ZTA00000",
+    "path": "HOB645/ZTA00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "ZTA00000-13-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ZTA00010",
+      "path": "HOB645/ZTA00000/ZTA00010",
+      "label": "事業年度",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTA00020",
+        "path": "HOB645/ZTA00000/ZTA00010/ZTA00020",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_FROMref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_FROM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_FROM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "ZTA00030",
+        "path": "HOB645/ZTA00000/ZTA00010/ZTA00030",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_TOref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_TO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_TO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTA00040",
+      "path": "HOB645/ZTA00000/ZTA00040",
+      "label": "法人名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_NMref",
+      "kind": "idref",
+      "idref": "NOZEISHA_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ZTB00000",
+    "path": "HOB645/ZTB00000",
+    "label": "法人税額の特別控除額及び調整前法人税額超過額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "ZTB00000-13-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ZTB00010",
+      "path": "HOB645/ZTB00000/ZTB00010",
+      "label": "当期税額控除可能額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ZTB00020",
+      "path": "HOB645/ZTB00000/ZTB00020",
+      "label": "調整前法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ZTB00025",
+      "path": "HOB645/ZTB00000/ZTB00025",
+      "label": "試験研究費の額に係る個別控除対象額の法人税額の特別控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ZTB00030",
+      "path": "HOB645/ZTB00000/ZTB00030",
+      "label": "当期税額基準額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "ZTB00040",
+      "path": "HOB645/ZTB00000/ZTB00040",
+      "label": "法人税額の特別控除額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTB00047",
+        "path": "HOB645/ZTB00000/ZTB00040/ZTB00047",
+        "label": "金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTB00050",
+      "path": "HOB645/ZTB00000/ZTB00050",
+      "label": "調整前法人税額超過額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ZTC00000",
+    "path": "HOB645/ZTC00000",
+    "label": "当期税額控除可能額、調整前法人税額超過構成額及び法人税額の特別控除額の明細",
+    "min": 0,
+    "max": 1,
+    "type": "ZTC00000-13-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "ZTC10110",
+      "path": "HOB645/ZTC00000/ZTC10110",
+      "label": "一般試験研究費の額に係る法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC10120",
+        "path": "HOB645/ZTC00000/ZTC10110/ZTC10120",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC10130",
+          "path": "HOB645/ZTC00000/ZTC10110/ZTC10120/ZTC10130",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10140",
+          "path": "HOB645/ZTC00000/ZTC10110/ZTC10120/ZTC10140",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10145",
+          "path": "HOB645/ZTC00000/ZTC10110/ZTC10120/ZTC10145",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC10190",
+      "path": "HOB645/ZTC00000/ZTC10190",
+      "label": "中小企業者等の試験研究費の額に係る法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC10192",
+        "path": "HOB645/ZTC00000/ZTC10190/ZTC10192",
+        "label": "前期繰越分計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC10194",
+          "path": "HOB645/ZTC00000/ZTC10190/ZTC10192/ZTC10194",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10196",
+          "path": "HOB645/ZTC00000/ZTC10190/ZTC10192/ZTC10196",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10198",
+          "path": "HOB645/ZTC00000/ZTC10190/ZTC10192/ZTC10198",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ZTC10200",
+        "path": "HOB645/ZTC00000/ZTC10190/ZTC10200",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC10210",
+          "path": "HOB645/ZTC00000/ZTC10190/ZTC10200/ZTC10210",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10220",
+          "path": "HOB645/ZTC00000/ZTC10190/ZTC10200/ZTC10220",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10690",
+          "path": "HOB645/ZTC00000/ZTC10190/ZTC10200/ZTC10690",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC00222",
+      "path": "HOB645/ZTC00000/ZTC00222",
+      "label": "特別試験研究費の額に係る法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC00224",
+        "path": "HOB645/ZTC00000/ZTC00222/ZTC00224",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC00226",
+          "path": "HOB645/ZTC00000/ZTC00222/ZTC00224/ZTC00226",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC00228",
+          "path": "HOB645/ZTC00000/ZTC00222/ZTC00224/ZTC00228",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10700",
+          "path": "HOB645/ZTC00000/ZTC00222/ZTC00224/ZTC10700",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC00340",
+      "path": "HOB645/ZTC00000/ZTC00340",
+      "label": "中小企業者等が機械等を取得した場合の法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC00350",
+        "path": "HOB645/ZTC00000/ZTC00340/ZTC00350",
+        "label": "前期繰越分計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC00360",
+          "path": "HOB645/ZTC00000/ZTC00340/ZTC00350/ZTC00360",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC00370",
+          "path": "HOB645/ZTC00000/ZTC00340/ZTC00350/ZTC00370",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC00375",
+          "path": "HOB645/ZTC00000/ZTC00340/ZTC00350/ZTC00375",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ZTC00380",
+        "path": "HOB645/ZTC00000/ZTC00340/ZTC00380",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC00390",
+          "path": "HOB645/ZTC00000/ZTC00340/ZTC00380/ZTC00390",
+          "label": "明細1",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ZTC00400",
+            "path": "HOB645/ZTC00000/ZTC00340/ZTC00380/ZTC00390/ZTC00400",
+            "label": "当期税額控除可能額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ZTC00410",
+            "path": "HOB645/ZTC00000/ZTC00340/ZTC00380/ZTC00390/ZTC00410",
+            "label": "調整前法人税額超過構成額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ZTC00415",
+            "path": "HOB645/ZTC00000/ZTC00340/ZTC00380/ZTC00390/ZTC00415",
+            "label": "法人税額の特別控除額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC00450",
+      "path": "HOB645/ZTC00000/ZTC00450",
+      "label": "沖縄の特定地域において工業用機械等を取得した場合の法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC00460",
+        "path": "HOB645/ZTC00000/ZTC00450/ZTC00460",
+        "label": "前期繰越分計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC00470",
+          "path": "HOB645/ZTC00000/ZTC00450/ZTC00460/ZTC00470",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC00480",
+          "path": "HOB645/ZTC00000/ZTC00450/ZTC00460/ZTC00480",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC00485",
+          "path": "HOB645/ZTC00000/ZTC00450/ZTC00460/ZTC00485",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ZTC00490",
+        "path": "HOB645/ZTC00000/ZTC00450/ZTC00490",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC00500",
+          "path": "HOB645/ZTC00000/ZTC00450/ZTC00490/ZTC00500",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC00510",
+          "path": "HOB645/ZTC00000/ZTC00450/ZTC00490/ZTC00510",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC00515",
+          "path": "HOB645/ZTC00000/ZTC00450/ZTC00490/ZTC00515",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC00520",
+      "path": "HOB645/ZTC00000/ZTC00520",
+      "label": "国家戦略特別区域において機械等を取得した場合の法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC00560",
+        "path": "HOB645/ZTC00000/ZTC00520/ZTC00560",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC00570",
+          "path": "HOB645/ZTC00000/ZTC00520/ZTC00560/ZTC00570",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC00580",
+          "path": "HOB645/ZTC00000/ZTC00520/ZTC00560/ZTC00580",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC00585",
+          "path": "HOB645/ZTC00000/ZTC00520/ZTC00560/ZTC00585",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC00590",
+      "path": "HOB645/ZTC00000/ZTC00590",
+      "label": "国際戦略総合特別区域において機械等を取得した場合の法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC00630",
+        "path": "HOB645/ZTC00000/ZTC00590/ZTC00630",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC00640",
+          "path": "HOB645/ZTC00000/ZTC00590/ZTC00630/ZTC00640",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC00650",
+          "path": "HOB645/ZTC00000/ZTC00590/ZTC00630/ZTC00650",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC00655",
+          "path": "HOB645/ZTC00000/ZTC00590/ZTC00630/ZTC00655",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC10230",
+      "path": "HOB645/ZTC00000/ZTC10230",
+      "label": "地域経済牽引事業の促進区域内において特定事業用機械等を取得した場合の法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC10240",
+        "path": "HOB645/ZTC00000/ZTC10230/ZTC10240",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC10250",
+          "path": "HOB645/ZTC00000/ZTC10230/ZTC10240/ZTC10250",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10260",
+          "path": "HOB645/ZTC00000/ZTC10230/ZTC10240/ZTC10260",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10265",
+          "path": "HOB645/ZTC00000/ZTC10230/ZTC10240/ZTC10265",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC00660",
+      "path": "HOB645/ZTC00000/ZTC00660",
+      "label": "地方活力向上地域等において特定建物等を取得した場合の法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC00670",
+        "path": "HOB645/ZTC00000/ZTC00660/ZTC00670",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC00680",
+          "path": "HOB645/ZTC00000/ZTC00660/ZTC00670/ZTC00680",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC00690",
+          "path": "HOB645/ZTC00000/ZTC00660/ZTC00670/ZTC00690",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC00695",
+          "path": "HOB645/ZTC00000/ZTC00660/ZTC00670/ZTC00695",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC10000",
+      "path": "HOB645/ZTC00000/ZTC10000",
+      "label": "地方活力向上地域等において雇用者の数が増加した場合の法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC10010",
+        "path": "HOB645/ZTC00000/ZTC10000/ZTC10010",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC10050",
+          "path": "HOB645/ZTC00000/ZTC10000/ZTC10010/ZTC10050",
+          "label": "明細1",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ZTC10060",
+            "path": "HOB645/ZTC00000/ZTC10000/ZTC10010/ZTC10050/ZTC10060",
+            "label": "当期税額控除可能額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ZTC10070",
+            "path": "HOB645/ZTC00000/ZTC10000/ZTC10010/ZTC10050/ZTC10070",
+            "label": "調整前法人税額超過構成額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ZTC10075",
+            "path": "HOB645/ZTC00000/ZTC10000/ZTC10010/ZTC10050/ZTC10075",
+            "label": "法人税額の特別控除額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10080",
+          "path": "HOB645/ZTC00000/ZTC10000/ZTC10010/ZTC10080",
+          "label": "明細2",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ZTC10090",
+            "path": "HOB645/ZTC00000/ZTC10000/ZTC10010/ZTC10080/ZTC10090",
+            "label": "当期税額控除可能額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ZTC10100",
+            "path": "HOB645/ZTC00000/ZTC10000/ZTC10010/ZTC10080/ZTC10100",
+            "label": "調整前法人税額超過構成額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ZTC10105",
+            "path": "HOB645/ZTC00000/ZTC10000/ZTC10010/ZTC10080/ZTC10105",
+            "label": "法人税額の特別控除額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC10150",
+      "path": "HOB645/ZTC00000/ZTC10150",
+      "label": "認定地方公共団体の寄附活用事業に関連する寄附をした場合の法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC10160",
+        "path": "HOB645/ZTC00000/ZTC10150/ZTC10160",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC10170",
+          "path": "HOB645/ZTC00000/ZTC10150/ZTC10160/ZTC10170",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10180",
+          "path": "HOB645/ZTC00000/ZTC10150/ZTC10160/ZTC10180",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10185",
+          "path": "HOB645/ZTC00000/ZTC10150/ZTC10160/ZTC10185",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC00810",
+      "path": "HOB645/ZTC00000/ZTC00810",
+      "label": "中小企業者等が特定経営力向上設備等を取得した場合の法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC10270",
+        "path": "HOB645/ZTC00000/ZTC00810/ZTC10270",
+        "label": "前期繰越分計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC10280",
+          "path": "HOB645/ZTC00000/ZTC00810/ZTC10270/ZTC10280",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10290",
+          "path": "HOB645/ZTC00000/ZTC00810/ZTC10270/ZTC10290",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10295",
+          "path": "HOB645/ZTC00000/ZTC00810/ZTC10270/ZTC10295",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ZTC00820",
+        "path": "HOB645/ZTC00000/ZTC00810/ZTC00820",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC00830",
+          "path": "HOB645/ZTC00000/ZTC00810/ZTC00820/ZTC00830",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC00840",
+          "path": "HOB645/ZTC00000/ZTC00810/ZTC00820/ZTC00840",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC00845",
+          "path": "HOB645/ZTC00000/ZTC00810/ZTC00820/ZTC00845",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC10710",
+      "path": "HOB645/ZTC00000/ZTC10710",
+      "label": "給与等の支給額が増加した場合の法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC10712",
+        "path": "HOB645/ZTC00000/ZTC10710/ZTC10712",
+        "label": "前期繰越分計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC10714",
+          "path": "HOB645/ZTC00000/ZTC10710/ZTC10712/ZTC10714",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10716",
+          "path": "HOB645/ZTC00000/ZTC10710/ZTC10712/ZTC10716",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10718",
+          "path": "HOB645/ZTC00000/ZTC10710/ZTC10712/ZTC10718",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ZTC10720",
+        "path": "HOB645/ZTC00000/ZTC10710/ZTC10720",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC10730",
+          "path": "HOB645/ZTC00000/ZTC10710/ZTC10720/ZTC10730",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10740",
+          "path": "HOB645/ZTC00000/ZTC10710/ZTC10720/ZTC10740",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10750",
+          "path": "HOB645/ZTC00000/ZTC10710/ZTC10720/ZTC10750",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC10580",
+      "path": "HOB645/ZTC00000/ZTC10580",
+      "label": "生産工程効率化等設備を取得した場合の法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC10590",
+        "path": "HOB645/ZTC00000/ZTC10580/ZTC10590",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC10660",
+          "path": "HOB645/ZTC00000/ZTC10580/ZTC10590/ZTC10660",
+          "label": "明細",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ZTC10670",
+            "path": "HOB645/ZTC00000/ZTC10580/ZTC10590/ZTC10660/ZTC10670",
+            "label": "当期税額控除可能額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ZTC10680",
+            "path": "HOB645/ZTC00000/ZTC10580/ZTC10590/ZTC10660/ZTC10680",
+            "label": "調整前法人税額超過構成額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ZTC10685",
+            "path": "HOB645/ZTC00000/ZTC10580/ZTC10590/ZTC10660/ZTC10685",
+            "label": "法人税額の特別控除額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC10760",
+      "path": "HOB645/ZTC00000/ZTC10760",
+      "label": "産業競争力基盤強化商品生産用資産を取得した場合の法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC10770",
+        "path": "HOB645/ZTC00000/ZTC10760/ZTC10770",
+        "label": "前期繰越分計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC10780",
+          "path": "HOB645/ZTC00000/ZTC10760/ZTC10770/ZTC10780",
+          "label": "明細1",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ZTC10790",
+            "path": "HOB645/ZTC00000/ZTC10760/ZTC10770/ZTC10780/ZTC10790",
+            "label": "当期税額控除可能額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ZTC10800",
+            "path": "HOB645/ZTC00000/ZTC10760/ZTC10770/ZTC10780/ZTC10800",
+            "label": "調整前法人税額超過構成額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ZTC10810",
+            "path": "HOB645/ZTC00000/ZTC10760/ZTC10770/ZTC10780/ZTC10810",
+            "label": "法人税額の特別控除額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10820",
+          "path": "HOB645/ZTC00000/ZTC10760/ZTC10770/ZTC10820",
+          "label": "明細2",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ZTC10830",
+            "path": "HOB645/ZTC00000/ZTC10760/ZTC10770/ZTC10820/ZTC10830",
+            "label": "当期税額控除可能額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ZTC10840",
+            "path": "HOB645/ZTC00000/ZTC10760/ZTC10770/ZTC10820/ZTC10840",
+            "label": "調整前法人税額超過構成額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ZTC10850",
+            "path": "HOB645/ZTC00000/ZTC10760/ZTC10770/ZTC10820/ZTC10850",
+            "label": "法人税額の特別控除額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ZTC10860",
+        "path": "HOB645/ZTC00000/ZTC10760/ZTC10860",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC10870",
+          "path": "HOB645/ZTC00000/ZTC10760/ZTC10860/ZTC10870",
+          "label": "明細1",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ZTC10880",
+            "path": "HOB645/ZTC00000/ZTC10760/ZTC10860/ZTC10870/ZTC10880",
+            "label": "当期税額控除可能額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ZTC10890",
+            "path": "HOB645/ZTC00000/ZTC10760/ZTC10860/ZTC10870/ZTC10890",
+            "label": "調整前法人税額超過構成額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ZTC10900",
+            "path": "HOB645/ZTC00000/ZTC10760/ZTC10860/ZTC10870/ZTC10900",
+            "label": "法人税額の特別控除額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10910",
+          "path": "HOB645/ZTC00000/ZTC10760/ZTC10860/ZTC10910",
+          "label": "明細2",
+          "min": 0,
+          "max": 1,
+          "kind": "group",
+          "children": [
+           {
+            "tag": "ZTC10920",
+            "path": "HOB645/ZTC00000/ZTC10760/ZTC10860/ZTC10910/ZTC10920",
+            "label": "当期税額控除可能額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ZTC10930",
+            "path": "HOB645/ZTC00000/ZTC10760/ZTC10860/ZTC10910/ZTC10930",
+            "label": "調整前法人税額超過構成額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           },
+           {
+            "tag": "ZTC10940",
+            "path": "HOB645/ZTC00000/ZTC10760/ZTC10860/ZTC10910/ZTC10940",
+            "label": "法人税額の特別控除額",
+            "min": 0,
+            "max": 1,
+            "type": "gen:kingaku",
+            "kind": "amount",
+            "base": "xsd:long",
+            "attributes": [
+             {
+              "name": "AutoCalc",
+              "required": false,
+              "type": "xsd:string"
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC10950",
+      "path": "HOB645/ZTC00000/ZTC10950",
+      "label": "特定生産性向上設備等を取得した場合の法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC10960",
+        "path": "HOB645/ZTC00000/ZTC10950/ZTC10960",
+        "label": "前期繰越分計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC10970",
+          "path": "HOB645/ZTC00000/ZTC10950/ZTC10960/ZTC10970",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10980",
+          "path": "HOB645/ZTC00000/ZTC10950/ZTC10960/ZTC10980",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC10990",
+          "path": "HOB645/ZTC00000/ZTC10950/ZTC10960/ZTC10990",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ZTC11000",
+        "path": "HOB645/ZTC00000/ZTC10950/ZTC11000",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC11010",
+          "path": "HOB645/ZTC00000/ZTC10950/ZTC11000/ZTC11010",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC11020",
+          "path": "HOB645/ZTC00000/ZTC10950/ZTC11000/ZTC11020",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC11030",
+          "path": "HOB645/ZTC00000/ZTC10950/ZTC11000/ZTC11030",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC01030",
+      "path": "HOB645/ZTC00000/ZTC01030",
+      "label": "特定復興産業集積区域等において機械等を取得した場合の法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC01040",
+        "path": "HOB645/ZTC00000/ZTC01030/ZTC01040",
+        "label": "前期繰越分計",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC01050",
+          "path": "HOB645/ZTC00000/ZTC01030/ZTC01040/ZTC01050",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC01060",
+          "path": "HOB645/ZTC00000/ZTC01030/ZTC01040/ZTC01060",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC01065",
+          "path": "HOB645/ZTC00000/ZTC01030/ZTC01040/ZTC01065",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "ZTC01070",
+        "path": "HOB645/ZTC00000/ZTC01030/ZTC01070",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC01080",
+          "path": "HOB645/ZTC00000/ZTC01030/ZTC01070/ZTC01080",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC01090",
+          "path": "HOB645/ZTC00000/ZTC01030/ZTC01070/ZTC01090",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC01095",
+          "path": "HOB645/ZTC00000/ZTC01030/ZTC01070/ZTC01095",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC01100",
+      "path": "HOB645/ZTC00000/ZTC01100",
+      "label": "特定復興産業集積区域等において被災雇用者等を雇用した場合の法人税額の特別控除",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC01110",
+        "path": "HOB645/ZTC00000/ZTC01100/ZTC01110",
+        "label": "当期分",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "ZTC01120",
+          "path": "HOB645/ZTC00000/ZTC01100/ZTC01110/ZTC01120",
+          "label": "当期税額控除可能額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC01130",
+          "path": "HOB645/ZTC00000/ZTC01100/ZTC01110/ZTC01130",
+          "label": "調整前法人税額超過構成額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "ZTC01135",
+          "path": "HOB645/ZTC00000/ZTC01100/ZTC01110/ZTC01135",
+          "label": "法人税額の特別控除額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "ZTC01140",
+      "path": "HOB645/ZTC00000/ZTC01140",
+      "label": "合計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "ZTC01150",
+        "path": "HOB645/ZTC00000/ZTC01140/ZTC01150",
+        "label": "当期税額控除可能額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ZTC01160",
+        "path": "HOB645/ZTC00000/ZTC01140/ZTC01160",
+        "label": "調整前法人税額超過構成額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "ZTC01165",
+        "path": "HOB645/ZTC00000/ZTC01140/ZTC01165",
+        "label": "法人税額の特別控除額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "ZTD00000",
+    "path": "HOB645/ZTD00000",
+    "label": "適用事業年度等",
+    "min": 0,
+    "max": 1,
+    "type": "ZTD00000-13-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 15
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOB645-13-0VRtype",
+    "fixed": "13.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

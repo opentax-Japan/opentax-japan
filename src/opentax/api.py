@@ -50,7 +50,7 @@ def calculate(raw_input: dict, trial_ratio_rounding: str | None = None, balance:
 
     def levy_of(s1: dict) -> dict:
         from .red.local_tax import corporate_levy
-        levy_holder["levy"] = corporate_levy(data, s1["corporate_tax"])
+        levy_holder["levy"] = corporate_levy(data, s1.get("base_tax", s1["corporate_tax"]))   # 法人税割の課税標準（§29.5）
         return {k: levy_holder["levy"][k] for k in ("道府県民税", "市町村民税")}
 
     result = _calculate(data, {"道府県民税": local["prefecture"]["amount"], "市町村民税": city_amount},
@@ -107,6 +107,7 @@ def uchiwake_from_balance(balance: bytes, supplement: dict | None = None) -> dic
 
 FORM_TITLES = {"HOA112": "別表一", "HOA114": "別表一 次葉一", "HOA116": "別表一 次葉二", "HOA201": "別表二", "HOA420": "別表四（簡易様式）",
                "HOA511": "別表五(一)", "HOA522": "別表五(二)", "HOB016": "別表六(一)",
+               "HOB645": "別表六(六)", "HOB646": "別表六(六)付表", "HOB656": "別表六(二十四)", "HOB657": "別表六(二十四)付表一",
                "HOB710": "別表七(一)", "HOB800": "別表八(一)", "HOE099": "別表十四(二)", "HOE200": "別表十五", "HOE315": "別表十六(一)", "HOE325": "別表十六(二)", "HOE990": "適用額明細書"}
 
 

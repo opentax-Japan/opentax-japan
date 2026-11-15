@@ -72,7 +72,8 @@ def sheet_values(calculated: dict, office_kind: str) -> dict:
     brackets = bt.get("brackets") or [{"base": 0, "tax": 0}] * 3
     business_total, special = bt.get("total", 0), bt.get("special", 0)
     business_payable, special_payable = business_total - business_paid, special - special_paid
-    corporate_tax = calculated["result"]["schedule_01"]["corporate_tax"]
+    s1 = calculated["result"]["schedule_01"]
+    corporate_tax = s1.get("base_tax", s1["corporate_tax"])   # ① 法人税額（租税特別措置法の税額控除の後。§29.5）
     return {
         "zero": 0, "corporate_tax": corporate_tax, "tax_base": cl["tax_base"], "levy": levy, "levy_raw": cl["raw"][tax],
         "levy_paid": levy_paid, "levy_payable": levy_payable,

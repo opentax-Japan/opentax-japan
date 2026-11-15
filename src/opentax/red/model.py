@@ -111,6 +111,19 @@ _SCHEMA: dict[str, Any] = {
     # 会計の数字に入っている租税特別措置で、適用額明細書に載せるもの（例: 少額減価償却資産の取得価額の損金算入の特例を
     # 減価償却費で処理した額）。条項は「第67条の5第1項」のように書く。税額の計算を変える特別措置は今までどおり対象外
     "special_measures_reported": [{"article": str, "code": str, "amount": int, "old": str}],
+    # 給与等の支給額が増加した場合の法人税額の特別控除（賃上げ促進税制。中小企業者等だけ。DESIGN §29）。
+    # 金額は損金の額に算入される国内雇用者（役員・役員の特殊関係者・使用人兼務役員を除く。措置法第42条の12の5第4項第2号、
+    # 施行令第27条の12の5第3項・第4項）に対する給与等の支給額。reimbursed は給与等に充てるため他の者から支払を受ける金額、
+    # employment_subsidy はそのうち雇用安定助成金額。prior は前事業年度。education は令和8年3月31日以前に開始した事業年度だけ
+    # （amount: 当期の教育訓練費の額、prior: 適用年度開始の日前1年以内に開始した事業年度の教育訓練費の額）。
+    # certified: くるみん・えるぼし等（第2号イ〜ニ。旧第3項第3号）。carryforward: 前期から繰り越した繰越税額控除限度超過額（事業年度ごと）
+    "wage_increase_credit": {
+        "sme": bool, "capital": int, "employees": int, "payroll": int, "reimbursed": int, "employment_subsidy": int,
+        "prior": {"start": "date", "end": "date", "payroll": int, "reimbursed": int, "employment_subsidy": int},
+        "education": {"amount": int, "prior": [{"start": "date", "end": "date", "amount": int}]},
+        "certified": bool, "regional_employment_credit": bool, "first_period": bool,
+        "carryforward": [{"start": "date", "end": "date", "amount": int}],
+    },
     "tax_dues": {"加算税及び加算金": int, "延滞税": int, "延滞金": int, "過怠税": int, "罰金等": int},
     # 申告調整の要る科目を人が確かめた答え（adjustment_accounts.json の answers のどれか）
     "adjustment_confirmations": [{"account": str, "answer": str}],
@@ -400,6 +413,22 @@ def _check_values(data: dict) -> None:
             errors.append(f"tax_payments[{i}].tax: {PAYMENT_TAXES} のどれかにしてください")
         if p["method"] not in PAYMENT_METHODS:
             errors.append(f"tax_payments[{i}].method: {PAYMENT_METHODS} のどれかにしてください")
+    w = data.get("wage_increase_credit")
+    if w:
+        for key in ("sme", "payroll", "prior"):
+            if w.get(key) is None:
+                errors.append(f"wage_increase_credit.{key}: 必須の項目です")
+        for key in ("start", "end", "payroll"):
+            if w.get("prior") and w["prior"].get(key) is None:
+                errors.append(f"wage_increase_credit.prior.{key}: 必須の項目です")
+        for i, c in enumerate(w.get("carryforward") or [], 1):
+            if None in (c.get("start"), c.get("end"), c.get("amount")):
+                errors.append(f"wage_increase_credit.carryforward[{i}]: start・end・amount を書いてください")
+        if w.get("education") and w["education"].get("amount") is None:
+            errors.append("wage_increase_credit.education.amount: 必須の項目です")
+        for i, c in enumerate((w.get("education") or {}).get("prior") or [], 1):
+            if None in (c.get("start"), c.get("end"), c.get("amount")):
+                errors.append(f"wage_increase_credit.education.prior[{i}]: start・end・amount を書いてください")
     for i, c in enumerate(data["income_tax_credit"], 1):
         if c["income"] < 0 or c["tax"] < 0 or c["tax"] > c["income"]:
             errors.append(f"income_tax_credit[{i}]: 収入金額・所得税額は0以上で、所得税額は収入金額以下にしてください")
