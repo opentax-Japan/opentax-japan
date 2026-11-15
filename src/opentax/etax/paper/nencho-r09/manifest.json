@@ -1,0 +1,30 @@
+{
+ "edition": "nencho-r09",
+ "title": "令和9年分 年末調整・源泉徴収の申告書（国税庁）",
+ "publisher": "国税庁",
+ "fiscal_year_end_from": "2027-01-01",
+ "fiscal_year_start_before": "2028-01-01",
+ "note": "年末調整・源泉徴収の申告書は年分ごとの様式。期間は令和9年1月1日〜12月31日を渡す。扶養控除等（異動）申告書（FUYO）: 案内ページ https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/gensen/annai/1648_01.htm 、記載例 https://www.nta.go.jp/publication/pamph/gensen/nencho2026/pdf/309.pdf （「令和8年分 年末調整のしかた」と同じ所）。欄の位置は入力用 PDF（2027bun_01_input.pdf）の入力欄から tools/fuyo_map.py で作る",
+ "source_page": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/gensen/annai/1648_01.htm",
+ "terms": "出典：国税庁ホームページ（各様式の URL）。公共データ利用規約（第1.0版）により利用し、値を重ねて表示するよう加工している。国税庁が作成したものではない",
+ "terms_url": "https://www.nta.go.jp/chuijiko/copy.htm",
+ "files": {
+  "2027bun_01.pdf": {
+   "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/gensen/pdf/2027bun_01.pdf",
+   "sha256": "78aaa750e0e569737eaf1e4c494cb1732ee8171bb740fe6f0e3e9006b9ddcdbc"
+  },
+  "2027bun_01_input.pdf": {
+   "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/gensen/pdf/2027bun_01_input.pdf",
+   "sha256": "61d4e863c403c941dbe39b34f9e973268de3768dad5d4ee9aed9665f42313891"
+  }
+ },
+ "forms": {
+  "FUYO": {
+   "title": "給与所得者の扶養控除等（異動）申告書（令和9年分）",
+   "file": "2027bun_01.pdf",
+   "page": 1,
+   "render": true,
+   "rotate": 0
+  }
+ }
+}

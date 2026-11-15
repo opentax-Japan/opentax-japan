@@ -1,0 +1,87 @@
+{
+ "format": "opentax-nencho/1",
+ "note": "国税庁「令和8年分 給与所得者の扶養控除等申告書」の記載例（https://www.nta.go.jp/publication/pamph/gensen/nencho2025/pdf/309.pdf）1ページ目の例。答えは同じページの各欄。個人番号は書かない（OpenTax はマイナンバーを扱わない）",
+ "year": 2026,
+ "filer": {
+  "name": "○○○○　株式会社",
+  "corporate_number": "1122334455667",
+  "address": "□□市△△町3-3",
+  "tax_office": "□□"
+ },
+ "people": [
+  {
+   "id": "yamakawa",
+   "name": "山川　太郎",
+   "kana": "ヤマカワ　タロウ",
+   "birth": "1982-01-01",
+   "address": "○○市××町23-7",
+   "postal_code": "000-0000",
+   "city": "○○",
+   "householder": "山川　太郎",
+   "householder_relation": "本人",
+   "spouse": {
+    "name": "山川　明子",
+    "kana": "ヤマカワ　アキコ",
+    "birth": "1982-10-05",
+    "income": 500000,
+    "address": "○○市××町23-7"
+   },
+   "dependents": [
+    {
+     "kind": "特定",
+     "name": "山川　一郎",
+     "kana": "ヤマカワ　イチロウ",
+     "relation": "子",
+     "birth": "2004-02-04",
+     "income": 0,
+     "address": "1234KokuzeiStreet,・・・USA",
+     "non_resident": true,
+     "order": 1
+    },
+    {
+     "kind": "一般",
+     "name": "山川　二郎",
+     "kana": "ヤマカワ　ジロウ",
+     "relation": "子",
+     "birth": "2009-05-17",
+     "income": 0,
+     "address": "〃",
+     "order": 3
+    },
+    {
+     "kind": "同居老親等",
+     "name": "山川　隆雄",
+     "kana": "ヤマカワ　タカオ",
+     "relation": "父",
+     "birth": "1947-05-08",
+     "income": 300000,
+     "address": "〃",
+     "disability": "一般",
+     "disability_note": "身体障害者３級　身体障害者手帳　平成28年４月11日交付",
+     "order": 4
+    }
+   ],
+   "specific_relatives": [
+    {
+     "name": "山川　春子",
+     "kana": "ヤマカワ　ハルコ",
+     "relation": "子",
+     "birth": "2005-03-03",
+     "income": 1000000,
+     "address": "○○市××町23-7",
+     "order": 2
+    }
+   ],
+   "dependents_under16": [
+    {
+     "name": "山川　三郎",
+     "kana": "ヤマカワ　サブロウ",
+     "relation": "子",
+     "birth": "2012-07-05",
+     "income": 0,
+     "address": "○○市××町23-7"
+    }
+   ]
+  }
+ ]
+}

@@ -1,10 +1,10 @@
 {
  "edition": "nencho-r08",
- "title": "令和8年分 給与所得者の保険料控除申告書（国税庁）",
+ "title": "令和8年分 年末調整・源泉徴収の申告書（国税庁）",
  "publisher": "国税庁",
  "fiscal_year_end_from": "2026-01-01",
  "fiscal_year_start_before": "2027-01-01",
- "note": "年末調整の申告書は年分ごとの様式。期間は令和8年1月1日〜12月31日を渡す。案内ページ https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/gensen/annai/1648_05.htm 、記載例 https://www.nta.go.jp/publication/pamph/gensen/nencho2026/pdf/307.pdf 。欄の位置は入力用 PDF（2026bun_04_input.pdf）の入力欄から tools/hoken_map.py で作る",
+ "note": "年末調整・源泉徴収の申告書は年分ごとの様式。期間は令和8年1月1日〜12月31日を渡す。保険料控除申告書（HOKEN）: 案内ページ https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/gensen/annai/1648_05.htm 、記載例 https://www.nta.go.jp/publication/pamph/gensen/nencho2026/pdf/307.pdf 。欄の位置は入力用 PDF（2026bun_04_input.pdf）の入力欄から tools/hoken_map.py で作る。扶養控除等（異動）申告書（FUYO）: 案内ページ https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/gensen/annai/1648_01.htm 、記載例 https://www.nta.go.jp/publication/pamph/gensen/nencho2025/pdf/309.pdf 。欄の位置は入力用 PDF（2026bun_01_input.pdf）の入力欄から tools/fuyo_map.py で作る",
  "source_page": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/gensen/annai/1648_05.htm",
  "terms": "出典：国税庁ホームページ（各様式の URL）。公共データ利用規約（第1.0版）により利用し、値を重ねて表示するよう加工している。国税庁が作成したものではない",
  "terms_url": "https://www.nta.go.jp/chuijiko/copy.htm",
@@ -16,12 +16,27 @@
   "2026bun_04_input.pdf": {
    "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/gensen/pdf/2026bun_04_input.pdf",
    "sha256": "8c6e2ef95679c4f3b1c4e23be0ca74bbf870ef99414aaf0ab389fd0a2ca47f70"
+  },
+  "2026bun_01.pdf": {
+   "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/gensen/pdf/2026bun_01.pdf",
+   "sha256": "15bae0d3fbca3dde48ebd2db2851af37eefee0f1e2ae682b9313e9d2e3fb427c"
+  },
+  "2026bun_01_input.pdf": {
+   "url": "https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/gensen/pdf/2026bun_01_input.pdf",
+   "sha256": "4c0dd45c47a95c0f231bd2d082f23f043ae6c9691e89f92f8abbd0b0873f2370"
   }
  },
  "forms": {
   "HOKEN": {
    "title": "給与所得者の保険料控除申告書（令和8年分）",
    "file": "2026bun_04.pdf",
+   "page": 1,
+   "render": true,
+   "rotate": 0
+  },
+  "FUYO": {
+   "title": "給与所得者の扶養控除等（異動）申告書（令和8年分）",
+   "file": "2026bun_01.pdf",
    "page": 1,
    "render": true,
    "rotate": 0

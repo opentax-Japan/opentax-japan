@@ -46,7 +46,7 @@ def _all_boxes(m: dict):
             for box in (b if b and isinstance(b[0], list) else [b]):
                 yield tag, box
     for tag, spec in m.get("circles", {}).items():
-        for box in (spec.values() if isinstance(spec, dict) else [spec]):
+        for box in (spec.values() if isinstance(spec, dict) else spec if spec and isinstance(spec[0], list) else [spec]):
             yield tag, box
     for t in m.get("texts", []):
         b = t.get("boxes", t.get("box"))
@@ -71,7 +71,7 @@ def main() -> int:
             for tag, b in m.get(group, {}).items():
                 values[tag] = [sample] * len(b) if b and isinstance(b[0], list) else sample
         for tag, spec in m.get("circles", {}).items():
-            values[tag] = next(iter(spec)) if isinstance(spec, dict) else "1"
+            values[tag] = next(iter(spec)) if isinstance(spec, dict) else ["1"] * len(spec) if spec and isinstance(spec[0], list) else "1"
     opt = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
     period = tuple(datetime.date.fromisoformat(x) for x in opt.get("period", "2025-10-01,2026-09-30").split(","))
     on = datetime.date.fromisoformat(opt["on"]) if "on" in opt else None
