@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "越生町",
+  "prefecture": "埼玉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（越生町税条例第34条の4）。資本金等の額が1億円以下の法人・資本又は出資を有しない法人（相互会社を除く）・法人とみなされるものは、法人税割額からその8.4分の2.4を控除（第34条の6の2）＝6.0%。法人税額の条件はない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "条例に超過課税の期限の定めは見当たらない（本則の税率）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額（法人税法第2条第16号の資本金等の額又は連結個別資本金等の額。相互会社は純資産額）が1億円以下である法人若しくは資本若しくは出資を有しない法人（保険業法に規定する相互会社を除く。）又は第23条第3項において法人とみなされるもの。判定は法人税額の課税標準の算定期間の末日現在（清算中の法人は解散の日現在）。法人税額の条件はない（第34条の6の2）"
+  },
+  "source": [
+    {
+      "title": "越生町税条例 第34条の4・第34条の6の2（越生町例規集）",
+      "url": "https://en3-jg.d1-law.com/ogose/d1w_reiki/H330901010032/H330901010032_j.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "越生町 法人町民税について（法人税割の税率表）",
+      "url": "https://www.town.ogose.saitama.jp/kurashi/zei/kakushuzeikin/3443.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

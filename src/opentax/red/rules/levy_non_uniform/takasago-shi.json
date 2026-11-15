@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "高砂市",
+  "prefecture": "兵庫県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（高砂市市税条例第34条の4）。中小法人等は8.4%の法人税割額からその8.4分の2.4を控除する（第34条の6「中小法人等に対する不均一課税」。6.0%と同じ）",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "条例本則（附則でない）の不均一課税で、期限の定めはない",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 6000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 6000000,
+    "rule": "資本金額若しくは出資金額が1億円以下である法人、資本若しくは出資を有しない法人（保険業法に規定する相互会社を除く。）又は法人とみなされる人格のない社団等で、法人税割の課税標準となる法人税額（個別帰属法人税額を含む）が年600万円以下であるもの。資本金額は算定期間の末日現在あるいは解散の日現在、法人税額は関係市町村と分割される前の額、算定期間が1年に満たないときは600万円×月数÷12（月数は暦に従い1月に満たない端数は1月）。予定申告法人は前事業年度の法人税割の課税標準となる法人税額による（第34条の6第1項〜第5項）"
+  },
+  "source": [
+    {
+      "title": "高砂市市税条例 第34条の4・第34条の6",
+      "url": "https://www.city.takasago.lg.jp/section/info_reiki/H330901010003/H330901010003_j.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "高砂市 法人市民税のあらまし（法人税割税率表。更新日 2021年10月29日）",
+      "url": "https://www.city.takasago.lg.jp/gyoseisite/kurashi_tetsuzuki/zeikin/8/3761.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

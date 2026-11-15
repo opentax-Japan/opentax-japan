@@ -1,0 +1,48 @@
+{
+  "jurisdiction": "瑞穂町",
+  "prefecture": "東京都",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（瑞穂町税賦課徴収条例第34条の4）。資本金の額若しくは出資金の額が1億円以下の法人、資本若しくは出資を有しない法人（相互会社を除く）又は代表者等の定めのある人格のない社団等は、法人税割額からその8.4分の2.4を控除（第34条の4の2第1項。実質6.0%）。法人税額の基準はない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "第34条の4・第34条の4の2に適用期限の定めはない（本則で8.4%）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金の額若しくは出資金の額が1億円以下の法人、資本若しくは出資を有しない法人（保険業法に規定する相互会社を除く。）又は法人でない社団若しくは財団で代表者若しくは管理人の定めのあるもの（第34条の4の2第1項）。法人税額による制限はない。資本金は各事業年度の終了の日の額（予定申告は事業年度開始の日から6月を経過した日の前日、清算中は解散の日の額。第2項）。法人課税信託の引受けを行う個人（第23条第1項第5号）も同様に控除（第34条の4の3）。町のページの税率表も「1億円以下の法人 6.0%／1億円を超える法人及び相互会社 8.4%」"
+  },
+  "source": [
+    {
+      "title": "瑞穂町税賦課徴収条例 第34条の4（法人税割の税率）・第34条の4の2（法人等の町民税の課税の特例）",
+      "url": "https://www1.g-reiki.net/mizuho/reiki_honbun/g152RG00000148.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "瑞穂町 町民税（法人税割額の税率表。更新日 令和8年1月13日）",
+      "url": "https://www.town.mizuho.tokyo.jp/kurashi/002/002/p000740.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "瑞穂町 法人町民税（更新日 令和8年10月26日）",
+      "url": "https://www.town.mizuho.tokyo.jp/kurashi/002/002/p000710.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "白河市",
+  "prefecture": "福島県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割は資本金等の金額が1,000万円超の法人・保険業法の相互会社8.2%、左記以外の法人等7.4%（令和元年10月1日以後開始事業年度。市「法人市民税」ページ）。法人税額による条件の記載なし。軽い方の税率は6.0%ではなく7.4%。条例は検索上限のため未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに超過課税の期限の記載なし",
+      "excess": "8.2",
+      "standard": "7.4"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "7.4",
+      "basis": "capital_etc",
+      "capital_max": 10000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 10000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の金額が1,000万円以下の法人等（相互会社を除く）は7.4%、1,000万円超の法人・相互会社は8.2%。法人税額による条件はない"
+  },
+  "source": [
+    {
+      "title": "白河市 法人市民税（法人税割の税率表。更新日2019年9月24日）",
+      "url": "https://www.city.shirakawa.fukushima.jp/page/page000041.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

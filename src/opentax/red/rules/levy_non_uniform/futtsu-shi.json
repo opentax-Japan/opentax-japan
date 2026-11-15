@@ -1,0 +1,46 @@
+{
+  "jurisdiction": "富津市",
+  "prefecture": "千葉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割は資本金等の額で3段階：1億円超8.4%、5千万円超1億円以下7.2%、5千万円以下6.0%（令和元年10月1日以後開始事業年度）",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市の案内に超過課税の期限（事業年度終了日の上限）の記載なし。例規集の条例本文は未確認",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 50000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    },
+    {
+      "rate": "7.2",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 50000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額（資本金の額または出資金の額と法人税法に規定する資本金以外の資本額との合計）が5千万円以下は6.0%、5千万円超1億円以下は7.2%、1億円超は8.4%。法人税額の基準なし。資本を有しない法人の扱いは記載なし"
+  },
+  "source": [
+    {
+      "title": "富津市 法人市民税（事業開始年度と資本金等の区分別税率。更新日 2021年9月2日）",
+      "url": "https://www.city.futtsu.lg.jp/0000000193.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

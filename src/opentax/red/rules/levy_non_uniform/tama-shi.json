@@ -1,0 +1,51 @@
+{
+  "jurisdiction": "多摩市",
+  "prefecture": "東京都",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（多摩市市税条例第34条の4）。資本金の額又は出資金の額が5億円以下の法人等は8.4分の2.4を控除（6.0%）、5億円を超え10億円以下の法人は8.4分の1.2を控除（7.2%）、10億円超は8.4%（第34条の6の2）。3段階で、法人税額による区分はない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "期限なし（本則の規定で、附則による期限の定めはない）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 500000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    },
+    {
+      "rate": "7.2",
+      "basis": "capital",
+      "capital_max": 1000000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 500000000,
+    "tax_annual_upto": null,
+    "rule": "(1)資本金の額若しくは出資金の額が5億円以下である法人、資本若しくは出資を有しない法人（保険業法に規定する相互会社を除く。）、法人でない社団若しくは財団で代表者若しくは管理人の定めのあるもの又は第23条第1項の規定により法人税割額を課される個人は8.4分の2.4を控除（6.0%）。(2)資本金の額又は出資金の額が5億円を超え10億円以下の法人は8.4分の1.2を控除（7.2%）。それ以外（10億円超・相互会社）は8.4%。法人税額の条件はない（市の案内も「法人税の税額による税率の区分はありません」）。資本金の額は各事業年度・各連結事業年度・各計算期間の終了の日（予定申告はその事業年度開始の日から6月の期間の末日、清算中は解散の日）現在による（第34条の6の2第2項）"
+  },
+  "source": [
+    {
+      "title": "多摩市市税条例 第34条の4（法人税割の税率）・第34条の6の2（法人税割の課税の特例）（多摩市例規集 d1-law。houcd H340901010001）",
+      "url": "https://ops-jg.d1-law.com/opensearch/SrJbF01/init?jctcd=8A8016A4AE&houcd=H340901010001&no=1&totalCount=1&fromJsp=SrMj",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "多摩市 法人市民税について（10億円超8.4％・5億円超10億円以下7.2％・5億円以下6.0％、法人税額による区分なし。更新日2026年5月28日）",
+      "url": "https://www.city.tama.lg.jp/kurashi/zei/houjin/1001900.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

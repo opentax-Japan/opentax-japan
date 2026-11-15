@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "関市",
+  "prefecture": "岐阜県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は令和元年10月1日以後開始の事業年度から8.4%。資本金等の額が1億円以下で法人税額が年400万円以下の法人は6.0%（関市「法人市民税 税額の計算方法」）。判定は資本金等の額（法人税法第2条第16号）。条例（例規集）は検索の上限で開けず、条番号は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに超過課税の期限の記載なし。条例未確認",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 4000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 4000000,
+    "rule": "資本金等の額（法人税法第2条第16号の資本金等の額又は同条第17号の2の連結個別資本金等の額）が1億円以下で、法人税割の課税標準となる法人税額が年400万円以下の法人は6.0%。分割法人は関係市町村に分割される前の法人税額で判定。算定期間が1年に満たないときは400万円×月数÷12（1月に満たない端数は1月）。資本を有しない法人の扱いは市のページに記載なし"
+  },
+  "source": [
+    {
+      "title": "関市 法人市民税 税額の計算方法（均等割・法人税割）",
+      "url": "https://www.city.seki.lg.jp/0000001309.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

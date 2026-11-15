@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "館山市",
+  "prefecture": "千葉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "市のページ：資本金の金額もしくは出資金額が1000万円を超える 8.4%、1000万円以下 6.0%（令和元年10月1日以降開始事業年度）。法人税額の条件はない。最終更新日 令和元年8月20日。条例本文は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに期限の記載なし",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 10000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 10000000,
+    "tax_annual_upto": null,
+    "rule": "資本金の金額もしくは出資金額が1000万円以下 6.0%、1000万円を超える 8.4%。法人税額の条件はない。資本を有しない法人の扱いはページに記載なし"
+  },
+  "source": [
+    {
+      "title": "館山市 法人税割額（法人税割の税率。最終更新日 令和元年8月20日）",
+      "url": "https://www.city.tateyama.chiba.jp/zeimu/page000629.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

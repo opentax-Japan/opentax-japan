@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "姫路市",
+  "prefecture": "兵庫県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（姫路市市税条例第26条の2第1項。本則）。中小法人等は法人税割の税率を100分の6とする（第26条の2の2第1項）。附則でなく本則の規定で、期限の定めはない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "第26条の2・第26条の2の2は本則の規定で、終了する事業年度の期限の定めはない（市のページにも期限の記載はない）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 6000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 6000000,
+    "rule": "資本金の額若しくは出資金の額が1億円以下である法人若しくは資本若しくは出資を有しない法人（保険業法に規定する相互会社を除く。）又は人格のない社団等で、法人税割の課税標準となる法人税額又は個別帰属法人税額が年600万円以下であるもの。資本金の判定は法人税額の課税標準の算定期間の末日現在、法人税額は関係市町村に分割される前の額、算定期間が1年に満たないときは600万円×月数÷12（月数は暦に従い1月に満たない端数は1月）（第26条の2の2第1項〜第4項）"
+  },
+  "source": [
+    {
+      "title": "姫路市市税条例 第26条の2・第26条の2の2（中小法人等に対する不均一課税）（姫路市条例・規則検索システム Reiki-Base。姫路市「公告式」ページからのリンク）",
+      "url": "https://krl500.legal-square.com/HAS-Shohin/page/SJSrbLogin.jsf",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "姫路市 法人市民税のご案内（法人税割の税率表 8.4%／6%、年600万円以下・分割前。更新日 2026年9月24日）",
+      "url": "https://www.city.himeji.lg.jp/kurashi/0000000764.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

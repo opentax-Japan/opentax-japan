@@ -1,0 +1,57 @@
+{
+  "jurisdiction": "米原市",
+  "prefecture": "滋賀県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（米原市税条例第34条の4第1項）。資本金等の額1億円以下等で法人税額年500万円以下の法人は100分の7.6（同条第2項）。令和5年9月30日以前に開始する事業年度は一律7.6%。軽減後の税率は7.6%で、標準税率6.0%ではない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": "2023-09-30",
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "令和5年9月30日以前に開始する事業年度は一律7.6%で超過課税なし（米原市の案内）",
+      "excess": "7.6",
+      "standard": "7.6",
+      "tiers": []
+    },
+    {
+      "fiscal_year_start_from": "2023-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "超過課税は令和5年10月1日以後に開始する事業年度から（米原市「法人市民税の法人税割の超過課税（不均一課税）の実施について」）。期限の定めは見当たらない",
+      "excess": "8.4",
+      "standard": "7.6",
+      "tiers": [
+        {
+          "rate": "7.6",
+          "basis": "capital_etc",
+          "capital_max": 100000000,
+          "capital_inclusive": true,
+          "tax_annual_max": 5000000,
+          "tax_inclusive": true
+        }
+      ]
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 5000000,
+    "rule": "資本金等の額を有する法人で資本金等の額が1億円以下であるもの、資本もしくは出資を有しない法人（保険業法に規定する相互会社を除く。）または法人でない社団もしくは財団で代表者もしくは管理人の定めのあるもので、かつ、法人税割の課税標準となる法人税額が年500万円以下であるもの（第34条の4第2項）。算定期間が1年に満たないときは500万円÷12×月数（月数は暦に従い1月に満たない端数は1月。同条第3項）。市の案内では、資本金等の額は算定期間の末日現在、法人税額は分割法人は分割する前の額"
+  },
+  "source": [
+    {
+      "title": "米原市税条例 第34条の4（法人税割の税率）",
+      "url": "https://www.city.maibara.lg.jp/reiki/reiki_honbun/r108RG00000127.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "米原市 法人市民税の法人税割の超過課税（不均一課税）の実施について（更新日 2025年3月4日）",
+      "url": "https://www.city.maibara.lg.jp/soshiki/chikishinko/zeimu/houjin/19435.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "米原市 法人市民税法人税割について（更新日 2023年6月23日）",
+      "url": "https://www.city.maibara.lg.jp/soshiki/chikishinko/zeimu/houjin/2813.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

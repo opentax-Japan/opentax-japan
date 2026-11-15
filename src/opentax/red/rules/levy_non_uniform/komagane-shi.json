@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "駒ヶ根市",
+  "prefecture": "長野県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "市の法人市民税のページでは、令和元年10月1日以後開始の事業年度の法人税割の税率は、資本金等の額が1億円以上の法人7.2%、1億円未満の法人6.0%。法人税額による条件はない。例規集（市税条例の条番号）は開けず、条番号は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに期限の記載はない",
+      "excess": "7.2",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 99999999,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が1億円未満の法人は6.0%、1億円以上の法人は7.2%（令和元年10月1日以後に開始する事業年度分から適用）。資本金等の額は地方税法第292条第4号の5に規定するもの。1億円ちょうどは7.2%（「1億円以上」）。法人税額の上限・分割前・1年未満の月数換算・資本を有しない法人の扱いの記載はない"
+  },
+  "source": [
+    {
+      "title": "駒ヶ根市 法人市民税の概要（法人税割の税率表。更新日 2019年12月09日）",
+      "url": "https://www.city.komagane.nagano.jp/soshikiichiran/zeimuka/shiminzeigakari/1/1/2/1670.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "駒ヶ根市 法人市民税法人税割の税率改正（令和元年10月1日～）（更新日 2021年03月10日）",
+      "url": "https://www.city.komagane.nagano.jp/soshikiichiran/zeimuka/shiminzeigakari/1/1/2/4415.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

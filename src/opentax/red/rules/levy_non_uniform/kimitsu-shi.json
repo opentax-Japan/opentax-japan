@@ -1,0 +1,46 @@
+{
+  "jurisdiction": "君津市",
+  "prefecture": "千葉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割は資本金等の額（法人税法第2条第16号）で3段階：5千万円未満・資本を有しない法人6.0%、5千万円以上1億円未満7.2%、それ以外8.4%（令和元年10月1日以後開始事業年度）",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市の案内に超過課税の期限（事業年度終了日の上限）の記載なし。例規集の条例本文は未確認",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 50000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    },
+    {
+      "rate": "7.2",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 49999999,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が5千万円未満である法人、資本金等の額もしくは出資金の額を有しない法人は6.0%、5千万円以上1億円未満は7.2%、それ以外は8.4%。法人税額の基準なし（capital_upto は5千万円未満の意味で49,999,999円）"
+  },
+  "source": [
+    {
+      "title": "君津市 法人市民税（法人市民税の税率。更新日 2026年6月24日）",
+      "url": "https://www.city.kimitsu.lg.jp/soshiki/11/2098.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

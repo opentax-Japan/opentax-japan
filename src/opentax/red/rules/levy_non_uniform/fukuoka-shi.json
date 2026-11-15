@@ -1,0 +1,29 @@
+{
+  "jurisdiction": "福岡市",
+  "prefecture": "福岡県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "福岡市の公式サイト（www.city.fukuoka.lg.jp）がこの環境からのアクセスを拒否（HTTP 403）し、法人市民税のページ（/zaisei/shisanzei/life/002.html）も課税状況調PDFも開けなかった。curl・WebFetch の両方で403。条件は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "未確認",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "unsupported": "公式の資料が見つからない（福岡市サイトが403で開けない）",
+  "reduced_condition": {
+    "capital_upto": null,
+    "tax_annual_upto": null,
+    "rule": "未確認（公式の資料を開けなかった）"
+  },
+  "source": [
+    {
+      "title": "福岡市 法人市民税（HTTP 403 で開けず）",
+      "url": "https://www.city.fukuoka.lg.jp/zaisei/shisanzei/life/002.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

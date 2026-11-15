@@ -1,0 +1,48 @@
+{
+  "jurisdiction": "日高市",
+  "prefecture": "埼玉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "令和6年4月1日以後開始事業年度から超過課税。法人税割の税率は100分の8.4（日高市税条例第34条の4）。資本金1億円以下等で法人税額が年400万円以下の法人は、法人税割額からその8.4分の2.4を控除（第34条の5）＝6.0%。令和元年10月1日〜令和6年3月31日開始事業年度は一律6.0%",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2024-04-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "条例に超過課税の期限の定めは見当たらない（本則の税率）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 4000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 4000000,
+    "rule": "資本金の額若しくは出資金の額が1億円以下である法人若しくは資本若しくは出資を有しない法人（保険業法に規定する相互会社を除く。）又は第23条第3項において法人とみなされるものであって、かつ、法人税割の課税標準となる法人税額が年400万円以下のもの。資本金は算定期間の末日現在、法人税額は関係市町村に分割される前の額、算定期間が1年に満たないときは400万円×月数÷12（月数は暦に従い1月に満たない端数は1月）（第34条の5第1項〜第6項。令和5年条例1号で全部改正）"
+  },
+  "source": [
+    {
+      "title": "日高市税条例 第34条の4・第34条の5（日高市例規集 令和8年9月30日現在）",
+      "url": "https://en3-jg.d1-law.com/hidaka/d1w_reiki/H330901010009/H330901010009_j.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "日高市 法人市民税の法人税割の超過課税（不均一課税）（適用開始 令和6年4月1日以降に開始する事業年度。更新日 2023年03月22日）",
+      "url": "https://www.city.hidaka.lg.jp/soshiki/somu/zeimu/shiminzei/zeikin/sonota/25464.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "日高市 法人市民税（法人税割の税率表）",
+      "url": "https://www.city.hidaka.lg.jp/soshiki/somu/zeimu/shiminzei/zeikin/sonota/1020.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "府中町",
+  "prefecture": "広島県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は8.4%。法人税額又は個別帰属法人税額（分割前）が年240万円以下で、資本金等の額が1億円以下・資本又は出資を有しない（相互会社を除く）・法第294条第8項で法人とみなされるもののいずれかに当たる法人は6.0%（府中町「法人町民税」ページ。府中町税条例第34条の4・第34条の4の2）。町の例規集（d1-law の検索システム）は開けず条文は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "町のページに超過課税の期限の記載なし（条例は未確認）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 2400000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 2400000,
+    "rule": "法人税割の課税標準となる法人税額または個別帰属法人税額（分割前）が年240万円以下で、かつ、1 資本金等の額が1億円以下、2 資本、出資を有しない（保険業法に規定する相互会社を除く）、3 地方税法第294条第8項において法人とみなされるもの、のいずれかに該当する法人。1年に満たないときの月数換算・判定日は町のページに記載なし"
+  },
+  "source": [
+    {
+      "title": "府中町 法人町民税（法人税割の税率表。更新日 2022年7月21日）",
+      "url": "https://www.town.fuchu.hiroshima.jp/site/zeimuka/1581.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

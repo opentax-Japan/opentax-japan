@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "焼津市",
+  "prefecture": "静岡県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "令和元年10月1日以後開始の事業年度から、資本金等の額が1億円を超える法人8.2%、1億円以下の法人6.0%（焼津市「法人市民税とは」、市税概要「市税の税率等」）。法人税額による条件はない。条例（例規集）は検索の上限で開けず、条番号は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページは令和9年4月以降も超過課税を続けると案内。期限の日付は未確認",
+      "excess": "8.2",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額（法人税法第2条第16号・第17号の2、平成27年4月1日以後開始の事業年度は地方税法第292条の調整後）が1億円以下の法人は6.0%（法人税額の条件なし）。資本を有しない法人の扱いは市のページに記載なし"
+  },
+  "source": [
+    {
+      "title": "焼津市 法人市民税とは（法人税割の税率）",
+      "url": "https://www.city.yaizu.lg.jp/life/tax/corporate-municipal-tax/about.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "焼津市 市税概要 3.市税の税率等（PDF）",
+      "url": "https://www.city.yaizu.lg.jp/documents/5359/3sizeino.pdf",
+      "checked": "2026-11-15"
+    }
+  ]
+}

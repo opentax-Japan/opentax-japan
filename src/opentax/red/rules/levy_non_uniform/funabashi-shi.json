@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "船橋市",
+  "prefecture": "千葉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "市のページ：資本金等の額が1億円を超える場合 8.4%、1億円以下の場合 6.0%（令和元年10月1日以後開始事業年度）。法人税額の条件はない。条例本文は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに期限の記載なし",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が1億円以下の場合 6.0%、1億円を超える場合 8.4%。法人税額の条件はない。資本を有しない法人の扱いはページに記載なし"
+  },
+  "source": [
+    {
+      "title": "船橋市 法人市民税（法人税割の税率変更）",
+      "url": "https://www.city.funabashi.lg.jp/kurashi/zei/008/p000875.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

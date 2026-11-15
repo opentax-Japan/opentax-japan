@@ -1,0 +1,46 @@
+{
+  "jurisdiction": "大井町",
+  "prefecture": "神奈川県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（大井町税条例第14条）。第14条の2で資本金等の額5億円未満の法人等は8.4分の2.4を控除（実質6.0%）、5億円以上10億円未満の法人は8.4分の1.2を控除（実質7.2%）。期限の定めなし。法人税額による条件はない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "第14条（本則）・第14条の2に期限の定めはない",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 500000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    },
+    {
+      "rate": "7.2",
+      "basis": "capital_etc",
+      "capital_max": 1000000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 499999999,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が5億円未満である法人、資本若しくは出資を有しない法人（保険業法に規定する相互会社を除く。）又は人格のない社団等：8.4%の法人税割額から8.4分の2.4を控除（6.0%相当）。資本金等の額が5億円以上10億円未満の法人：8.4分の1.2を控除（7.2%相当）。10億円以上は8.4%。判定は法人税額又は個別帰属法人税額の課税標準の算定期間の末日の現況。受託法人を除く（第14条の2第1項・第2項）。法人税額・分割前・月数換算の条件はない。capital_upto は「5億円未満」を円単位で表したもの"
+  },
+  "source": [
+    {
+      "title": "大井町税条例 第14条・第14条の2（大井町例規集）",
+      "url": "https://www1.g-reiki.net/town.oi.kanagawa/reiki_honbun/g226RG00000144.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

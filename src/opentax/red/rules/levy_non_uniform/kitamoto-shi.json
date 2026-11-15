@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "北本市",
+  "prefecture": "埼玉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（北本市税条例第34条の4）。資本金等の額1億円以下（資本等を有しない法人を含む）で法人税額又は個別帰属法人税額が年500万円以下の法人は8.4分の2.4を控除（第34条の6の2）＝6.0%",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "条例第34条の4・第34条の6の2は本則で、期限の定めなし",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 5000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 5000000,
+    "rule": "資本金等の額が1億円以下である法人若しくは資本等を有しない法人（相互会社を除く）又は法人とみなされるもの（第23条第3項）で、かつ法人税割の課税標準となる法人税額又は個別帰属法人税額が年500万円以下のもの（第34条の6の2第1項）。資本金等の額は算定期間の末日現在で判定（同条第2項以下）。分割前の額・1年未満の月数換算は同条の後続項による（全文は例規集で確認のこと）"
+  },
+  "source": [
+    {
+      "title": "北本市税条例 第34条の4・第34条の6の2（d1-law 例規集）",
+      "url": "https://en3-jg.d1-law.com/kitamoto/d1w_reiki/H329901010006/H329901010006_j.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "北本市 法人市民税（法人税割の税率表。更新日2025年10月28日）",
+      "url": "https://www.city.kitamoto.lg.jp/kurashi/zei/5/1419556211332.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "岸和田市",
+  "prefecture": "大阪府",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は資本金等の額が5,000万円を超える法人は100分の8.4、それ以外の法人等は100分の6.0（岸和田市市税条例第20条）。法人税額の条件はない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "条例に期限の定めはない（本則の税率）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 50000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 50000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が5,000万円を超える法人以外の法人等は6.0%（資本を有しない法人・人格のない社団等を含む）。法人税額の条件はない。資本金等の額が資本金の額及び資本準備金の額の合算額又は出資金の額に満たないときはその合算額等で判定（第20条第1項・第2項。市のページでは法人税割へのこの読替えは平成28年1月1日以後開始事業年度から）"
+  },
+  "source": [
+    {
+      "title": "岸和田市市税条例 第20条",
+      "url": "https://en3-jg.d1-law.com/kishiwada/d1w_reiki/H412901010002/H412901010002_j.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "岸和田市 法人市民税の申告と税率表（表2 法人税割）",
+      "url": "https://www.city.kishiwada.lg.jp/page/15-houjinn-zeirituhyou.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

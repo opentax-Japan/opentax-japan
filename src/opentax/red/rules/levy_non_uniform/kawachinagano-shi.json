@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "河内長野市",
+  "prefecture": "大阪府",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（河内長野市市税条例第21条）。資本金等の額が1億円以下の法人、資本若しくは出資を有しない法人（相互会社を除く）又は人格のない社団等は8.4%の法人税割額からその8.4分の2.4を控除する（第22条。6.0%と同じ）。法人税額の条件はない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "条例に期限の定めはない（本則の税率）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が1億円以下の法人、資本若しくは出資を有しない法人（保険業法に規定する相互会社を除く。）又は法人でない社団若しくは財団で代表者若しくは管理人の定めのあるもの。法人税額の条件はない。判定は算定期間の末日の現況（予定申告は前期の末日、清算中は解散又は合併の日）。資本金等の額が資本金の額及び資本準備金の額の合算額又は出資金の額に満たないときはその合算額等で判定（第22条第1項〜第3項）"
+  },
+  "source": [
+    {
+      "title": "河内長野市市税条例 第21条・第22条",
+      "url": "https://www.city.kawachinagano.lg.jp/static/reiki/reiki_honbun/l700RG00000291.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "河内長野市 法人市民税について（●法人税割）",
+      "url": "https://www.city.kawachinagano.lg.jp/soshiki/29/1049.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

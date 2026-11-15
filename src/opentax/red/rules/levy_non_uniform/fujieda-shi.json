@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "藤枝市",
+  "prefecture": "静岡県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "藤枝市税条例附則第3条の2第1項：平成31年10月1日以後開始の事業年度は100分の8.2。第2項：資本金等の額が1億円以下の法人（資本又は出資を有しない法人（相互会社を除く）を含む）は法人税割額からその8.2分の2.2を控除（6.0%相当）。第3項：資本金等の額は算定期間の末日の現況で判定。法人税額による条件はない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": "2027-03-31",
+      "fiscal_year_end_to_note": "附則第3条の2第1項「昭和57年4月1日から令和9年3月31日までの間に終了する各事業年度分」。延長の改正は未確認",
+      "excess": "8.2",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が1億円以下の法人（資本又は出資を有しない法人（保険業法に規定する相互会社を除く）を含む）は8.2%の法人税割額から8.2分の2.2を控除（法人税額の条件なし）。資本金等の額は法人税額の課税標準の算定期間の末日（清算・合併はその日）の現況で判定（附則第3条の2第2項・第3項）"
+  },
+  "source": [
+    {
+      "title": "藤枝市税条例 附則第3条の2",
+      "url": "https://www.city.fujieda.shizuoka.jp/static/reiki_int/reiki_honbun/g315RG00000162.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "藤枝市 法人市民税（法人税割の税率）",
+      "url": "https://www.city.fujieda.shizuoka.jp/soshiki/zaiseikeiei/kazei/gyomu/kojinnsiminnzei/13485.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

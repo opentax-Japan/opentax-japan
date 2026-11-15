@@ -1,0 +1,48 @@
+{
+  "jurisdiction": "春日井市",
+  "prefecture": "愛知県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "春日井市市税条例第32条の4：法人税割の税率100分の7.9。第32条の5：資本金等の額（法人税法第2条第16号）が1億円以下の法人等で法人税額が年2,000万円以下のものは法人税割額からその7.9分の1.9を控除（6.0%相当）。本則に置かれ期限はない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "第32条の4・第32条の5は本則で、適用期限の定めなし",
+      "excess": "7.9",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 20000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 20000000,
+    "rule": "資本金等の額（法人税法第2条第16号の資本金等の額又は同条第17号の2の連結個別資本金等の額）が1億円以下の法人若しくは資本若しくは出資を有しない法人（保険業法に規定する相互会社を除く）又は条例第25条第3項により法人とみなされるもので、法人税割の課税標準となる法人税額又は個別帰属法人税額（関係市町村に分割される前の額、第32条の5第3項）が年2,000万円以下。算定期間が1年に満たないときは2,000万円×月数÷12（第4項、暦に従い1月に満たない端数は1月、第6項）。予定申告等の法人は前事業年度の法人税額等による特例（第5項）"
+  },
+  "source": [
+    {
+      "title": "春日井市市税条例 第32条の4・第32条の5",
+      "url": "https://www2.city.kasugai.lg.jp/somu/reiki/reiki_honbun/e000RG00000191.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "春日井市 法人市民税",
+      "url": "https://www.city.kasugai.lg.jp/business/jigyozei/1009903.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "春日井市 税率表（PDF）",
+      "url": "https://www.city.kasugai.lg.jp/_res/projects/default_project/_page_/001/003/444/R1zeiritumark4.pdf",
+      "checked": "2026-11-15"
+    }
+  ]
+}

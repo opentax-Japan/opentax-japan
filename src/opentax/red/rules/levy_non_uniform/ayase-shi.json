@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "綾瀬市",
+  "prefecture": "神奈川県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（綾瀬市市税条例第14条）。資本金等の額が1億円以下の法人・資本若しくは出資を有しない法人（相互会社を除く）・人格のない社団等（受託法人を除く）は8.4分の2.4を控除する（第15条第1項。実質6.0%）。判定は資本金等の額だけで、法人税額の条件はない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "本則（条例本文）の税率と課税の特例で、附則による期限はない",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が1億円以下である法人又は資本若しくは出資を有しない法人（保険業法に規定する相互会社を除く。）又は人格のない社団等（法人税法第4条の3に規定する受託法人を除く。）は、法人税割額から8.4分の2.4を控除（実質6.0%）。資本金等の額が1億円以下かの判定は各事業年度の終了の日の現況による（第15条第2項）。法人税額の上限・分割前・月数換算の定めはない"
+  },
+  "source": [
+    {
+      "title": "綾瀬市市税条例 第14条（法人税割の税率）・第15条（法人の市民税の課税の特例）（綾瀬市例規集）",
+      "url": "https://www1.g-reiki.net/ayase/reiki_honbun/k700RG00000194.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

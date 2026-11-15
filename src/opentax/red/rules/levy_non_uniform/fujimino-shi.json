@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "ふじみ野市",
+  "prefecture": "埼玉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "市の法人市民税のページでは、資本金等の額が1億円を超える法人・相互会社・法人税額が400万円を超える法人（分割前の法人税額、12か月に満たない場合は12か月に換算）は8.4%、それ以外は6.0%。市の例規集はログインが必要なシステム（legal-square）で、条例の条文は確認できていない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに期限の記載なし（条例は未確認）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 4000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 4000000,
+    "rule": "市のページ：資本金等の額が1億円を超える法人、保険業法に規定される相互会社、法人税割の課税標準となる法人税額が400万円を超える法人（分割法人は分割前の法人税額、事業年度が12ヶ月に満たない場合は法人税額を12ヶ月に換算して判定）は8.4%、上記以外は6.0%。資本を有しない法人の扱いの記載なし"
+  },
+  "source": [
+    {
+      "title": "ふじみ野市 法人市民税（法人税割の税率。更新日 2024年12月18日）",
+      "url": "https://www.city.fujimino.saitama.jp/soshikiichiran/zeimuka/shiminzeikakari/houjin/2216.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "ひたちなか市",
+  "prefecture": "茨城県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割は令和元年10月1日以後開始事業年度で、資本金等の額が1億円以上の法人8.4%、1億円未満の法人6.0%（代表者等の定めのある人格のない社団等を含み相互会社を除く）（市「法人市民税について」更新日2022年8月18日）。法人税額による条件なし。期限・条例条番号は記載なし",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに超過課税の期限の記載なし",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 99999999,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が1億円未満の法人（法人でない社団・財団で代表者等の定めのあるものを含み、保険業法の相互会社を除く）は6.0%、1億円以上は8.4%（1億円ちょうどは8.4%なので capital_upto=99,999,999）。法人税額による条件はない"
+  },
+  "source": [
+    {
+      "title": "ひたちなか市 法人市民税について（法人税割の税率。更新日2022年8月18日）",
+      "url": "https://www.city.hitachinaka.lg.jp/kurashi/zeikin/1004378/1004380.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

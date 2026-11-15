@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "富士宮市",
+  "prefecture": "静岡県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "資本金又は出資金の額が1億円を超える法人は8.2%（標準税率分6.0%＋超過税率分2.2%）、それ以外は6.0%（富士宮市「法人市民税（法人税割）の超過課税」）。法人税額による条件はない。条例（例規集）は検索の上限で開けず、条番号は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに現行の超過課税の期限の記載なし（過去の実施期間の最後は令和4年3月31日）",
+      "excess": "8.2",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金又は出資金の額が1億円を超える法人に超過税率8.2%、それ以外の法人は6.0%（法人税額の条件なし）。資本を有しない法人の扱い・判定時点は市のページに記載なし"
+  },
+  "source": [
+    {
+      "title": "富士宮市 法人市民税（法人税割）の超過課税",
+      "url": "https://www.city.fujinomiya.lg.jp/1020400000/p004112.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "jurisdiction": "川崎市",
+  "prefecture": "神奈川県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は資本金の額又は出資金の額で3段階（令和元年10月1日以後開始の事業年度）：資本金の額又は出資金の額が10億円以上（及び保険業法に規定する相互会社）8.4%、5億円以上10億円未満7.2%、5億円未満（及び資本又は出資を有しない法人）6.0%（市の法人市民税の手引き 令和7年12月版 p.7）。法人税額による基準はない。超過課税分は学校教育施設・都市基盤整備の財源。例規集の条文は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "手引きに超過課税の期限の記載はない",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 500000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    },
+    {
+      "rate": "7.2",
+      "basis": "capital",
+      "capital_max": 1000000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 499999999,
+    "tax_annual_upto": null,
+    "rule": "資本金の額又は出資金の額が10億円以上の法人、保険業法に規定する相互会社及び受託法人は8.4%、5億円以上10億円未満の法人は7.2%、5億円未満の法人、資本又は出資を有しない法人及び人格のない社団等は6.0%。法人税額の基準はない。capital_upto は「5億円未満」を表すため499,999,999円"
+  },
+  "source": [
+    {
+      "title": "川崎市 法人市民税の手引き（令和7年12月版。3 法人市民税の税率 (3)法人税割）",
+      "url": "https://www.city.kawasaki.jp/230/cmsfiles/contents/0000038/38321/202512_20goutebiki.pdf",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "川崎市 よくある質問（超過課税を実施していること）",
+      "url": "https://www.city.kawasaki.jp/templates/faq/230/0000012022.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

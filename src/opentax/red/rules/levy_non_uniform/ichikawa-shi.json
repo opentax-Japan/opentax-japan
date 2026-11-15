@@ -1,0 +1,46 @@
+{
+  "jurisdiction": "市川市",
+  "prefecture": "千葉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "市のページ：資本金の額又は出資金の額が5億円以上の法人及び相互会社 8.4%、1億円以上5億円未満 7.2%、1億円未満・資本金又は出資金を有しない法人・法人でない社団等 6.0%（令和元年10月1日以後開始事業年度）。法人税額の条件はない。条例本文は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに期限の記載なし",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 100000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    },
+    {
+      "rate": "7.2",
+      "basis": "capital",
+      "capital_max": 500000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": null,
+    "tax_annual_upto": null,
+    "rule": "3段階（資本金の額又は出資金の額）：5億円以上の法人及び保険業法に規定する相互会社 8.4%、1億円以上5億円未満 7.2%、1億円未満の法人・資本金又は出資金を有しない法人・法人でない社団若しくは財団で代表者又は管理人の定めのあるもの 6.0%。法人税額の条件はない"
+  },
+  "source": [
+    {
+      "title": "市川市 法人税割額（法人税割額の税率表。更新日 2025年10月27日）",
+      "url": "https://www.city.ichikawa.lg.jp/page/6929.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

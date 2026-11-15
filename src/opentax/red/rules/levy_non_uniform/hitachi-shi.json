@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "日立市",
+  "prefecture": "茨城県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割は令和元年10月1日以後開始事業年度で、資本金等の額が1億円未満の法人・資本又は出資を有しない法人（相互会社を除く）・代表者等の定めのある人格のない社団等6.0%、上記以外8.4%（市「4 税額の計算方法と税率」更新日令和6年1月24日）。判定は算定期間の末日現在の資本金等の額。法人税額による条件なし。期限・条例条番号は記載なし",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに超過課税の期限の記載なし",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 99999999,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が1億円未満である法人、資本又は出資を有しない法人（保険業法に規定する相互会社を除く）、法人でない社団又は財団で代表者又は管理人の定めのあるものは6.0%。資本金等の額は算定期間の末日現在（1億円ちょうどは8.4%なので capital_upto=99,999,999）。法人税額による条件はない"
+  },
+  "source": [
+    {
+      "title": "日立市 法人市民税の概要 4 税額の計算方法と税率（更新日令和6年1月24日）",
+      "url": "https://www.city.hitachi.lg.jp/sangyo_business/zeikin/1003062/1003064/1003068.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

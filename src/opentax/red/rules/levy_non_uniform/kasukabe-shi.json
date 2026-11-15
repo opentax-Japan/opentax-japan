@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "春日部市",
+  "prefecture": "埼玉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は8.4%。資本金等の額が1億円以下で課税標準となる法人税額（年額）が1,000万円以下の法人は6.4%（標準税率6.0%ではない。令和元年10月1日以後開始事業年度。市の法人市民税ページの表による）",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市の公式資料に超過課税の期限の記載なし（期限のない税率として扱う）",
+      "excess": "8.4",
+      "standard": "6.4"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.4",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 10000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 10000000,
+    "rule": "8.4%：資本金等の額1億円超、又は資本金等の額1億円以下で法人税額1,000万円超。6.4%：資本金等の額1億円以下（表の区分は1,000万円超〜1億円以下）で法人税額1,000万円以下。資本金等の額が資本金及び資本準備金の合算額に満たない場合はその合算額で区分。2以上の市町村に事務所等を有する法人は分割前の額で判定。事業年度が1年に満たないときは1,000万円×月数÷12（中間申告（仮決算）は500万円）。資本を有しない法人・相互会社の扱いは表の注記に記載なし"
+  },
+  "source": [
+    {
+      "title": "春日部市 法人市民税（更新日 2026年2月27日）",
+      "url": "https://www.city.kasukabe.lg.jp/soshikikarasagasu/shiminzeika/gyomuannai/3/4863.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "春日部市 法人市民税法人税割の税率が変わりました",
+      "url": "https://www.city.kasukabe.lg.jp/soshikikarasagasu/shiminzeika/gyomuannai/3/5/4865.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

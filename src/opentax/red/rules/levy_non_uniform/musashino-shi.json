@@ -1,0 +1,51 @@
+{
+  "jurisdiction": "武蔵野市",
+  "prefecture": "東京都",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は資本金等の額による3段階：10億円以上8.4%、1億円以上10億円未満7.2%、それ以外の法人6.0%（令和元年10月1日以後開始の事業年度。武蔵野市「法人市民税について」「法人市民税の税制改正について」）。法人税額による区分の記載なし。検索の上限に達したため市税条例（例規集）の条文は開けておらず、条番号は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市の案内に超過課税の期限の記載なし（令和元年10月1日以後開始の事業年度は期限なしで表示）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    },
+    {
+      "rate": "7.2",
+      "basis": "capital_etc",
+      "capital_max": 1000000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 99999999,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が10億円以上の法人8.4%、1億円以上10億円未満の法人7.2%、それ以外の法人（資本金等の額1億円未満等）6.0%。資本金等の額は地方税法第292条第1項第4号の5の額（資本金と資本準備金の合算額又は出資金の額に満たない場合は後者）。capital_upto は「1億円未満」を99,999,999円で表したもの。資本を有しない法人の扱い・判定時点は市の案内に記載なし"
+  },
+  "source": [
+    {
+      "title": "武蔵野市 法人市民税について（法人税割税率表。更新日 2026年7月16日）",
+      "url": "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/zeikin/hojinshiminzei/1004629.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "武蔵野市 法人市民税の税制改正について（資本金等の額による区分。掲載日 2022年10月6日）",
+      "url": "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/zeikin/hojinshiminzei/1004631.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

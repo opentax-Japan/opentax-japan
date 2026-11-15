@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "甲賀市",
+  "prefecture": "滋賀県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4。ただし資本金等の金額が1億円以下の法人（相互会社を除く）は100分の7.4（甲賀市税条例第34条の4ただし書）。軽減後の税率は7.4%で、標準税率6.0%ではない。法人税額による区分はない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "条例・市の案内に超過課税の期限の定めは見当たらない（期限なし）",
+      "excess": "8.4",
+      "standard": "7.4"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "7.4",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の金額が1億円以下の法人（保険事業法に規定する相互会社を除く。）は100分の7.4（第34条の4ただし書）。法人税額の要件・分割前の定め・1年未満の月数換算の定めはない。資本又は出資を有しない法人の扱いは条文に明記がない"
+  },
+  "source": [
+    {
+      "title": "甲賀市税条例 第34条の4（法人税割の税率）",
+      "url": "https://reiki.city.koka.lg.jp/reiki_int/reiki_honbun/r055RG00000124.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "甲賀市 法人市民税の税率（法人税割：資本金等の金額1億円超8.4%・1億円以下7.4%）",
+      "url": "https://www.city.koka.lg.jp/12635.htm",
+      "checked": "2026-11-15"
+    }
+  ]
+}

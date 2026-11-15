@@ -1,0 +1,51 @@
+{
+  "jurisdiction": "日野市",
+  "prefecture": "東京都",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（日野市市税条例第32条の4）。第32条の6の2第1項で、資本金の額又は出資金の額が1億円以下の法人・資本又は出資を有しない法人（相互会社を除く）・人格のない社団等・法人課税信託の引受けを行う個人は8.4分の2.4を控除（6.0%）、1億円を超え5億円以下の法人は8.4分の1.2を控除（7.2%）。5億円超は8.4%。3段階で、法人税額の条件はない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "条例本則による恒久的な税率（期限の定めなし）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    },
+    {
+      "rate": "7.2",
+      "basis": "capital",
+      "capital_max": 500000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "3段階。(1) 資本金の額若しくは出資金の額が1億円以下である法人、資本若しくは出資を有しない法人（保険業法に規定する相互会社を除く。）、法人でない社団若しくは財団で代表者若しくは管理人の定めのあるもの又は法人課税信託の引受けを行うことにより法人税を課される個人で市内に事務所若しくは事業所を有するもの：8.4分の2.4を控除（6.0%）。(2) 資本金の額又は出資金の額が1億円を超え5億円以下の法人：8.4分の1.2を控除（7.2%）。(3) それ以外（5億円超・相互会社）：8.4%。資本金の額は法人税額の課税標準の算定期間の末日現在（解散の場合は解散の日現在）（第32条の6の2第2項）。法人税額（分割前・月数換算）の条件はない"
+  },
+  "source": [
+    {
+      "title": "日野市市税条例 第32条の4・第32条の6の2（日野市例規集 g-reiki）",
+      "url": "https://www1.g-reiki.net/hino/reiki_honbun/f900RG00000649.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "日野市 法人市民税の税額（法人税割の税率表 8.4%／7.2%／6.0%。最終更新 2020年1月29日）",
+      "url": "https://www.city.hino.lg.jp/kurashi/zei/houjin/kiso/1006044.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

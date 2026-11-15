@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "蕨市",
+  "prefecture": "埼玉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は8.4%。資本金等の額が1億円未満で、課税標準となる法人税額（分割前）が年額1千万円未満の法人等は6.0%（蕨市「法人税割について」の税率表。更新日 令和元年11月23日）。境界は「1億円以上」「1千万円以上」が8.4%側。相互会社は8.4%。条例本文は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに期限の記載なし（条例本文は未確認）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": false,
+      "tax_annual_max": 10000000,
+      "tax_inclusive": false
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 99999999,
+    "tax_annual_upto": 9999999,
+    "rule": "資本金等の額が1億円以上の法人及び保険業法に規定する相互会社、並びに資本金等の額が1億円未満で法人税割の課税標準となる税額（分割法人にあっては分割前の法人税額）が年額1千万円以上の法人等は8.4%。それ以外は6.0%。1年未満の月数換算・資本を有しない法人の扱いはページに明記なし"
+  },
+  "source": [
+    {
+      "title": "蕨市 法人税割について（税率表。更新日 令和元年11月23日）",
+      "url": "https://www.city.warabi.saitama.jp/kurashi/zei/houjin/1004118.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

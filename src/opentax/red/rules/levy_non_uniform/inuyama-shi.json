@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "犬山市",
+  "prefecture": "愛知県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "令和元年10月1日以後開始の事業年度から、資本金等の額が1億円超、又は1億円以下で法人税額が800万円超の法人は8.4%、1億円以下で法人税額が800万円（分割法人は分割前）以下は6.0%（犬山市「法人市民税」）。超過税率の適用期間を5年延長し令和10年3月31日までの事業年度分に（第7号議案、令和5年2月定例記者会見資料）。条例（例規集）は検索の上限で開けず、条番号は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": "2028-03-31",
+      "fiscal_year_end_to_note": "第7号議案（令和5年2月記者会見資料）「令和10年3月31日」までの事業年度分に延長。条例本文は未確認",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 8000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 8000000,
+    "rule": "資本金等の額が1億円以下で、法人税額が800万円（分割法人にあっては分割前の法人税額）以下は6.0%。1年未満の事業年度・資本を有しない法人の扱いは市のページに記載なし"
+  },
+  "source": [
+    {
+      "title": "犬山市 法人市民税（法人税割の税率）",
+      "url": "https://www.city.inuyama.aichi.jp/kurashi/shizei/1000040/1000046/1000057.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "犬山市 令和5年2月定例記者会見資料（犬山市税条例の一部改正 第7号議案）",
+      "url": "https://www.city.inuyama.aichi.jp/_res/projects/default_project/_page_/001/009/336/202302.pdf",
+      "checked": "2026-11-15"
+    }
+  ]
+}

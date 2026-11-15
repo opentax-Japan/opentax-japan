@@ -1,0 +1,51 @@
+{
+  "jurisdiction": "府中市",
+  "prefecture": "東京都",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は資本金の額又は出資金の額による3段階：10億円以上の法人・相互会社8.4%、5億円以上10億円未満7.2%、5億円未満の法人・上記以外の法人6.0%（令和元年10月1日以後開始の事業年度。府中市FAQ「法人市民税の税率を教えてください」、税率表PDF）。法人税額による区分の記載なし。検索の上限に達したため市税条例（例規集）の条文は開けておらず、条番号は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市の案内に超過課税の期限の記載なし（令和元年10月1日以後開始の事業年度は期限なしで表示）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 500000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    },
+    {
+      "rate": "7.2",
+      "basis": "capital",
+      "capital_max": 1000000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 499999999,
+    "tax_annual_upto": null,
+    "rule": "資本金の額又は出資金の額が10億円以上の法人及び保険業法に規定する相互会社8.4%、5億円以上10億円未満の法人7.2%、5億円未満の法人及び上記以外の法人（資本を有しない法人を含むと読める）6.0%。capital_upto は「5億円未満」を499,999,999円で表したもの。判定時点は市の案内に記載なし"
+  },
+  "source": [
+    {
+      "title": "府中市 法人市民税の税率を教えてください（最終更新 2022年4月1日）",
+      "url": "https://www.city.fuchu.tokyo.jp/faq/tax/houjin/faq2.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "府中市 法人市民税法人税割の税率の引下げについて（府中市 法人市民税 税率表 PDF）",
+      "url": "https://www.city.fuchu.tokyo.jp/kurashi/shinsesho/kurashi/zekin/hojin-todokedeyosiki.files/hojinzeiritu.pdf",
+      "checked": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "東大和市",
+  "prefecture": "東京都",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（東大和市税条例第31条の4）。資本金の額若しくは出資金の額が1億円未満の法人等は、8.4%の法人税割額からその8.4分の2.4を控除する（第31条の5。結果6.0%）。法人税額による区分はない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "期限なし（本則の規定で、附則による期限の定めはない）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 100000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 99999999,
+    "tax_annual_upto": null,
+    "rule": "資本金の額若しくは出資金の額が1億円未満の法人、資本金の額若しくは出資金の額を有しない法人（保険業法に規定する相互会社を除く。）、第20条第1項第5号に規定する法人税を課される個人又は同条第3項の規定により法人とみなされる社団若しくは財団は、法人税割額から8.4分の2.4を控除（実質6.0%）。法人税額の条件はない（分割前・月数換算の規定もない）。1億円未満かどうかは各事業年度・各連結事業年度の終了の日（予定申告（法人税法第72条第1項適用）はその事業年度開始の日から6月を経過した期間の末日）の現況、清算中の法人は解散の日の現況による（第31条の5第2項）。資本金1億円ちょうどの法人は8.4%"
+  },
+  "source": [
+    {
+      "title": "東大和市税条例 第31条の4（法人税割の税率）・第31条の5（法人等の市民税の課税の特例）（東大和市例規集）",
+      "url": "https://www.city.higashiyamato.lg.jp/reiki/reiki_honbun/g144RG00000208.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "東大和市 法人市民税のあらまし",
+      "url": "https://www.city.higashiyamato.lg.jp/kurashi/zei/1001779/1001780.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

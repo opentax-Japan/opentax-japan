@@ -1,0 +1,80 @@
+{
+  "jurisdiction": "中野市",
+  "prefecture": "長野県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は本則100分の8.4（中野市市税条例第34条の4）。令和4年10月1日以後開始の事業年度から、資本金等の額1億円以下の法人等は8.4分の1.2を控除（第34条の4の2。実質7.2%。令和4年条例附則第2項）。令和8年3月27日条例第4号で控除を8.4分の2.4に改正（令和8年10月1日施行、同日以後開始の事業年度から。実質6.0%）。令和元年10月1日〜令和4年9月30日開始の事業年度は全法人8.4%",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": "2022-09-30",
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "この期間は軽減なし（全法人8.4%）",
+      "excess": "8.4",
+      "standard": "6.0",
+      "tiers": []
+    },
+    {
+      "fiscal_year_start_from": "2022-10-01",
+      "fiscal_year_start_to": "2026-09-30",
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "資本金等の額1億円以下の法人等は7.2%（8.4分の1.2控除）",
+      "excess": "8.4",
+      "standard": "6.0",
+      "tiers": [
+        {
+          "rate": "7.2",
+          "basis": "capital_etc",
+          "capital_max": 100000000,
+          "capital_inclusive": true,
+          "tax_annual_max": null,
+          "tax_inclusive": true
+        }
+      ]
+    },
+    {
+      "fiscal_year_start_from": "2026-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "資本金等の額1億円以下の法人等は6.0%（8.4分の2.4控除。令和8年条例第4号）。期限の定めは見当たらない",
+      "excess": "8.4",
+      "standard": "6.0",
+      "tiers": [
+        {
+          "rate": "6.0",
+          "basis": "capital_etc",
+          "capital_max": 100000000,
+          "capital_inclusive": true,
+          "tax_annual_max": null,
+          "tax_inclusive": true
+        }
+      ]
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が1億円以下である法人、資本若しくは出資を有しない法人（保険業法に規定する相互会社を除く。）又は法人でない社団若しくは財団で代表者若しくは管理人の定めのあるものは、法人税割額から8.4分の1.2（令和8年10月1日以後開始の事業年度は8.4分の2.4）を控除。資本金等の額の判定は各事業年度終了の日（予定申告は事業年度開始の日から6月の期間の末日、清算中は解散・合併の日）の現況（第34条の4の2第1項・第2項）。法人税額の条件・分割前・1年未満の月数換算の定めはない"
+  },
+  "source": [
+    {
+      "title": "中野市市税条例 第34条の4・第34条の4の2・附則（令和4年・令和8年3月27日条例第4号）（中野市例規集）",
+      "url": "https://en3-jg.d1-law.com/nakano/d1w_reiki/H417901010086/H417901010086_j.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "中野市市税条例 未施行版（第34条の4の2 8.4分の2.4）（中野市例規集）",
+      "url": "https://en3-jg.d1-law.com/nakano/d1w_reiki/H417901010086/H417901010086_misikou_j.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "中野市 法人市民税について（税率の推移。更新日 2026年8月21日）",
+      "url": "https://www.city.nakano.nagano.jp/docs/2014020600629/",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "中野市 法人税割の税率改正について（2026年10月1日以後開始の事業年度から6.0%。更新日 2026年8月21日）",
+      "url": "https://www.city.nakano.nagano.jp/docs/2019082800031/",
+      "checked": "2026-11-15"
+    }
+  ]
+}

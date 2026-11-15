@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "川口市",
+  "prefecture": "埼玉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は8.4%。資本金等の額が1億円未満で分割前の課税標準となる法人税額が年1千万円未満の法人は6.0%（市の税率表PDF。区分は「資本金等の額」で、境は「以上/未満」）",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市の公式資料に超過課税の期限の記載なし（期限のない税率として扱う）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": false,
+      "tax_annual_max": 10000000,
+      "tax_inclusive": false
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 10000000,
+    "rule": "資本金等の額（地方税法第292条第1項第4号の5。資本金及び資本準備金の合算額を下回る場合はその合算額）が1億円未満で、分割前の課税標準となる法人税額が年1千万円未満の法人は6.0%。資本金等の額1億円以上の法人、及び1億円未満で年1千万円以上の法人は8.4%。1年未満の月数換算・資本を有しない法人・相互会社の扱いは市の資料に記載なし"
+  },
+  "source": [
+    {
+      "title": "川口市 法人市民税の税率と計算方法（PDF）",
+      "url": "https://www.city.kawaguchi.lg.jp/material/files/group/23/zeiritutokeisannhouhou.pdf",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "川口市 法人市民税の概要（更新日 2023年12月13日）",
+      "url": "https://www.city.kawaguchi.lg.jp/soshiki/01050/080/houjinnshiminzei/2768.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

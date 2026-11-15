@@ -1,0 +1,48 @@
+{
+  "jurisdiction": "苫小牧市",
+  "prefecture": "北海道",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割は資本金等の額が3,000万円を超える法人8.4%（超過税率）、3,000万円以下の法人6.0%（市「法人市民税について」・市税ガイド令和8年度17ページ）。超過税率の適用期間は平成9年2月1日から令和9年1月31日までに終了する事業年度分。期限を設けず恒久化する市税条例改正案（令和8年7〜8月パブリックコメント）あり。条例の条番号は市のページに記載なし（例規集は検索上限のため未確認）",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": "2027-01-31",
+      "fiscal_year_end_to_note": "市のページ「適用期間は平成9年2月1日から令和9年1月31日までに終了する事業年度分」。恒久化（期限を設けない）の市税条例改正案あり（法人市民税の超過課税（案）について、令和8年7月10日〜8月10日意見募集）。議決は未確認",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 30000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 30000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が3,000万円以下の法人は6.0%、3,000万円を超える法人は8.4%。法人税額による条件はない。判定時点・資本を有しない法人の扱いは市のページに記載なし"
+  },
+  "source": [
+    {
+      "title": "苫小牧市 法人市民税について（法人税割の税率表・超過税率の適用期間）",
+      "url": "https://www.city.tomakomai.hokkaido.jp/kurashi/zeikin/shiminzei/hojin/hojinzeikin.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "苫小牧市 法人市民税の超過課税(案)について（恒久化案）",
+      "url": "https://www.city.tomakomai.hokkaido.jp/kurashi/zeikin/shiminzei/hojin/tyoka-an.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "苫小牧市 市税ガイド 令和8年度 17ページ（法人税割の税率 資本金等の額 3千万円以下6.0%・3千万円超8.4%）",
+      "url": "https://www.city.tomakomai.hokkaido.jp/files/00000600/00000618/20260825113403.pdf",
+      "checked": "2026-11-15"
+    }
+  ]
+}

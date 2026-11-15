@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "秩父市",
+  "prefecture": "埼玉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は8.4%。資本金等の額が1億円以下で法人税額（分割前）が年400万円以下の法人等は6.0%（令和元年10月1日以後開始事業年度。市の法人市民税ページによる）",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市の公式資料に超過課税の期限の記載なし（期限のない税率として扱う）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 4000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 4000000,
+    "rule": "8.4%：資本金等の額が1億円を超える法人及び保険業法に規定する相互会社、資本金等の額が1億円以下で法人税割の課税標準となる法人税額（分割法人にあっては分割前の法人税額）が年400万円を超える法人等。6.0%：上欄に該当しない法人等。市のページは資本金等の額の資本金＋資本準備金による下限調整は「法人税割の税率区分の基準には適用しません」とする。1年未満の月数換算・資本を有しない法人の扱いは記載なし"
+  },
+  "source": [
+    {
+      "title": "秩父市 法人市民税（ページに更新日の表示なし）",
+      "url": "https://www.city.chichibu.lg.jp/1755.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "jurisdiction": "小牧市",
+  "prefecture": "愛知県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "公式の資料を開けなかった。市の公式サイトはボット対策（Incapsula）で自動取得がリダイレクトループになり開けない。例規集もg-reiki（www1.g-reiki.net/komaki/ は500エラー）・D1-Law（en*-jg.d1-law.com/komaki）では見つからない。Web検索も回数上限で使えず。総務省の最高税率8.4%は依頼の一覧による",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "不明（公式の資料を開けなかった）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "unsupported": "公式の資料が見つからない（市のサイトはボット対策で開けず、例規集も見つからない）",
+  "reduced_condition": {
+    "capital_upto": null,
+    "tax_annual_upto": null,
+    "rule": "不明（公式の資料を開けなかった）"
+  },
+  "source": [
+    {
+      "title": "小牧市 公式ホームページ（ボット対策のため開けず）",
+      "url": "https://www.city.komaki.aichi.jp/",
+      "checked": "2026-11-15"
+    }
+  ]
+}

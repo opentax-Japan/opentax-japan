@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "桶川市",
+  "prefecture": "埼玉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は8.4%。資本金等の額が1億円以下（資本等を有しない法人・法人とみなされる社団財団を含む）で法人税額（分割前）が年400万円以下の法人は6.0%（桶川市「法人市民税の税率について」）。条例本文は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに期限の記載なし（条例本文は未確認）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 4000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 4000000,
+    "rule": "資本金等の額（地方税法第292条第1項第4号の2）が1億円以下である法人若しくは資本等を有しない法人または法人とみなされる社団若しくは財団で、かつ、法人税割の課税標準となる法人税額（分割法人にあっては分割前の法人税額）が年400万円以下のものは6.0%。それ以外は8.4%。1年未満の月数換算はページに記載なし"
+  },
+  "source": [
+    {
+      "title": "桶川市 法人市民税の税率について",
+      "url": "https://www.city.okegawa.lg.jp/jigyosha/zei/hojinzei/2738.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

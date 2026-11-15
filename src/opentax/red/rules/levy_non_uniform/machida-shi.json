@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "町田市",
+  "prefecture": "東京都",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "町田市の法人市民税のページでは、令和元年10月1日以後開始の事業年度の法人税割は「資本金または出資金が1億円超の法人（相互会社を含む）」8.4%、「上記以外の法人」6.0%。法人税額による条件はない。市の例規集（Reiki-Base、krg133.legal-square.com）はセッション型の画面で条文を開けなかったため、条文番号は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに期限の記載なし（町田市市税条例の条文は未確認）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金の額または出資金の額が1億円以下の法人（相互会社を除く）は6.0%、1億円超の法人と相互会社は8.4%。法人税額（分割前・月数換算）の条件はない。資本を有しない法人は市のページに個別の記載がないが「上記以外の法人」として6.0%と読める。判定日は市のページに記載なし（条例未確認）"
+  },
+  "source": [
+    {
+      "title": "町田市 法人市民税の法人税割について（税率表）",
+      "url": "https://www.city.machida.tokyo.jp/kurashi/tax/hojin/hojin01.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "町田市 例規集・要綱集（Reiki-Base。セッション型で条文は開けなかった）",
+      "url": "https://www.city.machida.tokyo.jp/shisei/machida_reiki_youkou.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "いわき市",
+  "prefecture": "福島県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "市税のしおり（令和7年度版）24ページ：法人税割の税率は資本金等の額1億円未満の法人7.4%、1億円以上の法人8.4%（令和元年10月1日以後に開始する事業年度）。法人税額による条件の記載なし。軽い方の税率が標準税率6.0%ではなく7.4%。市の法人市民税のページ・条例は検索上限のため未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "しおりに超過課税の期限の記載なし",
+      "excess": "8.4",
+      "standard": "7.4"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "7.4",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 99999999,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が1億円未満の法人は7.4%、1億円以上の法人は8.4%（しおりの表。1億円ちょうどは8.4%なので capital_upto=99,999,999 とした）。法人税額による条件はない"
+  },
+  "source": [
+    {
+      "title": "いわき市 市税のしおり 令和7年度版 24ページ（法人税割額の計算・税率表）",
+      "url": "https://www.city.iwaki.lg.jp/www/contents/1504515480994/simple/r7-zennbu.pdf",
+      "checked": "2026-11-15"
+    }
+  ]
+}

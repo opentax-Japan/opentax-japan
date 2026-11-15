@@ -1,0 +1,51 @@
+{
+  "jurisdiction": "西東京市",
+  "prefecture": "東京都",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は資本金等の額で3段階（令和元年10月1日以後開始の事業年度）：1億円以下6.0%、1億円超10億円以下7.2%、10億円超8.4%（市の法人市民税ページの税率表）。法人税額による基準はない。例規集（legal-square）は開けず条文番号は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに超過課税の期限の記載はない",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    },
+    {
+      "rate": "7.2",
+      "basis": "capital_etc",
+      "capital_max": 1000000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が1億円以下の法人は6.0%、1億円超10億円以下は7.2%、10億円超は8.4%（市内従業者数50人以下・50人超とも同じ）。法人税額の基準・分割前・月数換算の記載はない。法人課税信託の引受けを行うことにより法人税を課される個人は標準税率（6.0%）。資本を有しない法人の扱いは記載なし"
+  },
+  "source": [
+    {
+      "title": "西東京市 法人市民税（法人税割の税率表。最終更新日 2023年3月7日）",
+      "url": "https://www.city.nishitokyo.lg.jp/kurasi/zeikin/hozin/nishitokyocity20191023101320499.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "西東京市 例規・要綱集（例規集は legal-square のログイン画面で、条文は開けなかった）",
+      "url": "https://www.city.nishitokyo.lg.jp/siseizyoho/reiki.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

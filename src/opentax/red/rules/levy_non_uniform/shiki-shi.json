@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "志木市",
+  "prefecture": "埼玉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は8.4%。資本金（額）1億円以下の法人で法人税割の課税標準となる法人税額が年400万円以下のものは6.0%（志木市「法人市民税」の法人税割の表。更新日2026年9月29日）。資本金又は出資金を有しない法人等は1億円以下の側。相互会社は8.4%。例規集（d1-law opensearch）は動的ページで条文を開けず、分割前か・1年未満の月数換算は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに期限の記載なし（条例本文は未確認）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 4000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 4000000,
+    "rule": "1億円を超える法人及び保険業法に規定する相互会社は8.4%。1億円以下の法人（資本金又は出資金を有しない法人等を含む）で法人税割の課税標準となる法人税額が年400万円を超えるものは8.4%、年400万円以下のものは6.0%。市のページは「資本金額の規模と法人税額に応じて区別」とあり、資本金等の額でなく資本金の額と読める。分割前の額か・1年未満の月数換算は市のページに記載がなく、条例で未確認"
+  },
+  "source": [
+    {
+      "title": "志木市 法人市民税（法人税割の税率表。更新日2026年9月29日）",
+      "url": "https://www.city.shiki.lg.jp/soshiki/9/30736.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "名古屋市",
+  "prefecture": "愛知県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は令和元年10月1日以後開始の事業年度から8.4%。資本の金額若しくは出資金額が1億円以下の法人（人格のない社団等を含む）又は資本等を有しない法人（相互会社を除く）で、法人税割の課税標準となる法人税額が年2,500万円以下のものは6.0%（実質的に標準税率相当額）。市税条例（例規集）は検索の上限で開けず、条番号は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページ・税率の推移PDFに超過課税の期限の記載なし",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 25000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 25000000,
+    "rule": "資本の金額若しくは出資金額が1億円以下の法人（人格のない社団等を含む）又は資本の金額若しくは出資金額を有しない法人（保険業法に規定する相互会社を除く）で、法人税割の課税標準となる法人税額が年2,500万円以下のもの。2以上の市町村に事務所等がある法人は市町村ごとに按分する前の法人税額で判定。事業年度が1年に満たないときは2,500万円×事業年度の月数÷12で判定"
+  },
+  "source": [
+    {
+      "title": "名古屋市 法人市民税（あらまし・税率）",
+      "url": "https://www.city.nagoya.jp/jigyou/zei/1037360/1011928/1011929.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "名古屋市における法人税割の税率の推移（PDF。標準税率が適用される法人等の要件）",
+      "url": "https://www.city.nagoya.jp/_res/projects/default_project/_page_/001/011/929/01.10houjinzeiwarisuii.pdf",
+      "checked": "2026-11-15"
+    }
+  ]
+}

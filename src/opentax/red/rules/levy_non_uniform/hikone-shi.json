@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "彦根市",
+  "prefecture": "滋賀県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（彦根市市税条例第34条の4）。中小法人等は8.4%の法人税割額からその84分の10を控除する（第34条の4の2第1項。結果は7.4%）。軽減後の税率は7.4%で、標準税率6.0%ではない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "条例・市の案内に超過課税の期限の定めは見当たらない（期限なし）",
+      "excess": "8.4",
+      "standard": "7.4"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "7.4",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 5000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 5000000,
+    "rule": "資本金等の額が1億円以下の法人もしくは資本もしくは出資を有しない法人（保険業法に規定する相互会社を除く。）または第24条第3項において法人とみなされるもの（人格のない社団等）であって、かつ、法人税割の課税標準となる法人税額または個別帰属法人税額が年500万円以下であるもの。資本金等の額の判定は法第312条第3項各号の日現在（第2項）。法人税額は関係市町村に分割される前の額（第3項）。算定期間が1年に満たないときは500万円×月数÷12（第4項。月数は暦に従い1月未満の端数は1月。第6項）。予定申告法人は前事業年度の法人税割の課税標準となる法人税額を前事業年度の月数で除して12倍した額による（第5項）"
+  },
+  "source": [
+    {
+      "title": "彦根市市税条例 第34条の4・第34条の4の2（中小法人等に対する不均一課税）",
+      "url": "https://www.city.hikone.lg.jp/section/reiki_int/act/110000300.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "彦根市 法人市民税の概要（法人税割の税率表。更新日 2025年12月10日）",
+      "url": "https://www.city.hikone.lg.jp/kakuka/somubu/6/syuruishikumi/houjinshiminzei/28686.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

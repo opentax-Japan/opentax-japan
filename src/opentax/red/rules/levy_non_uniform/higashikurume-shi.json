@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "東久留米市",
+  "prefecture": "東京都",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（東久留米市税条例第34条の4）。資本金等の額が1億円未満の法人等は、8.4%の法人税割額からその8.4分の2.4を控除する（第34条の5。結果6.0%）。判定は「資本金等の額」で、法人税額による区分はない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "期限なし（本則の規定で、附則による期限の定めはない）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 99999999,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が1億円未満の法人、資本若しくは出資を有しない法人（保険業法に規定する相互会社を除く。）又は法人でない社団若しくは財団で代表者若しくは管理人の定めのあるもの、及び第23条第1項第5号のもの（法人税を課される個人）は、法人税割額から8.4分の2.4を控除（実質6.0%）。法人税額の条件はない（分割前・月数換算の規定もない）。資本金等の額が資本金の額及び資本準備金の額の合算額又は出資金の額に満たない法人は、その合算額又は出資金の額で判定する（第34条の5第3項）。判定は各事業年度・各連結事業年度・各計算期間の終了の日（予定申告はその事業年度開始の日から6月の期間の末日）、清算中の法人は解散の日の現況による（同条第2項）"
+  },
+  "source": [
+    {
+      "title": "東久留米市税条例 第34条の4（法人税割の税率）・第34条の5（法人等の市民税の課税の特例）（東久留米市例規集）",
+      "url": "https://www2.city.higashikurume.lg.jp/reiki_int/reiki_honbun/g146RG00000223.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "東久留米市 法人市民税のあらまし（法人税割 資本金等の額1億円以上8.4％・1億円未満6.0％）",
+      "url": "https://www.city.higashikurume.lg.jp/kurashi/zei/shizei/houjin/1000868.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "新城市",
+  "prefecture": "愛知県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（新城市税条例第34条の4。本則で期限なし）。資本金等の額が1億円以下等で法人税額が年1,000万円以下の法人は8.4%の法人税割額からその8.4分の2.4を控除（第34条の5。6.0%と同じ）。市の案内も「資本金等の額が1億円以下でかつ課税標準となる法人税額が1,000万円以下」は6.0%",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "本則（第34条の4）で定めており期限なし",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 10000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 10000000,
+    "rule": "資本金等の額（法人税法第2条第16号に規定する資本金等の額又は連結個別資本金等の額）が1億円以下である法人若しくは資本若しくは出資を有しない法人（保険業法に規定する相互会社を除く。）又は第23条第3項において法人とみなされるもので、かつ法人税額又は個別帰属法人税額が年1,000万円以下のもの。法人税額は関係市町村に分割される前の額。資本金等の額は法第312条第3項各号の日現在。算定期間が1年に満たないときは1,000万円×月数÷12（月数は暦に従い1月未満の端数は1月）。予定申告は前事業年度の実績で判定（第34条の5第1項〜第6項）"
+  },
+  "source": [
+    {
+      "title": "新城市税条例 第34条の4・第34条の5（法人の市民税の課税の特例）",
+      "url": "https://www1.g-reiki.net/shinshiro/reiki_honbun/r366RG00000197.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "新城市 法人市民税（法人税割の税率表。更新日 2026年11月2日）",
+      "url": "https://www.city.shinshiro.lg.jp/kurashi/zeikin/sikenminzei/hojiinshiminzei.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "jurisdiction": "逗子市",
+  "prefecture": "神奈川県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は資本金等の額で3段階：10億円以上8.4%、5億円以上10億円未満7.2%、5億円未満・資本又は出資を有しない法人（相互会社を除く）・人格のない社団等6.0%（令和元年10月1日以後開始の事業年度。逗子市「法人の市民税率」）。法人税額による条件はない。ページに条例の条文番号の記載なし。例規集の条文はWeb検索の上限に達したため開けていない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに超過課税の期限の記載はない",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 500000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    },
+    {
+      "rate": "7.2",
+      "basis": "capital_etc",
+      "capital_max": 1000000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 499999999,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が5億円未満の法人、資本又は出資を有しない法人（保険業法に規定する相互会社を除く）及び人格のない社団等は6.0%。5億円以上10億円未満は7.2%、10億円以上は8.4%。法人税額（分割前・月数換算）による条件はない。capital_upto は「5億円未満」を円単位で 499,999,999 と表したもの"
+  },
+  "source": [
+    {
+      "title": "逗子市 法人の市民税率（法人税割の税率表）",
+      "url": "https://www.city.zushi.kanagawa.jp/kurashi/zeikin/1001809/1001871/1001874.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

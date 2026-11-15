@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "狭山市",
+  "prefecture": "埼玉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は8.4%。資本金の額又は出資金額が10億円以下で、かつ課税標準となる法人税額（分割前）が1,000万円以下の法人は6.0%（令和元年10月1日以後開始事業年度。市の法人市民税税率表 令和元年11月15日版）",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市の公式資料に超過課税の期限の記載なし（期限のない税率として扱う）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 1000000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 10000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 1000000000,
+    "tax_annual_upto": 10000000,
+    "rule": "8.4%：①資本金の額又は出資金額が10億円を超える法人、②法人税割の課税標準となる法人税額（分割前）が1,000万円を超える法人、③保険業法に規定される相互会社のいずれか。6.0%：上記以外の法人（資本金の額又は出資金額が10億円以下で、かつ、法人税額（分割前）が1,000万円以下）。中間申告又は事業年度が1年に満たない法人等は1,000万円×算定期間の月数（1月に満たない端数は切上げ）÷12と読み替え。資本を有しない法人は①に当たらないので法人税額だけで判定（市のページは法人課税信託の引受けを行う個人も資本等を有しない法人に準じるとする）"
+  },
+  "source": [
+    {
+      "title": "狭山市 法人税割とは（更新日 2020年1月16日）",
+      "url": "https://www.city.sayama.saitama.jp/jigyo/shizei/hojin/houjin_zeiwari.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "狭山市 法人市民税税率表（令和元年10月1日以降。令和元年11月15日版 PDF）",
+      "url": "https://www.city.sayama.saitama.jp/jigyo/shizei/hojin/houjin_zeiwari.files/0110zeirituhyou.pdf",
+      "checked": "2026-11-15"
+    }
+  ]
+}

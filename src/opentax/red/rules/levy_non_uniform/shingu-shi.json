@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "新宮市",
+  "prefecture": "和歌山県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（新宮市税条例第34条の4）。資本金等の額が1億円以下の法人等で法人税額が年500万円以下のものは100分の6.0（第34条の6の2）",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "超過課税の期限の定めなし（条例本則または附則「当分の間」）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 5000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 5000000,
+    "rule": "資本金等の額が1億円以下の法人若しくは資本若しくは出資を有しない法人（相互会社を除く）又は第23条第3項において法人とみなされるものであって、かつ、法人税割の課税標準となる法人税額が年500万円以下の法人等（清算所得に係る法人税割額を含む）。判定は算定期間の末日（解散の場合は解散の日）の現況（第2項）、法人税額は分割前（第3項）、算定期間が1年に満たないときは500万円×月数÷12（第4項。月数の端数処理の規定は見当たらない）、予定申告法人は前事業年度の額を月数で除し12を乗じた額（第5項）"
+  },
+  "source": [
+    {
+      "title": "新宮市税条例 第34条の4・第34条の6の2（新宮市例規集）",
+      "url": "https://www.city.shingu.lg.jp/div/soumu-1/htm/d1w_reiki/H417901010069/H417901010069_j.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

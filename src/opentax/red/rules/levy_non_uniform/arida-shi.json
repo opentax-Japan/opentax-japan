@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "有田市",
+  "prefecture": "和歌山県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は第34条の4の表による。(1)資本金等の額が1億円を超える法人又は法人税割の課税標準となる法人税額が年500万円以上の法人及び相互会社は100分の8.4、(2)それ以外の法人等は100分の6（有田市税条例第34条の4）",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "本則の税率表。期限の定めなし",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 5000000,
+      "tax_inclusive": false
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 5000000,
+    "rule": "8.4%は「資本金等の額（法第292条第1項第4号の2）が1億円を超える法人又は法人税割の課税標準となる法人税額が年500万円以上の法人及び保険業法に規定する相互会社」。それ以外（資本金等の額1億円以下かつ法人税額年500万円未満。資本を有しない法人を含む）は6%。条文上、分割前か・1年未満の月数換算・判定日の定めは見当たらない"
+  },
+  "source": [
+    {
+      "title": "有田市税条例 第34条の4（有田市例規集）",
+      "url": "http://www2.city.arida.lg.jp/e_reiki/H415901010003/H415901010003_j.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

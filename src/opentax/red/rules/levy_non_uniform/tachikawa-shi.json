@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "立川市",
+  "prefecture": "東京都",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は、資本金の額又は出資金の額が1億円以下の法人6.0%、1億円を超える法人・保険業法に規定する相互会社8.4%（令和元年10月1日以後開始の事業年度。立川市「法人市民税（申告のご案内）」）。法人税額による区分の記載なし。検索の上限に達したため市税条例（例規集）の条文は開けておらず、条番号は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市の案内に超過課税の期限の記載なし（令和元年10月1日以後開始の事業年度は期限なしで表示）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金の額又は出資金の額が1億円以下の法人は6.0%、1億円を超える法人及び保険業法に規定する相互会社は8.4%（市の案内）。法人税額の基準・資本を有しない法人の扱い・判定時点は市の案内に記載なし"
+  },
+  "source": [
+    {
+      "title": "立川市 法人市民税（申告のご案内）（法人税割の税率表。更新日 2025年12月26日）",
+      "url": "https://www.city.tachikawa.lg.jp/kurashi/zeikin/1002345/1002415.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "安曇野市",
+  "prefecture": "長野県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "市の法人市民税の税率ページでは、令和元年10月1日以後開始の事業年度の法人税割の税率は、資本金等の額が1億円未満の法人7.6%、1億円以上の法人8.4%（制限税率）。資本金等の額は法人税の期末現在の資本金等の額。法人税額による条件はない。例規集は見つからず、条番号は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに期限の記載はない",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "7.6",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 99999999,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額（法人税の期末現在の資本金等の額又は連結個別資本金等の額）が1億円未満の法人は7.6%、1億円以上の法人は8.4%。法人税額の上限・分割前・1年未満の月数換算・資本を有しない法人の扱いの記載はない"
+  },
+  "source": [
+    {
+      "title": "安曇野市 法人市民税の税率について（2026年10月1日更新）",
+      "url": "https://www.city.azumino.nagano.jp/soshiki/1000/439.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

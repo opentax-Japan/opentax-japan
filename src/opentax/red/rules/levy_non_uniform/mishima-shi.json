@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "三島市",
+  "prefecture": "静岡県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は令和元年10月1日以後開始の事業年度から、資本金等の額が1億円を超える法人（純資産額が1億円を超える相互会社を含む）8.2%、資本金等の額が1億円以下の法人等6.0%（三島市「法人の納める市民税」表4）。法人税額による条件はない。超過分は教育施設の整備・拡充の財源。条例（例規集）は検索の上限で開けず、条番号は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに超過課税の期限の記載なし（昭和50年4月1日以後に終了する事業年度から実施）",
+      "excess": "8.2",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額（地方税法第292条第1項第4号の2）が1億円以下の法人等は6.0%（法人税額の条件なし）。資本金等は原則として事業年度の末日で判定。資本を有しない法人は「法人等」として6.0%側と読めるが、条例未確認"
+  },
+  "source": [
+    {
+      "title": "三島市 法人の納める市民税（法人税割の税率 表4）",
+      "url": "https://www.city.mishima.shizuoka.jp/page/2815.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

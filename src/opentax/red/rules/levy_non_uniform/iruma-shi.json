@@ -1,0 +1,46 @@
+{
+  "jurisdiction": "入間市",
+  "prefecture": "埼玉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は資本金等の額で3段階：10億円超8.4%、1億円超10億円以下7.2%、それ以外6.0%（入間市「法人市民税の概要」の法人税割税率表）。法人税額による区分はない。条例本文は未確認",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに期限の記載なし（条例本文は未確認）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    },
+    {
+      "rate": "7.2",
+      "basis": "capital_etc",
+      "capital_max": 1000000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が10億円を超える法人8.4%、資本金等の額が1億円を超え10億円以下の法人7.2%、上記以外の法人6.0%。法人税額の条件はない"
+  },
+  "source": [
+    {
+      "title": "入間市 法人市民税の概要（法人税割税率表）",
+      "url": "https://www.city.iruma.saitama.jp/kurashi/zeikin/hojinshiminzei/5965.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

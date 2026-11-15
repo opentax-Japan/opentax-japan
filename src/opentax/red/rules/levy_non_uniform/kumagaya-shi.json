@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "熊谷市",
+  "prefecture": "埼玉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は8.4%。資本金の額又は出資金の額が1億円以下で法人税額（年額）が400万円以下の法人は6.0%（令和元年10月1日以後開始事業年度。市の税率ページによる。条番号は記載なし）",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市の公式資料に超過課税の期限の記載なし（期限のない税率として扱う）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 4000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 4000000,
+    "rule": "資本金の額又は出資金の額が1億円以下で、法人税割の課税標準となる法人税額（年額）が400万円以下の法人。保険業法の相互会社は8.4%。2以上の区市町村に事務所等を有する法人は分割前の法人税額で判定。事業年度が1年に満たないときは月数で換算（月数は暦に従い1か月未満切上げ。中間申告は6か月で200万円）。資本を有しない法人の扱いは記載なし"
+  },
+  "source": [
+    {
+      "title": "熊谷市 (2)法人市民税の税率（更新日 2019年5月13日）",
+      "url": "https://www.city.kumagaya.lg.jp/kurashi/zeikin/houjinsiminzei/shiminzei_houjin.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

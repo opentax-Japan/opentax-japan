@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "飯塚市",
+  "prefecture": "福岡県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は本則100分の6.0（飯塚市税条例第34条の4）、当分の間100分の8.4（附則第18条の2）。資本金等の額が1億円以下の法人は8.4%の法人税割額からその8.4分の2.4を控除（附則第18条の3。6.0%と同じ）",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "附則第18条の2「当分の間」。期限の定めなし",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "市内に事務所又は事業所を有する法人のうち資本金等の額が1億円以下のもの。法人税額の条件はない。判定は法第312条第3項第1号又は第2号の区分に応じ当該各号に掲げる日の現況（附則第18条の4）。資本金等の額が資本金の額及び資本準備金の額の合算額又は出資金の額に満たないときはその合算額等で判定（附則第18条の5）。資本を有しない法人の扱いの規定は見当たらない"
+  },
+  "source": [
+    {
+      "title": "飯塚市税条例 第34条の4・附則第18条の2〜第18条の5（飯塚市例規集 内容現在 令和8年7月10日）",
+      "url": "https://www1.g-reiki.net/city.iizuka/reiki_honbun/r320RG00000146.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

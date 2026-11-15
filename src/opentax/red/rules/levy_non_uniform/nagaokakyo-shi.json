@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "長岡京市",
+  "prefecture": "京都府",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（長岡京市税条例第32条の2）。資本金等の額が1億円以下の法人は8.4%の法人税割額からその8.4分の2.4を控除する（第32条の2の2。6.0%と同じ）。法人税額の条件はない。市のページの税率表は画像のため読めず、条例による",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "条例に期限の定めはない（本則の税率）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が1億円以下である法人。法人税額の条件はない。資本金等の額は算定期間の末日現在又は解散若しくは合併の日現在で判定。資本金等の額が資本金の額及び資本準備金の額の合算額又は出資金の額に満たないときはその合算額等で判定（第32条の2の2第1項〜第3項）。資本を有しない法人について条文に明記はない"
+  },
+  "source": [
+    {
+      "title": "長岡京市税条例 第32条の2・第32条の2の2",
+      "url": "https://www.city.nagaokakyo.lg.jp/html/reiki/reiki_honbun/b400RG00000134.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "長岡京市 法人市民税",
+      "url": "https://www.city.nagaokakyo.lg.jp/0000009925.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

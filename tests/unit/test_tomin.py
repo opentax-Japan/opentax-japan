@@ -201,8 +201,9 @@ class NonUniformCityTest(unittest.TestCase):
         self.assertEqual(self.pct("大阪府", "大阪市", 10_000_000, 10_001_000, 6), "8.2")
 
     def test_other_non_uniform_city_stops(self):
-        with self.assertRaisesRegex(model.OutOfScope, "仙台市は法人税割に不均一課税"):
-            self.pct("宮城県", "仙台市", 10_000_000, 1_000_000)
+        with self.assertRaisesRegex(model.OutOfScope, "市原市の法人税割の不均一課税は計算できません"):
+            self.pct("千葉県", "市原市", 10_000_000, 1_000_000)
+        self.assertEqual(self.pct("宮城県", "仙台市", 10_000_000, 1_000_000), "6.0")      # 2026-11-15 市の資料で確かめた設定を足した
         self.assertEqual(self.pct("北海道", "旭川市", 10_000_000, 1_000_000), "8.4")       # 不均一課税のない市は一覧の税率
 
     def test_single_office_osaka_profit(self):

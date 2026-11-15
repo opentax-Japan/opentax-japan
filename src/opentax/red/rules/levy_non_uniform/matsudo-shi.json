@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "松戸市",
+  "prefecture": "千葉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は本則100分の6.0（松戸市市税条例第22条）、特例100分の8.4（附則第14条）。資本金又は出資金の額が1億円以下で分割前の法人税額が年500万円以下の法人は6.0%（附則第15条第1項で8.4分の2.4を控除。平成31年議案第65号による改正）",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市の案内・議案に期限の記載なし（附則第14条の適用期間の終わりは条例本文で未確認。例規集は見つけられなかった）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 5000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 5000000,
+    "rule": "資本金又は出資金の額が1億円以下で、分割前の課税標準となる法人税額が年500万円以下の法人は6.0%、それ以外は8.4%。資本金の判定は、確定申告は事業年度の終了の日現在、中間申告は事業年度開始の日から6月を経過した日の前日現在、清算中の申告は解散の日現在。法人税額は分割法人は関係市町村に分割される前の額。事業年度が1年に満たないときは500万円×事業年度の月数÷12（千円未満切捨て。仮決算の中間申告・新設・解散・事業年度変更を含む）。資本を有しない法人の扱いは市の案内に記載なし"
+  },
+  "source": [
+    {
+      "title": "松戸市 法人市民税のあらまし（法人税割額の適用税率区分表。更新日 2026年3月30日）",
+      "url": "https://www.city.matsudo.chiba.jp/kurashi/zeikin_top/houjin/houjinsiminzei.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "松戸市議会 議案第65号 松戸市市税条例の一部を改正する条例（平成31年2月22日提出。第22条100分の6.0、附則第14条100分の8.4、附則第15条第1項8.4分の2.4）",
+      "url": "https://www.city.matsudo.chiba.jp/shisei/soumu-saiyou/sigikai/443.files/653.pdf",
+      "checked": "2026-11-15"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "吹田市",
+  "prefecture": "大阪府",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（吹田市市税条例第16条の5）。資本金の額若しくは出資金の額が1億5千万円以下の法人、資本金を有しない法人（相互会社を除く）又は人格のない社団等は課税標準額に100分の2.4を乗じた額を控除する（第16条の6。6.0%と同じ）。法人税額の条件はない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "条例に期限の定めはない（本則の税率）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital",
+      "capital_max": 150000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 150000000,
+    "tax_annual_upto": null,
+    "rule": "資本金の額若しくは出資金の額が1億5千万円以下である法人若しくは資本金の額若しくは出資金の額を有しない法人（保険業法に規定する相互会社を除く。）又は人格のない社団等（受託法人を除く）。法人税額の条件はない。資本金の額又は出資金の額は算定期間の末日現在で判定（第16条の6第1項・第2項）"
+  },
+  "source": [
+    {
+      "title": "吹田市市税条例 第16条の5・第16条の6",
+      "url": "https://www2.city.suita.osaka.jp/reiki/d1w_reiki/H325901010121/H325901010121_j.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "吹田市 法人市民税（3.法人市民税の法人税割：資本金又は出資金の額1億5千万円以下6.0%）",
+      "url": "https://www.city.suita.osaka.jp/kurashi/1018404/1018086/1009323.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

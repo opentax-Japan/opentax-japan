@@ -1,0 +1,43 @@
+{
+  "jurisdiction": "伊奈町",
+  "prefecture": "埼玉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "町の税率表：資本金等の額が1億円を超える法人等又は課税標準となる法人税額が年400万円を超える法人等は8.2%、それ以外は6.8%（令和元年10月1日以後開始事業年度）。町例規集（g-reiki）はアクセス制限（429）で条例本文は確認できていない",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "町の税率表に期限の記載なし（条例は未確認）",
+      "excess": "8.2",
+      "standard": "6.8"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.8",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": 4000000,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": 4000000,
+    "rule": "税率表：(1) 資本金等の額が1億円を超える法人等または課税標準となる法人税額が年400万円を超える法人等 8.2%、(2) それ以外 6.8%。400万円の判定は分割法人は関係市町村に分割する前の法人税額、算定期間が1年に満たない場合は400万円×算定期間の月数（端数月切上げ）÷12。資本金等の額は算定期間の末日で判断"
+  },
+  "source": [
+    {
+      "title": "伊奈町 法人町民税の申告について（税率表。2026年1月30日）",
+      "url": "https://www.town.saitama-ina.lg.jp/0000009404.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "伊奈町 法人町民税税率表（PDF）",
+      "url": "https://www.town.saitama-ina.lg.jp/cmsfiles/contents/0000009/9404/houzin.pdf",
+      "checked": "2026-11-15"
+    }
+  ]
+}

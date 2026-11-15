@@ -1,0 +1,38 @@
+{
+  "jurisdiction": "三郷市",
+  "prefecture": "埼玉県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は、資本金等の額が1億円を超える法人8.4%、それ以外の法人6.0%（三郷市「法人市民税」）。法人税額による区分はない。条例本文は未確認（例規集 g-reiki は混雑で開けなかった）",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "市のページに期限の記載なし（条例本文は未確認）",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 100000000,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が1億円を超える法人は8.4%、上記以外の法人は6.0%。法人税割の区分にも均等割と同様に、資本金等の額（無償増減資を加減算）と資本金＋資本準備金のいずれか大きい方を用いる。法人税額の条件はない"
+  },
+  "source": [
+    {
+      "title": "三郷市 法人市民税（法人税割の詳細）",
+      "url": "https://www.city.misato.lg.jp/kurashi_tetsuzuki/zei/shi_kemminzei/6244.html",
+      "checked": "2026-11-15"
+    }
+  ]
+}

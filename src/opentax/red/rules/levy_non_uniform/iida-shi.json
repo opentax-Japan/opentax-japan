@@ -1,0 +1,48 @@
+{
+  "jurisdiction": "飯田市",
+  "prefecture": "長野県",
+  "kind": "市町村民税 法人税割（不均一課税）",
+  "note": "法人税割の税率は100分の8.4（飯田市税条例第34条の4）。第34条の4の2で資本金等の額1億円未満の法人等は8.4分の2.4を控除（実質6.0%）。法人税額による条件はない。市の「法人市民税額の算出方法と飯田市の税率」も資本等の金額1億円以上・相互会社8.4%、それ以外6.0%",
+  "periods": [
+    {
+      "fiscal_year_start_from": "2019-10-01",
+      "fiscal_year_start_to": null,
+      "fiscal_year_end_to": null,
+      "fiscal_year_end_to_note": "第34条の4・第34条の4の2に期限の定めはない",
+      "excess": "8.4",
+      "standard": "6.0"
+    }
+  ],
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": false,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    }
+  ],
+  "reduced_condition": {
+    "capital_upto": 99999999,
+    "tax_annual_upto": null,
+    "rule": "資本金等の額が1億円未満である法人（保険業法に規定する相互会社を除く。）、相互会社以外の法人で資本の金額又は出資金額を有しない法人又は第23条第3項において法人とみなされるもの：8.4%の法人税割額から8.4分の2.4を控除（6.0%相当）。資本金等の額1億円以上と相互会社は8.4%。判定は課税標準の算定期間の末日現在の現況（清算中は解散又は合併の日）。資本金等の額が資本金の額及び資本準備金の額の合算額又は出資金の額に満たないときはその合算額等で判定（第34条の4の2第1項〜第3項）。法人税額・分割前・月数換算の条件はない。capital_upto は「1億円未満」を円単位で表したもの"
+  },
+  "source": [
+    {
+      "title": "飯田市税条例 第34条の4・第34条の4の2（飯田市例規集）",
+      "url": "https://www.city.iida.lg.jp/reiki_int/reiki_honbun/e706RG00000225.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "飯田市 法人市民税のご案内（更新日 2024年2月14日）",
+      "url": "https://www.city.iida.lg.jp/soshiki/3/hojin-annai.html",
+      "checked": "2026-11-15"
+    },
+    {
+      "title": "飯田市 法人市民税額の算出方法と飯田市の税率（PDF）",
+      "url": "https://www.city.iida.lg.jp/uploaded/attachment/42438.pdf",
+      "checked": "2026-11-15"
+    }
+  ]
+}
