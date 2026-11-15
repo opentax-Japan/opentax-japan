@@ -142,16 +142,21 @@ def premium(m: dict, hourly_base: int | str, settings: dict) -> dict:
     base = Decimal(str(hourly_base))
     how = settings.get("yen_rounding")
     h = lambda mins: Decimal(mins) / 60   # noqa: E731
+    # 1時間当たりの割増賃金額の1円未満を先に処理するか（settings.hourly_premium_rounding: half_up・up。省略は処理しない）。
+    # 基発第150号「1時間当たりの賃金額及び割増賃金額に円未満の端数が生じた場合、50銭未満の端数を切り捨て、50銭以上を1円に切り上げること」
+    # （山口労働局「労働時間の『切り捨て』はダメ！」令和4年10月 で確認）。そのあと1か月の総額でもう一度処理する
+    per_hour = settings.get("hourly_premium_rounding")
+    rate = lambda r: (Decimal(_round(base * r, per_hour)) if per_hour else base * r)   # noqa: E731
     ot_normal = m["overtime"] - m["overtime_over60"]
     # 時間外は60時間以内と60時間超を合わせた総額で1回だけ端数処理し、60時間超の分（端数処理した額）を除いた残りを60時間以内の分とする（基発第150号「各々の割増賃金の総額」）
-    ot_a = base * (1 + Decimal(rates["overtime"]) / 100) * h(ot_normal)
-    ot_b = base * (1 + Decimal(rates["over60"]) / 100) * h(m["overtime_over60"])
+    ot_a = rate(1 + Decimal(rates["overtime"]) / 100) * h(ot_normal)
+    ot_b = rate(1 + Decimal(rates["over60"]) / 100) * h(m["overtime_over60"])
     ot_total = _round(ot_a + ot_b, how)
     ot_b_r = min(_round(ot_b, how), ot_total)
     amounts = {
         "overtime": ot_total - ot_b_r,
         "overtime_over60": ot_b_r,
-        "holiday": _round(base * (1 + Decimal(rates["holiday"]) / 100) * h(m["holiday"]), how),
-        "night": _round(base * Decimal(rates["night"]) / 100 * h(m["night"]), how),   # 深夜は上乗せ分だけ（時間外・休日の賃金に足す）
+        "holiday": _round(rate(1 + Decimal(rates["holiday"]) / 100) * h(m["holiday"]), how),
+        "night": _round(rate(Decimal(rates["night"]) / 100) * h(m["night"]), how),   # 深夜は上乗せ分だけ（時間外・休日の賃金に足す）
     }
     return {"rates": rates, "amounts": amounts, "total": sum(amounts.values())}

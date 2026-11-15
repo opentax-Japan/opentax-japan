@@ -18,7 +18,8 @@
   タイムカードを入れると、支給月はいちばん新しい勤務日の締めの期間から決め、期間の外の行（先月分など）は使わない
   （先月の入力をそのまま使い回せる。month と違えば notes に書く）
 - people: [{id, name, birth, standard_monthly（標準報酬月額。決定通知書の額）, column（甲・乙）, dependents（扶養親族等の数）,
-  pay: {基本給などの項目: 額}, nontaxable: {通勤手当など: 額}, hourly_base（割増賃金の基礎の時給）, resident_tax（住民税の特別徴収税額）,
+  pay: {基本給などの項目: 額}, nontaxable: {通勤手当など: 額}, hourly_wage（時給の人の時給。時間外・休日を除いた労働時間×時給を「基本給（時給）」にする）,
+  hourly_base（割増賃金の基礎の時給。時給だけの人は省略で時給）, resident_tax（住民税の特別徴収税額）,
   employment_insurance（雇用保険の被保険者か。既定 true）, health_insurance（健康保険・厚生年金の被保険者か。既定 true）, other_deductions: {名前: 額}}]
 """
 from __future__ import annotations
@@ -136,14 +137,35 @@ def person(p: dict, company: dict, month: str, ins_month: str, settings: dict, t
     if any(v < 0 for v in [*pay.values(), *nontax.values()]):
         raise KyuyoError(f"{p.get('name')}: 支給の額は0以上で入れてください（返金・控除は other_deductions に）")
     work = None
+    wage = p.get("hourly_wage")
+    if wage is not None:
+        try:
+            wage_d = Decimal(str(wage))
+        except ArithmeticError:
+            raise KyuyoError(f"{p.get('name')}: hourly_wage（時給）は数で入れてください: {wage}") from None
+        if wage_d <= 0:
+            raise KyuyoError(f"{p.get('name')}: hourly_wage（時給）は0より大きい額で入れてください")
+        if not timecard:
+            raise KyuyoError(f"{p.get('name')}: 時給の人はタイムカードが要ります（労働時間から基本給を計算します）")
     if timecard:
         m = kintai.month(timecard, settings)
         warnings += m["warnings"]
         work = {k: m[k] for k in ("work", "overtime", "overtime_over60", "holiday", "night")}
+        base_hour = p.get("hourly_base")
+        if wage is not None:
+            # 時給の人: 時間外・休日を除いた労働時間×時給（時間外・休日は下の割増賃金で時給×1.25・1.35 の全額を払う）。分単位で数え、1か月の額の
+            # 1円未満は割増賃金と同じ settings.yen_rounding（既定 50銭未満切捨て・50銭以上切上げ）。切り捨てて少なく払う処理は選べない（労働基準法第24条 全額払）
+            regular = m["work"] - m["overtime"] - m["holiday"]
+            pay["基本給（時給）"] = pay.get("基本給（時給）", 0) + kintai._round(wage_d * Decimal(regular) / 60, settings.get("yen_rounding"))
+            if base_hour is None:
+                if pay.keys() - {"基本給（時給）"}:
+                    raise KyuyoError(f"{p.get('name')}: 時給のほかに月ごとの手当があるので、割増賃金の基礎の時給（hourly_base）を入れてください"
+                                     "（時給＋月の手当÷1か月の所定労働時間。労働基準法施行規則第19条第1項第1号・第7号）")
+                base_hour = wage_d       # 時間によって定められた賃金はその金額（労働基準法施行規則第19条第1項第1号）
         if any(m[k] for k in ("overtime", "holiday", "night")):
-            if not p.get("hourly_base"):
+            if not base_hour:
                 raise KyuyoError(f"{p.get('name')}: 時間外・休日・深夜の労働があるので、割増賃金の基礎の時給（hourly_base）を入れてください（労働基準法第37条）")
-            prem = kintai.premium(m, p["hourly_base"], settings)
+            prem = kintai.premium(m, base_hour, settings)
             for k, label in (("overtime", "時間外手当"), ("overtime_over60", "時間外手当（60時間超）"), ("holiday", "休日手当"), ("night", "深夜手当")):
                 if prem["amounts"][k]:
                     pay[label] = pay.get(label, 0) + prem["amounts"][k]

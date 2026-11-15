@@ -173,5 +173,51 @@ class AlignToTimecardTest(unittest.TestCase):
         self.assertEqual(c["month"], "2026-11")                    # 10/21〜11/20 の勤務を11月に払う
 
 
+
+class HourlyWageTest(unittest.TestCase):
+    """時給の人（労働基準法施行規則第19条第1項第1号: 時間によって定められた賃金はその金額が割増賃金の基礎）。架空の人。"""
+
+    def person(self, **kw):
+        d = sample()
+        p = {"id": "h1", "name": "時給　花子", "birth": "2000-05-05", "column": "乙", "dependents": 0, "hourly_wage": 1105,
+             "health_insurance": False, "employment_insurance": False, **kw}
+        d["people"] = [p]
+        d["settings"] = dict(d["settings"], week_start=6)
+        return d
+
+    def tc(self, rows):
+        return {"h1": [dict(zip(("date", "start", "end", "break_minutes"), r)) for r in rows]}
+
+    def test_night_shift(self):
+        rows = [("2026-10-02", "17:00", "23:00", 0), ("2026-10-09", "17:00", "23:00", 0)]
+        x = kyuyo.calculate(self.person(), self.tc(rows))["people"][0]
+        self.assertEqual(x["pay"]["基本給（時給）"], 13_260)       # 1,105円×12時間
+        self.assertEqual(x["pay"]["深夜手当"], 553)               # 1,105円×0.25×2時間＝552.5 → 50銭以上切上げ
+        self.assertNotIn("時間外手当", x["pay"])
+
+    def test_overtime_is_paid_once(self):
+        x = kyuyo.calculate(self.person(), self.tc([("2026-10-05", "09:00", "19:00", 60)]))["people"][0]
+        self.assertEqual(x["pay"]["基本給（時給）"], 8_840)        # 8時間分だけ（時間外の1時間は割増の側で全額）
+        self.assertEqual(x["pay"]["時間外手当"], 1_381)           # 1,105円×1.25×1時間＝1,381.25
+
+    def test_minutes(self):
+        x = kyuyo.calculate(self.person(), self.tc([("2026-10-05", "16:41", "21:22", 0)]))["people"][0]
+        self.assertEqual(x["pay"]["基本給（時給）"], 5_175)        # 281分×1,105円÷60＝5,175.08…
+
+    def test_needs_timecard_and_base_with_allowance(self):
+        with self.assertRaises(kyuyo.KyuyoError):
+            kyuyo.calculate(self.person())
+        with self.assertRaises(kyuyo.KyuyoError):
+            kyuyo.calculate(self.person(pay={"皆勤手当": 5000}), self.tc([("2026-10-02", "17:00", "23:00", 0)]))
+        x = kyuyo.calculate(self.person(pay={"皆勤手当": 5000}, hourly_base=1135), self.tc([("2026-10-02", "17:00", "23:00", 0)]))["people"][0]
+        self.assertEqual(x["pay"]["深夜手当"], 284)               # 1,135円×0.25×1時間＝283.75
+
+    def test_hourly_premium_rounding(self):
+        d = self.person(hourly_wage=1110)
+        d["settings"]["hourly_premium_rounding"] = "half_up"    # 1時間当たりの割増賃金額を先に円にする（基発第150号）
+        x = kyuyo.calculate(d, self.tc([("2026-10-02", "21:00", "23:30", 0)]))["people"][0]
+        self.assertEqual(x["pay"]["深夜手当"], 417)               # 1,110円×0.25＝277.5→278円×1.5時間＝417（先に丸めないと416.25→416）
+
+
 if __name__ == "__main__":
     unittest.main()
