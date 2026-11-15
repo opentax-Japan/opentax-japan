@@ -61,6 +61,7 @@ _SCHEMA: dict[str, Any] = {
     # opened・closed: 事業年度の中途で新設・廃止した日。employees_before_closing: 廃止の月の前月末の従業者の数。
     # monthly_employees: 各月末の従業者の数（著しい変動の判定）。factory: 工場（資本金1億円以上の製造業）。main: 主たる事務所等
     # tokyo_main: 都内における主たる事務所等（東京都の2以上の特別区に事務所等があり、本店が都外のとき。都民税の均等割。DESIGN §29.7）
+    #   事業年度の中で特別区をまたいで移転したときは旧（closed）・新（opened）の両方に書く（DESIGN §29.9 M1）
     "offices": [{"code": str, "name": str, "prefecture": str, "municipality": str, "ward": str, "pref_office": str, "city_office": str,
                  "months": int, "employees": int, "opened": "date", "closed": "date", "employees_before_closing": int,
                  "monthly_employees": [int], "factory": bool, "main": bool, "tokyo_main": bool}],
@@ -113,12 +114,16 @@ _SCHEMA: dict[str, Any] = {
     #   period_start・period_end: 配当等の計算の基礎となった期間（前回の配当の基準日等の翌日〜今回の基準日等）
     #   credit_method: 個別法（既定）／簡便法（銘柄別簡便法。計算期間1年超・1年以下の区分ごとに全銘柄で使う）
     #   個別法: owned_whole_period（計算期間を通じて所有）か、owned_months（所有していた月数）・acquired（取得日）
-    #   簡便法: units_end・units_start（計算期間の期末・期首に所有していた元本の数）、period_over_one_year（日付がなければ）
+    #   簡便法: units_end・units_start（計算期間の期末・期首に所有していた元本の数）
+    #   計算期間は基準日等の一年前の日の翌日より前にならない（施行令第140条の2第2項。前なら切り詰める）。
+    #   period_over_one_year: true は止める（1年超は集団投資信託だけで対象外）
+    #   distribution_kind: 剰余金の配当（既定）／資本剰余金の減少／みなし配当。後の2つは按分せず全額（同条第1項第2号）、別表六(一) 5・20・21。
+    #   paid_on: 支払を受けた年月日（20・21 の明細）
     "dividends_received": [{"name": str, "address": str, "account": str, "ratio": (int, float), "amount": int,
                             "withholding": int, "taxable": int, "wholly_owned": bool, "continuous": bool,
                             "period_start": "date", "period_end": "date", "base_date": "date", "owned_whole_period": bool,
                             "credit_method": str, "owned_months": int, "acquired": "date", "units_end": int, "units_start": int,
-                            "period_over_one_year": bool}],
+                            "period_over_one_year": bool, "distribution_kind": str, "paid_on": "date"}],
     # 当期に支払う利子等の額（別表八(一) 35。関連法人株式等があるとき）。書かなければ科目残高の支払利息などから作る
     "interest_paid": int,
     # 当期に損金経理で納付した、損金にならない附帯税等（別表四 5・別表五(二) 24〜27）と罰金等（別表四 10）。
@@ -161,6 +166,9 @@ REQUIRED = [
     "shareholders", "issued_shares", "accounting.net_income", "accounting.retained_earnings_end",
 ]
 LOCAL_TAXES = ("道府県民税", "市町村民税")
+# 配当の種類（施行令第140条の2第1項第1号かっこ書）。資本剰余金の減少に伴うもの・みなし配当は所有期間で按分せず全額（同項第2号）
+FULL_CREDIT_KINDS = ("資本剰余金の減少", "みなし配当")
+DISTRIBUTION_KINDS = ("剰余金の配当",) + FULL_CREDIT_KINDS
 # 前期以前の分の納付（tax_payments）に書ける税目。法人税等＝法人税・地方法人税（・防衛特別法人税）、事業税等＝事業税・特別法人事業税
 PAYMENT_TAXES = ("法人税等", "道府県民税", "市町村民税", "事業税等")
 UNPAID_TAXES = ("法人税等", "道府県民税", "市町村民税")   # 別表五(二)の期首の未納（事業税は申告した期の当期発生税額）
@@ -480,6 +488,8 @@ def _check_values(data: dict) -> None:
             errors.append(f"dividends_received[{i}]: owned_months・units_end・units_start は0以上にしてください")
         if d.get("period_start") and d.get("period_end") and d["period_start"] > d["period_end"]:
             errors.append(f"dividends_received[{i}]: period_start は period_end 以前にしてください")
+        if d.get("distribution_kind") not in (None, "") and d["distribution_kind"] not in DISTRIBUTION_KINDS:
+            errors.append(f"dividends_received[{i}].distribution_kind: {'・'.join(DISTRIBUTION_KINDS)} のどれかにしてください")
         if d.get("ratio") is not None and not 0 < d["ratio"] <= 100:
             errors.append(f"dividends_received[{i}].ratio: 保有割合（%）は0を超え100以下にしてください")
     rs = data.get("research")

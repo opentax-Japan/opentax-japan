@@ -320,6 +320,10 @@ def divided_sections(calculated: dict) -> list[dict]:
                                           sum(p["offices"] for p in b["prefectures"].values())), ""))
     sections = [{"title": "第十号様式（課税標準の分割に関する明細書）",
                  "to": "関係都道府県の申告書に添付（主たる事務所等の都道府県へは写し）", "rows": rows, "source": src}]
+    if not bunkatsu.splits_prefecture_levy(data) and not all(bunkatsu.is_special_ward(o) for o in data["offices"]):
+        # 1つの道府県の中だけに事務所等がある法人は道府県民税・事業税を分けない（地方税法第57条第1項・第72条の48第1項「二以上の道府県」。
+        # 第十号様式記載要領1）
+        sections[0]["to"] = "添付は要りません（事務所等が1つの道府県の中だけにある法人。数字は確かめのために出しています）"
     if all(bunkatsu.is_special_ward(o) for o in data["offices"]):
         # 東京都の特別区だけに事務所等がある法人は分割しない（第10号様式は、本都と他の道府県・本都の特別区と市町村に事務所等のある法人が添付する。
         # 東京都主税局 第10号様式記載の手引(1)）。均等割は特別区ごと（第6号様式別表4の3）
@@ -333,6 +337,8 @@ def divided_sections(calculated: dict) -> list[dict]:
     main = div["main"]
     sections.append({"title": "第二十二号の二様式（課税標準の分割に関する明細書）",
                      "to": ("添付は要りません（東京都の特別区だけに事務所等がある法人）" if all(bunkatsu.is_special_ward(o) for o in data["offices"])
+                            else "添付は要りません（事務所等が1つの市町村の中だけにある法人。地方税法第321条の13第1項）"
+                            if not bunkatsu.splits_city_levy(data)
                             else f"主たる事務所等の市町村（{main['municipality']}{main.get('ward') or ''}）の申告書に添付"),
                      "rows": rows, "source": src})
     # 都道府県ごと
@@ -379,14 +385,23 @@ def divided_sections(calculated: dict) -> list[dict]:
         ward = f" {pc['special_ward']}" if pc.get("special_ward") else ""
         sections.append({"title": f"第六号様式（{pref}{ward}）", "to": f"{pref}知事（分割法人）", "rows": rows, "source": src})
     # 市町村ごと
-    for pc in div["municipalities"]:
-        cr = next(x for x in cl["municipalities"] if x["key"] == pc["key"])
-        label = bunkatsu.city_label(pc["key"])
-        rows = [("", "法人税割 課税標準（分割課税標準額）", _yen(cr["tax_base"]), ""),
+    for cr in cl["municipalities"]:
+        if cr["special_ward"]:
+            continue
+        # 指定都市の2以上の区だけに事務所等がある法人は、法人税割は市全体で1つ（key の区が None）、均等割は区ごと
+        pcs = [pc for pc in div["municipalities"]
+               if pc["key"] == cr["key"] or (cr["key"][2] is None and pc["key"][:2] == cr["key"][:2])]
+        label = bunkatsu.city_label(cr["key"])
+        rows = [("", "法人税割 課税標準（分割課税標準額）" if bunkatsu.splits_city_levy(data) else "法人税割 課税標準（法人税額）",
+                 _yen(cr["tax_base"]), ""),
                 ("", "法人税割額", _yen(cr["raw"]), f"税率 {cr['percent']}%" if cr["percent"] else ""),
-                ("", "差引法人税割額", _yen(cr["levy"]), "100円未満切捨て"),
-                ("", "均等割額", _yen(pc["amount"]), f"{pc['annual']:,}円 × {pc['months']}／12（{pc['employees_note'] or ''}）"),
-                ("", "この市町村に納める確定税額の計", _yen(cr["levy"] + pc["amount"]), "中間納付額は引いていない")]
+                ("", "差引法人税割額", _yen(cr["levy"]), "100円未満切捨て")]
+        for pc in pcs:
+            ward = f"（{pc['ward']}）" if len(pcs) > 1 else ""
+            rows.append(("", f"均等割額{ward}", _yen(pc["amount"]),
+                         f"{pc['annual']:,}円 × {pc['months']}／12（{pc['employees_note'] or ''}）"))
+        per_capita = sum(pc["amount"] for pc in pcs)
+        rows.append(("", "この市町村に納める確定税額の計", _yen(cr["levy"] + per_capita), "中間納付額は引いていない"))
         sections.append({"title": f"第二十号様式（{label}）", "to": f"{label}（分割法人）", "rows": rows, "source": src})
     # 合計
     rows = [("", "道府県民税（都民税を含む） 法人税割の合計", _yen(cl["道府県民税"]), ""),

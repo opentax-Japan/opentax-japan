@@ -117,6 +117,11 @@ def schedule_06_10(data: dict, adjusted_tax: int, rules: dict) -> dict | None:
     if not comp_rows and not established:
         raise InputError("research.prior_expenses: 調整対象年度（当期開始の日の3年前の日から前日までに開始した事業年度）の試験研究費の額を書いてください。"
                          "設立事業年度なら research.established を true にしてください")
+    # 売上調整年度は調整対象年度と同じ事業年度の集まり（施行令第27条の4第25項・措置法第42条の4第19項第5号。どちらも適用年度開始の日の
+    # 3年前の日から前日までに開始した各事業年度）。prior_sales を書き漏らすと平均売上金額が当期だけになるので止める（別の検証 2026-11-15 M3）
+    if [(x["period_start"], x["period_end"]) for x in sales_rows] != [(x["period_start"], x["period_end"]) for x in comp_rows]:
+        raise InputError("research.prior_sales: 売上調整年度（当期開始の日の3年前の日から前日までに開始した各事業年度）の売上金額を、"
+                         "prior_expenses と同じ事業年度ごとに書いてください（措置法施行令第27条の4第25項。平均売上金額は当期とこれらの事業年度の平均）")
     if len(comp_rows) > 6 or len(sales_rows) > 6:
         raise OutOfScope("別表六(十一)の調整対象年度・売上調整年度が6を超えています（欄の数）")
     if "sales" not in rs:
@@ -136,37 +141,38 @@ def schedule_06_10(data: dict, adjusted_tax: int, rules: dict) -> dict | None:
     if average_sales <= 0:
         raise InputError("research: 平均売上金額が0です（試験研究費割合を計算できません）")
 
-    base = expenses                                   # 4 控除対象試験研究費の額＝(2)＋(3)
+    # 欄の番号は今の様式（別表六(十) 令八・四・一以後終了事業年度分）。令和7年版から2つずつずれた（別の検証 2026-11-15 L5）
+    base = expenses                                   # 4 控除対象試験研究費基準額＝(2)＋(3)（国外委託がないので 6 も同じ）
     no_increase = established or comparative == 0     # 設立事業年度・比較試験研究費の額が零
-    increase = expenses - comparative                 # 6 増減試験研究費の額
-    increase_ratio = None if comparative == 0 else Fraction(increase, comparative)    # 7
-    research_ratio = Fraction(expenses, average_sales)                                 # 9
+    increase = expenses - comparative                 # 8 増減試験研究費の額（7 比較試験研究費の額）
+    increase_ratio = None if comparative == 0 else Fraction(increase, comparative)    # 9
+    research_ratio = Fraction(expenses, average_sales)                                 # 11（10 平均売上金額）
     t_inc, t_ratio = _pct(r["increase_threshold_percent"]), _pct(r["ratio_threshold_percent"])
     over_inc = not no_increase and increase_ratio > t_inc
     over_ratio = research_ratio > t_ratio
     base_rate = _pct(r["base_percent"])
-    # 10 割増前税額控除割合: 12/100＋((7)−12/100)×0.375（0.12未満・設立事業年度・(5)＝0 は 0.12）。第5項第1号
+    # 12 割増前税額控除割合: 12/100＋((9)−12/100)×0.375（0.12未満・設立事業年度・(7)＝0 は 0.12）。第5項第1号
     pre_rate = base_rate + (increase_ratio - t_inc) * Fraction(r["increase_factor"]) if over_inc else base_rate
-    # 11 控除割増率: ((9)−10/100)×0.5（0.1が上限）。第5項第2号
+    # 13 控除割増率: ((11)−10/100)×0.5（0.1が上限）。第5項第2号
     premium = min((research_ratio - t_ratio) * Fraction(r["premium_factor"]), _pct(r["premium_cap_percent"])) if over_ratio else Fraction(0)
-    # 12 税額控除割合: (10)＋(10)×(11)、小数点以下3位未満切捨て、0.17が上限（第5項柱書き・第3号）
+    # 14 税額控除割合: (12)＋(12)×(13)、小数点以下3位未満切捨て、0.17が上限（第5項柱書き・第3号）
     rate = min(_trunc3(pre_rate + pre_rate * premium), _pct(r["rate_cap_percent"]))
-    limit = _floor(base * rate)                       # 13 中小企業者等税額控除限度額
-    # 当期税額基準額（第4項後段・第6項）: 調整前法人税額×(0.25＋0.10（(7)>12%）又は 0.25＋(16) 又は 0.25)
+    limit = _floor(base * rate)                       # 15 中小企業者等税額控除限度額
+    # 当期税額基準額（第4項後段・第6項）: 調整前法人税額(16)×(0.35（17。(9)>12%）又は 0.25＋(18) 又は 0.25)
     special_add = Fraction(0)
     if over_inc:
         factor_label = "0.35"
         factor = _pct(r["limit_percent"]) + _pct(r["limit_increase_percent"])
     elif over_ratio:
-        # 16 特例加算割合: ((9)−10/100)×2、小数点以下3位未満切捨て、0.1が上限（第6項第2号）
+        # 18 特例加算割合: ((11)−10/100)×2、小数点以下3位未満切捨て、0.1が上限（第6項第2号）
         special_add = min(_trunc3((research_ratio - t_ratio) * Fraction(r["limit_ratio_factor"])), _pct(r["limit_ratio_cap_percent"]))
         factor = _pct(r["limit_percent"]) + special_add
         factor_label = None
     else:
         factor = _pct(r["limit_percent"])
         factor_label = None
-    base_amount = _floor(adjusted_tax * factor)        # 17 当期税額基準額
-    available = min(limit, base_amount)               # 18 当期税額控除可能額
+    base_amount = _floor(adjusted_tax * factor)        # 19 当期税額基準額
+    available = min(limit, base_amount)               # 20 当期税額控除可能額
     if limit > base_amount:
         notes.append(f"中小企業者等税額控除限度額 {limit:,}円のうち、当期税額基準額 {base_amount:,}円を超える {limit - base_amount:,}円は控除できません"
                      "（令和8年3月31日以前に開始する事業年度は翌期へ繰り越せません）")
@@ -215,7 +221,8 @@ def credit_rows(s10: dict) -> list:
 
 
 def finish(s10: dict, rows: list, notes: list[str] | None = None) -> dict:
-    """別表六(六)の結果を別表六(十)に戻す: 19 調整前法人税額超過構成額（別表六(六) 8 の③）・20 法人税額の特別控除額（(18)−(19)）。"""
+    """別表六(六)の結果を別表六(十)に戻す: 21 調整前法人税額超過構成額（別表六(六) 8 の③）・22 当期税額控除額（(20)−(21)）。
+    繰越分（23〜27）は扱わないので 28 法人税額の特別控除額も 22 と同じ。"""
     row = next(r for r in rows if r.key == ROW_KEY)
     s10["excess"] = row.excess
     s10["credit"] = row.deducted

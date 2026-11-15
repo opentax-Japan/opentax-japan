@@ -72,14 +72,23 @@ class SimplifiedMethodTest(unittest.TestCase):
         self.assertEqual(v["FZC00080"], 51_560)
         self.assertNotIn("FZF00040", v)
 
-    def test_over_one_year_uses_twelfth(self):
-        # 計算期間 18月（1年超）: 期末 1,200・期首 0 → 17 ＝ 1,200/12 ＝ 100、18 ＝ 100/1,200 ＝ 0.0833… → 0.084
-        # 15,315×0.084 ＝ 1,286.46 → 1,286
-        c = calc(with_divs(denki={"credit_method": "簡便法", "units_end": 1200, "units_start": 0,
-                                  "period_start": "2024-10-01", "period_end": "2026-03-31"},
-                           bussan={"owned_whole_period": True}))
+    def test_period_capped_to_one_year(self):
+        # 別の検証（2026-11-15）H3: 前回の配当の基準日が2年前でも、計算期間は基準日等（2026-03-31）の一年前の日の翌日 2025-04-01 から
+        # （施行令第140条の2第2項）。簡便法も1年以下の区分で 2分の1: 期末 1,000・期首 0 → 17 ＝ 500、18 ＝ 0.500、15,315×0.5 → 7,657
+        # （前の計算は 24か月として 1/12 ＝ 0.084 → 1,286 だった）
+        c = calc(with_divs(denki={"credit_method": "簡便法", "units_end": 1000, "units_start": 0,
+                                  "period_start": "2024-04-01", "period_end": "2026-03-31"},
+                           bussan={"credit_method": "簡便法", "units_end": 10, "units_start": 10}))
         denki = c["result"]["schedule_04"]["schedule_06_1_dividends"]["rows"][0]
-        self.assertEqual((denki["over_one_year"], denki["half"], denki["ratio_text"], denki["credited"]), (True, 100, "0.084", 1_286))
+        self.assertEqual((denki["over_one_year"], denki["half"], denki["ratio_text"], denki["credited"]), (False, 500, "0.500", 7_657))
+        self.assertTrue(any("2025-04-01" in w and "第140条の2第2項" in w for w in c["result"]["warnings"]))
+
+    def test_over_one_year_flag_stops(self):
+        from opentax.red.model import InputError
+        with self.assertRaises(InputError) as ctx:
+            calc(with_divs(denki={"credit_method": "簡便法", "units_end": 1000, "units_start": 0, "period_over_one_year": True},
+                           bussan={"credit_method": "簡便法", "units_end": 10, "units_start": 10}))
+        self.assertIn("集団投資信託", str(ctx.exception))
 
     def test_odd_difference_keeps_exact_half(self):
         # (1,001−0)/2 ＝ 500.5（17 は整数の欄なので 500 と書く）。18 は 500.5/1,001 ＝ 0.500
@@ -96,12 +105,46 @@ class SimplifiedMethodTest(unittest.TestCase):
                            bussan={"owned_whole_period": True}))
         self.assertIn("第140条の2第3項", str(ctx.exception))
 
-    def test_different_classes_may_differ(self):
-        # 1年超の区分は簡便法、1年以下の区分は個別法でよい
-        c = calc(with_divs(denki={"credit_method": "簡便法", "units_end": 1200, "units_start": 0,
+    def test_long_period_is_still_same_class(self):
+        # 別の検証（2026-11-15）L6: 株式・出資の剰余金の配当は計算期間が長く書かれても1年以下の区分なので、個別法と混ぜられない
+        from opentax.red.model import InputError
+        with self.assertRaises(InputError):
+            calc(with_divs(denki={"credit_method": "簡便法", "units_end": 1200, "units_start": 0,
                                   "period_start": "2024-10-01", "period_end": "2026-03-31"},
                            bussan={"owned_whole_period": True}))
-        self.assertEqual([r["method"] for r in c["result"]["schedule_04"]["schedule_06_1_dividends"]["rows"]], ["簡便法", "個別法"])
+
+
+class IndividualCapTest(unittest.TestCase):
+    def test_individual_period_capped(self):
+        # H3: 個別法。2025-10-01 取得、period_start 2024-04-01（2年前）→ 計算期間 2025-04-01〜2026-03-31 の 12月、所有 6月 → 0.500
+        c = calc(with_divs(denki={"acquired": "2025-10-01", "period_start": "2024-04-01", "period_end": "2026-03-31"},
+                           bussan={"owned_whole_period": True}))
+        denki = c["result"]["schedule_04"]["schedule_06_1_dividends"]["rows"][0]
+        self.assertEqual((denki["months"], denki["owned"], denki["ratio_text"], denki["credited"]), (12, 6, "0.500", 7_657))
+
+
+class FullCreditTest(unittest.TestCase):
+    def test_deemed_dividend_not_prorated(self):
+        # 別の検証（2026-11-15）M4: みなし配当・資本剰余金の減少に伴う配当の所得税は所有期間で按分せず全額
+        # （施行令第140条の2第1項第1号かっこ書・第2号）。期中取得でも 40,840 を全額、別表六(一) 5「その他」と 20・21 に書く
+        c = calc(with_divs(denki={"acquired": "2025-10-15"},
+                           bussan={"distribution_kind": "みなし配当", "acquired": "2025-10-15", "paid_on": "2026-06-20"}))
+        s4 = c["result"]["schedule_04"]
+        s61 = s4["schedule_06_1_dividends"]
+        self.assertEqual([r["name"] for r in s61["rows"]], ["架空電機株式会社"])
+        self.assertEqual((s61["other_income"], s61["other_tax"], s61["other_credited"]), (200_000, 40_840, 40_840))
+        self.assertEqual(s4["credit"], 7_657 + 40_840)
+        v = c["form_values"]
+        self.assertEqual((v["FZC00060"], v["FZC00070"], v["FZC00080"]), (100_000, 15_315, 7_657))
+        self.assertEqual((v["FZC00270"], v["FZC00280"], v["FZC00290"]), (200_000, 40_840, 40_840))
+        self.assertEqual((v["FZC00310"], v["FZC00320"], v["FZC00330"]), (300_000, 56_155, 48_497))
+        self.assertEqual((v["FZG00050"], v["FZG00060"], v["FZG00090"], v["FZG00100"]), ([200_000], [40_840], 200_000, 40_840))
+        self.assertTrue(any("按分せず全額" in w for w in c["result"]["warnings"]))
+
+    def test_unknown_kind_stops(self):
+        from opentax.red.model import InputError
+        with self.assertRaises(InputError):
+            calc(with_divs(bussan={"distribution_kind": "減資", "owned_whole_period": True}))
 
 
 class SourceExemptTest(unittest.TestCase):
@@ -122,9 +165,10 @@ class SourceExemptTest(unittest.TestCase):
 
 class OutputTest(unittest.TestCase):
     def setUp(self):
-        self.c = calc(with_divs(denki={"credit_method": "簡便法", "units_end": 1200, "units_start": 0,
-                                       "period_start": "2024-10-01", "period_end": "2026-03-31"},
-                                bussan={"acquired": "2025-10-15"}))
+        # 個別法 2銘柄（0.500 と 1/12 → 0.084）と、みなし配当（20・21）
+        self.c = calc(with_divs(denki={"acquired": "2025-10-15"}, bussan={"owned_months": 1}))
+        self.c2 = calc(with_divs(denki={"credit_method": "簡便法", "units_end": 1000, "units_start": 400},
+                                 bussan={"distribution_kind": "みなし配当", "owned_whole_period": True, "paid_on": "2026-06-20"}))
 
     def test_xtx_validates(self):
         from opentax import api
@@ -134,9 +178,15 @@ class OutputTest(unittest.TestCase):
         xml = api.export_etax(self.c, root, datetime.date(2026, 11, 26))
         self.assertEqual(api.validate_xtx(xml, root), [])
         text = xml.decode("utf-8")
-        self.assertIn("<FZF00120>架空電機株式会社</FZF00120>", text)
-        self.assertIn("<FZF00180>0.084</FZF00180>", text)
+        self.assertIn("<FZF00030>架空電機株式会社</FZF00030>", text)
+        self.assertIn("<FZF00080>0.084</FZF00080>", text)
         self.assertIn("<FZF00080>0.500</FZF00080>", text)
+        xml = api.export_etax(self.c2, root, datetime.date(2026, 11, 26))
+        self.assertEqual(api.validate_xtx(xml, root), [])
+        text = xml.decode("utf-8")
+        self.assertIn("<FZF00180>0.700</FZF00180>", text)
+        self.assertIn("<FZG00020>架空物産株式会社</FZG00020>", text)
+        self.assertIn("<FZG00070>みなし配当</FZG00070>", text)
 
     def test_paper(self):
         from opentax import api

@@ -117,6 +117,19 @@ class ScheduleTest(unittest.TestCase):
         with self.assertRaises(model.InputError):          # 事業年度が続いていない
             research_credit(d, 1_000_000)
 
+    def test_prior_sales_required(self):
+        # 別の検証（2026-11-15）M3: prior_sales を書き漏らすと平均売上金額が当期だけ（6,000万円）になり、試験研究費割合が上がる。
+        # 売上調整年度は調整対象年度と同じ事業年度（施行令第27条の4第25項）なので、書いていない・事業年度が違うときは止める
+        d = data(10_000_000, [9_000_000] * 3, 60_000_000, [300_000_000] * 3)
+        self.assertEqual(research_credit(d, 20_000_000)["schedule_06_10"]["average_sales"], 240_000_000)
+        d["research"]["prior_sales"] = []
+        with self.assertRaisesRegex(model.InputError, "prior_sales"):
+            research_credit(d, 20_000_000)
+        d = data(10_000_000, [9_000_000] * 3, 60_000_000, [300_000_000] * 3)
+        d["research"]["prior_sales"] = d["research"]["prior_sales"][1:]       # 1年分足りない（調整対象年度と事業年度が違う）
+        with self.assertRaisesRegex(model.InputError, "prior_sales"):
+            research_credit(d, 20_000_000)
+
     def test_out_of_scope(self):
         base = data(1_000_000, [1_000_000] * 3, 10_000_000, [10_000_000] * 3)
         cases = [({"fiscal_period": {"start": D("2026-04-01"), "end": D("2027-03-31")}}, model.OutOfScope),

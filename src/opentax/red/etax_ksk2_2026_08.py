@@ -138,7 +138,8 @@ def base_values(result: dict) -> dict:
     # 12 控除税額（【計算】は「(9)−(10)−(11) と (18) の少ない金額」で式を読み取れないので入れる）
     v["BGB00180"] = s1.get("credited", 0)
     # 別表六(一)（1 預貯金の利子など・2 剰余金の配当と、その計算の明細 7〜19）
-    if s4["credit"] or s4.get("credit_dividend_tax"):
+    s61 = s4.get("schedule_06_1_dividends") or {}
+    if s4["credit"] or s4.get("credit_dividend_tax") or s61.get("other_tax"):
         ci, cd = s4.get("credit_interest", s4["credit"]), s4.get("credit_dividend", 0)
         income, dincome, dtax = s4["credit_income"], s4.get("credit_dividend_income", 0), s4.get("credit_dividend_tax", 0)
         if ci:
@@ -160,8 +161,16 @@ def base_values(result: dict) -> dict:
                 v["FZF00160"] = [r["units_start"] for r in kan]
                 v["FZF00170"] = [r["half"] for r in kan]
                 v["FZF00190"] = [r["credited"] for r in kan]
+        # 5 その他: 資本剰余金の減少に伴う配当・みなし配当（施行令第140条の2第1項第2号。按分せず全額）と、20・21 その他の明細
+        others = s61.get("other_rows") or []
+        oincome, otax = s61.get("other_income", 0), s61.get("other_tax", 0)
+        if others:
+            v["FZC00270"], v["FZC00280"], v["FZC00290"] = oincome, otax, s61["other_credited"]
+            v["FZG00050"] = [r["amount"] for r in others]
+            v["FZG00060"] = [r["credited"] for r in others]
+            v["FZG00090"], v["FZG00100"] = oincome, s61["other_credited"]
         # 6 計: ① 収入金額 ② 課される所得税額 ③ 控除を受ける所得税額
-        v["FZC00310"], v["FZC00320"], v["FZC00330"] = income + dincome, ci + dtax, s4["credit"]
+        v["FZC00310"], v["FZC00320"], v["FZC00330"] = income + dincome + oincome, ci + dtax + otax, s4["credit"]
     # 別表五(二)
     for tax, p in (("道府県民税", "IEC"), ("市町村民税", "IED")):
         t = s52["taxes"][tax]
@@ -546,6 +555,14 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
         if kan:
             v["FZF00120"] = [d["name"] for d in kan]
             v["FZF00180"] = [d["ratio_text"] for d in kan]     # 18 所有元本割合（小数点以下3位未満切上げ・1が上限）
+    others = (result["schedule_04"].get("schedule_06_1_dividends") or {}).get("other_rows") or []
+    if others:   # 20・21 その他に係る控除を受ける所得税額の明細（資本剰余金の減少に伴う配当・みなし配当）
+        v["FZG00020"] = [d["name"] for d in others]
+        if all(d.get("address") for d in others):
+            v["FZG00030"] = [d["address"] for d in others]
+        if all(d.get("paid_on") for d in others):
+            v["FZG00040"] = [d["paid_on"] for d in others]
+        v["FZG00070"] = [d["distribution_kind"] for d in others]     # 参考（記載の仕方5）
     if s8:
         g = s8["groups"]
         ratio = lambda d: f"{d['ratio']:.3f}"  # noqa: E731

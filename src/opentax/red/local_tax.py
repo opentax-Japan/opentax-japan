@@ -527,11 +527,16 @@ def _non_uniform_rules() -> dict:
 def _levy_by_tiers(city: str, r: dict, period: dict, company: dict, tax_base: int, months: int) -> tuple[str, str]:
     """段階のある不均一課税（2026-11-15）。tiers は税率の低い順の段階の並びで、上から順に条件を見て最初に当たった段階の税率、
     どれにも当たらなければ period の excess。段階の条件（すべて満たすと当たる）:
-      basis: "capital"（資本金の額又は出資金の額）か "capital_etc"（資本金等の額。地方税法第292条第1項第4号の5）
+      basis: "capital"（資本金の額又は出資金の額）か "capital_etc"（資本金等の額。地方税法第292条第1項第4号の2）
       capital_max と capital_inclusive（true=以下・false=未満）。null なら資本の条件なし
       tax_annual_max と tax_inclusive。null なら法人税額の条件なし（法人税額は分割前の課税標準。1年に満たない事業年度は×月数÷12）
     各段階の rate と根拠は市の条例・資料による（ファイルの source）。"""
     from fractions import Fraction as F
+    # 段階の税率は総務省の一覧に載らない（一覧は超過課税の税率だけ）ので、一覧と照合できるのは excess だけ（city_levy_percent）。
+    # 段階の税率が超過課税の税率を超えていたら設定の誤りとして止める（別の検証 2026-11-15 L2）
+    for t in r["tiers"]:
+        if F(t["rate"]) > F(period["excess"]):
+            raise LocalRuleError(f"{r['_file']}: tiers の税率 {t['rate']}% が超過課税の税率 {period['excess']}%（総務省の一覧と照合済み）を超えています")
     for t in r["tiers"]:
         ok = True
         if t.get("capital_max") is not None:
@@ -709,7 +714,8 @@ def business_tax(data: dict, pre_deduction: int) -> dict:
         raise OutOfScope("令和元年10月1日より前に開始した事業年度の黒字法人（事業税の税率の経過措置を扱いません）")
     from . import bunkatsu
     limits = [a * months // 12 for a in bt["brackets_annual"]]
-    if bunkatsu.is_divided(data):
+    # 事業税を分けるのは2以上の道府県に事務所等がある法人だけ（地方税法第72条の48第1項。別の検証 2026-11-15 H1）
+    if bunkatsu.splits_business_tax(data):
         d = bunkatsu.business_tax(data, income, limits, months)
         out.update({"taxable": d["taxable"], "brackets": [{"base": t, "percent": None, "tax": None} for t in d["totals"]],
                     "total": d["total"], "special_base": d["special_base"], "special": d["special"], "division": d})
