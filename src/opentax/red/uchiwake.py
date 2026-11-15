@@ -205,11 +205,25 @@ def load_mapping() -> dict:
 
 # --- 行を作る ---
 
+_SUFFIX_OK = ("預金", "積金", "借入金", "貸付金")
+
+
+def _name_matches(name: str, names: list[str]) -> bool:
+    """科目名が内訳書の対象か。完全一致のほか、末尾の番号を除いた名前（「普通預金２」→普通預金）と、
+    預金・積金・借入金・貸付金で終わる科目の頭に言葉が付いたもの（「社長長期借入金」→長期借入金）も対象にする（2026-11-15）。"""
+    if name in names:
+        return True
+    base = re.sub(r"[0-9０-９]+$", "", name)
+    if base in names:
+        return True
+    return any(base.endswith(n) and n.endswith(_SUFFIX_OK) for n in names)
+
+
 def _lines_of(accounts: list[Account], names: list[str]) -> list[tuple[Account, Sub | None]]:
     """対象の科目の行（補助があれば補助ごと）。残高 0 の行は入れない。"""
     out = []
     for a in accounts:
-        if a.name not in names:
+        if not _name_matches(a.name, names):
             continue
         if a.subs:
             out += [(a, s) for s in a.subs if s.balance]
@@ -369,10 +383,12 @@ def build(accounts: list[Account], supplement: dict | None = None, mapping: dict
         rows = _lines_of(accounts, names(fid))
         r = {f"{p}100": [], f"{p}210": [], f"{p}220": [], f"{p}300": []}
         for a, s in rows:
-            r[f"{p}100"].append(a.name)
-            r[f"{p}210"].append(s.name if s else b.get(a, s, "name", "相手先の名称"))
-            r[f"{p}220"].append(b.get(a, s, "address", "相手先の所在地"))
-            r[f"{p}300"].append((s or a).balance)
+            # 補助科目がなく相手先が何件かあるときは、補足の items で相手先ごとに分ける（2026-11-15）
+            for d, where, amt in b.items(a, s):
+                r[f"{p}100"].append(a.name)
+                r[f"{p}210"].append(s.name if s else b.pick(d, where, "name", "相手先の名称"))
+                r[f"{p}220"].append(b.pick(d, where, "address", "相手先の所在地"))
+                r[f"{p}300"].append(amt)
         put(fid, r, total, f"{p}300")
 
     # 仮払金（前渡金）
@@ -550,12 +566,13 @@ def build(accounts: list[Account], supplement: dict | None = None, mapping: dict
     rows = _lines_of(accounts, names("HOI150"))
     r = {"HOB11000": [], "HOB12000": [], "HOB13000": [], "HOB14000": [], "HOB15000": [], "HOB17000": []}
     for a, s in rows:
-        r["HOB11000"].append(b.get(a, s, "rent_kind", "地代・家賃の区分"))
-        r["HOB12000"].append(b.get(a, s, "use", "物件の用途"))
-        r["HOB13000"].append(b.get(a, s, "property_address", "物件の所在地"))
-        r["HOB14000"].append(s.name if s else b.get(a, s, "name", "貸主の名称"))
-        r["HOB15000"].append(b.get(a, s, "address", "貸主の所在地"))
-        r["HOB17000"].append((s or a).balance)
+        for d, where, amt in b.items(a, s):             # 物件が何件かあれば補足の items で物件ごとに分ける（2026-11-15）
+            r["HOB11000"].append(b.pick(d, where, "rent_kind", "地代・家賃の区分"))
+            r["HOB12000"].append(b.pick(d, where, "use", "物件の用途"))
+            r["HOB13000"].append(b.pick(d, where, "property_address", "物件の所在地"))
+            r["HOB14000"].append(s.name if s else b.pick(d, where, "name", "貸主の名称"))
+            r["HOB15000"].append(b.pick(d, where, "address", "貸主の所在地"))
+            r["HOB17000"].append(amt)
     put("HOI150", r, None, "HOB17000")
 
     # 雑益・雑損失
@@ -574,5 +591,5 @@ def build(accounts: list[Account], supplement: dict | None = None, mapping: dict
     for fid, rule in rules.items():
         used |= set(names(fid)) | set(names(fid, "loan_accounts")) | set(names(fid, "loss_accounts"))
     totals = [(a.name, a.balance, sum(s.balance for s in a.subs) if a.subs else a.balance)
-              for a in accounts if a.name in used and a.balance]
+              for a in accounts if _name_matches(a.name, list(used)) and a.balance]
     return {"forms": forms, "missing": b.missing, "totals": totals}

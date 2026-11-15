@@ -255,5 +255,29 @@ class XtxTest(unittest.TestCase):
         self.assertIn("<gen:era>3</gen:era>", text)                     # 昭和の取得年月
 
 
+
+class CounterpartyItemsTest(unittest.TestCase):
+    """2026-11-15: 補助科目のない買掛金・地代家賃を相手先・物件ごとに分ける、番号つき・頭に言葉の付いた科目名（架空）。"""
+
+    def test_items_and_names(self):
+        acc = [u.Account("普通預金２", "142", 500000), u.Account("社長長期借入金", "2213", 300000),
+               u.Account("買掛金", "2112", 150000), u.Account("地代家賃", "6215", 1200000)]
+        sup = {"rows": [
+            {"account": "買掛金", "items": [{"name": "架空商店", "address": "岡山県架空市1-1", "amount": 100000},
+                                             {"name": "見本食品", "address": "岡山県見本市2-2", "amount": 50000}]},
+            {"account": "社長長期借入金", "name": "開発 太郎", "address": "岡山県架空市3-3", "relation": "代表者"},
+            {"account": "地代家賃", "items": [{"rent_kind": "家賃", "use": "店舗", "property_address": "架空市1", "name": "架空不動産",
+                                              "address": "架空市9", "amount": 1000000},
+                                             {"rent_kind": "家賃", "use": "倉庫", "property_address": "架空市2", "name": "架空不動産",
+                                              "address": "架空市9", "amount": 200000}]}]}
+        f = u.build(acc, sup)["forms"]
+        self.assertEqual(f["HOI090"]["HIB00210"], ["架空商店", "見本食品"])
+        self.assertEqual(f["HOI090"]["HIB00300"], [100000, 50000])
+        self.assertEqual(f["HOI010"]["HAB00400"], [500000])
+        self.assertEqual(f["HOI110"]["HKB00100"], ["開発 太郎"])
+        self.assertEqual(f["HOI150"]["HOB12000"], ["店舗", "倉庫"])
+        self.assertFalse(u._name_matches("期末商品棚卸高", ["商品"]))
+
+
 if __name__ == "__main__":
     unittest.main()
