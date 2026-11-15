@@ -125,21 +125,31 @@ def base_values(result: dict) -> dict:
         v["MAA00150"], v["MAA00160"] = 1, 1             # 提出枚数 総数・うち1枚目（明細は20行まで）
     # 12 控除税額（【計算】は「(9)−(10)−(11) と (18) の少ない金額」で式を読み取れないので入れる）
     v["BGB00180"] = s1.get("credited", 0)
-    # 別表六(一)（預貯金の利子などの1行目だけ）
-    if s4["credit"]:
+    # 別表六(一)（1 預貯金の利子など・2 剰余金の配当と、その計算の明細 7〜19）
+    if s4["credit"] or s4.get("credit_dividend_tax"):
         ci, cd = s4.get("credit_interest", s4["credit"]), s4.get("credit_dividend", 0)
-        income, dincome = s4["credit_income"], s4.get("credit_dividend_income", 0)
+        income, dincome, dtax = s4["credit_income"], s4.get("credit_dividend_income", 0), s4.get("credit_dividend_tax", 0)
         if ci:
             v["FZC00020"], v["FZC00030"], v["FZC00040"] = income, ci, ci
-        if cd:   # 2 剰余金の配当（元本を計算期間を通じて所有していたものだけ。所有期間割合 1.000）
-            v["FZC00060"], v["FZC00070"], v["FZC00080"] = dincome, cd, cd
-            # 個別法による場合 7〜12（施行令第140条の2第2項。計算の明細は法第68条第4項）。9・10 の月数は計算期間があるときだけ
-            rows = dividend_credit_rows(result)
-            v["FZF00040"] = [r["amount"] for r in rows]
-            v["FZF00050"] = v["FZF00090"] = [r["withholding"] for r in rows]
-            if any(r["months"] for r in rows):
-                v["FZF00060"] = v["FZF00070"] = [r["months"] for r in rows]
-        v["FZC00310"], v["FZC00320"], v["FZC00330"] = income + dincome, s4["credit"], s4["credit"]
+        if dtax:   # 2 剰余金の配当: ① 収入金額 ② 課される所得税額 ③ うち控除を受ける所得税額（12 と 19 の計。施行令第140条の2）
+            v["FZC00060"], v["FZC00070"], v["FZC00080"] = dincome, dtax, cd
+            kob, kan = dividend_credit_rows(result)
+            if kob:   # 個別法 7〜12（施行令第140条の2第2項）。9・10 の月数は計算期間があるときだけ
+                v["FZF00040"] = [r["amount"] for r in kob]
+                v["FZF00050"] = [r["withholding"] for r in kob]
+                v["FZF00090"] = [r["credited"] for r in kob]
+                if any(r["months"] for r in kob):
+                    v["FZF00060"] = [r["months"] for r in kob]
+                    v["FZF00070"] = [r["owned"] for r in kob]
+            if kan:   # 銘柄別簡便法 13〜19（施行令第140条の2第3項）
+                v["FZF00130"] = [r["amount"] for r in kan]
+                v["FZF00140"] = [r["withholding"] for r in kan]
+                v["FZF00150"] = [r["units_end"] for r in kan]
+                v["FZF00160"] = [r["units_start"] for r in kan]
+                v["FZF00170"] = [r["half"] for r in kan]
+                v["FZF00190"] = [r["credited"] for r in kan]
+        # 6 計: ① 収入金額 ② 課される所得税額 ③ 控除を受ける所得税額
+        v["FZC00310"], v["FZC00320"], v["FZC00330"] = income + dincome, ci + dtax, s4["credit"]
     # 別表五(二)
     for tax, p in (("道府県民税", "IEC"), ("市町村民税", "IED")):
         t = s52["taxes"][tax]
@@ -221,16 +231,10 @@ def base_values(result: dict) -> dict:
     return {k: val for k, val in v.items() if val != []}
 
 
-def dividend_credit_rows(result: dict) -> list[dict]:
-    """別表六(一) 個別法の行: 源泉徴収された配当（計算期間を通じて所有）。月数は暦に従い1月未満は1月（施行令第140条の2第6項）。"""
-    from .calculate import _months_ceil
-    s8 = result.get("schedule_08_1") or {"groups": {}}
-    rows = [d for g in s8["groups"].values() for d in g if d["withholding"]]
-    if len(rows) > 5:
-        from .model import OutOfScope
-        raise OutOfScope("別表六(一)の個別法の明細が5銘柄を超えています（欄の数）")
-    return [{**d, "months": _months_ceil(d["period_start"], d["period_end"]) if d.get("period_start") and d.get("period_end") else None}
-            for d in rows]
+def dividend_credit_rows(result: dict) -> tuple[list[dict], list[dict]]:
+    """別表六(一) の明細の行（個別法・銘柄別簡便法）。calculate.schedule_06_1_dividends の行を分けるだけ。"""
+    s61 = result["schedule_04"].get("schedule_06_1_dividends") or {"rows": []}
+    return ([r for r in s61["rows"] if r["method"] == "個別法"], [r for r in s61["rows"] if r["method"] == "簡便法"])
 
 
 def _s14_2_values(s14: dict | None) -> dict:
@@ -471,10 +475,14 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
                 if any(d.get(k) for d in rows):
                     v[f"{p}00{tag}"] = [d.get(k) or None for d in rows]
     s8 = result.get("schedule_08_1")
-    if s8 and result["schedule_04"].get("credit_dividend"):
-        credit_rows = dividend_credit_rows(result)
-        v["FZF00030"] = [d["name"] for d in credit_rows]
-        v["FZF00080"] = ["1.000" for _ in credit_rows]
+    if result["schedule_04"].get("credit_dividend_tax"):
+        kob, kan = dividend_credit_rows(result)
+        if kob:
+            v["FZF00030"] = [d["name"] for d in kob]
+            v["FZF00080"] = [d["ratio_text"] for d in kob]     # 11 所有期間割合（小数点以下3位未満切上げ）
+        if kan:
+            v["FZF00120"] = [d["name"] for d in kan]
+            v["FZF00180"] = [d["ratio_text"] for d in kan]     # 18 所有元本割合（小数点以下3位未満切上げ・1が上限）
     if s8:
         g = s8["groups"]
         ratio = lambda d: f"{d['ratio']:.3f}"  # noqa: E731

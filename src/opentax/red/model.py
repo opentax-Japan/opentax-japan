@@ -100,10 +100,17 @@ _SCHEMA: dict[str, Any] = {
                    "notice_no": str, "account": str}],
     # 受取配当等（別表八(一)）。ratio は保有割合（%）。withholding は源泉徴収された所得税（別表六(一)）。
     # wholly_owned: 計算期間を通じて完全支配関係がある（完全子法人株式等）。continuous: 関連法人株式等の保有の継続（令第22条第1項）。
-    # taxable: 短期保有株式等（法第23条第2項）で益金に算入する額。owned_whole_period: 配当の計算期間を通じて元本を所有していた
+    # taxable: 短期保有株式等（法第23条第2項）で益金に算入する額。
+    # 源泉徴収された配当の控除（別表六(一) 2・7〜19。施行令第140条の2。DESIGN §29）:
+    #   period_start・period_end: 配当等の計算の基礎となった期間（前回の配当の基準日等の翌日〜今回の基準日等）
+    #   credit_method: 個別法（既定）／簡便法（銘柄別簡便法。計算期間1年超・1年以下の区分ごとに全銘柄で使う）
+    #   個別法: owned_whole_period（計算期間を通じて所有）か、owned_months（所有していた月数）・acquired（取得日）
+    #   簡便法: units_end・units_start（計算期間の期末・期首に所有していた元本の数）、period_over_one_year（日付がなければ）
     "dividends_received": [{"name": str, "address": str, "account": str, "ratio": (int, float), "amount": int,
                             "withholding": int, "taxable": int, "wholly_owned": bool, "continuous": bool,
-                            "period_start": "date", "period_end": "date", "base_date": "date", "owned_whole_period": bool}],
+                            "period_start": "date", "period_end": "date", "base_date": "date", "owned_whole_period": bool,
+                            "credit_method": str, "owned_months": int, "acquired": "date", "units_end": int, "units_start": int,
+                            "period_over_one_year": bool}],
     # 当期に支払う利子等の額（別表八(一) 35。関連法人株式等があるとき）。書かなければ科目残高の支払利息などから作る
     "interest_paid": int,
     # 当期に損金経理で納付した、損金にならない附帯税等（別表四 5・別表五(二) 24〜27）と罰金等（別表四 10）。
@@ -325,7 +332,8 @@ def _check_scope(data: dict) -> None:
             raise OutOfScope(f"前期の未納の{row['tax']}（扱えるのは {'・'.join(UNPAID_TAXES)}）")
     for c in data.get("income_tax_credit", []):
         if c["kind"] not in CREDIT_KINDS:
-            raise OutOfScope(f"所得税額の控除の「{c['kind']}」（扱えるのは預貯金の利子など（kind: 利子）だけ。配当は所有期間の按分が要る）")
+            raise OutOfScope(f"所得税額の控除の「{c['kind']}」（扱えるのは預貯金の利子など（kind: 利子）だけ。"
+                             "剰余金の配当は dividends_received に書く（別表六(一) 2・個別法・銘柄別簡便法）。集団投資信託・割引債・その他は対象外）")
 
 
 def _fill_defaults(data: dict) -> None:
@@ -424,6 +432,10 @@ def _check_values(data: dict) -> None:
                 errors.append(f"dividends_received[{i}].{k}: 必須の項目です（ratio は保有割合（%）、withholding は源泉徴収された所得税。なければ 0）")
         if d.get("amount", 0) < 0 or d.get("withholding", 0) < 0 or not 0 <= d.get("taxable", 0) <= d.get("amount", 0):
             errors.append(f"dividends_received[{i}]: 金額は0以上で、taxable は amount 以下にしてください")
+        if min(d.get("owned_months") or 0, d.get("units_end") or 0, d.get("units_start") or 0) < 0:
+            errors.append(f"dividends_received[{i}]: owned_months・units_end・units_start は0以上にしてください")
+        if d.get("period_start") and d.get("period_end") and d["period_start"] > d["period_end"]:
+            errors.append(f"dividends_received[{i}]: period_start は period_end 以前にしてください")
         if d.get("ratio") is not None and not 0 < d["ratio"] <= 100:
             errors.append(f"dividends_received[{i}].ratio: 保有割合（%）は0を超え100以下にしてください")
     for k, v in (data.get("tax_dues") or {}).items():

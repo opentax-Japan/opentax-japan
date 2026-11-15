@@ -172,6 +172,135 @@ def interim_amounts(data: dict) -> dict:
             "national": i["法人税"] + i["地方法人税"] + defense, "business": i["事業税"] + i["特別法人事業税"], "inhabitant": inh}
 
 
+# --- 別表六(一) 2・7〜19: 剰余金の配当に対する所得税のうち控除を受ける額（DESIGN §29） ---
+
+CREDIT_METHODS = ("個別法", "簡便法")
+
+
+def _ceil3(x: Fraction) -> Fraction:
+    """割合の小数点以下三位未満の端数を切り上げる（法人税法施行令第140条の2第2項。第3項の割合も「次項において同じ」）。"""
+    return Fraction(_ceil(x * 1000), 1000)
+
+
+def _months_div(start: datetime.date, end: datetime.date) -> int:
+    """配当等の月数。暦に従って計算し、1月に満たない端数は1月（施行令第140条の2第6項）。1年を超える期間もある。"""
+    end_excl = end + datetime.timedelta(days=1)
+    n = 1
+    while _add_months(start, n) < end_excl:
+        n += 1
+    return n
+
+
+def _over_one_year(d: dict) -> bool | None:
+    """配当等の計算の基礎となった期間が1年を超えるか（施行令第140条の2第3項の区分・第2号ロの十二分の一）。"""
+    if d.get("period_over_one_year") is not None:
+        return bool(d["period_over_one_year"])
+    if d.get("period_start") and d.get("period_end"):
+        return _months_div(d["period_start"], d["period_end"]) > 12
+    return None
+
+
+def dividend_credit_missing(d: dict) -> str | None:
+    """源泉徴収された配当で、控除を受ける所得税額（所有期間の按分）を計算するのに足りない入力。足りていれば None。"""
+    method = d.get("credit_method") or "個別法"
+    if method not in CREDIT_METHODS:
+        return f"credit_method は {'・'.join(CREDIT_METHODS)} のどちらかにしてください"
+    if method == "個別法":
+        if d.get("owned_whole_period"):
+            return None
+        if not (d.get("period_start") and d.get("period_end")):
+            return ("個別法（令第140条の2第2項）では、配当等の計算の基礎となった期間（前回の配当の基準日等の翌日〜今回の基準日等。"
+                    "period_start・period_end）が要ります。計算期間を通じて所有していたなら owned_whole_period: true")
+        if d.get("owned_months") is None and not d.get("acquired"):
+            return "個別法では、そのうち元本を所有していた期間（owned_months＝月数、または acquired＝取得日）が要ります"
+        return None
+    if d.get("units_end") is None or d.get("units_start") is None:
+        return "銘柄別簡便法（令第140条の2第3項）では、計算期間の期末・期首に所有していた元本の数（units_end・units_start）が要ります"
+    if not d["units_end"]:
+        return "銘柄別簡便法の期末の所有元本数（units_end）が 0 です（期末に所有していなければ個別法で書いてください）"
+    if _over_one_year(d) is None:
+        return "銘柄別簡便法では、配当等の計算期間が1年を超えるか（period_start・period_end か period_over_one_year）が要ります"
+    return None
+
+
+def schedule_06_1_dividends(data: dict) -> dict:
+    """剰余金の配当に対する所得税のうち、法人税額から控除を受ける額（法人税法第68条第1項、施行令第140条の2第1項第1号）。
+    - 個別法（第2項）: 所得税額 × 所有期間割合（元本を所有していた期間の月数 ÷ 配当等の計算の基礎となった期間の月数。
+      小数点以下三位未満切上げ）。月数は暦に従い、1月に満たない端数は1月（第6項）
+    - 銘柄別簡便法（第3項）: 所得税額 × 所有元本割合（{期首の数 ＋ (期末の数−期首の数)÷2（計算期間が1年超は÷12）} ÷ 期末の数。
+      期末の数が期首の数に満たなければ期末の数。小数点以下三位未満切上げ）。様式は「1を超える場合は1」
+    - 簡便法は、元本を株式・出資と集団投資信託の受益権に、さらに計算期間が1年超と1年以下に分けた区分ごとに、
+      その区分に属する全ての元本について使う（第3項）。同じ区分で個別法と混ぜたら止める
+    - 控除を受ける所得税額（12・19）の1円未満は切り捨て（法令・記載の仕方に定めがない。rules の dividend_credit.rounding）
+    戻り値: rows（銘柄ごと。method・months・owned・credit_ratio_permille・ratio_text・half・credited）、income（2①）、tax（2②）、credited（2③）。"""
+    rows = []
+    for d in data.get("dividends_received") or []:
+        if not d.get("withholding"):
+            continue        # 源泉徴収のない配当（完全子法人株式等・3分の1超の株式等。所得税法第177条）は別表六(一)に書かない
+        miss = dividend_credit_missing(d)
+        if miss:
+            raise InputError(f"dividends_received「{d['name']}」: {miss}")
+        method = d.get("credit_method") or "個別法"
+        r = {**d, "method": method, "over_one_year": _over_one_year(d)}
+        if method == "個別法":
+            months = _months_div(d["period_start"], d["period_end"]) if d.get("period_start") and d.get("period_end") else None
+            if d.get("owned_whole_period"):
+                owned, ratio = months, Fraction(1)
+            else:
+                owned = d.get("owned_months")
+                if owned is None:
+                    owned = _months_div(max(d["acquired"], d["period_start"]), d["period_end"]) if d["acquired"] <= d["period_end"] else 0
+                if not 0 <= owned <= months:
+                    raise InputError(f"dividends_received「{d['name']}」: 所有していた期間の月数 {owned} は 0〜計算期間の月数 {months} にしてください")
+                ratio = _ceil3(Fraction(owned, months))
+            r.update({"months": months, "owned": owned})
+        else:
+            end, start = d["units_end"], d["units_start"]
+            half = Fraction(max(end - start, 0), 12 if r["over_one_year"] else 2)     # 第3項第2号ロ（様式 17。マイナスは0）
+            num = start + half if end >= start else Fraction(end)                     # 第3項第2号（期末が期首に満たなければ期末の数）
+            ratio = min(_ceil3(Fraction(num) / end), Fraction(1))                    # 様式 18（1を超える場合は1）
+            r["half"] = int(half)                                                     # 17 は整数の欄（切り捨てて書く）
+        k = int(ratio * 1000)                              # 11 所有期間割合・18 所有元本割合（小数3位まで。切り上げ済み）
+        r["credit_ratio_permille"] = k                     # ratio は保有割合なので別の名前（結果を JSON にできるよう整数）
+        r["ratio_text"] = f"{k // 1000}.{k % 1000:03d}"
+        r["credited"] = int(d["withholding"] * ratio)     # 12 (8)×(11)・19 (14)×(18)。1円未満切り捨て
+        rows.append(r)
+    if any(r["method"] == "簡便法" for r in rows) and any(r["over_one_year"] is None for r in rows):
+        raise InputError("銘柄別簡便法を使う区分を決めるため、源泉徴収された配当すべてに計算期間（period_start・period_end）を書いてください"
+                         "（令第140条の2第3項）")
+    for over in (True, False):
+        if len({r["method"] for r in rows if r["over_one_year"] is over}) > 1:
+            raise InputError("配当の所得税額の控除で、計算期間が" + ("1年を超える" if over else "1年以下の") + "株式・出資に個別法と銘柄別簡便法が"
+                             "混ざっています。簡便法はその区分に属する全ての元本について使います（法人税法施行令第140条の2第3項）")
+    for method in CREDIT_METHODS:
+        if sum(r["method"] == method for r in rows) > 5:
+            raise OutOfScope(f"別表六(一)の{method}の明細が5銘柄を超えています（e-Tax の欄の数）")
+    return {"rows": rows, "income": sum(r["amount"] for r in rows), "tax": sum(r["withholding"] for r in rows),
+            "credited": sum(r["credited"] for r in rows),
+            "not_credited": sum(r["withholding"] - r["credited"] for r in rows)}
+
+
+# 所得税法第177条（完全子法人株式等・保有割合3分の1超の株式等の配当には所得税を課さない）・第212条第3項（源泉徴収しない）は、
+# 令和5年10月1日以後に支払を受けるべき配当等から（国税庁 源泉徴収のあらまし「令和5年10月1日以後に支払うべき配当等で…源泉徴収を要しない（所法177、212③）」）
+SOURCE_EXEMPT_FROM = datetime.date(2023, 10, 1)
+
+
+def dividend_credit_notes(data: dict, s61: dict) -> list[str]:
+    """別表六(一) 配当の行について確かめてほしいこと。"""
+    out = []
+    for r in s61["rows"]:
+        if r["credit_ratio_permille"] < 1000:
+            out.append(f"別表六(一): {r['name']} の所得税 {r['withholding']:,}円 のうち、{r['method']}の割合 {r['ratio_text']} で "
+                       f"{r['credited']:,}円 を控除します（控除されない {r['withholding'] - r['credited']:,}円 は損金のまま。法人税法第40条）")
+    if data["fiscal_period"]["end"] >= SOURCE_EXEMPT_FROM:
+        exempt = [r["name"] for r in s61["rows"] if r.get("wholly_owned") or r["ratio"] * 3 > 100]
+        if exempt:
+            out.append(f"別表六(一): {'・'.join(exempt)} は完全子法人株式等か保有割合3分の1超の株式等で、令和5年10月1日以後に支払を受ける配当には"
+                       "所得税が課されません（所得税法第177条・第212条第3項）。源泉徴収されていれば、支払った法人に確かめてください"
+                       "（3分の1超に当たるかは所得税法第177条第2項の政令で定める場合で判定します。保有割合（ratio）は別表八(一)の判定のものです）")
+    return out
+
+
 def _paid(data: dict, taxes: tuple, method: str) -> int:
     return sum(p["amount"] for p in data["tax_payments"] if p["tax"] in taxes and p["method"] == method)
 
@@ -208,8 +337,10 @@ def schedule_04(data: dict, s15: dict | None = None, s16: dict | None = None, s8
     s14 = schedule_14_2(data, provisional, rules) if data.get("donations") and rules else None
     add_donation = s14["disallowed"] if s14 else 0          # 27 寄附金の損金不算入額（社外流出）
     credit_interest = sum(c["tax"] for c in data.get("income_tax_credit", []))
-    credit_dividend = sum(d["withholding"] for d in data.get("dividends_received") or [])
-    credit = credit_interest + credit_dividend     # 29 法人税額から控除される所得税額（社外流出）
+    s61 = schedule_06_1_dividends(data)
+    credit_dividend = s61["credited"]              # 別表六(一) 2③（所有期間で按分した後の額。施行令第140条の2）
+    # 29 法人税額から控除される所得税額（社外流出）。控除を受ける額だけが損金不算入（法人税法第40条）。按分で控除されない分は損金のまま
+    credit = credit_interest + credit_dividend
     pre_deduction = provisional + add_donation + credit    # 34 合計＝39＝43 差引計
     # 44 欠損金等の当期控除額は別表七(一)で決めて、calculate が loss_deduction・income を入れ直す（所得が0以下なら 0）
     income = pre_deduction
@@ -220,7 +351,7 @@ def schedule_04(data: dict, s15: dict | None = None, s16: dict | None = None, s8
         "provisional": provisional, "credit": credit, "pre_deduction": pre_deduction,
         "credit_income": sum(c["income"] for c in data.get("income_tax_credit", [])),
         "credit_interest": credit_interest, "credit_dividend": credit_dividend,
-        "credit_dividend_income": sum(d["amount"] for d in data.get("dividends_received") or [] if d["withholding"]),
+        "credit_dividend_income": s61["income"], "credit_dividend_tax": s61["tax"], "schedule_06_1_dividends": s61,
         "add_depreciation": add_depreciation, "add_entertainment": add_entertainment,
         "add_surcharges": add_surcharges, "add_fines": add_fines, "add_donation": add_donation,
         "deduct_depreciation": deduct_depreciation, "deduct_dividends": deduct_dividends,
@@ -598,7 +729,8 @@ def schedule_05_02(data: dict, per_capita: dict[str, int], levy: dict[str, int] 
 
     # その他（損金不算入のもの）: 源泉所得税等（損金経理をしたもの）
     others = []
-    credit = sum(c["tax"] for c in data.get("income_tax_credit") or []) + sum(d["withholding"] for d in data.get("dividends_received") or [])
+    # 法人税額から控除を受ける額だけ（法人税法第40条）。配当の所得税で所有期間の按分により控除されない分は損金のまま
+    credit = sum(c["tax"] for c in data.get("income_tax_credit") or []) + schedule_06_1_dividends(data)["credited"]
     if credit:
         others.append({"item": "源泉所得税等", "opening": 0, "accrued": credit, "by_provision": 0, "by_expense": credit, "closing": 0})
     # 損金不算入のもの 24〜27（加算税及び加算金・延滞税・延滞金・過怠税。損金経理で納付したもの）
@@ -813,6 +945,7 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
         warnings.append(f"期末の納税充当金がマイナスです（{s52['provision']['closing']:,}円）。中間納付を納税充当金の取崩しで払った額が、"
                         "納税充当金より多いためです（会計の処理と合っているか確かめてください）")
     warnings += s16["checks"]
+    warnings += dividend_credit_notes(data, s4["schedule_06_1_dividends"])
     warnings += measure_notes
     if s1["corporate_tax"] and data["company"].get("excluded_business_operator") is None:
         warnings.append("年800万円以下の所得に15%（租税特別措置法第42条の3の2）を使いました。適用除外事業者（前3事業年度の所得の平均が年15億円超。"

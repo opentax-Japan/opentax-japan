@@ -565,6 +565,13 @@ def followups(data: dict, balance: bytes | None) -> list[dict]:
             continue
         if row["status"] != "止めた":
             continue
+        if rid == "dividend" and not any(d.get("account") in (acc, None, "") for d in data.get("dividends_received") or []):
+            # 受取配当金: 明細がなければ黙って推定せず、銘柄ごとの源泉所得税・保有割合・所有期間を聞く（別表八(一)・別表六(一)）
+            out.append({"type": "dividends", "key": f"div:{acc}", "account": acc, "amount": amt,
+                        "label": f"{acc}（{amt:,}円）の銘柄ごとの内訳（支払通知書の数字）。源泉徴収された所得税は、元本を所有していた期間の分だけ"
+                                 "法人税から控除します（別表六(一)）",
+                        "rows": [{"name": s_name, "amount": s_amt} for s_name, s_amt in row.get("subs") or []] or [{"name": "", "amount": amt}]})
+            continue
         if rid == "entertainment":
             out.append({"type": "dining", "key": f"dining:{acc}", "account": acc, "amount": amt,
                         "label": f"{acc}（{amt:,}円）のうち、接待飲食費（社内の飲食を除く飲食の費用）はいくらですか"})
@@ -600,6 +607,9 @@ def apply_followups(data: dict, answers: dict) -> dict:
             data.setdefault("entertainment", []).append({"account": acc, "amount": amount, "deductible": 0, "dining": int(v["dining"])})
         elif kind == "dep":
             data["depreciation"] = [{**r, "prior_excess": r.get("prior_excess", 0)} for r in v]
+        elif kind == "div":
+            # 受取配当金の内訳: [{name, amount, withholding, ratio（保有割合%）, owned_whole_period, ...}]
+            data["dividends_received"] = [d for d in data.get("dividends_received") or [] if d.get("account") != rest] +                 [{**d, "account": rest, "address": d.get("address", ""), "withholding": int(d.get("withholding") or 0)} for d in v]
         elif kind == "dues":
             data["tax_dues"] = {k: int(v.get(k, 0) or 0) for k in ("加算税及び加算金", "延滞税", "延滞金", "過怠税", "罰金等")}
         elif kind == "confirm" and not str(v).startswith(("当てはまらない", INTEREST_WITHHELD)):
