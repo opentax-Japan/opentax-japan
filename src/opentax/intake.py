@@ -256,6 +256,21 @@ def read_table(data: bytes, name: str, d: Draft) -> str | None:
         return "shukuhaku"
     if _other().read_timecard_csv(data, text, name, d):
         return "kyuyo"
+    from . import journal
+    if journal.is_journal(head):
+        try:
+            j = journal.read(data)
+        except journal.JournalError as e:
+            d.files.append({"name": name, "kind": "journal", "label": "仕訳帳", "ok": False, "note": str(e)})
+            return None
+        d.files.append({"name": name, "kind": "journal", "label": "仕訳帳", "ok": True, "note": " ".join(j["notes"])})
+        read_table(journal.balance_csv(j), f"{name}（仕訳帳から作った残高試算表）", d)
+        if len(j["months"]) >= 3:
+            read_table(journal.trend_csv(j), f"{name}（仕訳帳から作った月次推移表）", d)
+        d.put("fiscal_period.start", j["start"].replace(day=1).isoformat(), "program", name, "仕訳帳の最初の日の月", weak=True)
+        last = j["end"].replace(day=calendar.monthrange(j["end"].year, j["end"].month)[1])
+        d.put("fiscal_period.end", last.isoformat(), "program", name, "仕訳帳の最後の日の月の末日", weak=True)
+        return "journal"
     # 月の列がいくつもあれば月次推移表
     month_cols = [h for h in head if uchiwake._month_of(h)]
     if len(month_cols) >= 3:
