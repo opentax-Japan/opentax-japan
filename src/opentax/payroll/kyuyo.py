@@ -14,6 +14,9 @@
 - company: {name, prefecture（協会けんぽの支部＝都道府県）, business（一般・農林水産清酒・建設）}
 - month: 支給する月（YYYY-MM）。social_insurance_month: 控除する保険料の月（省略時は前月＝翌月徴収）
 - settings: kintai の設定（break_rules・rates・yen_rounding・week_start）＋ social_rounding・employment_rounding
+  ＋ closing_day（締め日。省略は末日）・pay_month_offset（締め日の月から何か月後に払うか。省略は 1＝翌月）。
+  タイムカードを入れると、支給月はいちばん新しい勤務日の締めの期間から決め、期間の外の行（先月分など）は使わない
+  （先月の入力をそのまま使い回せる。month と違えば notes に書く）
 - people: [{id, name, birth, standard_monthly（標準報酬月額。決定通知書の額）, column（甲・乙）, dependents（扶養親族等の数）,
   pay: {基本給などの項目: 額}, nontaxable: {通勤手当など: 額}, hourly_base（割増賃金の基礎の時給）, resident_tax（住民税の特別徴収税額）,
   employment_insurance（雇用保険の被保険者か。既定 true）, health_insurance（健康保険・厚生年金の被保険者か。既定 true）, other_deductions: {名前: 額}}]
@@ -205,9 +208,71 @@ def person(p: dict, company: dict, month: str, ins_month: str, settings: dict, t
             "net": gross - total_ded, "warnings": warnings}
 
 
+def _add_months(ym: str, n: int) -> str:
+    y, m = map(int, ym.split("-"))
+    i = y * 12 + (m - 1) + n
+    return f"{i // 12:04d}-{i % 12 + 1:02d}"
+
+
+def _period(latest: datetime.date, closing_day: int | None) -> tuple[datetime.date, datetime.date, str]:
+    """いちばん新しい勤務日が入る締めの期間（開始日・締め日・締め日の年月）。closing_day なし・その月の末日以上は末日締め。"""
+    def close_of(y: int, m: int) -> datetime.date:
+        last = _month_last(f"{y:04d}-{m:02d}")
+        return last if not closing_day or closing_day >= last.day else datetime.date(y, m, closing_day)
+    end = close_of(latest.year, latest.month)
+    if latest > end:
+        nxt = datetime.date(latest.year, latest.month, 28) + datetime.timedelta(days=7)
+        end = close_of(nxt.year, nxt.month)
+    pm = datetime.date(end.year, end.month, 1) - datetime.timedelta(days=1)
+    start = close_of(pm.year, pm.month) + datetime.timedelta(days=1)
+    return start, end, f"{end.year:04d}-{end.month:02d}"
+
+
+def _align_to_timecard(data: dict, timecards: dict[str, list[dict]]) -> tuple[dict, dict, list[str]]:
+    """先月の設定ファイルに今月のタイムカードを入れたとき、支給月をタイムカードの期間から決め、期間の外の行（先月分など）を外す。
+    締め日は settings.closing_day（既定は末日）、支給は締め日の月から settings.pay_month_offset か月後（既定 1＝翌月払い）。"""
+    dates = [r["date"] for rows in timecards.values() for r in rows if r.get("date")]
+    if not dates:
+        return data, timecards, []
+    settings = data.get("settings") or {}
+    closing = settings.get("closing_day")
+    offset = settings.get("pay_month_offset", 1)
+    if closing is not None and not (isinstance(closing, int) and 1 <= closing <= 31):
+        raise KyuyoError("settings.closing_day: 締め日を 1〜31 の数で入れてください（末日締めなら省略）")
+    if not isinstance(offset, int) or not 0 <= offset <= 2:
+        raise KyuyoError("settings.pay_month_offset: 締め日の月から何か月後に支給するかを 0〜2 で入れてください（翌月払いは 1）")
+    start, end, close_ym = _period(datetime.date.fromisoformat(max(dates)), closing)
+    notes = []
+    kept, dropped = {}, 0
+    for k, rows in timecards.items():
+        ok = [r for r in rows if start.isoformat() <= r["date"] <= end.isoformat()]
+        dropped += len(rows) - len(ok)
+        kept[k] = ok
+    if dropped:
+        notes.append(f"タイムカードのうち {start.isoformat()}〜{end.isoformat()} の期間の外の {dropped} 日分（先月分など）は使っていません")
+    pay = _add_months(close_ym, offset)
+    old = str(data.get("month") or "")
+    if old != pay:
+        data = dict(data, month=pay)
+        if data.get("social_insurance_month") and re.fullmatch(r"\d{4}-\d{2}", old):
+            y0, m0 = map(int, old.split("-"))
+            y1, m1 = map(int, pay.split("-"))
+            data["social_insurance_month"] = _add_months(str(data["social_insurance_month"]), (y1 * 12 + m1) - (y0 * 12 + m0))
+        notes.append(f"支給月はタイムカードの期間（{start.isoformat()}〜{end.isoformat()}）から {pay} にしました"
+                     f"（入力の月 {old or 'なし'} は使っていません。締め日・支給月は settings.closing_day・pay_month_offset）")
+    return data, kept, notes
+
+
 def calculate(data: dict, timecards: dict[str, list[dict]] | None = None) -> dict:
     if data.get("format") != FORMAT:
         raise KyuyoError(f"format が {FORMAT} ではありません（OpenTax PINK の給与計算の入力ですか）")
+    align_notes: list[str] = []
+    for key in ("month", "social_insurance_month"):
+        v = data.get(key)
+        if v not in (None, "") and not (re.fullmatch(r"\d{4}-\d{2}", str(v)) and 1 <= int(str(v)[5:]) <= 12):
+            raise KyuyoError(f"{key}: 月を YYYY-MM（例 2026-11）で入れてください: {v}")
+    if timecards:
+        data, timecards, align_notes = _align_to_timecard(data, timecards)
     month = str(data.get("month") or "")
     try:
         y, m = map(int, month.split("-"))
@@ -230,7 +295,7 @@ def calculate(data: dict, timecards: dict[str, list[dict]] | None = None) -> dic
     for p in data.get("people") or []:
         tc = timecards.get(str(p.get("id"))) or timecards.get(str(p.get("name"))) or (timecards.get("") if len(data["people"]) == 1 else None)
         people.append(person(p, data.get("company") or {}, month, ins_month, settings, tc))
-    notes = [f"社会保険料は {ins_month} 分を控除したものとして計算しました（前月分を控除。健康保険法第167条第1項・厚生年金保険法第84条第1項。social_insurance_month で変えられます）",
+    notes = align_notes + [f"社会保険料は {ins_month} 分を控除したものとして計算しました（前月分を控除。健康保険法第167条第1項・厚生年金保険法第84条第1項。social_insurance_month で変えられます）",
              "入社した月（前月分がない）・退職する月（前月とその月の2か月分を控除することがある。同条）・資格を失った月分（算定しない。健康保険法第156条第3項）は手で確かめてください",
              "標準報酬月額は決定通知書の額を入れてください（算定・月変の判定はしていません）",
              "対象外: 賞与の社会保険料、産前産後・育児休業の保険料の免除、二以上の事業所に勤める人、健康保険組合・厚生年金基金、協会けんぽの保険料調整制度、日額表を使う人"]

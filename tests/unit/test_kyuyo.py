@@ -114,7 +114,7 @@ class KyuyoTest(unittest.TestCase):
             if ins:
                 data["social_insurance_month"] = ins
             with self.assertRaises(kyuyo.KyuyoError, msg=month):
-                self.calc(data)
+                api.kyuyo_calculate(data)                      # タイムカードを入れると支給月はタイムカードから決まるので、入れずに確かめる
 
     def test_month_format(self):
         data = sample()
@@ -136,6 +136,41 @@ class KyuyoTest(unittest.TestCase):
         data["people"][0]["pay"]["基本給"] = -1
         with self.assertRaises(kyuyo.KyuyoError):
             self.calc(data)
+
+
+
+class AlignToTimecardTest(unittest.TestCase):
+    """先月の設定ファイルに今月のタイムカードを入れたとき（支給月をタイムカードから決める・先月分の行を外す）。"""
+
+    def nov_csv(self) -> bytes:
+        return (CASE / "timecard_2026-10.csv").read_bytes().replace(b"2026-10-", b"2026-11-")
+
+    def test_next_month_timecard_moves_pay_month(self):
+        c = api.kyuyo_calculate(sample(), [self.nov_csv()])        # 設定ファイルは 2026-11 支給のまま
+        self.assertEqual(c["month"], "2026-12")                    # 11月の勤務→翌月払い
+        self.assertEqual(c["social_insurance_month"], "2026-11")
+        self.assertTrue(any("支給月はタイムカード" in n for n in c["notes"]))
+        same = api.kyuyo_calculate(dict(sample(), month="2026-12"), [self.nov_csv()])
+        self.assertEqual(c["people"][0]["net"], same["people"][0]["net"])
+
+    def test_last_month_rows_are_dropped(self):
+        both = api.kyuyo_calculate(sample(), [(CASE / "timecard_2026-10.csv").read_bytes(), self.nov_csv()])
+        only = api.kyuyo_calculate(sample(), [self.nov_csv()])
+        self.assertEqual(both["people"][0]["work"], only["people"][0]["work"])
+        self.assertTrue(any("期間の外" in n for n in both["notes"]))
+
+    def test_same_month_is_unchanged(self):
+        c = api.kyuyo_calculate(sample(), [(CASE / "timecard_2026-10.csv").read_bytes()])
+        self.assertEqual(c["month"], "2026-11")
+        self.assertFalse(any("支給月はタイムカード" in n for n in c["notes"]))
+
+    def test_closing_day_and_same_month_pay(self):
+        start, end, ym = kyuyo._period(__import__("datetime").date(2026, 11, 25), 20)
+        self.assertEqual((start.isoformat(), end.isoformat(), ym), ("2026-11-21", "2026-12-20", "2026-12"))
+        d = sample()
+        d["settings"] = dict(d["settings"], closing_day=20, pay_month_offset=0)
+        c = api.kyuyo_calculate(d, [self.nov_csv()])
+        self.assertEqual(c["month"], "2026-11")                    # 10/21〜11/20 の勤務を11月に払う
 
 
 if __name__ == "__main__":
