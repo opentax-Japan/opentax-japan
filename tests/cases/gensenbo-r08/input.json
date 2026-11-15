@@ -1,0 +1,550 @@
+{
+ "format": "opentax-gensenbo/1",
+ "year": 2026,
+ "note": "国税庁「令和8年分 年末調整のしかた」57ページの設例（山川太郎。本年最後に支払う賞与の税額計算を省略）と、同じ冊子の参考資料「過不足額の精算の設例」（鈴木一郎。省略しない）の源泉徴収簿を写したもの。人・会社は国税庁の設例の架空のもの",
+ "record": {
+  "format": "opentax-payroll/1",
+  "company": "オープン商事株式会社",
+  "year": 2026,
+  "items": {
+   "pay": [
+    {
+     "key": "shikyu",
+     "name": "支給額",
+     "taxable": true
+    }
+   ],
+   "deduct": [
+    {
+     "key": "shakai",
+     "name": "社会保険料等",
+     "kind": "social"
+    },
+    {
+     "key": "shotoku",
+     "name": "源泉所得税",
+     "kind": "income_tax"
+    }
+   ]
+  },
+  "people": [
+   {
+    "id": "p1",
+    "name": "山川　太郎",
+    "kana": "ヤマカワ　タロウ",
+    "sex": "男",
+    "role": "従業員"
+   },
+   {
+    "id": "p2",
+    "name": "鈴木　一郎",
+    "kana": "スズキ　イチロウ",
+    "sex": "男",
+    "role": "従業員"
+   }
+  ],
+  "payments": [
+   {
+    "date": "2026-01-20",
+    "kind": "給与",
+    "rows": [
+     {
+      "person": "p1",
+      "pay": {
+       "shikyu": 590000
+      },
+      "deduct": {
+       "shakai": 90712,
+       "shotoku": 6320
+      },
+      "net": 492968
+     },
+     {
+      "person": "p2",
+      "pay": {
+       "shikyu": 300000
+      },
+      "deduct": {
+       "shakai": 43665,
+       "shotoku": 3090
+      },
+      "net": 253245
+     }
+    ]
+   },
+   {
+    "date": "2026-02-20",
+    "kind": "給与",
+    "rows": [
+     {
+      "person": "p1",
+      "pay": {
+       "shikyu": 590000
+      },
+      "deduct": {
+       "shakai": 90712,
+       "shotoku": 6320
+      },
+      "net": 492968
+     },
+     {
+      "person": "p2",
+      "pay": {
+       "shikyu": 300000
+      },
+      "deduct": {
+       "shakai": 43665,
+       "shotoku": 3090
+      },
+      "net": 253245
+     }
+    ]
+   },
+   {
+    "date": "2026-03-19",
+    "kind": "給与",
+    "rows": [
+     {
+      "person": "p1",
+      "pay": {
+       "shikyu": 590000
+      },
+      "deduct": {
+       "shakai": 90712,
+       "shotoku": 6320
+      },
+      "net": 492968
+     },
+     {
+      "person": "p2",
+      "pay": {
+       "shikyu": 300000
+      },
+      "deduct": {
+       "shakai": 43665,
+       "shotoku": 3090
+      },
+      "net": 253245
+     }
+    ]
+   },
+   {
+    "date": "2026-04-20",
+    "kind": "給与",
+    "rows": [
+     {
+      "person": "p1",
+      "pay": {
+       "shikyu": 600000
+      },
+      "deduct": {
+       "shakai": 92454,
+       "shotoku": 6690
+      },
+      "net": 500856
+     },
+     {
+      "person": "p2",
+      "pay": {
+       "shikyu": 310000
+      },
+      "deduct": {
+       "shakai": 44310,
+       "shotoku": 3410
+      },
+      "net": 262280
+     }
+    ]
+   },
+   {
+    "date": "2026-05-20",
+    "kind": "給与",
+    "rows": [
+     {
+      "person": "p1",
+      "pay": {
+       "shikyu": 600000
+      },
+      "deduct": {
+       "shakai": 92454,
+       "shotoku": 6690
+      },
+      "net": 500856
+     },
+     {
+      "person": "p2",
+      "pay": {
+       "shikyu": 310000
+      },
+      "deduct": {
+       "shakai": 44310,
+       "shotoku": 3410
+      },
+      "net": 262280
+     }
+    ]
+   },
+   {
+    "date": "2026-06-19",
+    "kind": "給与",
+    "rows": [
+     {
+      "person": "p1",
+      "pay": {
+       "shikyu": 600000
+      },
+      "deduct": {
+       "shakai": 92454,
+       "shotoku": 6690
+      },
+      "net": 500856
+     },
+     {
+      "person": "p2",
+      "pay": {
+       "shikyu": 310000
+      },
+      "deduct": {
+       "shakai": 44310,
+       "shotoku": 3410
+      },
+      "net": 262280
+     }
+    ]
+   },
+   {
+    "date": "2026-07-17",
+    "kind": "給与",
+    "rows": [
+     {
+      "person": "p1",
+      "pay": {
+       "shikyu": 600000
+      },
+      "deduct": {
+       "shakai": 92454,
+       "shotoku": 6690
+      },
+      "net": 500856
+     },
+     {
+      "person": "p2",
+      "pay": {
+       "shikyu": 310000
+      },
+      "deduct": {
+       "shakai": 44310,
+       "shotoku": 3410
+      },
+      "net": 262280
+     }
+    ]
+   },
+   {
+    "date": "2026-08-20",
+    "kind": "給与",
+    "rows": [
+     {
+      "person": "p1",
+      "pay": {
+       "shikyu": 600000
+      },
+      "deduct": {
+       "shakai": 92454,
+       "shotoku": 6690
+      },
+      "net": 500856
+     },
+     {
+      "person": "p2",
+      "pay": {
+       "shikyu": 310000
+      },
+      "deduct": {
+       "shakai": 44310,
+       "shotoku": 3410
+      },
+      "net": 262280
+     }
+    ]
+   },
+   {
+    "date": "2026-09-18",
+    "kind": "給与",
+    "rows": [
+     {
+      "person": "p1",
+      "pay": {
+       "shikyu": 600000
+      },
+      "deduct": {
+       "shakai": 92454,
+       "shotoku": 6690
+      },
+      "net": 500856
+     },
+     {
+      "person": "p2",
+      "pay": {
+       "shikyu": 310000
+      },
+      "deduct": {
+       "shakai": 44310,
+       "shotoku": 3410
+      },
+      "net": 262280
+     }
+    ]
+   },
+   {
+    "date": "2026-10-20",
+    "kind": "給与",
+    "rows": [
+     {
+      "person": "p1",
+      "pay": {
+       "shikyu": 600000
+      },
+      "deduct": {
+       "shakai": 92454,
+       "shotoku": 6690
+      },
+      "net": 500856
+     },
+     {
+      "person": "p2",
+      "pay": {
+       "shikyu": 310000
+      },
+      "deduct": {
+       "shakai": 47140,
+       "shotoku": 3310
+      },
+      "net": 259550
+     }
+    ]
+   },
+   {
+    "date": "2026-11-20",
+    "kind": "給与",
+    "rows": [
+     {
+      "person": "p1",
+      "pay": {
+       "shikyu": 600000
+      },
+      "deduct": {
+       "shakai": 92454,
+       "shotoku": 6690
+      },
+      "net": 500856
+     },
+     {
+      "person": "p2",
+      "pay": {
+       "shikyu": 310000
+      },
+      "deduct": {
+       "shakai": 47140,
+       "shotoku": 3310
+      },
+      "net": 259550
+     }
+    ]
+   },
+   {
+    "date": "2026-12-18",
+    "kind": "給与",
+    "rows": [
+     {
+      "person": "p1",
+      "pay": {
+       "shikyu": 600000
+      },
+      "deduct": {
+       "shakai": 92454,
+       "shotoku": 6690
+      },
+      "net": 500856
+     },
+     {
+      "person": "p2",
+      "pay": {
+       "shikyu": 310000
+      },
+      "deduct": {
+       "shakai": 47140,
+       "shotoku": 3310
+      },
+      "net": 259550
+     }
+    ]
+   },
+   {
+    "date": "2026-06-10",
+    "kind": "賞与",
+    "rows": [
+     {
+      "person": "p1",
+      "pay": {
+       "shikyu": 900000
+      },
+      "deduct": {
+       "shakai": 140940,
+       "shotoku": 77500
+      },
+      "net": 681560
+     },
+     {
+      "person": "p2",
+      "pay": {
+       "shikyu": 300000
+      },
+      "deduct": {
+       "shakai": 44250,
+       "shotoku": 5222
+      },
+      "net": 250528
+     }
+    ]
+   },
+   {
+    "date": "2026-12-25",
+    "kind": "賞与",
+    "rows": [
+     {
+      "person": "p1",
+      "pay": {
+       "shikyu": 900000
+      },
+      "deduct": {
+       "shakai": 140940,
+       "shotoku": 0
+      },
+      "net": 759060
+     },
+     {
+      "person": "p2",
+      "pay": {
+       "shikyu": 400000
+      },
+      "deduct": {
+       "shakai": 59000,
+       "shotoku": 6963
+      },
+      "net": 334037
+     }
+    ]
+   }
+  ]
+ },
+ "people": [
+  {
+   "id": "p1",
+   "column": "甲",
+   "dept": "経理課",
+   "title": "経理係長",
+   "postal": "000-0000",
+   "address": "○○市××町23-7",
+   "birth": "1983-01-01",
+   "number": "8",
+   "dependents": 6,
+   "omit_last_tax": true,
+   "nencho": {
+    "income_adjustment": {
+     "dependent_under23": true
+    },
+    "life_insurance": {
+     "new_general": 80000,
+     "old_general": 35000,
+     "care": 80000,
+     "new_pension": 30000,
+     "old_pension": 90000,
+     "has_dependent_under23": true
+    },
+    "earthquake": {
+     "earthquake": 42000,
+     "old_long_term": 14800
+    },
+    "spouse": {
+     "income": 500000
+    },
+    "dependents": [
+     {
+      "kind": "一般"
+     },
+     {
+      "kind": "特定"
+     },
+     {
+      "kind": "同居老親等",
+      "disability": "一般"
+     }
+    ],
+    "specific_relatives": [
+     {
+      "income": 1000000
+     }
+    ],
+    "housing_loan_credit": 76500
+   },
+   "fuyo": {
+    "submitted": true,
+    "rows": [
+     {
+      "spouse": true,
+      "general": 1,
+      "specific": 1,
+      "relative": 1,
+      "elderly_co": 1,
+      "disabled": 1,
+      "student": false
+     }
+    ],
+    "disabled_who": {
+     "一般": {
+      "扶": 1
+     }
+    }
+   }
+  },
+  {
+   "id": "p2",
+   "column": "甲",
+   "dept": "経理部",
+   "title": "事務職員",
+   "postal": "000-0000",
+   "address": "○○市×××町3-3-5",
+   "birth": "1992-01-30",
+   "number": "21",
+   "dependents": 2,
+   "nencho": {
+    "life_insurance": {
+     "old_general": 50200,
+     "new_pension": 56000
+    },
+    "earthquake": {
+     "earthquake": 45000
+    },
+    "spouse": {
+     "income": 0
+    },
+    "dependents": [
+     {
+      "kind": "一般"
+     }
+    ]
+   },
+   "fuyo": {
+    "submitted": true,
+    "rows": [
+     {
+      "spouse": true,
+      "general": 1,
+      "student": false
+     }
+    ]
+   }
+  }
+ ]
+}
