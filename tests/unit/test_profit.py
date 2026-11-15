@@ -192,9 +192,9 @@ class ProfitReturnTest(unittest.TestCase):
         self.assertEqual(levy["percent"]["道府県民税"], "1.8")
 
     def test_out_of_scope(self):
+        # 東京都の特別区の黒字法人は 2026-11-15 から計算する（tests/unit/test_tomin.py）。法人税割に不均一課税があり設定のない市は止める
         raw = sample()
-        raw["offices"][0].update({"prefecture": "東京都", "municipality": "千代田区"})
-        raw["offices"][0].pop("ward")
+        raw["offices"][0].update({"prefecture": "宮城県", "municipality": "仙台市", "ward": "青葉区"})
         with self.assertRaises(model.OutOfScope):
             api.calculate(raw)
         raw = sample()
@@ -332,13 +332,18 @@ class ReviewFindingsTest(unittest.TestCase):
         self.assertEqual(_pref_levy_percent("岡山県", ed, co, 7_501_000, *six)[0], "1.8")
 
     def test_business_excess_prefectures(self):
-        from opentax.red.local_tax import _business_standard_note, edition_for
+        from opentax.red.local_tax import _business_rates, edition_for
         ed = edition_for(datetime.date(2026, 9, 30))
         co = {"capital": 10_000_000}
-        self.assertIn("標準税率", _business_standard_note("愛知県", ed, co, 50_000_000, 12))
-        with self.assertRaises(model.OutOfScope):
-            _business_standard_note("愛知県", ed, co, 50_001_000, 12)
-        self.assertIsNone(_business_standard_note("岡山県", ed, co, 50_001_000, 12))
+        rates, note = _business_rates("愛知県", ed, co, 50_000_000, 12)
+        self.assertEqual(rates, ["3.5", "5.3", "7"])
+        self.assertIn("標準税率", note)
+        # 軽減の条件を超えると、総務省の一覧の超過課税の税率「所得割(普)」（DESIGN §29）
+        rates, note = _business_rates("愛知県", ed, co, 50_001_000, 12)
+        self.assertEqual(rates, ["3.65", "5.519", "7.288"])
+        self.assertIn("超過課税", note)
+        self.assertEqual(_business_rates("愛知県", ed, co, 50_001_000, 12, flat=True)[0], ["7.288"] * 3)
+        self.assertEqual(_business_rates("岡山県", ed, co, 50_001_000, 12), (["3.5", "5.3", "7"], None))
 
     def test_interim_by_provision(self):
         raw = sample()

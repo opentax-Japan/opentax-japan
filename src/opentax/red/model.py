@@ -46,6 +46,8 @@ _SCHEMA: dict[str, Any] = {
         "business_tax_pro_forma_standard": bool,
         # 適用額明細書の業種番号（国税庁「適用額明細書の記載の手引」の事業種目・業種番号一覧表。2桁）
         "industry_code": str,
+        # 分割法人の事業税の分割基準を決める事業の区分（地方税法第72条の48第3項）。「製造業」か「その他の事業」
+        "division_business": str,
     },
     "filing": {
         "settled_on": "date", "submitted_on": "date", "preparer": str,
@@ -55,7 +57,13 @@ _SCHEMA: dict[str, Any] = {
         "notify_penalty": bool, "notify_refund": bool,
     },
     "fiscal_period": {"start": "date", "end": "date"},
-    "offices": [{"code": str, "prefecture": str, "municipality": str, "ward": str, "pref_office": str, "city_office": str, "months": int}],
+    # 分割法人（2以上の都道府県・市町村。DESIGN §29）は事務所等ごとに employees（事業年度終了の日現在の従業者の数）を書く。
+    # opened・closed: 事業年度の中途で新設・廃止した日。employees_before_closing: 廃止の月の前月末の従業者の数。
+    # monthly_employees: 各月末の従業者の数（著しい変動の判定）。factory: 工場（資本金1億円以上の製造業）。main: 主たる事務所等
+    # tokyo_main: 都内における主たる事務所等（東京都の2以上の特別区に事務所等があり、本店が都外のとき。都民税の均等割。DESIGN §29.7）
+    "offices": [{"code": str, "name": str, "prefecture": str, "municipality": str, "ward": str, "pref_office": str, "city_office": str,
+                 "months": int, "employees": int, "opened": "date", "closed": "date", "employees_before_closing": int,
+                 "monthly_employees": [int], "factory": bool, "main": bool, "tokyo_main": bool}],
     "shareholders": [{"name": str, "address": str, "relation": str, "group": int, "shares": int, "votes": int}],
     "issued_shares": int,
     "total_votes": int,
@@ -266,6 +274,9 @@ def validate(raw: dict) -> dict:
     _check_scope(data)
     _fill_defaults(data)
     _check_values(data)
+    from .bunkatsu import check_input, is_divided
+    if is_divided(data):
+        check_input(data)
     return data
 
 
@@ -313,10 +324,6 @@ def _check_scope(data: dict) -> None:
         raise OutOfScope("電気供給業・ガス供給業・保険業・貿易保険業を行う法人（事業税の収入割など）")
     if company.get("wholly_owned_by_large_corp"):
         raise OutOfScope("大法人による完全支配関係がある法人（中小法人でない）")
-    offices = data["offices"]
-    places = {(o["prefecture"], o["municipality"]) for o in offices}
-    if len(places) != 1:
-        raise OutOfScope("事務所・事業所が2つ以上の都道府県または市町村にある法人（分割法人）")
     for item in data.get("prior", {}).get("schedule_05_01", []):
         if item["item"] in FIVE_ONE_NOT_SUPPORTED and item["amount"]:
             raise OutOfScope(FIVE_ONE_NOT_SUPPORTED[item["item"]])

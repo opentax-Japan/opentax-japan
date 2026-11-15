@@ -125,15 +125,12 @@ class OutOfScopeTest(unittest.TestCase):
         raw["prior"]["schedule_05_01"].append({"item": "未収還付法人税等", "amount": 100})
         self.assertOut(raw, "未収還付法人税等")
 
-    def test_two_municipalities(self):
+    def test_two_municipalities_need_employees(self):
+        # 分割法人（DESIGN §29）は事務所等ごとの従業者の数と事業の区分が要る
         raw = sample()
         raw["offices"].append({**raw["offices"][0], "municipality": "倉敷市"})
-        self.assertOut(raw, "分割法人")
-
-    def test_two_wards(self):
-        raw = sample()
-        raw["offices"].append({**raw["offices"][0], "ward": "南区"})
-        self.assertOut(raw, "2つ以上の区")
+        with self.assertRaisesRegex(model.InputError, "employees"):
+            model.validate(raw)
 
     def test_unsupported_municipality(self):
         raw = sample()
