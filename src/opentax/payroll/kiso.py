@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import datetime
 import json
+import re
 from functools import lru_cache
 
 from . import nencho
@@ -110,18 +111,21 @@ def _same_name(a, b) -> bool:
 
 
 def _is_spouse_word(rel) -> bool:
-    return str(rel or "").strip() in SPOUSE_WORDS
+    """続柄が配偶者か。「妻」「 配偶者 」「配偶者（妻）」「妻(配偶者)」は配偶者、「妻の子」「夫の母」は配偶者でない。"""
+    s = str(rel or "").strip()
+    base = re.sub(r"[（(][^）)]*[）)]", "", s).strip()
+    inner = [x.strip() for x in re.findall(r"[（(]([^）)]*)[）)]", s)]
+    return base in SPOUSE_WORDS or (base == "" and any(x in SPOUSE_WORDS for x in inner))
 
 
-def validate(p: dict) -> None:
-    """年末調整の計算の前に、形と書き間違いを確かめる（形が違うと nencho が AttributeError で落ちるので先に止める）。"""
+def validate(p: dict, required: bool = True) -> None:
+    """年末調整の計算の前に、形と書き間違いを確かめる（形が違うと nencho が AttributeError で落ちるので先に止める）。
+    required=False（年末調整をしない人。飛ばすだけ）は形と知らない項目だけを見て、必須の項目・中身は見ない。"""
     if not isinstance(p, dict):
         raise KisoError(f"people の1人分は {{name, salary_total, ...}} の形で入れてください: {p!r}")
     unknown = set(p) - PERSON_KEYS
     if unknown:
         raise KisoError(f"知らない項目があります（書き間違い？）: {sorted(unknown)}")
-    if p.get("salary_total") is None:
-        raise KisoError("salary_total: 年末調整の対象となる給与の総額が入っていません")
     for k in ("spouse", "income_adjustment", "self", "life_insurance", "earthquake", "previous_job", "housing_loan"):
         if p.get(k) is not None and not isinstance(p[k], dict):
             raise KisoError(f"{k} は {{項目: 値}} の形で入れてください: {p[k]!r}")
@@ -132,7 +136,16 @@ def validate(p: dict) -> None:
         if not isinstance(d, dict):
             raise KisoError(f"dependents[{i}] は {{kind, ...}} の形で入れてください: {d!r}")
     sp = _keys(p.get("spouse"), SPOUSE_KEYS, "spouse")
-    if p.get("spouse") is not None:
+    for i, r in enumerate(p.get("specific_relatives") or []):
+        _keys(r, RELATIVE_KEYS, f"specific_relatives[{i}]")
+    ia = _keys(p.get("income_adjustment"), ADJ_KEYS, "income_adjustment")
+    if ia.get("person") is not None:
+        _keys(ia["person"], ADJ_PERSON_KEYS, "income_adjustment.person")
+    if not required:
+        return
+    if p.get("salary_total") is None:
+        raise KisoError("salary_total: 年末調整の対象となる給与の総額が入っていません")
+    if sp:                                 # spouse: {} は配偶者なし（年末調整と同じ読み方）
         if sp.get("income") is None:       # 無いと0円として配偶者控除が付いてしまう（判定は見積額による。裏面 2-2⑴）
             raise KisoError("spouse.income: 配偶者の本年中の合計所得金額の見積額が入っていません（0円なら 0 を入れてください）")
         for k in ("elderly", "nonresident"):
@@ -146,11 +159,8 @@ def validate(p: dict) -> None:
             raise KisoError(f"specific_relatives[{i}].relation: 配偶者は特定親族になりません（裏面 3-1⑴「配偶者…を除きます」）")
         if sp and _same_name(r.get("name"), sp.get("name")):
             raise KisoError(f"specific_relatives[{i}]: 配偶者（spouse）と同じ人です。配偶者は特定親族になりません（裏面 3-1⑴・記載例 4※2）")
-    ia = _keys(p.get("income_adjustment"), ADJ_KEYS, "income_adjustment")
     for k in ("self_special_disabled", "family_special_disabled", "dependent_under23", "as_declared"):
         _bool(ia, k, "income_adjustment")
-    if ia.get("person") is not None:
-        _keys(ia["person"], ADJ_PERSON_KEYS, "income_adjustment.person")
 
 
 def _yen(v: int) -> str:
@@ -328,7 +338,10 @@ def _adjustment(p: dict, n: dict, v: dict, notes: list) -> int | None:
                 raise KisoError(f"income_adjustment.person.birth: {b} 生まれは年齢23歳未満（平成16年1月2日以後生）ではありません")
         if row == 1:                  # 同一生計配偶者: 配偶者の合計所得金額の見積額が62万円以下（裏面 4-1⑷ロ）
             sp = p.get("spouse") or {}
-            if sp:
+            if not sp:
+                notes.append("所得金額調整控除で「同一生計配偶者が特別障害者」にチェックしましたが、配偶者（spouse）が入っていません。"
+                             "配偶者控除等申告書・扶養控除等申告書（障害者控除）の書き漏れでないか確かめてください")
+            else:
                 sinc = _int(sp.get("income"), "spouse.income")
                 if sinc != _int(person.get("income"), "income_adjustment.person.income"):
                     raise KisoError("income_adjustment.person.income: 同一生計配偶者の合計所得金額の見積額が spouse.income と違います")
@@ -416,7 +429,7 @@ def calculate_all(doc: dict) -> dict:
     people, skipped = [], []
     for i, p in enumerate(doc["people"]):
         try:
-            validate(p)
+            validate(p, required=adjusts(p) if isinstance(p, dict) else True)
             if not adjusts(p):
                 skipped.append(p.get("name") or p.get("id") or f"{i + 1}人目")
                 continue

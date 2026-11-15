@@ -44,6 +44,16 @@ def _int(v, where: str) -> int:
     return v
 
 
+def _flag(d: dict, key: str, where: str) -> bool:
+    """true/false の項目。文字の "false" や 1 を真と読まないよう、真偽以外は止める。"""
+    v = d.get(key)
+    if v is None:
+        return False
+    if not isinstance(v, bool):
+        raise NenchoError(f"{where}.{key}: true か false で入れてください: {v!r}")
+    return v
+
+
 def _ceil(x: Decimal) -> int:
     return int(x.to_integral_value(rounding=ROUND_CEILING))
 
@@ -79,7 +89,7 @@ def _step(amount: int, steps: list) -> int:
 
 def life_insurance(li: dict) -> dict:
     r = rules()["life_insurance"]
-    u23 = bool(li.get("has_dependent_under23"))
+    u23 = _flag(li, "has_dependent_under23", "life_insurance")
     ng, og = _int(li.get("new_general"), "life_insurance.new_general"), _int(li.get("old_general"), "life_insurance.old_general")
     care = _int(li.get("care"), "life_insurance.care")
     np_, op = _int(li.get("new_pension"), "life_insurance.new_pension"), _int(li.get("old_pension"), "life_insurance.old_pension")
@@ -119,12 +129,15 @@ def spouse(self_income: int, sp: dict | None) -> dict:
     if not sp:
         return {"kind": None, "amount": 0}
     r = rules()["spouse"]
+    if sp.get("income") is None:     # 無いと0円として配偶者控除が付いてしまう。配偶者控除等の判定は配偶者の合計所得金額の見積額による（所得税法第83条・第83条の2）
+        raise NenchoError("spouse.income: 配偶者の本年中の合計所得金額の見積額が入っていません（0円なら 0 を入れてください）")
     inc = _int(sp.get("income"), "spouse.income")
+    elderly = _flag(sp, "elderly", "spouse")
     col = next((i for i, lim in enumerate(r["self_income_bands"]) if self_income <= lim), None)
     if col is None:
         return {"kind": None, "amount": 0, "note": "所得者の合計所得金額が1,000万円を超えるので配偶者控除・配偶者特別控除はありません"}
     if inc <= r["deduction_spouse_income_max"]:
-        return {"kind": "配偶者控除", "amount": r["deduction"]["elderly" if sp.get("elderly") else "general"][col]}
+        return {"kind": "配偶者控除", "amount": r["deduction"]["elderly" if elderly else "general"][col]}
     for lim, vals in r["special"]:
         if inc <= lim:
             return {"kind": "配偶者特別控除", "amount": vals[col]}
@@ -139,7 +152,7 @@ def calculate(p: dict) -> dict:
     s9 = salary_income(total)
     ia = p.get("income_adjustment") or {}
     adj = 0
-    if any(ia.get(k) for k in ("self_special_disabled", "dependent_under23", "family_special_disabled")) and total > R["income_adjustment"]["threshold"]:
+    if any(_flag(ia, k, "income_adjustment") for k in ("self_special_disabled", "dependent_under23", "family_special_disabled")) and total > R["income_adjustment"]["threshold"]:
         r = R["income_adjustment"]
         adj = min(_ceil((Decimal(min(total, r["cap_salary"])) - r["threshold"]) * Decimal(r["percent"]) / 100), r["max"])
     s11 = max(s9 - adj, 0)
@@ -174,6 +187,8 @@ def calculate(p: dict) -> dict:
         if me["disability"] not in ("一般", "特別"):
             raise NenchoError("self.disability は 一般 か 特別 です")
         dep += R["disability"][me["disability"]]
+    for k in ("widow", "single_parent", "working_student"):
+        _flag(me, k, "self")
     if me.get("widow") and me.get("single_parent"):
         raise NenchoError("寡婦控除とひとり親控除は両方は受けられません")
     # 所得要件（所得税法第2条第1項第30号〜第32号）: 寡婦・ひとり親は合計所得金額500万円以下、勤労学生は89万円以下で給与所得等以外の所得10万円以下

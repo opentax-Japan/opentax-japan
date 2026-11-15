@@ -307,5 +307,52 @@ class KisoVerifyTest(unittest.TestCase):
         self.assertIn("2か所以上から給与", kiso.report(_calc()))
 
 
+class KisoRecheckTest(unittest.TestCase):
+    """再検証（同じ報告の「再検証」）の指摘 N1〜N5。"""
+
+    def test_n1_not_adjusted_people_only_shape_checked(self):
+        doc = _doc()
+        doc["people"].append({"name": "退職", "retired_on": "2026-06-30", "spouse": {"name": "y"}})
+        doc["people"].append({"name": "乙", "column": "乙"})                      # salary_total なしでも飛ばす
+        c = kiso.calculate_all(doc)
+        self.assertEqual(c["skipped"], ["退職", "乙"])
+        doc["people"].append({"name": "書き間違い", "retired_on": "2026-06-30", "spuse": {}})   # 形・知らない項目は見る
+        with self.assertRaises(kiso.KisoError):
+            kiso.calculate_all(doc)
+
+    def test_n2_nencho_stops_too(self):
+        base = {"salary_total": 5000000}
+        for extra in ({"spouse": {"name": "y"}}, {"spouse": {"income": 0, "elderly": "false"}},
+                      {"salary_total": 8970000, "income_adjustment": {"dependent_under23": "false"}},
+                      {"life_insurance": {"new_general": 80000, "has_dependent_under23": 1}}, {"self": {"widow": "yes"}}):
+            with self.subTest(extra=extra), self.assertRaises(nencho.NenchoError):
+                nencho.calculate({**base, **extra})
+        self.assertEqual(nencho.calculate({**base, "spouse": {}})["spouse"]["amount"], 0)
+        self.assertEqual(nencho.calculate({**base, "spouse": {"income": 0, "elderly": False}})["spouse"]["amount"], 380000)
+
+    def test_n3_empty_spouse_is_no_spouse(self):
+        r = kiso.calculate_all(_person(spouse={}))["people"][0]
+        self.assertIsNone(r["spouse"])
+        self.assertNotIn("kubun1", r["values"])
+
+    def test_n4_relation_words(self):
+        for rel in ("配偶者（妻）", "妻(配偶者)", " 夫 ", "（配偶者）"):
+            with self.subTest(rel=rel):
+                self.assertTrue(kiso._is_spouse_word(rel))
+                with self.assertRaises(kiso.KisoError):
+                    kiso.calculate_all(_person(specific_relatives=[{"name": "a", "relation": rel, "birth": "2005-01-01", "income": 1000000}]))
+        for rel in ("妻の子", "夫の母", "子", "子（妻の連れ子）"):
+            with self.subTest(rel=rel):
+                self.assertFalse(kiso._is_spouse_word(rel))
+        r = kiso.calculate_all(_person(specific_relatives=[{"name": "a", "relation": "妻の子", "birth": "2005-01-01", "income": 1000000}]))
+        self.assertEqual(r["people"][0]["amounts"]["specific_relative"], 410000)
+
+    def test_n5_same_household_spouse_without_spouse_noted(self):
+        adj = {"family_special_disabled": True, "as_declared": True, "person": {"name": "w", "relation": "妻", "income": 0}}
+        r = kiso.calculate_all(_person(salary_total=8970000, income_adjustment=adj))["people"][0]
+        self.assertEqual(r["values"]["a_check"], ["", "✓", "", ""])
+        self.assertTrue(any("spouse" in x and "書き漏れ" in x for x in r["notes"]))
+
+
 if __name__ == "__main__":
     unittest.main()
