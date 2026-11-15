@@ -634,6 +634,26 @@ def _shukuhaku(args) -> int:
     return 0
 
 
+def _write_pdf(html_path: str, pdf_path: str) -> None:
+    """書き出した HTML をブラウザ（Chromium）で印刷して PDF にする。Google ドライブのアプリなど、HTML の様式の画像を出せない所で見るとき用。
+    Playwright（pip install playwright）が要る。ブラウザは Playwright のものか、環境変数 OPENTAX_CHROME の場所のもの。"""
+    import os
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        print("PDF は作れませんでした: Playwright がありません（pip install playwright）。HTML をブラウザで開いて印刷→PDF に保存してください")
+        return
+    with sync_playwright() as p:
+        exe = os.environ.get("OPENTAX_CHROME")
+        browser = p.chromium.launch(executable_path=exe) if exe else p.chromium.launch()
+        page = browser.new_page()
+        page.goto(Path(html_path).resolve().as_uri())
+        page.wait_for_load_state("load")
+        page.pdf(path=pdf_path, format="A4", print_background=True)
+        browser.close()
+    print(f"書き出しました: {pdf_path}")
+
+
 def _inline_forms(html: str) -> str:
     """様式の画像（web/build.py が作る web/_site/forms/）を HTML の中に埋め込み、1つのファイルで開けるようにする。
     なければ画像のない形のまま（様式の上の値だけ）になるので知らせる。"""
@@ -771,6 +791,7 @@ def main(argv: list[str] | None = None) -> int:
     co.add_argument("--period", help="使う期（例 2026-09-30・2025・2026-06。省略するといちばん新しい期）")
     co.add_argument("--answers", help="問いの答えの JSON（{\"answers\": {欄: 値}, \"follow\": {…}}。画面と同じ形）")
     co.add_argument("-o", "--report", help="申告書一式の HTML を書き出す先")
+    co.add_argument("--pdf", help="申告書一式の PDF も書き出す先（-o の HTML を印刷したもの。Playwright が要る）")
     co.add_argument("--json", help="一覧（使ったもの・使わなかったもの・足りないもの）を JSON で書き出す先")
 
     ky = sub.add_parser("kyuyo", help="OpenTax PINK: 給与計算（タイムカード → 割増賃金・社会保険料・雇用保険料・源泉所得税・住民税 → 明細）")
@@ -852,6 +873,8 @@ def _collect(args) -> int:
         with open(args.report, "w", encoding="utf-8", newline="\n") as f:
             f.write(_inline_forms(out["html"]))
         print(f"書き出しました: {args.report}")
+        if args.pdf:
+            _write_pdf(args.report, args.pdf)
     return EXIT_OK if out.get("html") else EXIT_CHANGED
 
 

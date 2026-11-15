@@ -516,7 +516,7 @@ svg.paper text.amt,svg.paper text.txt{fill:#0b4dbb;font-family:ui-monospace,Cons
 svg.paper text.txt{font-family:"BIZ UDGothic","Yu Gothic",sans-serif}
 svg.paper .mark{fill:none;stroke:#0b4dbb;stroke-width:4}
 @media (max-width:560px){main{padding:10px}nav ol{columns:1}td.ord,th.ord{display:none}table{font-size:.86rem}}
-@media print{main{max-width:none}nav,.checks{display:none}h2{break-before:page}section.form{break-inside:avoid}a{color:#222;text-decoration:none}}
+@media print{main{max-width:none}nav,.checks{display:none}h2{break-before:page}section.form{break-inside:avoid}section.form h3,section.form .meta{break-after:avoid}.sheet{break-inside:avoid}svg.paper{max-height:245mm;width:auto;max-width:100%;margin:0 auto}a{color:#222;text-decoration:none}}
 """
 
 
