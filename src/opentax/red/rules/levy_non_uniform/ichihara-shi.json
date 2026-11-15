@@ -2,7 +2,7 @@
   "jurisdiction": "市原市",
   "prefecture": "千葉県",
   "kind": "市町村民税 法人税割（不均一課税）",
-  "note": "公式の資料が見つからない。試したもの：Web検索（法人市民税 法人税割 税率、ドメイン city.ichihara.chiba.jp）で市の法人市民税の税率ページが出ず、市の公式サイト（https://www.city.ichihara.chiba.jp/）はJavaScriptで描く作りで、取得したトップページから法人市民税のページへのリンクをたどれなかった。その後Web検索の上限に達した。例規集も未確認",
+  "note": "公式の資料が見つからない。試したもの：Web検索（法人市民税 法人税割 税率、ドメイン city.ichihara.chiba.jp）で市の法人市民税の税率ページが出ず、市の公式サイト（https://www.city.ichihara.chiba.jp/）はJavaScriptで描く作りで、取得したトップページから法人市民税のページへのリンクをたどれなかった。その後Web検索の上限に達した。例規集も未確認。2026-11-15 再試行: 市のサイトは JavaScript で描く作り（sitemap は取れるが記事の本文は取れない）、例規集は g-reiki・D1-Law（en1〜en4）になく、Web検索でも市の法人市民税のページ・市税条例が出なかった。人がブラウザで開くもの: https://www.city.ichihara.chiba.jp/ の「法人市民税」のページと市原市例規集の市原市市税条例",
   "periods": [
     {
       "fiscal_year_start_from": "2019-10-01",

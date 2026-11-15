@@ -530,6 +530,10 @@ def _levy_by_tiers(city: str, r: dict, period: dict, company: dict, tax_base: in
       basis: "capital"（資本金の額又は出資金の額）か "capital_etc"（資本金等の額。地方税法第292条第1項第4号の2）
       capital_max と capital_inclusive（true=以下・false=未満）。null なら資本の条件なし
       tax_annual_max と tax_inclusive。null なら法人税額の条件なし（法人税額は分割前の課税標準。1年に満たない事業年度は×月数÷12）
+      tax_prorate: false なら法人税額の上限を月数で換算しない（条例が「年」を付けず換算の定めもない播磨町など）
+      requires_capital: true なら資本金の額又は出資金の額を有する法人（capital > 0）だけ当たる（海田町税条例第34条の4の2）
+      org_law3: true なら中小企業団体の組織に関する法律第3条に掲げる法人（company.chusho_dantai_hou3 が true）だけ当たる（京都市）
+    OR の条件（「Aに当たる又はBに当たる」）は同じ税率の段階を2つ並べる（津島市・知立市・播磨町。2026-11-15）。
     各段階の rate と根拠は市の条例・資料による（ファイルの source）。"""
     from fractions import Fraction as F
     # 段階の税率は総務省の一覧に載らない（一覧は超過課税の税率だけ）ので、一覧と照合できるのは excess だけ（city_levy_percent）。
@@ -539,14 +543,18 @@ def _levy_by_tiers(city: str, r: dict, period: dict, company: dict, tax_base: in
             raise LocalRuleError(f"{r['_file']}: tiers の税率 {t['rate']}% が超過課税の税率 {period['excess']}%（総務省の一覧と照合済み）を超えています")
     for t in r["tiers"]:
         ok = True
-        if t.get("capital_max") is not None:
+        if t.get("org_law3"):
+            ok = company.get("chusho_dantai_hou3") is True
+        if ok and t.get("requires_capital"):
+            ok = (company.get("capital") or 0) > 0
+        if ok and t.get("capital_max") is not None:
             basis = t.get("basis", "capital")
             if basis not in ("capital", "capital_etc"):
                 raise LocalRuleError(f"{r['_file']}: tiers の basis は capital か capital_etc です: {basis}")
             cap = company["capital_etc"] if basis == "capital_etc" else company["capital"]
             ok = cap <= t["capital_max"] if t.get("capital_inclusive", True) else cap < t["capital_max"]
         if ok and t.get("tax_annual_max") is not None:
-            lim = _tax_limit(t["tax_annual_max"], months)
+            lim = _tax_limit(t["tax_annual_max"], months) if t.get("tax_prorate", True) else F(t["tax_annual_max"])
             ok = F(tax_base) <= lim if t.get("tax_inclusive", True) else F(tax_base) < lim
         if ok:
             pct = t["rate"]
@@ -557,22 +565,32 @@ def _levy_by_tiers(city: str, r: dict, period: dict, company: dict, tax_base: in
         cond = "どの段階の条件にも当たらない"
     else:
         parts = []
+        if t.get("org_law3"):
+            parts.append("中小企業団体の組織に関する法律第3条の法人")
+        if t.get("requires_capital"):
+            parts.append("資本金の額又は出資金の額を有する法人")
         if t.get("capital_max") is not None:
             parts.append(f"{'資本金等の額' if t.get('basis') == 'capital_etc' else '資本金'}{t['capital_max']:,}円"
                          f"{'以下' if t.get('capital_inclusive', True) else '未満'}")
         if t.get("tax_annual_max") is not None:
-            parts.append(f"法人税額年{t['tax_annual_max']:,}円{'以下' if t.get('tax_inclusive', True) else '未満'}（分割前）")
+            parts.append(f"法人税額{'年' if t.get('tax_prorate', True) else ''}{t['tax_annual_max']:,}円"
+                         f"{'以下' if t.get('tax_inclusive', True) else '未満'}（分割前）")
         cond = "・".join(parts) + "に当たる"
     note = f"{city}の法人税割 {pct}%（{r['source'][0]['title'].split('（')[0]}。{cond}）"
-    if months < 12 and any(x.get("tax_annual_max") is not None for x in r["tiers"]):
+    if months < 12 and any(x.get("tax_annual_max") is not None and x.get("tax_prorate", True) for x in r["tiers"]):
         note += f"。1年に満たない事業年度なので法人税額の年額は×{months}÷12で判定しました"
+    if any(x.get("org_law3") for x in r["tiers"]) and "chusho_dantai_hou3" not in company:
+        note += ("。中小企業団体の組織に関する法律第3条の法人（事業協同組合・企業組合・協業組合・商工組合など）は規模にかかわらず軽減の税率です。"
+                 "当たるなら company.chusho_dantai_hou3 を true にしてください（入力がないので当たらないとして計算しました）")
     return pct, note
 
 
 def city_levy_percent(pref: str, city: str, ed: dict, company: dict, tax_base: int, months: int,
-                      start: datetime.date, end: datetime.date) -> tuple[str, str]:
+                      start: datetime.date, end: datetime.date, divided: bool = False) -> tuple[str, str]:
     """市町村民税の法人税割の税率と注記。税率は総務省の一覧。一覧で不均一課税（「不」）の市町村は、市の条例・資料で確かめた
-    設定（rules/levy_non_uniform/）の軽減の条件（資本金・分割前の法人税額）で決め、設定のない市町村は止める。"""
+    設定（rules/levy_non_uniform/）の軽減の条件（資本金・分割前の法人税額）で決め、設定のない市町村は止める。
+    divided: 2以上の市町村に事務所等がある法人（tax_base は分割前の法人税額）。設定に divided_basis_unconfirmed があれば止める。
+    設定に short_year_unconfirmed があれば1年に満たない事業年度は止める（市の資料に扱いの定めがないとき）。"""
     c = ed["_cities"].get((pref, city))
     if c is None or not c.get("levy"):
         raise LocalRuleError(f"{pref}{city}の法人税割の税率が一覧にありません（{ed['_file']}）")
@@ -592,6 +610,12 @@ def city_levy_percent(pref: str, city: str, ed: dict, company: dict, tax_base: i
     if Fraction(c["levy"]["rate_percent"]) != Fraction(period["excess"]):
         raise LocalRuleError(f"{city}の法人税割の税率が総務省の一覧（{c['levy']['rate_percent']}%・{ed['_file']}）と"
                              f"{r['_file']}（{period['excess']}%）で違います。{city}の資料で確かめてください")
+    if divided and r.get("divided_basis_unconfirmed"):
+        raise OutOfScope(f"{city}の法人税割の不均一課税: 2以上の市町村に事務所等がある法人の法人税額を分割前・分割後のどちらで判定するか、"
+                         f"{city}の資料に定めがありません（{r['_file']}）")
+    if months < 12 and r.get("short_year_unconfirmed"):
+        raise OutOfScope(f"{city}の法人税割の不均一課税: 1年に満たない事業年度の法人税額の判定（月数で換算するか）を{city}の資料で"
+                         f"確かめていません（{r['_file']}）")
     tiers = period.get("tiers", r.get("tiers"))          # 期間ごとに段階が違う市（中野市など）は periods[].tiers
     if tiers is not None:
         return _levy_by_tiers(city, {**r, "tiers": tiers}, period, company, tax_base, months)

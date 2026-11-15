@@ -518,7 +518,8 @@ def corporate_levy(data: dict, corporate_tax: int) -> dict:
                "tax_base": base, "percent": None, "raw": 0, "levy": 0, "special_ward": city == SPECIAL_WARDS_KEY}
         if corporate_tax > 0 and city != SPECIAL_WARDS_KEY:
             # 不均一課税の軽減の条件は分割前の法人税額（total）で判定する（札幌市税条例附則第5条の3第4項・大阪市の案内）
-            pct, note = city_levy_percent(pref, city, ed, data["company"], total, months, start, end)
+            pct, note = city_levy_percent(pref, city, ed, data["company"], total, months, start, end,
+                                          divided=splits_city_levy(data))
             row.update({"percent": pct, "raw": int(base * Fraction(pct) / 100)})
             row["levy"] = row["raw"] // 100 * 100
             notes.append(note)

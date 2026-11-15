@@ -2,7 +2,7 @@
   "jurisdiction": "津島市",
   "prefecture": "愛知県",
   "kind": "市町村民税 法人税割（不均一課税）",
-  "note": "令和元年10月1日以後開始の事業年度から、資本金等の額が1億円を超え、かつ、法人税割の課税標準となる法人税額が400万円を超える法人は8.4%、上記以外の法人は6.0%（津島市「法人市民税のあらまし」）。条例（例規集）は検索の上限で開けず、条番号は未確認",
+  "note": "令和元年10月1日以後開始の事業年度から、資本金等の額が1億円を超え、かつ、法人税割の課税標準となる法人税額が400万円を超える法人は8.4%、上記以外の法人は6.0%（津島市「法人市民税のあらまし」）。条例（例規集）は検索の上限で開けず、条番号は未確認。市の公式ページの税率表は8.4%を「資本金等の額が1億円を超え、かつ、法人税割の課税標準となる法人税額が400万円を超える法人」に限るので、6.0%はそのどちらかに当たらない法人（OR）。同じ税率6.0の段階を2つにした。市のページに分割法人・1年に満たない事業年度の扱いの記載がなく、条例（例規集）も開けない（2026-11-15 再試行: 市のサイトはリダイレクトのループ、g-reiki 404、D1-Law なし）ので、2以上の市町村に事務所等がある法人と1年に満たない事業年度は止める（divided_basis_unconfirmed・short_year_unconfirmed）",
   "periods": [
     {
       "fiscal_year_start_from": "2019-10-01",
@@ -13,7 +13,24 @@
       "standard": "6.0"
     }
   ],
-  "unsupported": "条件がOR（8.4%は資本金等の額1億円超「かつ」法人税額400万円超の法人だけ。資本金等の額1億円以下又は法人税額400万円以下なら6.0%）。段階（AND）では表せない",
+  "tiers": [
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": 100000000,
+      "capital_inclusive": true,
+      "tax_annual_max": null,
+      "tax_inclusive": true
+    },
+    {
+      "rate": "6.0",
+      "basis": "capital_etc",
+      "capital_max": null,
+      "capital_inclusive": true,
+      "tax_annual_max": 4000000,
+      "tax_inclusive": true
+    }
+  ],
   "reduced_condition": {
     "capital_upto": 100000000,
     "tax_annual_upto": 4000000,
@@ -25,5 +42,7 @@
       "url": "https://www.city.tsushima.lg.jp/kurashi/zeikin/shizei/houjinshiminzei/houjinaramashi.html",
       "checked": "2026-11-15"
     }
-  ]
+  ],
+  "divided_basis_unconfirmed": true,
+  "short_year_unconfirmed": true
 }
