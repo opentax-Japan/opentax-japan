@@ -80,5 +80,27 @@ class IntakeTest(unittest.TestCase):
         self.assertEqual(r["input"]["fiscal_period"]["end"], "2026-09-30")
 
 
+
+class AddressAndInterestTest(unittest.TestCase):
+    """2026-11-15: 政令指定都市の区を本店の所在地から入れる・受取利息の源泉は聞く（架空の会社）。"""
+
+    def test_designated_city_ward(self):
+        o = intake._office_from_address("岡山県岡山市中区架空町一丁目1番1号", {"start": "2025-08-01", "end": "2026-07-31"})
+        self.assertEqual((o["municipality"], o.get("ward"), o["months"]), ("岡山市", "中区", 12))
+        o = intake._office_from_address("岡山県倉敷市中央一丁目1番1号", {"start": "2025-08-01", "end": "2026-07-31"})
+        self.assertNotIn("ward", o)
+
+    def test_interest_withholding_is_asked(self):
+        bal = "勘定科目,期末残高\n売上高,1000000\n受取利息,1743\n雑費,100000\n".encode("utf-8")
+        d = intake.read_files([("残高試算表.csv", bal)])
+        r = intake.resolve(d)
+        qs = intake.followups(r["input"], d.attachments.get("balance"))
+        q = next(q for q in qs if q["key"] == "confirm:受取利息")
+        self.assertEqual(q["options"][1], intake.INTEREST_WITHHELD)
+        data = intake.apply_followups(r["input"], {"confirm:受取利息": q["options"][0]})
+        self.assertEqual(data["adjustment_confirmations"], [{"account": "受取利息", "answer": "源泉徴収された所得税はない"}])
+        self.assertNotIn("adjustment_confirmations", intake.apply_followups(r["input"], {"confirm:受取利息": q["options"][1]}))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -44,6 +44,8 @@ QUESTIONS = {
     "accounting.retained_earnings_end": "期末の繰越利益剰余金（円）",
 }
 
+INTEREST_WITHHELD = "引かれている（科目の額×15.315%の提案値を使う。通帳・支払通知で実際の額を確かめる）"
+
 
 def _other():
     from . import intake_other
@@ -536,12 +538,18 @@ def followups(data: dict, balance: bytes | None) -> list[dict]:
         return out
     rules = {r["id"]: r for r in adjust.load_rules()["rules"]}
     for row in rev["rows"]:
-        if row["status"] != "止めた":
-            continue
         acc, amt = row["account"], row["amount"]
         ids = row.get("rules") or []
         rule = next((rules[i] for i in ids if i in rules), None)
         rid = rule["id"] if rule else ""
+        if row["status"] == "確かめてほしい" and rid == "interest":
+            # 受取利息: 源泉所得税の提案値（×15.315%）を黙って使わず、源泉があったかを聞く（手取りで記帳した利息や源泉のない利息がある）
+            out.append({"type": "confirm", "key": f"confirm:{acc}", "account": acc, "amount": amt,
+                        "label": f"{acc}（{amt:,}円）: 源泉所得税は引かれていますか（引かれていれば別表六(一)で法人税から控除します）",
+                        "options": [rule["answers"][0], INTEREST_WITHHELD]})
+            continue
+        if row["status"] != "止めた":
+            continue
         if rid == "entertainment":
             out.append({"type": "dining", "key": f"dining:{acc}", "account": acc, "amount": amt,
                         "label": f"{acc}（{amt:,}円）のうち、接待飲食費（社内の飲食を除く飲食の費用）はいくらですか"})
@@ -579,7 +587,7 @@ def apply_followups(data: dict, answers: dict) -> dict:
             data["depreciation"] = [{**r, "prior_excess": r.get("prior_excess", 0)} for r in v]
         elif kind == "dues":
             data["tax_dues"] = {k: int(v.get(k, 0) or 0) for k in ("加算税及び加算金", "延滞税", "延滞金", "過怠税", "罰金等")}
-        elif kind == "confirm" and not str(v).startswith("当てはまらない"):
+        elif kind == "confirm" and not str(v).startswith(("当てはまらない", INTEREST_WITHHELD)):
             data.setdefault("adjustment_confirmations", []).append({"account": rest, "answer": v})
     return data
 
@@ -604,4 +612,11 @@ def _office_from_address(address: str, fp: dict) -> dict | None:
     city = next((m for m in cities if rest.startswith(m) or rest.split("郡", 1)[-1].startswith(m)), None)
     if not city:
         return None
-    return {"prefecture": pref, "municipality": city, "months": months or 12}
+    office = {"prefecture": pref, "municipality": city, "months": months or 12}
+    # 政令指定都市は区まで（本店の所在地の市の後ろが区の名前で始まれば入れる）
+    entry = next((m for m in ed["municipalities"] if m["prefecture"] == pref and m["name"] == city), {})
+    after = rest.split(city, 1)[-1]
+    ward = next((w for w in sorted(entry.get("wards") or [], key=len, reverse=True) if after.startswith(w)), None)
+    if ward:
+        office["ward"] = ward
+    return office
