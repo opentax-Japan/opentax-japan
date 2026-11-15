@@ -118,7 +118,7 @@ class OutOfScopeTest(unittest.TestCase):
     def test_dividend_credit(self):
         raw = sample()
         raw["income_tax_credit"] = [{"kind": "配当", "income": 1000, "tax": 153}]
-        self.assertOut(raw, "所有期間の按分")
+        self.assertOut(raw, "dividends_received")
 
     def test_prior_receivable_refund(self):
         raw = sample()

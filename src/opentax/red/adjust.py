@@ -90,7 +90,8 @@ def review(accounts, data: dict) -> dict:
             rows.append({"account": a.name, "amount": a.balance, "status": "調整なし",
                          "detail": NONE_NOTE if not hits else "残高が0"})
             continue
-        row = {"account": a.name, "amount": a.balance, "status": "", "detail": "", "rules": [r["id"] for r in hits]}
+        row = {"account": a.name, "amount": a.balance, "status": "", "detail": "", "rules": [r["id"] for r in hits],
+               "subs": [[s.name, s.balance] for s in a.subs if s.balance]}
         rows.append(row)
         for r in hits:
             matched.setdefault(r["id"], []).append((a, r, row))
@@ -314,10 +315,11 @@ def _dividends(items, data: dict, stop, mark) -> None:
             stop(row, f"dividends_received のうちこの科目の分の合計 {given:,}円 が科目の残高と合いません"
                       "（源泉徴収前の額で書いてください。科目は account に書く）")
             continue
-        bad = [d["name"] for d in mine if d["withholding"] and not d.get("owned_whole_period")]
+        from .calculate import dividend_credit_missing
+        bad = [(d["name"], m) for d in mine if d["withholding"] and (m := dividend_credit_missing(d))]
         if bad:
-            stop(row, f"源泉徴収された所得税のある配当（{'・'.join(bad)}）で、配当の計算期間を通じて元本を所有していたか分かりません。"
-                      "所有していたなら owned_whole_period: true を書いてください（一部の期間だけの所有期間按分（令第140条の2）は OpenTax ではまだ作れません）")
+            stop(row, "源泉徴収された所得税のある配当で、控除を受ける所得税額（元本を所有していた期間に対応する額。法人税法施行令第140条の2）を"
+                      "計算できません: " + "／".join(f"{n}: {m}" for n, m in bad))
             continue
         related = [d["name"] for d in mine if d["ratio"] * 3 > 100 and not d.get("wholly_owned") and d.get("continuous") is None]
         if related:
@@ -325,6 +327,7 @@ def _dividends(items, data: dict, stop, mark) -> None:
                       "引き続き保有していたか（関連法人株式等。令第22条第1項）を continuous に書いてください（計算期間を通じて完全支配関係があれば wholly_owned）")
             continue
         mark(row, "入力で作った", "別表八(一)・別表六(一)（dividends_received）")
-        nodates = [d["name"] for d in mine if d["withholding"] and not (d.get("period_start") and d.get("period_end"))]
+        nodates = [d["name"] for d in mine if d["withholding"] and (d.get("credit_method") or "個別法") == "個別法"
+                   and not (d.get("period_start") and d.get("period_end"))]
         if nodates:
             mark(row, "確かめてほしい", f"別表六(一) 個別法の 9・10（配当等の計算期間の月数）を書くには period_start・period_end が要ります（{'・'.join(nodates)}）")

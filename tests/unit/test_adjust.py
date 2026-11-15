@@ -267,7 +267,7 @@ class StopTest(unittest.TestCase):
     def test_partial_ownership_stops(self):
         raw = sample()
         raw["dividends_received"][0]["owned_whole_period"] = False
-        self.assertTrue(any("所有期間按分" in s for s in stops_of(raw, balance())))
+        self.assertTrue(any("令第140条の2" in s and "owned_months" in s for s in stops_of(raw, balance())))
 
     def test_related_continuity_needed(self):
         raw = sample()

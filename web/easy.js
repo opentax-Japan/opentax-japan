@@ -283,6 +283,8 @@ function followBox(q) {
       el("a", { href: "detail.html" }, "入っている（詳しく入力する画面で）")));
   } else if (q.type === "depreciation") {
     box.append(depTable(q, set));
+  } else if (q.type === "dividends") {
+    box.append(divTable(q, set));
   } else {
     box.classList.add("stop");
     box.append(el("div", { class: "note" }, "OpenTax ではまだ作れません。この科目があると申告書は作れません。"));
@@ -313,6 +315,34 @@ function depTable(q, set) {
   return wrap;
 }
 
+// 受取配当金の内訳（別表八(一)・別表六(一)）。一部の期間だけ所有した銘柄の按分は詳しく入力する画面で
+const DIV_COLS = [["name", "銘柄（支払った法人）"], ["amount", "配当の額（源泉徴収前）"], ["withholding", "源泉所得税（なければ 0）"],
+  ["ratio", "保有割合（%）"], ["owned", "配当の計算期間を通じて所有"]];
+function divTable(q, set) {
+  const body = el("tbody");
+  const addRow = (r) => body.append(el("tr", {}, ...DIV_COLS.map(([k, label]) => el("td", {},
+    k === "owned" ? el("select", { "data-k": k }, ...["はい", "いいえ（一部の期間だけ）"].map((m) => el("option", {}, m)))
+      : el("input", { "data-k": k, type: "text", placeholder: label, value: r[k] == null ? "" : String(r[k]) })))));
+  (q.rows || [{}]).forEach(addRow);
+  return el("div", {}, el("table", { class: "dep" }, el("thead", {}, el("tr", {}, ...DIV_COLS.map(([, l]) => el("th", {}, l)))), body),
+    el("div", { class: "row" }, el("button", { type: "button", onclick: () => addRow({}) }, "行を足す"),
+      el("button", { type: "button", onclick: () => {
+        const rows = [...body.children].map((tr) => {
+          const r = {};
+          tr.querySelectorAll("[data-k]").forEach((i) => {
+            const k = i.dataset.k; const v = i.value.trim();
+            if (k === "name") r.name = v;
+            else if (k === "owned") r.owned_whole_period = v === "はい";
+            else r[k] = Number(v.replace(/[,，円%％\s]/g, "")) || 0;
+          });
+          return r;
+        });
+        set(rows);
+      } }, "決める")),
+    el("p", { class: "note" }, "支払通知書の数字です。保有割合が3分の1を超える銘柄・一部の期間だけ所有していた銘柄（所得税の控除を月数・株数で按分）は、"),
+    el("a", { href: "detail.html" }, "詳しく入力する画面"), "で入れてください。");
+}
+
 // ---- 見本: 架空の会社で、問いにも見本の答えを入れて最後まで ----------------------------------------
 const SAMPLE_DEP = [
   { method: "定額法", kind: "建物", structure: "鉄骨造", detail: "事務所", useful_life: 34, cost: 3000000, book_end: 2000000, expensed: 100000, limit: 100000 },
@@ -329,6 +359,8 @@ async function autoAnswer(res) {
       else if (q.type === "dining") st.follow[q.key] = { account: q.account, amount: q.amount, dining: 120000 };
       else if (q.type === "depreciation") st.follow[q.key] = SAMPLE_DEP;
       else if (q.type === "dues") st.follow[q.key] = {};
+      else if (q.type === "dividends") st.follow[q.key] = [{ name: "架空株式会社", amount: q.amount,
+        withholding: Math.floor(q.amount * 0.15315), ratio: 1, owned_whole_period: true }];
     }
     r = await update();
   }

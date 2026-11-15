@@ -409,11 +409,11 @@ FORMS["HOB016"] = {
            for line, tags in _B6_TAGS.items() for tag, (x0, x1) in zip(tags, _B6_COLS) if tag},
         # 6 計の③は上下2段（上＝内書き、下＝控除を受ける所得税額）
         "FZC00327": (2014, 1298, 2338, 1360), "FZC00330": (2014, 1360, 2338, 1454),
-        # 個別法（11 所有期間割合は小数なので置かない）
+        # 個別法（11 所有期間割合は小数の文字なので texts に置く）
         "FZF00040": _rows_boxes(657, 952, _B6_KOBETSU), "FZF00050": _rows_boxes(952, 1247, _B6_KOBETSU),
         "FZF00060": _rows_boxes(1247, 1542, _B6_KOBETSU), "FZF00070": _rows_boxes(1542, 1807, _B6_KOBETSU),
         "FZF00090": _rows_boxes(2073, 2338, _B6_KOBETSU),
-        # 銘柄別簡便法（18 所有元本割合は小数なので置かない）
+        # 銘柄別簡便法（18 所有元本割合は小数の文字なので texts に置く）
         "FZF00130": _rows_boxes(657, 922, _B6_KANBEN), "FZF00140": _rows_boxes(922, 1158, _B6_KANBEN),
         "FZF00150": _rows_boxes(1158, 1394, _B6_KANBEN), "FZF00160": _rows_boxes(1394, 1630, _B6_KANBEN),
         "FZF00170": _rows_boxes(1630, 1866, _B6_KANBEN), "FZF00190": _rows_boxes(2102, 2338, _B6_KANBEN),
@@ -424,6 +424,9 @@ FORMS["HOB016"] = {
     "texts": [
         {"source": "tag:FZF00030", "boxes": _rows_boxes(244, 657, _B6_KOBETSU), "align": "left"},
         {"source": "tag:FZF00120", "boxes": _rows_boxes(244, 657, _B6_KANBEN), "align": "left"},
+        # 11 所有期間割合・18 所有元本割合（小数3桁の文字。右寄せ）
+        {"source": "tag:FZF00080", "boxes": _rows_boxes(1807, 2073, _B6_KOBETSU), "align": "right"},
+        {"source": "tag:FZF00180", "boxes": _rows_boxes(1866, 2102, _B6_KANBEN), "align": "right"},
         {"source": "tag:FZG00020", "boxes": _rows_boxes(184, 568, _B6_OTHER), "align": "left"},
         {"source": "tag:FZG00030", "boxes": _rows_boxes(568, 952, _B6_OTHER), "align": "left"},
         {"source": "tag:FZG00070", "boxes": _rows_boxes(2014, 2338, _B6_OTHER), "align": "left"},
