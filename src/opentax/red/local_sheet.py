@@ -194,6 +194,8 @@ def build_sections(calculated: dict, today: datetime.date | None = None) -> tupl
     today = today or datetime.date.today()
     local = calculated["local_tax"]
     warnings = list(calculated["result"]["warnings"])
+    if local.get("division"):
+        return data, start, end, divided_sections(calculated), warnings
 
     sections = []
     # 第六号様式
@@ -257,6 +259,107 @@ def build_sections(calculated: dict, today: datetime.date | None = None) -> tupl
     if missing:
         warnings.append("入力がないため「未入力」と表示した欄があります: " + "、".join(missing))
     return data, start, end, sections, warnings
+
+
+def divided_sections(calculated: dict) -> list[dict]:
+    """分割法人（DESIGN.md §29）: 第十号様式（課税標準の分割に関する明細書）・第二十二号の二様式の数字と、都道府県ごと・市町村ごとの
+    税額の一覧。紙の様式への書き込みはしない。"""
+    from . import bunkatsu
+    data, local = calculated["input"], calculated["local_tax"]
+    div = local["division"]
+    cl = local.get("corporate_levy") or bunkatsu.corporate_levy(data, 0)
+    bt = local.get("business_tax") or {}
+    bd = bt.get("division")
+    b = bunkatsu.bases(data)
+    src = bunkatsu.SOURCES
+    kind = b["kind"]
+    unit = (lambda emp, cnt: f"{emp}人") if kind == "製造業" else (lambda emp, cnt: f"{emp}人・{cnt}所")  # noqa: E731
+    bracket_names = ["年400万円以下の所得金額", "年400万円を超え年800万円以下の所得金額",
+                     "年800万円を超える所得金額又は軽減税率不適用法人の所得金額"]
+    # 第十号様式
+    rows = [("", "適用する事業税の分割基準", "1．従業者数" if kind == "製造業" else "1．従業者数・3．事務所又は事業所数",
+             f"地方税法第72条の48第3項（{kind}）")]
+    if bd:
+        for name, t in zip(bracket_names, bd["totals"]):
+            if t:
+                rows.append(("", f"事業税 課税標準の総額 {name}", _yen(t), "1,000円未満切捨て"))
+    rows.append(("①", "道府県民税 法人税法の規定によって計算した法人税額", _yen(cl.get("corporate_tax", 0)), ""))
+    rows.append(("⑤", "道府県民税 差引計（課税標準の総額）", _yen(cl["tax_base"]), "1,000円未満切捨て"))
+    for pref, p in b["prefectures"].items():
+        for r in p["rows"]:
+            o = r["office"]
+            place = f"{o.get('name') or ''} {o['municipality']}{o.get('ward') or ''}".strip()
+            note = r["note"] or ""
+            if r["employees"] != r["employees_business"]:
+                note = (note + "。" if note else "") + f"道府県民税の分割基準は {r['employees']}人"
+            rows.append(("", f"{pref} {place} 分割基準", unit(r["employees_business"], r["offices"]), note))
+        rows.append(("", f"{pref} 小計 分割基準", unit(p["employees_business"], p["offices"]),
+                     "" if p["employees"] == p["employees_business"] else f"道府県民税 {p['employees']}人"))
+        if bd:
+            pr = next(x for x in bd["prefectures"] if x["prefecture"] == pref)
+            for name, br in zip(bracket_names, pr["brackets"]):
+                if br["base"]:
+                    rows.append(("", f"{pref} 事業税 分割課税標準額 {name}", _yen(br["base"]), ""))
+        pl = next(x for x in cl["prefectures"] if x["prefecture"] == pref)
+        rows.append(("㉑", f"{pref} 道府県民税 分割課税標準額", _yen(pl["tax_base"]), ""))
+    rows.append(("", "合計 分割基準", unit(sum(p["employees_business"] for p in b["prefectures"].values()),
+                                          sum(p["offices"] for p in b["prefectures"].values())), ""))
+    sections = [{"title": "第十号様式（課税標準の分割に関する明細書）",
+                 "to": "関係都道府県の申告書に添付（主たる事務所等の都道府県へは写し）", "rows": rows, "source": src}]
+    # 第二十二号の二様式
+    rows = [("⑤", "差引計（課税標準の総額）", _yen(cl["tax_base"]), "1,000円未満切捨て")]
+    for c in cl["municipalities"]:
+        rows.append(("", f"{bunkatsu.city_label(c['key'])} 従業者数", f"{c['employees']}人", ""))
+        rows.append(("", f"{bunkatsu.city_label(c['key'])} 分割課税標準額", _yen(c["tax_base"]),
+                     "東京都の特別区の分は都民税（第六号様式）で申告する" if c["special_ward"] else ""))
+    main = div["main"]
+    sections.append({"title": "第二十二号の二様式（課税標準の分割に関する明細書）",
+                     "to": f"主たる事務所等の市町村（{main['municipality']}{main.get('ward') or ''}）の申告書に添付",
+                     "rows": rows, "source": src})
+    # 都道府県ごと
+    for pc in div["prefectures"]:
+        pref = pc["prefecture"]
+        pl = next(x for x in cl["prefectures"] if x["prefecture"] == pref)
+        per_capita_note = (f"{pc['annual']:,}円 × {pc['months']}／12"
+                           + (f"（うち{pc['surcharge_name']} {pc['surcharge_annual']:,}円／年）" if pc.get("surcharge_name") else "")
+                           + ("。特別区分を含む都民税" if pc.get("special_ward") else ""))
+        rows = [("", "法人税割 課税標準（分割課税標準額）", _yen(pl["tax_base"]), ""),
+                ("", "法人税割額", _yen(pl["raw"]), f"税率 {pl['percent']}%" if pl["percent"] else ""),
+                ("", "差引法人税割額", _yen(pl["levy"]), "100円未満切捨て"),
+                ("", "均等割額", _yen(pc["amount"]), per_capita_note)]
+        business = 0
+        if bd:
+            pr = next(x for x in bd["prefectures"] if x["prefecture"] == pref)
+            for name, br in zip(bracket_names, pr["brackets"]):
+                if br["base"]:
+                    rows.append(("", f"事業税 {name}", _yen(br["base"]), f"税率 {br['percent']}%"))
+                    rows.append(("", f"事業税 {name} 税額", _yen(br["tax"]), "100円未満切捨て"))
+            rows += [("", "所得割 計", _yen(pr["total"]), ""),
+                     ("", "特別法人事業税 課税標準（基準法人所得割額）", _yen(pr["special_base"]), "標準税率で計算した所得割額"),
+                     ("", "特別法人事業税額", _yen(pr["special"]), f"{bt.get('special_percent', '')}%・100円未満切捨て")]
+            business = pr["total"] + pr["special"]
+        rows.append(("", "この都道府県に納める確定税額の計", _yen(pl["levy"] + pc["amount"] + business), "中間納付額は引いていない"))
+        ward = f" {pc['special_ward']}" if pc.get("special_ward") else ""
+        sections.append({"title": f"第六号様式（{pref}{ward}）", "to": f"{pref}知事（分割法人）", "rows": rows, "source": src})
+    # 市町村ごと
+    for pc in div["municipalities"]:
+        cr = next(x for x in cl["municipalities"] if x["key"] == pc["key"])
+        label = bunkatsu.city_label(pc["key"])
+        rows = [("", "法人税割 課税標準（分割課税標準額）", _yen(cr["tax_base"]), ""),
+                ("", "法人税割額", _yen(cr["raw"]), f"税率 {cr['percent']}%" if cr["percent"] else ""),
+                ("", "差引法人税割額", _yen(cr["levy"]), "100円未満切捨て"),
+                ("", "均等割額", _yen(pc["amount"]), f"{pc['annual']:,}円 × {pc['months']}／12（{pc['employees_note'] or ''}）"),
+                ("", "この市町村に納める確定税額の計", _yen(cr["levy"] + pc["amount"]), "中間納付額は引いていない")]
+        sections.append({"title": f"第二十号様式（{label}）", "to": f"{label}（分割法人）", "rows": rows, "source": src})
+    # 合計
+    rows = [("", "道府県民税（都民税を含む） 法人税割の合計", _yen(cl["道府県民税"]), ""),
+            ("", "道府県民税（都民税を含む） 均等割の合計", _yen(local["prefecture"]["amount"]), ""),
+            ("", "事業税（所得割）の合計", _yen(bt.get("total", 0)), ""),
+            ("", "特別法人事業税の合計", _yen(bt.get("special", 0)), ""),
+            ("", "市町村民税 法人税割の合計", _yen(cl["市町村民税"]), "東京都の特別区の分を除く"),
+            ("", "市町村民税 均等割の合計", _yen(local["municipality"]["amount"] if local["municipality"] else 0), "")]
+    sections.append({"title": "分割法人の合計（別表五(二)に使う額）", "to": "", "rows": rows, "source": src})
+    return sections
 
 
 _CSS = """

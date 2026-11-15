@@ -339,6 +339,9 @@ def local_tax(data: dict) -> dict:
     start, end = data["fiscal_period"]["start"], data["fiscal_period"]["end"]
     months = max(o["months"] for o in data["offices"])
     basis, basis_note = capital_basis(company)
+    from . import bunkatsu
+    if bunkatsu.is_divided(data):
+        return _divided_local_tax(data, basis, basis_note)
     ward_rules = special_ward_rules(office["prefecture"], office["municipality"])
     if ward_rules:
         tokyo = per_capita(ward_rules, start, basis, company["employees"], months, end)
@@ -371,6 +374,33 @@ def local_tax(data: dict) -> dict:
         "business_tax": {"income_levy": 0, "special_business_tax": 0},
         "cautions": [c for c in (pref["caution"], city["caution"], basis_note) if c],
     }
+
+
+def _divided_local_tax(data: dict, basis: int, basis_note: str | None) -> dict:
+    """分割法人の均等割（都道府県ごと・市町村ごと。DESIGN.md §29）。prefecture・municipality は合計（全国の納付額の合計。
+    東京都の特別区の都民税は prefecture に含める）で、団体ごとの額は division にある。"""
+    from . import bunkatsu
+    pc = bunkatsu.per_capita_all(data, basis)
+    main = next((o for o in data["offices"] if o.get("main")), data["offices"][0])
+    prefs, cities = pc["prefectures"], pc["municipalities"]
+    names = "・".join(p["prefecture"] for p in prefs)
+    pref = {"jurisdiction": f"{names}（分割法人）", "amount": sum(p["amount"] for p in prefs), "corporate_tax_levy": 0,
+            "submission_office": main["pref_office"], "months": max(p["months"] for p in prefs), "divided": True}
+    city = None
+    if cities:
+        city = {"jurisdiction": "・".join(bunkatsu.city_label(c["key"]) for c in cities) + "（分割法人）",
+                "amount": sum(c["amount"] for c in cities), "corporate_tax_levy": 0, "ward": None,
+                "submission_office": main["city_office"], "months": max(c["months"] for c in cities), "divided": True}
+    cautions = list(pc["cautions"])
+    total_emp = sum(o["employees"] for o in data["offices"])
+    if total_emp != data["company"]["employees"]:
+        cautions.append(f"事務所等ごとの従業者の数の合計（{total_emp}人）が company.employees（{data['company']['employees']}人）と違います。"
+                        "分割と均等割は事務所等ごとの数で計算しました")
+    if data.get("interim"):
+        cautions.append("分割法人の中間納付額は都道府県・市町村ごとに差し引いてください（一覧の団体ごとの額は確定税額で、中間納付額を引いていません）")
+    return {"prefecture": pref, "municipality": city, "division": {"main": main, **pc},
+            "business_tax": {"income_levy": 0, "special_business_tax": 0},
+            "cautions": [c for c in cautions + [basis_note] if c]}
 
 
 # --- 黒字の法人: 法人税割・事業税（所得割）・特別法人事業税（DESIGN.md §11） ---
@@ -438,6 +468,9 @@ def _pref_levy_percent(pref: str, ed: dict, company: dict, tax_base: int, months
 def corporate_levy(data: dict, corporate_tax: int) -> dict:
     """法人税割（地方税法第51条・第314条の4）。課税標準は法人税額（所得税額の控除の前。第23条第1項第4号）の千円未満切捨て、
     税額は100円未満切捨て（第20条の4の2）。税率は総務省の一覧（算定期間の末日現在）。"""
+    from . import bunkatsu
+    if bunkatsu.is_divided(data):
+        return bunkatsu.corporate_levy(data, corporate_tax)
     if corporate_tax <= 0:
         return {"tax_base": 0, "道府県民税": 0, "市町村民税": 0, "raw": {"道府県民税": 0, "市町村民税": 0}, "percent": None, "notes": []}
     office = data["offices"][0]
@@ -466,24 +499,54 @@ def corporate_levy(data: dict, corporate_tax: int) -> dict:
                       "申告の前に自治体の資料で確かめてください"]}
 
 
-def _business_standard_note(pref: str, ed: dict, company: dict, income: int, months: int) -> str | None:
-    """事業税（所得割）に超過課税がある都道府県で、一覧の「標準税率と同じ」とする条件に当たるか。当たれば注記、当たらなければ止める。"""
+def _business_rates(pref: str, ed: dict, company: dict, income: int, months: int,
+                    flat: bool = False) -> tuple[list[str], str | None]:
+    """事業税（所得割）の区分ごとの税率（年400万円以下・年800万円以下・年800万円超）と注記。
+    超過課税の都道府県は、総務省の一覧の「軽減の条件」（資本金・年所得。分割法人は分割前の所得）に当たれば標準税率、
+    当たらなければ一覧の超過課税の税率「所得割(普)」。flat（軽減税率を使わない法人。地方税法第72条の24の7第5項）は
+    すべての区分に年800万円超の税率（どちらも「百分の七の標準税率により定めた率」）。"""
+    std = list(_profit_rules()["business_tax"]["standard_percents"])
+    shape = (lambda p: [p[2]] * 3) if flat else (lambda p: p)  # noqa: E731
     entries = [e for e in (ed["prefectures"].get(pref) or {}).get("business_tax_excess") or []
                if e["kind"] == "外形標準課税対象法人等以外の法人"]
     if not entries:
-        return None
+        return shape(std), None
     e = entries[0]
     cond = unicodedata.normalize("NFKC", e["reduced_condition"]).replace("\n", "")
     m = re.search(r"資本金(\S+?)円以下で、年所得(\S+?)円以下", cond)
     if not m or "標準税率" not in unicodedata.normalize("NFKC", e["reduced_rates"]).replace("\n", ""):
         raise OutOfScope(f"{pref}の事業税の超過課税の軽減の条件を読めません（{e['reduced_condition']}）")
     # 「年所得○円」は、事業年度が1年に満たないときは月数で換算した額と比べる（大阪府「申告書（第6号様式）記載の手引」）
+    short = ""
+    if months != 12 and pref not in _profit_rules()["business_tax"]["short_year_conditions_confirmed"]:
+        short = f"。1年に満たない事業年度なので「年所得」は月数で換算しました（大阪府の手引による）。{pref}の資料で確かめてください"
     if company["capital"] <= _amount(m[1]) and income // 1000 * 1000 <= Fraction(_amount(m[2]) * months, 12):
-        extra = ""
-        if months != 12 and pref not in _profit_rules()["business_tax"]["short_year_conditions_confirmed"]:
-            extra = f"。1年に満たない事業年度なので「年所得」は月数で換算しました（大阪府の手引による）。{pref}の資料で確かめてください"
-        return f"{pref}の事業税は超過課税がありますが、「{m[0]}」の法人なので標準税率です（総務省の一覧）" + extra
-    raise OutOfScope(f"{pref}の事業税の超過課税（資本金・年所得が軽減の条件「{m[0]}」を超える法人）")
+        return shape(std), f"{pref}の事業税は超過課税がありますが、「{m[0]}」の法人なので標準税率です（総務省の一覧）" + short
+    rates = unicodedata.normalize("NFKC", e["rates"])
+    r = re.search(r"所得割\(普\):\s*([\d.]+)%[・･]([\d.]+)%[・･]([\d.]+)%", rates)
+    if not r:
+        raise OutOfScope(f"{pref}の事業税の超過課税（資本金・年所得が軽減の条件「{m[0]}」を超える法人。一覧の税率を読めません）")
+    pcts = [r[1], r[2], r[3]]
+    return shape(pcts), (f"{pref}の事業税は超過課税の税率 {'・'.join(shape(pcts)) if not flat else pcts[2]}%（総務省の一覧の「所得割(普)」。"
+                         f"軽減の条件「{m[0]}」に当たらない）。特別法人事業税は標準税率で計算した所得割額にかけます" + short)
+
+
+def _business_kind_notes(data: dict) -> list[str]:
+    """事業税の計算の前提（電気供給業などでない・医療法人でない・外形標準課税の対象でない）の注意。"""
+    unknown_kind = None
+    if data["company"].get("utility_or_insurance_business") is None:
+        unknown_kind = ("事業税は、電気供給業・ガス供給業・保険業・貿易保険業を行わない法人として所得割だけで計算しました。"
+                        "行う法人は収入割などがかかり対象外です（company.utility_or_insurance_business を false にするとこの注意は出ません）")
+    medical = None
+    if data["company"].get("medical_corporation") is None:
+        medical = ("事業税は医療法人でない法人として計算しました（医療法人は事業税の特別法人で税率などが違い対象外。"
+                   "company.medical_corporation を false にするとこの注意は出ません）")
+    pro_forma = None
+    if data["company"].get("business_tax_pro_forma_standard") is None:
+        pro_forma = ("事業税は外形標準課税の対象でない法人として所得割だけで計算しました。資本金1億円以下でも、払込資本50億円超の法人の完全子法人で"
+                     "払込資本2億円超のもの（地方税法第72条の2第1項第1号ロ(1)(2)）や、前事業年度に外形標準課税の対象だった法人が減資したものなどは"
+                     "対象になります（company.business_tax_pro_forma_standard を false にするとこの注意は出ません）")
+    return [n for n in (unknown_kind, medical, pro_forma) if n]
 
 
 def business_tax(data: dict, pre_deduction: int) -> dict:
@@ -505,22 +568,29 @@ def business_tax(data: dict, pre_deduction: int) -> dict:
         return out
     if start < datetime.date.fromisoformat(bt["fiscal_year_start_from"]):
         raise OutOfScope("令和元年10月1日より前に開始した事業年度の黒字法人（事業税の税率の経過措置を扱いません）")
+    from . import bunkatsu
+    limits = [a * months // 12 for a in bt["brackets_annual"]]
+    if bunkatsu.is_divided(data):
+        d = bunkatsu.business_tax(data, income, limits, months)
+        out.update({"taxable": d["taxable"], "brackets": [{"base": t, "percent": None, "tax": None} for t in d["totals"]],
+                    "total": d["total"], "special_base": d["special_base"], "special": d["special"], "division": d})
+        out["notes"] = d["notes"] + _business_kind_notes(data)
+        return out
     office = data["offices"][0]
     if special_ward_rules(office["prefecture"], office["municipality"]):
         raise OutOfScope("東京都の特別区の黒字法人（都の事業税の超過課税を扱いません）")
-    taxable = income // 1000 * 1000
-    note = _business_standard_note(office["prefecture"], edition_for(end), data["company"], income, months)
+    percents, note = _business_rates(office["prefecture"], edition_for(end), data["company"], income, months)
     # 段の区切り: 年400万円・年800万円（1年に満たないときは月数で換算し、円単位まで。地方税法第72条の24の7第6項）。
     # 各段の課税標準は、切り捨てる前の所得（第六号様式㉘）から切り捨てる前の下の段の額を引いてから千円未満を切り捨てる
     # （大阪府「申告書（第6号様式）記載の手引」の事業年度が1年に満たない場合の書き方。12か月のときも同じ結果になる）
-    limits = [a * months // 12 for a in bt["brackets_annual"]]
-    rows, lower = [], 0
-    for i, pct in enumerate(bt["standard_percents"]):
+    rows, lower, std_total = [], 0, 0
+    for i, pct in enumerate(percents):
         upper = min(income, limits[i]) if i < len(limits) else income
         part = max(upper - lower, 0)
         lower += part
         base = part // 1000 * 1000
         tax = int(base * Fraction(pct) / 100) // 100 * 100
+        std_total += int(base * Fraction(bt["standard_percents"][i]) / 100) // 100 * 100
         rows.append({"base": base, "percent": pct, "tax": tax})
     taxable = sum(r["base"] for r in rows)                 # ㉜ 計（㉙＋㉚＋㉛）
     short_note = None
@@ -528,21 +598,8 @@ def business_tax(data: dict, pre_deduction: int) -> dict:
         short_note = (f"1年に満たない事業年度の所得割の段は、各段を千円未満切捨てする前の額で引く書き方（大阪府・和歌山県・岐阜県・静岡県の"
                       f"第6号様式記載の手引）で計算しました。{office['prefecture']}の手引で同じか確かめてください")
     total = sum(r["tax"] for r in rows)
-    special_base = total                                   # 基準法人所得割額（標準税率で計算した所得割額）
+    special_base = std_total                               # 基準法人所得割額（標準税率で計算した所得割額）
     special = int(special_base * Fraction(sp["percent"]) / 100) // 100 * 100
-    unknown_kind = None
-    if data["company"].get("utility_or_insurance_business") is None:
-        unknown_kind = ("事業税は、電気供給業・ガス供給業・保険業・貿易保険業を行わない法人として所得割だけで計算しました。"
-                        "行う法人は収入割などがかかり対象外です（company.utility_or_insurance_business を false にするとこの注意は出ません）")
-    medical = None
-    if data["company"].get("medical_corporation") is None:
-        medical = ("事業税は医療法人でない法人として計算しました（医療法人は事業税の特別法人で税率などが違い対象外。"
-                   "company.medical_corporation を false にするとこの注意は出ません）")
-    pro_forma = None
-    if data["company"].get("business_tax_pro_forma_standard") is None:
-        pro_forma = ("事業税は外形標準課税の対象でない法人として所得割だけで計算しました。資本金1億円以下でも、払込資本50億円超の法人の完全子法人で"
-                     "払込資本2億円超のもの（地方税法第72条の2第1項第1号ロ(1)(2)）や、前事業年度に外形標準課税の対象だった法人が減資したものなどは"
-                     "対象になります（company.business_tax_pro_forma_standard を false にするとこの注意は出ません）")
     out.update({"taxable": taxable, "brackets": rows, "total": total, "special_base": special_base, "special": special,
-                "notes": [n for n in (note, unknown_kind, medical, pro_forma, short_note) if n]})
+                "notes": [n for n in (note, short_note) if n] + _business_kind_notes(data)})
     return out

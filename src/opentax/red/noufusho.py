@@ -78,6 +78,9 @@ def values(calculated: dict, kind: str, today: datetime.date | None = None) -> d
     part = local["prefecture"] if kind == "pref" else local["municipality"]
     if part is None:
         return None
+    if local.get("division"):
+        from .model import OutOfScope
+        raise OutOfScope("分割法人の納付書（都道府県・市町村ごとの額は地方税の一覧にあります）")
     v = local_sheet.sheet_values(calculated, kind)
     levy = max(v["levy_payable"], 0)
     per_capita = max(v["per_capita_payable"], 0)

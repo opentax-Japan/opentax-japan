@@ -290,6 +290,8 @@ def _local_paper(calculated: dict, company: str, span, sources=None) -> str | No
     """地方税の様式（第六号様式・第二十号様式など）。位置のファイルがなければ None（一覧で見せる）。
     値は地方税の一覧と同じ（local_sheet.sheet_values。キーは rules/local_forms.json の value）。"""
     local = calculated["local_tax"]
+    if local.get("division"):
+        return None                                  # 分割法人は一覧（第十号様式など）だけ。紙の様式には書かない（DESIGN §29）
     pages = []
     for map_id, title, kind in (("L06", "第六号様式（道府県民税・事業税・特別法人事業税）", "pref"),
                                 ("L06B9", "第六号様式別表九（欠損金額等の控除明細書）", "pref"),
@@ -314,6 +316,9 @@ def _payment_slips(calculated: dict, span) -> str:
     """地方税の納付書（第十二号の二様式・第二十二号の四様式）。納める額がなければ、その旨だけ書く。"""
     from .red import noufusho
     local = calculated["local_tax"]
+    if local.get("division"):
+        return ("<section class='form' id='N12_2'><h3>納付書</h3><p class='meta'>分割法人の納付書は作りません。"
+                "都道府県・市町村ごとの額は地方税の一覧にあります（DESIGN §29）。</p></section>")
     out = []
     for map_id, kind, title in (("N12_2", "pref", "納付書（第十二号の二様式　道府県民税・事業税・特別法人事業税）"),
                                 ("N22_4", "city", "納付書（第二十二号の四様式　市町村民税）")):
