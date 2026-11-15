@@ -34,6 +34,7 @@ ROW_KEYS = {"general": _COMMON | {"recipient", "new"}, "care": _COMMON | {"recip
 SMALL_BUSINESS_KEYS = ("smrj", "dc_corporate", "dc_individual", "disability")
 UNDER23_KEYS = {"name", "kana", "birth", "address", "relation", "income", "my_number"}
 SPOUSE_WORDS = ("妻", "夫", "配偶者")
+PERSON_KEYS = {"id", "name", "kana", "address", "general", "care", "pension", "under23", "earthquake", "social", "small_business", "note"}
 
 
 class HokenError(NenchoError):
@@ -79,6 +80,9 @@ def _sum(rows, cond=lambda r: True) -> int:
 def calculate(p: dict) -> dict:
     """1人分の申告書の欄（values）と、年末調整に渡す値（nencho）を作る。"""
     L = rules()["life_insurance"]
+    unknown = set(p) - PERSON_KEYS
+    if unknown:
+        raise HokenError(f"知らない項目があります（書き間違い？）: {sorted(unknown)}")
     g, c, pe = _rows(p, "general"), _rows(p, "care"), _rows(p, "pension")
     eq, so = _rows(p, "earthquake"), _rows(p, "social")
     notes = []
@@ -97,7 +101,7 @@ def calculate(p: dict) -> dict:
             notes.append("個人番号は OpenTax では扱わないので様式に書いていません（必要なら本人が書く。裏面の注意5）")
         if not u23.get("name"):
             notes.append("年齢23歳未満の扶養親族の氏名が入っていません（☆欄）")
-        if any(w in str(u23.get("relation") or "") for w in SPOUSE_WORDS):
+        if str(u23.get("relation") or "").strip() in SPOUSE_WORDS and A > 0:   # 配偶者本人だけ（「妻の子」は親族。注意3）
             raise HokenError("under23.relation: 配偶者は年齢23歳未満の扶養親族になりません（様式・裏面の注意3）")
         birth = u23.get("birth")
         if birth:
@@ -203,7 +207,11 @@ def calculate(p: dict) -> dict:
 
 def calculate_all(doc: dict) -> dict:
     """opentax-hoken/1 の入力（payer と people）。"""
-    if doc.get("year", YEAR) != YEAR:
+    if doc.get("format") not in (None, "opentax-hoken/1"):
+        raise HokenError(f"format は opentax-hoken/1 です: {doc.get('format')!r}")
+    if not isinstance(doc.get("people"), list) or not all(isinstance(x, dict) for x in doc["people"]):
+        raise HokenError("people は1人ずつの {name, general, ...} のリストで入れてください")
+    if str(doc.get("year", YEAR)) != str(YEAR):
         raise HokenError(f"いまは令和8年分（{YEAR}年）の様式だけです")
     payer = doc.get("payer") or {}
     people = []

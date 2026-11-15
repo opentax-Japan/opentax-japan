@@ -92,7 +92,7 @@ class HokenTest(unittest.TestCase):
     def test_typos_stop(self):
         for path, val in ((("small_business",), {"ideco": 276000}), (("general", 0, "amount"), None), (("general", 0, "amout"), 1),
                           (("under23", "birth"), "H22.5.17"), (("under23", "birth"), "2027-03-01"), (("under23", "relation"), "妻"),
-                          (("general",), [80000]), (("under23", "income"), 620001)):
+                          (("general",), [80000]), (("under23", "income"), 620001), (("generals",), [])):
             doc = self._doc()
             t = doc["people"][0]
             for k in path[:-1]:
@@ -121,3 +121,8 @@ class HokenTest(unittest.TestCase):
         self.assertEqual((v["e_b_part"], v["e_c_part"], v["e_total"]), (50000, 15000, 50000))
         v = calc(small_business={"dc_individual": 276000})
         self.assertEqual(v["k_total"], 276000)
+
+    def test_spouse_child_ok(self):
+        doc = self._doc()
+        doc["people"][0]["under23"]["relation"] = "妻の子"
+        self.assertTrue(hoken.calculate_all(doc)["people"][0]["special_u23"])
