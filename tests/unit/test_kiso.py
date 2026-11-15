@@ -70,6 +70,9 @@ class KisoKisaiReiTest(unittest.TestCase):
     def test_nencho_case_runs(self):
         # 年末調整の見本（年末調整のしかた の設例）もそのまま読める。山川 太郎は記載例と同じ額
         doc = json.loads((CASES / "nencho-r08" / "input.json").read_text(encoding="utf-8"))
+        with self.assertRaises(kiso.KisoError):          # 所得金額調整控除の☆扶養親族等が無いので止まる（M5）
+            kiso.calculate_all(doc)
+        doc["people"][0]["income_adjustment"]["person"] = {"name": "山川　二郎", "relation": "子", "birth": "2010-05-17", "income": 0}
         c = kiso.calculate_all(doc)
         a = [r["amounts"] for r in c["people"]]
         self.assertEqual((a[0]["basic"], a[0]["spouse"], a[0]["specific_relative"]), (620000, 380000, 410000))
@@ -208,6 +211,100 @@ class KisoRuleTest(unittest.TestCase):
         self.assertEqual((len(c["people"]), c["skipped"]), (1, ["退職"]))
         with self.assertRaises(kiso.KisoError):
             kiso.calculate(q)
+
+
+class KisoVerifyTest(unittest.TestCase):
+    """別の検証（private/verify/検証報告_基礎控除申告書等_2026-11-16.md）の指摘 H1・M1〜M5・L1〜L3・L8。"""
+
+    def _stops(self, doc):
+        with self.assertRaises(kiso.KisoError):
+            kiso.calculate_all(doc)
+
+    def test_h1_spouse_without_income_stops(self):
+        self._stops(_person(spouse={"name": "y"}))
+        self._stops(_person(spouse={"name": "y", "elderly": True, "birth": "1950-01-01"}))
+
+    def test_m1_same_household_spouse_special_disabled(self):
+        adj = {"family_special_disabled": True, "as_declared": True, "person": {"name": "w", "relation": "妻", "income": 1000000}}
+        self._stops(_person(salary_total=8970000, spouse={"name": "w", "income": 1000000}, income_adjustment=adj))   # 62万円超
+        adj = {"family_special_disabled": True, "as_declared": True, "person": {"name": "w", "relation": "妻", "income": 0}}
+        self._stops(_person(salary_total=8970000, spouse={"name": "w", "income": 300000}, income_adjustment=adj))    # spouse と違う
+        adj = {"family_special_disabled": True, "as_declared": True, "person": {"name": "w", "income": 0}}
+        self._stops(_person(salary_total=8970000, spouse={"name": "w", "income": 0}, income_adjustment=adj))         # 続柄なし
+        adj["person"]["relation"] = "妻"
+        v = kiso.calculate_all(_person(salary_total=8970000, spouse={"name": "w", "income": 0}, income_adjustment=adj))["people"][0]["values"]
+        self.assertEqual(v["a_check"], ["", "✓", "", ""])
+        adj["person"]["relation"] = "子"
+        v = kiso.calculate_all(_person(salary_total=8970000, income_adjustment=adj))["people"][0]["values"]
+        self.assertEqual(v["a_check"], ["", "", "✓", ""])
+
+    def test_m2_spouse_is_not_specific_relative(self):
+        self._stops(_person(specific_relatives=[{"name": "w", "relation": "妻", "birth": "2005-01-01", "income": 1000000}]))
+        self._stops(_person(spouse={"name": "山川　明子", "income": 1000000},
+                            specific_relatives=[{"name": "山川明子", "relation": "子", "birth": "2005-01-01", "income": 1000000}]))
+
+    def test_m3_booleans_must_be_bool(self):
+        self._stops(_person(spouse={"income": 0, "elderly": "false"}))
+        self._stops(_person(salary_total=8970000, income_adjustment={"dependent_under23": "false"}))
+        self._stops(_person(spouse={"income": 0, "nonresident": 1}))
+        self._stops(_person(specific_relatives=[{"name": "a", "birth": "2005-01-01", "income": 1000000, "nonresident": "yes"}]))
+        self._stops(_person(salary_total=8970000, income_adjustment={"self_special_disabled": True, "as_declared": "true"}))
+
+    def test_m4_unknown_person_keys_and_salary_total(self):
+        self._stops(_person(spuse={"income": 0}))
+        self._stops({"format": "opentax-nencho/1", "year": 2026, "people": [{}]})
+
+    def test_m5_adjustment_person_required_and_not_specific(self):
+        self._stops(_person(salary_total=8970000, income_adjustment={"dependent_under23": True}))
+        self._stops(_person(salary_total=8970000, income_adjustment={"dependent_under23": True, "person": {"name": "a", "income": 0}}))  # 生年月日なし
+        self._stops(_person(salary_total=8970000, income_adjustment={"dependent_under23": True, "person": {"name": "a", "birth": "2010-01-01"}}))  # 所得なし
+        self._stops(_person(salary_total=8970000, specific_relatives=[{"name": "春子", "birth": "2006-03-03", "income": 1000000}],
+                            income_adjustment={"dependent_under23": True, "person": {"name": "春子", "birth": "2006-03-03", "income": 0}}))
+
+    def test_l1_meiji_taisho_and_reiwa_circles(self):
+        r = kiso.calculate_all(_person(spouse={"income": 0, "birth": "1925-01-01", "elderly": True}))["people"][0]
+        self.assertEqual((r["values"]["s_era"], r["values"]["s_yy"]), ("大", "14"))
+        r = kiso.calculate_all(_person(spouse={"income": 0, "birth": "1911-05-01", "elderly": True}))["people"][0]
+        self.assertEqual((r["values"]["s_era"], r["values"]["s_yy"]), ("明", "44"))
+        self._stops(_person(spouse={"income": 0, "birth": "1860-01-01", "elderly": True}))                       # 様式の外も KisoError
+        adj = {"dependent_under23": True, "person": {"name": "a", "relation": "子", "birth": "2020-04-01", "income": 0}}
+        c = kiso.calculate_all(_person(salary_total=8970000, income_adjustment=adj))
+        v = c["people"][0]["values"]
+        self.assertEqual((v["a_era"], v["a_yy"]), ("令", "2"))
+        s = paper.sheet("KISO", "", SPAN, kiso.sheet_values(c["payer"], c["people"][0]))
+        self.assertEqual(sum(1 for it in s["items"] if it["kind"] == "circle"), 1)
+
+    def test_l2_shapes_stop_cleanly(self):
+        for kw in ({"spouse": "妻"}, {"specific_relatives": ["a"]}, {"income_adjustment": True}, {"dependents": "x"}):
+            with self.subTest(kw=kw):
+                self._stops(_person(**kw))
+        doc = _doc()
+        doc["filer"] = "x"
+        self._stops(doc)
+
+    def test_l3_elderly_without_birth_stops(self):
+        self._stops(_person(spouse={"income": 0, "elderly": True}))
+
+    def test_kubun_b_c_to_paper(self):
+        for salary, kubun, amount in ((11000000, "B", 260000), (11500000, "C", 130000)):
+            c = kiso.calculate_all(_person(salary_total=salary, spouse={"name": "w", "income": 0}))
+            v = c["people"][0]["values"]
+            self.assertEqual((v["kubun1"], v["kubun2"], v["spouse_deduction"]), (kubun, "②", amount), salary)
+            texts = [it["text"] for it in paper.sheet("KISO", "", SPAN, kiso.sheet_values(c["payer"], c["people"][0]))["items"]]
+            self.assertIn(kubun, texts)
+            self.assertIn(f"{amount:,}", texts)
+
+    def test_l8_dropped_parts_are_noted(self):
+        adj = {"self_special_disabled": True, "fact": "x", "person": {"name": "a"}}
+        r = kiso.calculate_all(_person(salary_total=8970000, income_adjustment=adj))["people"][0]
+        self.assertTrue(any("☆扶養親族等" in x and "書いていません" in x for x in r["notes"]))
+        adj = {"dependent_under23": True, "fact": "x", "person": {"name": "a", "relation": "子", "birth": "2010-01-01", "income": 0}}
+        r = kiso.calculate_all(_person(salary_total=8970000, income_adjustment=adj))["people"][0]
+        self.assertTrue(any("★特別障害者" in x and "書いていません" in x for x in r["notes"]))
+        self.assertNotIn("a_fact", r["values"])
+
+    def test_l4_two_payers_noted(self):
+        self.assertIn("2か所以上から給与", kiso.report(_calc()))
 
 
 if __name__ == "__main__":
