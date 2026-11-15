@@ -11,7 +11,9 @@ import io
 from pathlib import Path
 
 
-def page_image(pdf: Path, page: int, image_size: list[int] | None = None, render: bool = False, rotate: int = 0):
+def page_image(pdf: Path, page: int, image_size: list[int] | None = None, render: bool = False, rotate: int = 0,
+               clip: list[float] | None = None):
+    """clip: ページの一部だけを描く（[左, 上, 右, 下]。PDF の pt。1ページに様式が2つ並ぶ PDF の片方だけを使うとき。render のときだけ）。"""
     import pymupdf
     from PIL import Image
 
@@ -26,7 +28,10 @@ def page_image(pdf: Path, page: int, image_size: list[int] | None = None, render
         if rotate in (90, 270):
             pg.set_rotation((pg.rotation + rotate) % 360)
             r = pg.rect
-        pix = pg.get_pixmap(matrix=pymupdf.Matrix(w / r.width, h / r.height), colorspace=pymupdf.csGRAY, alpha=False)
+        if clip:
+            r = pymupdf.Rect(clip)
+        pix = pg.get_pixmap(matrix=pymupdf.Matrix(w / r.width, h / r.height), colorspace=pymupdf.csGRAY, alpha=False,
+                            clip=r if clip else None)
         img = Image.frombytes("L", (pix.width, pix.height), pix.samples)
     if image_size and img.size != tuple(image_size):
         img = img.resize(tuple(image_size), Image.LANCZOS)

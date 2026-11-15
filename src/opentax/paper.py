@@ -176,6 +176,8 @@ def sheet(form_id: str, title: str, fiscal_period: tuple[datetime.date, datetime
         for box, v in pairs(boxes, get(f"tag:{tag}")):
             if v not in (None, ""):
                 v = labels.get(tag, {}).get(str(v), v)
+                if v == "":          # 言葉にすると何も書かない値（受給者交付用の16歳未満の区分「00」など）
+                    continue
                 text = _wrap(str(v), box) if tag in wrap else _fmt(v)
                 items.append({"box": box, "text": text, "kind": {"left": "text", "center": "center", "right": "amount"}[align.get(tag, "left")]})
     for tag, boxes in m.get("split_fields", {}).items():   # 「03-0000-1111」を「-」で分けて枠ごとに置く（電話番号など）

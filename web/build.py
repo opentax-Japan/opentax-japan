@@ -95,7 +95,8 @@ def paper_images(width: int = 1654) -> None:
                 continue
             size = json.loads(path.read_text(encoding="utf-8"))["image_size"]
             f = m["files"][entry["file"]]
-            img = page_image(fetch(f["url"], f["sha256"]), entry["page"], size, entry.get("render", False), entry.get("rotate", 0))
+            img = page_image(fetch(f["url"], f["sha256"]), entry["page"], size, entry.get("render", False), entry.get("rotate", 0),
+                             entry.get("clip"))
             img = img.resize((width, round(width * img.height / img.width)), Image.LANCZOS)
             img.save(out_dir / f"{form_id}.jpg", quality=80, optimize=True, progressive=True)
 
