@@ -1,6 +1,6 @@
 {
  "format": "opentax-nencho/1",
- "note": "国税庁「令和9年分 給与所得者の扶養控除等申告書」の記載例（https://www.nta.go.jp/publication/pamph/gensen/nencho2026/pdf/309.pdf）1ページ目の例。答えは同じページの各欄。個人番号は書かない（OpenTax はマイナンバーを扱わない）",
+ "note": "国税庁「令和9年分 給与所得者の扶養控除等申告書」の記載例（https://www.nta.go.jp/publication/pamph/gensen/nencho2026/pdf/309.pdf）1ページ目の例。答えは同じページの各欄。個人番号は書かない（OpenTax はマイナンバーを扱わない）。income_estimate（本人の見積額）は記載例に無いので、A欄の判定（900万円以下）のために置いた仮の値",
  "year": 2027,
  "filer": {
   "name": "○○○○　株式会社",
@@ -15,7 +15,7 @@
    "kana": "ヤマカワ　タロウ",
    "birth": "1983-01-01",
    "address": "○○市××町23-7",
-   "postal_code": "000-0000",
+   "postal_code": "000-0000", "income_estimate": 5000000,
    "city": "○○",
    "householder": "山川　太郎",
    "householder_relation": "本人",

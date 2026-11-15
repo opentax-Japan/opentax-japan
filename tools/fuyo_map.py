@@ -158,6 +158,15 @@ def build(edition: str, stem: str) -> dict:
                                                             "r_widow", "r_single")) and k not in ("c_detail", "c_change")}
     m["text_align"] = {**{k: "center" for k in m["text_fields"] if k.endswith(("_yy", "_mm", "_dd", "_relation")) or k in checks_},
                        **{k: "right" for k in ("a_income", "b_income", "b_remittance", "u_income", "r_income")}}
+    # 元号の丸と年の欄が重ならないようにする（入力用 PDF の入力欄は元号の字に重なっているものがある）
+    tf, ci = m["text_fields"], m["circles"]
+    for era, i in (("d_era1", 0), ("d_era2", 1)):
+        box = tf["d_yy"][i]
+        box[0] = max(box[0], max(b[2] for b in ci[era].values()) + 2)
+    # 退職手当等の欄は「明・大・昭」の右に余白がほとんど無いので、年は2段目（「平・令」の右）に置く
+    rb = tf["r_yy"]
+    rb[0] = max(ci["r_era"]["令"][2], ci["r_era"]["平"][2]) + 2
+    rb[1] = max(ci["r_era"]["昭"][3], rb[1])
     # 給与の支払者の法人番号（13桁）: 入力欄 Text4 を13等分（様式の縦線と同じ間隔）
     x0, y0, x1, y1 = raw("Text4")
     cw = (x1 - x0) / 13

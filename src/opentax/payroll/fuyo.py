@@ -14,13 +14,16 @@
 入力（opentax-nencho/1 の people[] の1人分。年末調整の入力に、この申告書だけで使う項目を足した。どれも任意）:
 - name, kana, birth, address, postal_code（"000-0000"）, city（住所地の市区町村長。例「○○」）, householder（世帯主の氏名）,
   householder_relation（あなたとの続柄。例「本人」）, married（配偶者の有無。spouse があれば有）, secondary_submitted（従たる給与についての
-  扶養控除等申告書を出しているか）, income_estimate（本人の合計所得金額の見積額。無ければ salary_total から計算。源泉控除対象配偶者の900万円の判定）
+  扶養控除等申告書を出しているか）, income_estimate（本人の合計所得金額の見積額。無ければ salary_total から年末調整と同じ計算（所得金額調整控除の後。
+  nencho.income_parts）。源泉控除対象配偶者の900万円・寡婦/ひとり親の500万円・勤労学生の89万円の判定に要り、どちらも無ければ止める）
 - spouse: {name, kana, birth, income, address, non_resident: true, disability: 一般/特別/同居特別, disability_note, change, elderly}
 - dependents: [{kind: 一般/特定/老人/同居老親等, name, kana, relation, birth, income, address, non_resident, remittance,
   disability: 一般/特別/同居特別, disability_note, change, order}]（源泉控除対象親族のうち控除対象扶養親族。B欄）
   non_resident は true（16歳以上30歳未満又は70歳以上）か、30歳以上70歳未満のとき 留学・障害者・38万円以上の支払 のどれか（裏面２⑺）
 - specific_relatives: [{income, name, kana, relation, birth, address, non_resident: true, change, order}]（特定親族。見積額100万円以下なら B欄）
 - dependents_under16: [{name, kana, relation, birth, income, address, abroad: true（控除対象外国外扶養親族）, disability, disability_note, change}]
+- 障害者は人ごとに spouse.disability・dependents[].disability・dependents_under16[].disability（年末調整 nencho も同じ所を1回だけ数える）。
+  disabled_others（だれか分からない障害者。前からの形）は C欄の内容に氏名を書けないので止める（裏面２⑼イ）
 - others_claim: [{name, relation, birth, address, claimant: {name, relation, address}, change}]（D欄。他の所得者が控除を受ける扶養親族等）
 - retirement_relatives: [{name, kana, relation, birth, address, income（退職所得を除く）, non_resident, disability: 一般/特別, change}]
   （住民税に関する事項の「退職手当等を有する配偶者・扶養親族・特定親族」）、retirement_status: 寡婦/ひとり親（同じ欄の右）
@@ -32,8 +35,9 @@ B欄の行の順は order（小さい順）。無ければ dependents、specific
 from __future__ import annotations
 
 import datetime
+import re
 
-from .nencho import NenchoError, _int, salary_income
+from .nencho import NenchoError, _int, income_parts
 
 YEARS = (2026, 2027)
 FORMAT = "opentax-nencho/1"
@@ -54,6 +58,9 @@ EDITIONS = {
         "source_relative_income": 1_000_000,            # 源泉控除対象親族の特定親族（裏面４⑨）
         "source_spouse_income": 950_000, "self_income": 9_000_000,   # 源泉控除対象配偶者（裏面４③）
         "retirement_spouse_income": 1_330_000,          # 退職手当等を有する配偶者（裏面２⑾）
+        "widow_single_parent_income": 5_000_000,        # 寡婦・ひとり親（裏面４⑬⑭）
+        "working_student_income": 890_000,              # 勤労学生（改正後。年末調整のしかた 4ページ。裏面４⑮の印刷は85万円）
+        "working_student_income_old": 850_000,
     },
     2027: {
         "label": "令和9年分", "era_year": "令和9年",
@@ -61,7 +68,8 @@ EDITIONS = {
         "nr_young": (D(1998, 1, 2), D(2012, 1, 1)), "under30_from": D(1998, 1, 2),
         "dependent_income": 620_000, "dependent_income_old": None, "specific_income": (620_000, 1_230_000),
         "source_relative_income": 1_000_000, "source_spouse_income": 950_000, "self_income": 9_000_000,
-        "retirement_spouse_income": 1_330_000,
+        "retirement_spouse_income": 1_330_000, "widow_single_parent_income": 5_000_000,
+        "working_student_income": 890_000, "working_student_income_old": None,     # 令和9年分の裏面４⑮
     },
 }
 ROWS = {"b": 4, "u": 2, "d": 2, "r": 1}
@@ -69,6 +77,17 @@ CHECK = "レ"           # 入力用 PDF のチェック欄の値（記載例は 
 NR_REASONS = ("留学", "障害者", "38万円以上の支払")
 DISABILITY = ("一般", "特別", "同居特別")
 SPOUSE_WORDS = ("妻", "夫", "配偶者")
+ERA_FULL = {"明": "明治", "大": "大正", "昭": "昭和", "平": "平成", "令": "令和"}
+# 1人分の項目: 年末調整（nencho・pink・etax）の項目と、この申告書だけで使う項目。ほかは書き間違いとして止める
+PERSON_KEYS = {
+    "id", "name", "kana", "address", "birth", "note", "expected", "salary_total", "withheld_total", "social_insurance",
+    "social_insurance_declared", "small_business_declared", "national_pension_declared", "other_income", "income_adjustment",
+    "life_insurance", "earthquake", "spouse", "dependents", "disabled_others", "self", "specific_relatives", "housing_loan_credit",
+    "housing_loan", "hired_on", "retired_on", "dependents_under16", "minor", "column", "year_end_adjustment", "previous_job",
+    "withholding_spouse", "tekiyo", "my_number",
+    "postal_code", "city", "householder", "householder_relation", "married", "secondary_submitted", "income_estimate",
+    "others_claim", "retirement_relatives", "retirement_status", "change",
+}
 
 _PERSONAL = {"name", "kana", "relation", "birth", "address", "income", "change", "my_number", "note", "id"}
 KEYS = {
@@ -134,18 +153,49 @@ def _list(p: dict, key: str) -> list[dict]:
     return [_obj(x, key, f"{key}[{i}]") for i, x in enumerate(rows)]
 
 
-def _self_income(p: dict) -> int | None:
+def _is_spouse(rel) -> bool:
+    """続柄が配偶者か（「妻」「夫」「配偶者」「配偶者（妻）」。「妻の子」「配偶者の父」は親族）。"""
+    r = str(rel or "").strip()
+    return r in SPOUSE_WORDS or (r.startswith("配偶者") and not r.startswith("配偶者の"))
+
+
+def _lineal_ascendant(rel) -> bool:
+    """直系尊属（父母・祖父母・養父母、配偶者の父母など）か。同居老親等の要件（裏面４⑩）。叔父・伯母などの傍系は除く。"""
+    r = str(rel or "").strip()
+    return any(c in r for c in ("父", "母")) and not any(c in r for c in ("叔", "伯", "兄", "姉", "弟", "妹", "子", "孫"))
+
+
+def _self_income(p: dict) -> tuple[int | None, bool]:
+    """本人の合計所得金額の見積額（income_estimate、無ければ年末調整と同じ計算: 所得金額調整控除の後。nencho.income_parts）と、
+    給与が2,000万円を超えるか（合計所得金額は900万円超）。どちらも無ければ (None, False)。"""
     if p.get("income_estimate") is not None:
-        return _int(p["income_estimate"], "income_estimate")
+        return _int(p["income_estimate"], "income_estimate"), False
     if p.get("salary_total") is not None:
         try:
-            return salary_income(_int(p["salary_total"], "salary_total")) + _int(p.get("other_income"), "other_income")
+            return income_parts(p)[3], False
         except NenchoError:
-            return None
-    return None
+            return None, True               # 2,000万円超（年末調整の対象外。合計所得金額は900万円を超える）
+    return None, False
 
 
-def _nonresident_box(nr, birth: D | None, E: dict, where: str, specific_relative: bool = False) -> str | None:
+def _need_self_income(inc, over: bool, why: str) -> None:
+    if inc is None and not over:
+        raise FuyoError(f"{why}には本人の合計所得金額の見積額が要ります。income_estimate か salary_total を入れてください")
+
+
+def _check_birth(b: D | None, year: int, where: str) -> None:
+    if b and b > D(year, 12, 31):
+        raise FuyoError(f"{where}: {b} は{year}年より後の日付です")
+
+
+def _new_req_note(notes: list, E: dict, who: str, inc) -> None:
+    """令和8年分: 見積額が58万円超62万円以下の人は、改正（令和8年12月1日以後）で新たに要件を満たす人（年末調整のしかた 4ページ）。"""
+    if E["dependent_income_old"] and inc is not None and E["dependent_income_old"] < inc <= E["dependent_income"]:
+        notes.append(f"{who}: 見積額が58万円超62万円以下なので、令和8年12月1日以後の改正で新たに扶養親族等の要件を満たす人です。"
+                     "異動申告書として出してください（年末調整のしかた 4ページ）")
+
+
+def _nonresident_box(nr, birth: D | None, E: dict, where: str, notes: list, specific_relative: bool = False) -> str | None:
     """B欄の「非居住者である親族」のどの項目にチェックするか（裏面２⑺・表面の注1）。"""
     if not nr:
         return None
@@ -160,6 +210,8 @@ def _nonresident_box(nr, birth: D | None, E: dict, where: str, specific_relative
         if young_or_old is False:
             raise FuyoError(f"{where}.non_resident: 年齢30歳以上70歳未満の非居住者は 留学・障害者・38万円以上の支払 のどれかを入れてください"
                             "（裏面２⑺ロ・４⑤ロハ）")
+        if young_or_old is None:
+            notes.append(f"{where}: 生年月日が無いので、非居住者の年齢（16歳以上30歳未満又は70歳以上）を確かめていません（裏面２⑺）")
         return "age"
     if nr not in NR_REASONS:
         raise FuyoError(f"{where}.non_resident は true か {'・'.join(NR_REASONS)} です: {nr!r}")
@@ -178,6 +230,22 @@ def _kind_by_birth(b: D, E: dict) -> str:
     return "一般"
 
 
+def _profile(x: dict, b: D | None, inc) -> str:
+    """障害者の内容の欄に添える事項（裏面２⑼イ: 住所又は居所・生年月日・続柄・所得の見積額。
+    A・B・住民税の欄に書いた人は氏名と同居の有無のほかは省略できるので、ほかの欄に無い人だけに付ける）。"""
+    parts = []
+    if x.get("relation"):
+        parts.append(str(x["relation"]))
+    if b:
+        era, yy = _wareki(b)
+        parts.append(f"{ERA_FULL[era]}{yy}年{b.month}月{b.day}日生")
+    if x.get("address"):
+        parts.append(str(x["address"]))
+    if inc is not None:
+        parts.append(f"所得の見積額{inc:,}円")
+    return "（" + "、".join(parts) + "）" if parts else ""
+
+
 def calculate(person: dict, filer: dict | None = None, year: int = 2026) -> dict:
     """1人分の申告書の欄（values）・確かめてほしいこと（notes）・書ききれない分（overflow）。"""
     if year not in EDITIONS:
@@ -185,6 +253,12 @@ def calculate(person: dict, filer: dict | None = None, year: int = 2026) -> dict
     E = EDITIONS[year]
     filer = filer or {}
     p = person
+    unknown = set(p) - PERSON_KEYS
+    if unknown:
+        raise FuyoError(f"知らない項目があります（書き間違い？）: {sorted(unknown)}")
+    if p.get("disabled_others"):
+        raise FuyoError("disabled_others（だれか分からない障害者）は扶養控除等申告書に書けません（障害者の内容の欄に氏名が要ります。裏面２⑼イ）。"
+                        "同一生計配偶者は spouse.disability、16歳未満の扶養親族は dependents_under16[].disability に入れてください（年末調整も同じ額になります）")
     notes: list[str] = []
     v: dict = {}
     # --- 上の欄（給与の支払者・あなた） ---
@@ -197,44 +271,59 @@ def calculate(person: dict, filer: dict | None = None, year: int = 2026) -> dict
               "householder": p.get("householder") or "", "householder_relation": p.get("householder_relation") or ""})
     postal = p.get("postal_code")
     if postal:
-        if not isinstance(postal, str) or len(postal.split("-")) != 2:
-            raise FuyoError(f"postal_code は 000-0000 の形で入れてください: {postal!r}")
+        if not isinstance(postal, str) or not re.fullmatch(r"\d{3}-\d{4}", postal):
+            raise FuyoError(f"postal_code は 000-0000 の形（数字）で入れてください: {postal!r}")
         v["postal"] = postal
-    v.update(_birth("birth_", _date(p.get("birth"), "birth")))
+    me_birth = _date(p.get("birth"), "birth")
+    _check_birth(me_birth, year, "birth")
+    v.update(_birth("birth_", me_birth))
     sp = p.get("spouse")
     if sp is not None:
         sp = _obj(sp, "spouse", "spouse")
     married = p.get("married")
     if married is False and sp:
         raise FuyoError("married: false ですが spouse が入っています")
+    has_spouse = bool(married or sp)
     if married is not None or sp:
-        v["married"] = "有" if (married or sp) else "無"
+        v["married"] = "有" if has_spouse else "無"
     if p.get("secondary_submitted"):
         v["secondary"] = "1"
+    self_income, over_2000 = _self_income(p)
 
     # --- A 源泉控除対象配偶者（裏面４③） ---
-    self_income = _self_income(p)
+    sp_birth = None
+    in_a = False
     if sp:
-        inc = _int(sp.get("income"), "spouse.income")
-        b = _date(sp.get("birth"), "spouse.birth")
-        if inc > E["source_spouse_income"]:
-            notes.append(f"配偶者の見積額 {inc:,}円 は95万円を超えるので、源泉控除対象配偶者（A欄）に書きません（裏面４③）。"
+        inc = sp.get("income")
+        inc_v = _int(inc, "spouse.income")
+        sp_birth = _date(sp.get("birth"), "spouse.birth")
+        _check_birth(sp_birth, year, "spouse.birth")
+        if sp.get("disability") == "同居特別" and sp.get("non_resident"):
+            raise FuyoError("spouse: 非居住者は同居特別障害者（同居を常況としている人。裏面４⑫）になりません")
+        if inc_v > E["source_spouse_income"]:
+            notes.append(f"配偶者の見積額 {inc_v:,}円 は95万円を超えるので、源泉控除対象配偶者（A欄）に書きません（裏面４③）。"
                          "配偶者特別控除は年末調整で「給与所得者の配偶者控除等申告書」によります")
-        elif self_income is not None and self_income > E["self_income"]:
-            notes.append(f"あなたの合計所得金額の見積額 {self_income:,}円 が900万円を超えるので、源泉控除対象配偶者（A欄）はありません（裏面４③）")
         else:
-            if self_income is None:
-                notes.append("あなたの合計所得金額の見積額（income_estimate）が無いので、900万円以下として配偶者を A欄に書きました（裏面４③）")
-            v.update({"a_kana": sp.get("kana") or "", "a_name": sp.get("name") or "", "a_income": _yen(inc),
-                      "a_address": sp.get("address") or "", "a_change": sp.get("change") or ""})
-            v.update(_birth("a_", b))
-            if sp.get("non_resident"):
-                if sp["non_resident"] is not True:
-                    raise FuyoError("spouse.non_resident は true です（A欄の「非居住者である親族」に○。裏面２⑺）")
-                v["a_nonresident"] = "1"
-                notes.append("非居住者である配偶者: 親族関係書類の添付等が要ります（裏面３⑵）")
-        if sp.get("income") is None:
-            notes.append("配偶者の見積額（spouse.income）が入っていません（0円として扱いました）")
+            _need_self_income(self_income, over_2000, "源泉控除対象配偶者（A欄。本人の見積額900万円以下。裏面４③）の判定")
+            if over_2000:
+                notes.append("給与の総額が2,000万円を超えるので、あなたの合計所得金額の見積額は900万円を超えます。源泉控除対象配偶者（A欄）はありません（裏面４③）")
+            elif self_income > E["self_income"]:
+                notes.append(f"あなたの合計所得金額の見積額 {self_income:,}円 が900万円を超えるので、源泉控除対象配偶者（A欄）はありません（裏面４③）")
+            else:
+                in_a = True
+                v.update({"a_kana": sp.get("kana") or "", "a_name": sp.get("name") or "", "a_income": _yen(inc_v) if inc is not None else "",
+                          "a_address": sp.get("address") or "", "a_change": sp.get("change") or ""})
+                bp = _birth("a_", sp_birth)
+                if bp and bp["a_era"] not in "明大昭平":
+                    raise FuyoError(f"spouse.birth: {sp_birth} 生まれは A欄の元号（明・大・昭・平）にありません")
+                v.update(bp)
+                if sp.get("non_resident"):
+                    if sp["non_resident"] is not True:
+                        raise FuyoError("spouse.non_resident は true です（A欄の「非居住者である親族」に○。裏面２⑺）")
+                    v["a_nonresident"] = "1"
+                    notes.append("非居住者である配偶者: 親族関係書類の添付等が要ります（裏面３⑵）")
+                if inc is None:
+                    notes.append("配偶者の見積額（spouse.income）が入っていません（A欄の見積額は空欄）")
 
     # --- B 源泉控除対象親族（裏面４⑤⑥⑦⑧⑨） ---
     b_rows = []
@@ -243,45 +332,63 @@ def calculate(person: dict, filer: dict | None = None, year: int = 2026) -> dict
         kind = d.get("kind")
         if kind not in ("一般", "特定", "老人", "同居老親等"):
             raise FuyoError(f"{where}.kind は 一般・特定・老人・同居老親等 のどれかです: {kind!r}")
-        if str(d.get("relation") or "").strip() in SPOUSE_WORDS:
+        if _is_spouse(d.get("relation")):
             raise FuyoError(f"{where}.relation: 配偶者は扶養親族になりません（裏面４④）")
         b = _date(d.get("birth"), f"{where}.birth")
+        _check_birth(b, year, f"{where}.birth")
         if b:
             by = _kind_by_birth(b, E)
             if by == "16歳未満":
                 raise FuyoError(f"{where}.birth: {b} 生まれは年齢16歳未満です。dependents_under16（住民税に関する事項）に入れてください（裏面４⑤イ）")
             if (by == "老人") != (kind in ("老人", "同居老親等")) or (by == "特定") != (kind == "特定"):
                 raise FuyoError(f"{where}.kind: {b} 生まれは「{by}」の年齢です（{kind} ではありません。裏面４⑥⑦）")
+        if kind == "同居老親等" and d.get("relation") and not _lineal_ascendant(d["relation"]):
+            raise FuyoError(f"{where}.relation: 同居老親等はあなたか配偶者の直系尊属（父母・祖父母など）だけです: {d['relation']!r}（裏面４⑩）")
         inc = d.get("income")
         if inc is not None and _int(inc, f"{where}.income") > E["dependent_income"]:
             raise FuyoError(f"{where}.income: 見積額 {inc:,}円 は {E['dependent_income']:,}円を超えるので扶養親族になりません（裏面４④）。"
                             "19歳以上23歳未満なら specific_relatives です")
-        if inc is not None and E["dependent_income_old"] and inc > E["dependent_income_old"]:
-            notes.append(f"{d.get('name') or where}: 見積額が58万円超62万円以下なので、令和8年12月1日以後の改正で新たに扶養親族になる人です。"
-                         "異動申告書として出してください（年末調整のしかた 4ページ）")
-        nr = _nonresident_box(d.get("non_resident"), b, E, where)
-        if d.get("remittance") is not None and not nr:
-            raise FuyoError(f"{where}.remittance: 生計を一にする事実（送金額）は非居住者の控除対象扶養親族だけに書きます（裏面２⑻）")
+        _new_req_note(notes, E, d.get("name") or where, inc)
         if d.get("disability") and d["disability"] not in DISABILITY:
             raise FuyoError(f"{where}.disability は {'・'.join(DISABILITY)} のどれかです")
+        nr = _nonresident_box(d.get("non_resident"), b, E, where, notes)
+        if nr and kind == "同居老親等":
+            raise FuyoError(f"{where}: 非居住者は同居老親等（同居を常況としている人。裏面４⑩）になりません")
+        if nr and d.get("disability") == "同居特別":
+            raise FuyoError(f"{where}: 非居住者は同居特別障害者（同居を常況としている人。裏面４⑫）になりません")
+        if nr == "disabled" and not d.get("disability"):
+            raise FuyoError(f"{where}.non_resident: 「障害者」なら disability（一般・特別）を入れてください（裏面４⑤ロハ）")
+        if d.get("remittance") is not None:
+            if not nr:
+                raise FuyoError(f"{where}.remittance: 生計を一にする事実（送金額）は非居住者の控除対象扶養親族だけに書きます（裏面２⑻）")
+            if nr == "remit" and _int(d["remittance"], f"{where}.remittance") < 380_000:
+                raise FuyoError(f"{where}.remittance: 「38万円以上の支払」なのに送金額が38万円未満です（裏面４⑤ロハ）")
         b_rows.append({"src": d, "kind": kind, "birth": b, "nr": nr, "specific_relative": False, "where": where})
     for i, d in enumerate(_list(p, "specific_relatives")):
         where = f"specific_relatives[{i}]"
-        if str(d.get("relation") or "").strip() in SPOUSE_WORDS:
+        if _is_spouse(d.get("relation")):
             raise FuyoError(f"{where}.relation: 配偶者は特定親族になりません（裏面４⑧）")
         inc = _int(d.get("income"), f"{where}.income")
         lo, hi = E["specific_income"]
-        if not lo < inc <= hi:
-            raise FuyoError(f"{where}.income: 特定親族は見積額 {lo:,}円超 {hi:,}円以下の人です（{inc:,}円。裏面４⑧・年末調整のしかた 4ページ）")
+        if inc <= lo:
+            raise FuyoError(f"{where}.income: 見積額 {inc:,}円 は {lo:,}円以下なので特定親族ではなく扶養親族（特定扶養親族）です。"
+                            "dependents に kind: 特定 で入れてください（裏面４⑥⑧・年末調整のしかた 4ページ）")
+        if inc > hi:
+            raise FuyoError(f"{where}.income: 特定親族は見積額 {lo:,}円超 {hi:,}円以下の人です（{inc:,}円。裏面４⑧）")
         b = _date(d.get("birth"), f"{where}.birth")
+        _check_birth(b, year, f"{where}.birth")
         if b and not E["specific"][0] <= b <= E["specific"][1]:
             raise FuyoError(f"{where}.birth: {b} 生まれは年齢19歳以上23歳未満ではありません（裏面４⑧）")
-        nr = _nonresident_box(d.get("non_resident"), b, E, where, specific_relative=True)
+        nr = _nonresident_box(d.get("non_resident"), b, E, where, notes, specific_relative=True)
         if inc > E["source_relative_income"]:
             notes.append(f"{d.get('name') or where}: 見積額が100万円を超える特定親族は源泉控除対象親族ではないので B欄に書きません（裏面４⑨）。"
                          "年末調整の特定親族特別控除は「給与所得者の特定親族特別控除申告書」によります")
             continue
         b_rows.append({"src": d, "kind": "特定親族", "birth": b, "nr": nr, "specific_relative": True, "where": where})
+    for r in b_rows:
+        o = r["src"].get("order")
+        if o is not None and (isinstance(o, bool) or not isinstance(o, int)):
+            raise FuyoError(f"{r['where']}.order は整数です（B欄の行の順）: {o!r}")
     b_rows = [r for _, r in sorted(enumerate(b_rows), key=lambda t: (t[1]["src"].get("order", 10 ** 6), t[0]))]
     shown, rest = b_rows[:ROWS["b"]], b_rows[ROWS["b"]:]
     cols = ("b_kana", "b_name", "b_relation", "b_yy", "b_mm", "b_dd", "b_income", "b_remittance", "b_address", "b_change",
@@ -308,48 +415,95 @@ def calculate(person: dict, filer: dict | None = None, year: int = 2026) -> dict
             notes.append(f"{d.get('name') or r['where']}: {E['era_year']}中の所得の見積額が入っていません（B欄の見積額は空欄）")
         if not d.get("name"):
             notes.append(f"{r['where']}: 氏名が入っていません（B欄の{i + 1}行目）")
+    for r in b_rows:
         if r["nr"]:
-            notes.append(f"{d.get('name') or r['where']}: 非居住者である親族です。親族関係書類（30歳以上70歳未満の留学は留学ビザ等書類も）の添付等が要り、"
+            notes.append(f"{r['src'].get('name') or r['where']}: 非居住者である親族です。親族関係書類（30歳以上70歳未満の留学は留学ビザ等書類も）の添付等が要り、"
                          "年末調整で扶養控除を受けるには送金関係書類も要ります（裏面３⑵）")
 
+    # --- 住民税に関する事項: 16歳未満の扶養親族（裏面２⑾）。C欄で数えるので先に確かめる ---
+    u_rows = []
+    for i, x in enumerate(_list(p, "dependents_under16")):
+        where = f"dependents_under16[{i}]"
+        b = _date(x.get("birth"), f"{where}.birth")
+        _check_birth(b, year, f"{where}.birth")
+        if b and b <= E["born_16"]:
+            raise FuyoError(f"{where}.birth: {b} 生まれは年齢16歳以上です（16歳未満は {E['born_16'] + datetime.timedelta(days=1)} 以後生）")
+        if x.get("income") is not None and _int(x["income"], f"{where}.income") > E["dependent_income"]:
+            raise FuyoError(f"{where}.income: 見積額が {E['dependent_income']:,}円を超える人は扶養親族になりません（裏面４④）")
+        _new_req_note(notes, E, x.get("name") or where, x.get("income"))
+        if x.get("disability") and x["disability"] not in DISABILITY:
+            raise FuyoError(f"{where}.disability は {'・'.join(DISABILITY)} のどれかです")
+        if x.get("abroad") and x.get("disability") == "同居特別":
+            raise FuyoError(f"{where}: 国外の扶養親族は同居特別障害者（同居を常況としている人。裏面４⑫）になりません")
+        u_rows.append((x, b))
+
     # --- C 障害者・寡婦・ひとり親・勤労学生 ---
-    me = p.get("self") or {}
-    me = _obj(me, "self", "self")
+    me = _obj(p.get("self") or {}, "self", "self")
     detail = []
     if me.get("disability"):
         if me["disability"] not in ("一般", "特別"):
             raise FuyoError("self.disability は 一般 か 特別 です")
         v["c_self_general" if me["disability"] == "一般" else "c_self_special"] = CHECK
         if me.get("disability_note"):
-            detail.append(str(me["disability_note"]))
+            detail.append(f"本人、{me['disability_note']}")
+        else:
+            notes.append("本人の障害の内容（障害の状態又は手帳の種類と交付年月日、等級など）が入っていません（self.disability_note。裏面２⑼イ）")
+
+    def disabled(x: dict, who: str, b: D | None, inc, shown_elsewhere: bool) -> None:
+        """障害者の内容の欄: 氏名（特別障害者は同居の有無）、ほかの欄に無い人は続柄・生年月日・住所・見積額も（裏面２⑼イ・記載例3❹）。"""
+        name = x.get("name")
+        if not name:
+            notes.append(f"{who}: 障害者の氏名が入っていません（障害者又は勤労学生の内容の欄に氏名が要ります。裏面２⑼イ）")
+        head = (name or who) + ("" if shown_elsewhere else _profile(x, b, inc))
+        if x["disability"] in ("特別", "同居特別"):
+            head += "、同居" if x["disability"] == "同居特別" else "、同居でない"
+        if x.get("disability_note"):
+            detail.append(f"{head}、{x['disability_note']}")
+        else:
+            detail.append(head)
+            notes.append(f"{name or who}: 障害の内容（障害の状態又は手帳の種類と交付年月日、等級など）が入っていません（disability_note。裏面２⑼イ）")
+
     if sp and sp.get("disability"):
         if sp["disability"] not in DISABILITY:
             raise FuyoError(f"spouse.disability は {'・'.join(DISABILITY)} のどれかです")
         if _int(sp.get("income"), "spouse.income") > E["dependent_income"]:
             raise FuyoError("spouse.disability: 同一生計配偶者（見積額62万円以下）でないので障害者の欄に書きません（裏面４①⑪）")
+        _new_req_note(notes, E, sp.get("name") or "配偶者", sp.get("income"))
         v[{"一般": "c_spouse_general", "特別": "c_spouse_special", "同居特別": "c_spouse_cohab"}[sp["disability"]]] = CHECK
-        if sp.get("disability_note"):
-            detail.append(f"{sp.get('name') or '配偶者'}、{sp['disability_note']}")
-    under16 = _list(p, "dependents_under16")
+        disabled(sp, "配偶者", sp_birth, sp.get("income"), in_a)
     counts = {"一般": 0, "特別": 0, "同居特別": 0}
-    for key, rows in (("dependents", _list(p, "dependents")), ("dependents_under16", under16)):
-        for i, d in enumerate(rows):
-            if d.get("disability"):
-                if d["disability"] not in DISABILITY:
-                    raise FuyoError(f"{key}[{i}].disability は {'・'.join(DISABILITY)} のどれかです")
-                counts[d["disability"]] += 1
-                if d.get("disability_note"):
-                    detail.append(f"{d.get('name') or key}、{d['disability_note']}")
-                elif not d.get("name"):
-                    notes.append(f"{key}[{i}]: 障害者の扶養親族の氏名が入っていません（障害者又は勤労学生の内容。裏面２⑼イ）")
+    shown_ids = {id(r["src"]) for r in shown}
+    for r in b_rows:
+        d = r["src"]
+        if not r["specific_relative"] and d.get("disability"):
+            counts[d["disability"]] += 1
+            disabled(d, r["where"], r["birth"], d.get("income"), id(d) in shown_ids)
+    for i, (x, b) in enumerate(u_rows):
+        if x.get("disability"):
+            counts[x["disability"]] += 1
+            disabled(x, f"dependents_under16[{i}]", b, x.get("income"), i < ROWS["u"])
     for k, tag in (("一般", "general"), ("特別", "special"), ("同居特別", "cohab")):
         if counts[k]:
             v[f"c_dep_{tag}"], v[f"c_dep_{tag}_n"] = CHECK, str(counts[k])
-    if p.get("disabled_others"):
-        notes.append("disabled_others（扶養控除の対象でない障害者）は人ごとの欄が無いので申告書に書いていません。"
-                     "同一生計配偶者は spouse.disability、16歳未満は dependents_under16[].disability に入れてください")
     if me.get("widow") and me.get("single_parent"):
         raise FuyoError("self: 寡婦とひとり親の両方には当たりません（裏面４⑬「⑭のひとり親に該当する人を除きます」）")
+    if me.get("widow") or me.get("single_parent"):
+        label = "寡婦" if me.get("widow") else "ひとり親"
+        if has_spouse:
+            raise FuyoError(f"self: 配偶者がいる人は{label}になりません（現に婚姻をしていない人。裏面４⑬⑭）")
+        _need_self_income(self_income, over_2000, f"{label}の判定（見積額500万円以下。裏面４⑬⑭）")
+        if over_2000 or self_income > E["widow_single_parent_income"]:
+            raise FuyoError(f"self: あなたの合計所得金額の見積額が500万円を超えるので{label}になりません（裏面４⑬⑭）")
+    if me.get("working_student"):
+        _need_self_income(self_income, over_2000, "勤労学生の判定（見積額89万円以下。裏面４⑮・年末調整のしかた 4ページ）")
+        if over_2000 or self_income > E["working_student_income"]:
+            raise FuyoError(f"self: あなたの合計所得金額の見積額が{E['working_student_income']:,}円を超えるので勤労学生になりません"
+                            "（裏面４⑮・年末調整のしかた 4ページ）")
+        if _int(p.get("other_income"), "other_income") > 100_000:
+            raise FuyoError("self: 給与所得等以外の所得が10万円を超えるので勤労学生になりません（裏面４⑮ハ）")
+        if E["working_student_income_old"] and self_income > E["working_student_income_old"]:
+            notes.append("勤労学生: 見積額が85万円超89万円以下なので、令和8年12月1日以後の改正で新たに勤労学生になる人です。"
+                         "異動申告書として出してください（年末調整のしかた 4ページ）")
     for k, tag in (("widow", "c_widow"), ("single_parent", "c_single_parent"), ("working_student", "c_working_student")):
         if me.get(k):
             v[tag] = CHECK
@@ -360,8 +514,6 @@ def calculate(person: dict, filer: dict | None = None, year: int = 2026) -> dict
             notes.append("勤労学生: 学校名と入学年月日及び所得の種類とその見積額を障害者又は勤労学生の内容の欄に書きます（裏面２⑼ロ。self.working_student_note）")
     if any(k.startswith(("c_self", "c_spouse", "c_dep")) for k in v):
         v["c_disabled"] = CHECK
-        if not detail:
-            notes.append("障害者の内容（障害の状態又は手帳の種類と交付年月日、等級など）が入っていません（disability_note。裏面２⑼イ）")
     if detail:
         v["c_detail"] = "　".join(detail)
     v["c_change"] = p.get("change") or ""
@@ -372,7 +524,14 @@ def calculate(person: dict, filer: dict | None = None, year: int = 2026) -> dict
         cl = x.get("claimant") or {}
         if not isinstance(cl, dict) or set(cl) - {"name", "relation", "address"}:
             raise FuyoError(f"others_claim[{i}].claimant は {{name, relation, address}} です: {cl!r}")
-        d_rows.append((x, cl, _date(x.get("birth"), f"others_claim[{i}].birth")))
+        b = _date(x.get("birth"), f"others_claim[{i}].birth")
+        _check_birth(b, year, f"others_claim[{i}].birth")
+        d_rows.append((x, cl, b))
+    mine = {r["src"].get("name") for r in b_rows if r["src"].get("name")} | ({sp["name"]} if in_a and sp.get("name") else set())
+    for x, _, _ in d_rows:
+        if x.get("name") and x["name"] in mine:
+            raise FuyoError(f"others_claim: {x['name']} は A・B欄（あなたが控除を受ける人）にもいます。"
+                            "他の所得者が控除を受ける人は D欄だけに書きます（裏面２⑽）")
     for c in ("d_name", "d_relation", "d_yy", "d_mm", "d_dd", "d_address", "d_claimant_name", "d_claimant_relation", "d_claimant_address", "d_change"):
         v[c] = []
     for i, (x, cl, b) in enumerate(d_rows[:ROWS["d"]]):
@@ -384,18 +543,9 @@ def calculate(person: dict, filer: dict | None = None, year: int = 2026) -> dict
         if bp:
             v[f"d_era{i + 1}"] = bp["xera"]
 
-    # --- 住民税に関する事項: 16歳未満の扶養親族（裏面２⑾） ---
+    # --- 住民税に関する事項: 16歳未満の扶養親族の欄 ---
     for c in ("u_kana", "u_name", "u_relation", "u_yy", "u_mm", "u_dd", "u_address", "u_income", "u_change", "u_abroad"):
         v[c] = []
-    u_rows = []
-    for i, x in enumerate(under16):
-        where = f"dependents_under16[{i}]"
-        b = _date(x.get("birth"), f"{where}.birth")
-        if b and b <= E["born_16"]:
-            raise FuyoError(f"{where}.birth: {b} 生まれは年齢16歳以上です（16歳未満は {E['born_16'] + datetime.timedelta(days=1)} 以後生）")
-        if x.get("income") is not None and _int(x["income"], f"{where}.income") > E["dependent_income"]:
-            raise FuyoError(f"{where}.income: 見積額が {E['dependent_income']:,}円を超える人は扶養親族になりません（裏面４④）")
-        u_rows.append((x, b))
     for i, (x, b) in enumerate(u_rows[:ROWS["u"]]):
         bp = _birth("x", b)
         for c, val in (("u_kana", x.get("kana")), ("u_name", x.get("name")), ("u_relation", x.get("relation")), ("u_yy", bp.get("xyy")),
@@ -405,44 +555,22 @@ def calculate(person: dict, filer: dict | None = None, year: int = 2026) -> dict
             v[c].append(val or "")
         if bp:
             v[f"u_era{i + 1}"] = bp["xera"]
+    for x, _ in u_rows:
         if x.get("abroad"):
             notes.append(f"{x.get('name') or 'dependents_under16'}: 控除対象外国外扶養親族です。親族関係書類・送金関係書類を市区町村に出す場合があります（裏面２⑾）")
 
-    # --- 住民税に関する事項: 退職手当等を有する配偶者・扶養親族・特定親族（裏面２⑾） ---
+    # --- 住民税に関する事項: 退職手当等を有する配偶者・扶養親族・特定親族（裏面２⑾・記載例4❸〜❼） ---
     r_rows = _list(p, "retirement_relatives")
-    if r_rows:
-        x = r_rows[0]
-        where = "retirement_relatives[0]"
-        b = _date(x.get("birth"), f"{where}.birth")
-        is_spouse = str(x.get("relation") or "").strip() in SPOUSE_WORDS
-        inc = x.get("income")
-        if is_spouse and inc is not None and _int(inc, f"{where}.income") > E["retirement_spouse_income"]:
-            raise FuyoError(f"{where}.income: 退職手当等を有する配偶者は退職所得を除いた見積額が133万円以下の人です（裏面２⑾）")
-        v.update({"r_kana": x.get("kana") or "", "r_name": x.get("name") or "", "r_relation": x.get("relation") or "",
-                  "r_address": x.get("address") or "", "r_income": _yen(inc) if inc is not None else "", "r_change": x.get("change") or ""})
-        bp = _birth("r_", b)
-        v.update(bp)
-        nr = x.get("non_resident")
-        if nr:
-            if nr is True:
-                if is_spouse:
-                    v["r_nr_spouse"] = CHECK
-                elif b and (b >= E["under30_from"] or b <= E["elderly"]):
-                    v["r_nr_age"] = CHECK
-                else:
-                    raise FuyoError(f"{where}.non_resident: 30歳以上70歳未満（または生年月日が無い）ときは 留学・障害者・38万円以上の支払 のどれかを入れてください")
-            elif nr in NR_REASONS:
-                v[{"留学": "r_nr_study", "障害者": "r_nr_disabled", "38万円以上の支払": "r_nr_remit"}[nr]] = CHECK
-            else:
-                raise FuyoError(f"{where}.non_resident は true か {'・'.join(NR_REASONS)} です: {nr!r}")
-        if x.get("disability"):
-            if x["disability"] not in ("一般", "特別"):
-                raise FuyoError(f"{where}.disability は 一般 か 特別 です（障害者区分）")
-            v["r_dis_general" if x["disability"] == "一般" else "r_dis_special"] = CHECK
+    r_vals = [_retirement_row(x, f"retirement_relatives[{i}]", E, year, notes) for i, x in enumerate(r_rows)]
+    if r_vals:
+        v.update(r_vals[0])
     rs = p.get("retirement_status")
     if rs:
         if rs not in ("寡婦", "ひとり親"):
             raise FuyoError(f"retirement_status は 寡婦 か ひとり親 です: {rs!r}")
+        if not any(not _is_spouse(x.get("relation")) and _int(x.get("income"), "income") <= E["dependent_income"] for x in r_rows):
+            raise FuyoError("retirement_status: 退職所得を除くと見積額62万円以下となる、退職手当等を有する扶養親族がいるときだけ書きます"
+                            "（retirement_relatives に入れてください。裏面２⑾・記載例4❼）")
         v["r_widow" if rs == "寡婦" else "r_single_parent"] = CHECK
 
     # --- マイナンバー・書ききれない分 ---
@@ -464,9 +592,56 @@ def calculate(person: dict, filer: dict | None = None, year: int = 2026) -> dict
     if len(r_rows) > ROWS["r"]:
         overflow["r"] = r_rows[ROWS["r"]:]
     if isinstance(p.get("dependents_under16"), int) and p["dependents_under16"]:
-        notes.append(f"dependents_under16 が人数（{p['dependents_under16']}人）だけなので、16歳未満の扶養親族の欄に書いていません。1人ずつ {{name, birth, ...}} で入れてください")
+        notes.append(f"dependents_under16 が人数（{p['dependents_under16']}人）だけなので、16歳未満の扶養親族の欄に書いていません。"
+                     "1人ずつ {name, birth, ...} で入れてください")
     return {"person": p, "year": year, "values": v, "notes": notes, "overflow": overflow,
-            "source_spouse": "a_name" in v, "source_relatives": len(b_rows)}
+            "source_spouse": in_a, "source_relatives": len(b_rows)}
+
+
+def _retirement_row(x: dict, where: str, E: dict, year: int, notes: list) -> dict:
+    """退職手当等を有する配偶者・扶養親族・特定親族の1行（裏面２⑾・記載例4❸〜❻）。2人目からも同じに確かめる。"""
+    b = _date(x.get("birth"), f"{where}.birth")
+    _check_birth(b, year, f"{where}.birth")
+    is_spouse = _is_spouse(x.get("relation"))
+    inc = x.get("income")
+    inc_v = _int(inc, f"{where}.income")
+    if is_spouse:
+        if inc_v > E["retirement_spouse_income"]:
+            raise FuyoError(f"{where}.income: 退職手当等を有する配偶者は退職所得を除いた見積額が133万円以下の人です（裏面２⑾）")
+    elif inc_v > E["dependent_income"]:
+        if inc_v > E["specific_income"][1] or not (b and E["specific"][0] <= b <= E["specific"][1]):
+            raise FuyoError(f"{where}.income: 退職所得を除いた見積額が62万円を超える人は、19歳以上23歳未満で123万円以下の特定親族だけです（裏面２⑾・４⑧）")
+    _new_req_note(notes, E, x.get("name") or where, inc)
+    v = {"r_kana": x.get("kana") or "", "r_name": x.get("name") or "", "r_relation": x.get("relation") or "",
+         "r_address": x.get("address") or "", "r_income": _yen(inc_v) if inc is not None else "", "r_change": x.get("change") or ""}
+    v.update(_birth("r_", b))
+    nr = x.get("non_resident")
+    if nr:
+        if is_spouse:
+            if nr is not True:
+                raise FuyoError(f"{where}.non_resident: 配偶者は true（「配偶者」にチェック。記載例4❹）")
+            v["r_nr_spouse"] = CHECK
+        elif nr is True:
+            if not b:
+                raise FuyoError(f"{where}.non_resident: 30歳未満又は70歳以上か確かめるため生年月日（birth）を入れてください（記載例4❹）")
+            if not (b >= E["under30_from"] or b <= E["elderly"]):
+                raise FuyoError(f"{where}.non_resident: 30歳以上70歳未満は 留学・障害者・38万円以上の支払 のどれかを入れてください（記載例4❹）")
+            v["r_nr_age"] = CHECK
+        elif nr in NR_REASONS:
+            if b and (b >= E["under30_from"] or b <= E["elderly"]):
+                raise FuyoError(f"{where}.non_resident: 30歳未満又は70歳以上の人は true です（記載例4❹）")
+            if nr == "障害者" and not x.get("disability"):
+                raise FuyoError(f"{where}.non_resident: 「障害者」なら disability（一般・特別）を入れてください")
+            v[{"留学": "r_nr_study", "障害者": "r_nr_disabled", "38万円以上の支払": "r_nr_remit"}[nr]] = CHECK
+        else:
+            raise FuyoError(f"{where}.non_resident は true か {'・'.join(NR_REASONS)} です: {nr!r}")
+    if x.get("disability"):
+        if x["disability"] not in ("一般", "特別"):
+            raise FuyoError(f"{where}.disability は 一般 か 特別 です（障害者区分）")
+        if inc_v > E["dependent_income"]:      # 同一生計配偶者（62万円以下）か扶養親族だけ（記載例4❻）。特定親族も対象でない
+            raise FuyoError(f"{where}.disability: 障害者区分は同一生計配偶者・扶養親族（退職所得を除いた見積額62万円以下）だけです（記載例4❻）")
+        v["r_dis_general" if x["disability"] == "一般" else "r_dis_special"] = CHECK
+    return v
 
 
 def values(person: dict, filer: dict | None = None, year: int = 2026) -> dict:
@@ -497,7 +672,7 @@ def report(c: dict, today: datetime.date | None = None) -> str:
     """1人1枚（A4横）の申告書（様式の上に値）と、書ききれない分の表（HTML 1枚）。c は calculate_all の結果か、その入力。"""
     from .. import paper
     from ..report import _e, _form, _notes, _page, _paper_form, _table
-    if "people" in c and c.get("people") and "values" not in c["people"][0]:
+    if not c.get("people") or "values" not in c["people"][0]:
         c = calculate_all(c)
     today = today or datetime.date.today()
     year, filer = c["year"], c["filer"]

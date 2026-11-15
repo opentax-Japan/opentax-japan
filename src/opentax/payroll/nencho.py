@@ -13,7 +13,9 @@
 - earthquake: {earthquake, old_long_term}
 - spouse: {income: 配偶者の合計所得金額（見積）, elderly: 老人控除対象配偶者か}。無ければ省く
 - dependents: [{kind: 一般/特定/老人/同居老親等, disability: 一般/特別/同居特別（任意）}]（扶養控除の対象の人）
-- disabled_others: [一般/特別/同居特別]（扶養控除の対象でないが障害者控除の対象になる同一生計配偶者・年少扶養親族など）
+- disabled_others: [一般/特別/同居特別]（扶養控除の対象でないが障害者控除の対象になる同一生計配偶者・年少扶養親族など。前からの形。
+  人ごとの spouse.disability・dependents_under16[].disability と一緒には使えない（同じ人を二重に数えないため止める）。扶養控除等申告書（fuyo）では使えない）
+- dependents_under16: [{name, birth, disability: 一般/特別/同居特別, ...}]（年齢16歳未満の扶養親族。障害者なら障害者控除。年末調整のしかた 56ページ⑵）
 - self: {disability: 一般/特別, widow: bool, single_parent: bool, working_student: bool}
 - specific_relatives: [{income: 特定親族の合計所得金額}]
 - housing_loan_credit: 住宅借入金等特別控除額（申告書で計算した額。年調所得税額を超えた分は使わない）
@@ -131,11 +133,11 @@ def spouse(self_income: int, sp: dict | None) -> dict:
     return {"kind": None, "amount": 0}
 
 
-def calculate(p: dict) -> dict:
-    """1人分の年末調整。戻り値は源泉徴収簿の年末調整欄の順。"""
+def income_parts(p: dict) -> tuple[int, int, int, int]:
+    """給与所得控除後の給与等の金額・所得金額調整控除額・調整控除後の給与所得・合計所得金額（給与所得＋other_income）。
+    年末調整のしかた 36〜37ページ。給与の総額が2,000万円を超えると NenchoError。"""
     R = rules()
     total = _int(p.get("salary_total"), "salary_total")
-    withheld = _int(p.get("withheld_total"), "withheld_total")
     s9 = salary_income(total)
     ia = p.get("income_adjustment") or {}
     adj = 0
@@ -143,7 +145,37 @@ def calculate(p: dict) -> dict:
         r = R["income_adjustment"]
         adj = min(_ceil((Decimal(min(total, r["cap_salary"])) - r["threshold"]) * Decimal(r["percent"]) / 100), r["max"])
     s11 = max(s9 - adj, 0)
-    self_income = s11 + _int(p.get("other_income"), "other_income")
+    return s9, adj, s11, s11 + _int(p.get("other_income"), "other_income")
+
+
+def disabled_others_and_family(p: dict) -> list[tuple[str, str]]:
+    """扶養控除の対象でない人の障害者控除の区分（[(どこ, 一般/特別/同居特別)]）。dependents[].disability は扶養控除と一緒に数えるのでここに入れない。
+    同一生計配偶者（spouse.disability。合計所得金額62万円以下）・年齢16歳未満の扶養親族（dependents_under16[].disability）・disabled_others（前からの形）。
+    disabled_others と人ごとの区分を一緒に入れると同じ人を二重に数えるおそれがあるので止める（所得税法第79条。障害者控除は1人1回）。"""
+    R = rules()
+    out = []
+    spi = p.get("spouse") or {}
+    if spi.get("disability"):
+        # 同一生計配偶者（合計所得金額62万円以下。令和8年分）が障害者なら障害者控除（所得税法第79条。年末調整のしかた 55・56ページ）
+        if _int(spi.get("income"), "spouse.income") > R["spouse"]["deduction_spouse_income_max"]:
+            raise NenchoError("spouse.disability: 配偶者の合計所得金額が62万円を超えるので、同一生計配偶者の障害者控除の対象になりません。入力を確かめてください")
+        out.append(("spouse.disability", spi["disability"]))
+    u16 = p.get("dependents_under16")
+    if isinstance(u16, list):
+        out += [(f"dependents_under16[{i}].disability", x["disability"]) for i, x in enumerate(u16) if isinstance(x, dict) and x.get("disability")]
+    others = p.get("disabled_others") or []
+    if others and out:
+        raise NenchoError("disabled_others と spouse.disability・dependents_under16[].disability を一緒に入れると同じ人を二重に数えるおそれがあります。"
+                          "人ごとの disability だけにしてください（disabled_others は前からの形）")
+    return out + [(f"disabled_others[{i}]", x) for i, x in enumerate(others)]
+
+
+def calculate(p: dict) -> dict:
+    """1人分の年末調整。戻り値は源泉徴収簿の年末調整欄の順。"""
+    R = rules()
+    total = _int(p.get("salary_total"), "salary_total")
+    withheld = _int(p.get("withheld_total"), "withheld_total")
+    s9, adj, s11, self_income = income_parts(p)
     social = (_int(p.get("social_insurance"), "social_insurance") + _int(p.get("social_insurance_declared"), "social_insurance_declared")
               + _int(p.get("small_business_declared"), "small_business_declared"))
     li = life_insurance(p.get("life_insurance") or {})
@@ -160,15 +192,8 @@ def calculate(p: dict) -> dict:
         dep += R["dependents"][d["kind"]]
         if d.get("disability"):
             dep += dis(d["disability"], f"dependents[{i}].disability")
-    for i, x in enumerate(p.get("disabled_others") or []):
-        dep += dis(x, f"disabled_others[{i}]")
-    spi = p.get("spouse") or {}
-    if spi.get("disability"):
-        # 同一生計配偶者（合計所得金額62万円以下。令和8年分）が障害者なら障害者控除（所得税法第79条。年末調整のしかた 55・56ページ）
-        if _int(spi.get("income"), "spouse.income") <= R["spouse"]["deduction_spouse_income_max"]:
-            dep += dis(spi["disability"], "spouse.disability")
-        else:
-            raise NenchoError("spouse.disability: 配偶者の合計所得金額が62万円を超えるので、同一生計配偶者の障害者控除の対象になりません。入力を確かめてください")
+    for where, x in disabled_others_and_family(p):
+        dep += dis(x, where)
     me = p.get("self") or {}
     if me.get("disability"):
         if me["disability"] not in ("一般", "特別"):

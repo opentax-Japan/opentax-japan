@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 from opentax import paper
-from opentax.payroll import fuyo
+from opentax.payroll import fuyo, nencho
 
 CASES = Path(__file__).resolve().parents[1] / "cases"
 
@@ -148,7 +148,8 @@ class FuyoRulesTest(unittest.TestCase):
 
     def test_nonresident_reason(self):
         doc = _doc()
-        d = self._p(doc)["dependents"][2]          # 隆雄（70歳以上）
+        d = self._p(doc)["dependents"][2]          # 隆雄（70歳以上）。非居住者は同居老親等にならないので「その他」
+        d["kind"] = "老人"
         d["non_resident"] = True
         self.assertEqual(_calc(doc)["values"]["b_nr_age"][3], "レ")
         d["non_resident"] = "留学"
@@ -232,3 +233,158 @@ class FuyoRulesTest(unittest.TestCase):
         c = fuyo.calculate_all(doc)
         self.assertEqual(len(c["people"]), 2)
         self.assertIn("<svg", fuyo.report(c))
+
+
+class FuyoReviewTest(unittest.TestCase):
+    """別の検証（2026-11-16）の指摘①〜⑩。"""
+
+    def _p(self, doc):
+        return doc["people"][0]
+
+    def test_1_disability_same_as_nencho(self):
+        """障害者は人ごと（spouse・dependents・dependents_under16）に入れ、申告書と年末調整で同じ人を1回だけ数える。"""
+        nen = json.loads((CASES / "nencho-r08" / "input.json").read_text(encoding="utf-8"))
+        p2 = nen["people"][1]
+        old = dict(p2, disabled_others=["一般"])
+        new = dict(p2, dependents_under16=[{"name": "鈴木　夏子", "birth": "2015-04-01", "disability": "一般", "disability_note": "療育手帳B"}])
+        self.assertEqual(nencho.calculate(old)["year_tax"], nencho.calculate(new)["year_tax"])
+        self.assertLess(nencho.calculate(new)["year_tax"], nencho.calculate(p2)["year_tax"])
+        with self.assertRaises(nencho.NenchoError):              # 二重に数えるおそれ
+            nencho.calculate(dict(new, disabled_others=["一般"]))
+        with self.assertRaises(nencho.NenchoError):
+            nencho.calculate(dict(p2, spouse={"name": "鈴木　春子", "income": 0, "disability": "特別"}, disabled_others=["特別"]))
+        v = fuyo.calculate_all({"format": "opentax-nencho/1", "year": 2026, "people": [new]})["people"][0]["values"]
+        self.assertEqual((v["c_disabled"], v["c_dep_general"], v["c_dep_general_n"]), ("レ", "レ", "1"))
+        self.assertIn("鈴木　夏子", v["c_detail"])
+        with self.assertRaises(fuyo.FuyoError):                  # disabled_others は申告書に書けない
+            fuyo.calculate_all({"format": "opentax-nencho/1", "year": 2026, "people": [old]})
+
+    def test_2_3_self_income_after_adjustment_and_over_20m(self):
+        doc = _doc()
+        p = self._p(doc)
+        del p["income_estimate"]
+        p.update({"salary_total": 11_000_000, "income_adjustment": {"dependent_under23": True}})   # 9,050,000−150,000＝8,900,000
+        self.assertTrue(_calc(doc)["source_spouse"])
+        p["income_adjustment"] = {}
+        self.assertFalse(_calc(doc)["source_spouse"])
+        p["salary_total"] = 25_000_000
+        r = _calc(doc)
+        self.assertFalse(r["source_spouse"])
+        self.assertTrue(any("2,000万円" in n for n in r["notes"]))
+        del p["salary_total"]
+        with self.assertRaises(fuyo.FuyoError):                  # 本人の見積額が分からなければ止める
+            _calc(doc)
+
+    def test_4_5_detail_names_and_profile(self):
+        doc = _doc()
+        p = self._p(doc)
+        p["income_estimate"] = 9_500_000                          # 配偶者は A欄に無い
+        p["spouse"].update({"disability": "特別", "disability_note": "身体障害者手帳1級", "relation": "妻"})
+        p["self"] = {"disability": "一般", "disability_note": "精神障害者保健福祉手帳3級"}
+        p["dependents"][1]["disability"] = "同居特別"                # 内容（disability_note）なし
+        r = _calc(doc)
+        t = r["values"]["c_detail"]
+        self.assertIn("山川　明子（妻、昭和57年10月5日生、○○市××町23-7、所得の見積額500,000円）、同居でない、身体障害者手帳1級", t)
+        self.assertIn("山川　二郎、同居", t)                       # B欄にいるので氏名と同居の有無だけ
+        self.assertIn("本人、精神障害者保健福祉手帳3級", t)
+        self.assertTrue(any("山川　二郎: 障害の内容" in n for n in r["notes"]))
+
+    def test_6_self_status_requirements(self):
+        doc = _doc()
+        self._p(doc)["self"] = {"single_parent": True}
+        with self.assertRaises(fuyo.FuyoError):                  # 配偶者がいる
+            _calc(doc)
+        doc = _doc()
+        p = self._p(doc)
+        p.pop("spouse")
+        p["self"] = {"widow": True}
+        p["income_estimate"] = 5_000_001
+        with self.assertRaises(fuyo.FuyoError):
+            _calc(doc)
+        p["income_estimate"] = 5_000_000
+        self.assertEqual(_calc(doc)["values"]["c_widow"], "レ")
+        p["self"] = {"working_student": True, "working_student_note": "○○大学 令和5年4月入学 給与所得 87万円"}
+        p["income_estimate"] = 890_001
+        with self.assertRaises(fuyo.FuyoError):
+            _calc(doc)
+        p["income_estimate"] = 870_000
+        r = _calc(doc)
+        self.assertEqual(r["values"]["c_working_student"], "レ")
+        self.assertTrue(any("85万円超89万円以下" in n for n in r["notes"]))
+
+    def test_7_retirement(self):
+        m = json.loads((paper.PAPER_DIR / "nencho-r08" / "FUYO.json").read_text(encoding="utf-8"))
+        yy = m["text_fields"]["r_yy"]
+        for era in m["circles"]["r_era"].values():           # 年の欄が元号の丸に重ならない
+            self.assertFalse(era[0] < yy[2] and yy[0] < era[2] and era[1] < yy[3] and yy[1] < era[3])
+        doc = _doc()
+        p = self._p(doc)
+        p["retirement_status"] = "寡婦"
+        with self.assertRaises(fuyo.FuyoError):              # 退職手当等を有する扶養親族がいない
+            _calc(doc)
+        p.pop("retirement_status")
+        for rel, nr, inc, ok in (("配偶者（妻）", "留学", 0, False), ("配偶者（妻）", True, 1_330_001, False), ("配偶者（妻）", True, 1_330_000, True),
+                                 ("子", None, 5_000_000, False), ("母", "障害者", 0, False)):
+            p["retirement_relatives"] = [{"name": "x", "relation": rel, "birth": "1960-01-01", "income": inc, "non_resident": nr}]
+            with self.subTest(rel=rel, nr=nr, inc=inc):
+                if ok:
+                    self.assertEqual(_calc(doc)["values"]["r_nr_spouse"], "レ")
+                else:
+                    with self.assertRaises(fuyo.FuyoError):
+                        _calc(doc)
+        p["retirement_relatives"] = [{"name": "x", "relation": "妻", "income": 700_000, "disability": "一般"}]
+        with self.assertRaises(fuyo.FuyoError):              # 同一生計配偶者でない
+            _calc(doc)
+        p["retirement_relatives"] = [{"name": "x", "relation": "母", "income": 0}, {"name": "y", "relation": "父", "income": 9_000_000}]
+        with self.assertRaises(fuyo.FuyoError):              # 2人目も確かめる
+            _calc(doc)
+
+    def test_8_spouse_income_missing_blank(self):
+        doc = _doc()
+        del self._p(doc)["spouse"]["income"]
+        r = _calc(doc)
+        self.assertEqual(r["values"]["a_income"], "")
+        self.assertTrue(any("spouse.income" in n for n in r["notes"]))
+
+    def test_9_contradictions(self):
+        for change in ({"non_resident": True},                                   # 同居老親等＋非居住者
+                       {"relation": "兄"},                                       # 同居老親等は直系尊属
+                       {"kind": "老人", "disability": "同居特別", "non_resident": True},
+                       {"kind": "一般", "birth": "1960-01-01", "non_resident": "38万円以上の支払", "remittance": 100_000},
+                       {"kind": "一般", "birth": "1960-01-01", "non_resident": "障害者", "disability": None}):
+            doc = _doc()
+            d = self._p(doc)["dependents"][2]
+            d.update(change)
+            if "disability" in change and change["disability"] is None:
+                d.pop("disability")
+                d.pop("disability_note")
+            with self.subTest(change=change), self.assertRaises(fuyo.FuyoError):
+                _calc(doc)
+        doc = _doc()
+        self._p(doc)["others_claim"] = [{"name": "山川　二郎", "relation": "子"}]
+        with self.assertRaises(fuyo.FuyoError):                  # B欄と D欄に同じ人
+            _calc(doc)
+
+    def test_10_input_checks(self):
+        for path, val in ((("dependents", 0, "order"), "2"), (("dependants",), []), (("retirement_relative",), []),
+                          (("postal_code",), "abc-defg"), (("postal_code",), "1234567-89"), (("birth",), "2030-01-01"),
+                          (("dependents_under16", 0, "birth"), "2027-03-01"), (("spouse", "birth"), "2020-01-01")):
+            doc = _doc()
+            t = self._p(doc)
+            for k in path[:-1]:
+                t = t[k]
+            t[path[-1]] = val
+            with self.subTest(path=path, val=val), self.assertRaises(fuyo.FuyoError):
+                fuyo.calculate_all(doc)
+        doc = _doc()
+        self._p(doc)["dependents"][1].pop("birth")
+        self._p(doc)["dependents"][1]["non_resident"] = True
+        self.assertTrue(any("生年月日が無い" in n for n in _calc(doc)["notes"]))
+        doc = _doc()
+        self._p(doc)["dependents_under16"][0]["income"] = 600_000
+        self.assertTrue(any("異動申告書" in n for n in _calc(doc)["notes"]))
+        doc = _doc()
+        self._p(doc)["specific_relatives"][0]["income"] = 600_000
+        with self.assertRaisesRegex(fuyo.FuyoError, "kind: 特定"):
+            _calc(doc)
+        self.assertIn("<h1>", fuyo.report({"people": []}))

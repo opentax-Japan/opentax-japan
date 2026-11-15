@@ -17,6 +17,7 @@ import unicodedata
 
 from ..etax.xsd_layout import load_layout
 from ..etax.xtx import XtxError, build_document, build_form, build_it, tax_office_codes
+from .nencho import disabled_others_and_family
 
 SPEC_SET = "ksk2-2026-08"
 PROCEDURE_ID = "PHS0051"
@@ -103,9 +104,8 @@ def slip_values(person: dict, result: dict, year: int) -> dict:
                 v["DIU00050"] = int(hl["balance"])
         if result.get("formula_II"):
             tekiyo.append("租税特別措置法第41条の15の５第１項適用")   # 手引 ⑯（年齢23歳未満の扶養親族を有する場合の生命保険料控除）
-        disabled = [d.get("disability") for d in deps if d.get("disability")] + list(person.get("disabled_others") or [])
-        if sp.get("disability"):
-            disabled.append(sp["disability"])   # 同一生計配偶者の障害者控除（nencho で控除したときだけここに来る）
+        # 扶養親族・同一生計配偶者・16歳未満の扶養親族・disabled_others の障害者（nencho.calculate と同じ数え方。nencho で控除したときだけここに来る）
+        disabled = [d.get("disability") for d in deps if d.get("disability")] + [x for _, x in disabled_others_and_family(person)]
         counts = {"DIL00020": sum(d.get("kind") == "特定" for d in deps),
                   "DIL00070": sum(d.get("kind") in ("老人", "同居老親等") for d in deps),
                   "DIL00060": sum(d.get("kind") == "同居老親等" for d in deps),
