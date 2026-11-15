@@ -1,0 +1,1505 @@
+{
+ "form_id": "HOB344",
+ "label": "別表六(十)（中小企業者等の試験研究費の額に係る法人税額の特別控除）",
+ "version": "9.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOB344-9-0group",
+ "xsd": "19XMLスキーマ/hojin/HOB344-009.xsd",
+ "xsd_sha256": "503e08199f0d613d127401bb50c2c119078b130031fe1ec49bbea388225013d5",
+ "root": {
+  "tag": "HOB344",
+  "path": "HOB344",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "VFA00000",
+    "path": "HOB344/VFA00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "VFA00000-9-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "VFA00010",
+      "path": "HOB344/VFA00000/VFA00010",
+      "label": "事業年度",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "VFA00020",
+        "path": "HOB344/VFA00000/VFA00010/VFA00020",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_FROMref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_FROM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_FROM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "VFA00030",
+        "path": "HOB344/VFA00000/VFA00010/VFA00030",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_TOref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_TO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_TO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "VFA00040",
+      "path": "HOB344/VFA00000/VFA00040",
+      "label": "法人名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_NMref",
+      "kind": "idref",
+      "idref": "NOZEISHA_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "VFB00000",
+    "path": "HOB344/VFB00000",
+    "label": "明細",
+    "min": 0,
+    "max": 1,
+    "type": "VFB00000-9-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "VFB00010",
+      "path": "HOB344/VFB00000/VFB00010",
+      "label": "試験研究費の額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VFB00020",
+      "path": "HOB344/VFB00000/VFB00020",
+      "label": "控除対象試験研究費の額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "VFB00030",
+        "path": "HOB344/VFB00000/VFB00020/VFB00030",
+        "label": "同上のうち特別試験研究費以外の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFB00040",
+        "path": "HOB344/VFB00000/VFB00020/VFB00040",
+        "label": "(1)のうち中小企業者等の試験研究費の額に係る税額控除の対象とする特別試験研究費の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFB00380",
+        "path": "HOB344/VFB00000/VFB00020/VFB00380",
+        "label": "控除対象試験研究費基準額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFB00390",
+        "path": "HOB344/VFB00000/VFB00020/VFB00390",
+        "label": "(4)のうち国外委託試験研究に係る試験研究費の額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "VFB00400",
+          "path": "HOB344/VFB00000/VFB00020/VFB00390/VFB00400",
+          "label": "内書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "VFB00410",
+          "path": "HOB344/VFB00000/VFB00020/VFB00390/VFB00410",
+          "label": "本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "VFB00420",
+        "path": "HOB344/VFB00000/VFB00020/VFB00420",
+        "label": "控除対象試験研究費の額　区分１",
+        "min": 0,
+        "max": 1,
+        "type": "VFB00420-9-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOB344/VFB00000/VFB00020/VFB00420/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOB344/VFB00000/VFB00020/VFB00420/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "VFB00430",
+        "path": "HOB344/VFB00000/VFB00020/VFB00430",
+        "label": "控除対象試験研究費の額　区分２",
+        "min": 0,
+        "max": 1,
+        "type": "VFB00430-9-0Rtype",
+        "kind": "group",
+        "children": [
+         {
+          "tag": "kubun_CD",
+          "path": "HOB344/VFB00000/VFB00020/VFB00430/kubun_CD",
+          "label": null,
+          "min": 1,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:kubun_CD"
+          ],
+          "enumeration": [
+           "1",
+           "2",
+           "3"
+          ]
+         },
+         {
+          "tag": "kubun_NM",
+          "path": "HOB344/VFB00000/VFB00020/VFB00430/kubun_NM",
+          "label": null,
+          "min": 0,
+          "max": 1,
+          "kind": "value",
+          "base": "xsd:string",
+          "derived_from": [
+           "gen:kubun_NM",
+           "gen:str"
+          ],
+          "max_length": 30
+         }
+        ]
+       },
+       {
+        "tag": "VFB00440",
+        "path": "HOB344/VFB00000/VFB00020/VFB00440",
+        "label": "控除対象試験研究費の額　内書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFB00050",
+        "path": "HOB344/VFB00000/VFB00020/VFB00050",
+        "label": "控除対象試験研究費の額　本書き",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "VFB00270",
+      "path": "HOB344/VFB00000/VFB00270",
+      "label": "増減試験研究費割合の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "VFB00280",
+        "path": "HOB344/VFB00000/VFB00270/VFB00280",
+        "label": "比較試験研究費の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFB00290",
+        "path": "HOB344/VFB00000/VFB00270/VFB00290",
+        "label": "増減試験研究費の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFB00300",
+        "path": "HOB344/VFB00000/VFB00270/VFB00300",
+        "label": "増減試験研究費割合",
+        "min": 0,
+        "max": 1,
+        "type": "VFB00300-9-0type",
+        "kind": "value",
+        "base": "xsd:decimal",
+        "derived_from": [
+         "gen:decimalType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "VFB00310",
+      "path": "HOB344/VFB00000/VFB00310",
+      "label": "試験研究費割合の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "VFB00320",
+        "path": "HOB344/VFB00000/VFB00310/VFB00320",
+        "label": "平均売上金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFB00330",
+        "path": "HOB344/VFB00000/VFB00310/VFB00330",
+        "label": "試験研究費割合",
+        "min": 0,
+        "max": 1,
+        "type": "VFB00330-9-0type",
+        "kind": "value",
+        "base": "xsd:decimal",
+        "derived_from": [
+         "gen:decimalType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "VFB00060",
+      "path": "HOB344/VFB00000/VFB00060",
+      "label": "税額控除割合の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "VFB00340",
+        "path": "HOB344/VFB00000/VFB00060/VFB00340",
+        "label": "割増前税額控除割合",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "VFB00360",
+          "path": "HOB344/VFB00000/VFB00060/VFB00340/VFB00360",
+          "label": "割合",
+          "min": 0,
+          "max": 1,
+          "type": "VFB00360-9-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "VFB00370",
+        "path": "HOB344/VFB00000/VFB00060/VFB00370",
+        "label": "(11)＞10％の場合の控除割増率",
+        "min": 0,
+        "max": 1,
+        "type": "VFB00370-9-0type",
+        "kind": "value",
+        "base": "xsd:decimal",
+        "derived_from": [
+         "gen:decimalType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFB00110",
+        "path": "HOB344/VFB00000/VFB00060/VFB00110",
+        "label": "税額控除割合",
+        "min": 0,
+        "max": 1,
+        "type": "VFB00110-9-0type",
+        "kind": "value",
+        "base": "xsd:decimal",
+        "derived_from": [
+         "gen:decimalType"
+        ],
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "VFB00120",
+      "path": "HOB344/VFB00000/VFB00120",
+      "label": "中小企業者等税額控除限度額",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "VFB00140",
+        "path": "HOB344/VFB00000/VFB00120/VFB00140",
+        "label": "金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "VFB00150",
+      "path": "HOB344/VFB00000/VFB00150",
+      "label": "調整前法人税額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VFB00160",
+      "path": "HOB344/VFB00000/VFB00160",
+      "label": "当期税額基準額の計算",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "VFB00170",
+        "path": "HOB344/VFB00000/VFB00160/VFB00170",
+        "label": "令和11年３月31日以前に開始する事業年度の場合",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "VFB00200",
+          "path": "HOB344/VFB00000/VFB00160/VFB00170/VFB00200",
+          "label": "(11)＞10％の場合の特例加算割合",
+          "min": 0,
+          "max": 1,
+          "type": "VFB00200-9-0type",
+          "kind": "value",
+          "base": "xsd:decimal",
+          "derived_from": [
+           "gen:decimalType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "VFB00210",
+        "path": "HOB344/VFB00000/VFB00160/VFB00210",
+        "label": "当期税額基準額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "VFB00230",
+          "path": "HOB344/VFB00000/VFB00160/VFB00210/VFB00230",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "VFB00235",
+      "path": "HOB344/VFB00000/VFB00235",
+      "label": "当期税額控除可能額　区分",
+      "min": 0,
+      "max": 1,
+      "type": "VFB00235-9-0Rtype",
+      "kind": "group",
+      "children": [
+       {
+        "tag": "kubun_CD",
+        "path": "HOB344/VFB00000/VFB00235/kubun_CD",
+        "label": null,
+        "min": 1,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:nonNegativeInteger",
+        "derived_from": [
+         "gen:kubun_CD"
+        ],
+        "enumeration": [
+         "1",
+         "2"
+        ]
+       },
+       {
+        "tag": "kubun_NM",
+        "path": "HOB344/VFB00000/VFB00235/kubun_NM",
+        "label": null,
+        "min": 0,
+        "max": 1,
+        "kind": "value",
+        "base": "xsd:string",
+        "derived_from": [
+         "gen:kubun_NM",
+         "gen:str"
+        ],
+        "max_length": 30
+       }
+      ]
+     },
+     {
+      "tag": "VFB00240",
+      "path": "HOB344/VFB00000/VFB00240",
+      "label": "当期税額控除可能額　金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VFB00250",
+      "path": "HOB344/VFB00000/VFB00250",
+      "label": "調整前法人税額超過構成額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VFB00450",
+      "path": "HOB344/VFB00000/VFB00450",
+      "label": "当期税額控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "VFB00460",
+      "path": "HOB344/VFB00000/VFB00460",
+      "label": "前期繰越分",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "VFB00470",
+        "path": "HOB344/VFB00000/VFB00460/VFB00470",
+        "label": "差引当期税額基準額残額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFB00480",
+        "path": "HOB344/VFB00000/VFB00460/VFB00480",
+        "label": "繰越税額控除限度超過額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFB00490",
+        "path": "HOB344/VFB00000/VFB00460/VFB00490",
+        "label": "同上のうち当期繰越税額控除可能額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "VFB00500",
+          "path": "HOB344/VFB00000/VFB00460/VFB00490/VFB00500",
+          "label": "区分",
+          "min": 0,
+          "max": 1,
+          "type": "VFB00500-9-0Rtype",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "kubun_CD",
+            "path": "HOB344/VFB00000/VFB00460/VFB00490/VFB00500/kubun_CD",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "derived_from": [
+             "gen:kubun_CD"
+            ],
+            "enumeration": [
+             "1",
+             "2"
+            ]
+           },
+           {
+            "tag": "kubun_NM",
+            "path": "HOB344/VFB00000/VFB00460/VFB00490/VFB00500/kubun_NM",
+            "label": null,
+            "min": 0,
+            "max": 1,
+            "kind": "value",
+            "base": "xsd:string",
+            "derived_from": [
+             "gen:kubun_NM",
+             "gen:str"
+            ],
+            "max_length": 30
+           }
+          ]
+         },
+         {
+          "tag": "VFB00510",
+          "path": "HOB344/VFB00000/VFB00460/VFB00490/VFB00510",
+          "label": "金額",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "VFB00520",
+        "path": "HOB344/VFB00000/VFB00460/VFB00520",
+        "label": "調整前法人税額超過構成額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFB00530",
+        "path": "HOB344/VFB00000/VFB00460/VFB00530",
+        "label": "当期繰越税額控除額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "VFB00260",
+      "path": "HOB344/VFB00000/VFB00260",
+      "label": "法人税額の特別控除額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "VFD00000",
+    "path": "HOB344/VFD00000",
+    "label": "翌期繰越税額控除限度超過額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "VFD00000-9-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "VFD00010",
+      "path": "HOB344/VFD00000/VFD00010",
+      "label": "明細１",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "VFD00020",
+        "path": "HOB344/VFD00000/VFD00010/VFD00020",
+        "label": "事業年度",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "VFD00030",
+          "path": "HOB344/VFD00000/VFD00010/VFD00020/VFD00030",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB344/VFD00000/VFD00010/VFD00020/VFD00030/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB344/VFD00000/VFD00010/VFD00020/VFD00030/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB344/VFD00000/VFD00010/VFD00020/VFD00030/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB344/VFD00000/VFD00010/VFD00020/VFD00030/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "VFD00040",
+          "path": "HOB344/VFD00000/VFD00010/VFD00020/VFD00040",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB344/VFD00000/VFD00010/VFD00020/VFD00040/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB344/VFD00000/VFD00010/VFD00020/VFD00040/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB344/VFD00000/VFD00010/VFD00020/VFD00040/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB344/VFD00000/VFD00010/VFD00020/VFD00040/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "VFD00050",
+        "path": "HOB344/VFD00000/VFD00010/VFD00050",
+        "label": "前期繰越額又は当期税額控除限度額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFD00060",
+        "path": "HOB344/VFD00000/VFD00010/VFD00060",
+        "label": "当期控除可能額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "VFD00070",
+      "path": "HOB344/VFD00000/VFD00070",
+      "label": "明細２　繰り返し",
+      "min": 0,
+      "max": 5,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "VFD00080",
+        "path": "HOB344/VFD00000/VFD00070/VFD00080",
+        "label": "事業年度",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "VFD00090",
+          "path": "HOB344/VFD00000/VFD00070/VFD00080/VFD00090",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB344/VFD00000/VFD00070/VFD00080/VFD00090/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB344/VFD00000/VFD00070/VFD00080/VFD00090/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB344/VFD00000/VFD00070/VFD00080/VFD00090/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB344/VFD00000/VFD00070/VFD00080/VFD00090/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "VFD00100",
+          "path": "HOB344/VFD00000/VFD00070/VFD00080/VFD00100",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB344/VFD00000/VFD00070/VFD00080/VFD00100/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB344/VFD00000/VFD00070/VFD00080/VFD00100/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB344/VFD00000/VFD00070/VFD00080/VFD00100/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB344/VFD00000/VFD00070/VFD00080/VFD00100/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "VFD00110",
+        "path": "HOB344/VFD00000/VFD00070/VFD00110",
+        "label": "前期繰越額又は当期税額控除限度額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFD00120",
+        "path": "HOB344/VFD00000/VFD00070/VFD00120",
+        "label": "当期控除可能額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFD00130",
+        "path": "HOB344/VFD00000/VFD00070/VFD00130",
+        "label": "翌期繰越額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "VFD00140",
+          "path": "HOB344/VFD00000/VFD00070/VFD00130/VFD00140",
+          "label": "外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "VFD00150",
+          "path": "HOB344/VFD00000/VFD00070/VFD00130/VFD00150",
+          "label": "本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "VFD00160",
+      "path": "HOB344/VFD00000/VFD00160",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "VFD00170",
+        "path": "HOB344/VFD00000/VFD00160/VFD00170",
+        "label": "前期繰越額又は当期税額控除限度額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFD00180",
+        "path": "HOB344/VFD00000/VFD00160/VFD00180",
+        "label": "当期控除可能額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFD00190",
+        "path": "HOB344/VFD00000/VFD00160/VFD00190",
+        "label": "翌期繰越額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "VFD00200",
+      "path": "HOB344/VFD00000/VFD00200",
+      "label": "当期分",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "VFD00210",
+        "path": "HOB344/VFD00000/VFD00200/VFD00210",
+        "label": "前期繰越額又は当期税額控除限度額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFD00220",
+        "path": "HOB344/VFD00000/VFD00200/VFD00220",
+        "label": "当期控除可能額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "VFD00230",
+        "path": "HOB344/VFD00000/VFD00200/VFD00230",
+        "label": "翌期繰越額",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "VFD00240",
+          "path": "HOB344/VFD00000/VFD00200/VFD00230/VFD00240",
+          "label": "外書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "VFD00250",
+          "path": "HOB344/VFD00000/VFD00200/VFD00230/VFD00250",
+          "label": "本書き",
+          "min": 0,
+          "max": 1,
+          "type": "gen:kingaku",
+          "kind": "amount",
+          "base": "xsd:long",
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "VFD00260",
+      "path": "HOB344/VFD00000/VFD00260",
+      "label": "合計　翌期繰越額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "VFC00000",
+    "path": "HOB344/VFC00000",
+    "label": "適用事業年度等",
+    "min": 0,
+    "max": 1,
+    "type": "VFC00000-9-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 15
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOB344-9-0VRtype",
+    "fixed": "9.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

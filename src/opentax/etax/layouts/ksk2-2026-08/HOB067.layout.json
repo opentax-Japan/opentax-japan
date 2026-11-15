@@ -1,0 +1,684 @@
+{
+ "form_id": "HOB067",
+ "label": "別表六(十一)（比較試験研究費の額及び平均売上金額の計算）",
+ "version": "10.0",
+ "namespace": "http://xml.e-tax.nta.go.jp/XSD/hojin",
+ "group": "HOB067-10-0group",
+ "xsd": "19XMLスキーマ/hojin/HOB067-010.xsd",
+ "xsd_sha256": "6dcec7debf12abeac72f7817883a868c014770e1141d516a4616655c07cae4c8",
+ "root": {
+  "tag": "HOB067",
+  "path": "HOB067",
+  "label": null,
+  "min": 1,
+  "max": 1,
+  "kind": "group",
+  "children": [
+   {
+    "tag": "QDA00000",
+    "path": "HOB067/QDA00000",
+    "label": "納税者等部",
+    "min": 0,
+    "max": 1,
+    "type": "QDA00000-10-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "QDA00010",
+      "path": "HOB067/QDA00000/QDA00010",
+      "label": "事業年度",
+      "min": 0,
+      "max": 1,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "QDA00020",
+        "path": "HOB067/QDA00000/QDA00010/QDA00020",
+        "label": "自",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_FROMref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_FROM",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_FROM",
+          "type": "xsd:IDREF"
+         }
+        ]
+       },
+       {
+        "tag": "QDA00030",
+        "path": "HOB067/QDA00000/QDA00010/QDA00030",
+        "label": "至",
+        "min": 0,
+        "max": 1,
+        "type": "gen:JIGYO_NENDO_TOref",
+        "kind": "idref",
+        "idref": "JIGYO_NENDO_TO",
+        "attributes": [
+         {
+          "name": "IDREF",
+          "required": true,
+          "fixed": "JIGYO_NENDO_TO",
+          "type": "xsd:IDREF"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "QDA00040",
+      "path": "HOB067/QDA00000/QDA00040",
+      "label": "法人名",
+      "min": 0,
+      "max": 1,
+      "type": "gen:NOZEISHA_NMref",
+      "kind": "idref",
+      "idref": "NOZEISHA_NM",
+      "attributes": [
+       {
+        "name": "IDREF",
+        "required": true,
+        "fixed": "NOZEISHA_NM",
+        "type": "xsd:IDREF"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "QDB00000",
+    "path": "HOB067/QDB00000",
+    "label": "平均売上金額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "QDB00000-10-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "QDB00010",
+      "path": "HOB067/QDB00000/QDB00010",
+      "label": "売上調整年度　繰り返し",
+      "min": 0,
+      "max": 6,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "QDB00020",
+        "path": "HOB067/QDB00000/QDB00010/QDB00020",
+        "label": "事業年度",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "QDB00030",
+          "path": "HOB067/QDB00000/QDB00010/QDB00020/QDB00030",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB067/QDB00000/QDB00010/QDB00020/QDB00030/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB067/QDB00000/QDB00010/QDB00020/QDB00030/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB067/QDB00000/QDB00010/QDB00020/QDB00030/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB067/QDB00000/QDB00010/QDB00020/QDB00030/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "QDB00040",
+          "path": "HOB067/QDB00000/QDB00010/QDB00020/QDB00040",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB067/QDB00000/QDB00010/QDB00020/QDB00040/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB067/QDB00000/QDB00010/QDB00020/QDB00040/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB067/QDB00000/QDB00010/QDB00020/QDB00040/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB067/QDB00000/QDB00010/QDB00020/QDB00040/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "QDB00050",
+        "path": "HOB067/QDB00000/QDB00010/QDB00050",
+        "label": "売上金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "QDB00060",
+        "path": "HOB067/QDB00000/QDB00010/QDB00060",
+        "label": "当期の月数/(6)の事業年度の月数",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "QDB00070",
+          "path": "HOB067/QDB00000/QDB00010/QDB00060/QDB00070",
+          "label": "当期の月数",
+          "min": 0,
+          "max": 1,
+          "type": "QDB00070-10-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "QDB00080",
+          "path": "HOB067/QDB00000/QDB00010/QDB00060/QDB00080",
+          "label": "(6)の事業年度の月数",
+          "min": 0,
+          "max": 1,
+          "type": "QDB00080-10-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "QDB00090",
+        "path": "HOB067/QDB00000/QDB00010/QDB00090",
+        "label": "改定売上金額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "QDB00100",
+      "path": "HOB067/QDB00000/QDB00100",
+      "label": "当期",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "QDB00110",
+      "path": "HOB067/QDB00000/QDB00110",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "QDB00120",
+      "path": "HOB067/QDB00000/QDB00120",
+      "label": "平均売上金額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "QDC00000",
+    "path": "HOB067/QDC00000",
+    "label": "比較試験研究費の額の計算",
+    "min": 0,
+    "max": 1,
+    "type": "QDC00000-10-0type",
+    "kind": "group",
+    "children": [
+     {
+      "tag": "QDC00010",
+      "path": "HOB067/QDC00000/QDC00010",
+      "label": "調整対象年度　繰り返し",
+      "min": 0,
+      "max": 6,
+      "kind": "group",
+      "children": [
+       {
+        "tag": "QDC00020",
+        "path": "HOB067/QDC00000/QDC00010/QDC00020",
+        "label": "事業年度",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "QDC00030",
+          "path": "HOB067/QDC00000/QDC00010/QDC00020/QDC00030",
+          "label": "自",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB067/QDC00000/QDC00010/QDC00020/QDC00030/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB067/QDC00000/QDC00010/QDC00020/QDC00030/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB067/QDC00000/QDC00010/QDC00020/QDC00030/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB067/QDC00000/QDC00010/QDC00020/QDC00030/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         },
+         {
+          "tag": "QDC00040",
+          "path": "HOB067/QDC00000/QDC00010/QDC00020/QDC00040",
+          "label": "至",
+          "min": 0,
+          "max": 1,
+          "type": "gen:yymmdd",
+          "kind": "group",
+          "children": [
+           {
+            "tag": "era",
+            "path": "HOB067/QDC00000/QDC00010/QDC00020/QDC00040/era",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger"
+           },
+           {
+            "tag": "yy",
+            "path": "HOB067/QDC00000/QDC00010/QDC00020/QDC00040/yy",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 99,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "mm",
+            "path": "HOB067/QDC00000/QDC00010/QDC00020/QDC00040/mm",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 12,
+            "min_inclusive": 1
+           },
+           {
+            "tag": "dd",
+            "path": "HOB067/QDC00000/QDC00010/QDC00020/QDC00040/dd",
+            "label": null,
+            "min": 1,
+            "max": 1,
+            "ns": "gen",
+            "kind": "value",
+            "base": "xsd:nonNegativeInteger",
+            "max_inclusive": 31,
+            "min_inclusive": 1
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "QDC00050",
+        "path": "HOB067/QDC00000/QDC00010/QDC00050",
+        "label": "試験研究費の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       },
+       {
+        "tag": "QDC00060",
+        "path": "HOB067/QDC00000/QDC00010/QDC00060",
+        "label": "当期の月数/(1)の事業年度の月数",
+        "min": 0,
+        "max": 1,
+        "kind": "group",
+        "children": [
+         {
+          "tag": "QDC00070",
+          "path": "HOB067/QDC00000/QDC00010/QDC00060/QDC00070",
+          "label": "当期の月数",
+          "min": 0,
+          "max": 1,
+          "type": "QDC00070-10-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         },
+         {
+          "tag": "QDC00080",
+          "path": "HOB067/QDC00000/QDC00010/QDC00060/QDC00080",
+          "label": "(1)の事業年度の月数",
+          "min": 0,
+          "max": 1,
+          "type": "QDC00080-10-0type",
+          "kind": "value",
+          "base": "xsd:nonNegativeInteger",
+          "derived_from": [
+           "gen:nonNegativeType"
+          ],
+          "attributes": [
+           {
+            "name": "AutoCalc",
+            "required": false,
+            "type": "xsd:string"
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "tag": "QDC00090",
+        "path": "HOB067/QDC00000/QDC00010/QDC00090",
+        "label": "改定試験研究費の額",
+        "min": 0,
+        "max": 1,
+        "type": "gen:kingaku",
+        "kind": "amount",
+        "base": "xsd:long",
+        "attributes": [
+         {
+          "name": "AutoCalc",
+          "required": false,
+          "type": "xsd:string"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tag": "QDC00110",
+      "path": "HOB067/QDC00000/QDC00110",
+      "label": "計",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     },
+     {
+      "tag": "QDC00120",
+      "path": "HOB067/QDC00000/QDC00120",
+      "label": "比較試験研究費の額",
+      "min": 0,
+      "max": 1,
+      "type": "gen:kingaku",
+      "kind": "amount",
+      "base": "xsd:long",
+      "attributes": [
+       {
+        "name": "AutoCalc",
+        "required": false,
+        "type": "xsd:string"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "tag": "QDD00000",
+    "path": "HOB067/QDD00000",
+    "label": "適用事業年度等",
+    "min": 0,
+    "max": 1,
+    "type": "QDD00000-10-0Rtype",
+    "kind": "value",
+    "base": "xsd:string",
+    "derived_from": [
+     "gen:str"
+    ],
+    "max_length": 15
+   }
+  ],
+  "attributes": [
+   {
+    "name": "VR",
+    "required": true,
+    "type": "HOB067-10-0VRtype",
+    "fixed": "10.0"
+   },
+   {
+    "name": "page",
+    "required": false,
+    "type": "xsd:positiveInteger"
+   },
+   {
+    "name": "softNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiNM",
+    "required": true,
+    "type": "xsd:string"
+   },
+   {
+    "name": "sakuseiDay",
+    "required": true,
+    "type": "xsd:date"
+   },
+   {
+    "name": "id",
+    "required": false,
+    "type": "xsd:ID"
+   }
+  ]
+ }
+}

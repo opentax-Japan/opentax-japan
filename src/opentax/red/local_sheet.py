@@ -72,7 +72,10 @@ def sheet_values(calculated: dict, office_kind: str) -> dict:
     brackets = bt.get("brackets") or [{"base": 0, "tax": 0}] * 3
     business_total, special = bt.get("total", 0), bt.get("special", 0)
     business_payable, special_payable = business_total - business_paid, special - special_paid
-    corporate_tax = calculated["result"]["schedule_01"]["corporate_tax"]
+    # ① 法人税法の規定によって計算した法人税額＝別表一 9 法人税額計（法人税額の特別控除の後。愛知県「第六号様式 記載の手引」1）。
+    # 中小企業者等の試験研究費の税額控除は ② に書かない（同 2、地方税法附則第8条第1項）
+    s1 = calculated["result"]["schedule_01"]
+    corporate_tax = s1.get("after_special", s1["corporate_tax"])
     return {
         "zero": 0, "corporate_tax": corporate_tax, "tax_base": cl["tax_base"], "levy": levy, "levy_raw": cl["raw"][tax],
         "levy_paid": levy_paid, "levy_payable": levy_payable,

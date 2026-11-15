@@ -109,7 +109,7 @@ _SCHEMA: dict[str, Any] = {
     # 受取配当等（別表八(一)）。ratio は保有割合（%）。withholding は源泉徴収された所得税（別表六(一)）。
     # wholly_owned: 計算期間を通じて完全支配関係がある（完全子法人株式等）。continuous: 関連法人株式等の保有の継続（令第22条第1項）。
     # taxable: 短期保有株式等（法第23条第2項）で益金に算入する額。
-    # 源泉徴収された配当の控除（別表六(一) 2・7〜19。施行令第140条の2。DESIGN §29）:
+    # 源泉徴収された配当の控除（別表六(一) 2・7〜19。施行令第140条の2。DESIGN §30）:
     #   period_start・period_end: 配当等の計算の基礎となった期間（前回の配当の基準日等の翌日〜今回の基準日等）
     #   credit_method: 個別法（既定）／簡便法（銘柄別簡便法。計算期間1年超・1年以下の区分ごとに全銘柄で使う）
     #   個別法: owned_whole_period（計算期間を通じて所有）か、owned_months（所有していた月数）・acquired（取得日）
@@ -126,6 +126,14 @@ _SCHEMA: dict[str, Any] = {
     # 会計の数字に入っている租税特別措置で、適用額明細書に載せるもの（例: 少額減価償却資産の取得価額の損金算入の特例を
     # 減価償却費で処理した額）。条項は「第67条の5第1項」のように書く。税額の計算を変える特別措置は今までどおり対象外
     "special_measures_reported": [{"article": str, "code": str, "amount": int, "old": str}],
+    # 中小企業者等の試験研究費の額に係る法人税額の特別控除（措置法第42条の4第4項。別表六(十)・(十一)・(六)。DESIGN §31）。
+    # expenses: 当期の試験研究費の額、special_expenses: そのうち特別試験研究費の額（別表六(十) 3）、sales: 当期の売上金額、
+    # prior_expenses・prior_sales: 当期開始の日の3年前の日から前日までに開始した各事業年度の試験研究費の額・売上金額（0の年度も）、
+    # established: 設立事業年度。method は「中小企業者等」だけ（一般試験研究費は対象外）。special_credit（第7項）も対象外
+    "research": {"method": str, "expenses": int, "special_expenses": int, "special_credit": bool, "established": bool,
+                 "sales": int,
+                 "prior_expenses": [{"period_start": "date", "period_end": "date", "amount": int}],
+                 "prior_sales": [{"period_start": "date", "period_end": "date", "amount": int}]},
     "tax_dues": {"加算税及び加算金": int, "延滞税": int, "延滞金": int, "過怠税": int, "罰金等": int},
     # 申告調整の要る科目を人が確かめた答え（adjustment_accounts.json の answers のどれか）
     "adjustment_confirmations": [{"account": str, "answer": str}],
@@ -445,6 +453,13 @@ def _check_values(data: dict) -> None:
             errors.append(f"dividends_received[{i}]: period_start は period_end 以前にしてください")
         if d.get("ratio") is not None and not 0 < d["ratio"] <= 100:
             errors.append(f"dividends_received[{i}].ratio: 保有割合（%）は0を超え100以下にしてください")
+    rs = data.get("research")
+    if rs:
+        for k in ("expenses", "sales"):
+            if rs.get(k) is None:
+                errors.append(f"research.{k}: 必須の項目です（expenses は当期の試験研究費の額、sales は当期の売上金額）")
+        if (rs.get("sales") or 0) < 0:
+            errors.append("research.sales: 0以上にしてください")
     for k, v in (data.get("tax_dues") or {}).items():
         if v < 0:
             errors.append(f"tax_dues.{k}: 0以上にしてください")
