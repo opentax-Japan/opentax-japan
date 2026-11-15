@@ -239,10 +239,14 @@ def paper_sheets(calculated: dict) -> list[dict]:
             continue    # 交際費・減価償却などがない会社には、空の別表を出さない
         entry = edition["forms"][form_id]
         items = []
+        drop = m.get("drop_digits", {})      # 様式に「00」「000」が印字済みの欄は、その桁を書かない（paper.sheet と同じ）
         for tag, boxes in m["fields"].items():
             for box, v in _pairs(boxes, values.get(tag)):
                 if isinstance(v, int) and v:
-                    items.append({"box": box, "text": f"△{-v:,}" if v < 0 else f"{v:,}", "kind": "amount"})
+                    n = drop.get(tag, 0)
+                    v = (abs(v) // 10 ** n) * (1 if v > 0 else -1) if n else v
+                    if v:
+                        items.append({"box": box, "text": f"△{-v:,}" if v < 0 else f"{v:,}", "kind": "amount"})
         sources = _paper_sources(calculated, values, texts)
         for key, spec in m.get("dates", {}).items():
             boxes, columns, skip_era = (spec["box"], spec.get("columns"), spec.get("skip_era", False)) \
