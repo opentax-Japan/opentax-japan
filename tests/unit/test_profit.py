@@ -192,9 +192,9 @@ class ProfitReturnTest(unittest.TestCase):
         self.assertEqual(levy["percent"]["道府県民税"], "1.8")
 
     def test_out_of_scope(self):
+        # 東京都の特別区の黒字法人は 2026-11-15 から計算する（tests/unit/test_tomin.py）。法人税割に不均一課税があり設定のない市は止める
         raw = sample()
-        raw["offices"][0].update({"prefecture": "東京都", "municipality": "千代田区"})
-        raw["offices"][0].pop("ward")
+        raw["offices"][0].update({"prefecture": "宮城県", "municipality": "仙台市", "ward": "青葉区"})
         with self.assertRaises(model.OutOfScope):
             api.calculate(raw)
         raw = sample()

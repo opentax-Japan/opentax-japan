@@ -18,6 +18,14 @@
   地方税法第20条の4の2第1項、東京都主税局「課税標準の分割に関する明細書 記載例」（計算手順(1)）
   https://www.tax.metro.tokyo.lg.jp/documents/d/tax/bunki_kisairei_1_1 、
   愛知県「課税標準の分割に関する明細書（第10号様式）記載の手引」2 記載上の注意 https://www.pref.aichi.jp/uploaded/attachment/628187.pdf
+- 東京都の特別区（都民税。DESIGN.md §29.7）: 地方税法第734条第2項・第3項（特別区の存する区域の法人の道府県民税と市町村民税は合わせて
+  一の都民税）・第737条第1項（特別区の区域は一の市の区域とみなす）。
+  東京都主税局「課税標準の分割に関する明細書（第10号様式）記載の手引」（都内分割法人は1人当たりの分割課税標準額に「特別区分の数値」又は
+  「市町村ごとの分割基準を小計した数値」を乗じる） https://www.tax.metro.tokyo.lg.jp/documents/d/tax/12_10_1b 、
+  「第6号様式 記載の手引」区分34（㉔特別区分・㉖市町村分の課税標準、⑦＝㉕＋㉗）・3(3) 都民税法人税割の税率表・3(4) 均等割の税率表
+  https://www.tax.metro.tokyo.lg.jp/documents/d/tax/04_6_1b 、
+  「均等割額の計算に関する明細書（第6号様式別表4の3）記載の手引」（Ⅰ表: 主たる事務所等の特別区は道府県分＋特別区分、従たる事務所等の
+  特別区は特別区分。Ⅱ表: 道府県分と特別区ごとの特別区分。従業者数は特別区ごと） https://www.tax.metro.tokyo.lg.jp/documents/d/tax/11_4_3b
 """
 
 from __future__ import annotations
@@ -47,13 +55,25 @@ SOURCES = [
      "url": "https://www.tax.metro.tokyo.lg.jp/documents/d/tax/bunki_kisairei_1_1", "checked": "2026-11-15"},
     {"title": "愛知県 課税標準の分割に関する明細書（第10号様式）記載の手引",
      "url": "https://www.pref.aichi.jp/uploaded/attachment/628187.pdf", "checked": "2026-11-15"},
+    {"title": "東京都主税局 課税標準の分割に関する明細書（第10号様式）記載の手引（令和7年改正）",
+     "url": "https://www.tax.metro.tokyo.lg.jp/documents/d/tax/12_10_1b", "checked": "2026-11-15"},
+    {"title": "東京都主税局 第6号様式 記載の手引（区分34・都民税法人税割の税率表・都民税均等割の税率表）",
+     "url": "https://www.tax.metro.tokyo.lg.jp/documents/d/tax/04_6_1b", "checked": "2026-11-15"},
+    {"title": "東京都主税局 均等割額の計算に関する明細書（第6号様式別表4の3）記載の手引（令和7年改正）",
+     "url": "https://www.tax.metro.tokyo.lg.jp/documents/d/tax/11_4_3b", "checked": "2026-11-15"},
 ]
 
 
 # --- 判定 ---
 
+def is_special_ward(o: dict) -> bool:
+    from .local_tax import special_ward_rules
+    return special_ward_rules(o["prefecture"], o["municipality"]) is not None
+
+
 def city_key(o: dict) -> tuple:
-    """市町村民税の単位。指定都市は区ごと（地方税法第737条）、東京都の特別区はまとめて1つ（都民税として都に申告する）。"""
+    """市町村民税（法人税割の分割）の単位。指定都市は区ごと（地方税法第737条）、東京都の特別区はまとめて1つ
+    （都民税の特別区分。東京都の第10号様式記載の手引の「特別区分の数値」）。均等割は特別区ごと（per_capita_all）。"""
     from .local_tax import special_ward_rules
     if special_ward_rules(o["prefecture"], o["municipality"]):
         return (o["prefecture"], SPECIAL_WARDS_KEY, None)
@@ -96,11 +116,12 @@ def check_input(data: dict) -> None:
     mains = [o for o in data["offices"] if o.get("main")]
     if len(mains) > 1:
         errors.append("offices[].main: 主たる事務所等は1つだけにしてください")
-    tokyo_wards = {o["municipality"] for o in data["offices"] if city_key(o)[1] == SPECIAL_WARDS_KEY}
-    if len(tokyo_wards) > 1:
-        raise OutOfScope("東京都の2つ以上の特別区に事務所等がある分割法人（特別区ごとの均等割。東京都都税条例第106条第2項）")
-    if tokyo_wards and any(o["prefecture"] == "東京都" and city_key(o)[1] != SPECIAL_WARDS_KEY for o in data["offices"]):
-        raise OutOfScope("東京都の特別区と都内の市町村の両方に事務所等がある分割法人（都民税の道府県分と特別区分の課税標準が違う）")
+    tokyo_mains = [o for o in data["offices"] if o.get("tokyo_main")]
+    if len(tokyo_mains) > 1:
+        errors.append("offices[].tokyo_main: 都内における主たる事務所等は1つだけにしてください")
+    if tokyo_mains and not is_special_ward(tokyo_mains[0]):
+        errors.append("offices[].tokyo_main: 都内における主たる事務所等（均等割）は東京都の特別区の事務所等にしてください"
+                      "（特別区と都内の市町村に事務所等がある法人は、道府県分と特別区ごとの特別区分で計算します）")
     for i, o in enumerate(data["offices"], 1):
         where = f"offices[{i}]"
         if o.get("employees") is None:
@@ -266,7 +287,7 @@ def per_capita_all(data: dict, basis: int) -> dict:
     """均等割を都道府県ごと・市町村（指定都市の区）ごとに計算する。月数はその団体に事務所等を有していた月数（同じ団体に2以上あるときは
     最も長いもの）、市町村の従業者数の合計数はその市町村内の事務所等の算定期間の末日現在の数（地方税法第52条第3項・第312条第3項〜第5項・第737条）。
     東京都の特別区は道府県分と特別区分を合わせた都民税（地方税法第734条）。"""
-    from .local_tax import LocalRuleError, find_rules, per_capita, special_ward_rules
+    from .local_tax import LocalRuleError, find_rules, per_capita
     start, end = data["fiscal_period"]["start"], data["fiscal_period"]["end"]
     prefs, cities, cautions = [], [], []
     by_pref: dict[str, list] = {}
@@ -276,12 +297,9 @@ def per_capita_all(data: dict, basis: int) -> dict:
         by_city.setdefault(city_key(o), []).append(o)
     for pref, offices in by_pref.items():
         months = max(o["months"] for o in offices)
-        tokyo = [o for o in offices if city_key(o)[1] == SPECIAL_WARDS_KEY]
-        if tokyo:
-            rules = special_ward_rules(pref, tokyo[0]["municipality"])
-            emp = sum(o["employees"] for o in tokyo)
-            pc = per_capita(rules, start, basis, emp, months, end)
-            prefs.append({"prefecture": pref, "special_ward": tokyo[0]["municipality"], **pc})
+        if any(is_special_ward(o) for o in offices):
+            pc = tokyo_per_capita(data, offices, basis)
+            prefs.append(pc)
         else:
             rules = find_rules("道府県民税", pref, end=end, start=start)
             pc = per_capita(rules, start, basis, 0, months, end)
@@ -309,10 +327,63 @@ def per_capita_all(data: dict, basis: int) -> dict:
             cautions.append(pc["caution"])
     for label, groups in (("都道府県", by_pref), ("市町村", by_city)):
         for k, offices in groups.items():
+            if k == "東京都" and any(is_special_ward(o) for o in offices) or (isinstance(k, tuple) and k[1] == SPECIAL_WARDS_KEY):
+                continue                         # 都民税の均等割は特別区ごとの月数（tokyo_per_capita）
             if len({o["months"] for o in offices}) > 1:
                 cautions.append(f"{k if isinstance(k, str) else city_label(k)}に事務所等が2以上あり、有していた月数が違います。"
                                 "均等割の月数は最も長いものにしました（事務所等を有していた期間が重ならないときは、合わせた月数か確かめてください）")
     return {"prefectures": prefs, "municipalities": cities, "cautions": list(dict.fromkeys(cautions))}
+
+
+def tokyo_per_capita(data: dict, offices: list[dict], basis: int) -> dict:
+    """東京都の特別区に事務所等がある法人の都民税の均等割（東京都主税局 第6号様式別表4の3 記載の手引のⅠ表・Ⅱ表、東京都都税条例第106条・第200条、
+    地方税法第734条第3項・第737条第1項）。
+    - 特別区だけ（Ⅰ表）: 主たる事務所等の特別区は道府県分＋特別区分の額、従たる事務所等の特別区は特別区分の額
+    - 特別区と都内の市町村（Ⅱ表）: 道府県分（都内に事務所等を有していた月数）＋特別区ごとの特別区分。市町村分は各市町村へ（per_capita_all）
+    特別区ごとに、その特別区内の従業者数（50人超か）と、その特別区に事務所等を有していた月数（2以上なら最も長いもの）で計算し、100円未満を切り捨てる。"""
+    from .local_tax import _hand_rules, SPECIAL_WARD_KIND, per_capita, special_ward_rules
+    start, end = data["fiscal_period"]["start"], data["fiscal_period"]["end"]
+    combined = special_ward_rules("東京都", next(o for o in offices if is_special_ward(o))["municipality"])
+    hand = _hand_rules()[(SPECIAL_WARD_KIND, "東京都")]
+
+    def part(key: str) -> dict:
+        cfg = hand[key]
+        period = {**combined["per_capita"]["periods"][0], "brackets": cfg["brackets"],
+                  "employees_threshold": cfg.get("employees_threshold")}
+        return {**combined, "per_capita": {"source": cfg["source"], "periods": [period]}}
+
+    wards: dict[str, list] = {}
+    for o in offices:
+        if is_special_ward(o):
+            wards.setdefault(o["municipality"], []).append(o)
+    has_cities = any(not is_special_ward(o) for o in offices)
+    mains = [o for o in offices if o.get("tokyo_main")] or [o for o in data["offices"] if o.get("main") and is_special_ward(o)]
+    main_ward = mains[0]["municipality"] if mains else next(iter(wards))
+    lines, cautions = [], []
+    if has_cities:
+        months = max(o["months"] for o in offices)
+        pc = per_capita(part("prefecture_part"), start, basis, 0, months, end)
+        lines.append({"label": "道府県分", "ward": None, "employees": None, **pc})
+    elif not mains and len(wards) > 1:
+        cautions.append(f"都内における主たる事務所等が入力にないので、{main_ward}の事務所等を主たる事務所等として都民税の均等割を計算しました"
+                        "（東京都以外に本店のある法人は都内の事務所等の一つを主たる事務所等とする。offices[].tokyo_main で選べます）")
+    for ward, os_ in wards.items():
+        months = max(o["months"] for o in os_)
+        emp = sum(o["employees"] for o in os_)
+        if not has_cities and ward == main_ward:
+            pc = per_capita(combined, start, basis, emp, months, end)
+            label = "主たる事務所等所在の特別区（道府県分＋特別区分）"
+        else:
+            pc = per_capita(part("ward_part"), start, basis, emp, months, end)
+            label = "特別区分" if has_cities else "従たる事務所等所在の特別区（特別区分）"
+        lines.append({"label": label, "ward": ward, "employees": emp, **pc})
+        if len({o["months"] for o in os_}) > 1:
+            cautions.append(f"{ward}に事務所等が2以上あり、有していた月数が違います。均等割の月数は最も長いものにしました")
+    amount = sum(x["amount"] for x in lines)
+    return {"prefecture": "東京都", "special_ward": "・".join(wards), "jurisdiction": "東京都（都民税）", "amount": amount,
+            "annual": None, "months": max(x["months"] for x in lines), "lines": lines, "table": "Ⅱ表" if has_cities else "Ⅰ表",
+            "surcharge_name": None, "surcharge_annual": 0, "employees_note": None,
+            "rules_file": combined["_file"], "caution": "。".join(cautions) or None}
 
 
 # --- 法人税割 ---
@@ -322,10 +393,11 @@ def corporate_levy(data: dict, corporate_tax: int) -> dict:
     団体ごとの税率を掛ける。法人税割額は1円未満切捨て、差引は100円未満切捨て（第20条の4の2第3項）。
     超過課税の軽減の条件（法人税額年○円）は分割前の法人税額で判定する。"""
     from .calculate import _months_ceil
-    from .local_tax import LocalRuleError, _pref_levy_percent, edition_for
+    from .local_tax import _pref_levy_percent, city_levy_percent, edition_for, tokyo_levy_percents
     start, end = data["fiscal_period"]["start"], data["fiscal_period"]["end"]
     b = bases(data)
     total = max(corporate_tax, 0) // 1000 * 1000
+    basis_total = sum(v["employees"] for v in b["prefectures"].values())
     pref_split = split(total, {p: v["employees"] for p, v in b["prefectures"].items()}, "道府県民税")
     city_split = split(total, {k: v["employees"] for k, v in b["cities"].items()}, "市町村民税")
     out_p, out_c, notes = [], [], []
@@ -333,9 +405,27 @@ def corporate_levy(data: dict, corporate_tax: int) -> dict:
     ed = edition_for(end)
     for pref, base in pref_split.items():
         row = {"prefecture": pref, "employees": b["prefectures"][pref]["employees"], "tax_base": base, "percent": None, "raw": 0, "levy": 0}
+        ward_key = (pref, SPECIAL_WARDS_KEY, None)
+        if ward_key in b["cities"]:
+            # 都民税（東京都の第10号様式記載の手引・第6号様式記載の手引 区分34）: 1人当たりの分割課税標準額に特別区分の従業者数と
+            # 都内の市町村分の従業者数をそれぞれ乗じ、1,000円未満を切り捨てる（㉔・㉖）。⑦＝㉔×特別区分の税率＋㉖×市町村分の税率
+            unit = per_unit(total, basis_total) if basis_total else Fraction(0)
+            ward_emp = b["cities"][ward_key]["employees"]
+            city_emp = b["prefectures"][pref]["employees"] - ward_emp
+            parts = {"ward": {"employees": ward_emp, "tax_base": int(unit * ward_emp) // 1000 * 1000},
+                     "city": {"employees": city_emp, "tax_base": int(unit * city_emp) // 1000 * 1000}}
+            row.update({"tax_base": parts["ward"]["tax_base"] + parts["city"]["tax_base"], "tokyo": parts})
+            if corporate_tax > 0:
+                ward_pct, city_pct, note = tokyo_levy_percents(data["company"], total, months, start, end, ed)
+                for k, pct in (("ward", ward_pct), ("city", city_pct)):
+                    parts[k].update({"percent": pct, "raw": int(parts[k]["tax_base"] * Fraction(pct) / 100)})
+                row.update({"percent": f"{ward_pct}（特別区分）・{city_pct}（市町村分）",
+                            "raw": parts["ward"]["raw"] + parts["city"]["raw"]})
+                row["levy"] = row["raw"] // 100 * 100
+                notes.append(note)
+            out_p.append(row)
+            continue
         if corporate_tax > 0:
-            if any(k[0] == pref and k[1] == SPECIAL_WARDS_KEY for k in b["cities"]):
-                raise OutOfScope("東京都の特別区の黒字法人（都民税の法人税割を扱いません）")
             pct, note = _pref_levy_percent(pref, ed, data["company"], total, months, start, end)
             row.update({"percent": pct, "raw": int(base * Fraction(pct) / 100)})
             row["levy"] = row["raw"] // 100 * 100
@@ -346,14 +436,11 @@ def corporate_levy(data: dict, corporate_tax: int) -> dict:
         row = {"key": ck, "prefecture": pref, "municipality": city, "ward": ward, "employees": b["cities"][ck]["employees"],
                "tax_base": base, "percent": None, "raw": 0, "levy": 0, "special_ward": city == SPECIAL_WARDS_KEY}
         if corporate_tax > 0 and city != SPECIAL_WARDS_KEY:
-            c = ed["_cities"].get((pref, city))
-            if c is None or not c.get("levy"):
-                raise LocalRuleError(f"{pref}{city}の法人税割の税率が一覧にありません（{ed['_file']}）")
-            if c["levy"].get("non_uniform"):
-                raise OutOfScope(f"{city}は法人税割に不均一課税があり、総務省の一覧から中小法人の税率を読めません")
-            row.update({"percent": c["levy"]["rate_percent"], "raw": int(base * Fraction(c["levy"]["rate_percent"]) / 100)})
+            # 不均一課税の軽減の条件は分割前の法人税額（total）で判定する（札幌市税条例附則第5条の3第4項・大阪市の案内）
+            pct, note = city_levy_percent(pref, city, ed, data["company"], total, months, start, end)
+            row.update({"percent": pct, "raw": int(base * Fraction(pct) / 100)})
             row["levy"] = row["raw"] // 100 * 100
-            notes.append(f"{city}の法人税割 {c['levy']['rate_percent']}%（総務省の一覧）")
+            notes.append(note)
         out_c.append(row)
     if corporate_tax > 0:
         notes.append("分割法人の法人税割の超過課税の軽減の条件（法人税額年○円以下など）は、分割する前の法人税額で判定しました。"

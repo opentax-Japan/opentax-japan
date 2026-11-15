@@ -46,15 +46,19 @@ class TokyoWardTest(unittest.TestCase):
         self.assertIn("第二十号様式（市町村民税）は出しません", html)
         self.assertNotIn("<h2>第二十号様式", html)
 
-    def test_outside_wards_and_two_wards_stop(self):
+    def test_outside_wards_stop_and_two_wards(self):
         raw = sample()
         raw["offices"][0]["municipality"] = "架空区"
         with self.assertRaisesRegex(model.OutOfScope, "税率の一覧にない自治体"):
             api.calculate(raw)
+        # 2つの特別区: 分割法人の入力（従業者の数・事業の区分）が要る。主たる事務所等の千代田区は 70,000円、従たる港区は特別区分 50,000円
         raw = sample()
         raw["offices"].append({**raw["offices"][0], "municipality": "港区"})
-        with self.assertRaisesRegex(model.OutOfScope, "分割法人"):
+        with self.assertRaisesRegex(model.InputError, "division_business"):
             api.calculate(raw)
+        raw["company"]["division_business"] = "その他の事業"
+        raw["offices"][0]["employees"], raw["offices"][1]["employees"] = 3, 2
+        self.assertEqual(api.calculate(raw)["local_tax"]["prefecture"]["amount"], 120_000)
 
     def test_etax_output_uses_kojimachi(self):
         root = REPO / ".cache" / "etax" / "ksk2-2026-08" / "files" / "e-tax19"

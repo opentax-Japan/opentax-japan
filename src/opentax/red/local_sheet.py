@@ -236,8 +236,11 @@ def build_sections(calculated: dict, today: datetime.date | None = None) -> tupl
     if city is None:
         sections[0]["to"] = sections[0]["to"].replace(
             local["prefecture"]["jurisdiction"], f"{local['prefecture']['jurisdiction']} {local['prefecture'].get('special_ward', '')}", 1)
+        sw = (local.get("corporate_levy") or {}).get("special_ward")
         warnings.append("東京都の特別区（23区）の法人です。均等割は市町村民税分（特別区分）を含めた額で、第二十号様式（市町村民税）は出しません。"
-                        "第6号様式別表4の3（均等割額の計算に関する明細書）も添付します。法人税割の特別区分の欄（㉔・㉕）は 0 です")
+                        "第6号様式別表4の3（均等割額の計算に関する明細書）も添付します。"
+                        + (f"法人税割は特別区分の欄（㉔ 課税標準 {sw['tax_base']:,}円・㉕ 税額 {sw['raw']:,}円・税率 {sw['percent']}%）に書きます"
+                           if sw else "法人税割の特別区分の欄（㉔・㉕）は 0 です"))
     else:
         f20 = forms["第二十号様式"]
         v20 = _version(f20, start)
@@ -301,11 +304,23 @@ def divided_sections(calculated: dict) -> list[dict]:
                 if br["base"]:
                     rows.append(("", f"{pref} 事業税 分割課税標準額 {name}", _yen(br["base"]), ""))
         pl = next(x for x in cl["prefectures"] if x["prefecture"] == pref)
-        rows.append(("㉑", f"{pref} 道府県民税 分割課税標準額", _yen(pl["tax_base"]), ""))
+        if pl.get("tokyo"):
+            tk = pl["tokyo"]
+            rows.append(("㉑", f"{pref} 都民税 分割課税標準額 特別区分（{tk['ward']['employees']}人）", _yen(tk["ward"]["tax_base"]),
+                         "1人当たりの分割課税標準額×特別区分の数値（東京都の第10号様式記載の手引）"))
+            if tk["city"]["employees"]:
+                rows.append(("㉑", f"{pref} 都民税 分割課税標準額 市町村分（{tk['city']['employees']}人）", _yen(tk["city"]["tax_base"]),
+                             "1人当たりの分割課税標準額×都内の市町村の分割基準の小計"))
+        else:
+            rows.append(("㉑", f"{pref} 道府県民税 分割課税標準額", _yen(pl["tax_base"]), ""))
     rows.append(("", "合計 分割基準", unit(sum(p["employees_business"] for p in b["prefectures"].values()),
                                           sum(p["offices"] for p in b["prefectures"].values())), ""))
     sections = [{"title": "第十号様式（課税標準の分割に関する明細書）",
                  "to": "関係都道府県の申告書に添付（主たる事務所等の都道府県へは写し）", "rows": rows, "source": src}]
+    if all(bunkatsu.is_special_ward(o) for o in data["offices"]):
+        # 東京都の特別区だけに事務所等がある法人は分割しない（第10号様式は、本都と他の道府県・本都の特別区と市町村に事務所等のある法人が添付する。
+        # 東京都主税局 第10号様式記載の手引(1)）。均等割は特別区ごと（第6号様式別表4の3）
+        sections[0]["to"] = "添付は要りません（東京都の特別区だけに事務所等がある法人。数字は確かめのために出しています）"
     # 第二十二号の二様式
     rows = [("⑤", "差引計（課税標準の総額）", _yen(cl["tax_base"]), "1,000円未満切捨て")]
     for c in cl["municipalities"]:
@@ -314,19 +329,38 @@ def divided_sections(calculated: dict) -> list[dict]:
                      "東京都の特別区の分は都民税（第六号様式）で申告する" if c["special_ward"] else ""))
     main = div["main"]
     sections.append({"title": "第二十二号の二様式（課税標準の分割に関する明細書）",
-                     "to": f"主たる事務所等の市町村（{main['municipality']}{main.get('ward') or ''}）の申告書に添付",
+                     "to": ("添付は要りません（東京都の特別区だけに事務所等がある法人）" if all(bunkatsu.is_special_ward(o) for o in data["offices"])
+                            else f"主たる事務所等の市町村（{main['municipality']}{main.get('ward') or ''}）の申告書に添付"),
                      "rows": rows, "source": src})
     # 都道府県ごと
     for pc in div["prefectures"]:
         pref = pc["prefecture"]
         pl = next(x for x in cl["prefectures"] if x["prefecture"] == pref)
-        per_capita_note = (f"{pc['annual']:,}円 × {pc['months']}／12"
-                           + (f"（うち{pc['surcharge_name']} {pc['surcharge_annual']:,}円／年）" if pc.get("surcharge_name") else "")
-                           + ("。特別区分を含む都民税" if pc.get("special_ward") else ""))
-        rows = [("", "法人税割 課税標準（分割課税標準額）", _yen(pl["tax_base"]), ""),
-                ("", "法人税割額", _yen(pl["raw"]), f"税率 {pl['percent']}%" if pl["percent"] else ""),
-                ("", "差引法人税割額", _yen(pl["levy"]), "100円未満切捨て"),
-                ("", "均等割額", _yen(pc["amount"]), per_capita_note)]
+        if pc.get("lines"):          # 都民税（第6号様式別表4の3 の Ⅰ表・Ⅱ表）
+            per_capita_note = f"第6号様式別表4の3 {pc['table']}: " + "・".join(
+                f"{x['label']}{'（' + x['ward'] + '・' + str(x['employees']) + '人）' if x['ward'] else ''} {x['annual']:,}円×{x['months']}／12＝{x['amount']:,}円"
+                for x in pc["lines"])
+        else:
+            per_capita_note = (f"{pc['annual']:,}円 × {pc['months']}／12"
+                               + (f"（うち{pc['surcharge_name']} {pc['surcharge_annual']:,}円／年）" if pc.get("surcharge_name") else "")
+                               + ("。特別区分を含む都民税" if pc.get("special_ward") else ""))
+        if pl.get("tokyo"):          # 第6号様式 ㉔〜㉗（東京都の第6号様式記載の手引 区分34）
+            tk = pl["tokyo"]
+            rows = [("㉔", "特別区分の課税標準額", _yen(tk["ward"]["tax_base"]), ""),
+                    ("㉕", "特別区分の税額", _yen(tk["ward"].get("raw", 0)),
+                     f"税率 {tk['ward']['percent']}%" if tk["ward"].get("percent") else "")]
+            if tk["city"]["employees"]:
+                rows += [("㉖", "市町村分の課税標準額", _yen(tk["city"]["tax_base"]), ""),
+                         ("㉗", "市町村分の税額", _yen(tk["city"].get("raw", 0)),
+                          f"税率 {tk['city']['percent']}%" if tk["city"].get("percent") else "")]
+            rows += [("⑦", "法人税割額", _yen(pl["raw"]), "㉕＋㉗"),
+                     ("", "差引法人税割額", _yen(pl["levy"]), "100円未満切捨て"),
+                     ("", "均等割額", _yen(pc["amount"]), per_capita_note)]
+        else:
+            rows = [("", "法人税割 課税標準（分割課税標準額）", _yen(pl["tax_base"]), ""),
+                    ("", "法人税割額", _yen(pl["raw"]), f"税率 {pl['percent']}%" if pl["percent"] else ""),
+                    ("", "差引法人税割額", _yen(pl["levy"]), "100円未満切捨て"),
+                    ("", "均等割額", _yen(pc["amount"]), per_capita_note)]
         business = 0
         if bd:
             pr = next(x for x in bd["prefectures"] if x["prefecture"] == pref)
