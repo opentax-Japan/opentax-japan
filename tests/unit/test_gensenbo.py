@@ -154,6 +154,7 @@ class RulesTest(unittest.TestCase):
         x = _calc(doc)["people"][1]
         self.assertFalse(x["adjusted"])
         self.assertNotIn("y26", x["values"])
+        self.assertNotIn("y1", x["values"])                 # 年末調整をしない人は①③④⑥も書かない
         self.assertEqual(x["values"]["b_tax"][1], "6,963")
 
     def test_bonus_rate_mismatch_is_not_written(self):
@@ -167,18 +168,70 @@ class RulesTest(unittest.TestCase):
         self.assertEqual(x["values"]["b_rate"][0], "")
         self.assertTrue(any("税率を書いていません" in n for n in x["notes"]))
 
-    def test_deferral_needs_last_tax_calculated(self):
+    def test_shortage_with_omitted_last_tax(self):
         doc = _doc()
-        doc["people"][0]["nencho"] = {}
-        doc["people"][0]["shortage_deferred"] = 1000
-        with self.assertRaises(gensenbo.GensenboError):      # 年末調整のしかた 41ページ⑶ロ（注）
+        doc["people"][0]["nencho"] = {}                     # 申告がないと大きな不足額になる
+        for pm in doc["record"]["payments"]:                # 最後の賞与を小さくして、㉝が手取りを超えるようにする
+            if pm["date"] == "2026-12-25":
+                pm["rows"][0].update(pay={"shikyu": 100000}, deduct={"shakai": 15000, "shotoku": 0}, net=85000)
+        x = _calc(doc)["people"][0]
+        self.assertEqual(x["values"]["y27_kind"], "不足額")
+        self.assertTrue(any("差引支給額" in n for n in x["notes"]))   # ㉝が最後の賞与の手取りを超える
+        doc["people"][0]["shortage_deferred"] = 1000        # 引ききれない残りは㉞へ（41ページ⑶イ）。承認による繰延べでないことを注記
+        x = _calc(doc)["people"][0]
+        self.assertEqual((x["settle"]["y34"], x["settle"]["y33"]), (1000, x["settle"]["y27"] - 1000))
+        self.assertTrue(any("⑶ロ（注）" in n for n in x["notes"]))
+
+    def test_excess_not_more_than_last_tax(self):
+        doc = _doc()
+        del doc["people"][1]["nencho"]["spouse"]     # 超過額 6,345 ≦ 最後の賞与の税額 6,963
+        x = _calc(doc)["people"][1]
+        s, v = x["settle"], x["values"]
+        self.assertEqual((v["y27"], v["y28"]), ("6,345", "6,345"))
+        for n in (29, 30, 31, 32):
+            self.assertNotIn(f"y{n}", v)               # 還付がないので空欄（40ページ注意事項1なお書き：残りを徴収）
+        self.assertEqual(v["b_net"][1], "618")
+
+    def test_unpaid_tax(self):
+        doc = _doc()
+        doc["people"][0]["unpaid_tax"] = 5270
+        v = _calc(doc)["people"][0]["values"]
+        self.assertEqual((v["y29"], v["y30"], v["y31"], v["b_net"][1]), ("5,270", "110,000", "110,000", "▲110,000"))
+
+    def test_last_payment_is_salary(self):
+        doc = _doc()
+        doc["record"]["payments"] = [pm for pm in doc["record"]["payments"] if pm["date"] != "2026-12-25"]
+        doc["people"][0]["omit_last_tax"] = False
+        x = _calc(doc)["people"][0]
+        v = x["values"]
+        self.assertEqual(v["s_adj"][22].split("\n")[0], "過納")    # 12月の給与の行
+        self.assertEqual(v["y28"], "6,690")
+        self.assertNotIn("s_adj_total", v)       # 省略しないので計の行の過不足は空欄
+        self.assertEqual(v["s_net"][22], gensenbo._yen(6690 - x["settle"]["y28"] - x["settle"]["y31"]))
+
+    def test_otsu_is_not_adjusted(self):
+        doc = _doc()
+        doc["people"][1]["column"] = "乙"
+        x = _calc(doc)["people"][1]
+        self.assertFalse(x["adjusted"])
+        self.assertEqual(x["values"]["column"], "乙")
+        for n in (1, 3, 4, 6, 7, 26):
+            self.assertNotIn(f"y{n}", x["values"])           # 年末調整の欄は全部空ける
+        doc["people"][1]["year_end_adjustment"] = True
+        with self.assertRaises(gensenbo.GensenboError):
             _calc(doc)
 
     def test_bad_inputs_stop(self):
         for i, key, val in ((0, "refund_next_year", 999_999_999), (1, "unpaid_tax", 999_999_999), (0, "number", "123456789012"),
                             (0, "postal", "1234567"), (0, "prior_year", {"amount": "x"}), (0, "prior_year", "x"),
                             (0, "fuyo", {"rows": [{"date": "x"}, {"date": "7月"}]}), (0, "fuyo", {"rows": ["x"]}),
-                            (0, "fuyo", {"disabled_who": {"一般": 1}}), (0, "nencho", {"spouse": 0}), (0, "retired_on", "x")):
+                            (0, "fuyo", {"disabled_who": {"一般": 1}}), (0, "nencho", {"spouse": 0}), (0, "retired_on", "x"),
+                            (0, "number", "1234 5678 9012"), (0, "number", "1234-5678-9012"), (0, "number", "12345678901"),
+                            (0, "fuyo", {"submitted": "無"}), (0, "fuyo", {"rows": [{"spouse": "無"}]}), (0, "fuyo", {"rows": [{"student": "有"}]}),
+                            (0, "fuyo", {"rows": [{}, {"date": "2025-07-01"}]}), (0, "prior_year", {"rows": [{"month": 13}]}),
+                            (0, "prior_year", {"rows": [{"tax": 5000}]}), (0, "nencho", {"typo_key": 1}), (0, "nencho", {"dependants": []}),
+                            (0, "nencho", {"dependents": ["一般"]}), (0, "nencho", {"spouse": {"incom": 0}}), (0, "birth", "1850-01-01"),
+                            (0, "birth", "2030-01-01"), (0, "previous_employer", {"salary": 1})):
             doc = _doc()
             doc["people"][i][key] = val
             with self.subTest(key=key, val=val), self.assertRaises(gensenbo.GensenboError):

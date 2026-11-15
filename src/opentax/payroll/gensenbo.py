@@ -22,7 +22,10 @@
   prior_year（前年の年末調整に基づき繰り越した過不足税額: {amount, rows[{month, amount, rest}]}）,
   small_business_in_salary（⑫のうち小規模企業共済等掛金の金額）, national_pension_declared（⑬のうち国民年金保険料等の金額）,
   unpaid_tax, refund_next_year, shortage_deferred, retired_on, year_end_adjustment}]
-マイナンバーは様式にない（扱わない）。
+未払給与: 本年中に支給日が来た未払の給与は、給与の記録に支給として入れる（年末調整のしかた 35ページ⑵1）。その未徴収の税額は unpaid_tax（㉙）。
+前職分の給与（年の中途で就職した人。36ページ⑵4）はまだ扱わない（previous_employer を書くと止める）。
+乙欄の人・年の中途で退職した人・people に書いていない人は年末調整をしない（右の年末調整の欄は全部空ける）。
+マイナンバーは様式にない（扱わない。整理番号に12桁の数字が入っていれば止める）。
 """
 from __future__ import annotations
 
@@ -43,9 +46,17 @@ WIDOW_MAN = {"寡婦": 27, "ひとり親": 35}
 STUDENT_MAN = 27
 COUNT_KEYS = ("general", "specific", "relative", "elderly_co", "elderly_other", "disabled", "sp_disabled", "co_sp_disabled")
 FUYO_ROW_KEYS = {"date", "spouse", "widow", "student", *COUNT_KEYS}
-PERSON_KEYS = {"_unlisted", "id", "column", "dept", "title", "postal", "address", "birth", "number", "dependents", "omit_last_tax", "nencho", "fuyo",
+PERSON_KEYS = {"_unlisted", "previous_employer", "id", "column", "dept", "title", "postal", "address", "birth", "number", "dependents", "omit_last_tax", "nencho", "fuyo",
                "prior_year", "small_business_in_salary", "national_pension_declared", "unpaid_tax", "refund_next_year",
                "shortage_deferred", "retired_on", "year_end_adjustment", "note"}
+# 年末調整の申告（nencho.calculate の入力）で書ける項目（書き間違いを黙って無視しないため）
+NENCHO_KEYS = {"social_insurance_declared", "small_business_declared", "other_income", "income_adjustment", "life_insurance", "earthquake",
+               "spouse", "dependents", "disabled_others", "self", "specific_relatives", "housing_loan_credit", "note"}
+NENCHO_SUB = {"income_adjustment": {"self_special_disabled", "dependent_under23", "family_special_disabled"},
+              "life_insurance": {"new_general", "old_general", "care", "new_pension", "old_pension", "has_dependent_under23"},
+              "earthquake": {"earthquake", "old_long_term"}, "spouse": {"name", "income", "elderly", "disability"},
+              "self": {"disability", "widow", "single_parent", "working_student"}}
+NENCHO_ITEMS = {"dependents": {"kind", "disability", "name"}, "specific_relatives": {"income", "name"}}
 WHO = {"一般": ("dis", ("本人", "配", "扶")), "特別": ("sp", ("本人", "配", "扶")), "同居特別": ("co", ("配", "扶"))}
 WHO_TAG = {"本人": "self", "配": "spouse", "扶": "dep"}
 
@@ -62,7 +73,7 @@ def _wareki(d, where: str) -> dict:
     from ..etax.xtx import ERA_NAMES, to_wareki
     try:
         w = to_wareki(datetime.date.fromisoformat(str(d)))
-    except ValueError as e:
+    except Exception as e:   # noqa: BLE001 — 日付の形の誤り・和暦の外（明治より前など）
         raise GensenboError(f"{where}: 日付は YYYY-MM-DD で入れてください: {d!r}") from e
     return {**w, "name": ERA_NAMES[w["era"]]}
 
@@ -82,7 +93,7 @@ def _lines(rec: dict, pid: str, opts: dict) -> list[dict]:
                 raise GensenboError(f"{pid} {pm['date']}: month（月区分）は1〜12です: {month!r}")
             out.append({"date": pm["date"], "kind": pm["kind"], "month": month, "pay": s["taxable"], "social": s["social"],
                         "after": s["taxable"] - s["social"], "dep": dep, "tax": s["income_tax"],
-                        "nontaxable": s["pay_total"] - s["taxable"]})
+                        "nontaxable": s["pay_total"] - s["taxable"], "net_pay": s["net"]})
     return out
 
 
@@ -113,8 +124,11 @@ def _settle(r: dict, last: dict, omitted: bool, opts: dict, notes: list) -> dict
         s["net"] = last_tax - s["y28"] - s["y31"]
     elif shortage:
         if deferred and omitted:
-            raise GensenboError("shortage_deferred: 不足額の徴収繰延べは、本年最後の給与の税額計算を省略しないで年末調整をした人だけです"
-                                "（年末調整のしかた 41ページ⑶ロ（注））。omit_last_tax と一緒には使えません")
+            notes.append("㉞: 税額計算を省略した人は「年末調整による不足額徴収繰延承認申請書」の承認による繰延べはできません（年末調整のしかた 41ページ⑶ロ（注））。"
+                         "㉞は、最後の給与から引ききれずその後の給与から順次徴収する残り（41ページ⑶イ）として書いています")
+        elif deferred:
+            notes.append("㉞: 翌年1月・2月への繰延べは「年末調整による不足額徴収繰延承認申請書」の承認を受けたときだけです（年末調整のしかた 41ページ⑶ロ）。"
+                         "承認がなく引ききれない残りなら、その後の給与から順次徴収します（⑶イ）")
         if deferred > shortage:
             raise GensenboError(f"shortage_deferred {deferred:,} が不足額 {shortage:,} より多い")
         s["y34"], s["y33"] = deferred, shortage - deferred
@@ -122,6 +136,9 @@ def _settle(r: dict, last: dict, omitted: bool, opts: dict, notes: list) -> dict
         if omitted:
             s["adj_total"] = f"{shortage:,}"
         s["net"] = last_tax + s["y33"]
+        if s["y33"] > last["net_pay"]:
+            notes.append(f"㉝ 本年最後の給与から徴収する金額 {s['y33']:,} 円が、その給与の差引支給額 {last['net_pay']:,} 円を超えます。"
+                         "引ききれない分は shortage_deferred（㉞）に入れてください（年末調整のしかた 41ページ⑶イ）")
     else:
         s["net"] = last_tax
     return s
@@ -132,6 +149,13 @@ def _fuyo(f: dict, v: dict, notes: list, r: dict | None) -> None:
         return
     if not isinstance(f, dict) or set(f) - {"submitted", "rows", "disabled_who"}:
         raise GensenboError(f"fuyo の項目は submitted・rows・disabled_who です: {f!r}")
+    checks = [("fuyo.submitted", f.get("submitted"))]
+    for i, r_ in enumerate(f.get("rows") or []):
+        if isinstance(r_, dict):
+            checks += [(f"fuyo.rows[{i}].{k}", r_.get(k)) for k in ("spouse", "student")]
+    for where, x in checks:
+        if x is not None and not isinstance(x, bool):
+            raise GensenboError(f"{where}: true か false で入れてください（「有」「無」の文字は使えません）: {x!r}")
     if "submitted" in f:
         v["fuyo_submitted"] = "有" if f["submitted"] else "無"
     rows = f.get("rows") or []
@@ -153,6 +177,8 @@ def _fuyo(f: dict, v: dict, notes: list, r: dict | None) -> None:
                 d = datetime.date.fromisoformat(str(row["date"]))
             except ValueError:
                 raise GensenboError(f"fuyo.rows[{i}].date: 日付は YYYY-MM-DD で入れてください: {row['date']!r}") from None
+            if d.year != YEAR:
+                raise GensenboError(f"fuyo.rows[{i}].date: 異動の申告月日が令和8年（{YEAR}年）ではありません: {d}")
             v[f"f{n}_mm"], v[f"f{n}_dd"] = str(d.month), str(d.day)
         if isinstance(row.get("spouse"), bool):
             v[f"f{n}_spouse"] = "有" if row["spouse"] else "無"
@@ -217,6 +243,21 @@ def person(rec: dict, p: dict, opts: dict) -> dict:
     if not isinstance(nd, dict) or any(k in nd and not isinstance(nd[k], dict) for k in ("spouse", "life_insurance", "earthquake", "self",
                                                                                      "income_adjustment")):
         raise GensenboError("nencho は年末調整の入力（spouse・life_insurance などは {…} の形）で入れてください")
+    bad = set(nd) - NENCHO_KEYS
+    if bad:
+        raise GensenboError(f"nencho: 知らない項目があります（書き間違い？）: {sorted(bad)}")
+    for k, allowed in NENCHO_SUB.items():
+        if k in nd and set(nd[k]) - allowed:
+            raise GensenboError(f"nencho.{k}: 知らない項目があります（書き間違い？）: {sorted(set(nd[k]) - allowed)}")
+    for k, allowed in NENCHO_ITEMS.items():
+        items = nd.get(k) or []
+        if not isinstance(items, list) or not all(isinstance(x, dict) and not set(x) - allowed for x in items):
+            raise GensenboError(f"nencho.{k} は {{{', '.join(sorted(allowed))}}} のリストで入れてください")
+    if not isinstance(nd.get("disabled_others") or [], list):
+        raise GensenboError("nencho.disabled_others は [一般/特別/同居特別] のリストです")
+    if opts.get("previous_employer"):    # 年末調整のしかた 36ページ⑵4
+        raise GensenboError("previous_employer: 前職分の給与がある人（年の中途で就職した人）の年末調整はまだ扱いません。"
+                            "前職分は前の支払者の源泉徴収票で確かめてから含めます（年末調整のしかた 36ページ⑵4）")
     decl = dict(nd)
     for k in ("salary_total", "withheld_total", "social_insurance"):
         if k in decl:
@@ -226,7 +267,9 @@ def person(rec: dict, p: dict, opts: dict) -> dict:
     if opts.get("retired_on"):
         _wareki(opts["retired_on"], "retired_on")
     np_["column"] = column
-    adjusted = adjusts(np_) and not opts.get("_unlisted")
+    if column == "乙" and opts.get("year_end_adjustment"):
+        raise GensenboError("乙欄の人は年末調整の対象になりません（年末調整のしかた 5ページ。扶養控除等申告書を出した人だけ）")
+    adjusted = adjusts(np_) and not opts.get("_unlisted") and column == "甲"
     r = nencho.calculate(np_) if adjusted else None
     omitted = bool(opts.get("omit_last_tax"))
     last = lines[-1]                      # 年末調整をする給与＝本年最後に支払う給与
@@ -247,11 +290,16 @@ def person(rec: dict, p: dict, opts: dict) -> dict:
     v["kana"], v["name"] = p.get("kana") or "", p.get("name") or ""
     if opts.get("birth"):
         w = _wareki(opts["birth"], "birth")
+        if str(opts["birth"]) > f"{YEAR}-12-31":
+            raise GensenboError(f"birth: 令和8年より後の生年月日です: {opts['birth']}")
         v.update({"birth_era": w["name"][0], "birth_yy": str(w["yy"]), "birth_mm": str(w["mm"]), "birth_dd": str(w["dd"])})
     if opts.get("number") not in (None, ""):
         num = str(opts["number"])
-        if num.isdigit() and len(num) == 12:     # 個人番号を書き間違えて入れたときに様式へ出さない
+        digits = "".join(ch for ch in num if ch.isdigit())    # 全角・区切り（空白・ハイフン）入りも数字だけにして見る
+        if len(digits) == 12:     # 個人番号を書き間違えて入れたときに様式へ出さない
             raise GensenboError("number（整理番号）が12桁の数字です。個人番号は扱いません。事業所の整理番号を入れてください")
+        if len(num) > 10:         # 入力用 PDF の整理番号の欄は10文字まで
+            raise GensenboError(f"number（整理番号）は10文字までです: {len(num)}文字")
         v["number"] = num
     py = opts.get("prior_year") or {}
     if py:
@@ -266,8 +314,11 @@ def person(rec: dict, p: dict, opts: dict) -> dict:
         if len(py.get("rows") or []) > 2:
             raise GensenboError("prior_year.rows: 様式は2回分までです")
         for i, row in enumerate(py.get("rows") or []):
-            if not isinstance(row, dict):
-                raise GensenboError(f"prior_year.rows[{i}] は {{month, amount, rest}} の形です")
+            if not isinstance(row, dict) or set(row) - {"month", "amount", "rest"}:
+                raise GensenboError(f"prior_year.rows[{i}] は {{month, amount, rest}} の形です: {row!r}")
+            m = row.get("month")
+            if m is not None and (isinstance(m, bool) or not isinstance(m, int) or not 1 <= m <= 12):
+                raise GensenboError(f"prior_year.rows[{i}].month は1〜12です: {m!r}")
             v[f"prior_m{i + 1}"] = str(row.get("month") or "")
             v[f"prior_tax{i + 1}"] = _yen(signed(row.get("amount") or 0, f"prior_year.rows[{i}].amount"))
             v[f"prior_rest{i + 1}"] = _yen(signed(row.get("rest") or 0, f"prior_year.rows[{i}].rest"))
@@ -298,7 +349,7 @@ def person(rec: dict, p: dict, opts: dict) -> dict:
             for c in cols:
                 b_cols[c][bonus_i] = cells[c]
             b_cols["mclass"][bonus_i] = str(ln["month"])
-            if ln["tax"] and ln["after"]:     # 税率（賞与に対する源泉徴収税額の算出率の表）。記録の税額から求め、表の率と合うときだけ書く
+            if ln["after"] and not (is_last and omitted):     # 税率（賞与に対する源泉徴収税額の算出率の表）。記録の税額から求め、表の率と合うときだけ書く
                 b_cols["rate"][bonus_i] = _bonus_rate(rec, lines, ln, column, notes)
             bonus_i += 1
         if ln["nontaxable"]:
@@ -355,14 +406,12 @@ def person(rec: dict, p: dict, opts: dict) -> dict:
             if x > cap:
                 raise GensenboError(f"{key} {x:,} が {box} {cap:,} より多い")
             v[tag] = f"{x:,}" if x else "—"
-        if settle.get("y34"):
-            notes.append("不足額を翌年1月・2月に繰り延べるのは「年末調整による不足額徴収繰延承認申請書」の承認を受けたときだけです（年末調整のしかた 41ページ）")
         if settle.get("y32"):
             notes.append("翌年において還付する金額（㉜）があります。税務署から還付を受けるときは年末調整過納額還付請求書を出します（年末調整のしかた 40ページ）")
     else:
-        y = {**totals}
-        for k, x in y.items():
-            v[k] = f"{x:,}"
+        ignored = [k for k in ("nencho", "unpaid_tax", "refund_next_year", "shortage_deferred", "omit_last_tax") if opts.get(k)]
+        if ignored and not opts.get("_unlisted"):
+            notes.append(f"年末調整をしないので {', '.join(ignored)} は使っていません")
         notes.append("people に入っていないので、年末調整の欄は書いていません（申告の中身が分からないため）" if opts.get("_unlisted") else
                      "年末調整をしない人です（年の中途で退職・乙欄など。年末調整のしかた 5ページ）。年末調整の欄は書いていません")
     return {"person": {k: p.get(k) for k in ("id", "name", "kana")}, "lines": lines, "values": v, "nencho": r, "settle": settle, "notes": notes,
@@ -375,17 +424,20 @@ def _bonus_rate(rec: dict, lines: list, ln: dict, column: str, notes: list) -> s
     from decimal import ROUND_DOWN, Decimal
 
     from . import gensen
-    # 前月中の給与（支給日が賞与の前の月の給与。いちばん新しいもの）
-    prev = [x for x in lines if x["kind"] == "給与" and (x["date"].year, x["date"].month) < (ln["date"].year, ln["date"].month)]
+    # 前月中の給与（支給日が賞与の月の前の月の給与。2回あれば合計）。前月に給与がなければ率を書かない
+    pm_ = (ln["date"].year, ln["date"].month - 1) if ln["date"].month > 1 else (ln["date"].year - 1, 12)
+    prev = [x for x in lines if x["kind"] == "給与" and (x["date"].year, x["date"].month) == pm_]
     dep = ln["dep"] if ln["dep"] is not None else (0 if column == "乙" else None)
     if not prev or dep is None:
         notes.append(f"{ln['date']}: 賞与の税率は、前月中の給与がない・扶養親族等の数がないので書いていません（記録の税額だけ書きました）")
         return ""
     try:
-        rate = gensen.bonus_rate(prev[-1]["after"], dep, column)
+        rate = gensen.bonus_rate(sum(x["after"] for x in prev), dep, column)
     except gensen.GensenError:      # 表の外など（前月の給与の10倍を超える賞与の計算は表を使わない）は書かない
         rate = None
     if rate is not None and int((Decimal(ln["after"]) * Decimal(rate) / 100).to_integral_value(rounding=ROUND_DOWN)) == ln["tax"]:
+        if not ln["tax"]:
+            notes.append(f"{ln['date']}: 賞与の税額が0円で、表の率も0％なので税率に 0.000 と書きました（記載例はありません）")
         return f"{Decimal(rate):.3f}"
     notes.append(f"{ln['date']}: 記録の賞与の税額 {ln['tax']:,} 円が、前月の給与から引いた税率で計算した額と合わないので、税率を書いていません")
     return ""
@@ -419,7 +471,8 @@ def calculate(doc: dict) -> dict:
         try:
             out.append(person(rec, p, opts.get(p["id"]) or {"id": p["id"], "_unlisted": True}))
         except NenchoError as e:
-            raise GensenboError(f"{p.get('name') or p['id']}: {e}") from None
+            hint = "（年末調整をしないなら people に year_end_adjustment: false）" if "2,000万円" in str(e) else ""
+            raise GensenboError(f"{p.get('name') or p['id']}: {e}{hint}") from None
     return {"year": YEAR, "company": rec.get("company") or "", "people": out}
 
 
