@@ -19,6 +19,7 @@
   dates の parts: ["era", "yy"] など（元号・年だけの欄。columns は parts の数＋1）
   digit_cells: タグ → [[1桁ずつの枠…]（片ごと）…]（納付書の金額。右から1桁ずつ詰めて書く。0 は書かない）
   digit_cells_split: タグ → [[1文字ずつの枠…]…]（団体コードなど。左から1文字ずつ書く）
+  print_zero:  [タグ]（fields・digit_cells で、値が 0 のときも「0」を書く欄。源泉徴収票の基礎控除の額など）
 """
 
 from __future__ import annotations
@@ -148,15 +149,18 @@ def sheet(form_id: str, title: str, fiscal_period: tuple[datetime.date, datetime
 
     items: list[dict] = []
     drop = m.get("drop_digits", {})      # タグ → 様式に印字済みの末尾の桁数（「000」など）。その桁は書かない
+    zero = set(m.get("print_zero", []))  # 0 でも「0」を書く欄
     for tag, boxes in m.get("fields", {}).items():
         for box, v in pairs(boxes, values.get(tag)):
-            if isinstance(v, int) and not isinstance(v, bool) and v:
+            if isinstance(v, int) and not isinstance(v, bool) and v == 0 and tag in zero:
+                items.append({"box": box, "text": "0", "kind": "amount"})
+            elif isinstance(v, int) and not isinstance(v, bool) and v:
                 n = drop.get(tag, 0)
                 shown = (abs(v) // 10 ** n) * (1 if v > 0 else -1) if n else v
                 items.append({"box": box, "text": _fmt(shown) if shown else "", "kind": "amount"})
     for tag, copies in m.get("digit_cells", {}).items():   # 1桁ずつの枠（納付書の金額。右から詰める。0 は書かない）
         v = values.get(tag)
-        if isinstance(v, int) and not isinstance(v, bool) and v > 0:
+        if isinstance(v, int) and not isinstance(v, bool) and (v > 0 or (v == 0 and tag in zero)):
             for cells in copies:
                 digits = str(v)
                 if len(digits) > len(cells):

@@ -43,6 +43,9 @@ SLIP_TEXT = {
     "住宅借入金等特別控除区分1回目_ref": "DIU00040",
     "住宅借入金等特別控除居住開始年1回目_ref": "housing_yy", "住宅借入金等特別控除居住開始月1回目_ref": "housing_mm",
     "住宅借入金等特別控除居住開始日1回目_ref": "housing_dd",
+    "住宅借入金等特別控除区分2回目_ref": "DIU00070",
+    "住宅借入金等特別控除居住開始年2回目_ref": "housing2_yy", "住宅借入金等特別控除居住開始月2回目_ref": "housing2_mm",
+    "住宅借入金等特別控除居住開始日2回目_ref": "housing2_dd",
     "中途就退職年_ref": "move_yy", "中途就退職月_ref": "move_mm", "中途就退職日_ref": "move_dd",
     "元号_ref": "birth_era", "受給者生年_ref": "birth_yy", "受給者生月_ref": "birth_mm", "受給者生日_ref": "birth_dd",
     "支払者住所居所又は所在地_ref": "payer_address", "支払者氏名又は名称_ref": "payer_name", "支払者電話_ref": "payer_phone",
@@ -50,6 +53,9 @@ SLIP_TEXT = {
     "控除対象扶養親族数特定_ref": "DIL00020", "控除対象扶養親族数老人内_ref": "DIL00060", "控除対象扶養親族数老人_ref": "DIL00070",
     "控除対象扶養親族数その他_ref": "DIL00100", "控除対象扶養親族数特親_ref": "DIL00130", "16歳未満の扶養親族数_ref": "DIM00000",
     "障害者数特内_ref": "DIN00020", "障害者数特_ref": "DIN00030", "障害者数その他_ref": "DIN00040",
+    # 従たる給与（乙欄）の人数（従人）・非居住者である親族の数（手引 ⑩⑬）
+    "控除対象扶養親族数特定従_ref": "DIL00030", "控除対象扶養親族数老人従_ref": "DIL00080",
+    "控除対象扶養親族数その他従_ref": "DIL00110", "控除対象扶養親族数特親従_ref": "DIL00140", "非居住者親族数_ref": "DIE10000",
 }
 SLIP_ROWS = {   # 4行の欄（控除対象扶養親族等・16歳未満の扶養親族）
     "DIZ00015": "控除対象扶養親族{}氏名フリガナ_ref", "DIZ00020": "控除対象扶養親族{}氏名_ref", "DIZ00030": "区分{}_ref",
@@ -59,6 +65,7 @@ SLIP_AMOUNT = {   # 右寄せの金額（3桁ごとの「,」）
     "新生命保険料の金額_ref": "DIT00010", "旧生命保険料の金額_ref": "DIT00020", "介護医療保険料の金額_ref": "DIT00030",
     "新個人年金保険料の金額_ref": "DIT00040", "旧個人年金保険料の金額_Ref": "DIT00050",
     "住宅借入金等特別控除可能額_ref": "DIU00020", "住宅借入金等年末残高1回目_ref": "DIU00050",
+    "住宅借入金等年末残高2回目_ref": "DIU00080",
     "控除対象配偶者合計所得_ref": "DIW00000", "国民年金保険料等の金額_ref": "DIX00000", "旧長期損害保険料等の金額_ref": "DIY00000",
     "基礎控除の額_ref": "DIH10000", "所得金額調整控除金額_ref": "DII10000",
 }
@@ -148,12 +155,13 @@ def slip(man: dict) -> dict:
         circles[tag] = px([cx - size / 2, cy - size / 2, cx + size / 2, cy + size / 2])
     used = set(SLIP_TEXT) | set(SLIP_AMOUNT) | set(SLIP_COMB) | set(SLIP_CIRCLE)
     left = sorted(n for n in w if n not in used and not any(k in n for k in ("区分", "扶養親族")))
-    # 使わない入力欄: 支払金額・源泉徴収税額の内書（未払の給与。slip_values にない）・2回目の住宅借入金・非居住者である親族の数・従人
+    # 使わない入力欄: 支払金額・源泉徴収税額の内書（未払の給与。slip_values にない）
     print("使わない入力欄:", "、".join(left))
     housing_kubun = {"01": "住", "11": "住(特)", "21": "住(特特)", "31": "住(特特特)", "41": "住(特家)",
                      "02": "認", "12": "認(特)", "22": "認(特特)", "32": "認(特特特)", "42": "認(特家)",
                      "04": "震", "24": "震(特特)", "34": "震(特特特)", "44": "震(特家)"}
     center = ["DIV00030", "DIZ00030", "DIF10030", "DIU00010", "DIU00040", "housing_yy", "housing_mm", "housing_dd",
+              "DIU00070", "housing2_yy", "housing2_mm", "housing2_dd", "DIL00030", "DIL00080", "DIL00110", "DIL00140", "DIE10000",
               "move_yy", "move_mm", "move_dd", "birth_era", "birth_yy", "birth_mm", "birth_dd", "nenbun",
               "DIL00020", "DIL00060", "DIL00070", "DIL00100", "DIL00130", "DIM00000", "DIN00020", "DIN00030", "DIN00040"]
     return {
@@ -164,7 +172,9 @@ def slip(man: dict) -> dict:
         "text_fields": text_fields, "fields": fields, "digit_cells": digit_cells, "circles": circles,
         "text_align": {k: "center" for k in center},
         "text_wrap": ["DID00010", "DIS00000", "payer_address"],
-        "labels": {"DIU00040": housing_kubun, "DIF10030": {"00": "", "01": "○"}},
+        "labels": {"DIU00040": housing_kubun, "DIU00070": housing_kubun, "DIF10030": {"00": "", "01": "○"}},
+        # 0 でも「0」を書く: 基礎控除の額（手引 ⑳（注））・配偶者の合計所得（㉓・記載例2）・源泉徴収税額（記載例3）
+        "print_zero": ["DIH10000", "DIW00000", "DII00020"],
     }
 
 
@@ -224,6 +234,7 @@ def gokei(man: dict) -> dict:
         "text_fields": boxes, "fields": fields, "split_fields": {"phone": phone},
         "text_align": {**{k: "center" for k in GOKEI_CENTER}, **{k: "right" for k in GOKEI_COUNT}},
         "text_wrap": ["BLF00010"],
+        "print_zero": ["BLI00050", "BLI00120"],   # 源泉徴収税額は 0 でも書く（手引 31ページ）
     }
 
 

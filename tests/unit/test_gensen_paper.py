@@ -151,7 +151,9 @@ class GokeiTest(unittest.TestCase):
         v, s = self._sheet(dict(self.FILER, deemed_submission=False))
         self.assertEqual((v["BLI00020"], v["BLI00040"], v["BLI00050"], v["BLI00100"]), (1, 9_620_000, 206_000, 1))
         self.assertEqual(_at(s, "GOKEIHYO", "fields", "BLI00040"), ["9,620,000"])
-        self.assertEqual(_at(s, "GOKEIHYO", "text_fields", "BLG00010"), ["30"])   # 書面
+        self.assertEqual(_at(s, "GOKEIHYO", "text_fields", "BLG00010"), ["14"])   # 源泉徴収票は e-Tax（.xtx）で出す
+        _, s = self._sheet(dict(self.FILER, deemed_submission=False, paper_submission=True))
+        self.assertEqual(_at(s, "GOKEIHYO", "text_fields", "BLG00010"), ["30"])   # 書面で出すとき
         self.assertNotIn("BLI00030", v)                                            # 0人は書かない
 
     def test_individual_number_never_printed(self):

@@ -5,6 +5,9 @@
 - filer: 給与の支払者（name・name_kana・address・tax_office・user_id・representative・business・corporate_number）
 - people: 1人ずつ nencho.calculate の入力 ＋ 源泉徴収票の欄（name・kana・address・birth・hired_on・retired_on・
   spouse.name・dependents_under16・minor）。expected があればテストで照らす
+  源泉徴収票の摘要などのために: previous_job（salary・tax・social_insurance・name・address・retired_on。手引 ㉚(6)）、
+  housing_loan（{start_date, kubun, balance} かそのリスト）、nonresident（扶養親族 01〜04、配偶者・特定親族・16歳未満 true）、
+  income_adjustment.relative（所得金額調整控除の要件の人の氏名）、withholding_spouse（年末調整をしない人の源泉控除対象配偶者）、title（役職名）
 - 年末調整をしない人（年末調整のしかた 5ページ「年末調整の対象とならない人」・所得税法第190条）: 年の中途で退職した人（retired_on）・乙欄の人（column: 乙）は
   年末調整をせず、源泉徴収票には徴収した税額を書く。退職した人でも年末調整の対象になる場合（死亡退職・12月の給与を受けた後の退職など。同ページの左欄）は
   year_end_adjustment: true を入れる
@@ -68,7 +71,7 @@ def calculate(data: dict) -> dict:
     excess = sum(r["excess"] for _, r in people)
     shortage = sum(r["shortage"] for _, r in people)
     totals = {"people": len(people), "salary": sum(r["salary_total"] - _prev(p)[0] for p, r in people),
-              "year_tax": sum(r["year_tax"] - _prev(p)[1] for p, r in people),
+              "year_tax": sum(max(r["year_tax"] - _prev(p)[1], 0) for p, r in people),   # マイナスの人は 0（手引 31ページ）
               "submitted": sum(1 for p, r in people if must_submit(p, r)),
               "excess": excess, "shortage": shortage}
     return {"input": data, "people": people, "totals": totals, "notes": notes}

@@ -189,20 +189,24 @@
   ]
  },
  "text_align": {
-  "BLG00010": "center",
-  "submit_dd": "center",
-  "BLB00000": "center",
   "submit_era": "center",
+  "BLP00000": "center",
+  "nenbun_era": "center",
   "submit_yy": "center",
   "nenbun_yy": "center",
-  "nenbun_era": "center",
+  "BLB00000": "center",
   "submit_mm": "center",
-  "BLP00000": "center",
-  "BLI00030": "right",
+  "BLG00010": "center",
+  "submit_dd": "center",
   "BLI00100": "right",
-  "BLI00020": "right"
+  "BLI00020": "right",
+  "BLI00030": "right"
  },
  "text_wrap": [
   "BLF00010"
+ ],
+ "print_zero": [
+  "BLI00050",
+  "BLI00120"
  ]
 }
