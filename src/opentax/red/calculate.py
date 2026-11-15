@@ -397,9 +397,12 @@ def _floor(x: Fraction, unit: int = 1) -> int:
     return (x.numerator // x.denominator) // unit * unit if x >= 0 else -((-x.numerator // x.denominator) // unit * unit)
 
 
-def corporate_tax(data: dict, income: int, prules: dict) -> dict:
+def corporate_tax(data: dict, income: int, prules: dict, credit_of=None) -> dict:
     """所得に対する法人税額（別表一 次葉二 74〜79）と地方法人税額（80・82）。資本金1億円以下の普通法人（中小法人）だけ。
-    所得が0以下なら全部 0。出典は rules/profit_tax.json。"""
+    所得が0以下なら全部 0。出典は rules/profit_tax.json。
+    credit_of: 法人税額（調整前法人税額）から法人税額の特別控除（別表一 3）を計算する関数（research.research_credit）。
+    地方法人税・防衛特別法人税の基準法人税額は特別控除の後の額（地方法人税法第6条第1号、防衛財源確保法第10条第1号。
+    rules/research_credit.json の local）。"""
     start, end = data["fiscal_period"]["start"], data["fiscal_period"]["end"]
     months = _months_ceil(start, end)
     df = prules["defense_special_corporate_tax"]
@@ -407,7 +410,8 @@ def corporate_tax(data: dict, income: int, prules: dict) -> dict:
     deduction = (Fraction(df["basic_deduction_annual"] * months, 12) if months < 12 else Fraction(df["basic_deduction_annual"]))         if defense_applies else Fraction(0)
     zero = {"months": months, "taxable": 0, "sme_portion": 0, "other_portion": 0, "sme_percent": None, "sme_tax": 0,
             "other_tax": 0, "corporate_tax": 0, "local_base": 0, "local_corporate_tax": 0,
-            "defense_applies": defense_applies, "defense_deduction": deduction, "defense_base": 0, "defense_tax": 0}
+            "defense_applies": defense_applies, "defense_deduction": deduction, "defense_base": 0, "defense_tax": 0,
+            "special_credit": 0, "after_special": 0, "research": credit_of(0) if credit_of else None}
     taxable = (income // 1000) * 1000 if income > 0 else 0       # 国税通則法第118条第1項
     if taxable <= 0:
         return zero
@@ -430,29 +434,37 @@ def corporate_tax(data: dict, income: int, prules: dict) -> dict:
     sme_tax = _floor(Fraction(sme_portion) * Fraction(rule["percent"]) / 100)
     other_tax = _floor(Fraction(other_portion) * Fraction(ct["standard_percent"]) / 100)
     corporate = sme_tax + other_tax
-    local_base = (corporate // 1000) * 1000                      # 課税標準法人税額（地方法人税法第9条。千円未満切捨て）
+    # 法人税額の特別控除（別表一 3。試験研究費の額に係る税額控除。措置法第42条の4第4項・別表六(六)）
+    research = credit_of(corporate) if credit_of else None
+    special_credit = research["credit"] if research else 0
+    after_special = corporate - special_credit                   # 別表一 9 法人税額計（＝28 所得の金額に対する法人税額）
+    local_base = (after_special // 1000) * 1000                  # 課税標準法人税額（地方法人税法第9条。千円未満切捨て）
     local_tax_amount = _floor(Fraction(local_base) * Fraction(lc["percent"]) / 100)
     # 防衛特別法人税（令和8年4月1日以後に開始する事業年度）: 課税標準法人税額＝基準法人税額（所得税額の控除の前の法人税額）
     # −基礎控除額（年500万円。1年に満たないときは月割り）。千円未満切捨て（国税通則法第118条第1項）× 4%
-    defense_base = _floor(Fraction(corporate) - deduction, 1000) if defense_applies and corporate > deduction else 0
+    defense_base = _floor(Fraction(after_special) - deduction, 1000) if defense_applies and after_special > deduction else 0
     defense_tax = _floor(Fraction(defense_base) * Fraction(df["percent"]) / 100)
     return {"months": months, "taxable": taxable, "sme_portion": sme_portion, "other_portion": other_portion,
             "sme_percent": rule["percent"], "special_measure": rule.get("special_measure", True), "sme_tax": sme_tax, "other_tax": other_tax, "corporate_tax": corporate,
             "local_base": local_base, "local_corporate_tax": local_tax_amount,
             "defense_applies": defense_applies, "defense_deduction": deduction, "defense_base": defense_base,
-            "defense_tax": defense_tax}
+            "defense_tax": defense_tax, "special_credit": special_credit, "after_special": after_special, "research": research}
 
 
 def schedule_01(data: dict, s4: dict, s7: dict, prules: dict | None = None) -> dict:
     """別表一。所得が0以下なら法人税額・地方法人税額は 0 で、所得税額・中間納付額は全額を還付。
     黒字なら 法人税額（次葉二）から所得税額を控除し（法人税法第68条）、控除しきれない所得税額は還付。
     差引所得に対する法人税額・差引地方法人税額は100円未満切捨て（国税通則法第119条第1項）。"""
+    from .research import research_credit
     im = interim_amounts(data)
-    ct = corporate_tax(data, s4["income"], prules or load_rules("profit_tax.json"))
+    ct = corporate_tax(data, s4["income"], prules or load_rules("profit_tax.json"),
+                       (lambda adjusted: research_credit(data, adjusted)) if data.get("research") else None)
     corporate, local = ct["corporate_tax"], ct["local_corporate_tax"]
+    # 法人税額の特別控除を先に控除し、そのあと所得税額を控除する（措置法第42条の4第22項）
+    after_special = ct["after_special"]                     # 9 法人税額計（2−3）
     credit = s4["credit"]
-    credited = min(corporate, credit)                       # 12 控除税額
-    after_credit = (corporate - credited) // 100 * 100      # 13 差引所得に対する法人税額
+    credited = min(after_special, credit)                   # 12 控除税額
+    after_credit = (after_special - credited) // 100 * 100  # 13 差引所得に対する法人税額
     final = max(after_credit - im["corporate"], 0)          # 15 差引確定法人税額
     refund_income_tax = credit - credited                   # 21 所得税額等の還付金額
     refund_interim = max(im["corporate"] - after_credit, 0)  # 22 中間納付額の還付
@@ -464,6 +476,7 @@ def schedule_01(data: dict, s4: dict, s7: dict, prules: dict | None = None) -> d
     local_final = max(local_after - im["local_corporate"], 0)
     refund_local = max(im["local_corporate"] - local_after, 0)
     return {"income": s4["income"], "corporate_tax": corporate, "local_corporate_tax": local, "detail": ct,
+            "special_credit": ct["special_credit"], "after_special": after_special, "research": ct["research"],
             "loss_deduction": s4["loss_deduction"], "loss_carry": s7["carry_total"],
             "interim_corporate": im["corporate"], "income_tax": credit, "credited": credited,
             "after_credit": after_credit, "final_corporate": final,
@@ -490,6 +503,11 @@ def special_measures(data: dict, s4: dict, s1: dict, notes: list[str] | None = N
     if s4["income"] > 0 and ct.get("sme_portion") and ct.get("special_measure", True):
         rows.append({"article": "第42条の3の2第1項の表の第1号", "parts": ("42", "の3の2", "1", "1", ""), "code": "00380",
                      "amount": ct["sme_portion"], "label": "中小企業者等の法人税率の特例"})
+    # 中小企業者等の試験研究費の額に係る法人税額の特別控除（措置法第42条の4第4項。区分番号 00689、適用額は別表六(十) 20
+    # 法人税額の特別控除額。国税庁「適用額明細書の記載の手引（令和7年4月1日以後終了事業年度分）」・同（令和8年版）P21）
+    if s1.get("special_credit"):
+        rows.append({"article": "第42条の4第4項", "parts": ("42", "の4", "4", "", ""), "code": "00689",
+                     "amount": s1["special_credit"], "label": "中小企業者等の試験研究費の額に係る法人税額の特別控除"})
     # 認定NPO法人等への寄附金（措置法第66条の11の3第2項。手引 P71: 適用額は別表十四(二) 44 のうち寄附先に
     # 「認定特定非営利活動法人」（00394）・「特例認定特定非営利活動法人」（00424）とあるものの合計）
     npo = {code: 0 for _, code in _NPO_MEASURES}
@@ -814,6 +832,8 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
                         "納税充当金より多いためです（会計の処理と合っているか確かめてください）")
     warnings += s16["checks"]
     warnings += measure_notes
+    if s1.get("research"):
+        warnings += s1["research"]["notes"]
     if s1["corporate_tax"] and data["company"].get("excluded_business_operator") is None:
         warnings.append("年800万円以下の所得に15%（租税特別措置法第42条の3の2）を使いました。適用除外事業者（前3事業年度の所得の平均が年15億円超。"
                         "第42条の4第19項第8号）でないことを確かめてください（company.excluded_business_operator を false にするとこの注意は出ません）")
@@ -828,4 +848,6 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
         warnings.insert(0, f"試し用: 別表二の割合の端数処理を仮に「{label}」にしています。本番の申告には使えません")
     return {"schedule_04": s4, "schedule_07_01": s7, "schedule_01": s1, "schedule_05_02": s52,
             "schedule_15": s15, "schedule_16": s16, "schedule_08_1": s8, "schedule_14_2": s4["schedule_14_2"],
-            "schedule_05_01": s51, "schedule_02": s2, "special_measures": measures, "warnings": warnings, "trial": bool(trial_ratio_rounding)}
+            "schedule_05_01": s51, "schedule_02": s2, "special_measures": measures, "warnings": warnings, "trial": bool(trial_ratio_rounding),
+            "schedule_06_10": (s1.get("research") or {}).get("schedule_06_10"),
+            "schedule_06_06": (s1.get("research") or {}).get("schedule_06_06")}

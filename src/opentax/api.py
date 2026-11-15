@@ -50,7 +50,8 @@ def calculate(raw_input: dict, trial_ratio_rounding: str | None = None, balance:
 
     def levy_of(s1: dict) -> dict:
         from .red.local_tax import corporate_levy
-        levy_holder["levy"] = corporate_levy(data, s1["corporate_tax"])
+        # 法人税割の課税標準: 中小企業者等の試験研究費の税額控除（措置法第42条の4第4項）の後の法人税額（地方税法附則第8条第1項）
+        levy_holder["levy"] = corporate_levy(data, s1.get("after_special", s1["corporate_tax"]))
         return {k: levy_holder["levy"][k] for k in ("道府県民税", "市町村民税")}
 
     result = _calculate(data, {"道府県民税": local["prefecture"]["amount"], "市町村民税": city_amount},
@@ -107,6 +108,7 @@ def uchiwake_from_balance(balance: bytes, supplement: dict | None = None) -> dic
 
 FORM_TITLES = {"HOA112": "別表一", "HOA114": "別表一 次葉一", "HOA116": "別表一 次葉二", "HOA201": "別表二", "HOA420": "別表四（簡易様式）",
                "HOA511": "別表五(一)", "HOA522": "別表五(二)", "HOB016": "別表六(一)",
+               "HOB645": "別表六(六)", "HOB344": "別表六(十)", "HOB067": "別表六(十一)",
                "HOB710": "別表七(一)", "HOB800": "別表八(一)", "HOE099": "別表十四(二)", "HOE200": "別表十五", "HOE315": "別表十六(一)", "HOE325": "別表十六(二)", "HOE990": "適用額明細書"}
 
 
@@ -158,6 +160,9 @@ def form_views(calculated: dict) -> list[dict]:
     values.update({k: x for k, x in {"VAB00030": s2["ratio_shares"], "VAB00080": s2["ratio_votes"],
                                      "VAB00120": s2["family_ratio"]}.items() if x is not None})
     values["VAD00000"] = {"1": "特定同族会社", "2": "同族会社", "3": "非同族会社"}[s2["result"]]
+    # 別表六(十)の割合（e-Tax の欄に書く小数点以下3桁）
+    from .red.etax_ksk2_2026_08 import research_text_values
+    values.update({k: x for k, x in research_text_values(r).items() if k.startswith("VFB") and isinstance(x, str) and "." in x})
     period = lambda a, b: f"{_wareki(a)}〜{_wareki(b)}"  # noqa: E731
     rest = [i for i in s7["items"] if not i["last_year"]]
     last = [i for i in s7["items"] if i["last_year"]]

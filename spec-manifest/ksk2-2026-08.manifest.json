@@ -4025,6 +4025,45 @@
       "field_spec_sheet": "HOB016"
     },
     {
+      "form_id": "HOB645",
+      "label": "別表六(六)（法人税の額から控除される特別控除額）",
+      "mvp": false,
+      "stage": "red-plus",
+      "xsd": "19XMLスキーマ/hojin/HOB645-013.xsd",
+      "version": "13.0",
+      "xsd_documentation_date": "2026-07-16",
+      "group": "HOB645-13-0group",
+      "xsd_sha256": "1e00a6dbd88a25d0c37496fa17e9ac3c2f213909bcea90dca284e18f72f8ed4c",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver13x.xlsx",
+      "field_spec_sheet": "HOB645"
+    },
+    {
+      "form_id": "HOB344",
+      "label": "別表六(十)（中小企業者等の試験研究費の額に係る法人税額の特別控除）",
+      "mvp": false,
+      "stage": "red-plus",
+      "xsd": "19XMLスキーマ/hojin/HOB344-009.xsd",
+      "version": "9.0",
+      "xsd_documentation_date": "2026-07-16",
+      "group": "HOB344-9-0group",
+      "xsd_sha256": "503e08199f0d613d127401bb50c2c119078b130031fe1ec49bbea388225013d5",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver9x.xlsx",
+      "field_spec_sheet": "HOB344"
+    },
+    {
+      "form_id": "HOB067",
+      "label": "別表六(十一)（比較試験研究費の額及び平均売上金額の計算）",
+      "mvp": false,
+      "stage": "red-plus",
+      "xsd": "19XMLスキーマ/hojin/HOB067-010.xsd",
+      "version": "10.0",
+      "xsd_documentation_date": "2023-09-05",
+      "group": "HOB067-10-0group",
+      "xsd_sha256": "6dcec7debf12abeac72f7817883a868c014770e1141d516a4616655c07cae4c8",
+      "field_spec_workbook": "10XML構造設計書等【法人税】/帳票フィールド仕様書（法人-申告）Ver10x.xlsx",
+      "field_spec_sheet": "HOB067"
+    },
+    {
       "form_id": "HOB800",
       "label": "別表八(一)（受取配当等の益金不算入）",
       "mvp": false,
