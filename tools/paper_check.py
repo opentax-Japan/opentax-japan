@@ -62,7 +62,7 @@ def main() -> int:
     entry = man["forms"][form_id]
     f = man["files"][entry["file"]]
     img = page_image(fetch(f["url"], f.get("sha256")), entry["page"], m["image_size"], entry.get("render", False),
-                     entry.get("rotate", 0)).convert("RGB")
+                     entry.get("rotate", 0), entry.get("clip")).convert("RGB")
     if len(args) > 2:
         values = json.loads(Path(args[2]).read_text(encoding="utf-8"))
     else:

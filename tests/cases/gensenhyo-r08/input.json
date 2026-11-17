@@ -1,0 +1,77 @@
+{
+ "format": "opentax-nencho/1",
+ "year": 2026,
+ "note": "国税庁「令和8年分 給与所得の源泉徴収票等の法定調書の作成と提出の手引」13〜15ページの記載例1（年末調整を行った一般の受給者の場合。架空の人）。源泉徴収簿・保険料控除申告書・配偶者控除等申告書・特定親族特別控除申告書・扶養控除等申告書の値から作った。地震保険料は記載例に控除額 44,800円と旧長期損害保険料 19,600円しかないので、地震保険料を 30,000円とした（19,600円の控除額 14,800円との合計が 44,800円）",
+ "filer": {
+  "name": "国税商事　株式会社",
+  "address": "埼玉県さいたま市中央区新都心××－×",
+  "phone": "048-XXX-XXXX",
+  "corporate_number": "3456789012345",
+  "tax_office": "浦和",
+  "name_kana": "コクゼイショウジ"
+ },
+ "people": [
+  {
+   "id": "k1",
+   "name": "国税　太郎",
+   "kana": "コクゼイ　タロウ",
+   "address": "東京都千代田区霞が関△－△",
+   "birth": "1967-01-01",
+   "salary_total": 9620000,
+   "withheld_total": 372460,
+   "social_insurance": 1483023,
+   "social_insurance_declared": 176460,
+   "national_pension_declared": 176460,
+   "income_adjustment": {
+    "dependent_under23": true
+   },
+   "life_insurance": {
+    "new_general": 24000,
+    "old_general": 36000,
+    "care": 48000,
+    "new_pension": 53000,
+    "old_pension": 72000,
+    "has_dependent_under23": true
+   },
+   "earthquake": {
+    "earthquake": 30000,
+    "old_long_term": 19600
+   },
+   "spouse": {
+    "name": "国税　花子",
+    "kana": "コクゼイ　ハナコ",
+    "income": 400000
+   },
+   "dependents": [
+    {
+     "kind": "一般",
+     "name": "国税　次郎",
+     "kana": "コクゼイ　ジロウ"
+    },
+    {
+     "kind": "同居老親等",
+     "disability": "一般",
+     "name": "国税　孝男",
+     "kana": "コクゼイ　タカオ"
+    }
+   ],
+   "specific_relatives": [
+    {
+     "income": 950000,
+     "name": "国税　一郎",
+     "kana": "コクゼイ　イチロウ"
+    }
+   ],
+   "dependents_under16": [
+    {
+     "name": "国税　三郎",
+     "kana": "コクゼイ　サブロウ"
+    }
+   ],
+   "expected": {
+    "year_tax": 206000,
+    "excess": 166460
+   }
+  }
+ ]
+}
