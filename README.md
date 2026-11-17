@@ -21,7 +21,7 @@
 | WHITE | 個人の白色申告（収支内訳書） | ○ 使えます |
 | GREEN | 事業所税・宿泊税（地方税だけの申告。宿泊税は長野県） | ○ 使えます |
 | GOLD | 相続税（土地・株式は評価済みの額を入れる） | ○ 使えます |
-| PINK | 給与・年末調整・法定調書（タイムカードから給与明細、年末調整 令和8年分・源泉徴収票・法定調書合計表の .xtx。`opentax kyuyo`・`opentax nencho`） | ○ 使えます |
+| PINK | 給与・年末調整・法定調書（タイムカードから給与明細、年末調整 令和8年分・保険料控除申告書（様式の上に値）・源泉徴収票・法定調書合計表の .xtx。`opentax kyuyo`・`opentax nencho`・`opentax hoken`） | ○ 使えます |
 | PLATINUM | 全部入り・税理士事務所向け（税務代理権限証書・事務所の設定、関与先ごとの今月の申告・納付の期限一覧と試算表の進捗表（[期限一覧と進捗](https://opentax-japan.github.io/opentax-japan/platinum.html)・`opentax kigen`・docs/kigen.md）。旧名「プロ」） | △ 一部使えます |
 
 ○ 使えます　△ 一部・コマンドで使えます　× 準備中
@@ -249,6 +249,7 @@ opentax collect <フォルダ> --task 法人 -o 一式.html   # フォルダか�
 opentax intake <ファイル…> -o 下書き.json   # 読み取り層: ファイルから入力 JSON の下書き
 opentax kyuyo tests/cases/kyuyo-sample/kyuyo_input.json --report 給与明細.html   # 給与計算（PINK）
 opentax nencho tests/cases/nencho-r08/input.json -o nencho.xtx --report 年調.html   # 年末調整・源泉徴収票・法定調書合計表（PINK）
+opentax hoken tests/cases/hoken-r08/input.json --report 保険料控除申告書.html --pdf 保険料控除申告書.pdf   # 給与所得者の保険料控除申告書 令和8年分（PINK）
 opentax jigyosho tests/cases/jigyosho-sample/input.json --report 事業所税.html   # 事業所税（GREEN）
 opentax shukuhaku tests/cases/shukuhaku-nagano/meisai_2026-06.csv --facility tests/cases/shukuhaku-nagano/shisetsu.json --month 2026-06 --report 宿泊税.html   # 宿泊税・長野県（GREEN）
 ```
