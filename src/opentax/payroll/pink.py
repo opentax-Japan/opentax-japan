@@ -62,6 +62,16 @@ def calculate(data: dict) -> dict:
         "提出範囲は、年の中途で退職した人で支払金額30万円以下の人を除く全員です（タックスアンサー No.7411）",
         "e-Tax の仕様は令和8年8月版（手続 PHS0051 25.0.0、源泉徴収票 HSZ062 6.0）で作っています。令和8年分を出す時期の仕様（令和8年10月30日にドラフト公表）で変わっていないか、e-Taxソフトに組み込んで確かめてください",
     ]
+    for p, r in people:
+        who = p.get("name") or p.get("id")
+        ia = p.get("income_adjustment") or {}
+        if r["adjusted"] and r.get("income_adjustment") and (ia.get("dependent_under23") or ia.get("family_special_disabled"))                 and not ia.get("relative"):
+            notes.append(f"{who}: 所得金額調整控除の要件の人（年齢23歳未満の扶養親族・特別障害者の同一生計配偶者か扶養親族）の氏名が入っていません。"
+                         "源泉徴収票の配偶者・扶養親族の欄にその人の氏名がなければ、摘要に「氏名（調整）」（配偶者は「（同配）」）と書きます"
+                         "（手引 ㉚(3)）。income_adjustment.relative に氏名を入れてください")
+        if r["adjusted"] and r.get("housing_loan_possible") and not p.get("housing_loan"):
+            notes.append(f"{who}: 住宅借入金等特別控除の居住開始年月日・区分・年末残高（housing_loan）が入っていないので、源泉徴収票のその欄は空欄です"
+                         "（手引 ⑲。市区町村へ出す給与支払報告書にも要ります）")
     skipped = [p.get("name") or p.get("id") for p, r in people if not r["adjusted"]]
     if skipped:
         notes.append("年末調整をしていない人（年の中途で退職した人・乙欄の人）: " + "、".join(skipped)

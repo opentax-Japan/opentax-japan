@@ -42,6 +42,10 @@ def _date(v) -> datetime.date:
     return v if isinstance(v, datetime.date) else datetime.date.fromisoformat(str(v))
 
 
+# 住宅借入金等特別控除区分の受給者交付用の書き方（手引 8ページ ⑲の表「記載方法（受給者交付用、給与支払報告書）」）
+HOUSING_KUBUN_WORDS = {"01": "住", "11": "住(特)", "21": "住(特特)", "31": "住(特特特)", "41": "住(特家)",
+                       "02": "認", "12": "認(特)", "22": "認(特特)", "32": "認(特特特)", "42": "認(特家)",
+                       "04": "震", "24": "震(特特)", "34": "震(特特特)", "44": "震(特家)"}
 NONRESIDENT_DEP = {"01", "02", "03", "04"}   # 控除対象扶養親族の非居住者の区分（手引 9ページ ㉒の表）
 
 
@@ -177,9 +181,12 @@ def slip_values(person: dict, result: dict, year: int, for_recipient: bool = Fal
                         v[k_tag] = str(hl["kubun"])
                     if hl.get("balance"):
                         v[b_tag] = int(hl["balance"])
-            for hl in rows[2:]:
+            for hl in rows[2:]:   # 区分は .xtx は数字、受給者交付用は言葉（⑲の表）
+                kubun = str(hl.get("kubun") or "")
+                if for_recipient:
+                    kubun = HOUSING_KUBUN_WORDS.get(kubun, kubun)
                 tekiyo.append(f"居住開始年月日{_wareki_text(hl['start_date']) if hl.get('start_date') else ''}　"
-                              f"住宅借入金等特別控除区分{hl.get('kubun') or ''}　住宅借入金等年末残高{_yen(int(hl.get('balance') or 0))}")
+                              f"住宅借入金等特別控除区分{kubun}　住宅借入金等年末残高{_yen(int(hl.get('balance') or 0))}")
         if result.get("formula_II"):
             tekiyo.append("租税特別措置法第41条の15の５第１項適用")   # 手引 ⑯（年齢23歳未満の扶養親族を有する場合の生命保険料控除）
     # 配偶者・扶養親族等（手引 ⑩⑫㉒㉓）。年末調整をしていない人は源泉控除対象配偶者・源泉控除対象親族を書く（㉒注2・記載例4）
@@ -256,15 +263,16 @@ def slip_values(person: dict, result: dict, year: int, for_recipient: bool = Fal
     extra += [f"{n}（年少）{('（非居住者）' if for_recipient else '01') if c == '01' else ''}" for n, _, c in u16_rows[4:]]
     if extra:
         tekiyo.append("　".join(f"({i + 1}){t}" for i, t in enumerate(extra)))
+    # 同一生計配偶者（控除対象配偶者・年末調整をしない人は源泉控除対象配偶者を除く）が障害者（手引 ㉚(2)）
+    listed_spouse = (spr["kind"] == "配偶者控除") if adjusted else has_spouse
+    if sp.get("disability") and not listed_spouse and int(sp.get("income") or 0) <= 620_000:
+        if not sp.get("name"):
+            raise XtxError(f"{person.get('name')}: 同一生計配偶者が障害者のときは摘要に氏名と「（同配）」を書きます。"
+                           "spouse.name を入れてください（手引 ㉚(2)）")
+        tekiyo.append(f"{sp['name']}（同配）")
     if adjusted:
         listed = {sp.get("name")} if spouse_listed else set()
         listed |= {n for n, _, _ in rows[:4]} | {n for n, _, _ in u16_rows[:4]}
-        # 同一生計配偶者（控除対象配偶者を除く）が障害者（手引 ㉚(2)）
-        if sp.get("disability") and spr["kind"] != "配偶者控除" and int(sp.get("income") or 0) <= 620_000:
-            if not sp.get("name"):
-                raise XtxError(f"{person.get('name')}: 同一生計配偶者が障害者のときは摘要に氏名と「（同配）」を書きます。"
-                               "spouse.name を入れてください（手引 ㉚(2)）")
-            tekiyo.append(f"{sp['name']}（同配）")
         # 所得金額調整控除の要件の人（手引 ㉚(3)。氏名がほかの欄にあれば省略できる）。income_adjustment.relative に氏名
         rel = (person.get("income_adjustment") or {}).get("relative")
         if result["income_adjustment"] and rel and rel not in listed:

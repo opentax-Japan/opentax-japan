@@ -197,6 +197,39 @@ class OtherBoxesTest(unittest.TestCase):
         self.assertEqual(v["payer_phone"], "03-1234-5678")
 
 
+class LowFixTest(unittest.TestCase):
+    """2回目の検証（2026-11-16）の低の指摘。"""
+
+    def test_third_housing_words_for_recipient(self):
+        p = dict(_base(), housing_loan_credit=178_000,
+                 housing_loan=[{"start_date": "2018-05-20", "kubun": "11", "balance": 11_500_000},
+                               {"start_date": "2024-05-20", "kubun": "01", "balance": 9_000_000},
+                               {"start_date": "2025-05-20", "kubun": "12", "balance": 1_000_000}])
+        r = nencho.calculate(p)
+        self.assertIn("住宅借入金等特別控除区分12", slip_values(p, r, 2026)["DIS00000"])                     # .xtx は数字
+        self.assertIn("住宅借入金等特別控除区分認(特)", slip_values(p, r, 2026, for_recipient=True)["DIS00000"])   # 受給者交付用は言葉
+
+    def test_dohai_for_not_adjusted(self):
+        p = dict(_kisai4(), withholding_spouse=False,
+                 spouse={"name": "国税　優子", "income": 0, "disability": "特別"})
+        v = slip_values(p, not_adjusted(p), 2026)
+        self.assertIn("国税　優子（同配）", v["DIS00000"])
+        self.assertEqual(v["DIN00030"], 1)
+        q = dict(_kisai4(), spouse={"name": "国税　優子", "income": 0, "disability": "特別"})   # 源泉控除対象配偶者なら欄に書くので（同配）なし
+        self.assertNotIn("DIS00000", slip_values(q, not_adjusted(q), 2026))
+
+    def test_notes_for_missing_relative_and_housing(self):
+        data = json.loads(CASE.read_text(encoding="utf-8"))
+        data["people"][0]["housing_loan_credit"] = 50_000
+        notes = pink.calculate(data)["notes"]
+        self.assertTrue(any("income_adjustment.relative" in n for n in notes))
+        self.assertTrue(any("housing_loan" in n for n in notes))
+        data["people"][0]["income_adjustment"]["relative"] = "国税　次郎"
+        data["people"][0]["housing_loan"] = {"start_date": "2024-03-01", "kubun": "01", "balance": 1_000_000}
+        notes = pink.calculate(data)["notes"]
+        self.assertFalse(any("income_adjustment.relative" in n or "housing_loan）" in n for n in notes))
+
+
 class TotalTest(unittest.TestCase):
     def test_negative_tax_is_zero(self):
         p = dict(_kisai4(), retired_on=None, withholding_spouse=False, salary_total=1_500_000, withheld_total=30_000,
