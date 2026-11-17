@@ -17,6 +17,7 @@ import unicodedata
 
 from ..etax.xsd_layout import load_layout
 from ..etax.xtx import XtxError, build_document, build_form, build_it, tax_office_codes
+from .nencho import NenchoError, disabled_others_and_family
 
 SPEC_SET = "ksk2-2026-08"
 PROCEDURE_ID = "PHS0051"
@@ -193,9 +194,14 @@ def slip_values(person: dict, result: dict, year: int, for_recipient: bool = Fal
     specifics = person.get("specific_relatives") or []
     if not adjusted:   # 源泉控除対象親族: 控除対象扶養親族と、合計所得の見積額が100万円以下の特定親族（手引 12ページ 用語の説明(5)）
         specifics = [x for x in specifics if 620_000 < x.get("income", 0) <= 1_000_000]
-    disabled = [d.get("disability") for d in deps if d.get("disability")] + list(person.get("disabled_others") or [])
-    if sp.get("disability") and int(sp.get("income") or 0) <= 620_000:
-        disabled.append(sp["disability"])   # 同一生計配偶者の障害者控除
+    # 扶養親族・同一生計配偶者・16歳未満の扶養親族・disabled_others の障害者（nencho.calculate と同じ数え方）
+    try:
+        family = [x for _, x in disabled_others_and_family(person)]
+    except NenchoError:   # 年末調整をしない人など、年調の確かめを通らない入力は前からの数え方
+        family = list(person.get("disabled_others") or [])
+        if sp.get("disability") and int(sp.get("income") or 0) <= 620_000:
+            family.append(sp["disability"])
+    disabled = [d.get("disability") for d in deps if d.get("disability")] + family
     sub = otsu   # 従たる給与（乙欄）は「従人」の欄（手引 ⑩）
     counts = {("DIL00030" if sub else "DIL00020"): sum(d.get("kind") == "特定" for d in deps),
               ("DIL00080" if sub else "DIL00070"): sum(d.get("kind") in ("老人", "同居老親等") for d in deps),
