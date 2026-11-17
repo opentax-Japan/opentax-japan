@@ -1,0 +1,47 @@
+{
+ "format": "opentax-nencho/1",
+ "year": 2026,
+ "note": "国税庁「令和8年分 給与所得者の基礎控除申告書 兼 給与所得者の配偶者控除等申告書 兼 給与所得者の特定親族特別控除申告書 兼 所得金額調整控除申告書の記載例」（https://www.nta.go.jp/publication/pamph/gensen/nencho2026/pdf/306.pdf）1ページ目の架空の人。個人番号は書かない（記載例の個人番号の欄は OpenTax では扱わない）",
+ "filer": {
+  "name": "○○○○株式会社",
+  "address": "□□市△△町３－３",
+  "tax_office": "□□",
+  "corporate_number": "1122334455667"
+ },
+ "people": [
+  {
+   "id": "p1",
+   "name": "山川　太郎",
+   "kana": "ヤマカワ　タロウ",
+   "address": "○○市××町23－7",
+   "salary_total": 8970000,
+   "withheld_total": 0,
+   "spouse": {
+    "name": "山川　明子",
+    "kana": "ヤマカワ　アキコ",
+    "birth": "1983-10-05",
+    "salary": 1240000,
+    "income": 500000
+   },
+   "specific_relatives": [
+    {
+     "name": "山川　春子",
+     "kana": "ヤマカワ　ハルコ",
+     "relation": "子",
+     "birth": "2006-03-03",
+     "income": 1000000
+    }
+   ],
+   "income_adjustment": {
+    "dependent_under23": true,
+    "person": {
+     "name": "山川　二郎",
+     "kana": "ヤマカワ　ジロウ",
+     "relation": "子",
+     "birth": "2010-05-17",
+     "income": 0
+    }
+   }
+  }
+ ]
+}
