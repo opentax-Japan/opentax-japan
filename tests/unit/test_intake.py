@@ -99,7 +99,16 @@ class AddressAndInterestTest(unittest.TestCase):
         self.assertEqual(q["options"][1], intake.INTEREST_WITHHELD)
         data = intake.apply_followups(r["input"], {"confirm:受取利息": q["options"][0]})
         self.assertEqual(data["adjustment_confirmations"], [{"account": "受取利息", "answer": "源泉徴収された所得税はない"}])
-        self.assertNotIn("adjustment_confirmations", intake.apply_followups(r["input"], {"confirm:受取利息": q["options"][1]}))
+        # 「引かれている」と答えたら記録し、同じ問いはもう出さない（提案値で別表六(一) を作る）
+        data2 = intake.apply_followups(r["input"], {"confirm:受取利息": q["options"][1]})
+        self.assertEqual(data2["adjustment_confirmations"], [{"account": "受取利息", "answer": intake.INTEREST_WITHHELD}])
+        self.assertFalse([x for x in intake.followups(data2, d.attachments.get("balance")) if x["key"] == "confirm:受取利息"])
+
+    def test_not_paid_is_recorded(self):
+        data = {"prior": {"schedule_05_02": [{"tax": "道府県民税", "period_end": "2025-09-30", "unpaid": 70000}]}}
+        out = intake.apply_followups(data, {"pay:道府県民税:2025-09-30": intake.TAX_NOT_PAID})
+        self.assertEqual(out["tax_payments"], [{"tax": "道府県民税", "period_end": "2025-09-30", "method": "充当金取崩し", "amount": 0}])
+        self.assertFalse(intake.followups(out, None))
 
 
 if __name__ == "__main__":

@@ -654,6 +654,9 @@ def _write_pdf(html_path: str, pdf_path: str) -> None:
     print(f"書き出しました: {pdf_path}")
 
 
+PUBLIC_SITE = "https://opentax-japan.github.io/opentax-japan/"
+
+
 def _inline_forms(html: str) -> str:
     """様式の画像（web/build.py が作る web/_site/forms/）を HTML の中に埋め込み、1つのファイルで開けるようにする。
     なければ画像のない形のまま（様式の上の値だけ）になるので知らせる。"""
@@ -666,9 +669,12 @@ def _inline_forms(html: str) -> str:
         if img.exists():
             html = html.replace(f"href='{rel}'", f"href='data:image/jpeg;base64,{base64.b64encode(img.read_bytes()).decode('ascii')}'")
         else:
+            # pip で入れたときなど手元にないときは、公開サイトの同じ画像を読む（開くときにネットが要る）
+            html = html.replace(f"href='{rel}'", f"href='{PUBLIC_SITE}{rel}'")
             missing.append(rel)
     if missing:
-        print(f"注意: 様式の画像がありません（{len(missing)} 枚）。先に python web/build.py を実行してください")
+        print(f"注意: 様式の画像（{len(missing)} 枚）は手元にないので公開サイトから読みます。"
+              "手元に置くときは python web/build.py を実行してください")
     return html
 
 

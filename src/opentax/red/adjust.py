@@ -53,6 +53,9 @@ def _net_income(accounts, cls, minus: set[str]) -> int:
             + t("特別利益") - t("特別損失") - t("法人税等"))
 
 
+INTEREST_WITHHELD_PREFIX = "引かれている"   # intake.INTEREST_WITHHELD の頭
+
+
 def _confirmed(data: dict, name: str, rule: dict) -> str | None:
     for c in data.get("adjustment_confirmations") or []:
         if c["account"] == name and c["answer"] in rule.get("answers", []):
@@ -208,6 +211,11 @@ def _interest(items, data: dict, mark, notes: list) -> list[dict] | None:
             continue
         tax = withholding_on_interest(amount)
         proposal.append({"kind": "利子", "income": amount, "tax": tax})
+        if any(c["account"] == a.name and str(c["answer"]).startswith(INTEREST_WITHHELD_PREFIX)
+               for c in data.get("adjustment_confirmations") or []):
+            # 「引かれている（提案値を使う）」と答えた: 提案値で別表六(一) を作り、同じ問いはもう出さない
+            mark(row, "確かめた", f"源泉所得税は引かれている。別表六(一) 1 に提案値（{amount:,}円×15.315%＝{tax:,}円）を入れました")
+            continue
         mark(row, "確かめてほしい", f"別表六(一) 1 に提案値（{amount:,}円×15.315%＝{tax:,}円）を入れました")
         notes.append(f"{a.name}: 源泉所得税の入力がないので、{amount:,}円×15.315%（1円未満切り捨て）＝{tax:,}円 を別表六(一) 1 に入れました。"
                      "通帳・支払通知で実際に引かれた額を確かめ、違えば income_tax_credit に実際の額を書いてください"

@@ -1,0 +1,63 @@
+# OpenTax Japan
+
+> 日本の申告書（法人税・地方税・消費税・所得税・相続税など）を作るオープンソースのソフト（MIT）。
+> この文書は、利用者に「このサイトで申告書を作って」と頼まれた AI（Claude Code などのコーディングエージェント）向けの手順です。
+
+- サイト: https://opentax-japan.github.io/opentax-japan/
+- ソース: https://github.com/opentax-Japan/opentax-japan
+- 計算はプログラムが行います。AI の仕事は「書類を読んで値を渡すこと」と「利用者に問いを聞くこと」だけです。税額を AI が計算・推測しないでください。
+
+## 手順（利用者がフォルダの場所を教えてくれたとき）
+
+1. 入れる（Python 3.11 以上。依存なし）
+   `pip install git+https://github.com/opentax-Japan/opentax-japan`
+2. フォルダを見分けさせる（ファイル名ではなく中身で、試算表・推移表・仕訳帳・前期の申告データ .xtx などを見分けます）
+   `opentax collect <フォルダ> --task 法人 --json 一覧.json`
+   - `--task` は 法人・個人・相続・宿泊税・事業所税。
+   - 一覧.json に、使ったもの（used）・使わなかったもの（unused）・AI が読むファイル（ai_targets）・
+     足りない書類（checklist）・問い（question_items）が出ます。
+3. ai_targets のファイルを読みます。
+   - PDF・写真（決算書・前期の申告書の控えなど）: あなたが読んで、同じフォルダに `<書類名>.AIが読んだ値.json` を書きます。
+     形は docs/intake.md（format: opentax-intake/1）。法人税以外の書類は `"kind"` も書きます。
+     書類に書いていない値は書かない。推測した値には `"weak": true`。各値に `where`（どのページのどこ）を必ず書く。
+   - Excel: CSV に書き出して同じフォルダに置きます。
+   - 読み終えても ai_targets には残ります。読み終えたものは自分で覚えておいてください。
+4. 問いに答えます。question_items を利用者に聞き、答え.json（`{"answers": {…}, "follow": {…}}`）にします。
+   - `"put": "answers"` → `"answers": {key: 値}`
+     - 例 `"company.employees": 3`
+     - `"type": "conflict"`（書類どうしで値が違う）: candidates を利用者に見せ、正しい値を入れる
+     - `offices`: `[{"prefecture": "岡山県", "municipality": "岡山市", "ward": "北区"}]`（区は政令市だけ。期の途中で開設・廃止した事務所は `"months"` に月数）
+     - `shareholders`: `[{"name", "address", "relation", "group", "shares", "votes"}]`（src/opentax/red/model.py の SCHEMA）
+   - `"put": "follow"` → `"follow": {key: 値}`
+     - `options` があれば、その文字列をそのまま1つ選ぶ
+     - `dining`: `{"account": 科目, "amount": 金額, "dining": 接待飲食費}`（account・amount は問いのものを写す）
+     - `depreciation`: 固定資産台帳の行の配列（行の形は SCHEMA の depreciation）
+     - `dividends`（鍵は `div:<科目>`）: `[{"name", "amount", "withholding", "ratio"（保有割合%）, "owned_whole_period"（true/false）}]`（期の途中で取得した株は SCHEMA の dividends_received）
+     - `dues`: `{"加算税及び加算金": 0, "延滞税": 0, "延滞金": 0, "過怠税": 0, "罰金等": 0}`（なければ `{}`）
+     - `stop`: 答えはありません。OpenTax では作れないので、利用者に伝えて止めます
+   - `"put": "file"`: 書類を足すようにという知らせです。利用者に頼みます。
+   - 「当てはまらない（OpenTax では作れません）」が答えのときや、答えても同じ問いがまた出るときは、そこで止めて利用者に伝えます。
+5. 申告書一式を作ります
+   `opentax collect <フォルダ> --task 法人 --answers 答え.json --json 一覧.json -o 申告書一式.html`
+   - 問いが残ると申告書は作らず、終了コード 1 です。一覧.json を読み直し、question_items が空になるまで 4・5 をくり返します
+     （答えると新しい問いが出ることがあります）。
+   - 「対象外です」などで止まったら、理由をそのまま利用者に伝えます。無理に通さないでください。
+6. 利用者に渡すもの
+   - 申告書一式.html（ブラウザで開いて印刷・PDF 保存できます。`--pdf 一式.pdf` でも。Playwright が要ります）
+   - 地方税も申告書（第六号様式・第二十号様式）と納付書が入っています。郵送で出せます。eLTAX 用のファイルはまだ作れません。
+   - e-Tax 用の .xtx が要るときは、利用者に公開サイトの画面で作ってもらいます（国税庁の仕様書を利用者が選ぶ必要があります）。
+     電子署名・送信は利用者が e-Taxソフトで行います。
+
+## 守ること
+
+- 送信・署名・納付は利用者が行います。AI は行いません。
+- 利用者の書類の中身を外へ送らないでください。計算は手元で動き、税額などの中身はどこにも送りません。
+  ただし様式の画像が手元にないとき（pip で入れたときなど）は、申告書一式.html を開くたびに様式の背景の画像を公開サイトから読みます（どの様式を使うかはサイトに分かります）。
+  ネットにつながないときは背景のない形で出ます。
+- 出来上がりは「下書き」です。AI が読んだ値（AI の印）は、利用者に書類と見比べてもらってください。
+
+## 詳しく
+
+- README（対応している申告・対象外）: https://github.com/opentax-Japan/opentax-japan/blob/main/README.md
+- 読み取り結果の JSON の形: https://github.com/opentax-Japan/opentax-japan/blob/main/docs/intake.md
+- 設計: https://github.com/opentax-Japan/opentax-japan/blob/main/DESIGN.md

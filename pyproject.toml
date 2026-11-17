@@ -18,4 +18,4 @@ opentax = "opentax.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-opentax = ["etax/layouts/*/*.json", "red/rules/*.json", "red/rules/local/*.json", "red/rules/levy_non_uniform/*.json", "shohi/rules/*.json", "kojin/rules/*.json", "depreciation/rules/*.json", "jigyosho/rules/*.json", "shukuhaku/rules/*.json", "souzoku/rules/*.json", "payroll/rules/r08/*.json"]
+opentax = ["etax/layouts/*/*.json", "red/rules/*.json", "red/rules/local/*.json", "red/rules/local_rates/*.json", "etax/paper/*/*.json", "red/rules/levy_non_uniform/*.json", "shohi/rules/*.json", "kojin/rules/*.json", "depreciation/rules/*.json", "jigyosho/rules/*.json", "shukuhaku/rules/*.json", "souzoku/rules/*.json", "payroll/rules/r08/*.json"]

@@ -485,6 +485,8 @@ def resolve(d: Draft, choices: dict | None = None, answers: dict | None = None) 
             i = choices.get(path)
             if isinstance(i, int) and 0 <= i < len(distinct):
                 pick = distinct[i]
+            elif answers.get(path) not in (None, ""):
+                pass   # 人が答えた値（下の answers）で上書きするので、食い違いとしては聞かない
             else:
                 conflicts.append({"path": path, "label": QUESTIONS.get(path, path), "candidates": distinct})
         _set(data, path, copy.deepcopy(pick["value"]))
@@ -529,6 +531,7 @@ def resolve(d: Draft, choices: dict | None = None, answers: dict | None = None) 
 
 
 TAX_PAY_METHODS = ("充当金取崩し", "損金経理")
+TAX_NOT_PAID = "まだ払っていない"
 
 
 def followups(data: dict, balance: bytes | None) -> list[dict]:
@@ -542,7 +545,7 @@ def followups(data: dict, balance: bytes | None) -> list[dict]:
             out.append({"type": "payment", "key": f"pay:{row['tax']}:{row['period_end']}", "tax": row["tax"],
                         "period_end": row["period_end"], "amount": row["unpaid"],
                         "label": f"前期分の{row['tax']}（{row['unpaid']:,}円）を当期に払ったときの経理",
-                        "options": list(TAX_PAY_METHODS) + ["まだ払っていない"]})
+                        "options": list(TAX_PAY_METHODS) + [TAX_NOT_PAID]})
     if not balance or not (data.get("accounting") or {}).get("net_income") is not None:
         return out
     from .red import adjust, uchiwake
@@ -598,10 +601,13 @@ def apply_followups(data: dict, answers: dict) -> dict:
         if v in (None, ""):
             continue
         kind, _, rest = key.partition(":")
-        if kind == "pay" and v in TAX_PAY_METHODS:
+        if kind == "pay" and (v in TAX_PAY_METHODS or v == TAX_NOT_PAID):
             tax, period_end = rest.split(":", 1)
             row = next(r for r in data["prior"]["schedule_05_02"] if r["tax"] == tax and r["period_end"] == period_end)
-            data.setdefault("tax_payments", []).append({"tax": tax, "period_end": period_end, "method": v, "amount": row["unpaid"]})
+            # まだ払っていない: 納付 0 円として記録する（期末の未納にそのまま残る。同じ問いはもう出さない）
+            data.setdefault("tax_payments", []).append({"tax": tax, "period_end": period_end,
+                                                        "method": TAX_PAY_METHODS[0] if v == TAX_NOT_PAID else v,
+                                                        "amount": 0 if v == TAX_NOT_PAID else row["unpaid"]})
         elif kind == "dining":
             acc, amount = v["account"], v["amount"]
             data.setdefault("entertainment", []).append({"account": acc, "amount": amount, "deductible": 0, "dining": int(v["dining"])})
@@ -612,7 +618,7 @@ def apply_followups(data: dict, answers: dict) -> dict:
             data["dividends_received"] = [d for d in data.get("dividends_received") or [] if d.get("account") != rest] +                 [{**d, "account": rest, "address": d.get("address", ""), "withholding": int(d.get("withholding") or 0)} for d in v]
         elif kind == "dues":
             data["tax_dues"] = {k: int(v.get(k, 0) or 0) for k in ("加算税及び加算金", "延滞税", "延滞金", "過怠税", "罰金等")}
-        elif kind == "confirm" and not str(v).startswith(("当てはまらない", INTEREST_WITHHELD)):
+        elif kind == "confirm" and not str(v).startswith("当てはまらない"):
             data.setdefault("adjustment_confirmations", []).append({"account": rest, "answer": v})
     return data
 

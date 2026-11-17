@@ -175,7 +175,7 @@ def run(files: list[tuple[str, bytes, float]], task: str | None = None, period: 
     d = intake.read_files([(f.name, f.data) for f in c.used])
     out = {"task": task, "label": TASK_LABELS[task], "used": [{"name": f.name, "label": f.label, "period": f.period} for f in c.used],
            "unused": [{"name": f.name, "label": f.label, "period": f.period, "why": w} for f, w in c.unused],
-           "ai_targets": ai, "unknown": unknown, "questions": [], "html": None, "error": None}
+           "ai_targets": ai, "unknown": unknown, "questions": [], "question_items": [], "html": None, "error": None}
     other_word = {"shukuhaku": "事業所税", "jigyosho": "宿泊"}.get(task)
     out["checklist"] = [{**g, "items": [i for i in g["items"] if not (other_word and other_word in i["label"])]}
                         for g in intake_other.checklist(d) if g["color"] in _colors(task, d)]
@@ -185,6 +185,10 @@ def run(files: list[tuple[str, bytes, float]], task: str | None = None, period: 
         data = intake.apply_followups(r["input"], follow or {})
         fq = intake.followups(data, d.attachments.get("balance"))
         out["questions"] = [q["label"] for q in r["questions"]] + [c_["path"] + " が食い違い" for c_ in r["conflicts"]] + [q["label"] for q in fq]
+        # AI（コーディングエージェント）が --answers の JSON を組めるように、問いの鍵と形も返す（web/llms.txt）
+        out["question_items"] = ([{"put": "answers", "key": q["path"], **q} for q in r["questions"]]
+                                 + [{"put": "answers", "type": "conflict", "key": c_["path"], "label": c_["label"], "candidates": c_["candidates"]} for c_ in r["conflicts"]]
+                                 + [{"put": "follow", **q} for q in fq])
         if out["questions"]:
             return out
         try:
@@ -201,6 +205,7 @@ def run(files: list[tuple[str, bytes, float]], task: str | None = None, period: 
         out["questions"] = [f"{TASK_LABELS[task]}の書類が見つかりませんでした"]
         return out
     out["questions"] = [q["label"] for q in r["questions"]]
+    out["question_items"] = [{"put": "file" if q.get("info") else "answers", "key": q.get("path"), **q} for q in r["questions"]]
     if out["questions"]:
         return out
     try:
