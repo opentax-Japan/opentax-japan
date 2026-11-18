@@ -63,13 +63,51 @@ async function readText(file) {
   }
 }
 
-function onReady() {
-  setStatus("関与先の一覧を開くか、見本を入れてください。");
-  for (const id of ["load-sample", "open-clients", "open-progress", "run"]) $(id).disabled = false;
-  $("month").value = todayIso().slice(0, 7);
+// ライセンス（DESIGN §33）。キーはこの変数にだけ置き、確かめるのはワーカーの Python（通信しない）
+let license = { ok: false, required: false };
+let checkedKey = null;
+let checking = Promise.resolve();
+function checkLicense(key) {
+  checkedKey = key;
+  checking = checking.then(() => applyLicense(key));
+  return checking;
+}
+async function applyLicense(key) {
+  license = await call("ot_license", [key, "platinum", todayIso()]);
+  const s = $("license-state");
+  if (license.ok) {
+    const l = license.license;
+    s.textContent = `${l.plan_name}・${l.office} 様・${l.exp} まで（あと${l.days_left}日）`;
+    s.style.color = l.days_left <= 30 ? "#b00" : "";
+  } else {
+    s.textContent = license.message || (license.required ? "キーを入れると使えます。" : "いまは試しにキーなしで使えます。");
+    s.style.color = license.message ? "#b00" : "";
+  }
 }
 
+function onReady() {
+  setStatus("関与先の一覧を開くか、見本を入れてください。");
+  for (const id of ["load-sample", "open-clients", "open-progress", "run", "license-key", "license-file"]) $(id).disabled = false;
+  $("month").value = todayIso().slice(0, 7);
+  checkLicense("");
+}
+$("license-key").addEventListener("change", () => checkLicense($("license-key").value));
+$("license-file").addEventListener("change", async (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  $("license-key").value = (await f.text()).trim();
+  e.target.value = "";
+  checkLicense($("license-key").value);
+});
+
 async function run(setId, setStatusValue, setMemo) {
+  // 貼ってすぐ押したときも今のキーで確かめる。返事に required が無い（内部の失敗）ときは止める側に倒す
+  if (checkedKey !== $("license-key").value) checkLicense($("license-key").value);
+  await checking;
+  if (license.required !== false && !license.ok) {
+    setStatus("ライセンスキーを入れてください（料金・購入のページで買えます）。", true);
+    return;
+  }
   if (!clientsText) {
     setStatus("関与先の一覧を開いてください。", true);
     return;

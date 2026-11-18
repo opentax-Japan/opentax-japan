@@ -713,6 +713,49 @@ def _inline_forms(html: str) -> str:
     return html
 
 
+def _license(args: argparse.Namespace) -> int:
+    """ライセンスキー（DESIGN §33）: 確かめる・発行する（手で発行するとき。カード決済は server/stripe-license）・鍵を作る。"""
+    import datetime as _dt
+    import os as _os
+    from . import license as lic_mod
+    from .license import ed25519
+    try:
+        if args.license_cmd == "verify":
+            if args.key.strip().upper().startswith(lic_mod.PREFIX.upper()) or not Path(args.key).is_file():
+                key = args.key  # キーそのもの（打ち間違えたキーもファイル名として読まない）
+            else:
+                key = Path(args.key).read_text(encoding="utf-8-sig")
+            lic = lic_mod.check(key, args.product) if args.product else lic_mod.parse(key)
+            info = lic.to_dict(_dt.date.today())
+            print(json.dumps(info, ensure_ascii=False, indent=2))
+            if not info["valid"]:
+                print(f"エラー: 有効期限（{info['exp']}）を過ぎています", file=sys.stderr)
+                return 2
+            return 0
+        if args.license_cmd == "keygen":
+            out = Path(args.out)
+            if out.exists():
+                print(f"エラー: {out} はもうあります（上書きしません）", file=sys.stderr)
+                return 2
+            secret = _os.urandom(32)
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_text(secret.hex() + "\n", encoding="utf-8")
+            print(f"秘密鍵を {out} に書きました（リポジトリ・共有フォルダに置かない）")
+            print(f"公開鍵（src/opentax/license/__init__.py の PUBLIC_KEYS に足す）: {ed25519.public_key(secret).hex()}")
+            return 0
+        secret = Path(args.secret_file).read_text(encoding="utf-8-sig").strip()
+        iat = _dt.date.today()
+        try:
+            exp = _dt.date.fromisoformat(args.exp) if args.exp else iat + _dt.timedelta(days=args.days)
+        except ValueError:
+            raise lic_mod.LicenseError(f"--exp は YYYY-MM-DD で書いてください: {args.exp}") from None
+        print(lic_mod.issue(secret, args.plan, args.office, exp, seats=args.seats, iat=iat, kid=args.kid))
+        return 0
+    except lic_mod.LicenseError as e:
+        print(f"エラー: {e}", file=sys.stderr)
+        return 2
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="opentax")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -875,8 +918,24 @@ def main(argv: list[str] | None = None) -> int:
     kg.add_argument("--grid", help="試算表の進捗表（関与先×12か月）を HTML で書き出す")
     kg.add_argument("--today", help="残り日数の基準の日 YYYY-MM-DD（省略は今日）")
 
+    li = sub.add_parser("license", help="ライセンスキー（有料の版）を確かめる・発行する（DESIGN §33）")
+    lis = li.add_subparsers(dest="license_cmd", required=True)
+    lv = lis.add_parser("verify", help="キー（文字列かファイル）の署名・期限を確かめる")
+    lv.add_argument("key")
+    lv.add_argument("--product", help="この製品を今日使えるかも見る（例 platinum）")
+    lk = lis.add_parser("keygen", help="発行用の鍵の組を作る（秘密鍵はファイルへ、公開鍵は画面へ）")
+    lk.add_argument("--out", required=True)
+    lg = lis.add_parser("issue", help="キーを発行する（振込など、カード決済以外で買った人に）")
+    lg.add_argument("--secret-file", required=True)
+    lg.add_argument("--plan", default="platinum")
+    lg.add_argument("--office", required=True, help="事務所名")
+    lg.add_argument("--seats", type=int, default=1)
+    lg.add_argument("--days", type=int, default=365)
+    lg.add_argument("--exp", help="有効期限 YYYY-MM-DD（--days の代わり）")
+    lg.add_argument("--kid", default="k1")
+
     args = parser.parse_args(argv)
-    command = {"kigen": _kigen, "compare": _compare, "collect": _collect, "intake": _intake, "fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
+    command = {"license": _license, "kigen": _kigen, "compare": _compare, "collect": _collect, "intake": _intake, "fetch-spec": _fetch_spec, "build-layout": _build_layout, "build-catalog": _build_catalog,
                "build-checks": _build_checks, "calculate": _calculate, "export-etax": _export_etax,
                "local-tax": _local_tax, "shohi": _shohi, "kojin": _kojin, "report": _report,
                "jigyosho": _jigyosho, "shukuhaku": _shukuhaku, "souzoku": _souzoku, "nencho": _nencho, "hoken": _hoken, "kyuyo": _kyuyo}[args.command]

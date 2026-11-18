@@ -79,6 +79,21 @@ def ot_calculate(input_json: str, trial: str) -> str:
         return _error(e)
 
 
+def ot_license(key: str, product: str, today: str) -> str:
+    """ライセンスキーを確かめる（DESIGN §33）。通信しない。キーは返さず、中身（事務所名・期限）だけを返す。"""
+    from opentax import license as lic_mod
+    required = lic_mod.REQUIRED.get(product, False)
+    if not key.strip():
+        return _dump({"ok": False, "required": required, "message": ""})
+    try:
+        lic = lic_mod.check(key, product, datetime.date.fromisoformat(today))
+        return _dump({"ok": True, "required": required, "license": lic.to_dict(datetime.date.fromisoformat(today))})
+    except lic_mod.LicenseError as e:
+        return _dump({"ok": False, "required": required, "message": str(e)})
+    except Exception as e:  # 何があっても required を返す（画面が「通す」側に倒れないように）
+        return _dump({"ok": False, "required": required, "message": f"ライセンスキーを確かめられませんでした（{type(e).__name__}）"})
+
+
 def ot_payroll_sample() -> str:
     return (APP_ROOT / "tests" / "cases" / "open-shoji-tokyo" / "payroll_2026.json").read_text(encoding="utf-8")
 
