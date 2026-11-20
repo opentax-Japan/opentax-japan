@@ -132,6 +132,9 @@ _SCHEMA: dict[str, Any] = {
                             "period_start": "date", "period_end": "date", "base_date": "date", "owned_whole_period": bool,
                             "credit_method": str, "owned_months": int, "acquired": "date", "units_end": int, "units_start": int,
                             "period_over_one_year": bool, "distribution_kind": str, "paid_on": "date"}],
+    # 受取配当金などの科目に入っているが受取配当等（法人税法第23条）に当たらないもの（保険の積立利息・保険の配当など）。
+    # 益金不算入・所得税額控除の対象にせず、科目の残高との照合でだけ数える。reason に何か（摘要）を書く
+    "non_dividends": [{"account": str, "amount": int, "reason": str}],
     # 当期に支払う利子等の額（別表八(一) 35。関連法人株式等があるとき）。書かなければ科目残高の支払利息などから作る
     "interest_paid": int,
     # 当期に損金経理で納付した、損金にならない附帯税等（別表四 5・別表五(二) 24〜27）と罰金等（別表四 10）。
@@ -491,6 +494,11 @@ def _check_values(data: dict) -> None:
             errors.append(f"donations[{i}].kind: {DONATION_KINDS} のどれかにしてください")
         if d["amount"] < 0:
             errors.append(f"donations[{i}].amount: 0以上にしてください")
+    for i, o in enumerate(data.get("non_dividends") or [], 1):
+        if not (o.get("account") or "").strip() or o.get("amount") is None or not (o.get("reason") or "").strip():
+            errors.append(f"non_dividends[{i}]: account（科目）・amount（金額）・reason（何か）は必須です")
+        elif o["amount"] <= 0:
+            errors.append(f"non_dividends[{i}].amount: 正の金額にしてください")
     for i, d in enumerate(data["dividends_received"], 1):
         for k in ("name", "amount", "withholding", "ratio"):
             if d.get(k) is None:

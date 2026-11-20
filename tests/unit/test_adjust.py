@@ -311,5 +311,36 @@ class StopTest(unittest.TestCase):
         self.assertIsNone(c["result"]["schedule_14_2"])     # 寄附金は科目残高から作るので、科目残高がなければ作らない
 
 
+
+
+class NonDividendTest(unittest.TestCase):
+    """受取配当金の科目に、受取配当等に当たらないもの（保険の積立利息など）が入っているとき（non_dividends）。"""
+
+    def test_non_dividend_counts_for_balance_only(self):
+        from opentax import api
+        raw = sample()
+        base = api.calculate(copy.deepcopy(raw), balance=balance())
+        bal2 = balance("受取配当金,架空生命保険（積立利息）,61\n")
+        raw["accounting"]["net_income"] += 61
+        raw["accounting"]["retained_earnings_end"] += 61
+        self.assertTrue(any("合いません" in s for s in stops_of(copy.deepcopy(raw), bal2)))
+        raw["non_dividends"] = [{"account": "受取配当金", "amount": 61, "reason": "保険の積立利息"}]
+        c = api.calculate(copy.deepcopy(raw), balance=bal2)
+        self.assertEqual(c["result"]["schedule_04"]["deduct_dividends"], base["result"]["schedule_04"]["deduct_dividends"])
+        raw["non_dividends"][0]["reason"] = ""
+        from opentax.red.model import InputError
+        with self.assertRaises(InputError):
+            api.calculate(copy.deepcopy(raw), balance=bal2)
+
+    def test_only_non_dividends(self):
+        """科目の中身が全部 non_dividends（配当の明細なし）でも止まらない。"""
+        from opentax import api
+        raw = sample()
+        raw["dividends_received"] = []
+        raw["non_dividends"] = [{"account": "受取配当金", "amount": 300_000, "reason": "保険の配当"}]
+        c = api.calculate(raw, balance=balance())
+        self.assertEqual(c["result"]["schedule_04"]["deduct_dividends"], 0)
+
+
 if __name__ == "__main__":
     unittest.main()

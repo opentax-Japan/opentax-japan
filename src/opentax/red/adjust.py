@@ -308,7 +308,8 @@ def _dividends(items, data: dict, stop, mark) -> None:
     rows = data.get("dividends_received") or []
     if not items:
         return
-    if not rows:
+    nd_accounts = {o.get("account") for o in data.get("non_dividends") or []}
+    if not rows and not nd_accounts & {a.name for a, _, _ in items}:
         for a, r, row in items:
             subs = "・".join(s.name for s in a.subs if s.balance)
             stop(row, "受取配当等の明細（dividends_received。銘柄ごとの保有割合・源泉徴収された所得税）がありません"
@@ -317,11 +318,15 @@ def _dividends(items, data: dict, stop, mark) -> None:
     names = [a.name for a, _, _ in items]
     for a, r, row in items:
         mine = [d for d in rows if d["account"] == a.name or (not d["account"] and len(names) == 1)]
-        given = sum(d["amount"] for d in mine)
+        others = [o for o in data.get("non_dividends") or [] if o["account"] == a.name]
+        if any(not (o.get("reason") or "").strip() or o["amount"] <= 0 for o in others):
+            stop(row, "non_dividends（受取配当等に当たらないもの）は金額（正）と reason（何か）を書いてください")
+            continue
+        given = sum(d["amount"] for d in mine) + sum(o["amount"] for o in others)
         combined = "利息" in a.name or "利子" in a.name
         if given != a.balance and not (combined and given <= a.balance):
-            stop(row, f"dividends_received のうちこの科目の分の合計 {given:,}円 が科目の残高と合いません"
-                      "（源泉徴収前の額で書いてください。科目は account に書く）")
+            stop(row, f"dividends_received（と non_dividends）のうちこの科目の分の合計 {given:,}円 が科目の残高 {a.balance:,}円 と合いません"
+                      "（源泉徴収前の額で書いてください。科目は account に科目名どおり書く）")
             continue
         from .calculate import dividend_credit_missing
         bad = [(d["name"], m) for d in mine if d["withholding"] and (m := dividend_credit_missing(d))]
@@ -334,7 +339,9 @@ def _dividends(items, data: dict, stop, mark) -> None:
             stop(row, f"保有割合が3分の1を超える配当（{'・'.join(related)}）は、前の配当の基準日の翌日からこの配当の基準日まで"
                       "引き続き保有していたか（関連法人株式等。令第22条第1項）を continuous に書いてください（計算期間を通じて完全支配関係があれば wholly_owned）")
             continue
-        mark(row, "入力で作った", "別表八(一)・別表六(一)（dividends_received）")
+        mark(row, "入力で作った", "別表八(一)・別表六(一)（dividends_received）"
+             + (f"。受取配当等に当たらない {sum(o['amount'] for o in others):,}円（"
+                + "・".join(o["reason"] for o in others) + "）は益金不算入の対象外" if others else ""))
         nodates = [d["name"] for d in mine if d["withholding"] and (d.get("credit_method") or "個別法") == "個別法"
                    and not (d.get("period_start") and d.get("period_end"))]
         if nodates:
