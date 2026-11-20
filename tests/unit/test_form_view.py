@@ -108,6 +108,35 @@ class PaperSheetTest(unittest.TestCase):
                 x0, y0, x1, y1 = item["box"]
                 self.assertTrue(0 <= x0 < x1 <= s["size"][0] and 0 <= y0 < y1 <= s["size"][1], (s["form_id"], item))
 
+    def _black(self, net_income: int) -> dict:
+        """見本を令和8年9月開始の黒字にしたもの（防衛特別法人税の課税事業年度）。様式ID → [(金額の文字, 欄の上端)]"""
+        d = json.loads(SAMPLE.read_text(encoding="utf-8"))
+        d["fiscal_period"] = {"start": "2026-09-01", "end": "2027-08-31"}
+        d["accounting"]["net_income"] = net_income
+        d["accounting"]["retained_earnings_end"] = -3000000 + net_income
+        d["prior"]["losses"] = []
+        d["filing"]["settled_on"] = "2027-10-25"
+        return {s["form_id"]: [(i["text"], i["box"][1]) for i in s["items"] if i["kind"] == "amount"]
+                for s in api.paper_sheets(api.calculate(d, "truncate"))}
+
+    def test_jiyou_defense_zero_on_paper(self):
+        # 基準法人税額が500万円以下: 50・53・68 に「0」。印字済み 000 の 49・67 には書かない（国税庁「防衛特別法人税が創設されました」1(6)）
+        t = self._black(8000000)
+        self.assertIn(("1,216,472", 367), t["HOA114"])          # 45 基準法人税額
+        self.assertIn(("3,783,528", 717), t["HOA114"])          # 48 基礎控除残額
+        self.assertEqual(sorted(y for x, y in t["HOA114"] if x == "0"), [962, 1312, 1380])   # 50・53・68
+        self.assertIn(("8,000", 482), t["HOA116"])              # 74（000 は印字済み）
+        self.assertIn(("1,200,000", 482), t["HOA116"])          # 77 15%
+        self.assertIn(("1,216", 1094), t["HOA116"])             # 80（000 は印字済み）
+
+    def test_jiyou_defense_tax_on_paper(self):
+        # 基準法人税額が500万円超: 49・67 は千円単位、57 は百円単位で書く
+        t = self._black(40000000)["HOA114"]
+        self.assertIn(("3,640", 857), t)                         # 49 課税標準法人税額（000 印字済み）
+        self.assertIn(("145,600", 962), t)                       # 50 防衛特別法人税額
+        self.assertIn(("1,456", 1802), t)                        # 57 差引防衛特別法人税額（00 印字済み）
+        self.assertIn(("3,640", 1205), t)                        # 67
+
     def test_period_goes_between_the_printed_dots(self):
         calculated = api.calculate(json.loads(SAMPLE.read_text(encoding="utf-8")), "truncate")
         for s in api.paper_sheets(calculated):

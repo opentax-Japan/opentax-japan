@@ -229,7 +229,7 @@ def _paper_sources(calculated: dict, values: dict, texts: dict):
 
 def paper_sheets(calculated: dict) -> list[dict]:
     """紙の別表（国税庁の様式の画像）の上に金額を置くためのデータ。位置が決まっている様式だけ。"""
-    from .red.etax_ksk2_2026_08 import FORMS, OPTIONAL_FORMS, text_values
+    from .red.etax_ksk2_2026_08 import FORMS, OPTIONAL_FORMS, defense_zero_tags, text_values
 
     fp = calculated["input"]["fiscal_period"]
     edition = paper_edition(fp["end"])
@@ -249,9 +249,12 @@ def paper_sheets(calculated: dict) -> list[dict]:
         entry = edition["forms"][form_id]
         items = []
         drop = m.get("drop_digits", {})      # 様式に「00」「000」が印字済みの欄は、その桁を書かない（paper.sheet と同じ）
+        zero = set(m.get("print_zero", [])) & set(defense_zero_tags(calculated["result"]))   # 0 でも「0」を書く欄
         for tag, boxes in m["fields"].items():
-            for box, v in _pairs(boxes, values.get(tag)):
-                if isinstance(v, int) and v:
+            for box, v in _pairs(boxes, values.get(tag, 0 if tag in zero else None)):
+                if isinstance(v, int) and v == 0 and tag in zero and not drop.get(tag):
+                    items.append({"box": box, "text": "0", "kind": "amount"})
+                elif isinstance(v, int) and v:
                     n = drop.get(tag, 0)
                     v = (abs(v) // 10 ** n) * (1 if v > 0 else -1) if n else v
                     if v:

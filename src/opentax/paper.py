@@ -19,7 +19,8 @@
   dates の parts: ["era", "yy"] など（元号・年だけの欄。columns は parts の数＋1）
   digit_cells: タグ → [[1桁ずつの枠…]（片ごと）…]（納付書の金額。右から1桁ずつ詰めて書く。0 は書かない）
   digit_cells_split: タグ → [[1文字ずつの枠…]…]（団体コードなど。左から1文字ずつ書く）
-  print_zero:  [タグ]（fields・digit_cells で、値が 0 のときも「0」を書く欄。源泉徴収票の基礎控除の額など）
+  print_zero:  [タグ]（fields・digit_cells で、値が 0 のときも「0」を書く欄。源泉徴収票の基礎控除の額など。
+               法人税の別表（api.paper_sheets）では、防衛特別法人税の課税事業年度で DEFENSE_ZERO_TAGS に入る欄だけ。印字済みの桁がある欄は書かない）
 """
 
 from __future__ import annotations
