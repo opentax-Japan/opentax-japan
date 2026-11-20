@@ -24,7 +24,7 @@ WEB = Path(__file__).resolve().parent
 REPO = WEB.parent
 SITE = WEB / "_site"
 CACHE = REPO / ".cache" / "web"
-STATIC = ["index.html", "detail.html", "easy.js", "ai.js", "qrcode.js", "style.css", "app.js", "worker.js", "bridge.py", "payroll.html", "payroll.js", "platinum.html", "platinum.js", "pricing.html", "report.html", "report.js", "llms.txt"]
+STATIC = ["index.html", "detail.html", "easy.js", "ai.js", "qrcode.js", "style.css", "app.js", "worker.js", "bridge.py", "payroll.html", "payroll.js", "platinum.html", "platinum.js", "report.html", "report.js", "llms.txt"]
 PYODIDE_FILES = ["pyodide.mjs", "pyodide.asm.mjs", "pyodide.asm.wasm", "python_stdlib.zip", "pyodide-lock.json"]
 SAMPLES = ["tests/cases/open-shoji/input.json", "tests/cases/open-shoji-tokyo/input.json",
            "tests/cases/open-shoji-tokyo/payroll_2026.json", "tests/cases/open-shoji-tokyo/gaikyo.json", "tests/cases/open-shoji-tokyo/shohi.json", "tests/cases/open-shoji-tokyo/input_demo.json", "tests/cases/office/office.json",
