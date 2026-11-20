@@ -86,7 +86,7 @@ class LicenseTest(unittest.TestCase):
         with self.assertRaisesRegex(L.LicenseError, "知らない製品"):
             _key(plan="diamond")
         with self.assertRaisesRegex(L.LicenseError, "組"):
-            L.issue("22" * 32, "platinum", "x", TODAY, kid="t1")
+            L.issue("22" * 32, "platinum", "x", TODAY, kid="t1", iat=TODAY)
 
     def test_malformed_never_raises_other_errors(self):
         """どんな文字列でも LicenseError だけ（画面が「通す」側に倒れないように。検証報告 中1）。"""

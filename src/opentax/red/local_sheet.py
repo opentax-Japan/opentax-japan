@@ -77,7 +77,10 @@ def sheet_values(calculated: dict, office_kind: str) -> dict:
     s1 = calculated["result"]["schedule_01"]
     corporate_tax = s1.get("base_tax", s1["corporate_tax"])
     return {
-        "zero": 0, "corporate_tax": corporate_tax, "tax_base": cl["tax_base"], "levy": levy, "levy_raw": cl["raw"][tax],
+        "zero": 0, "corporate_tax": corporate_tax,
+        # ③ 還付法人税額等の控除額（別表二の五 ④の合計）。なければ空欄
+        "refund_credit": ((cl.get("refund_credit") or {}).get("deducted") or None),
+        "tax_base": cl["tax_base"], "levy": levy, "levy_raw": cl["raw"][tax],
         "levy_paid": levy_paid, "levy_payable": levy_payable,
         "per_capita_paid": per_capita_paid, "per_capita_payable": per_capita_payable,
         "refund_resident": refund_resident,
@@ -115,6 +118,8 @@ def _rows(lines: list[dict], values: dict, notes: dict[str, str] | None = None) 
         if line.get("interim_only") and not values["has_interim"]:
             continue
         v = values[line["value"]]
+        if line.get("nonzero_only") and not v:
+            continue
         note = (notes or {}).get(line["value"], "")
         out.append((_no(line.get("no")), line["name"], _yen(v), note))
     return out
@@ -228,6 +233,22 @@ def build_sections(calculated: dict, today: datetime.date | None = None) -> tupl
         "to": f"{local['prefecture']['jurisdiction']}（提出先: {local['prefecture']['submission_office'] or '未入力'}）",
         "rows": rows6, "source": v6["source"],
     })
+    # 第六号様式別表二の五・第二十号様式別表二の五（控除対象還付法人税額の控除明細書。DESIGN §34）
+    rc = (local.get("corporate_levy") or {}).get("refund_credit")
+    if rc:
+        rows25 = [("", f"{i['period_start']:%Y-%m-%d}〜{i['period_end']:%Y-%m-%d}",
+                   f"①{i['amount']:,} ②{i['deducted_before']:,} ③{i['balance']:,} ④{i['deducted']:,} ⑤{i['carry']:,}", "")
+                  for i in rc["rows"] if not i["expired"]]
+        rows25.append(("④", "当期控除額の合計（第六号様式・第二十号様式の③）", _yen(rc["deducted"]), ""))
+        rows25.append(("⑤", "翌期繰越額の合計", _yen(rc["carry"]), ""))
+        sections.append({"title": "第六号様式別表二の五・第二十号様式別表二の五（控除対象還付法人税額又は控除対象個別帰属還付税額の控除明細書）",
+                         "to": "第六号様式に添付（東京都の特別区）" if local["municipality"] is None
+                               else "第六号様式・第二十号様式のそれぞれに添付（同じ内容）",
+                         "rows": rows25,
+                         "source": [{"title": "e-Gov 地方税法 第53条第23項〜第25項・第321条の8第23項〜第25項",
+                                     "url": "https://laws.e-gov.go.jp/law/325AC0000000226", "checked": "2026-11-21"},
+                                    {"title": "e-Gov 地方税法施行規則 第六号様式別表二の五・第二十号様式別表二の五",
+                                     "url": "https://laws.e-gov.go.jp/law/329M50000002023", "checked": "2026-11-21"}]})
     # 第六号様式別表九（事業税の欠損金額等の控除明細書）
     s9 = loss_schedule(calculated)
     if s9:

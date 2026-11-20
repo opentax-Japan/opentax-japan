@@ -39,6 +39,7 @@
       ],
       "resident_tax_lines": [
         { "no": "①", "name": "法人税法の規定によって計算した法人税額", "value": "corporate_tax" },
+        { "no": "③", "name": "還付法人税額等の控除額", "value": "refund_credit", "nonzero_only": true },
         { "no": "⑤", "name": "課税標準となる法人税額（①＋②－③＋④）", "value": "tax_base" },
         { "no": "⑦", "name": "法人税割額", "value": "levy_raw" },
         { "no": "⑬", "name": "差引法人税割額", "value": "levy" },
@@ -101,6 +102,7 @@
       ],
       "resident_tax_lines": [
         { "no": "①", "name": "法人税法の規定によって計算した法人税額", "value": "corporate_tax" },
+        { "no": "③", "name": "還付法人税額等の控除額", "value": "refund_credit", "nonzero_only": true },
         { "no": "⑤", "name": "課税標準となる法人税額及びその法人税割額（①＋②－③＋④）", "value": "tax_base" },
         { "no": "⑫", "name": "差引法人税割額", "value": "levy" },
         { "no": "⑬", "name": "既に納付の確定した当期分の法人税割額", "value": "levy_paid", "interim_only": true },

@@ -692,6 +692,67 @@ _ARTICLE = re.compile(r"第(\d+)条((?:の\d+)*)第(\d+)項(?:の表の)?(?:第(
 _NPO_MEASURES = (("特例認定特定非営利活動法人", "00424"), ("認定特定非営利活動法人", "00394"))
 
 
+SMALL_ASSET_LIMIT = 3_000_000   # 措置法第67条の5第1項: 取得価額の合計額のうち300万円（12月に満たない事業年度は×月数÷12）
+SMALL_ASSET_MIN = 100_000       # 同項: 取得価額が10万円未満のものを除く
+SMALL_ASSET_REVISED_FROM = datetime.date(2026, 4, 1)   # 令和8年度改正（40万円未満・400人）の対象になる取得等の日
+SMALL_ASSET_OPTION = "取得価額10万円以上の減価償却資産は、措置法第67条の5の少額減価償却資産（small_assets に明細を入れたもの）だけ"
+
+
+def _small_asset_rule(day) -> tuple[int, int, str]:
+    """取得等をした日で決まる取得価額の上限と従業員数の上限（令和8年度改正。令和8年4月1日以後に取得等をした資産は40万円未満・
+    常時使用する従業員400人以下。それより前は30万円未満・500人以下。国税庁「令和8年度 法人税関係法令の改正の概要」）。"""
+    if day >= SMALL_ASSET_REVISED_FROM:
+        return 400_000, 400, "令和8年4月1日以後に取得等（40万円未満・従業員400人以下）"
+    return 300_000, 500, "令和8年3月31日以前に取得等（30万円未満・従業員500人以下）"
+
+
+def schedule_16_07(data: dict) -> dict | None:
+    """中小企業者等の少額減価償却資産の取得価額の損金算入の特例（租税特別措置法第67条の5第1項・施行令第39条の28。別表十六(七)と明細書）。
+    1単位の取得価額が10万円以上で上限（取得等の日で30万円未満／40万円未満）未満、合計（取得価額×数量）が限度（300万円×月数÷12）以内、
+    事業の用に供した日が当期、中小企業者等（資本金1億円以下・適用除外事業者でない・大規模法人の子でない・従業員数）を確かめる。
+    貸付け用の資産・圧縮記帳の資産などは除く（施行令第39条の28第2項。注記）。なければ None。"""
+    rows = data.get("small_assets") or []
+    if not rows:
+        return None
+    fp = data["fiscal_period"]
+    c = data["company"]
+    months = min(_months_ceil(fp["start"], fp["end"]), 12)
+    limit = SMALL_ASSET_LIMIT * months // 12
+    if c["capital"] > 100_000_000:
+        raise OutOfScope("資本金が1億円を超える法人の少額減価償却資産の特例（租税特別措置法第67条の5。中小企業者等に当たるか）")
+    if c.get("excluded_business_operator"):
+        raise OutOfScope("適用除外事業者は少額減価償却資産の特例を使えません（租税特別措置法第67条の5第1項・第42条の4第19項第8号）")
+    if data.get("sme") is False:
+        raise OutOfScope("中小企業者等に当たらない法人は少額減価償却資産の特例を使えません（租税特別措置法第67条の5第1項）")
+    out = []
+    for i, r in enumerate(rows):
+        if not r.get("acquired"):
+            raise InputError(f"small_assets[{i}].acquired: 取得等をした日が要ります（取得価額の上限・従業員数の要件をこの日で決めます）")
+        day = r.get("in_service") or r["acquired"]
+        if not fp["start"] <= day <= fp["end"]:
+            raise InputError(f"small_assets[{i}]: 事業の用に供した日（in_service。なければ取得日）が当期の外です: {day}")
+        cap, emp, rule = _small_asset_rule(r["acquired"])
+        if not SMALL_ASSET_MIN <= r["cost"] < cap:
+            raise InputError(f"small_assets[{i}].cost: 少額減価償却資産の特例は1単位の取得価額が10万円以上{cap // 10000}万円未満のものです"
+                             f"（{rule}）: {r['cost']:,}")
+        if c.get("employees") is not None and c["employees"] > emp:
+            raise OutOfScope(f"常時使用する従業員の数が{emp}人を超える法人は少額減価償却資産の特例を使えません（{rule}。"
+                             "租税特別措置法施行令第39条の28第1項）")
+        qty = r.get("quantity") or 1
+        if qty < 1:
+            raise InputError(f"small_assets[{i}].quantity: 数量は1以上です: {qty}")
+        out.append({**r, "quantity": qty, "amount": r["cost"] * qty, "rule": rule})
+    total = sum(r["amount"] for r in out)
+    if total > limit:
+        raise OutOfScope(f"少額減価償却資産の取得価額の合計 {total:,}円 が限度 {limit:,}円（300万円×{months}／12）を超えています。"
+                         "超えた分は減価償却資産として償却します（OpenTax では分けられません）")
+    return {"rows": out, "total": total, "limit": limit, "months": months,
+            "note": "租税特別措置法第67条の5第1項（中小企業者等で常時使用する従業員の数の要件を満たす法人。cost は1単位の取得価額、"
+                    "合計は取得価額×数量）。損金経理して、別表十六(七)と明細書を添付したときだけ使えます（同条第3項）。"
+                    "貸付け（主要な事業を除く）の用に供した資産・圧縮記帳などの適用を受けた資産は対象外です（施行令第39条の28第2項）。"
+                    "償却資産税の申告の対象になります"}
+
+
 def special_measures(data: dict, s4: dict, s1: dict, notes: list[str] | None = None) -> list[dict]:
     """適用額明細書（租税特別措置の適用状況の透明化等に関する法律第3条第1項）に載せる特別措置。
     中小企業者等の法人税率の特例（措置法第42条の3の2第1項の表の第1号、区分番号 00380、適用額は別表一 次葉二 74。
@@ -726,6 +787,11 @@ def special_measures(data: dict, s4: dict, s1: dict, notes: list[str] | None = N
         if amount:
             rows.append({"article": "第66条の11の3第2項", "parts": ("66", "の11の3", "2", "", ""), "code": code, "amount": amount,
                          "label": "認定特定非営利活動法人等に対する寄附金の損金算入等の特例"})
+    small = schedule_16_07(data)
+    if small and not any("67条の5" in (m.get("article") or "") for m in data.get("special_measures_reported") or []):
+        # 区分番号 00277（前期の申告・TKC の適用額明細書と同じ。国税庁「適用額明細書の記載の手引」の一覧で確かめること）
+        rows.append({"article": "第67条の5第1項", "parts": ("67", "の5", "1", "", ""), "code": "00277", "amount": small["total"],
+                     "label": "中小企業者等の少額減価償却資産の取得価額の損金算入の特例"})
     for i, m in enumerate(data.get("special_measures_reported") or []):
         g = _ARTICLE.fullmatch(m["article"].replace(" ", ""))
         if not g:
@@ -926,7 +992,8 @@ def schedule_02(data: dict, rules: dict) -> dict:
     if len(holders) > 13:
         raise OutOfScope("株主等の明細が13人を超えています（別表二の欄の数）")
     for s in holders:
-        if s["relation"] not in RELATION_CODES:
+        # 空欄は「書いていない」（前期の控えなどで続柄が書かれていないとき。別表二にも空欄で出す）
+        if s["relation"] and s["relation"] not in RELATION_CODES:
             raise InputError(f"shareholders: 続柄は {list(RELATION_CODES)} のどれかにしてください: {s['relation']}")
     groups: dict[int, dict] = {}
     for s in holders:
@@ -969,7 +1036,7 @@ def schedule_02(data: dict, rules: dict) -> dict:
         # 書く割合がどれも決まっているか（端数が出なければ、端数処理が未確認でも決まる）
         "ratio_display_confirmed": all(shown[k] is not None for k in printed),
         "rounding_confirmed": confirmed,
-        "holders": [{**s, "rank": rank[s["group"]], "relation_code": RELATION_CODES[s["relation"]]}
+        "holders": [{**s, "rank": rank[s["group"]], "relation_code": RELATION_CODES.get(s["relation"])}
                     for s in sorted(holders, key=lambda s: (rank[s["group"]], -s["shares"]))],
     }
 
@@ -1011,6 +1078,12 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
         rules["family_company_ratio_display"] = {"mode": trial_ratio_rounding, "source": "試し用の仮の値（未確認）"}
     s15 = schedule_15(data, rules)
     s16 = schedule_16(data)
+    s16_7 = schedule_16_07(data)
+    if any(c.get("answer") == SMALL_ASSET_OPTION for c in data.get("adjustment_confirmations") or []) and not s16_7:
+        raise InputError("消耗品費などに少額減価償却資産があると答えていますが、small_assets に明細がありません")
+    if s16_7 and not any(c.get("answer") == SMALL_ASSET_OPTION for c in data.get("adjustment_confirmations") or []):
+        raise InputError("small_assets（少額減価償却資産）があるのに、消耗品費などの確かめが「含まない」になっています。"
+                         f"損金経理した科目の確かめを「{SMALL_ASSET_OPTION}」にしてください")
     s8 = schedule_08_1(data, rules, interest_paid if interest_paid is not None else data.get("interest_paid"))
     s4 = schedule_04(data, s15, s16, s8, rules)
     s7 = schedule_07_01(data, s4, rules)
@@ -1040,6 +1113,13 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
     warnings += s16["checks"]
     warnings += dividend_credit_notes(data, s4["schedule_06_1_dividends"])
     warnings += measure_notes
+    if s16_7:
+        warnings.append("別表十六(七)（少額減価償却資産の明細書）は e-Tax の .xtx にはまだ入りません。申告書一式の表を添付するか、"
+                        "e-Taxソフトで別表十六(七)を作って添付してください（租税特別措置法第67条の5第3項：明細書の添付が要件）")
+    lt_prior = data.get("prior") or {}
+    if lt_prior.get("refunded_corporate_tax") and lt_prior.get("business_losses") is None:
+        warnings.append("控除対象還付法人税額（繰戻し還付）があります。事業税には繰戻しがないので、還付を受けた欠損金は事業税では繰り越されています。"
+                        "事業税の欠損金（prior.business_losses。第六号様式別表九）を入れてください（入れないと法人税の欠損金と同じとみます）")
     warnings += credit_notes
     if s1["corporate_tax"] and data["company"].get("excluded_business_operator") is None:
         warnings.append("年800万円以下の所得に15%（租税特別措置法第42条の3の2）を使いました。適用除外事業者（前3事業年度の所得の平均が年15億円超。"
@@ -1054,7 +1134,7 @@ def calculate(data: dict, per_capita: dict[str, int], trial_ratio_rounding: str 
         label = {"truncate": "切り捨て", "round_half_up": "四捨五入"}[trial_ratio_rounding]
         warnings.insert(0, f"試し用: 別表二の割合の端数処理を仮に「{label}」にしています。本番の申告には使えません")
     return {"schedule_04": s4, "schedule_07_01": s7, "schedule_01": s1, "schedule_05_02": s52,
-            "schedule_15": s15, "schedule_16": s16, "schedule_08_1": s8, "schedule_14_2": s4["schedule_14_2"],
+            "schedule_15": s15, "schedule_16": s16, "schedule_16_07": s16_7, "schedule_08_1": s8, "schedule_14_2": s4["schedule_14_2"],
             "schedule_05_01": s51, "schedule_02": s2, "special_measures": measures,
             "schedule_06_06": s1["credits"]["s66"], "schedule_06_24": s1["credits"]["wage"],
             "schedule_06_10": s1["credits"]["research"], "warnings": warnings, "trial": bool(trial_ratio_rounding)}

@@ -87,6 +87,11 @@ _SCHEMA: dict[str, Any] = {
         "losses": [{"period_start": "date", "period_end": "date", "amount": int}],
         # 事業税の繰越欠損金（第六号様式別表九）。法人税の欠損金と違うときだけ書く
         "business_losses": [{"period_start": "date", "period_end": "date", "amount": int}],
+        # 控除対象還付法人税額（欠損金の繰戻しで法人税の還付を受けた額。地方税法第53条第23項・第321条の8第23項。DESIGN §34）。
+        # 欠損金額が生じた事業年度ごとに amount（還付を受けた法人税額）と deducted_before（前期までに法人税割の課税標準から控除した額。
+        # 道府県民税・市町村民税で同じとみる）。第六号様式別表二の五・第二十号様式別表二の五の ①・②。
+        # 災害損失欠損金額の繰戻し（第26項・別表二の六）は対象外
+        "refunded_corporate_tax": [{"period_start": "date", "period_end": "date", "amount": int, "deducted_before": int}],
     },
     "capital_items": [{"item": str, "begin": int, "end": int}],
     # 所得税額の控除（別表六(一)）。kind は「利子」（預貯金の利子など。1行目）だけ
@@ -134,6 +139,11 @@ _SCHEMA: dict[str, Any] = {
     # 会計の数字に入っている租税特別措置で、適用額明細書に載せるもの（例: 少額減価償却資産の取得価額の損金算入の特例を
     # 減価償却費で処理した額）。条項は「第67条の5第1項」のように書く。税額の計算を変える特別措置は今までどおり対象外
     "special_measures_reported": [{"article": str, "code": str, "amount": int, "old": str}],
+    # 中小企業者等の少額減価償却資産（租税特別措置法第67条の5第1項。別表十六(七)・明細書・適用額明細書。DESIGN §35）。
+    # 消耗品費などで損金経理したものの明細。cost は1単位の取得価額（10万円以上、令和8年4月1日以後の取得等は40万円未満・前は30万円未満）、
+    # quantity は数量（合計は cost×quantity）、acquired は取得等をした日（必須）、in_service は事業の用に供した日、account は科目
+    "small_assets": [{"name": str, "kind": str, "quantity": int, "acquired": "date", "in_service": "date", "cost": int,
+                      "account": str}],
     # 中小企業者等の試験研究費の額に係る法人税額の特別控除（措置法第42条の4第4項。別表六(十)・(十一)・(六)。DESIGN §31）。
     # expenses: 当期の試験研究費の額、special_expenses: そのうち特別試験研究費の額（別表六(十) 3）、sales: 当期の売上金額、
     # prior_expenses・prior_sales: 当期開始の日の3年前の日から前日までに開始した各事業年度の試験研究費の額・売上金額（0の年度も）、

@@ -618,7 +618,7 @@ def text_values(data: dict, result: dict, require_ratios: bool = True) -> dict:
         if others_h:
             v.update({"VAE00190": [h["rank"] for h in others_h], "VAE00200": [h["rank"] for h in others_h],
                       "VAE00220": [h.get("address") or None for h in others_h], "VAE00230": [h["name"] for h in others_h],
-                      "VAE00235": [h["relation_code"] for h in others_h], "VAE00300": [h["shares"] for h in others_h],
+                      "VAE00235": [h.get("relation_code") or None for h in others_h], "VAE00300": [h["shares"] for h in others_h],
                       "VAE00330": [h["votes"] for h in others_h] if s2["with_votes"] else []})
     return {k: val for k, val in v.items() if val is not None}
 

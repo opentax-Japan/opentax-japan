@@ -309,6 +309,19 @@ def _local_paper(calculated: dict, company: str, span, sources=None) -> str | No
         s = paper.sheet(map_id, title, span, values, sources, company)
         if s:
             pages.append(_paper_form(title, map_id, [s]))
+    # 第六号様式別表二の五・第二十号様式別表二の五（控除対象還付法人税額の控除明細書。DESIGN §34）。様式の位置のファイルはまだ
+    # ないので表で出す（道府県・市町村それぞれの申告書に同じ内容で添付）
+    rc = (local.get("corporate_levy") or {}).get("refund_credit")
+    if rc and pages:
+        live = [r for r in rc["rows"] if not r["expired"]]       # 10年を過ぎた分は書かない
+        rows = [[f"{r['period_start']}〜{r['period_end']}", r["amount"], r["deducted_before"], r["balance"], r["deducted"],
+                 r["carry"]] for r in live]
+        rows.append(["計", sum(r["amount"] for r in live), sum(r["deducted_before"] for r in live),
+                     sum(r["balance"] for r in live), rc["deducted"], rc["carry"]])
+        pages.append(_form("第六号様式別表二の五・第二十号様式別表二の五（控除対象還付法人税額又は控除対象個別帰属還付税額の控除明細書）",
+                           f"事業年度 {span[0]} 〜 {span[1]}。" + ("第六号様式に添付" if not local.get("municipality") else "道府県民税・市町村民税の申告書にそれぞれ添付"),
+                           _table(["事業年度", "① 控除対象還付法人税額", "② 既に控除を受けた額", "③ 控除未済額（①−②）",
+                                   "④ 当期控除額", "⑤ 翌期繰越額（③−④）"], rows, {1, 2, 3, 4, 5}), "L06B25"))
     return "".join(pages) or None
 
 
@@ -381,6 +394,16 @@ def build(calculated: dict, attachments: dict | None = None, shohi: dict | None 
             hojin.append(_paper_form(v["title"], v["form_id"], [sheets[v["form_id"]]]))
         else:
             hojin.append(on_paper(v["form_id"], v["title"], calculated["form_values"], _blocks(v["blocks"]), f"事業年度 {v['period']}"))
+    s167 = calculated["result"].get("schedule_16_07")
+    if s167:
+        rows = [[r["name"], r.get("kind") or "", r["quantity"], str(r["acquired"]), str(r.get("in_service") or r["acquired"]),
+                 r["cost"], r["amount"], r.get("account") or ""] for r in s167["rows"]]
+        rows.append(["合計", "", "", "", "", "", s167["total"], f"限度 {s167['limit']:,}円（300万円×{s167['months']}／12）"])
+        hojin.append(_form("別表十六(七)　少額減価償却資産の取得価額の損金算入の特例に関する明細書",
+                           f"事業年度 {fp['start']} 〜 {fp['end']}",
+                           _table(["名称", "種類", "数量", "取得等の日", "事業の用に供した日", "取得価額（1単位）", "取得価額の合計",
+                                   "損金経理した科目"], rows, {5, 6})
+                           + f"<p class='meta'>{_e(s167['note'])}</p>", "HOE351"))
     chapters["hojin"] = _adjustments(calculated) + "".join(hojin)
     if shohi:
         from .etax.form_view import form_view

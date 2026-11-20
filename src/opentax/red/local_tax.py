@@ -630,20 +630,63 @@ def city_levy_percent(pref: str, city: str, ed: dict, company: dict, tax_base: i
     return pct, note
 
 
+def refund_credit(data: dict, corporate_tax: int) -> dict | None:
+    """控除対象還付法人税額の控除（地方税法第53条第23項第1号・第321条の8第23項第1号。DESIGN §34）。
+    法人税法第80条の繰戻しで還付を受けた法人税額のうち前期までに控除されなかった額を、法人税割の課税標準となる法人税額
+    （所得税額控除などの前の法人税額。第23条第1項第4号イ）を限度に控除する。対象は当期開始の日前10年以内に開始した事業年度の分
+    （第23項）。古い年度から控除する（別表二の五の行の順）。控除の後で千円未満を切り捨てる（第20条の4の2第1項）。
+    確定申告書を続けて出していること（第25項）は確かめられないので、注記で知らせる。なければ None。"""
+    rows = (data.get("prior") or {}).get("refunded_corporate_tax") or []
+    if not rows:
+        return None
+    start = data["fiscal_period"]["start"]
+    try:
+        ten_years_before = start.replace(year=start.year - 10)
+    except ValueError:                      # 2月29日
+        ten_years_before = start.replace(year=start.year - 10, day=28)
+    room = max(corporate_tax, 0)
+    out, notes = [], []
+    for r in sorted(rows, key=lambda r: r["period_start"]):
+        before = r.get("deducted_before", 0)
+        if r["period_start"] >= start or r["period_end"] < r["period_start"] or r["amount"] < 0 or before < 0:
+            raise LocalRuleError(f"控除対象還付法人税額の行（{r['period_start']}〜{r['period_end']}）: 当期より前に開始した事業年度で、"
+                                 "金額・既に控除を受けた額は0以上にしてください")
+        balance = r["amount"] - before
+        if balance < 0:
+            raise LocalRuleError(f"控除対象還付法人税額（{r['period_start']}〜{r['period_end']}）の既に控除を受けた額が還付の額より多い")
+        expired = r["period_start"] < ten_years_before
+        deducted = 0 if expired else min(balance, room)
+        room -= deducted
+        out.append({"period_start": r["period_start"], "period_end": r["period_end"], "amount": r["amount"],
+                    "deducted_before": before, "balance": balance, "deducted": deducted,
+                    "carry": 0 if expired else balance - deducted, "expired": expired})
+        if expired and balance:
+            notes.append(f"{r['period_start']}〜{r['period_end']}の控除対象還付法人税額 {balance:,}円は、当期開始の日前10年より前に"
+                         "開始した事業年度の分なので控除しません（地方税法第53条第23項）")
+    notes.append("控除対象還付法人税額は、欠損の事業年度から続けて道府県民税・市町村民税の確定申告書を出しているときだけ控除できます"
+                 "（地方税法第53条第25項・第321条の8第25項）。第六号様式別表二の五・第二十号様式別表二の五を添付します")
+    return {"rows": out, "deducted": sum(o["deducted"] for o in out), "carry": sum(o["carry"] for o in out), "notes": notes}
+
+
 def corporate_levy(data: dict, corporate_tax: int) -> dict:
     """法人税割（地方税法第51条・第314条の4）。課税標準は法人税額（所得税額の控除の前。第23条第1項第4号）の千円未満切捨て、
     税額は100円未満切捨て（第20条の4の2）。税率は総務省の一覧（算定期間の末日現在）。"""
     from . import bunkatsu
+    rc = refund_credit(data, corporate_tax)
     if bunkatsu.is_divided(data):
+        if rc:
+            raise OutOfScope("2以上の都道府県・市町村に事務所等がある法人の控除対象還付法人税額（地方税法第53条第23項）")
         return bunkatsu.corporate_levy(data, corporate_tax)
     if corporate_tax <= 0:
-        return {"tax_base": 0, "道府県民税": 0, "市町村民税": 0, "raw": {"道府県民税": 0, "市町村民税": 0}, "percent": None, "notes": []}
+        return {"tax_base": 0, "道府県民税": 0, "市町村民税": 0, "raw": {"道府県民税": 0, "市町村民税": 0}, "percent": None,
+                "notes": rc["notes"] if rc else [], "refund_credit": rc}
     office = data["offices"][0]
     start, end = data["fiscal_period"]["start"], data["fiscal_period"]["end"]
     from .calculate import _months_ceil
     months = _months_ceil(start, end)
     ed = edition_for(end)
-    base = corporate_tax // 1000 * 1000
+    credit = rc["deducted"] if rc else 0
+    base = (corporate_tax - credit) // 1000 * 1000      # ⑤＝①＋②－③＋④ の千円未満切捨て
     source_note = (f"法人税割の税率は総務省「{ed['source'][0]['title'].split('（')[0]}」（{ed['survey_note']}）によります。"
                    "申告の前に自治体の資料で確かめてください")
     if special_ward_rules(office["prefecture"], office["municipality"]):
@@ -654,7 +697,7 @@ def corporate_levy(data: dict, corporate_tax: int) -> dict:
                 "raw": {"道府県民税": raw, "市町村民税": 0},
                 "percent": {"道府県民税": ward_pct, "市町村民税": None},
                 "special_ward": {"tax_base": base, "percent": ward_pct, "raw": raw},
-                "notes": [note]}
+                "refund_credit": rc, "notes": [note] + (rc["notes"] if rc else [])}
     pref_pct, pref_note = _pref_levy_percent(office["prefecture"], ed, data["company"], base, months, start, end)
     city_pct, city_note = city_levy_percent(office["prefecture"], office["municipality"], ed, data["company"], base, months,
                                             start, end)
@@ -664,7 +707,7 @@ def corporate_levy(data: dict, corporate_tax: int) -> dict:
     return {"tax_base": base, "道府県民税": pref_levy, "市町村民税": city_levy,
             "raw": {"道府県民税": pref_raw, "市町村民税": city_raw},
             "percent": {"道府県民税": pref_pct, "市町村民税": city_pct},
-            "notes": [pref_note, city_note, source_note]}
+            "refund_credit": rc, "notes": [pref_note, city_note, source_note] + (rc["notes"] if rc else [])}
 
 
 def _business_rates(pref: str, ed: dict, company: dict, income: int, months: int,
