@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "opentax-japan"
 version = "0.1.0"
-description = "Open-source tax filing engine for Japanese corporate and local taxes."
+description = "Open-source tax filing engine for Japanese taxes: corporate, local, consumption, income, inheritance, payroll and year-end adjustment."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.11"
